@@ -1,0 +1,104 @@
+@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
+
+html {
+    margin:0;
+    padding:0;
+    height: 100%;
+    font-size: 20px;
+}
+
+body {
+    margin:0;
+    padding:0;
+    height: 100%;
+    font-family: "Alef Hebrew",
+            "Helvetica Neue",
+            Helvetica,
+            Arial,
+            sans-serif;
+}
+
+.game {
+    height: 100%;
+}
+
+.controls {
+    height: 90px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.ctrl-btn {
+    cursor: pointer;
+}
+
+.player {
+    width: 24.5%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#game-canvas {
+    height: 100%;
+    width: 50%;
+    text-align: center;
+    display: inline-block;
+}
+
+
+.player1 {
+    color: #318DE9;
+}
+
+.player2 {
+    color: #E96E31;
+}
+
+.player {
+    text-align: center;
+}
+
+.player .logo {
+    width: 50%;
+}
+
+.player1 .logo {
+    float: right;
+}
+
+.player2 .logo {
+    float: left;
+}
+
+.player .separator {
+    height: 100%;
+    width: 100%;
+}
+
+.player1 .separator path {
+    fill: #318DE9;
+}
+
+.player2 .separator path {
+    fill: #E96E31;
+}
+
+.player .name {
+    display: none;
+    font-size: 2em;
+    margin-bottom: 2em;
+}
+
+.player .score {
+    font-size: 3em;
+    padding: 0 0.5em;
+    margin-top: -0.5em;
+}
+
+.player1 .score {
+    text-align: right;
+}
+
+.player2 .score {
+    text-align: left;
+}

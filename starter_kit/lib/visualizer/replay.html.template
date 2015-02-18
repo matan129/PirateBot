@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Pirates Game</title>
+    <link rel="stylesheet" href="../visualizer/css/visualizer.css"/>
+    <script>
+        window.local_run = true;
+        window.pirates_data_dir = '## PIRATES DATA DIR##/';
+        window.replayData = '## REPLAY PLACEHOLDER ##';
+    </script>
+    <script src="## BASE JS PATH ##/Util.js"></script>
+    <script src="## BASE JS PATH ##/Pirate.js"></script>
+    <script src="## BASE JS PATH ##/Application.js"></script>
+    <script src="## BASE JS PATH ##/Config.js"></script>
+    <script src="## BASE JS PATH ##/Const.js"></script>
+    <script src="## BASE JS PATH ##/Director.js"></script>
+    <script src="## BASE JS PATH ##/ImageManager.js"></script>
+    <script src="## BASE JS PATH ##/Replay.js"></script>
+
+    <script src="## BASE JS PATH ##/canvas/CanvasElement.js"></script>
+    <script src="## BASE JS PATH ##/canvas/CanvasElementAbstractMap.js"></script>
+    <script src="## BASE JS PATH ##/canvas/CanvasElementMap.js"></script>
+    <script src="## BASE JS PATH ##/canvas/CanvasElementPiratesMap.js"></script>
+    <script src="## BASE JS PATH ##/canvas/CanvasElementFogPattern.js"></script>
+    <script src="## BASE JS PATH ##/canvas/CanvasElementFog.js"></script>
+    <script src="## BASE JS PATH ##/canvas/w.js"></script>
+    <script src="## BASE JS PATH ##/canvas/CanvasElementShiftedMap.js"></script>
+
+    <script src="## BASE JS PATH ##/lib/angular.min.js"></script>
+    <script src="## BASE JS PATH ##/controls.js"></script>
+</head>
+<body ng-app="visualizerApp" ng-controller="VisualizerCtrl">
+## GAME TEMPLATE ##
+</body>
+</html>
