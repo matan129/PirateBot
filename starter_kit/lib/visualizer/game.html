@@ -1,0 +1,90 @@
+<div class="game">
+    <div class="content">
+
+        <div ng-if="displayLog" class="debug-info player2">
+            <div ng-repeat="line in debugMessages[0][turn]" class="debug-line">
+                <span class="debug-message debug-level{{line.level}}">{{line.message}}</span>
+            </div>
+        </div>
+
+        <div class="canvas-wrapper" ng-class="{'smaller-canvas': displayLog}">
+            <div class="toggle-log-button" ng-click="toggleLog()">
+                <span ng-hide="displayLog">Open</span>
+                <span ng-show="displayLog">Close</span>
+                Log
+            </div>
+            <div id="game-canvas"></div>
+        </div>
+
+        <div ng-if="displayLog" class="debug-info player1">
+            <div ng-repeat="line in debugMessages[1][turn]" class="debug-line">
+                <span class="debug-message debug-level{{line.level}}">{{line.message}}</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-bar">
+        <div class="player player2">
+            <div class="ship-image"><img src="## PIRATES DATA DIR ##/img/ship_sprite.png"></div>
+            <div style="clear: both;"></div>
+            <div class="name">{{ visualizer.state.replay.meta['playernames'][0] }}</div>
+        </div>
+        <div class="controls">
+            <div class="scores-bar">
+                <div class="scores-line player2">
+                    <div class="bar">
+                        <div class="filling" ng-style="{width: (visualizer.state.replay.scores[turn][0]/10) + '%'}"></div>
+                    </div><!-- MUST HAVE NO SPACE
+                    --><div class="score">{{ visualizer.state.replay.scores[turn][0] }}</div>
+                </div>
+                <div class="scores-line player1">
+                    <div class="bar">
+                        <div class="filling" ng-style="{width: (visualizer.state.replay.scores[turn][1]/10) + '%'}"></div>
+                    </div><!-- MUST HAVE NO SPACE
+                    --><div class="score">{{ visualizer.state.replay.scores[turn][1] }}</div>
+                </div>
+            </div>
+            <div>
+                Turn: <span>{{ turn + 1 }}/{{ visualizer.state.replay.duration }}</span>
+            </div>
+            <div class="game-controls">
+                <span class="ctrl-btn" ng-click="firstTurn()">
+                    <img src="## PIRATES DATA DIR ##/img/first.png" class="normal"/>
+                    <img src="## PIRATES DATA DIR ##/img/first-invert.png" class="invert"/>
+                </span>
+                <span class="ctrl-btn speed" ng-click="speed(-1)">
+                    <img src="## PIRATES DATA DIR ##/img/slower.png" class="normal"/>
+                    <img src="## PIRATES DATA DIR ##/img/slower-invert.png" class="invert"/>
+                </span>
+                <span class="ctrl-btn" ng-click="prevTurn()">
+                    <img src="## PIRATES DATA DIR ##/img/prev.png" class="normal"/>
+                    <img src="## PIRATES DATA DIR ##/img/prev-invert.png" class="invert"/>
+                </span>
+                <span class="ctrl-btn" ng-click="togglePlay()">
+                    <img ng-hide="playing" src="## PIRATES DATA DIR ##/img/play.png" class="normal"/>
+                    <img ng-hide="playing" src="## PIRATES DATA DIR ##/img/play-invert.png" class="invert"/>
+                    <img ng-show="playing" src="## PIRATES DATA DIR ##/img/stop.png" class="normal"/>
+                    <img ng-show="playing" src="## PIRATES DATA DIR ##/img/stop-invert.png" class="invert"/>
+                </span>
+                <span class="ctrl-btn" ng-click="nextTurn()">
+                    <img src="## PIRATES DATA DIR ##/img/next.png" class="normal"/>
+                    <img src="## PIRATES DATA DIR ##/img/next-invert.png" class="invert"/>
+                </span>
+                <span class="ctrl-btn speed" ng-click="speed(1)">
+                    <img src="## PIRATES DATA DIR ##/img/faster.png" class="normal"/>
+                    <img src="## PIRATES DATA DIR ##/img/faster-invert.png" class="invert"/>
+                </span>
+                <span class="ctrl-btn" ng-click="lastTurn()">
+                    <img src="## PIRATES DATA DIR ##/img/last.png" class="normal"/>
+                    <img src="## PIRATES DATA DIR ##/img/last-invert.png" class="invert"/>
+                </span>
+            </div>
+        </div>
+        <div class="player player1">
+            <div class="ship-image"><img src="## PIRATES DATA DIR ##/img/ship_sprite.png"></div>
+            <div style="clear: both;"></div>
+            <div class="name">{{ visualizer.state.replay.meta['playernames'][1] }}</div>
+        </div>
+    </div>
+</div>

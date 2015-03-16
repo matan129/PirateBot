@@ -1,0 +1,228 @@
+@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    margin:0;
+    padding:0;
+    height: 100%;
+    font-size: 14px;
+}
+
+body {
+    margin:0;
+    padding:0;
+    height: 100%;
+    font-family: "Alef Hebrew",
+            "Helvetica Neue",
+            Helvetica,
+            Arial,
+            sans-serif;
+    text-align: center;
+    background: #fffbe7;
+    color: #7ca8b0;
+}
+
+.game {
+    height: 100%;
+    direction: ltr;
+}
+
+.game .content {
+    height: calc(100% - 130px);
+    text-align: center;
+}
+
+.game .content .ctrl-btn {
+    cursor: pointer;
+}
+
+.game .content .canvas-wrapper {
+    height: 100%;
+    width: 69%;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+}
+
+.game .content .canvas-wrapper.smaller-canvas {
+    width: 49%;
+}
+
+.game .content .canvas-wrapper .toggle-log-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: white;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #7ca8b0;
+}
+
+#game-canvas {
+    height: 100%;
+    width: 100%;
+}
+
+.game .content .debug-info {
+    display: inline-block;
+    width: 25%;
+    height: 100%;
+    vertical-align: top;
+    font-size: 12px;
+    text-align: left;
+    overflow: auto;
+    font-family: monospace;
+    background: white;
+}
+
+.game .content .debug-info .debug-line:nth-child(odd) {
+    background: #eee;
+}
+
+.game .content .debug-info .debug-line .debug-message.debug-level0 {
+    color: black;
+}
+
+.game .content .debug-info .debug-line .debug-message.debug-level1 {
+    color: brown;
+}
+
+.game .content .debug-info .debug-line .debug-message.debug-level2 {
+    color: red;
+}
+
+.bottom-bar .controls {
+    width: 69%;
+    display: inline-block;
+    text-align: center;
+    height: 130px;
+}
+
+.bottom-bar .controls .scores-bar {
+    height: 60px;
+    text-align: left;
+}
+
+.bottom-bar .controls .scores-bar .scores-line {
+    height: 30px;
+    padding: 0 10px;
+}
+
+.bottom-bar .controls .scores-bar .scores-line .bar {
+    display: inline-block;
+    border: 1px solid black;
+    height: 20px;
+    overflow: hidden;
+    width: calc(100% - 30px);
+}
+
+.bottom-bar .controls .scores-bar .scores-line .bar .filling {
+    height: 100%;
+    width: 0;
+}
+
+.bottom-bar .controls .scores-bar .scores-line .score {
+    display: inline-block;
+    width: 30px;
+    text-align: right;
+    font-size: 1.7em;
+    vertical-align: bottom;
+}
+
+.bottom-bar .controls .scores-bar .scores-line.player1 {
+    color: #E96E31;
+}
+
+.bottom-bar .controls .scores-bar .scores-line.player1 .bar {
+    border-color: #E96E31;
+}
+
+.bottom-bar .controls .scores-bar .scores-line.player1 .bar .filling {
+    background-color: #E96E31;
+}
+
+.bottom-bar .controls .scores-bar .scores-line.player2 {
+    color: #2E3192;
+}
+
+.bottom-bar .controls .scores-bar .scores-line.player2 .bar {
+    border-color: #2E3192;
+}
+
+.bottom-bar .controls .scores-bar .scores-line.player2 .bar .filling {
+    background-color: #2E3192;
+}
+
+.bottom-bar .player1 {
+    color: #E96E31;
+}
+
+.bottom-bar .player2 {
+    color: #2E3192;
+}
+
+.bottom-bar .player {
+    width: 15%;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+}
+
+.bottom-bar .player .ship-image {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    height: 70px;
+    width: 70px;
+}
+
+.bottom-bar .player .ship-image img {
+    position: relative;
+    width: 210px;
+}
+
+.bottom-bar .player.player1 .ship-image img {
+    right: 70px;
+    top: -140px;
+}
+
+.bottom-bar .player .name {
+    font-size: 2em;
+    overflow: hidden;
+    max-height: 176px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bottom-bar .controls .game-controls {
+    display: inline-block;
+    padding: 10px 0 0;
+}
+
+.bottom-bar .controls .game-controls .ctrl-btn {
+    cursor: pointer;
+}
+
+.bottom-bar .controls .game-controls .ctrl-btn.speed {
+    margin: 0 20px;
+}
+
+.bottom-bar .controls .game-controls .ctrl-btn img {
+    height: 30px;
+}
+
+.bottom-bar .controls .game-controls .ctrl-btn:hover .normal {
+    display: none;
+}
+
+.bottom-bar .controls .game-controls .ctrl-btn .invert {
+    display: none;
+}
+
+.bottom-bar .controls .game-controls .ctrl-btn:hover .invert {
+    display: inline;
+}
