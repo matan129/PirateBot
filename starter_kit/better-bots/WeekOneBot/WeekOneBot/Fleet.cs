@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -10,14 +11,12 @@ namespace WeekOneBot
 {
     class Fleet
     {
-        private IPirateGame game;
         private List<int> pirates { get; set; }
         public int Target { get; set; }
         private List<int> priorities; 
 
-        public Fleet(IPirateGame g, int index, int size, List<int> f)
+        public Fleet(int index, int size, List<int> f)
         {
-            this.game = g;
             this.pirates = new List<int>();
             this.Allocate(index, size);
             this.ReSort(f);
@@ -25,17 +24,17 @@ namespace WeekOneBot
 
         public bool Status()
         {
-            if (this.game.GetIsland(this.Target).Owner == Consts.ME)
+            if (Bot.Game.GetIsland(this.Target).Owner == Consts.ME)
             {
                 return true;
             }
 
-            if (this.game.GetMyPirate(this.pirates.First()).IsLost)
+            if (Bot.Game.GetMyPirate(this.pirates.First()).IsLost)
             {
                 return true;
             }
 
-            if (this.game.GetIsland(this.Target).TeamCapturing == Consts.ENEMY)
+            if (Bot.Game.GetIsland(this.Target).TeamCapturing == Consts.ENEMY)
             {
                 return true;
             }
@@ -56,49 +55,61 @@ namespace WeekOneBot
             Direction d;
             foreach (int p in this.pirates)
             {
-                Pirate pete = this.game.GetMyPirate(p);
+                Pirate pete = Bot.Game.GetMyPirate(p);
                 if (!pete.IsLost)
                 {
-                    d = game.GetDirections(pete, this.game.GetIsland(this.Target).Loc).First();
-                    this.game.SetSail(pete, d);
+                    d = Bot.Game.GetDirections(pete, Bot.Game.GetIsland(this.Target).Loc).First();
+                    Bot.Game.SetSail(pete, d);
                 }
             }
         }
 
-        private static int GetDistance(Location Loc1, Location Loc2)
+        private int GetAlivePirates()
         {
-            return Math.Abs(Loc1.Row - Loc2.Row) + Math.Abs(Loc1.Col - Loc2.Col);
+            int sum = 0;
+            foreach (int pirate in pirates)
+            {
+                Pirate pete = Bot.Game.GetMyPirate(pirate);
+                if (!pete.IsLost)
+                {
+                    sum++;
+                }
+            }
+            return sum;
         }
 
         public int GetScore(int t, List<int> friends)
         {
             int score = 0;
-            Island isle = game.GetIsland(t);
+            Island isle = Bot.Game.GetIsland(t);
             if (friends.Contains(t))
             {
-                score -= 1000000;
+                score -= 10000;
             }
             if (isle.Owner == Consts.ME && isle.TeamCapturing != Consts.ENEMY)
             {
-                score -= 1000000;
+                score -= 10000;
             }
 
-            score -= GetDistance(isle.Loc, this.game.GetMyPirate(this.pirates.First()).Loc);
+            if (this.GetAlivePirates() < Ai.EstimatePiratesNearIsland(t))
+            {
+                score -= 100000;
+            }
+            else
+            {
+                score += this.GetAlivePirates() - Ai.EstimatePiratesNearIsland(t);
+            }
 
+            score -= Bot.Game.Distance(isle.Loc, Bot.Game.GetMyPirate(this.pirates.First()).Loc);
+            
             return score;
         }
 
         public void ReSort(List<int> friends)
         {
-            this.priorities = new List<int>(game.Islands().ConvertAll(isle => isle.Id));
+            this.priorities = new List<int>(Bot.Game.Islands().ConvertAll(isle => isle.Id));
             this.priorities.Sort((b, a) => GetScore(a, friends).CompareTo(GetScore(b, friends)));
             this.Target = this.priorities.First();
-
-            foreach (int i in priorities)
-            {
-                game.Debug(i.ToString());
-            }
-            game.Debug("---\nTarget: {0}",this.Target);
         }
     }
 }

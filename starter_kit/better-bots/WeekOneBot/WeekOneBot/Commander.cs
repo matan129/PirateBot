@@ -9,9 +9,8 @@ namespace WeekOneBot
 {
     public class Commander
     {
-        private List<Fleet> fleets = new List<Fleet>();
+        private List<Fleet> fleets;
         private int[] config;
-        public IPirateGame Game;
 
         private static Commander instance;
 
@@ -32,28 +31,24 @@ namespace WeekOneBot
             }
         }
 
-        public void SetConfiguration(int[] c)
+        public void Distribute(int[] c)
         {
             this.config = c;
-        }
-
-        public void Distribute()
-        {
-            if (this.config != null || this.config.Sum() <= Game.AllMyPirates().Count)
+            if (this.config != null || this.config.Sum() <= Bot.Game.AllMyPirates().Count)
             {
-                this.fleets.Clear();
+                this.fleets = new List<Fleet>();
                 int sum = 0;
                 List<int> friends = new List<int>();
 
                 for (int i = 0; i < this.config.Length; i++)
                 {
                     int f = this.config[i];
-                    
-                    Game.Debug("Initing fleet {0} with {1} ships",i,f);
 
-                    this.fleets.Add(new Fleet(this.Game, sum, f, friends));
+                    Bot.Game.Debug("Initing fleet {0} with {1} ships",i,f);
 
-                    Game.Debug("Adding island # {0} to friends' targets list",this.fleets[i].Target);
+                    this.fleets.Add(new Fleet(sum, f, friends));
+
+                    Bot.Game.Debug("Adding island # {0} to friends' targets list",this.fleets[i].Target);
                     friends.Add(this.fleets[i].Target);
                     sum += f;
                 }

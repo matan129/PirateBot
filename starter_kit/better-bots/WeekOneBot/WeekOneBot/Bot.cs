@@ -9,20 +9,19 @@ namespace WeekOneBot
 {
     public class Bot : IPirateBot
     {
-        public IPirateGame Game;
+        public static IPirateGame Game;
         private Commander commander;
 
         private bool inited;
         
         public void DoTurn(IPirateGame state)
         {
-            this.Game = state;
+            Game = state;
             this.commander = Commander.Instance;
-            this.commander.Game = state;
+           
             if (!inited)
             {
-                this.commander.SetConfiguration(Ai.GetBestConfig());
-                this.commander.Distribute();
+                this.commander.Distribute(Ai.GetBestConfig());
                 this.inited = true;
             }
 
