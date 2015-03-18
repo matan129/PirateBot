@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ai.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="Commander.cs" />
     <Compile Include="Fleet.cs" />

@@ -31,9 +31,9 @@ namespace WeekOneBot
             }
         }
 
-        public void Distribute(int[] c)
+        public void Distribute(IEnumerable<int> c)
         {
-            this.config = c;
+            this.config = c.ToArray();
             if (this.config != null || this.config.Sum() <= Bot.Game.AllMyPirates().Count)
             {
                 this.fleets = new List<Fleet>();

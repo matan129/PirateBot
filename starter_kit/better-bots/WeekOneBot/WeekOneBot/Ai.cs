@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Security.Policy;
@@ -12,10 +13,38 @@ namespace WeekOneBot
     static class Ai
     {
 
-        public static int[] GetBestConfig()
+        public static List<int> GetBestConfig(int forces = -1)
         {
             //TODO Actually analyze the game
-            return new int[] {2,2,1};
+            if (forces == -1)
+            {
+                forces = Bot.Game.AllMyPirates().Count;
+                Bot.Game.Debug(forces.ToString());
+            }
+
+            List<int> config = new List<int>();
+
+            int newFleet = 0;
+            if (forces % 2 == 0 && forces != 2)
+            {
+                newFleet = forces/2;
+            }
+            else if (forces == 2)
+            {
+                newFleet = forces;
+            }
+            else if(forces != 0)
+            {
+                newFleet = 1;
+            }
+
+            config.Add(newFleet);
+            if (forces - newFleet != 0)
+            {
+                config.AddRange(GetBestConfig(forces - newFleet));
+            }
+
+            return config;
         }
 
         public static int EstimatePiratesNearIsland(int index)
