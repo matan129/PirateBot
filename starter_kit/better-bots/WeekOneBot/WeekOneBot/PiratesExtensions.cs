@@ -9,11 +9,11 @@ namespace WeekOneBot
 {
     static class PiratesExtensions
     {
-        public static Island GetIsland(this IPirateGame Game, Location Location)
+        public static Island GetIsland(this IPirateGame Game, Location Loc)
         {
             foreach (Island isle in Game.Islands())
             {
-                if (isle.Loc == Location)
+                if (isle.Loc == Loc)
                 {
                     return isle;
                 }

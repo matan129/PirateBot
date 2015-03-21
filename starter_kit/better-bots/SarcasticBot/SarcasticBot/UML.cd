@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Comment CommentText="The GetScore method eliminates targets with low &quot;fast&quot; score so their path will not be calculated">
+    <Position X="11.282" Y="2.009" Height="0.75" Width="1.7" />
+  </Comment>
+  <Class Name="SarcasticBot.Bot">
+    <Position X="0.5" Y="0.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SarcasticBot.Commander">
+    <Position X="8" Y="0.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAQgAAAQAAAAAAAAAAAAAgAAAAAAAgAA=</HashCode>
+      <FileName>Commander.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SarcasticBot.Group">
+    <Position X="3.25" Y="0.75" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAABAIIAAAAAAAAAACAAAAAAAAASAAAAgAAAAAA=</HashCode>
+      <FileName>Group.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SarcasticBot.SmartIsland">
+    <Position X="13.25" Y="3" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>SmartIsland.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SarcasticBot.Enemy">
+    <Position X="0.5" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SarcasticBot.EnemyGroup">
+    <Position X="0.5" Y="5.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAgAAAAACAAAAAAAAAAAAAAACAgAAAAAA=</HashCode>
+      <FileName>EnemyGroup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="2.981" />
+  </Class>
+  <Class Name="SarcasticBot.EnemyPirate">
+    <Position X="4.75" Y="6.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>EnemyPirate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SarcasticBot.Path">
+    <Position X="9.25" Y="5.5" Width="5.5" />
+    <TypeIdentifier>
+      <HashCode>AAIDAAAAEAAAAAgAAAAAAQgAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Path.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SarcasticBot.Ai">
+    <Position X="11.25" Y="4" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Ai.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SarcasticBot.SmartGame">
+    <Position X="8.5" Y="4.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SmartGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SarcasticBot.SmartPirate">
+    <Position X="6" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>SmartPirate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SarcasticBot.FriendPirate">
+    <Position X="7.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FriendPirate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="SarcasticBot.ScoreStruct">
+    <Position X="15" Y="7" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ScoreStruct.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="SarcasticBot.ITarget">
+    <Position X="11.25" Y="0.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>ITarget.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="SarcasticBot.ScoreParams">
+    <Position X="15" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAQAQAAAAAAAAAAAAACAAAAAAAABAQAKAgAAAAAAAA=</HashCode>
+      <FileName>ScoreParams.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
