@@ -8,7 +8,7 @@ using System;
 
 namespace Pirates
 {
-  public class CompilationErrorException : Exception
-  {
-  }
+    public class CompilationErrorException : Exception
+    {
+    }
 }

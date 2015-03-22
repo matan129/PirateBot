@@ -8,48 +8,43 @@ using System;
 
 namespace Pirates
 {
-  public class Pirate : IEquatable<Pirate>
-  {
-    public int Id { get; set; }
-
-    public int Owner { get; set; }
-
-    public Location Loc { get; set; }
-
-    public Location InitialLocation { get; set; }
-
-    public bool IsLost { get; set; }
-
-    public int TurnsToRevive { get; set; }
-
-    public bool IsCloaked { get; set; }
-
-    public Pirate(int Id, int Owner, Location Loc, Location InitialLocation)
+    public class Pirate : IEquatable<Pirate>
     {
-      this.Id = Id;
-      this.Owner = Owner;
-      this.Loc = Loc;
-      this.InitialLocation = InitialLocation;
-      this.IsLost = false;
-      this.TurnsToRevive = 0;
-      this.IsCloaked = false;
-    }
+        public Pirate(int Id, int Owner, Location Loc, Location InitialLocation)
+        {
+            this.Id = Id;
+            this.Owner = Owner;
+            this.Loc = Loc;
+            this.InitialLocation = InitialLocation;
+            IsLost = false;
+            TurnsToRevive = 0;
+            IsCloaked = false;
+        }
 
-    public override int GetHashCode()
-    {
-      return this.Id * 10 + this.Owner;
-    }
+        public int Id { get; set; }
+        public int Owner { get; set; }
+        public Location Loc { get; set; }
+        public Location InitialLocation { get; set; }
+        public bool IsLost { get; set; }
+        public int TurnsToRevive { get; set; }
+        public bool IsCloaked { get; set; }
 
-    public override string ToString()
-    {
-      return string.Format("<Pirate ID:{0} OWNER:{1} LOC:({2}, {3})>", (object) this.Id, (object) this.Owner, (object) this.Loc.Row, (object) this.Loc.Col);
-    }
+        public bool Equals(Pirate other)
+        {
+            if (other != null)
+                return Id.Equals(other.Id);
+            return false;
+        }
 
-    public bool Equals(Pirate other)
-    {
-      if (other != null)
-        return this.Id.Equals(other.Id);
-      return false;
+        public override int GetHashCode()
+        {
+            return Id*10 + Owner;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("<Pirate ID:{0} OWNER:{1} LOC:({2}, {3})>", (object) Id, (object) Owner,
+                (object) Loc.Row, (object) Loc.Col);
+        }
     }
-  }
 }

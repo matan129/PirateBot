@@ -6,10 +6,10 @@
 
 namespace Pirates
 {
-  public static class Consts
-  {
-    public const int ME = 0;
-    public const int NO_OWNER = -1;
-    public const int ENEMY = 1;
-  }
+    public static class Consts
+    {
+        public const int ME = 0;
+        public const int NO_OWNER = -1;
+        public const int ENEMY = 1;
+    }
 }

@@ -4,55 +4,55 @@
 // MVID: 932FE985-6866-4B4F-91C1-D0B41B499FF8
 // Assembly location: C:\Users\Matan\Documents\Repositories\PirateBot\starter_kit\lib\cshRunner.exe
 
-using Pirates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pirates;
 
 namespace MyBot
 {
-  public class DevelopBot : IPirateBot
-  {
-    public static int SHIPCOUNT = 6;
-    public static int ISLANDCOUNT = 6;
-    private IPirateGame game;
-    private Random rnd;
-
-    public DevelopBot()
+    public class DevelopBot : IPirateBot
     {
-      this.rnd = new Random();
-    }
+        public static int SHIPCOUNT = 6;
+        public static int ISLANDCOUNT = 6;
+        private IPirateGame game;
+        private Random rnd;
 
-    public void DoTurn(IPirateGame game)
-    {
-      Location location = new Location(-1, -1);
-      game.IsPassable(location);
-      this.game = game;
-      if (game.NotMyIslands().Count < 1 || game.EnemyPirates().Count <= 0)
-        return;
-      foreach (Pirate pirate in game.MyPirates())
-      {
-        Pirate closest = this.get_closest(pirate, game.EnemyPirates());
-        List<Direction> directions = game.GetDirections(pirate.Loc, closest.Loc);
-        if (game.IsPassable(game.Destination(pirate, Enumerable.First<Direction>((IEnumerable<Direction>) directions))))
-          game.SetSail(pirate, Enumerable.First<Direction>((IEnumerable<Direction>) directions));
-      }
-    }
-
-    private Pirate get_closest(Pirate a, List<Pirate> pirates)
-    {
-      Pirate pirate1 = Enumerable.First<Pirate>((IEnumerable<Pirate>) pirates);
-      int num1 = 9999;
-      foreach (Pirate pirate2 in this.game.EnemyPirates())
-      {
-        int num2 = this.game.Distance(a.Loc, pirate2.Loc);
-        if (num2 < num1)
+        public DevelopBot()
         {
-          pirate1 = pirate2;
-          num1 = num2;
+            rnd = new Random();
         }
-      }
-      return pirate1;
+
+        public void DoTurn(IPirateGame game)
+        {
+            var location = new Location(-1, -1);
+            game.IsPassable(location);
+            this.game = game;
+            if (game.NotMyIslands().Count < 1 || game.EnemyPirates().Count <= 0)
+                return;
+            foreach (var pirate in game.MyPirates())
+            {
+                var closest = get_closest(pirate, game.EnemyPirates());
+                var directions = game.GetDirections(pirate.Loc, closest.Loc);
+                if (game.IsPassable(game.Destination(pirate, directions.First())))
+                    game.SetSail(pirate, directions.First());
+            }
+        }
+
+        private Pirate get_closest(Pirate a, List<Pirate> pirates)
+        {
+            var pirate1 = pirates.First();
+            var num1 = 9999;
+            foreach (var pirate2 in game.EnemyPirates())
+            {
+                var num2 = game.Distance(a.Loc, pirate2.Loc);
+                if (num2 < num1)
+                {
+                    pirate1 = pirate2;
+                    num1 = num2;
+                }
+            }
+            return pirate1;
+        }
     }
-  }
 }

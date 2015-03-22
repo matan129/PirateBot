@@ -6,8 +6,8 @@
 
 namespace Pirates
 {
-  public interface IPirateBot
-  {
-    void DoTurn(IPirateGame state);
-  }
+    public interface IPirateBot
+    {
+        void DoTurn(IPirateGame state);
+    }
 }

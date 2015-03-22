@@ -8,7 +8,7 @@ using System;
 
 namespace Pirates
 {
-  public class InterfaceNotFoundException : Exception
-  {
-  }
+    public class InterfaceNotFoundException : Exception
+    {
+    }
 }

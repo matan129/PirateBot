@@ -4,65 +4,68 @@
 // MVID: 932FE985-6866-4B4F-91C1-D0B41B499FF8
 // Assembly location: C:\Users\Matan\Documents\Repositories\PirateBot\starter_kit\lib\cshRunner.exe
 
-using Pirates;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using Pirates;
 
 namespace MyBot
 {
-  public class TestBot : IPirateBot
-  {
-    public static int SHIPCOUNT = 6;
-    public static int ISLANDCOUNT = 5;
-    private Random rnd;
-    private int pirate1counter;
-
-    public TestBot()
+    public class TestBot : IPirateBot
     {
-      this.rnd = new Random();
-      this.pirate1counter = 0;
-    }
+        public static int SHIPCOUNT = 6;
+        public static int ISLANDCOUNT = 5;
+        private readonly Random rnd;
+        private int pirate1counter;
 
-    public void DoTurn(IPirateGame game)
-    {
-      this.test_API(game);
-    }
+        public TestBot()
+        {
+            rnd = new Random();
+            pirate1counter = 0;
+        }
 
-    private void test_API(IPirateGame game)
-    {
-      Enumerable.SequenceEqual<Pirate>((IEnumerable<Pirate>) Enumerable.OrderBy<Pirate, int>(Enumerable.Concat<Pirate>((IEnumerable<Pirate>) game.MyPirates(), (IEnumerable<Pirate>) game.MyLostPirates()), (Func<Pirate, int>) (t => t.Id)), (IEnumerable<Pirate>) game.AllMyPirates());
-      Enumerable.SequenceEqual<Pirate>((IEnumerable<Pirate>) Enumerable.OrderBy<Pirate, int>(Enumerable.Concat<Pirate>((IEnumerable<Pirate>) game.EnemyPirates(), (IEnumerable<Pirate>) game.EnemyLostPirates()), (Func<Pirate, int>) (t => t.Id)), (IEnumerable<Pirate>) game.AllMyPirates());
-      int i = this.rnd.Next(0, Enumerable.Count<Pirate>((IEnumerable<Pirate>) game.AllMyPirates()));
-      foreach (Pirate pirate in Enumerable.Where<Pirate>((IEnumerable<Pirate>) game.AllMyPirates(), (Func<Pirate, bool>) (p => p.Id != i)))
-        ;
-      i = this.rnd.Next(0, Enumerable.Count<Pirate>((IEnumerable<Pirate>) game.AllMyPirates()));
-      foreach (Pirate pirate in Enumerable.Where<Pirate>((IEnumerable<Pirate>) game.AllEnemyPirates(), (Func<Pirate, bool>) (p => p.Id != i)))
-        ;
-      foreach (Pirate pirate in Enumerable.Union<Pirate>((IEnumerable<Pirate>) game.AllMyPirates(), (IEnumerable<Pirate>) game.AllEnemyPirates()))
-      {
-        int num = pirate.IsLost ? 1 : 0;
-      }
-      Enumerable.SequenceEqual<Island>((IEnumerable<Island>) Enumerable.OrderBy<Island, int>(Enumerable.Concat<Island>((IEnumerable<Island>) game.MyIslands(), (IEnumerable<Island>) game.NotMyIslands()), (Func<Island, int>) (t => t.Id)), (IEnumerable<Island>) game.Islands());
-      Enumerable.SequenceEqual<Island>((IEnumerable<Island>) Enumerable.OrderBy<Island, int>(Enumerable.Concat<Island>((IEnumerable<Island>) game.EnemyIslands(), (IEnumerable<Island>) game.NeutralIslands()), (Func<Island, int>) (t => t.Id)), (IEnumerable<Island>) game.NotMyIslands());
-      Enumerable.SequenceEqual<Island>((IEnumerable<Island>) Enumerable.OrderBy<Island, int>(Enumerable.Concat<Island>(Enumerable.Concat<Island>((IEnumerable<Island>) game.MyIslands(), (IEnumerable<Island>) game.EnemyIslands()), (IEnumerable<Island>) game.NeutralIslands()), (Func<Island, int>) (t => t.Id)), (IEnumerable<Island>) game.Islands());
-      i = this.rnd.Next(0, Enumerable.Count<Island>((IEnumerable<Island>) game.Islands()));
-      foreach (Island island in Enumerable.Where<Island>((IEnumerable<Island>) game.Islands(), (Func<Island, bool>) (p => p.Id != i)))
-        ;
-      List<Direction> directions = game.GetDirections(game.GetMyPirate(0), game.GetIsland(0));
-      game.GetTurn();
-      game.SetSail(game.GetMyPirate(0), Enumerable.ElementAt<Direction>((IEnumerable<Direction>) directions, 0));
-      if (game.GetIsland(0).Owner != 0)
-      {
-        if (game.GetPirateOn(game.GetIsland(0)) == game.GetMyPirate(0))
-          ++this.pirate1counter;
-        else
-          this.pirate1counter = 0;
-      }
-      Pirate myPirate1 = game.GetMyPirate(4);
-      Pirate myPirate2 = game.GetMyPirate(3);
-      Direction direction = Enumerable.First<Direction>((IEnumerable<Direction>) game.GetDirections(myPirate2, myPirate1));
-      game.SetSail(myPirate2, direction);
+        public void DoTurn(IPirateGame game)
+        {
+            test_API(game);
+        }
+
+        private void test_API(IPirateGame game)
+        {
+            game.MyPirates().Concat(game.MyLostPirates()).OrderBy(t => t.Id).SequenceEqual(game.AllMyPirates());
+            game.EnemyPirates().Concat(game.EnemyLostPirates()).OrderBy(t => t.Id).SequenceEqual(game.AllMyPirates());
+            var i = rnd.Next(0, game.AllMyPirates().Count());
+            foreach (var pirate in game.AllMyPirates().Where(p => p.Id != i))
+                ;
+            i = rnd.Next(0, game.AllMyPirates().Count());
+            foreach (var pirate in game.AllEnemyPirates().Where(p => p.Id != i))
+                ;
+            foreach (var pirate in game.AllMyPirates().Union(game.AllEnemyPirates()))
+            {
+                var num = pirate.IsLost ? 1 : 0;
+            }
+            game.MyIslands().Concat(game.NotMyIslands()).OrderBy(t => t.Id).SequenceEqual(game.Islands());
+            game.EnemyIslands().Concat(game.NeutralIslands()).OrderBy(t => t.Id).SequenceEqual(game.NotMyIslands());
+            game.MyIslands()
+                .Concat(game.EnemyIslands())
+                .Concat(game.NeutralIslands())
+                .OrderBy(t => t.Id)
+                .SequenceEqual(game.Islands());
+            i = rnd.Next(0, game.Islands().Count());
+            foreach (var island in game.Islands().Where(p => p.Id != i))
+                ;
+            var directions = game.GetDirections(game.GetMyPirate(0), game.GetIsland(0));
+            game.GetTurn();
+            game.SetSail(game.GetMyPirate(0), directions.ElementAt(0));
+            if (game.GetIsland(0).Owner != 0)
+            {
+                if (game.GetPirateOn(game.GetIsland(0)) == game.GetMyPirate(0))
+                    ++pirate1counter;
+                else
+                    pirate1counter = 0;
+            }
+            var myPirate1 = game.GetMyPirate(4);
+            var myPirate2 = game.GetMyPirate(3);
+            var direction = game.GetDirections(myPirate2, myPirate1).First();
+            game.SetSail(myPirate2, direction);
+        }
     }
-  }
 }

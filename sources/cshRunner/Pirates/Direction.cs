@@ -6,14 +6,14 @@
 
 namespace Pirates
 {
-  public enum Direction
-  {
-    NOTHING = 45,
-    CLOAK = 99,
-    REVEAL = 100,
-    EAST = 101,
-    NORTH = 110,
-    SOUTH = 115,
-    WEST = 119,
-  }
+    public enum Direction
+    {
+        NOTHING = 45,
+        CLOAK = 99,
+        REVEAL = 100,
+        EAST = 101,
+        NORTH = 110,
+        SOUTH = 115,
+        WEST = 119
+    }
 }

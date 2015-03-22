@@ -4,36 +4,35 @@
 // MVID: 932FE985-6866-4B4F-91C1-D0B41B499FF8
 // Assembly location: C:\Users\Matan\Documents\Repositories\PirateBot\starter_kit\lib\cshRunner.exe
 
-using Pirates;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using Pirates;
 
 namespace BunkerBot
 {
-  public class BunkerBot : IPirateBot
-  {
-    public void DoTurn(IPirateGame game)
+    public class BunkerBot : IPirateBot
     {
-      Island island = game.GetIsland(0);
-      Random random = new Random();
-      for (int index = 0; index < Enumerable.Count<Pirate>((IEnumerable<Pirate>) game.MyPirates()); ++index)
-      {
-        Pirate pirate = Enumerable.ElementAt<Pirate>((IEnumerable<Pirate>) game.MyPirates(), index);
-        if (index == 0)
+        public void DoTurn(IPirateGame game)
         {
-          game.Debug("This pirate is going to capture the island " + pirate.Id.ToString());
-          Direction direction = Enumerable.First<Direction>((IEnumerable<Direction>) game.GetDirections(pirate, island));
-          game.SetSail(pirate, direction);
+            var island = game.GetIsland(0);
+            var random = new Random();
+            for (var index = 0; index < game.MyPirates().Count(); ++index)
+            {
+                var pirate = game.MyPirates().ElementAt(index);
+                if (index == 0)
+                {
+                    game.Debug("This pirate is going to capture the island " + pirate.Id);
+                    var direction = game.GetDirections(pirate, island).First();
+                    game.SetSail(pirate, direction);
+                }
+                else
+                {
+                    game.Debug("This pirate is going to protect the island " + pirate.Id);
+                    var location = new Location(island.Loc.Row + random.Next(-1, 2), island.Loc.Col + random.Next(-1, 2));
+                    var direction = game.GetDirections(pirate, location).First();
+                    game.SetSail(pirate, direction);
+                }
+            }
         }
-        else
-        {
-          game.Debug("This pirate is going to protect the island " + pirate.Id.ToString());
-          Location location = new Location(island.Loc.Row + random.Next(-1, 2), island.Loc.Col + random.Next(-1, 2));
-          Direction direction = Enumerable.First<Direction>((IEnumerable<Direction>) game.GetDirections(pirate, location));
-          game.SetSail(pirate, direction);
-        }
-      }
     }
-  }
 }

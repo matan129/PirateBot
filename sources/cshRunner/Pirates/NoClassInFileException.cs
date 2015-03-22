@@ -8,7 +8,7 @@ using System;
 
 namespace Pirates
 {
-  public class NoClassInFileException : Exception
-  {
-  }
+    public class NoClassInFileException : Exception
+    {
+    }
 }
