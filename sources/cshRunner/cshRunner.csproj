@@ -36,6 +36,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyBot\PirateGame.cs" />
     <Compile Include="Pirates\Direction.cs" />
     <Compile Include="Pirates\Consts.cs" />
     <Compile Include="Pirates\IPirateBot.cs" />

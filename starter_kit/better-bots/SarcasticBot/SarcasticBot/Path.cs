@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Pirates;
 
 namespace SarcasticBot
@@ -15,27 +13,27 @@ namespace SarcasticBot
 
         public Path()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Path CalculatePathToStationaryTarget(Group origin, Location end)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Path CalculatePathFastToStationaryTarget(Group origin, Path oldPath, Location end)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public Location GetNextMove()
+        public Direction GetNextMove()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public Path CalculatePathToMovingTarget(SarcasticBot.EnemyGroup eGroup, Group origin)
+        public Path CalculatePathToMovingTarget(EnemyGroup eGroup, Group origin)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

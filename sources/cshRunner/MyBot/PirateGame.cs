@@ -9,10 +9,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Pirates ;
 
-namespace Pirates
+namespace MyBot
 {
-    public class PirateGame : IPirateGame
+    public class PirateGame
     {
         private List<int> CloakCooldowns;
         private List<int> LastTurnPoints;

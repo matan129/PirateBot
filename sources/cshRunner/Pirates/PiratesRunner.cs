@@ -101,12 +101,10 @@ namespace Pirates
                 }
                 var type1 =
                     compilerResults.CompiledAssembly.GetTypes()
-                        .Where(type => type.GetInterface("IPirateBot") != (Type) null)
-                        .FirstOrDefault();
+                        .FirstOrDefault(type => type.GetInterface("IPirateBot") != (Type) null);
                 if (
                     compilerResults.CompiledAssembly.GetTypes()
-                        .Where(type => type.GetInterface("IPirateBot") != (Type) null)
-                        .Count() > 1)
+                        .Count(type => type.GetInterface("IPirateBot") != (Type) null) > 1)
                     Console.Error.WriteLine("WARNING: Found multiple bots. Loading {0}", type1.FullName);
                 if (type1 != null)
                     return (IPirateBot) compilerResults.CompiledAssembly.CreateInstance(type1.FullName);

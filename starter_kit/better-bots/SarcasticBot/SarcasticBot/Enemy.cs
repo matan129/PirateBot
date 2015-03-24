@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SarcasticBot
 {
@@ -12,7 +10,7 @@ namespace SarcasticBot
 
         public static List<int> GetConfiguration()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

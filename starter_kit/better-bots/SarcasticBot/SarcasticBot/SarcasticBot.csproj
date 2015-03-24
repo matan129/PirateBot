@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IPirateGame">
+      <HintPath>..\..\..\..\..\..\..\Desktop\IPirateGame.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,8 +42,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Ai.cs" />
+    <Compile Include="Bot.cs" />
+    <Compile Include="Commander.cs" />
+    <Compile Include="Enemy.cs" />
+    <Compile Include="EnemyGroup.cs" />
+    <Compile Include="EnemyPirate.cs" />
+    <Compile Include="FriendPirate.cs" />
+    <Compile Include="Group.cs" />
+    <Compile Include="IMoveable.cs" />
+    <Compile Include="ITarget.cs" />
+    <Compile Include="Path.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScoreParams.cs" />
+    <Compile Include="ScoreStruct.cs" />
+    <Compile Include="SmartGame.cs" />
+    <Compile Include="SmartIsland.cs" />
+    <Compile Include="SmartPirate.cs" />
+    <Compile Include="Utilities.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UML.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

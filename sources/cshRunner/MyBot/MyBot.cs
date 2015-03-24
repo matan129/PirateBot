@@ -15,9 +15,11 @@ namespace MyBot
 
         public void DoTurn(IPirateGame game)
         {
-            if (firstPirateId == -1)
-                firstPirateId = game.MyPirates().First().Id;
-            game.GetMyPirate(firstPirateId);
+            PirateGame p = (MyBot.PirateGame) game;
+            /*unsafe
+            {
+                PirateGame* p = &game;
+            }*/
         }
     }
 }
