@@ -4,6 +4,6 @@ namespace SarcasticBot
 {
     public abstract class SmartPirate
     {
-        protected int Index;
+        public int Index { get; protected set; }
     }
 }

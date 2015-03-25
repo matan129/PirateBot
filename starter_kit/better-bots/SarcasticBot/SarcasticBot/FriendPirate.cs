@@ -27,6 +27,5 @@ namespace SarcasticBot
         {
             return Bot.Game.GetMyPirate(this.Index).IsLost;
         }
-
     }
 }

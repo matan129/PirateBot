@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MAP=$3
-if [ "$3" == "" ]; then
+if [ -z "$3" ]; then
     MAP="./maps/default_map.map"
 fi
 

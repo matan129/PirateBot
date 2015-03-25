@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace SarcasticBot
 {
     public static class Enemy
     {
-        private static List<EnemyGroup> Groups;
-        private static List<int> Configuration;
+        public static List<EnemyGroup> Groups {get; private set; }
+
+        public static List<int> Configuration
+        {
+            get { return GetConfiguration(); }
+        }
 
         public static List<int> GetConfiguration()
         {

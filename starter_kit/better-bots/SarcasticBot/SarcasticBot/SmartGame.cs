@@ -2,8 +2,10 @@
 
 namespace SarcasticBot
 {
-    public class SmartGame
+    public static class SmartGame
     {
-        public List<SmartIsland> SmartIslands;
+        public static List<SmartIsland> SmartIslands;
+        public static List<FriendPirate> MySmartPirates;
+        public static List<EnemyPirate> EnemySmartPirates;
     }
 }

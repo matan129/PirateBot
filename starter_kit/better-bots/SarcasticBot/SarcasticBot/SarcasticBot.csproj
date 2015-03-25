@@ -31,8 +31,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IPirateGame">
-      <HintPath>..\..\..\..\..\..\..\Desktop\IPirateGame.dll</HintPath>
+      <HintPath>..\..\..\bots\csharp\IPirateGame.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,9 +49,9 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyGroup.cs" />
     <Compile Include="EnemyPirate.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="FriendPirate.cs" />
     <Compile Include="Group.cs" />
-    <Compile Include="IMoveable.cs" />
     <Compile Include="ITarget.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,8 +61,10 @@
     <Compile Include="SmartIsland.cs" />
     <Compile Include="SmartPirate.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CodeMap.dgml" />
     <None Include="UML.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

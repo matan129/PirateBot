@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,26 +23,22 @@ namespace WeekOneBot
                 Bot.Game.Debug(forces.ToString());
             }
 
+            int enemyForces = Bot.Game.AllEnemyPirates().Count;
+
             List<int> config = new List<int>();
 
-            int newFleet = 0;
-            if (forces % 2 == 0 && forces != 2)
+            if (forces > 3 && Bot.Game.Islands().Count > 1)
             {
-                newFleet = forces/2;
+                while (forces > 3)
+                {
+                    config.Add(2);
+                    forces -= 2;
+                }
+                config.Add(forces);
             }
-            else if (forces == 2)
+            else
             {
-                newFleet = forces;
-            }
-            else if(forces != 0)
-            {
-                newFleet = 1;
-            }
-
-            config.Add(newFleet);
-            if (forces - newFleet != 0)
-            {
-                config.AddRange(GetBestConfig(forces - newFleet));
+                config.Add(forces);   
             }
 
             return config;
@@ -53,7 +50,7 @@ namespace WeekOneBot
             Island isle = Bot.Game.GetIsland(index);
             foreach (Pirate enemyPirate in Bot.Game.EnemyPirates())
             {
-                if (Bot.Game.Distance(enemyPirate, isle) < 8)
+                if(Bot.Game.InRange(enemyPirate,isle.Loc))
                 {
                     count++;
                 }

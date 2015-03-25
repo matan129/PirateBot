@@ -1305,6 +1305,7 @@ class Pirates(Game):
         replay['turns'] = self.max_turns
         replay['viewradius2'] = self.viewradius
         replay['attackradius2'] = self.attackradius
+        replay['maxpoints'] = self.maxpoints
         replay['engine_seed'] = self.engine_seed
         replay['player_seed'] = self.player_seed
         replay['lighthouses'] = list(self.lighthouses)

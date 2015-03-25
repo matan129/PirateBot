@@ -36,6 +36,9 @@ namespace misc_example
             // We can see what turn it is and how many there will be
             game.Debug("It is turn #{0} of max {1}", game.GetTurn(), game.GetMaxTurns());
 
+            // We can see how many points we need go get
+            game.Debug("We should get {0} points before the enemy", game.GetMaxPoints());
+
             // This is the attack radius - if the distance between ships is equal or less than this number then they will attack
             game.Debug("Attack radius is {0}", game.GetAttackRadius());
 

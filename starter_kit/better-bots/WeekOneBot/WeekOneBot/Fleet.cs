@@ -97,9 +97,10 @@ namespace WeekOneBot
             }
             else
             {
-                score += this.GetAlivePirates() - Ai.EstimatePiratesNearIsland(t);
+                score += (this.GetAlivePirates() - Ai.EstimatePiratesNearIsland(t)) * 200;
             }
 
+            score += (isle.Value - 1)*100;
             score -= Bot.Game.Distance(isle.Loc, Bot.Game.GetMyPirate(this.pirates.First()).Loc);
             
             return score;

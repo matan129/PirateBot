@@ -5,7 +5,7 @@ namespace SarcasticBot
 {
     public static class Commander
     {
-        private static List<Group> Groups;
+        public static List<Group> Groups { get; private set; }
         private static List<int> Configuration;
 
         public static void Play()

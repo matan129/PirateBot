@@ -53,8 +53,10 @@ angular.module('visualizerApp').controller('VisualizerCtrl', ['$scope', function
                     $scope.turn = $scope.visualizer.state.time | 0;
                     $scope.playing = $scope.visualizer.director.playing();
                     $scope.cutoff = $scope.visualizer.state.replay.meta.replaydata.cutoff;
+                    $scope.maxpoints = $scope.visualizer.state.replay.meta.replaydata.maxpoints || 1000;
                     $scope.isLastTurn =
                         $scope.turn >= $scope.visualizer.state.replay.duration;
+
                     //TODO: hacky, move to directive
                     var debugTurnEl = document.getElementsByClassName('debug-turn' + ($scope.turn + 1));
                     if (debugTurnEl.length > 0) {

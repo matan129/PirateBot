@@ -161,10 +161,10 @@ class Pirates():
                             team_capturing = None
                             if tokens[5].isdigit():
                                 team_capturing = int(tokens[5])
-                            capture_turns = int(tokens[6])
-                            turns_being_captured = int(tokens[7])
+                            turns_being_captured = int(tokens[6])
+                            capture_turns = int(tokens[7])
                             value = int(tokens[8])
-                            self.all_islands.append(Island(id, (row,col), owner, team_capturing, capture_turns, turns_being_captured, value))
+                            self.all_islands.append(Island(id, (row,col), owner, team_capturing, turns_being_captured, capture_turns, value))
                             self.map[row][col] = '$'
                         else:
                             if tokens[0] == 'a' or tokens[0] == 'd':
@@ -611,7 +611,7 @@ class Pirate():
         return self.id * 10 + self.owner
 
 class Island():
-    def __init__(self, id, location, owner, team_capturing, capture_turns, turns_being_captured, value):
+    def __init__(self, id, location, owner, team_capturing, turns_being_captured, capture_turns, value):
         self.id = id
         self.location = location
         self.owner = owner

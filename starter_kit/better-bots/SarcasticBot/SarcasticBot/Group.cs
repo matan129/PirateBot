@@ -51,9 +51,12 @@ namespace SarcasticBot
         /// </summary>
         private void Move()
         {
-            this.Pirates.Where(pete => pete.IsAlive())
-                .ToList()
-                .ForEach(pirate => pirate.SetSail(this.Trajectory.GetNextMove()));
+            Location nextLoc = this.Trajectory.GetNextLocation();
+            this.Pirates.Where(pete => pete.IsAlive()).ToList().ForEach(pete =>
+            {
+                pete.SetSail(Bot.Game.GetDirections(pete, nextLoc));
+                nextLoc = Bot.Game.GetMyPirate(pete.Index).Loc;
+            });
         }
 
         /// <summary>
@@ -63,7 +66,7 @@ namespace SarcasticBot
         public Dictionary<ITarget, ScoreStruct> CalculatePriorities()
         {
             var prioritiesDictionary = new Dictionary<ITarget, ScoreStruct>();
-            Ai.GetAllTargets()
+            Utility.GetAllTargets()
                 .ForEach(target => prioritiesDictionary.Add(target, target.GetScore(this, out this.Trajectory, false)));
            
             return prioritiesDictionary.OrderByDescending(x => x.Value.Score).ToDictionary(x => x.Key, x => x.Value);

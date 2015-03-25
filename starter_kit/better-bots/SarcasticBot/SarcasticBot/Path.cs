@@ -26,7 +26,7 @@ namespace SarcasticBot
             throw new NotImplementedException();
         }
 
-        public Direction GetNextMove()
+        public Location GetNextLocation()
         {
             throw new NotImplementedException();
         }

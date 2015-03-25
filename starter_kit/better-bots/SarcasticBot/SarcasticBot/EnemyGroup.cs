@@ -24,7 +24,7 @@ namespace SarcasticBot
             throw new NotImplementedException();
         }
 
-        public int GetScore(out Group origin, out Path path, bool isFast)
+        public ScoreStruct GetScore(Group origin, out Path path, bool isFast)
         {
             throw new NotImplementedException();
         }

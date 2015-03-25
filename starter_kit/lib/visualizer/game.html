@@ -34,13 +34,13 @@
             <div class="scores-bar">
                 <div class="scores-line player2">
                     <div class="bar">
-                        <div class="filling" ng-style="{width: (visualizer.state.replay.scores[turn][0]/10) + '%'}"></div>
+                        <div class="filling" ng-style="{width: (visualizer.state.replay.scores[turn][0]*100 / maxpoints) + '%'}"></div>
                     </div><!-- MUST HAVE NO SPACE
                     --><div class="score">{{ visualizer.state.replay.scores[turn][0] }}</div>
                 </div>
                 <div class="scores-line player1">
                     <div class="bar">
-                        <div class="filling" ng-style="{width: (visualizer.state.replay.scores[turn][1]/10) + '%'}"></div>
+                        <div class="filling" ng-style="{width: (visualizer.state.replay.scores[turn][1]*100 / maxpoints) + '%'}"></div>
                     </div><!-- MUST HAVE NO SPACE
                     --><div class="score">{{ visualizer.state.replay.scores[turn][1] }}</div>
                 </div>
