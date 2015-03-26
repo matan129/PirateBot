@@ -2,6 +2,6 @@
 {
     public interface ITarget
     {
-        ScoreStruct GetScore(Group origin, out Path path, bool isFast);
+        ScoreStruct GetScore(Group origin, Path path = null, bool isFast = false);
     }
 }

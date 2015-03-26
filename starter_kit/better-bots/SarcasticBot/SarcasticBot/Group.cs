@@ -15,6 +15,8 @@ namespace SarcasticBot
         private Dictionary<ITarget, ScoreStruct> Priorities;
         private Path Trajectory;
 
+        public delegate void ManueverAction();
+
         /// <summary>
         /// Initializes a new group
         /// </summary>
@@ -67,7 +69,7 @@ namespace SarcasticBot
         {
             var prioritiesDictionary = new Dictionary<ITarget, ScoreStruct>();
             Utility.GetAllTargets()
-                .ForEach(target => prioritiesDictionary.Add(target, target.GetScore(this, out this.Trajectory, false)));
+                .ForEach(target => prioritiesDictionary.Add(target, target.GetScore(this, this.Trajectory, false)));
            
             return prioritiesDictionary.OrderByDescending(x => x.Value.Score).ToDictionary(x => x.Key, x => x.Value);
         }
@@ -79,7 +81,7 @@ namespace SarcasticBot
         /// <param name="path">Path to the target</param>
         /// <param name="isFast">Use fast approximation or not</param>
         /// <returns>A ScoreStruct for the target</returns>
-        public ScoreStruct GetScore(Group origin, out Path path, bool isFast)
+        public ScoreStruct GetScore(Group origin, Path path = null, bool isFast = false)
         {
             throw new NotImplementedException();
         }

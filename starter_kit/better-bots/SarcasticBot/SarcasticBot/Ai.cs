@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pirates;
 
 namespace SarcasticBot
 {
@@ -45,5 +46,62 @@ namespace SarcasticBot
 
             return config;
         }
+
+        /// <summary>
+        /// Sets the Commander's  strategy queue according to the game status
+        /// </summary>
+        public static void SetCommanderStrategy()
+        {
+            if (Bot.Game.Islands().Count == 1)
+            {
+                Commander.Strategy.Enqueue(CommanderStrategy.GatherForces);
+                Commander.Strategy.Enqueue(CommanderStrategy.JoinAll);
+                Commander.Strategy.Enqueue(CommanderStrategy.ManueverAttack);
+            }
+            else if (Enemy.Causalties() > 0.75)
+            {
+                Commander.Strategy.Enqueue(CommanderStrategy.SplitAll);
+                Commander.Strategy.Enqueue(CommanderStrategy.AgressiveAttack);
+            }
+            else if (Commander.Casualties() > 0.5)
+            {
+                Commander.Strategy.Enqueue(CommanderStrategy.GatherForces);
+                Commander.Strategy.Enqueue(CommanderStrategy.JoinAll);
+                Commander.Strategy.Enqueue(CommanderStrategy.AgressiveAttack);
+            }
+        }
+
+        /// <summary>
+        /// Splits the enemy into groups
+        /// </summary>
+        /// <returns>A list of the enemy group</returns>
+        public static List<EnemyGroup> AnalyzeEnemyConfiguration()
+        {
+            List<EnemyGroup> groups = new List<EnemyGroup>();
+
+            foreach (EnemyPirate pete in SmartGame.EnemySmartPirates.Where(p => !p.IsLost()))
+            {
+                EnemyGroup newGroup = new EnemyGroup();
+                newGroup.EnemyPirates.Add(pete);
+
+                //TODO Can be more efficient 
+                List<EnemyGroup> containsPete = groups.Where(g => g.IsInGroup(pete)).ToList();
+
+                if (containsPete.Count > 0)
+                {
+                    groups.RemoveAll(g => g.IsInGroup(pete));
+
+                    foreach (EnemyGroup gr in containsPete)
+                    {
+                        newGroup.EnemyPirates.AddRange(gr.EnemyPirates);
+                    }
+                }
+                
+                groups.Add(newGroup);
+            }
+
+            return groups;
+        }
+
     }
 }

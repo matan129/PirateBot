@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SarcasticBot
 {
@@ -7,6 +8,7 @@ namespace SarcasticBot
     {
         public static List<Group> Groups { get; private set; }
         private static List<int> Configuration;
+        public static Queue<CommanderStrategy> Strategy;
 
         public static void Play()
         {
@@ -15,6 +17,7 @@ namespace SarcasticBot
 
         public static void Initialize()
         {
+            Strategy = new Queue<CommanderStrategy>();
             throw new NotImplementedException();
         }
 
@@ -31,6 +34,12 @@ namespace SarcasticBot
         public static void Join(Group GroupA, Group GroupB)
         {
             throw new NotImplementedException();
+        }
+
+        public static double Casualties()
+        {
+            return Bot.Game.AllMyPirates().Count(p => p.IsLost)/Bot.Game.AllMyPirates().Count;
+
         }
     }
 }

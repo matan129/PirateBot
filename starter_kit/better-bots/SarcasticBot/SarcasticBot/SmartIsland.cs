@@ -5,7 +5,7 @@ namespace SarcasticBot
 {
     public class SmartIsland : ITarget
     {
-        public ScoreStruct GetScore(Group origin, out Path path, bool isFast)
+        public ScoreStruct GetScore(Group origin, Path path = null, bool isFast = false)
         {
             throw new NotImplementedException();
         }
