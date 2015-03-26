@@ -6,7 +6,7 @@ namespace SarcasticBot
 {
     public class EnemyGroup : ITarget
     {
-        public List<EnemyPirate> EnemyPirates;
+        public List<int> EnemyPirates;
         private Dictionary<ITarget, ScoreStruct> PossibleTargets;
 
         /// <summary>
@@ -38,9 +38,9 @@ namespace SarcasticBot
             throw new NotImplementedException();
         }
 
-        public bool IsInGroup(EnemyPirate test)
+        public bool IsInGroup(int pirate)
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

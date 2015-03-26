@@ -10,7 +10,7 @@ namespace SarcasticBot
     /// </summary>
     public class Group : ITarget
     {
-        private List<FriendPirate> Pirates;
+        private List<int> Pirates;
         private ITarget Target;
         private Dictionary<ITarget, ScoreStruct> Priorities;
         private Path Trajectory;
@@ -24,13 +24,13 @@ namespace SarcasticBot
         /// <param name="index">The index in the pirate list to start at</param>
         public Group(int size, int index)
         {
-            this.Pirates = new List<FriendPirate>();
+            this.Pirates = new List<int>();
             this.Priorities = new Dictionary<ITarget, ScoreStruct>();
             this.Trajectory = new Path();
 
             for (; index < size + index; index++)
             {
-                this.Pirates.Add(new FriendPirate(index));
+                this.Pirates.Add(index);
             }
 
             this.CalculatePriorities();
@@ -40,9 +40,9 @@ namespace SarcasticBot
         /// Initializes a new group
         /// </summary>
         /// <param name="pirates">The pirates to include in the group</param>
-        public Group(IEnumerable<FriendPirate> pirates)
+        public Group(IEnumerable<int> pirates)
         {
-            this.Pirates = new List<FriendPirate>(pirates);
+            this.Pirates = new List<int>(pirates);
             this.Priorities = new Dictionary<ITarget, ScoreStruct>();
             this.Trajectory = new Path();
             this.CalculatePriorities();
@@ -54,11 +54,13 @@ namespace SarcasticBot
         private void Move()
         {
             Location nextLoc = this.Trajectory.GetNextLocation();
-            this.Pirates.Where(pete => pete.IsAlive()).ToList().ForEach(pete =>
+
+            foreach(int pete in this.Pirates.Where(pete => !Bot.Game.GetMyPirate(pete).IsLost))
             {
-                pete.SetSail(Bot.Game.GetDirections(pete, nextLoc));
-                nextLoc = Bot.Game.GetMyPirate(pete.Index).Loc;
-            });
+                Direction d = Bot.Game.GetDirections(pete, nextLoc).First();
+                Bot.Game.SetSail(pete, d);
+                nextLoc = Utility.AddLoc(nextLoc, d);
+            }
         }
 
         /// <summary>
@@ -95,7 +97,7 @@ namespace SarcasticBot
         {
             if (size < this.Pirates.Count)
             {
-                var leavingPirates = new List<FriendPirate>();
+                var leavingPirates = new List<int>();
 
                 size--;
                 for (; size >= 0; size--)
@@ -117,7 +119,7 @@ namespace SarcasticBot
         /// </summary>
         /// <param name="sPirates">The pirates to include in the new group</param>
         /// <returns>A new group with the specified size</returns>
-        public Group Split(params FriendPirate[] sPirates)
+        public Group Split(params int[] sPirates)
         {
             if (sPirates.Length > 0 && sPirates.Length < this.Pirates.Count)
             {

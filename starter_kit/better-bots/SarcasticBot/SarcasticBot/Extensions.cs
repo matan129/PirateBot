@@ -9,9 +9,27 @@ namespace SarcasticBot
 {
     static class Extensions
     {
-        public static Direction GetDirections(this IPirateGame game, FriendPirate pirate, Location loc)
+        /// <summary>
+        /// Get a direction to move to
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="pirate">The pirate to move</param>
+        /// <param name="loc">The Location to move to</param>
+        /// <returns>A direction to the specified location</returns>
+        public static List<Direction> GetDirections(this IPirateGame game, int pirate, Location loc)
         {
-            return game.GetDirections(game.GetMyPirate(pirate.Index), loc).First();
+            return game.GetDirections(game.GetMyPirate(pirate), loc);
+        }
+
+        /// <summary>
+        /// Move a pirate
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="Pirate">An index of one of our pirates to move</param>
+        /// <param name="d">The direction to move to</param>
+        public static void SetSail(this IPirateGame game, int Pirate, Direction d)
+        {
+            Bot.Game.SetSail(Bot.Game.GetMyPirate(Pirate),d);
         }
     }
 }

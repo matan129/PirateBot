@@ -15,12 +15,12 @@ namespace SarcasticBot
         public static List<int> GetBestConfig(List<int> enemyConfig)
         {
             List<int> config = new List<int>();
-            int myForces = SmartGame.MySmartPirates.Count;
-            int eForces = SmartGame.EnemySmartPirates.Count;
+            int myForces = Bot.Game.AllMyPirates().Count;
+            int eForces = Bot.Game.AllEnemyPirates().Count;
 
-            if (SmartGame.SmartIslands.Count == 1)
+            if (Bot.Game.Islands().Count == 1)
             {
-                config.Add(SmartGame.MySmartPirates.Count);
+                config.Add(myForces);
             }
             else
             {
@@ -79,17 +79,17 @@ namespace SarcasticBot
         {
             List<EnemyGroup> groups = new List<EnemyGroup>();
 
-            foreach (EnemyPirate pete in SmartGame.EnemySmartPirates.Where(p => !p.IsLost()))
+            foreach (Pirate pete in Bot.Game.AllEnemyPirates().Where(p => !p.IsLost))
             {
                 EnemyGroup newGroup = new EnemyGroup();
-                newGroup.EnemyPirates.Add(pete);
+                newGroup.EnemyPirates.Add(pete.Id);
 
                 //TODO Can be more efficient 
-                List<EnemyGroup> containsPete = groups.Where(g => g.IsInGroup(pete)).ToList();
+                List<EnemyGroup> containsPete = groups.Where(g => g.IsInGroup(pete.Id)).ToList();
 
                 if (containsPete.Count > 0)
                 {
-                    groups.RemoveAll(g => g.IsInGroup(pete));
+                    groups.RemoveAll(g => g.IsInGroup(pete.Id));
 
                     foreach (EnemyGroup gr in containsPete)
                     {
