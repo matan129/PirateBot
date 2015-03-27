@@ -46,7 +46,7 @@
     <Compile Include="Ai.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="Commander.cs" />
-    <Compile Include="CommanderStrategy.cs" />
+    <Compile Include="CommanderAction.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyGroup.cs" />
     <Compile Include="Extensions.cs" />

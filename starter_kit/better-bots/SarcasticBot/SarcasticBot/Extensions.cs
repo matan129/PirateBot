@@ -32,6 +32,15 @@ namespace SarcasticBot
             Bot.Game.SetSail(Bot.Game.GetMyPirate(Pirate),d);
         }
 
+
+        /// <summary>
+        /// Gets the distance from a pirate to a location
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="pirate">the pirate</param>
+        /// <param name="row">Row coordinates</param>
+        /// <param name="col">Column coordinates</param>
+        /// <returns>The Distance</returns>
         public static int Distance(this IPirateGame game, Pirate pirate, int row, int col)
         {
             return Bot.Game.Distance(pirate.Loc, new Location(row, col));

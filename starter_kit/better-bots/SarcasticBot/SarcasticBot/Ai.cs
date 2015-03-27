@@ -42,13 +42,13 @@ namespace SarcasticBot
             else if (Enemy.Causalties() > 0.75)
             {
                 Commander.Actions.Enqueue(CommanderAction.SplitAll);
-                Commander.Actions.Enqueue(CommanderAction.AggressiveAttack);
+                Commander.Actions.Enqueue(CommanderAction.AggressiveConquest);
             }
             else if (Commander.Casualties() > 0.5)
             {
                 Commander.Actions.Enqueue(CommanderAction.JoinAll);
                 Commander.Actions.Enqueue(CommanderAction.GatherForces);
-                Commander.Actions.Enqueue(CommanderAction.AggressiveAttack);
+                Commander.Actions.Enqueue(CommanderAction.AggressiveConquest);
             }
             else if (Bot.Game.GetTurn() > 25)
             {

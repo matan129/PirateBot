@@ -80,13 +80,13 @@ namespace SarcasticBot
 
                 //TODO make the distribution consider grouping near pirates
                 //I think this solves it, testing needed
-                //Sort pirates by distance from (0,0). This is now actually true chunking, but I think it will do
+                //Sort pirates by distance from (0,0). This is now actually true chunk-ing, but I think it will do
                 myPirates.Sort((a, b) => (Bot.Game.Distance(a,0,0)).CompareTo(Bot.Game.Distance(b,0,0)));
 
                 int index = 0;
                 foreach (int size in Configuration)
                 {
-                    //I know you have lambda
+                    //I know you hate lambda
                     //Sorry!
                     //Explanation: init a new group with "size" pirates in it, starting from an index
                     //then we convert the pirate list we took from the list of all pirates to a list of the pirates IDs
@@ -119,9 +119,36 @@ namespace SarcasticBot
             {
                 g.StartCalcThread();
             }
-            
 
-            throw new NotImplementedException();
+            //TODO smarter assignment - Maybe external priority queue?
+            switch (bias)
+            {
+                case CommanderAction.AggressiveConquest:
+                    foreach (Group g in Groups)
+                    {
+                        //Sorry again
+                        //The groups target will be the highest scoring island that is not ours
+                        g.Target =
+                            g.Priorities.First(
+                                priority =>
+                                    //Priority's key is an ITarget, so we choose one that is an Island
+                                    priority.Key is SmartIsland &&
+                                    //Here we check the owner of the island
+                                    Bot.Game.GetIsland(((SmartIsland) priority.Key).Id).Owner != Consts.ME).Key;
+                    }
+                    break;
+                case CommanderAction.Defend:
+                    foreach (Group g in Groups)
+                    {
+                        //Here we set the target to the highest scoring island that is ours in order to defend it
+                        g.Target =
+                            g.Priorities.First(
+                                priority =>
+                                    priority.Key is SmartIsland &&
+                                    Bot.Game.GetIsland(((SmartIsland) priority.Key).Id).Owner == Consts.ME).Key;
+                    }
+                    break;
+            }
         }
 
         /// <summary>
@@ -134,7 +161,7 @@ namespace SarcasticBot
             //Add all the pirate in group B to group A, and ignore duplicates (although there shouldn't be)
             groupA.Pirates.AddRange(groupB.Pirates.Where(p => groupA.Pirates.Contains(p) != true));
 
-            //The remove nmethod uses the Equal object method so I implemented it in the Group class
+            //The remove method uses the Equal object method so I implemented it in the Group class
             Groups.Remove(groupB);
         }
 

@@ -11,9 +11,9 @@ namespace SarcasticBot
     /// </summary>
     public class Group : ITarget
     {
-        public List<int> Pirates { get; private set; }
-        public ITarget Target;
-        private Dictionary<ITarget, ScoreStruct> Priorities;
+        internal List<int> Pirates { get; private set; }
+        internal ITarget Target;
+        internal Dictionary<ITarget, ScoreStruct> Priorities { get; private set; }
         private Path Trajectory;
 
         public Thread CalcThread;
@@ -86,7 +86,7 @@ namespace SarcasticBot
         /// <returns>Dictionary including a target and its score parameters</returns>
         public Dictionary<ITarget, ScoreStruct> CalculatePriorities()
         {
-            var prioritiesDictionary = new Dictionary<ITarget, ScoreStruct>();
+            Dictionary<ITarget, ScoreStruct> prioritiesDictionary = new Dictionary<ITarget, ScoreStruct>();
             Utility.GetAllTargets()
                 .ForEach(target => prioritiesDictionary.Add(target, target.GetScore(this, this.Trajectory, false)));
            

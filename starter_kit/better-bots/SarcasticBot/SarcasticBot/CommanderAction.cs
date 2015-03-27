@@ -2,7 +2,7 @@
 {
     public enum CommanderAction
     {
-        AggressiveAttack,
+        AggressiveConquest,
         ManeuverAttack,
         GatherForces,
         JoinAll,
