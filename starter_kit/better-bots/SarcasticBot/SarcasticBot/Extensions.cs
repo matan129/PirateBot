@@ -31,5 +31,10 @@ namespace SarcasticBot
         {
             Bot.Game.SetSail(Bot.Game.GetMyPirate(Pirate),d);
         }
+
+        public static int Distance(this IPirateGame game, Pirate pirate, int row, int col)
+        {
+            return Bot.Game.Distance(pirate.Loc, new Location(row, col));
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pirates;
+using System.Threading;
 
 namespace SarcasticBot
 {
@@ -10,12 +11,12 @@ namespace SarcasticBot
     /// </summary>
     public class Group : ITarget
     {
-        private List<int> Pirates;
-        private ITarget Target;
+        public List<int> Pirates { get; private set; }
+        public ITarget Target;
         private Dictionary<ITarget, ScoreStruct> Priorities;
         private Path Trajectory;
 
-        public delegate void ManueverAction();
+        public Thread CalcThread;
 
         /// <summary>
         /// Initializes a new group
@@ -32,9 +33,10 @@ namespace SarcasticBot
             {
                 this.Pirates.Add(index);
             }
-
-            this.CalculatePriorities();
+            
+            this.StartCalcThread();
         }
+
 
         /// <summary>
         /// Initializes a new group
@@ -45,13 +47,13 @@ namespace SarcasticBot
             this.Pirates = new List<int>(pirates);
             this.Priorities = new Dictionary<ITarget, ScoreStruct>();
             this.Trajectory = new Path();
-            this.CalculatePriorities();
+            this.StartCalcThread();
         }
 
         /// <summary>
         /// Move all our pirates along their path
         /// </summary>
-        private void Move()
+        public void Move()
         {
             Location nextLoc = this.Trajectory.GetNextLocation();
 
@@ -61,6 +63,21 @@ namespace SarcasticBot
                 Bot.Game.SetSail(pete, d);
                 nextLoc = Utility.AddLoc(nextLoc, d);
             }
+        }
+
+        /// <summary>
+        /// Starts the priority calculation on a new thread
+        /// </summary>
+        public void StartCalcThread()
+        {
+            this.CalcThread = new Thread(delegate()
+            {
+                lock (this.Priorities)
+                {
+                    this.Priorities = this.CalculatePriorities();
+                }
+            });
+            this.CalcThread.Start();
         }
 
         /// <summary>
@@ -134,6 +151,25 @@ namespace SarcasticBot
             {
                 throw new ArgumentException("Too many pirates!");
             }
+        }
+
+        /// <summary>
+        /// Checks if two groups are the same by checking if thier pirates are the same
+        /// </summary>
+        /// <param name="obj">The object to comare to</param>
+        /// <returns>Return true if the groups are identical</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is Group)
+            {
+                Group g = (Group) obj;
+                if (g.Pirates == this.Pirates)
+                {
+                    return true;
+                }
+            }
+            return false;
+            
         }
     }
 }

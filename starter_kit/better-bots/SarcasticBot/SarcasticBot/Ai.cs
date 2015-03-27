@@ -12,37 +12,18 @@ namespace SarcasticBot
         /// </summary>
         /// <param name="enemyConfig"></param>
         /// <returns>A suggested configuration</returns>
-        public static List<int> GetBestConfig(List<int> enemyConfig)
+        public static List<int> GetBestConfig()
         {
             List<int> config = new List<int>();
+            List<int> enemyConfig = AnalyzeEnemyConfiguration().ConvertAll(x => x.EnemyPirates.Count);
             int myForces = Bot.Game.AllMyPirates().Count;
             int eForces = Bot.Game.AllEnemyPirates().Count;
 
-            if (Bot.Game.Islands().Count == 1)
-            {
-                config.Add(myForces);
-            }
-            else
-            {
-                if (eForces > myForces)
-                {
-                    config.Add(1);
-                    config.Add(myForces - 1);
-                }
-                else if (eForces == myForces)
-                {
-                    while (myForces > 3)
-                    {
-                        config.Add(2);
-                        myForces -= 2;
-                    }
-                    config.Add(3);
-                }
-                else if (eForces < myForces)
-                {
-                    config.AddRange(Enumerable.Repeat(1,myForces));
-                }
-            }
+            //Bigger groups go first
+            enemyConfig.Sort((a,b) => a.CompareTo(b));
+            
+            if(eForces == myForces)
+                config.AddRange(enemyConfig);
 
             return config;
         }
@@ -50,24 +31,28 @@ namespace SarcasticBot
         /// <summary>
         /// Sets the Commander's  strategy queue according to the game status
         /// </summary>
-        public static void SetCommanderStrategy()
+        public static void SetCommanderActions()
         {
             if (Bot.Game.Islands().Count == 1)
             {
-                Commander.Strategy.Enqueue(CommanderStrategy.GatherForces);
-                Commander.Strategy.Enqueue(CommanderStrategy.JoinAll);
-                Commander.Strategy.Enqueue(CommanderStrategy.ManueverAttack);
+                Commander.Actions.Enqueue(CommanderAction.JoinAll);
+                Commander.Actions.Enqueue(CommanderAction.GatherForces);
+                Commander.Actions.Enqueue(CommanderAction.ManeuverAttack);
             }
             else if (Enemy.Causalties() > 0.75)
             {
-                Commander.Strategy.Enqueue(CommanderStrategy.SplitAll);
-                Commander.Strategy.Enqueue(CommanderStrategy.AgressiveAttack);
+                Commander.Actions.Enqueue(CommanderAction.SplitAll);
+                Commander.Actions.Enqueue(CommanderAction.AggressiveAttack);
             }
             else if (Commander.Casualties() > 0.5)
             {
-                Commander.Strategy.Enqueue(CommanderStrategy.GatherForces);
-                Commander.Strategy.Enqueue(CommanderStrategy.JoinAll);
-                Commander.Strategy.Enqueue(CommanderStrategy.AgressiveAttack);
+                Commander.Actions.Enqueue(CommanderAction.JoinAll);
+                Commander.Actions.Enqueue(CommanderAction.GatherForces);
+                Commander.Actions.Enqueue(CommanderAction.AggressiveAttack);
+            }
+            else if (Bot.Game.GetTurn() > 25)
+            {
+                Commander.Actions.Enqueue(CommanderAction.AskForNewConfig);
             }
         }
 

@@ -1,9 +1,9 @@
 ﻿namespace SarcasticBot
 {
-    public enum CommanderStrategy
+    public enum CommanderAction
     {
-        AgressiveAttack,
-        ManueverAttack,
+        AggressiveAttack,
+        ManeuverAttack,
         GatherForces,
         JoinAll,
         SplitAll,
