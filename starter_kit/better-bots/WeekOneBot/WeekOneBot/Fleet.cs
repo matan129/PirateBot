@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using Pirates;
@@ -22,17 +23,72 @@ namespace WeekOneBot
             this.ReSort(f);
         }
 
+        /*blic int MinDistance(Location loc)
+        {
+            return pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Select(pete => Bot.Game.Distance(loc, pete.Loc)).Concat(new[] {99999}).Min();
+        }*/
+
         public bool Status()
         {
+            int timeRemaining = 0;
+            if (Bot.Game.GetIsland(this.Target).TeamCapturing == Consts.ME)
+            {
+                timeRemaining = Bot.Game.GetIsland(this.Target).CaptureTurns -
+                                    Bot.Game.GetIsland(this.Target).TurnsBeingCaptured;
+            }
+            else
+            {
+                timeRemaining = Bot.Game.GetIsland(this.Target).CaptureTurns -
+                                pirates.ConvertAll(p => Bot.Game.GetMyPirate(p))
+                                    .Select(pete => Bot.Game.Distance(Bot.Game.GetIsland(this.Target).Loc, pete.Loc))
+                                    .Concat(new[] {99999})
+                                    .Min();
+            }
+
+            if (Ai.EnemiesNearLocation(timeRemaining, Bot.Game.GetIsland(this.Target).Loc) > this.GetAlivePirates() - 1)
+            {
+                if (Ai.EnemiesNearLocation(timeRemaining, Bot.Game.GetIsland(this.Target).Loc) ==
+                    this.GetAlivePirates())
+                {
+                    foreach (int i in pirates)
+                    {
+                        Pirate pete = Bot.Game.GetMyPirate(i);
+                        if (pete.Loc == Bot.Game.GetIsland(this.Target).Loc)
+                        {
+                            foreach (Location location in pete.EnumerateLocationsNearPirate())
+                            {
+                                if (Bot.Game.GetPirateOn(location) == null)
+                                {
+                                    Bot.Game.Debug("Manuevering");
+                                    pete.SetSail(location);
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Bot.Game.Debug("Escaping 1");
+                    return true;
+                }
+            }
+
+
+            if (this.GetAlivePirates() < Ai.EstimatePiratesNearIsland(this.Target))
+            {
+                Bot.Game.Debug("Escaping 2");
+                return true;
+            }
+
             if (Bot.Game.GetIsland(this.Target).Owner == Consts.ME)
             {
                 return true;
             }
 
-            if (Bot.Game.GetMyPirate(this.pirates.First()).IsLost)
+            /*if (Bot.Game.GetMyPirate(this.pirates.First()).IsLost)
             {
                 return true;
-            }
+            }*/
 
             if (Bot.Game.GetIsland(this.Target).TeamCapturing == Consts.ENEMY)
             {
@@ -112,6 +168,7 @@ namespace WeekOneBot
             this.priorities.Sort((b, a) => GetScore(a, friends).CompareTo(GetScore(b, friends)));
             this.Target = this.priorities.First();
         }
+        
     }
 }
 

@@ -23,6 +23,11 @@ namespace WeekOneBot
                 Bot.Game.Debug(forces.ToString());
             }
 
+            if (forces == 5)
+            {
+                return new List<int>() {2, 3};
+            }
+
             int enemyForces = Bot.Game.AllEnemyPirates().Count;
 
             List<int> config = new List<int>();
@@ -57,6 +62,19 @@ namespace WeekOneBot
             }
 
             return 0;
+        }
+
+        public static int EnemiesNearLocation(int Radius, Location loc)
+        {
+            int c = 0;
+            foreach (Pirate pirate in Bot.Game.AllEnemyPirates().Where(p => !p.IsLost))
+            {
+                if (Bot.Game.Distance(loc, pirate.Loc) <= Radius)
+                {
+                    c++;
+                }
+            }
+            return c;
         }
     }
 }
