@@ -7,43 +7,55 @@ namespace SarcasticBot
 {
     public static class Commander
     {
+        public static List<int> Configuration { get; private set; }
+        public static Queue<CommanderAction> Actions { get; private set; }
         public static List<Group> Groups { get; private set; }
-        private static List<int> Configuration;
-        public static Queue<CommanderAction> Actions;
+        public static PriorityQueue<int, int> TargetQueue { get; private set; }
 
         /// <summary>
         /// Do something!
         /// </summary>
         public static void Play()
         {
+            //Re-prioritize the islands in the game
+            TargetQueue.Clear();
+            TargetQueue = Ai.PrioritizeTargets();
+
             //if we are done with the current instructions determined by the Ai class
             if (Actions.Count == 0)
             {
-                Ai.SetCommanderActions();
+                Actions = Ai.SuggestCommanderActions();
             }
 
-            //Get the next instruction, if there is one, from the queue
-            CommanderAction instruction = Actions.Dequeue();
-
-            //If the instruction is special (like join all forces), do it before assigning targets and moving the groups.
-            switch (instruction)
+            try
             {
-                case CommanderAction.JoinAll:
-                    Configuration.Clear();
-                    Configuration.Add(Bot.Game.AllMyPirates().Count);
-                    Distribute();
-                    Play();
-                    break;
-                case CommanderAction.SplitAll:
-                    Configuration.Clear();
-                    Configuration.AddRange(Enumerable.Repeat(1, Bot.Game.AllMyPirates().Count));
-                    Distribute();
-                    Play();
-                    break;
-                default:
-                    //If the instruction is regular (like Aggressive Attack), assign targets with that instruction in mind
-                    AssignTargets(instruction);
-                    break;
+                //Get the next instruction, if there is one, from the queue
+                CommanderAction instruction = Actions.Dequeue();
+
+                //If the instruction is special (like join all forces), do it before assigning targets and moving the groups.
+                switch (instruction)
+                {
+                    case CommanderAction.JoinAll:
+                        Configuration.Clear();
+                        Configuration.Add(Bot.Game.AllMyPirates().Count);
+                        Distribute();
+                        Play();
+                        break;
+                    case CommanderAction.SplitAll:
+                        Configuration.Clear();
+                        Configuration.AddRange(Enumerable.Repeat(1, Bot.Game.AllMyPirates().Count));
+                        Distribute();
+                        Play();
+                        break;
+                    default:
+                        //If the instruction is regular (like Aggressive Attack), assign targets with that instruction in mind
+                        AssignTargets(instruction);
+                        break;
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                AssignTargets(CommanderAction.Default);
             }
 
             //Actually move the stuff
@@ -61,8 +73,8 @@ namespace SarcasticBot
             Actions = new Queue<CommanderAction>();
             Groups = new List<Group>();
             Configuration = new List<int>();
-            
-            Ai.SetCommanderActions();
+
+            Ai.SuggestCommanderActions();
         }
 
         /// <summary>
@@ -81,7 +93,7 @@ namespace SarcasticBot
                 //TODO make the distribution consider grouping near pirates
                 //I think this solves it, testing needed
                 //Sort pirates by distance from (0,0). This is now actually true chunk-ing, but I think it will do
-                myPirates.Sort((a, b) => (Bot.Game.Distance(a,0,0)).CompareTo(Bot.Game.Distance(b,0,0)));
+                myPirates.Sort((a, b) => (Bot.Game.Distance(a, 0, 0)).CompareTo(Bot.Game.Distance(b, 0, 0)));
 
                 int index = 0;
                 foreach (int size in Configuration)
@@ -126,7 +138,6 @@ namespace SarcasticBot
                 case CommanderAction.AggressiveConquest:
                     foreach (Group g in Groups)
                     {
-                        //Sorry again
                         //The groups target will be the highest scoring island that is not ours
                         g.Target =
                             g.Priorities.First(
@@ -134,7 +145,10 @@ namespace SarcasticBot
                                     //Priority's key is an ITarget, so we choose one that is an Island
                                     priority.Key is SmartIsland &&
                                     //Here we check the owner of the island
-                                    Bot.Game.GetIsland(((SmartIsland) priority.Key).Id).Owner != Consts.ME).Key;
+                                    Bot.Game.GetIsland(((SmartIsland) priority.Key).Id).Owner != Consts.ME
+                                    &&
+                                    //Confirm no target duplication
+                                    Groups.TrueForAll(g2 => g2.Target != (SmartIsland)priority.Key)).Key;
                     }
                     break;
                 case CommanderAction.Defend:
@@ -148,6 +162,52 @@ namespace SarcasticBot
                                     Bot.Game.GetIsland(((SmartIsland) priority.Key).Id).Owner == Consts.ME).Key;
                     }
                     break;
+                case CommanderAction.Naive:
+                    foreach (Group g in Groups)
+                    {
+                        g.Target =
+                            g.Priorities.First(
+                                priority =>
+                                   //Confirm no target duplication
+                                    Groups.TrueForAll(g2 => g2.Target != (SmartIsland)priority.Key)).Key;
+                    }
+                    break;
+                case CommanderAction.Default:
+                    DefaultAssignment();
+                    break;
+            }
+        }
+
+        private static void DefaultAssignment()
+        {
+            try
+            {
+                SmartIsland island = new SmartIsland(TargetQueue.Dequeue().Key);
+
+                int maxScore = 0;
+                Group optimalAttacker = null;
+                foreach (Group g in Groups)
+                {
+                    if (maxScore < g.Priorities[island].Score)
+                    {
+                        maxScore = g.Priorities[island].Score;
+                        optimalAttacker = g;
+                    }
+                }
+
+                if (optimalAttacker != null)
+                {
+                    optimalAttacker.Target = island;
+                }
+                else //No one can attack this - every score for this target is negative
+                {
+                    //try the next target
+                    DefaultAssignment();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                AssignTargets(CommanderAction.Naive);
             }
         }
 

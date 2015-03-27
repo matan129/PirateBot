@@ -8,6 +8,8 @@
         JoinAll,
         SplitAll,
         AskForNewConfig,
-        Defend
+        Defend,
+        Navive,
+        Default
     };
 }

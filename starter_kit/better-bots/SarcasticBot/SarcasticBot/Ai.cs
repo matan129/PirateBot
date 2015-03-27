@@ -31,29 +31,33 @@ namespace SarcasticBot
         /// <summary>
         /// Sets the Commander's  strategy queue according to the game status
         /// </summary>
-        public static void SetCommanderActions()
+        /// <returns>A queue of actions</returns>
+        public static Queue<CommanderAction> SuggestCommanderActions()
         {
+            Queue<CommanderAction> actions = new Queue<CommanderAction>();
             if (Bot.Game.Islands().Count == 1)
             {
-                Commander.Actions.Enqueue(CommanderAction.JoinAll);
-                Commander.Actions.Enqueue(CommanderAction.GatherForces);
-                Commander.Actions.Enqueue(CommanderAction.ManeuverAttack);
+                actions.Enqueue(CommanderAction.JoinAll);
+                actions.Enqueue(CommanderAction.GatherForces);
+                actions.Enqueue(CommanderAction.ManeuverAttack);
             }
             else if (Enemy.Causalties() > 0.75)
             {
-                Commander.Actions.Enqueue(CommanderAction.SplitAll);
-                Commander.Actions.Enqueue(CommanderAction.AggressiveConquest);
+                actions.Enqueue(CommanderAction.SplitAll);
+                actions.Enqueue(CommanderAction.AggressiveConquest);
             }
             else if (Commander.Casualties() > 0.5)
             {
-                Commander.Actions.Enqueue(CommanderAction.JoinAll);
-                Commander.Actions.Enqueue(CommanderAction.GatherForces);
-                Commander.Actions.Enqueue(CommanderAction.AggressiveConquest);
+                actions.Enqueue(CommanderAction.JoinAll);
+                actions.Enqueue(CommanderAction.GatherForces);
+                actions.Enqueue(CommanderAction.AggressiveConquest);
             }
             else if (Bot.Game.GetTurn() > 25)
             {
-                Commander.Actions.Enqueue(CommanderAction.AskForNewConfig);
+                actions.Enqueue(CommanderAction.AskForNewConfig);
             }
+            
+            return actions;
         }
 
         /// <summary>
@@ -88,5 +92,44 @@ namespace SarcasticBot
             return groups;
         }
 
+        /// <summary>
+        /// Prioritize the islands
+        /// </summary>
+        /// <returns>The prioritized queue of islands</returns>
+        public static PriorityQueue<int, int> PrioritizeTargets()
+        {
+            PriorityQueue<int,int> targetQueue = new PriorityQueue<int, int>();
+            
+            foreach (Island island in Bot.Game.Islands())
+            {
+                targetQueue.Enqueue(island.Id, GetIslandPriority(island));
+            }
+
+            return targetQueue;
+        }
+
+        /// <summary>
+        /// Get a priority for an island (lower means faster dequeue-ing)
+        /// </summary>
+        /// <param name="island">The island to evaluate</param>
+        /// <returns>The priority score for the island</returns>
+        private static int GetIslandPriority(Island island)
+        {
+            //Lower priority is better
+            if (island.Owner == Consts.ME && island.TeamCapturing == Consts.NO_OWNER)
+                return 1000;
+            else if (island.Owner == Consts.ME && island.TeamCapturing == Consts.ENEMY)
+            {
+                //Killing the enemy bonus
+                return -(island.Value - Bot.Game.Distance(island.Loc, new Location(0, 0)) + 100);
+            }
+            else if (island.Owner == Consts.ENEMY)
+            {
+                //Conquering an enemy island bonus
+                return -(island.Value - Bot.Game.Distance(island.Loc, new Location(0, 0)) + 200);
+            }
+            
+            return -(island.Value - Bot.Game.Distance(island.Loc, new Location(0, 0)));
+        }
     }
 }

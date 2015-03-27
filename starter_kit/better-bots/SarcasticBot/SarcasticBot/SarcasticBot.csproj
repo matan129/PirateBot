@@ -54,6 +54,7 @@
     <Compile Include="Group.cs" />
     <Compile Include="ITarget.cs" />
     <Compile Include="Path.cs" />
+    <Compile Include="PriorityQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScoreParams.cs" />
     <Compile Include="ScoreStruct.cs" />
