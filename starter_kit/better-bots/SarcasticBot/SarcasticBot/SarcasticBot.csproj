@@ -49,6 +49,7 @@
     <Compile Include="CommanderAction.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyGroup.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="ITarget.cs" />

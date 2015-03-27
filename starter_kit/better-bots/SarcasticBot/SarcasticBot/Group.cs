@@ -37,7 +37,6 @@ namespace SarcasticBot
             this.StartCalcThread();
         }
 
-
         /// <summary>
         /// Initializes a new group
         /// </summary>
@@ -53,8 +52,9 @@ namespace SarcasticBot
         /// <summary>
         /// Move all our pirates along their path
         /// </summary>
-        public void Move()
+        public void Move(bool minimaizeArea = true)
         {
+            //TODO implement the min area thing
             Location nextLoc = this.Trajectory.GetNextLocation();
 
             foreach(int pete in this.Pirates.Where(pete => !Bot.Game.GetMyPirate(pete).IsLost))
@@ -171,5 +171,53 @@ namespace SarcasticBot
             return false;
             
         }
+
+        /// <summary>
+        /// Joins two groups
+        /// </summary>
+        /// <param name="A">Group one</param>
+        /// <param name="B">Group two</param>
+        /// <returns>A group contains the pirates of the parameter groups</returns>
+        public static Group operator +(Group A, Group B)
+        {
+            return Utility.Join(A,B);
+        }
+
+        /// <summary>
+        /// Roam near a location, protecting it
+        /// </summary>
+        /// <param name="avoid">The location to roam near to</param>
+        public void Maneuver(Location avoid)
+        {
+            //TODO Keep in support/attack range
+            //lambdas are not that bad, huh?
+            foreach (Pirate p in this.Pirates.ConvertAll(t => Bot.Game.GetMyPirate(t)))
+            {
+                if (p.Loc == avoid)
+                {
+                    foreach (Location near in p.EnumerateLocationsNearPirate())
+                    {
+                        Pirate test = near.GetPirateOn();
+                        if (test == null)
+                        {
+                            p.SetSail(near);
+                        }
+                    }
+                }
+            }
+
+            /*I could also do this, but it's way too lambda-ic:
+            
+            this.Pirates.ConvertAll(t => Bot.Game.GetMyPirate(t))
+                .Where(p => p.Loc == avoid)
+                .ToList()
+                .ForEach(p => p.EnumerateLocationsNearPirate()
+                .ToList()
+                .ForEach(loc => loc.GetPirateOn()
+                .SetSail(loc)));
+            */
+        }
+
+        //TODO cluster things up
     }
 }

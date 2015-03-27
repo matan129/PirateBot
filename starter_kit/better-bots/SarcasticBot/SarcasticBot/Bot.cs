@@ -7,9 +7,17 @@ namespace SarcasticBot
     {
         public static IPirateGame Game;
 
+        private bool CommanderInited = false;
+
         public void DoTurn(IPirateGame state)
         {
-            throw new NotImplementedException();
+            if (CommanderInited != true)
+            {
+                Commander.Initialize();
+                CommanderInited = true;
+            }
+
+            Commander.Play();
         }
     }
 }

@@ -152,20 +152,6 @@ namespace SarcasticBot
         }
 
         /// <summary>
-        /// Join two groups together and add the to the list of groups
-        /// </summary>
-        /// <param name="groupA">The first group to join</param>
-        /// <param name="groupB">Thr second group to join</param>
-        public static void Join(Group groupA, Group groupB)
-        {
-            //Add all the pirate in group B to group A, and ignore duplicates (although there shouldn't be)
-            groupA.Pirates.AddRange(groupB.Pirates.Where(p => groupA.Pirates.Contains(p) != true));
-
-            //The remove method uses the Equal object method so I implemented it in the Group class
-            Groups.Remove(groupB);
-        }
-
-        /// <summary>
         /// Fraction of how many of our ships are lost
         /// </summary>
         /// <returns>a double representing how many of our ships are lost (0.0-1.0)</returns>

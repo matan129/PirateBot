@@ -34,6 +34,35 @@ namespace SarcasticBot
 
 
         /// <summary>
+        /// Move a pirate
+        /// </summary>
+        /// <param name="pirate"></param>
+        /// <param name="d">The direction to move to</param>
+        public static void SetSail(this Pirate pirate, Direction d)
+        {
+            Bot.Game.SetSail(pirate, d);
+        }
+
+        /// <summary>
+        /// Move a pirate
+        /// </summary>
+        /// <param name="pirate"></param>
+        /// <param name="d">The direction to move to</param>
+        public static void SetSail(this Pirate pirate, Location loc)
+        {
+            foreach (Location location in pirate.EnumerateLocationsNearPirate())
+            {
+                if (loc == location)
+                {
+                    pirate.SetSail(Bot.Game.GetDirections(pirate,loc).First());
+                    return;
+                }
+            }
+
+            throw new LocationNotNearException();
+        }
+
+        /// <summary>
         /// Gets the distance from a pirate to a location
         /// </summary>
         /// <param name="game"></param>
@@ -45,5 +74,52 @@ namespace SarcasticBot
         {
             return Bot.Game.Distance(pirate.Loc, new Location(row, col));
         }
+
+        /// <summary>
+        /// Get all the location near a pirate
+        /// </summary>
+        /// <param name="pirate"></param>
+        /// <returns>All the locations near the pirate. Can be used in a foreach loop or converted to basically any collection or array</returns>
+        public static IEnumerable<Location> EnumerateLocationsNearPirate(this Pirate pirate)
+        {
+            int R = pirate.Loc.Row;
+            int C = pirate.Loc.Col;
+
+            yield return new Location(R + 1,C);
+            yield return new Location(R, C + 1);
+            yield return new Location(R + 1, C + 1);
+            yield return new Location(R - 1, C - 1);
+            yield return new Location(R - 1, C);
+            yield return new Location(R, C - 1);
+        }
+        
+        /// <summary>
+        /// Get all the location near a location
+        /// </summary>
+        /// <param name="loc"></param>
+        /// <returns>All the locations near the specified location. Can be used in a foreach loop or converted to basically any collection or array</returns>
+        public static IEnumerable<Location> EnumerateLocationsNearLoc(this Location loc)
+        {
+            int R = loc.Row;
+            int C = loc.Col;
+
+            yield return new Location(R + 1, C);
+            yield return new Location(R, C + 1);
+            yield return new Location(R + 1, C + 1);
+            yield return new Location(R - 1, C - 1);
+            yield return new Location(R - 1, C);
+            yield return new Location(R, C - 1);
+        }
+
+        /// <summary>
+        /// Gets a pirate on a location
+        /// </summary>
+        /// <param name="loc"></param>
+        /// <returns>The pirate if there is one or null if the location is empty</returns>
+        public static Pirate GetPirateOn(this Location loc)
+        {
+            return Bot.Game.GetPirateOn(loc);
+        }
+
     }
 }
