@@ -1,5 +1,4 @@
-﻿﻿using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using Pirates;
 
@@ -12,21 +11,11 @@ namespace Britbot
     public class HeadingVector
     {
         /// <summary>
-        /// Positive X value means left and vice-versa
-        /// </summary>
-        public int X { get; private set; }
-
-        /// <summary>
-        /// Positive Y value means down and vice-versa
-        /// </summary>
-        public int Y { get; private set; }
-
-        /// <summary>
         /// Conversion constructor: takes a direction of the game and turns it into 
         /// a vector
         /// </summary>
         /// <param name="d">The game direction class(namely south,east,west...)</param>
-        HeadingVector(Direction d = Direction.NOTHING)
+        private HeadingVector(Direction d = Direction.NOTHING)
         {
             switch (d)
             {
@@ -54,6 +43,16 @@ namespace Britbot
         }
 
         /// <summary>
+        /// Positive X value means left and vice-versa
+        /// </summary>
+        public int X { get; private set; }
+
+        /// <summary>
+        /// Positive Y value means down and vice-versa
+        /// </summary>
+        public int Y { get; private set; }
+
+        /// <summary>
         /// regular set function for convinience
         /// sets both X and Y simultaniously
         /// </summary>
@@ -74,9 +73,9 @@ namespace Britbot
         /// <returns>the scalar product</returns>
         public static int operator *(HeadingVector hv1, HeadingVector hv2)
         {
-            return hv1.X * hv2.X + hv1.Y * hv2.Y;
+            return hv1.X*hv2.X + hv1.Y*hv2.Y;
         }
-        
+
         /// <summary>
         /// this operator updates the direction based on the new one
         /// if the new direction is not to far from the one given (up to 90 degrees)
@@ -86,7 +85,7 @@ namespace Britbot
         /// <param name="hv1">the main direction, the one we comparing the other to</param>
         /// <param name="hv2">the new direction</param>
         /// <returns>itself if we need to use many operation in the same line</returns>
-        public static HeadingVector operator +(HeadingVector hv1,Direction d)
+        public static HeadingVector operator +(HeadingVector hv1, Direction d)
         {
             //defining the result
             HeadingVector newHv = hv1;
@@ -99,7 +98,7 @@ namespace Britbot
             //otherwise normal vector addition
             //WOW math is useful
             //I thought you HATED the applied math department
-            if(hv1 * hv2 < 0)
+            if (hv1*hv2 < 0)
             {
                 newHv = hv2;
             }
@@ -111,7 +110,7 @@ namespace Britbot
             //return self for a+b+c calculations
             return newHv;
         }
-        
+
         /// <summary>
         /// Calculates a new vector perpendicular to the given one
         /// it simply rotates 90 degrees anti clockwise
@@ -120,13 +119,12 @@ namespace Britbot
         public HeadingVector Orthogonal()
         {
             HeadingVector newHv = new HeadingVector();
-            
+
             //like multiplying by i
             newHv.X = Y;
             newHv.Y = -X;
             return newHv;
         }
-
 
         //------------NORMS------------
 
@@ -137,7 +135,7 @@ namespace Britbot
         /// <returns>the length of the vector squered</returns>
         public int NormSquered()
         {
-            return X * X + Y * Y;
+            return X*X + Y*Y;
         }
 
         /// <summary>
@@ -177,27 +175,23 @@ namespace Britbot
         public IEnumerable<Location> EnumerateLocations(Location originPivot)
         {
             //A function that determines if a location is out of the map's boundaries
-            Func<Location, bool> isOutOfBoundaries = delegate(Location location)
-            {
-                return false;
-            };
+            Func<Location, bool> isOutOfBoundaries = delegate { return false; };
 
             //A function that gets the next location
-            Func<Location, Location> getNextLocation = delegate(Location location)
-            {
-                return new Location(location.Row + this.X, location.Col + this.Y);
-            };
+            Func<Location, Location> getNextLocation =
+                delegate(Location location) { return new Location(location.Row + this.X, location.Col + this.Y); };
 
             //Emit new location while the location is not our of the map
             while (!isOutOfBoundaries.Invoke(getNextLocation.Invoke(originPivot)))
             {
                 originPivot = getNextLocation.Invoke(originPivot);
-                
+
                 yield return originPivot;
             }
         }
 
         #region operators
+
         /// <summary>
         /// Check if the two objects are the same
         /// </summary>
@@ -218,7 +212,7 @@ namespace Britbot
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((HeadingVector)obj);
+            return Equals((HeadingVector) obj);
         }
 
         /// <summary>
@@ -230,7 +224,7 @@ namespace Britbot
         {
             unchecked
             {
-                return (X * 397) ^ Y;
+                return (X*397) ^ Y;
             }
         }
 
@@ -255,6 +249,7 @@ namespace Britbot
         {
             return hv1.X != hv2.X && hv1.Y != hv2.Y;
         }
+
         #endregion
     }
 }

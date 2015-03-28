@@ -1,6 +1,4 @@
-﻿using Pirates;
-
-namespace Britbot
+﻿namespace Britbot
 {
     public static class Extensions
     {

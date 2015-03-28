@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Pirates;
 
 namespace Britbot
@@ -12,23 +11,16 @@ namespace Britbot
             int Value)
             : base(Id, Loc, Owner, TeamCapturing, TurnsBeingCaptured, CaptureTurns, Value)
         {
-
         }
 
         public int ID
         {
-            get
-            {
-                return base.Id;
-            }
+            get { return Id; }
         }
 
         public int CaptureTurns { get; private set; }
-
         public int Value { get; private set; }
-
-        public static List<SmartIsland> IslandList { get; private set; }                 
-        
+        public static List<SmartIsland> IslandList { get; private set; }
         public Location IslandLocation { get; private set; }
 
         /// <summary>
@@ -39,7 +31,11 @@ namespace Britbot
         public Score GetScore(Group origin)
         {
             //calculates the minimum distance between a group and said island
-            int distance = origin.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Select(e => Bot.Game.Distance(e.Loc, this.Loc)).Concat(new int[] { }).Min();
+            int distance =
+                origin.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p))
+                    .Select(e => Bot.Game.Distance(e.Loc, this.Loc))
+                    .Concat(new int[] {})
+                    .Min();
 
             //Amount of turns it takes to capture an island
             int captureTime = this.CaptureTurns;
@@ -48,7 +44,7 @@ namespace Britbot
             int theoreticalIslandCount = this.Value + Bot.Game.MyIslands().Count;
 
             //The amount of points we would earn per turn if we owned said island
-            int pointsPerTurn = (int)Math.Pow(2, theoreticalIslandCount) - 1;
+            int pointsPerTurn = (int) Math.Pow(2, theoreticalIslandCount) - 1;
 
             //The Amount of turns we will probably own said island
             int maxOwnershipTurns = 0;
@@ -57,13 +53,13 @@ namespace Britbot
             int turnNumber = 0;
 
             //Approximation of number of points we will have in the future
-            int projectedPoints = 0; 
-            
+            int projectedPoints = 0;
+
 
             //TODO why is turnNumber not chaning here?
             while (turnNumber < maxOwnershipTurns)
             {
-                projectedPoints = pointsPerTurn * (turnNumber - (distance + captureTime));
+                projectedPoints = pointsPerTurn*(turnNumber - (distance + captureTime));
             }
 
             if (projectedPoints < 0) //As there is no such thing as negative points, Show 0.
@@ -82,7 +78,7 @@ namespace Britbot
         /// <returns>The Location of the island</returns>
         public Location GetLocation()
         {
-            return base.Loc;
+            return Loc;
         }
 
         /// <summary>
@@ -95,6 +91,7 @@ namespace Britbot
         {
             return a.ID == b.ID;
         }
+
         /// <summary>
         /// Checks if 2 smart islands are different
         /// </summary>
@@ -114,18 +111,19 @@ namespace Britbot
         {
             int enemyCount = 0; //amount of enemy pirates in proximity to the Island
             int closestIslandDistance = 0; //The distance between this Island and the one nearest too it
-            foreach(SmartIsland eisland in SmartIsland.IslandList) //Calculates the distance between this island and the one nearest
+            foreach (SmartIsland eisland in IslandList)
+                //Calculates the distance between this island and the one nearest
             {
-                int temp = Bot.Game.Distance(eisland.Loc,this.Loc);
-                if ( temp < closestIslandDistance)
+                int temp = Bot.Game.Distance(eisland.Loc, this.Loc);
+                if (temp < closestIslandDistance)
                 {
                     closestIslandDistance = temp;
                 }
             }
 
             // All enemy pirates are heading towards a certain island and it is safe to assume that they are heading towards the one nearest to them
-            int dangerRadius = closestIslandDistance / 2;
-            foreach(EnemyGroup eGroup in Enemy.Groups)
+            int dangerRadius = closestIslandDistance/2;
+            foreach (EnemyGroup eGroup in Enemy.Groups)
             {
                 //Checks if the group of islands is near the island and if they are getting closer or farther
                 if (eGroup.MinimalDistanceTo(this.Loc) <= dangerRadius && eGroup.GuessTarget() == this)
@@ -139,4 +137,3 @@ namespace Britbot
         }
     }
 }
-

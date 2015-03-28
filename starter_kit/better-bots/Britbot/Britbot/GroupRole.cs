@@ -4,6 +4,6 @@
     {
         Destroyer,
         Conquerer,
-        Bait,
+        Bait
     }
 }

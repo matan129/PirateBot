@@ -19,7 +19,7 @@ namespace Britbot
         /// The direction this group's heading to 
         /// </summary>
         public HeadingVector Heading { get; private set; }
-    
+
         /// <summary>
         /// Gets the score for this group
         /// </summary>
@@ -36,7 +36,7 @@ namespace Britbot
                 };
 
                 Pirate enemyPirate = null, myPirate = null;
-                
+
                 //TODO should be well defined by the dimensions of the map
                 int minDistance = 9999;
 
@@ -46,7 +46,7 @@ namespace Britbot
                     foreach (Pirate aPirate in group.Pirates.ConvertAll(pir => Bot.Game.GetMyPirate(pir)))
                     {
                         int distance = Bot.Game.Distance(p, aPirate);
-                        
+
                         if (distance >= minDistance) continue;
 
                         minDistance = distance;
@@ -61,14 +61,14 @@ namespace Britbot
 
             //Reduce the score in proportion to distance
             int scoreVal = -inRangeGroupDistance.Invoke(this, origin);
-            
+
             /*
              * if the score requesting group is bigger then this enemy group, add a bunch of points because killing enemy
              * ships is awesome. Otherwise, reduce lots of point because the origin group does not want to die!
              */
-            scoreVal += 25 * (origin.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost)) -
+            scoreVal += 25*(origin.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost)) -
                         this.EnemyPirates.ConvertAll(e => Bot.Game.GetEnemyPirate(e)).Count(e => !e.IsLost);
-            
+
             //return new score instance with the relevant information
             return new Score(origin, scoreVal);
         }
@@ -90,7 +90,7 @@ namespace Britbot
             int totalRow = locs.Sum(loc => loc.Row);
 
             //return the average location
-            return new Location(totalCol / locs.Count, totalRow / locs.Count);
+            return new Location(totalCol/locs.Count, totalRow/locs.Count);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Britbot
         public bool IsInGroup(int enemyPirate)
         {
             Pirate ePirate = Bot.Game.GetEnemyPirate(enemyPirate);
-            
+
             //Check if the given pirate is close (max of 2 distance units) to any of the pirates already in this group
             return
                 this.EnemyPirates.ConvertAll(e => Bot.Game.GetEnemyPirate(e))
@@ -140,8 +140,8 @@ namespace Britbot
             {
                 //sort the smart islands by distance to this group's location. closer is better.
                 sortedByDistance.Sort(
-                        (a, b) => Bot.Game.Distance(b.Loc, loc).CompareTo(Bot.Game.Distance(a.Loc, loc)));
-             
+                    (a, b) => Bot.Game.Distance(b.Loc, loc).CompareTo(Bot.Game.Distance(a.Loc, loc)));
+
                 //go over each island in the sorted list
                 foreach (SmartIsland island in sortedByDistance)
                 {
@@ -151,7 +151,7 @@ namespace Britbot
                     {
                         return island;
                     }
-                }                
+                }
             }
 
             return null;

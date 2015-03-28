@@ -13,7 +13,7 @@ namespace Britbot
         /// A list of the enemy's groups
         /// </summary>
         public static List<EnemyGroup> Groups { get; private set; }
-    
+
         /// <summary>
         /// Split the enemy into its groups
         /// </summary>
@@ -27,7 +27,7 @@ namespace Britbot
                 //create a new group and add the current pirate to it
                 EnemyGroup newGroup = new EnemyGroup();
                 newGroup.EnemyPirates.Add(pete.Id);
-                
+
                 //check if there are any older group already containing the current pirate
                 List<EnemyGroup> containsPete = groups.Where(g => g.IsInGroup(pete.Id)).ToList();
                 if (containsPete.Count > 0)

@@ -4,11 +4,10 @@
     /// this class will be used to go over every possible group-target assignment
     /// it is like counting in base ten with unclear amount of fingers
     /// </summary>
-    class ExpIterator
+    internal class ExpIterator
     {
         //array of dimension, given at the constructor and never changes
         private int[] dimensions;
-
         //the values of the iteration vector
         public int[] Values;
 
@@ -25,7 +24,7 @@
             //check if dimensions are legal (meaning strictly possitive)
             foreach (int dim in dimensions)
             {
-                if(dim <= 0)
+                if (dim <= 0)
                     throw new System.Exception("dimensions must be strictly possitive");
             }
 
@@ -72,21 +71,17 @@
                     this.Values[i]++;
                     break;
                 }
-                else //carry the one
-                {
-                    this.Values[i] = 0;
-                }
+                this.Values[i] = 0;
             }
 
             //check if we are back at zero
             return !this.IsZero();
         }
 
-
         public string ToString()
         {
-            string s = "dimensions: " + dimensions.ToString() + "\n"
-                     + "MultiIndex: " + Values.ToString();
+            string s = "dimensions: " + dimensions + "\n"
+                       + "MultiIndex: " + Values;
             return s;
         }
     }

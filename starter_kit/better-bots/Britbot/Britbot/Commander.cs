@@ -36,7 +36,7 @@ namespace Britbot
             int[] dimensions = GetTargetsdimensions();
 
             //read all possible target-group assignment
-            Score [][] possibleAssignments =GetPossibleTargetMatrix();
+            Score[][] possibleAssignments = GetPossibleTargetMatrix();
 
             //indecies of the best assignment yet
             int[] maxAssignment = new int[dimensions.Length];
@@ -46,7 +46,7 @@ namespace Britbot
             ExpIterator eit = new ExpIterator(dimensions);
 
             //Score array for calculations in each iteration
-            Score [] scoreArr = new Score[dimensions.Length];
+            Score[] scoreArr = new Score[dimensions.Length];
             //iterating over all possible target assignments
             do
             {
@@ -68,16 +68,14 @@ namespace Britbot
                     maxScore = newScore;
                     maxAssignment = eit.Values;
                 }
-
             } while (eit.AdvanceIteration());
 
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
             {
-                Groups[i].Target = possibleAssignments[i][maxAssignment[i]].target;
+                Groups[i].Target = possibleAssignments[i][maxAssignment[i]].Target;
             }
         }
-
 
         /// <summary>
         /// This function shpud convert an array of local scores into a numeric
@@ -117,9 +115,8 @@ namespace Britbot
         /// We use array because it has quick access property which we will use heavily
         /// </summary>
         /// <returns>Matrix of all possible targets</returns>
-        static private Score[][] GetPossibleTargetMatrix()
+        private static Score[][] GetPossibleTargetMatrix()
         {
-
             //allocate array of array: array for each group's possible targets
             Score[][] possibleTargets = new Score[Groups.Count][];
 
@@ -133,13 +130,12 @@ namespace Britbot
             return possibleTargets;
         }
 
-
         /// <summary>
         /// Get the dimention vector which later will be used to create the iteration
         /// over all possible Group-Target assignments
         /// </summary>
         /// <returns>array of numbers of priorities for each group</returns>
-        static private int[] GetTargetsdimensions()
+        private static int[] GetTargetsdimensions()
         {
             //allocate a new array for the dimensions of each group's target
             int[] dimensions = new int[Groups.Count];
