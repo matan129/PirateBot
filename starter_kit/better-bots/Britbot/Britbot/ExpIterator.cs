@@ -7,24 +7,25 @@
     class ExpIterator
     {
         //array of dimension, given at the constructor and never changes
-        private int[] dimentions;
+        public int[] Dimensions { get; private set; }
+
         //the values of the iteration vector
-        public int[] values;
+        public int[] Values;
 
         /// <summary>
         /// assigns dimensions and initiate value of iteration
         /// </summary>
-        /// <param name="dimensions">dimensions of the iteration</param>
-        public ExpIterator(int[] dimensions)
+        /// <param name="dims">dimensions of the iteration</param>
+        public ExpIterator(int[] dims)
         {
             //set the given dimensions
-            this.dimentions = dimensions;
+            this.Dimensions = dims;
 
             //initiate count at zero
-            this.values = new int[dimensions.Length];
-            for (int i = 0; i < this.values.Length; i++)
+            this.Values = new int[dims.Length];
+            for (int i = 0; i < this.Values.Length; i++)
             {
-                values[i] = 0;
+                Values[i] = 0;
             }
         }
 
@@ -35,7 +36,7 @@
         public bool IsZero()
         {
             //going over the list searching for nonzero
-            foreach (int value in this.values)
+            foreach (int value in this.Values)
             {
                 if (value != 0)
                     return false;
@@ -57,17 +58,17 @@
             //I mean, its signature should be public static ExpIterator operator ++(ExpIterator) { ... }
 
             //going over the vector entries
-            for (int i = 0; i < this.values.Length; i++)
+            for (int i = 0; i < this.Values.Length; i++)
             {
                 //if we don't need to go over the top of the dimension just add
-                if (this.values[i] < this.dimentions[i] - 1)
+                if (this.Values[i] < this.Dimensions[i] - 1)
                 {
-                    this.values[i]++;
+                    this.Values[i]++;
                     break;
                 }
                 else //carry the one
                 {
-                    this.values[i] = 0;
+                    this.Values[i] = 0;
                 }
             }
 

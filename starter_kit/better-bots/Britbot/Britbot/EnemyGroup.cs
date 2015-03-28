@@ -36,6 +36,8 @@ namespace Britbot
                 };
 
                 Pirate enemyPirate = null, myPirate = null;
+                
+                //TODO should be well defined by the dimensions of the map
                 int minDistance = 9999;
 
                 //find the two pirate from the two group with the minimum distance between
@@ -54,11 +56,11 @@ namespace Britbot
                 }
 
                 //return the distance between these pirates with the range in mind
-                return inRangeDistance(enemyPirate.Loc, myPirate.Loc);
+                return inRangeDistance.Invoke(enemyPirate.Loc, myPirate.Loc);
             };
 
             //Reduce the score in proportion to distance
-            int scoreVal = -inRangeGroupDistance(this, origin);
+            int scoreVal = -inRangeGroupDistance.Invoke(this, origin);
             
             /*
              * if the score requesting group is bigger then this enemy group, add a bunch of points because killing enemy
