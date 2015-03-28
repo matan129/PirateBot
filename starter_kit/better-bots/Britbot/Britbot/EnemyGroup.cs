@@ -130,7 +130,31 @@ namespace Britbot
         /// <returns>A SmartIsland if its probably the target or null if no island found</returns>
         public SmartIsland GuessTarget()
         {
-            
+            List<SmartIsland> sortedByDistance = SmartIsland.IslandList;
+
+            //Should be tested because magic numbers aren't a good habit
+            const int toleranceMargin = 2;
+
+            //Go over each location determined by the heading vector
+            foreach (Location loc in this.Heading.EnumerateLocations(this.GetLocation()))
+            {
+                //sort the smart islands by distance to this group's location. closer is better.
+                sortedByDistance.Sort(
+                        (a, b) => Bot.Game.Distance(b.Loc, loc).CompareTo(Bot.Game.Distance(a.Loc, loc)));
+             
+                //go over each island in the sorted list
+                foreach (SmartIsland island in sortedByDistance)
+                {
+                    // Check if the island is in the direction of the vector. 
+                    // If true, return it since it's the closest island that is in our direction
+                    if (Bot.Game.Distance(island.Loc, loc) < toleranceMargin)
+                    {
+                        return island;
+                    }
+                }                
+            }
+
+            return null;
         }
     }
 }
