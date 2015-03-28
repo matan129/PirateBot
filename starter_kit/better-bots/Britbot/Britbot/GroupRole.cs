@@ -3,7 +3,7 @@
     public enum GroupRole
     {
         Destroyer,
-        Capturer,
+        Conquerer,
         Bait,
     }
 }

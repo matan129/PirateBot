@@ -36,6 +36,8 @@ namespace Britbot
                 };
 
                 Pirate enemyPirate = null, myPirate = null;
+                
+                //TODO should be well defined by the dimensions of the map
                 int minDistance = 9999;
 
                 //find the two pirate from the two group with the minimum distance between
@@ -54,11 +56,11 @@ namespace Britbot
                 }
 
                 //return the distance between these pirates with the range in mind
-                return inRangeDistance(enemyPirate.Loc, myPirate.Loc);
+                return inRangeDistance.Invoke(enemyPirate.Loc, myPirate.Loc);
             };
 
             //Reduce the score in proportion to distance
-            int scoreVal = -inRangeGroupDistance(this, origin);
+            int scoreVal = -inRangeGroupDistance.Invoke(this, origin);
             
             /*
              * if the score requesting group is bigger then this enemy group, add a bunch of points because killing enemy
@@ -128,7 +130,31 @@ namespace Britbot
         /// <returns>A SmartIsland if its probably the target or null if no island found</returns>
         public SmartIsland GuessTarget()
         {
-            
+            List<SmartIsland> sortedByDistance = SmartIsland.IslandList;
+
+            //Should be tested because magic numbers aren't a good habit
+            const int toleranceMargin = 2;
+
+            //Go over each location determined by the heading vector
+            foreach (Location loc in this.Heading.EnumerateLocations(this.GetLocation()))
+            {
+                //sort the smart islands by distance to this group's location. closer is better.
+                sortedByDistance.Sort(
+                        (a, b) => Bot.Game.Distance(b.Loc, loc).CompareTo(Bot.Game.Distance(a.Loc, loc)));
+             
+                //go over each island in the sorted list
+                foreach (SmartIsland island in sortedByDistance)
+                {
+                    // Check if the island is in the direction of the vector. 
+                    // If true, return it since it's the closest island that is in our direction
+                    if (Bot.Game.Distance(island.Loc, loc) < toleranceMargin)
+                    {
+                        return island;
+                    }
+                }                
+            }
+
+            return null;
         }
     }
 }

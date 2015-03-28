@@ -1,33 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Britbot
 {
+    /// <summary>
+    /// Just stuff that makes the hard decisions
+    /// </summary>
     public static class Commander
     {
-        public static List<Group> Groups
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
-    
+        public static List<Group> Groups { get; private set; }
+
+        /// <summary>
+        /// Do something!
+        /// </summary>
         public static void Play()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public static void DistributeForces(int[] arrange)
+        /// <summary>
+        /// Distribute our pirates into groups and re-arrange them at the start of the game
+        /// </summary>
+        /// <param name="config">The new configuration. i.e. {2,2,2} for three groups of two pirates</param>
+        public static void DistributeForces(int[] config)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Assigns targets to each group based on pure magic
+        /// </summary>
         public static void AssignTargets()
         {
             //read dimensions of iteration
@@ -53,7 +55,7 @@ namespace Britbot
                 {
                     //set the i'th score to be the current iteration value
                     //of the i'th group
-                    scoreArr[i] = possibleAssignments[i][eit.values[i]];
+                    scoreArr[i] = possibleAssignments[i][eit.Values[i]];
                 }
 
                 //calculate new score
@@ -64,7 +66,7 @@ namespace Britbot
                 {
                     //replace best
                     maxScore = newScore;
-                    maxAssignment = eit.values;
+                    maxAssignment = eit.Values;
                 }
 
             } while (eit.AdvanceIteration());
@@ -98,7 +100,7 @@ namespace Britbot
         /// <summary>
         /// this method forces all groups to calculate their priorities
         /// </summary>
-        private void CalcPriorities()
+        private static void CalcPriorities()
         {
             foreach (Group group in Groups)
             {
