@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Pirates;
 
 namespace Britbot
@@ -24,7 +20,7 @@ namespace Britbot
         public void DoTurn(IPirateGame state)
         {
             Game = state;
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

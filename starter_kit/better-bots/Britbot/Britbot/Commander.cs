@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Britbot
 {
@@ -17,7 +15,7 @@ namespace Britbot
         /// </summary>
         public static void Play()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -26,7 +24,7 @@ namespace Britbot
         /// <param name="config">The new configuration. i.e. {2,2,2} for three groups of two pirates</param>
         public static void DistributeForces(int[] config)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -34,7 +32,7 @@ namespace Britbot
         /// </summary>
         public static void AssignTargets()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

@@ -118,12 +118,29 @@ namespace Britbot
         /// <summary>
         /// Enumerates the location determined by the direction if this heading vector and the pivot supplied
         /// </summary>
-        /// <param name="OriginPivot">The pivot to refer to</param>
+        /// <param name="originPivot">The pivot to refer to</param>
         /// <returns>a collection of the relevant locations</returns>
-        public IEnumerable<Location> EnumerateLocations(Location OriginPivot)
+        public IEnumerable<Location> EnumerateLocations(Location originPivot)
         {
-            Location point = OriginPivot;
+            //A function that determines if a location is out of the map's boundaries
+            Func<Location, bool> isOutOfBoundaries = delegate(Location location)
+            {
+                return false;
+            };
 
+            //A function that gets the next location
+            Func<Location, Location> getNextLocation = delegate(Location location)
+            {
+                return new Location(location.Row + this.X, location.Col + this.Y);
+            };
+
+            //Emit new location while the location is not our of the map
+            while (!isOutOfBoundaries.Invoke(getNextLocation.Invoke(originPivot)))
+            {
+                originPivot = getNextLocation.Invoke(originPivot);
+                
+                yield return originPivot;
+            }
         }
 
         #region operators

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Britbot
+﻿namespace Britbot
 {
     public class Score
     { 
@@ -13,12 +8,12 @@ namespace Britbot
         /// <summary>
         /// (Holds the target score relative to the attacker)
         /// </summary>
-        /// <param name="OriginGroup">The Attacker from the type Group</param>
-        /// <param name="ValueofTarget">The Numerical value of the target</param>
-        public Score(Group OriginGroup, int ValueofTarget)
+        /// <param name="originGroup">The Attacker from the type Group</param>
+        /// <param name="valueofTarget">The Numerical value of the target</param>
+        public Score(Group originGroup, int valueofTarget)
         {
-           this.Origin = OriginGroup;
-           this.Value = ValueofTarget;
+           this.Origin = originGroup;
+           this.Value = valueofTarget;
         }
     }
 }
