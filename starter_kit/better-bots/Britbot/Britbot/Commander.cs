@@ -11,6 +11,14 @@ namespace Britbot
         public static List<Group> Groups { get; private set; }
 
         /// <summary>
+        /// This static constructor (yeah, I know it's odd) will run once and initialize the commander
+        /// </summary>
+        static Commander()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Do something!
         /// </summary>
         public static void Play()
@@ -33,11 +41,13 @@ namespace Britbot
         public static void AssignTargets()
         {
             //read dimensions of iteration
-            int[] dimensions = GetTargetsdimensions();
+            int[] dimensions = GetTargetsDimensions();
 
             //read all possible target-group assignment
             Score[][] possibleAssignments = GetPossibleTargetMatrix();
 
+
+            //WHAT is going on here? more explanations plese Matan (Kom)
             //indecies of the best assignment yet
             int[] maxAssignment = new int[dimensions.Length];
             int maxScore = 0;
@@ -53,8 +63,8 @@ namespace Britbot
                 //set score array for current iteration
                 for (int i = 0; i < dimensions.Length; i++)
                 {
-                    //set the i'th score to be the current iteration value
-                    //of the i'th group
+                    //set the i-th score to be the current iteration value
+                    //of the i-th group
                     scoreArr[i] = possibleAssignments[i][eit.Values[i]];
                 }
 
@@ -79,17 +89,18 @@ namespace Britbot
 
         /// <summary>
         /// This function shpud convert an array of local scores into a numeric
-        /// score based on global critirions
-        /// score struct is not finished yet so meanwile it is pretty dumb
+        /// score based on global criteria
+        /// score class is not finished yet so meanwile it is pretty dumb
         /// </summary>
         /// <param name="scoreArr">array of local scores</param>
         /// <returns></returns>
         public static int GlobalScore(Score[] scoreArr)
         {
+            //TODO implement this
             int score = 0;
             foreach (Score s in scoreArr)
             {
-                //THIS IS COMPLETE BULLSHIT BUT THE SCORESTRUCT ISNT READY YET
+                //THIS IS COMPLETE BULLSHIT BUT THE SCORE CLASS ISNT READY YET
                 score += s.Value;
             }
             return score;
@@ -98,7 +109,7 @@ namespace Britbot
         /// <summary>
         /// this method forces all groups to calculate their priorities
         /// </summary>
-        private static void CalcPriorities()
+        private static void StartCalcPriorities()
         {
             foreach (Group group in Groups)
             {
@@ -108,7 +119,7 @@ namespace Britbot
 
         /// <summary>
         /// This function goes over all the groups, reads their priorities and
-        /// arranges them in a 2-dimentional array: Each group has it's own row
+        /// arranges them in a 2-dimensional array: Each group has it's own row
         /// which contains all its possible targets.
         /// Note: it is a jagged array and each group may have different number of 
         /// targets.
@@ -123,7 +134,7 @@ namespace Britbot
             for (int i = 0; i < Groups.Count; i++)
             {
                 //convert the priority list to an array (to enable quick access)
-                possibleTargets[i] = Groups[i].priorities.ToArray();
+                possibleTargets[i] = Groups[i].Priorities.ToArray();
             }
 
             //return the matrix
@@ -131,20 +142,19 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Get the dimention vector which later will be used to create the iteration
+        /// Get the dimension vector which later will be used to create the iteration
         /// over all possible Group-Target assignments
         /// </summary>
         /// <returns>array of numbers of priorities for each group</returns>
-        private static int[] GetTargetsdimensions()
+        private static int[] GetTargetsDimensions()
         {
             //allocate a new array for the dimensions of each group's target
             int[] dimensions = new int[Groups.Count];
 
-
-            //go over all the groups and read number of priorities to dimention
+            //go over all the groups and read number of priorities to dimension
             for (int i = 0; i < Groups.Count; i++)
             {
-                dimensions[i] = Groups[i].priorities.Count;
+                dimensions[i] = Groups[i].Priorities.Count;
             }
 
             return dimensions;

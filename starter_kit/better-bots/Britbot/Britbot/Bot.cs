@@ -19,8 +19,13 @@ namespace Britbot
         /// <param name="state">The current game state</param>
         public void DoTurn(IPirateGame state)
         {
+            //update the game so other classes will get updated data
             Game = state;
-            throw new NotImplementedException();
+            
+            //play!
+            //note that we do not have to explicitly initialize the commander, 
+            //since we have a static constructor there
+            Commander.Play();
         }
     }
-}
+} 

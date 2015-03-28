@@ -27,40 +27,9 @@ namespace Britbot
         /// <returns>The score for this group</returns>
         public Score GetScore(Group origin)
         {
-            Func<EnemyGroup, Group, int> inRangeGroupDistance = delegate(EnemyGroup eg, Group group)
-            {
-                Func<Location, Location, int> inRangeDistance = delegate(Location A, Location B)
-                {
-                    int range = Bot.Game.GetAttackRadius();
-                    return Bot.Game.Distance(A, B) - range*2;
-                };
-
-                Pirate enemyPirate = null, myPirate = null;
-
-                //TODO should be well defined by the dimensions of the map
-                int minDistance = 9999;
-
-                //find the two pirate from the two group with the minimum distance between
-                foreach (Pirate p in eg.EnemyPirates.ConvertAll(ep => Bot.Game.GetEnemyPirate(ep)))
-                {
-                    foreach (Pirate aPirate in group.Pirates.ConvertAll(pir => Bot.Game.GetMyPirate(pir)))
-                    {
-                        int distance = Bot.Game.Distance(p, aPirate);
-
-                        if (distance >= minDistance) continue;
-
-                        minDistance = distance;
-                        enemyPirate = p;
-                        myPirate = aPirate;
-                    }
-                }
-
-                //return the distance between these pirates with the range in mind
-                return inRangeDistance.Invoke(enemyPirate.Loc, myPirate.Loc);
-            };
-
             //Reduce the score in proportion to distance
-            int scoreVal = -inRangeGroupDistance.Invoke(this, origin);
+            //lower score is worse. Mind the minus sign!
+            int scoreVal = -InRangeGroupDistance(this, origin);
 
             /*
              * if the score requesting group is bigger then this enemy group, add a bunch of points because killing enemy
@@ -71,6 +40,38 @@ namespace Britbot
 
             //return new score instance with the relevant information
             return new Score(origin, scoreVal);
+        }
+
+        /// <summary>
+        /// Determined the minimal time (or distance) between a Group and an 
+        /// EnemyGroup before they will get into each others' attack radius.
+        /// </summary>
+        /// <param name="eg">The EnemyGroup</param>
+        /// <param name="group">The Group</param>
+        /// <returns>The minimal time before they'd get into each others' range</returns>
+        private int InRangeGroupDistance(EnemyGroup eg, Group group)
+        {
+            Pirate enemyPirate = null, myPirate = null;
+
+            int minDistance = Bot.Game.GetCols() + Bot.Game.GetRows();
+
+            //find the two pirate from the two group with the minimum distance between
+            foreach (Pirate p in eg.EnemyPirates.ConvertAll(ep => Bot.Game.GetEnemyPirate(ep)))
+            {
+                foreach (Pirate aPirate in group.Pirates.ConvertAll(pir => Bot.Game.GetMyPirate(pir)))
+                {
+                    int distance = Bot.Game.Distance(p, aPirate);
+
+                    if (distance >= minDistance) continue;
+
+                    minDistance = distance;
+                    enemyPirate = p;
+                    myPirate = aPirate;
+                }
+            }
+
+            //return the distance between these pirates with the range in mind
+            return Bot.Game.Distance(enemyPirate.Loc, myPirate.Loc) - Bot.Game.GetAttackRadius() * 2;
         }
 
         /// <summary>
