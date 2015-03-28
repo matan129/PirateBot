@@ -11,6 +11,16 @@ namespace Britbot
     public class HeadingVector
     {
         /// <summary>
+        /// Positive X value means left and vice-versa
+        /// </summary>
+        public int X { get; private set; }
+
+        /// <summary>
+        /// Positive Y value means down and vice-versa
+        /// </summary>
+        public int Y { get; private set; }
+
+        /// <summary>
         /// Conversion constructor: takes a direction of the game and turns it into 
         /// a vector
         /// </summary>
@@ -43,14 +53,45 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Positive X value means left and vice-versa
+        /// Simple assignment constructor
         /// </summary>
-        public int X { get; private set; }
+        /// <param name="X">X value</param>
+        /// <param name="Y">Y Value</param>
+        public HeadingVector(int X, int Y)
+        {
+            this.X = X;
+            this.Y = Y;
+        }
 
         /// <summary>
-        /// Positive Y value means down and vice-versa
+        /// Simple Conversion from Location class
         /// </summary>
-        public int Y { get; private set; }
+        /// <param name="Location">location</param>
+        public HeadingVector(Location loc)
+        {
+            this.X = loc.Col;
+            this.Y = loc.Row;
+        }
+
+        /// <summary>
+        /// Simple cast from location to heading vector
+        /// </summary>
+        /// <param name="loc">Location to cast</param>
+        /// <returns>casted location as a vector</returns>
+        public static explicit operator HeadingVector( Location loc)
+        {
+            return new HeadingVector(loc);
+        }
+
+        /// <summary>
+        /// Simple cast from direction to heading vector
+        /// </summary>
+        /// <param name="dir">Direction to cast</param>
+        /// <returns>casted location as a vector</returns>
+        public static explicit operator HeadingVector(Direction dir)
+        {
+            return new HeadingVector(dir);
+        }
 
         /// <summary>
         /// regular set function for convinience
@@ -111,6 +152,41 @@ namespace Britbot
             return newHv;
         }
 
+        /// <summary>
+        /// regular "algebraic" sum of two vectors
+        /// </summary>
+        /// <param name="hv1">first vector</param>
+        /// <param name="hv2">second vector</param>
+        /// <returns>the sum of the two vectors</returns>
+        public static HeadingVector operator +(HeadingVector hv1, HeadingVector hv2)
+        {
+            //defining the result
+            HeadingVector newHv = hv1;
+            
+            //adding up
+            newHv.X += hv2.X;
+            newHv.Y += hv2.Y;
+
+            return newHv;
+        }
+
+        /// <summary>
+        /// regular "algebraic" difference between two vectors
+        /// </summary>
+        /// <param name="hv1">first vector</param>
+        /// <param name="hv2">second vector</param>
+        /// <returns>the deifference between the two vectors</returns>
+        public static HeadingVector operator -(HeadingVector hv1, HeadingVector hv2)
+        {
+            //defining the result
+            HeadingVector newHv = hv1;
+
+            //Substraction
+            newHv.X -= hv2.X;
+            newHv.Y -= hv2.Y;
+
+            return newHv;
+        }
         /// <summary>
         /// Calculates a new vector perpendicular to the given one
         /// it simply rotates 90 degrees anti clockwise

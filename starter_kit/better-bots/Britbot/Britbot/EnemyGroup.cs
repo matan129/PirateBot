@@ -95,6 +95,45 @@ namespace Britbot
         }
 
         /// <summary>
+        /// This implements the GetDirection of the ITarget interface
+        /// it returns the best direction to keep the given group (which asked for directions)
+        /// in a path perpendicular to the direction of the enemy ship thus ensuring
+        /// that it will reach it as soon as possible
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public Direction GetDirection(Group group)
+        {
+            //variable for the best direction so far
+            Direction bestDirection = Direction.NOTHING;
+            double directionFitCoeff = 999999;
+
+
+            //going over all directions
+            foreach (Direction dir in Bot.Game.GetDirections(group.GetLocation(),GetLocation()))
+            {
+                //calculate new heading vector if we choose this direction
+                HeadingVector newHeading = group.Heading + dir;
+                //calculate the dot product with the enemy ship, if it is close to 0 it 
+                //means that we are perpendicular which is what we want
+                //we normlize the new vector to only consider direction
+                double newFitCoef = Math.Abs((newHeading * Heading) / newHeading.Norm());
+                
+                //check if this direction is better then the others
+                if (newFitCoef < directionFitCoeff)
+                {
+                    //replace best
+                    bestDirection = dir;
+                    directionFitCoeff = newFitCoef;
+                }
+            }
+
+            //return best direction found
+            return bestDirection;
+        }
+
+
+        /// <summary>
         /// Determines if an enemy pirate belongs to this enemy group.
         /// </summary>
         /// <param name="enemyPirate">The index of the enemy pirate</param>

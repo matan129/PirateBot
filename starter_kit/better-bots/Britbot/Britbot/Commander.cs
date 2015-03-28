@@ -83,7 +83,7 @@ namespace Britbot
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
             {
-                Groups[i].Target = possibleAssignments[i][maxAssignment[i]].Target;
+                Groups[i].SetTarget(possibleAssignments[i][maxAssignment[i]].Target);
             }
         }
 
