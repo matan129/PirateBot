@@ -28,21 +28,8 @@ namespace Britbot
 
         public int Value { get; private set; }
 
-        public static List<SmartIsland> IslandList
-        {
-            get
-            {
-
-            }
-            set
-            {
-
-            }
-        }
-            
-
-    }
-
+        public static List<SmartIsland> IslandList { get; private set; }                 
+        
         public Location IslandLocation { get; private set; }
 
         /// <summary>
