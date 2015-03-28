@@ -23,18 +23,19 @@ namespace Britbot
             }
 
         }
-
-
+        
         public int CaptureTurns { get; private set; }
 
         public int Value { get; private set; }
-        public static List<SmartIsland> IslandList { get; private set; } //IMPLIMENT!
 
+        public static List<SmartIsland> IslandList { get; private set; }                 
+        
+        public Location IslandLocation { get; private set; }
 
         /// <summary>
         /// Calculates the score of this island relative to a certain group by calculating how many potential points it will generate.
         /// </summary>
-        /// <param name="origin"></param>
+        /// <param name="origin">The original group of pirates of the type "Group"</param>
         /// <returns>Returns the Score for the Target</returns>
         public Score GetScore(Group origin)
         {
@@ -50,40 +51,45 @@ namespace Britbot
             {
                 ProjectedPoints = PointsPerTurn * (TurnNumber - (Distance + CaptureTime));
             }
+
+            if (ProjectedPoints < 0) //As there is no such thing as negative points, Show 0.
+                ProjectedPoints = 0;
+
             Score myScore = new Score(origin, ProjectedPoints);
             return myScore;
             //MaxOwnerShipTurns will be calculated using enemy group's heading and proximity to island
         }
         
         /// <summary>
-        /// Overrides "==" to include objects
+        /// Checks if 2 smart Islands are equal
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        /// <param name="a">Island 1</param>
+        /// <param name="b">Island 2</param>
+        /// <returns>True or False</returns>
         public static bool operator ==(SmartIsland a, SmartIsland b)
         {
             return a.ID == b.ID;
         }
         /// <summary>
-        /// 
+        /// Checks if 2 smart islands are different
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        /// <param name="a">Island 1</param>
+        /// <param name="b">Island 2</param>
+        /// <returns>True or false</returns>
         public static bool operator !=(SmartIsland a, SmartIsland b)
         {
             return a.ID != b.ID;
         }
 
         /// <summary>
-        /// 
+        /// Checks if there are enemies near said Island that will probably attack it
         /// </summary>
+        /// <returns>The amount of enemies near the target</returns>
         public int NearbyEnemyCount()
         {
-            int enemyCount = 0;
-            int closestIslandDistance = 0;
-            foreach(SmartIsland eisland in SmartIsland.IslandList)
+            int enemyCount = 0; //amount of enemy pirates in proximity to the Island
+            int closestIslandDistance = 0; //The distance between this Island and the one nearest too it
+            foreach(SmartIsland eisland in SmartIsland.IslandList) //Calculates the distance between this island and the one nearest
             {
                 int temp = Bot.Game.Distance(eisland.Loc,this.Loc);
                 if ( temp < closestIslandDistance)
@@ -91,12 +97,12 @@ namespace Britbot
                     closestIslandDistance = temp;
                 }
             }
-            int dangerRadius = closestIslandDistance / 2;
+            int dangerRadius = closestIslandDistance / 2; // All enemy pirates are heading towards a certain island and it is safe to assume that they are heading towards the one nearest to them
             foreach(EnemyGroup egroup in Enemy.Groups)
             {
-                if ( egroup.MinimalDistanceTo(this.Loc) <=dangerRadius && egroup.GuessTarget() == this)
+                if ( egroup.MinimalDistanceTo(this.Loc) <=dangerRadius && egroup.GuessTarget() == this) //Checks if the group of islands is near the island and if they are getting closer or farther
                 {
-                    enemyCount = enemyCount + egroup.EnemyPirates.Count;
+                    enemyCount = enemyCount + egroup.EnemyPirates.Count; //Calculates the sum of pirates in proximity to the island
                 }
             }
             return enemyCount;
