@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Britbot
+﻿namespace Britbot
 {
     /// <summary>
     /// this class will be used to go over every possible group-target assignment
@@ -11,22 +6,22 @@ namespace Britbot
     /// </summary>
     class ExpIterator
     {
-        //array of dimention, given at the constructor and never changes
+        //array of dimension, given at the constructor and never changes
         private int[] dimentions;
         //the values of the iteration vector
         public int[] values;
 
         /// <summary>
-        /// assignes dimentions and initiate value of iteration
+        /// assigns dimensions and initiate value of iteration
         /// </summary>
-        /// <param name="dimentions">dimentions of the iteration</param>
-        public ExpIterator(int[] dimentions)
+        /// <param name="dimensions">dimensions of the iteration</param>
+        public ExpIterator(int[] dimensions)
         {
-            //set the given dimentions
-            this.dimentions = dimentions;
+            //set the given dimensions
+            this.dimentions = dimensions;
 
             //initiate count at zero
-            this.values = new int[dimentions.Length];
+            this.values = new int[dimensions.Length];
             for (int i = 0; i < this.values.Length; i++)
             {
                 values[i] = 0;
@@ -37,7 +32,7 @@ namespace Britbot
         /// checks if all the entries of the iteration are zero
         /// </summary>
         /// <returns>true if it is so, false otherwise</returns>
-        public bool isZero()
+        public bool IsZero()
         {
             //going over the list searching for nonzero
             foreach (int value in this.values)
@@ -45,6 +40,7 @@ namespace Britbot
                 if (value != 0)
                     return false;
             }
+
             //if here it means that all the entries are zero
             return true;
         }
@@ -52,28 +48,31 @@ namespace Britbot
         /// <summary>
         /// Main functionality of this class: it advances iteration
         /// it is just like long addition (bad translation?) only
-        /// you can count up to the given dimention each turn
+        /// you can count up to the given dimension each turn
         /// </summary>
-        /// <param name="eit"></param>
         /// <returns>false if the iteration is finished (gone back to zero), true otherwise</returns>
-        public static bool operator ++(ExpIterator eit)
+        public bool IterationFinished()
         {
+            //MATAN K - you cannot overload unary operator (like ++) without returning this class's type
+            //I mean, its signature should be public static ExpIterator operator ++(ExpIterator) { ... }
+
             //going over the vector entries
-            for (int i = 0; i < eit.values.Length; i++)
+            for (int i = 0; i < this.values.Length; i++)
             {
-                //if we don't need to go over the top of the dimention just add
-                if (eit.values[i] < eit.dimentions[i] - 1)
+                //if we don't need to go over the top of the dimension just add
+                if (this.values[i] < this.dimentions[i] - 1)
                 {
-                    eit.values[i]++;
+                    this.values[i]++;
                     break;
                 }
                 else //carry the one
                 {
-                    eit.values[i] = 0;
+                    this.values[i] = 0;
                 }
             }
+
             //check if we are back at zero
-            return !eit.isZero();
+            return !this.IsZero();
         }
     }
 }

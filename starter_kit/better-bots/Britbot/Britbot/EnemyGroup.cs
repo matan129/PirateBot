@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Pirates;
 
 namespace Britbot
@@ -28,7 +27,48 @@ namespace Britbot
         /// <returns>The score for this group</returns>
         public Score GetScore(Group origin)
         {
-            throw new NotImplementedException();
+            Func<EnemyGroup, Group, int> inRangeGroupDistance = delegate(EnemyGroup eg, Group group)
+            {
+                Func<Location, Location, int> inRangeDistance = delegate(Location A, Location B)
+                {
+                    int range = Bot.Game.GetAttackRadius();
+                    return Bot.Game.Distance(A, B) - range*2;
+                };
+
+                Pirate enemyPirate = null, myPirate = null;
+                int minDistance = 9999;
+
+                //find the two pirate from the two group with the minimum distance between
+                foreach (Pirate p in eg.EnemyPirates.ConvertAll(ep => Bot.Game.GetEnemyPirate(ep)))
+                {
+                    foreach (Pirate aPirate in group.Pirates.ConvertAll(pir => Bot.Game.GetMyPirate(pir)))
+                    {
+                        int distance = Bot.Game.Distance(p, aPirate);
+                        
+                        if (distance >= minDistance) continue;
+
+                        minDistance = distance;
+                        enemyPirate = p;
+                        myPirate = aPirate;
+                    }
+                }
+
+                //return the distance between these pirates with the range in mind
+                return inRangeDistance(enemyPirate.Loc, myPirate.Loc);
+            };
+
+            //Reduce the score in proportion to distance
+            int scoreVal = -inRangeGroupDistance(this, origin);
+            
+            /*
+             * if the score requesting group is bigger then this enemy group, add a bunch of points because killing enemy
+             * ships is awesome. Otherwise, reduce lots of point because the origin group does not want to die!
+             */
+            scoreVal += 25 * (origin.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost)) -
+                        this.EnemyPirates.ConvertAll(e => Bot.Game.GetEnemyPirate(e)).Count(e => !e.IsLost);
+            
+            //return new score instance with the relevant information
+            return new Score(origin, scoreVal);
         }
 
         /// <summary>
@@ -37,8 +77,18 @@ namespace Britbot
         /// <returns>Returns the average location for this group</returns>
         public Location GetLocation()
         {
-            int totalRow = 0, totalCol = 0;
-            
+            //Get a list of all location of the enemy pirates in this group
+            List<Location> locs =
+                this.EnemyPirates.ConvertAll(e => Bot.Game.GetEnemyPirate(e))
+                    .Select(p => p.Loc)
+                    .Concat(new Location[] {}).ToList();
+
+            //sum all the locations!
+            int totalCol = locs.Sum(loc => loc.Col);
+            int totalRow = locs.Sum(loc => loc.Row);
+
+            //return the average location
+            return new Location(totalCol / locs.Count, totalRow / locs.Count);
         }
 
         /// <summary>
@@ -49,6 +99,8 @@ namespace Britbot
         public bool IsInGroup(int enemyPirate)
         {
             Pirate ePirate = Bot.Game.GetEnemyPirate(enemyPirate);
+            
+            //Check if the given pirate is close (max of 2 distance units) to any of the pirates already in this group
             return
                 this.EnemyPirates.ConvertAll(e => Bot.Game.GetEnemyPirate(e))
                     .Select(ep => Bot.Game.Distance(ep, ePirate))

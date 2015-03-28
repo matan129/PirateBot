@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Pirates;
+﻿using Pirates;
+
 namespace Britbot
 {
     /// <summary>
     /// This class accumulates direction over large number of turns
     /// we assume (0,0) is the left top corner of the screen and that
-    /// X -> positive means left
-    /// Y -> positive means down
     /// </summary>
     public class HeadingVector
     {
+        /// <summary>
+        /// Positive X value means left and vice-versa
+        /// </summary>
         public int X { get; private set; }
-        public int Y { get; private set; }
 
+        /// <summary>
+        /// Positive Y value means down and vice-versa
+        /// </summary>
+        public int Y { get; private set; }
 
         /// <summary>
         /// Conversion constructor: takes a direction of the game and turns it into 
