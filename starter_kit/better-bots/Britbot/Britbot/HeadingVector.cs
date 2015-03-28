@@ -1,5 +1,5 @@
 ﻿using Pirates;
-
+using System;
 namespace Britbot
 {
     /// <summary>
@@ -49,6 +49,19 @@ namespace Britbot
                     break;
             }
         }
+
+        /// <summary>
+        /// regular set function for convinience
+        /// sets both X and Y simultaniously
+        /// </summary>
+        /// <param name="X">X value, default is 0</param>
+        /// <param name="Y">Y value, default is 0</param>
+        public void SetCoordinates(int X = 0, int Y = 0)
+        {
+            this.X = X;
+            this.Y = Y;
+        }
+
         /// <summary>
         /// calculates the dot product for two vectors
         /// used to check if angles are sharp or doll (if they are the correct terms)
@@ -111,13 +124,54 @@ namespace Britbot
         /// it simply rotates 90 degrees anti clockwise
         /// </summary>
         /// <returns></returns>
-        public HeadingVector orthogonal()
+        public HeadingVector Orthogonal()
         {
             HeadingVector newHv = new HeadingVector();
             //like multiplying by i
             newHv.X = Y;
             newHv.Y = -X;
             return newHv;
+        }
+
+        //------------NORMS------------
+
+        /// <summary>
+        /// Returns the squere of the vector's length
+        /// might be used to normelize vectors for some computation
+        /// </summary>
+        /// <returns>the length of the vector squered</returns>
+        public int NormSquered()
+        {
+            return X * X + Y * Y;
+        }
+
+        /// <summary>
+        /// returns the length of the vector (as a dobule)
+        /// might be used to normelize vectors for some computation
+        /// </summary>
+        /// <returns>the length of the vector</returns>
+        public double Norm()
+        {
+            return Math.Sqrt(NormSquered());
+        }
+
+        /// <summary>
+        /// returns the sum of X and Y meaning the duration of time
+        /// of the calculation. this can be used as a creadablity measure
+        /// </summary>
+        /// <returns>duration of time since last nullifying data</returns>
+        public int duration()
+        {
+            return X + Y;
+        }
+
+        /// <summary>
+        /// To string function...
+        /// </summary>
+        /// <returns>a string :)</returns>
+        public string ToString()
+        {
+            return "(" + X + ", " + Y + ")";
         }
     }
 }

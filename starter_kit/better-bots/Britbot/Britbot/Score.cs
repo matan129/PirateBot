@@ -9,7 +9,7 @@ namespace Britbot
     { 
         public Group Origin { get; private set; }
         public int Value { get; private set; }
-
+        public ITarget target;
         /// <summary>
         /// (Holds the target score relative to the attacker)
         /// </summary>

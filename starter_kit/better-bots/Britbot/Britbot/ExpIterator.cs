@@ -7,7 +7,7 @@
     class ExpIterator
     {
         //array of dimension, given at the constructor and never changes
-        private int[] dimentions;
+        private int[] dimensions;
         //the values of the iteration vector
         public int[] values;
 
@@ -18,7 +18,14 @@
         public ExpIterator(int[] dimensions)
         {
             //set the given dimensions
-            this.dimentions = dimensions;
+            this.dimensions = dimensions;
+
+            //check if dimensions are legal (meaning strictly possitive)
+            foreach (int dim in dimensions)
+            {
+                if(dim <= 0)
+                    throw new System.Exception("dimensions must be strictly possitive");
+            }
 
             //initiate count at zero
             this.values = new int[dimensions.Length];
@@ -51,16 +58,13 @@
         /// you can count up to the given dimension each turn
         /// </summary>
         /// <returns>false if the iteration is finished (gone back to zero), true otherwise</returns>
-        public bool IterationFinished()
+        public bool AdvanceIteration()
         {
-            //MATAN K - you cannot overload unary operator (like ++) without returning this class's type
-            //I mean, its signature should be public static ExpIterator operator ++(ExpIterator) { ... }
-
             //going over the vector entries
             for (int i = 0; i < this.values.Length; i++)
             {
                 //if we don't need to go over the top of the dimension just add
-                if (this.values[i] < this.dimentions[i] - 1)
+                if (this.values[i] < this.dimensions[i] - 1)
                 {
                     this.values[i]++;
                     break;
@@ -73,6 +77,14 @@
 
             //check if we are back at zero
             return !this.IsZero();
+        }
+
+
+        public string ToString()
+        {
+            string s = "dimensions: " + dimensions.ToString() + "\n"
+                     + "MultiIndex: " + values.ToString();
+            return s;
         }
     }
 }

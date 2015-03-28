@@ -13,7 +13,10 @@ namespace Britbot
         }
     
         public List<int> Pirates { get; private set; }
-        public ITarget Target { get; private set; }
+        public ITarget Target { get; set; }
+
+        //Direction of the group to make navigation more precise
+        HeadingVector heading;
 
         public Group Role
         {
