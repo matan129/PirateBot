@@ -9,8 +9,10 @@ namespace Britbot
 {
     public class Bot : IPirateBot
     {
+        public static IPirateGame Game { get; private set; }
         public void DoTurn(IPirateGame state)
         {
+            Game = state;
             throw new System.NotImplementedException();
         }
     }
