@@ -121,5 +121,14 @@ namespace Britbot
                     .Concat(new int[] {})
                     .Min();
         }
+
+        /// <summary>
+        /// Tries to determine the island target of this group from its HeadingVector.
+        /// </summary>
+        /// <returns>A SmartIsland if its probably the target or null if no island found</returns>
+        public SmartIsland GuessTarget()
+        {
+            
+        }
     }
 }
