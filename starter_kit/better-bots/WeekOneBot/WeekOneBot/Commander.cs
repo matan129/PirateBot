@@ -33,6 +33,7 @@ namespace WeekOneBot
 
         public void Distribute(IEnumerable<int> c)
         {
+            int ID = 0;
             this.config = c.ToArray();
             if (this.config != null || this.config.Sum() <= Bot.Game.AllMyPirates().Count)
             {
@@ -44,9 +45,13 @@ namespace WeekOneBot
                 {
                     int f = this.config[i];
 
-                    Bot.Game.Debug("Initing fleet {0} with {1} ships",i,f);
+                    
 
                     this.fleets.Add(new Fleet(sum, f, friends));
+                    this.fleets.Last().ID = ID;
+                    ID++;
+
+                    Bot.Game.Debug("Initing fleet {0} with {1} ships", ID, f);
 
                     Bot.Game.Debug("Adding island # {0} to friends' targets list",this.fleets[i].Target);
                     friends.Add(this.fleets[i].Target);
@@ -73,6 +78,9 @@ namespace WeekOneBot
                 {
                     f.ReSort(this.GetFriends(i).ToList());
                 }
+
+                Bot.Game.Debug(f.ID + " TARGET: " +f.GetTargetLocationString());
+
                 f.SailAll();
             }
         }

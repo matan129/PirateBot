@@ -14,7 +14,9 @@ namespace WeekOneBot
     {
         private List<int> pirates { get; set; }
         public int Target { get; set; }
-        private List<int> priorities; 
+        private List<int> priorities;
+
+        public int ID;
 
         public Fleet(int index, int size, List<int> f)
         {
@@ -30,7 +32,7 @@ namespace WeekOneBot
 
         public bool Status()
         {
-            int timeRemaining = 0;
+            /*int timeRemaining = 0;
             if (Bot.Game.GetIsland(this.Target).TeamCapturing == Consts.ME)
             {
                 timeRemaining = Bot.Game.GetIsland(this.Target).CaptureTurns -
@@ -45,7 +47,7 @@ namespace WeekOneBot
                                     .Min();
             }
 
-            if (Ai.EnemiesNearLocation(timeRemaining, Bot.Game.GetIsland(this.Target).Loc) > this.GetAlivePirates() - 1)
+            if (Ai.EnemiesNearLocation(timeRemaining + Bot.Game.GetAttackRadius(), Bot.Game.GetIsland(this.Target).Loc) > this.GetAlivePirates() - 1)
             {
                 if (Ai.EnemiesNearLocation(timeRemaining, Bot.Game.GetIsland(this.Target).Loc) ==
                     this.GetAlivePirates())
@@ -68,15 +70,15 @@ namespace WeekOneBot
                 }
                 else
                 {
-                    Bot.Game.Debug("Escaping 1");
+                    Bot.Game.Debug(this.ID + " Escaping 1");
                     return true;
                 }
             }
-
+            */
 
             if (this.GetAlivePirates() < Ai.EstimatePiratesNearIsland(this.Target))
             {
-                Bot.Game.Debug("Escaping 2");
+                Bot.Game.Debug(this.ID + " Escaping 2");
                 return true;
             }
 
@@ -106,6 +108,8 @@ namespace WeekOneBot
             }
         }
 
+        private bool alternate;
+
         public void SailAll()
         {
             Direction d;
@@ -114,13 +118,30 @@ namespace WeekOneBot
                 Pirate pete = Bot.Game.GetMyPirate(p);
                 if (!pete.IsLost)
                 {
-                    d = Bot.Game.GetDirections(pete, Bot.Game.GetIsland(this.Target).Loc).First();
+                    if (alternate)
+                    {
+                        d = Bot.Game.GetDirections(pete, Bot.Game.GetIsland(this.Target).Loc).First();
+                    }
+                    else
+                    {
+                        try
+                        {
+                            d = Bot.Game.GetDirections(pete, Bot.Game.GetIsland(this.Target).Loc)[1];
+                        }
+                        catch (Exception)
+                        {
+                            d = Bot.Game.GetDirections(pete, Bot.Game.GetIsland(this.Target).Loc).First();    
+                        }
+                        
+                    }
+                    
                     Bot.Game.SetSail(pete, d);
                 }
             }
+            alternate = !alternate;
         }
 
-        private int GetAlivePirates()
+        public int GetAlivePirates()
         {
             int sum = 0;
             foreach (int pirate in pirates)
@@ -156,10 +177,26 @@ namespace WeekOneBot
                 score += (this.GetAlivePirates() - Ai.EstimatePiratesNearIsland(t)) * 200;
             }
 
+            int enemyCount = 0;
+            foreach (Pirate enPirate in Bot.Game.AllEnemyPirates())
+            {
+                if (Bot.Game.Distance((Bot.Game.GetMyPirate(this.pirates.First())), isle) <
+                    Bot.Game.Distance(enPirate, isle))
+                    enemyCount++;
+            }
+            if (enemyCount >= this.GetAlivePirates())
+                score -= 1000000;
+            
             score += (isle.Value - 1)*100;
             score -= Bot.Game.Distance(isle.Loc, Bot.Game.GetMyPirate(this.pirates.First()).Loc);
             
             return score;
+        }
+
+        public string GetTargetLocationString()
+        {
+            return Bot.Game.GetIsland(this.Target).Loc.ToString();
+
         }
 
         public void ReSort(List<int> friends)

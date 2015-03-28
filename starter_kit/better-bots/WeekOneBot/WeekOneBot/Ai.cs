@@ -27,6 +27,13 @@ namespace WeekOneBot
             {
                 return new List<int>() {2, 3};
             }
+            
+            
+
+            if (forces == 6)
+            {
+                return new List<int>() {2,2,2};
+            }
 
             int enemyForces = Bot.Game.AllEnemyPirates().Count;
 
@@ -43,7 +50,7 @@ namespace WeekOneBot
             }
             else
             {
-                config.Add(forces);   
+                config.Add(forces);
             }
 
             return config;
