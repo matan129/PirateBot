@@ -107,5 +107,19 @@ namespace Britbot
                     .Concat(new int[] {})
                     .Min() <= 2;
         }
+
+        /// <summary>
+        /// Gets the minimal distance from this enemy group to a location
+        /// </summary>
+        /// <param name="location">the location to test for</param>
+        /// <returns>The minimal distance from this group to that location</returns>
+        public int MinimalDistanceTo(Location location)
+        {
+            return
+                this.EnemyPirates.ConvertAll(p => Bot.Game.GetEnemyPirate(p))
+                    .Select(pirate => Bot.Game.Distance(pirate.Loc, location))
+                    .Concat(new int[] {})
+                    .Min();
+        }
     }
 }

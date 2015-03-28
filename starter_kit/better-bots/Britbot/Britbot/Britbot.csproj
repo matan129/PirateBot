@@ -65,11 +65,11 @@
     <Compile Include="Extentions.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="GroupRole.cs" />
+    <Compile Include="HeadingVector.cs" />
     <Compile Include="ITarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="SmartIsland.cs" />
-    <Compile Include="Heading.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
