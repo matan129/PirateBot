@@ -46,6 +46,11 @@ namespace Britbot
         /// A thread for complex calculations that can be ran in parallel to other stuff
         /// </summary>
         public Thread CalcThread { get; private set; }
+
+        /// <summary>
+        /// static member to give each group a unique id based on its number of creation
+        /// </summary>
+        static int GroupCounter = 0;
         #endregion
 
         /// <summary>
@@ -83,15 +88,27 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Creates a new group
+        /// Creates a new group with set amount of ships (without thinking to much)
         /// </summary>
-        /// <param name="id">The ID of the group</param>
-        public Group(int id)
+        /// <param name="id">how many pirates will be in the group</param>
+        public Group(int amount)
         {
-            //Maybe use static counter to determine the ID by the constructor?
-            this.Id = id;
+            //get id and update counter
+            this.Id = GroupCounter++;
 
-            throw new NotImplementedException();
+            //counting variable for the added pirates
+            int Count = 0;
+
+            for(int i = 0;i < Bot.Game.MyPirates().Count && Count < amount;i++)
+            {
+                if(!Commander.IsEmployed(i))
+                {
+                    //add pirate and update count
+                    Pirates.Add(i);
+                    Count++;
+                }
+            }
+
         }
 
 

@@ -2,20 +2,41 @@
 {
     public class Score
     {
+        /// <summary>
+        /// The target being scored
+        /// </summary>
         public ITarget Target;
+        /// <summary>
+        /// target's type
+        /// </summary>
+        public TargetType Type;
+        /// <summary>
+        /// value of the island if island, number of ships if ship
+        /// </summary>
+        public int value;
+        /// <summary>
+        /// time till completion
+        /// </summary>
+        public int ETA;
 
         /// <summary>
         /// (Holds the target score relative to the attacker)
         /// </summary>
         /// <param name="originGroup">The Attacker from the type Group</param>
         /// <param name="valueofTarget">The Numerical value of the target</param>
-        public Score(Group originGroup, int valueofTarget)
+        public Score(ITarget Target, TargetType Type, int value, int ETA)
         {
-            this.Origin = originGroup;
-            this.Value = valueofTarget;
+            this.Target = Target;
+            this.Type = Type;
+            this.value = value;
+            this.ETA = ETA;
         }
 
-        public Group Origin { get; private set; }
-        public int Value { get; private set; }
+    }
+
+    public enum TargetType
+    {
+        Island;
+        EnemyGroup;
     }
 }

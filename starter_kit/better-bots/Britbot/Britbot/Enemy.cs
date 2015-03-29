@@ -43,6 +43,9 @@ namespace Britbot
                         newGroup.EnemyPirates.AddRange(gr.EnemyPirates);
                     }
                 }
+                //TODO: important, it must be here or direction cant be calculated
+                //Set location
+                newGroup.prevLoc = newGroup.GetLocation();
 
                 //add the new group to the list of groups
                 groups.Add(newGroup);
@@ -50,5 +53,16 @@ namespace Britbot
 
             Groups = groups;
         }
+
+        /// <summary>
+        /// does every turn updating
+        /// namely direction updating
+        /// </summary>
+        public static void Update()
+        {
+            foreach (EnemyGroup eGroup in Groups)
+                eGroup.UpdateHeading();
+        }
     }
+
 }

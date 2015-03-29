@@ -20,7 +20,7 @@ namespace Britbot
         /// </summary>
         public HeadingVector Heading { get; private set; }
 
-        
+        public Location prevLoc;
 
         /// <summary>
         /// Gets the score for this group
@@ -184,6 +184,22 @@ namespace Britbot
             
 
             return null;
+        }
+
+        /// <summary>
+        /// This method updates Enemy's group direction and previous place (for the next turn calculations)
+        /// This method is called by the enemy class only!!!
+        /// </summary>
+        public void UpdateHeading()
+        {
+            //get the new direction of the last turn
+            Direction newDir = Bot.Game.GetDirections(prevLoc, GetLocation())[0];
+
+            //update previous location
+            prevLoc = GetLocation();
+
+            //update direction
+            Heading += newDir;
         }
     }
 }

@@ -15,7 +15,11 @@ namespace Britbot
         /// </summary>
         static Commander()
         {
-            throw new NotImplementedException();
+            //create as much groups of 2 as possible, no need to save them becasue they save themselfs
+            for (int i = 0; i < Bot.Game.MyPirates().Count; i += 2)
+            {
+                Groups.Add(new Group(2));
+            }
         }
 
         /// <summary>
@@ -23,7 +27,14 @@ namespace Britbot
         /// </summary>
         public static void Play()
         {
-            throw new NotImplementedException();
+            //update the enemy
+            Enemy.Update();
+
+            //calculate targets
+            AssignTargets();
+
+            //move forces
+            MoveForces();
         }
 
         /// <summary>
@@ -32,14 +43,37 @@ namespace Britbot
         /// <param name="config">The new configuration. i.e. {2,2,2} for three groups of two pirates</param>
         public static void DistributeForces(int[] config)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         /// <summary>
+        /// Checks if a specific pirate is already occupied in some group
+        /// </summary>
+        /// <param name="pirate">id of the target</param>
+        /// <returns>true if it is already assigned, false otherwise</returns>
+        public static bool IsEmployed(int pirate)
+        {
+            //going over all the groups searching for the specific pirate
+            foreach (Group group in Groups)
+            {
+                //if found return true
+                if (group.Pirates.Contains(pirate))
+                    return true;
+            }
+            //else return false
+            return false;
+        }
+
+
+        /// <summary>
         /// Assigns targets to each group based on pure magic
+        /// Also initiate local scoring
         /// </summary>
         public static void AssignTargets()
         {
+            //force groups to calculate priorities
+            StartCalcPriorities();
+
             //read dimensions of iteration
             int[] dimensions = GetTargetsDimensions();
 
@@ -94,16 +128,28 @@ namespace Britbot
         /// </summary>
         /// <param name="scoreArr">array of local scores</param>
         /// <returns></returns>
-        public static int GlobalScore(Score[] scoreArr)
+        public static double GlobalScore(Score[] scoreArr)
         {
             //TODO implement this
             int score = 0;
+            double timeAvg = 0;
             foreach (Score s in scoreArr)
             {
-                //THIS IS COMPLETE BULLSHIT BUT THE SCORE CLASS ISNT READY YET
-                score += s.Value;
+                //THIS IS a little less BULLSHIT BUT THE SCORE CLASS ISNT READY YET
+                if(s.Type == TargetType.Island)
+                {
+                    //TODO: WE NEED SOME CONSTANTs IN THE COMMANDER BASED ON STUFF
+                    score += 100 * s.value;
+                }
+                else if (s.Type == TargetType.EnemyGroup)
+                {
+                    score += 200 * s.value;
+                }
+
+                timeAvg += s.ETA;
             }
-            return score;
+
+            return score * scoreArr.Length / timeAvg;
         }
 
         /// <summary>
@@ -158,6 +204,15 @@ namespace Britbot
             }
 
             return dimensions;
+        }
+
+        /// <summary>
+        /// makes all the groups move based on thier targets
+        /// </summary>
+        private static void MoveForces()
+        {
+            foreach (Group group in Groups)
+                group.Move();
         }
     }
 }
