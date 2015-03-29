@@ -20,6 +20,8 @@ namespace Britbot
         /// </summary>
         public HeadingVector Heading { get; private set; }
 
+        
+
         /// <summary>
         /// Gets the score for this group
         /// </summary>
@@ -104,32 +106,8 @@ namespace Britbot
         /// <returns></returns>
         public Direction GetDirection(Group group)
         {
-            //variable for the best direction so far
-            Direction bestDirection = Direction.NOTHING;
-            double directionFitCoeff = 999999;
-
-
-            //going over all directions
-            foreach (Direction dir in Bot.Game.GetDirections(group.GetLocation(),GetLocation()))
-            {
-                //calculate new heading vector if we choose this direction
-                HeadingVector newHeading = group.Heading + dir;
-                //calculate the dot product with the enemy ship, if it is close to 0 it 
-                //means that we are perpendicular which is what we want
-                //we normlize the new vector to only consider direction
-                double newFitCoef = Math.Abs((newHeading * Heading) / newHeading.Norm());
-                
-                //check if this direction is better then the others
-                if (newFitCoef < directionFitCoeff)
-                {
-                    //replace best
-                    bestDirection = dir;
-                    directionFitCoeff = newFitCoef;
-                }
-            }
-
-            //return best direction found
-            return bestDirection;
+            //calculates the direction besed on the geographical data from the game
+            return HeadingVector.CalculateDirectionToMovingTarget(group.GetLocation(), group.Heading, GetLocation(), Heading);
         }
 
 
@@ -171,10 +149,19 @@ namespace Britbot
         public SmartIsland GuessTarget()
         {
             List<SmartIsland> sortedByDistance = SmartIsland.IslandList;
+            sortedByDistance.Sort((a, b) => Bot.Game.Distance(b.Loc, GetLocation()).CompareTo(Bot.Game.Distance(a.Loc, GetLocation())));
+
 
             //Should be tested because magic numbers aren't a good habit
             const int toleranceMargin = 2;
 
+            foreach (SmartIsland isle in sortedByDistance)
+            {
+                //check if distance is smaller then tolerance margin
+                if (HeadingVector.CalcDistFromLine(isle.GetLocation(), GetLocation(), Heading) < toleranceMargin)
+                    return isle;
+            }
+            /* I THINK I HAVE A BETTER Solution THEN THIS
             //Go over each location determined by the heading vector
             foreach (Location loc in this.Heading.EnumerateLocations(this.GetLocation()))
             {
@@ -192,7 +179,9 @@ namespace Britbot
                         return island;
                     }
                 }
-            }
+            }*/
+
+            
 
             return null;
         }

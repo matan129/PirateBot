@@ -57,7 +57,7 @@ namespace Britbot
         /// </summary>
         /// <param name="X">X value</param>
         /// <param name="Y">Y Value</param>
-        public HeadingVector(int X, int Y)
+        public HeadingVector(int X , int Y)
         {
             this.X = X;
             this.Y = Y;
@@ -71,26 +71,6 @@ namespace Britbot
         {
             this.X = loc.Col;
             this.Y = loc.Row;
-        }
-
-        /// <summary>
-        /// Simple cast from location to heading vector
-        /// </summary>
-        /// <param name="loc">Location to cast</param>
-        /// <returns>casted location as a vector</returns>
-        public static explicit operator HeadingVector( Location loc)
-        {
-            return new HeadingVector(loc);
-        }
-
-        /// <summary>
-        /// Simple cast from direction to heading vector
-        /// </summary>
-        /// <param name="dir">Direction to cast</param>
-        /// <returns>casted location as a vector</returns>
-        public static explicit operator HeadingVector(Direction dir)
-        {
-            return new HeadingVector(dir);
         }
 
         /// <summary>
@@ -187,6 +167,25 @@ namespace Britbot
 
             return newHv;
         }
+
+        /// <summary>
+        /// Calculates the direction vector between two points
+        /// </summary>
+        /// <param name="source">the point of begining</param>
+        /// <param name="target">the target (end point)</param>
+        /// <returns></returns>
+        public static HeadingVector CalcDifference(Location source, Location target)
+        {
+            //assigning new variable
+            HeadingVector newHv = new HeadingVector(target);
+
+            //subtraction
+            newHv.X -= source.Col;
+            newHv.Y -= source.Row;
+
+            return newHv;
+        }
+
         /// <summary>
         /// Calculates a new vector perpendicular to the given one
         /// it simply rotates 90 degrees anti clockwise
@@ -224,21 +223,22 @@ namespace Britbot
             return Math.Sqrt(NormSquered());
         }
 
+
         /// <summary>
         /// returns the sum of X and Y meaning the duration of time
         /// of the calculation. this can be used as a creadablity measure
         /// </summary>
         /// <returns>duration of time since last nullifying data</returns>
-        public int duration()
+        public int Norm1()
         {
-            return X + Y;
+            return Math.Abs(X) + Math.Abs(Y);
         }
 
         /// <summary>
         /// To string function...
         /// </summary>
         /// <returns>a string :)</returns>
-        public string ToString()
+        public override string ToString()
         {
             return "(" + X + ", " + Y + ")";
         }
@@ -255,7 +255,7 @@ namespace Britbot
 
             //A function that gets the next location
             Func<Location, Location> getNextLocation =
-                delegate(Location location) { return new Location(location.Row + this.X, location.Col + this.Y); };
+                delegate(Location location) { return new Location(location.Row + (int)this.X, location.Col + (int)this.Y); };
 
             //Emit new location while the location is not our of the map
             while (!isOutOfBoundaries.Invoke(getNextLocation.Invoke(originPivot)))
@@ -266,6 +266,138 @@ namespace Britbot
             }
         }
 
+        /// <summary>
+        /// Given your location, you current direction and the target's location, this method
+        /// calculates the best direction for you to move in order to simulate a straight line of
+        /// motion to to your target
+        /// </summary>
+        /// <param name="myLoc">Location of the one calling for direction</param>
+        /// <param name="myHeading">current direction</param>
+        /// <param name="target">Targets location</param>
+        /// <returns></returns>
+        public static Direction CalculateDirectionToStaitionaryTarget(Location myLoc, HeadingVector myHeading, Location target)
+        {
+            //get the desired direction
+            HeadingVector desiredVector = CalcDifference(myLoc, target);
+
+            //variable for the best direction so far
+            Direction bestDirection = Direction.NOTHING;
+            double directionFitCoeff = -1;
+
+            //going over all directions
+            foreach (Direction dir in Bot.Game.GetDirections(myLoc, target))
+            {
+                //calculate new heading vector if we choose this direction
+                HeadingVector newHeading = myHeading + dir;
+                //calculate the dot product with the desired direction and normalize, if it is close to 1 it 
+                //means that we are almost in the right direction
+                double newFitCoef = 1 - (newHeading * desiredVector) / (newHeading.Norm() * desiredVector.Norm());
+
+                //check if this direction is better (coeffitient is smaller) then the others
+                if (newFitCoef < directionFitCoeff)
+                {
+                    //replace best
+                    bestDirection = dir;
+                    directionFitCoeff = newFitCoef;
+                }
+            }
+
+            //return best direction found
+            return bestDirection;
+        }
+
+        /// <summary>
+        /// This function calculates the directions to a moving target
+        /// it does so by solving the intersection point equation as appears in 
+        /// calculation sheet 1 and then using the above CalculateDirectionToStaitionaryTarget
+        /// i am very likely to be wrong here
+        /// </summary>
+        /// <param name="myLoc">location of the one asking for directions</param>
+        /// <param name="myHeading">direction vector of the one looking for direction</param>
+        /// <param name="target">the location of the moving target</param>
+        /// <param name="targetHeading">direction vector of the moving target</param>
+        /// <returns></returns>
+        public static Direction CalculateDirectionToMovingTarget(Location myLoc, HeadingVector myHeading,
+                                                                 Location target, HeadingVector targetHeading)
+        {
+            //defining parameters for calculation (see image 1 under calculations)
+            int a = targetHeading.Norm1();
+            int b = target.Col - myLoc.Col;
+            int c = targetHeading.X;
+            int d = target.Row - myLoc.Row;
+            int e = targetHeading.Y;
+
+            //calculating r, hopefully
+            double r = SolveStupidEquation(a, b, c, d, e);
+
+            //finally, calculating the intersection point
+            Location intersection = new Location(target.Row + (int)(r * targetHeading.Y),
+                                                 target.Col + (int)(r * targetHeading.X));
+
+            //returning path to intersection
+            return CalculateDirectionToStaitionaryTarget(myLoc, myHeading, intersection);
+        }
+
+
+        /// <summary>
+        /// This function should solve equation (*) in calculation sheet 2
+        /// I am not sure if this works, the solution was annoying as hell, hope i
+        /// did everything right
+        /// </summary>
+        /// <param name="a">|d|_{1}</param>
+        /// <param name="b">t_{x} - u_{x}</param>
+        /// <param name="c">d_{x}</param>
+        /// <param name="d">t_{y} - u_{y}</param>
+        /// <param name="e">d_{y}</param>
+        /// <returns></returns>
+        public static double SolveStupidEquation(double a, double b, double c, double d, double e)
+        {
+            int [] signs = {-1,1};
+            //there are 4 options, going over them 2 by 2
+            for (int i = 1; i <= 2; i++) //i is the sign of c in r
+            {
+                int cSign = signs[i];
+                for(int j = 1;j <= 2;j++) //j is the sign of e in r
+                {
+                    int eSign = signs[j];
+                    double r = -(cSign * b + eSign * d) / (a + cSign * c + eSign * e);
+
+                    //check if r isn't possitive, if so we can skip it
+                    if (r <= 0)
+                        continue;
+
+                    //else check the critirions
+                    if ((cSign * c * r <= -cSign * b) && (eSign * e * r <= -eSign * d))
+                    {
+                        //it is (probably?) the correct r
+                        return r;
+                    }
+                }
+            }
+
+            //if we are here then i am wrong :)
+            throw new Exception("Matan K is an idiot");
+        }
+
+        /// <summary>
+        /// calculates distance (in turns) from ship's trajectory to a given island location (point)
+        /// uses the calculation in calculation sheet 3
+        /// </summary>
+        /// <param name="point">the point outside the trajectory (island)</param>
+        /// <param name="linePoint">the point on the trajectory (ship)</param>
+        /// <param name="dir">direction of the line (direction of the ship)</param>
+        /// <returns></returns>
+        public static int CalcDistFromLine(Location point, Location linePoint, HeadingVector dir)
+        {
+            //Find the difference vector between the point and the line point
+            HeadingVector dif = CalcDifference(point, linePoint);
+
+            //find the minimum t parameter
+            double tMin = dir * dif / dir.Norm();
+
+            //calculating actual distance (see calculation)
+            return (int)(Math.Abs(dif.X - tMin * dir.X) + Math.Abs(dif.Y - tMin * dir.Y));
+        }
         #region operators
 
         /// <summary>

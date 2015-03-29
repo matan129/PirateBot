@@ -19,6 +19,8 @@ namespace Britbot
         /// </summary>
         public static void AnalyzeConfig()
         {
+            //TODO: check that you don't recraet enemy groups if you don't need to
+
             List<EnemyGroup> groups = new List<EnemyGroup>();
 
             //iterate over all the pirate of the enemy

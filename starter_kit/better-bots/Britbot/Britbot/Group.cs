@@ -14,7 +14,7 @@ namespace Britbot
         /// <summary>
         /// Direction of the group to make navigation more precise
         /// </summary>
-        public readonly HeadingVector Heading;
+        public HeadingVector Heading;
 
         /// <summary>
         /// The Group ID number
@@ -100,8 +100,14 @@ namespace Britbot
         /// </summary>
         public void Move()
         {
+            //get Direction of movement
+            Direction newDir = Target.GetDirection(this);
+
+            //update heading
+            Heading += newDir;
+
             //first move the first
-            Bot.Game.SetSail(Bot.Game.MyPirates()[Pirates[0]],Target.GetDirection(this));
+            Bot.Game.SetSail(Bot.Game.MyPirates()[Pirates[0]], newDir);
 
             //if there are others, move them after him
             if (Pirates.Count > 1)
@@ -114,6 +120,8 @@ namespace Britbot
                                      Bot.Game.GetDirections(Bot.Game.MyPirates()[Pirates[i]],Bot.Game.MyPirates()[Pirates[0]])[0]);
                 }
             }
+
+
         }
 
         /// <summary>

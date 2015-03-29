@@ -205,34 +205,8 @@ namespace Britbot
         /// <returns>best direction</returns>
         public Direction GetDirection(Group group)
         {
-            //get the desired direction
-            HeadingVector desiredVector = (HeadingVector)GetLocation() - (HeadingVector)group.GetLocation();
-
-            //variable for the best direction so far
-            Direction bestDirection = Direction.NOTHING;
-            double directionFitCoeff = 0;
-
-            //going over all directions
-            foreach (Direction dir in Bot.Game.GetDirections(group.GetLocation(), GetLocation()))
-            {
-                //calculate new heading vector if we choose this direction
-                HeadingVector newHeading = group.Heading + dir;
-                //calculate the dot product with the enemy ship, if it is close to 1 it 
-                //means that we are almost in the right direction
-                //we normlize the new vector to only consider direction
-                double newFitCoef = 1 - (newHeading * desiredVector) / (newHeading.Norm() * desiredVector.Norm());
-
-                //check if this direction is better (coeffitient is smaller) then the others
-                if (newFitCoef < directionFitCoeff)
-                {
-                    //replace best
-                    bestDirection = dir;
-                    directionFitCoeff = newFitCoef;
-                }
-            }
-
-            //return best direction found
-            return bestDirection;
+            //calculates the direction besed on the geographical data from the game
+            return HeadingVector.CalculateDirectionToStaitionaryTarget(group.GetLocation(), group.Heading, GetLocation());
         }
 
         /// <summary>
