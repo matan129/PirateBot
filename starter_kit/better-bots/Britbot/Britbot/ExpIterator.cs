@@ -1,4 +1,6 @@
-﻿namespace Britbot
+﻿using System;
+
+namespace Britbot
 {
     /// <summary>
     /// this class will be used to go over every possible group-target assignment
@@ -6,26 +8,32 @@
     /// </summary>
     internal class ExpIterator
     {
-        //array of dimension, given at the constructor and never changes
+        /// <summary>
+        /// array of dimension, given at the constructor and never changes
+        /// </summary>
         private int[] dimensions;
-        //the values of the iteration vector
+        
+        /// <summary>
+        /// The values of the iteration vector
+        /// </summary>
         public int[] Values;
 
         /// <summary>
         /// assigns dimensions and initiate value of iteration
         /// </summary>
         /// <param name="dims">dimensions of the iteration</param>
+        /// <exception cref="Exception">Dimensions must be strictly positive</exception>
         public ExpIterator(int[] dims)
         {
             //set the given dimensions
 
             this.dimensions = dims;
 
-            //check if dimensions are legal (meaning strictly possitive)
+            //check if dimensions are legal (meaning strictly positive)
             foreach (int dim in dimensions)
             {
                 if (dim <= 0)
-                    throw new System.Exception("dimensions must be strictly possitive");
+                    throw new Exception("Dimensions must be strictly positive");
             }
 
             //initiate count at zero
@@ -78,11 +86,13 @@
             return !this.IsZero();
         }
 
-        public string ToString()
+        /// <summary>
+        ///  Provides a textual description for this ExpIterator
+        /// </summary>
+        /// <returns>A textual description for this ExpIterator</returns>
+        public override string ToString()
         {
-            string s = "dimensions: " + dimensions + "\n"
-                       + "MultiIndex: " + Values;
-            return s;
+            return "dimensions: " + dimensions + "\n" + "MultiIndex: " + Values;
         }
     }
 }

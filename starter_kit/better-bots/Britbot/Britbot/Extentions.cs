@@ -28,5 +28,18 @@ namespace Britbot
         {
             return SmartIsland.IslandList;
         }
+
+        /// <summary>
+        /// Gets a list of directions to move from a pirate to another pirate
+        /// Note that this method is NOT smart, its output is location only based
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="a">the moving pirate</param>
+        /// <param name="b">the target pirate</param>
+        /// <returns>A list of possible direction for the target</returns>
+        public static List<Direction> GetDirections(this IPirateGame game, Pirate a, Pirate b)
+        {
+            return Bot.Game.GetDirections(a.Loc, b.Loc);
+        }
     }
 }

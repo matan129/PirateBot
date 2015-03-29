@@ -20,7 +20,6 @@ namespace Britbot
         /// <returns>Returns the location of the target</returns>
         Location GetLocation();
 
-
         /// <summary>
         /// Given a group, this should give the group the right direction to move
         /// in order to reach the target
@@ -28,6 +27,5 @@ namespace Britbot
         /// <param name="origin">The group requesting directions</param>
         /// <returns></returns>
         Direction GetDirection(Group origin);
-
     }
 }

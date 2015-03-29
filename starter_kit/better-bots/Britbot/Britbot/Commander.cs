@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Britbot
 {
@@ -8,19 +7,23 @@ namespace Britbot
     /// </summary>
     public static class Commander
     {
-        public static List<Group> Groups { get; private set; }
-
         /// <summary>
         /// This static constructor (yeah, I know it's odd) will run once and initialize the commander
         /// </summary>
         static Commander()
         {
-            //create as much groups of 2 as possible, no need to save them becasue they save themselfs
+            //create as much groups of 2 as possible, no need to save them because they save themselves
+            //TODO this should be changed - group should not auto-add themselves, it's clearly anti pattern here.
             for (int i = 0; i < Bot.Game.MyPirates().Count; i += 2)
             {
                 Groups.Add(new Group(2));
             }
         }
+
+        /// <summary>
+        /// List of groups of our pirates
+        /// </summary>
+        public static List<Group> Groups { get; private set; }
 
         /// <summary>
         /// Do something!
@@ -64,7 +67,6 @@ namespace Britbot
             return false;
         }
 
-
         /// <summary>
         /// Assigns targets to each group based on pure magic
         /// Also initiate local scoring
@@ -103,7 +105,7 @@ namespace Britbot
                 }
 
                 //calculate new score
-                int newScore = GlobalScore(scoreArr);
+                int newScore = (int)GlobalScore(scoreArr);
 
                 //check if the score is better
                 if (newScore > maxScore)
@@ -112,7 +114,8 @@ namespace Britbot
                     maxScore = newScore;
                     maxAssignment = eit.Values;
                 }
-            } while (eit.AdvanceIteration());
+            } 
+            while (eit.AdvanceIteration());
 
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
@@ -124,7 +127,7 @@ namespace Britbot
         /// <summary>
         /// This function shpud convert an array of local scores into a numeric
         /// score based on global criteria
-        /// score class is not finished yet so meanwile it is pretty dumb
+        /// score class is not finished yet so meanwhile it is pretty dumb
         /// </summary>
         /// <param name="scoreArr">array of local scores</param>
         /// <returns></returns>
@@ -136,20 +139,20 @@ namespace Britbot
             foreach (Score s in scoreArr)
             {
                 //THIS IS a little less BULLSHIT BUT THE SCORE CLASS ISNT READY YET
-                if(s.Type == TargetType.Island)
+                if (s.Type == TargetType.Island)
                 {
-                    //TODO: WE NEED SOME CONSTANTs IN THE COMMANDER BASED ON STUFF
-                    score += 100 * s.value;
+                    //TODO: WE NEED SOME CONSTANTS IN THE COMMANDER BASED ON STUFF
+                    score += 100*s.Value;
                 }
                 else if (s.Type == TargetType.EnemyGroup)
                 {
-                    score += 200 * s.value;
+                    score += 200*s.Value;
                 }
 
-                timeAvg += s.ETA;
+                timeAvg += s.Eta;
             }
 
-            return score * scoreArr.Length / timeAvg;
+            return score*scoreArr.Length/timeAvg;
         }
 
         /// <summary>

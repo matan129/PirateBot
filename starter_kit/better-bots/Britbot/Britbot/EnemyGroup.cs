@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Pirates;
 
@@ -11,6 +10,11 @@ namespace Britbot
     public class EnemyGroup : ITarget
     {
         /// <summary>
+        /// What is this?
+        /// </summary>
+        public Location PrevLoc { get; set; }
+
+        /// <summary>
         /// List of pirate indexes in this group
         /// </summary>
         public List<int> EnemyPirates { get; private set; }
@@ -19,8 +23,6 @@ namespace Britbot
         /// The direction this group's heading to 
         /// </summary>
         public HeadingVector Heading { get; private set; }
-
-        public Location prevLoc;
 
         /// <summary>
         /// Gets the score for this group
@@ -31,7 +33,10 @@ namespace Britbot
         {
             //Reduce the score in proportion to distance
             //lower score is worse. Mind the minus sign!
-            int scoreVal = -InRangeGroupDistance(this, origin);
+            int distance = InRangeGroupDistance(this, origin);
+            int scoreVal = -distance;
+
+            distance +=  + 2*Bot.Game.GetAttackRadius();
 
             /*
              * if the score requesting group is bigger then this enemy group, add a bunch of points because killing enemy
@@ -41,39 +46,7 @@ namespace Britbot
                         this.EnemyPirates.ConvertAll(e => Bot.Game.GetEnemyPirate(e)).Count(e => !e.IsLost);
 
             //return new score instance with the relevant information
-            return new Score(origin, scoreVal);
-        }
-
-        /// <summary>
-        /// Determined the minimal time (or distance) between a Group and an 
-        /// EnemyGroup before they will get into each others' attack radius.
-        /// </summary>
-        /// <param name="eg">The EnemyGroup</param>
-        /// <param name="group">The Group</param>
-        /// <returns>The minimal time before they'd get into each others' range</returns>
-        private int InRangeGroupDistance(EnemyGroup eg, Group group)
-        {
-            Pirate enemyPirate = null, myPirate = null;
-
-            int minDistance = Bot.Game.GetCols() + Bot.Game.GetRows();
-
-            //find the two pirate from the two group with the minimum distance between
-            foreach (Pirate p in eg.EnemyPirates.ConvertAll(ep => Bot.Game.GetEnemyPirate(ep)))
-            {
-                foreach (Pirate aPirate in group.Pirates.ConvertAll(pir => Bot.Game.GetMyPirate(pir)))
-                {
-                    int distance = Bot.Game.Distance(p, aPirate);
-
-                    if (distance >= minDistance) continue;
-
-                    minDistance = distance;
-                    enemyPirate = p;
-                    myPirate = aPirate;
-                }
-            }
-
-            //return the distance between these pirates with the range in mind
-            return Bot.Game.Distance(enemyPirate.Loc, myPirate.Loc) - Bot.Game.GetAttackRadius() * 2;
+            return new Score(this, TargetType.EnemyGroup, scoreVal, distance);
         }
 
         /// <summary>
@@ -107,9 +80,41 @@ namespace Britbot
         public Direction GetDirection(Group group)
         {
             //calculates the direction besed on the geographical data from the game
-            return HeadingVector.CalculateDirectionToMovingTarget(group.GetLocation(), group.Heading, GetLocation(), Heading);
+            return HeadingVector.CalculateDirectionToMovingTarget(group.GetLocation(), group.Heading, GetLocation(),
+                Heading);
         }
 
+        /// <summary>
+        /// Determined the minimal time (or distance) between a Group and an 
+        /// EnemyGroup before they will get into each others' attack radius.
+        /// </summary>
+        /// <param name="eg">The EnemyGroup</param>
+        /// <param name="group">The Group</param>
+        /// <returns>The minimal time before they'd get into each others' range</returns>
+        private int InRangeGroupDistance(EnemyGroup eg, Group group)
+        {
+            Pirate enemyPirate = null, myPirate = null;
+
+            int minDistance = Bot.Game.GetCols() + Bot.Game.GetRows();
+
+            //find the two pirate from the two group with the minimum distance between
+            foreach (Pirate p in eg.EnemyPirates.ConvertAll(ep => Bot.Game.GetEnemyPirate(ep)))
+            {
+                foreach (Pirate aPirate in group.Pirates.ConvertAll(pir => Bot.Game.GetMyPirate(pir)))
+                {
+                    int distance = Bot.Game.Distance(p, aPirate);
+
+                    if (distance >= minDistance) continue;
+
+                    minDistance = distance;
+                    enemyPirate = p;
+                    myPirate = aPirate;
+                }
+            }
+
+            //return the distance between these pirates with the range in mind
+            return Bot.Game.Distance(enemyPirate.Loc, myPirate.Loc) - Bot.Game.GetAttackRadius()*2;
+        }
 
         /// <summary>
         /// Determines if an enemy pirate belongs to this enemy group.
@@ -149,7 +154,8 @@ namespace Britbot
         public SmartIsland GuessTarget()
         {
             List<SmartIsland> sortedByDistance = SmartIsland.IslandList;
-            sortedByDistance.Sort((a, b) => Bot.Game.Distance(b.Loc, GetLocation()).CompareTo(Bot.Game.Distance(a.Loc, GetLocation())));
+            sortedByDistance.Sort(
+                (a, b) => Bot.Game.Distance(b.Loc, GetLocation()).CompareTo(Bot.Game.Distance(a.Loc, GetLocation())));
 
 
             //Should be tested because magic numbers aren't a good habit
@@ -181,7 +187,6 @@ namespace Britbot
                 }
             }*/
 
-            
 
             return null;
         }
@@ -193,10 +198,10 @@ namespace Britbot
         public void UpdateHeading()
         {
             //get the new direction of the last turn
-            Direction newDir = Bot.Game.GetDirections(prevLoc, GetLocation())[0];
+            Direction newDir = Bot.Game.GetDirections(PrevLoc, GetLocation())[0];
 
             //update previous location
-            prevLoc = GetLocation();
+            PrevLoc = GetLocation();
 
             //update direction
             Heading += newDir;

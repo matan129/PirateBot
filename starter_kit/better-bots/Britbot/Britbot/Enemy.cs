@@ -19,7 +19,7 @@ namespace Britbot
         /// </summary>
         public static void AnalyzeConfig()
         {
-            //TODO: check that you don't recraet enemy groups if you don't need to
+            //TODO: check that you don't recreate enemy groups if you don't need to
 
             List<EnemyGroup> groups = new List<EnemyGroup>();
 
@@ -43,9 +43,10 @@ namespace Britbot
                         newGroup.EnemyPirates.AddRange(gr.EnemyPirates);
                     }
                 }
+
                 //TODO: important, it must be here or direction cant be calculated
                 //Set location
-                newGroup.prevLoc = newGroup.GetLocation();
+                newGroup.PrevLoc = newGroup.GetLocation();
 
                 //add the new group to the list of groups
                 groups.Add(newGroup);
@@ -64,5 +65,4 @@ namespace Britbot
                 eGroup.UpdateHeading();
         }
     }
-
 }

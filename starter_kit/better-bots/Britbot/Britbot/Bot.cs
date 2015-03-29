@@ -1,5 +1,4 @@
-﻿using System;
-using Pirates;
+﻿using Pirates;
 
 namespace Britbot
 {
@@ -21,11 +20,11 @@ namespace Britbot
         {
             //update the game so other classes will get updated data
             Game = state;
-            
+
             //play!
             //note that we do not have to explicitly initialize the commander, 
             //since we have a static constructor there
             Commander.Play();
         }
     }
-} 
+}

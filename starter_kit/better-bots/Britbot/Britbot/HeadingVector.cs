@@ -11,16 +11,6 @@ namespace Britbot
     public class HeadingVector
     {
         /// <summary>
-        /// Positive X value means left and vice-versa
-        /// </summary>
-        public int X { get; private set; }
-
-        /// <summary>
-        /// Positive Y value means down and vice-versa
-        /// </summary>
-        public int Y { get; private set; }
-
-        /// <summary>
         /// Conversion constructor: takes a direction of the game and turns it into 
         /// a vector
         /// </summary>
@@ -57,7 +47,7 @@ namespace Britbot
         /// </summary>
         /// <param name="X">X value</param>
         /// <param name="Y">Y Value</param>
-        public HeadingVector(int X , int Y)
+        public HeadingVector(int X, int Y)
         {
             this.X = X;
             this.Y = Y;
@@ -72,6 +62,16 @@ namespace Britbot
             this.X = loc.Col;
             this.Y = loc.Row;
         }
+
+        /// <summary>
+        /// Positive X value means left and vice-versa
+        /// </summary>
+        public int X { get; private set; }
+
+        /// <summary>
+        /// Positive Y value means down and vice-versa
+        /// </summary>
+        public int Y { get; private set; }
 
         /// <summary>
         /// regular set function for convinience
@@ -142,7 +142,7 @@ namespace Britbot
         {
             //defining the result
             HeadingVector newHv = hv1;
-            
+
             //adding up
             newHv.X += hv2.X;
             newHv.Y += hv2.Y;
@@ -223,7 +223,6 @@ namespace Britbot
             return Math.Sqrt(NormSquered());
         }
 
-
         /// <summary>
         /// returns the sum of X and Y meaning the duration of time
         /// of the calculation. this can be used as a creadablity measure
@@ -255,7 +254,7 @@ namespace Britbot
 
             //A function that gets the next location
             Func<Location, Location> getNextLocation =
-                delegate(Location location) { return new Location(location.Row + (int)this.X, location.Col + (int)this.Y); };
+                delegate(Location location) { return new Location(location.Row + this.X, location.Col + this.Y); };
 
             //Emit new location while the location is not our of the map
             while (!isOutOfBoundaries.Invoke(getNextLocation.Invoke(originPivot)))
@@ -275,7 +274,8 @@ namespace Britbot
         /// <param name="myHeading">current direction</param>
         /// <param name="target">Targets location</param>
         /// <returns></returns>
-        public static Direction CalculateDirectionToStaitionaryTarget(Location myLoc, HeadingVector myHeading, Location target)
+        public static Direction CalculateDirectionToStaitionaryTarget(Location myLoc, HeadingVector myHeading,
+            Location target)
         {
             //get the desired direction
             HeadingVector desiredVector = CalcDifference(myLoc, target);
@@ -291,7 +291,7 @@ namespace Britbot
                 HeadingVector newHeading = myHeading + dir;
                 //calculate the dot product with the desired direction and normalize, if it is close to 1 it 
                 //means that we are almost in the right direction
-                double newFitCoef = 1 - (newHeading * desiredVector) / (newHeading.Norm() * desiredVector.Norm());
+                double newFitCoef = 1 - (newHeading*desiredVector)/(newHeading.Norm()*desiredVector.Norm());
 
                 //check if this direction is better (coeffitient is smaller) then the others
                 if (newFitCoef < directionFitCoeff)
@@ -318,7 +318,7 @@ namespace Britbot
         /// <param name="targetHeading">direction vector of the moving target</param>
         /// <returns></returns>
         public static Direction CalculateDirectionToMovingTarget(Location myLoc, HeadingVector myHeading,
-                                                                 Location target, HeadingVector targetHeading)
+            Location target, HeadingVector targetHeading)
         {
             //defining parameters for calculation (see image 1 under calculations)
             int a = targetHeading.Norm1();
@@ -331,13 +331,12 @@ namespace Britbot
             double r = SolveStupidEquation(a, b, c, d, e);
 
             //finally, calculating the intersection point
-            Location intersection = new Location(target.Row + (int)(r * targetHeading.Y),
-                                                 target.Col + (int)(r * targetHeading.X));
+            Location intersection = new Location(target.Row + (int) (r*targetHeading.Y),
+                target.Col + (int) (r*targetHeading.X));
 
             //returning path to intersection
             return CalculateDirectionToStaitionaryTarget(myLoc, myHeading, intersection);
         }
-
 
         /// <summary>
         /// This function should solve equation (*) in calculation sheet 2
@@ -352,22 +351,22 @@ namespace Britbot
         /// <returns></returns>
         public static double SolveStupidEquation(double a, double b, double c, double d, double e)
         {
-            int [] signs = {-1,1};
+            int[] signs = {-1, 1};
             //there are 4 options, going over them 2 by 2
             for (int i = 1; i <= 2; i++) //i is the sign of c in r
             {
                 int cSign = signs[i];
-                for(int j = 1;j <= 2;j++) //j is the sign of e in r
+                for (int j = 1; j <= 2; j++) //j is the sign of e in r
                 {
                     int eSign = signs[j];
-                    double r = -(cSign * b + eSign * d) / (a + cSign * c + eSign * e);
+                    double r = -(cSign*b + eSign*d)/(a + cSign*c + eSign*e);
 
                     //check if r isn't possitive, if so we can skip it
                     if (r <= 0)
                         continue;
 
                     //else check the critirions
-                    if ((cSign * c * r <= -cSign * b) && (eSign * e * r <= -eSign * d))
+                    if ((cSign*c*r <= -cSign*b) && (eSign*e*r <= -eSign*d))
                     {
                         //it is (probably?) the correct r
                         return r;
@@ -393,11 +392,12 @@ namespace Britbot
             HeadingVector dif = CalcDifference(point, linePoint);
 
             //find the minimum t parameter
-            double tMin = dir * dif / dir.Norm();
+            double tMin = dir*dif/dir.Norm();
 
             //calculating actual distance (see calculation)
-            return (int)(Math.Abs(dif.X - tMin * dir.X) + Math.Abs(dif.Y - tMin * dir.Y));
+            return (int) (Math.Abs(dif.X - tMin*dir.X) + Math.Abs(dif.Y - tMin*dir.Y));
         }
+
         #region operators
 
         /// <summary>
