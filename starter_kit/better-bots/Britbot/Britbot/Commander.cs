@@ -26,9 +26,8 @@ namespace Britbot
 
             Groups = new List<Group>();
 
-            Groups.Add(new Group(0,2));
-            Groups.Add(new Group(2, 2));
-            Groups.Add(new Group(4, 1));
+            for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
+                Groups.Add(new Group(i, 1));
         }
 
         /// <summary>
@@ -143,10 +142,12 @@ namespace Britbot
                 Bot.Game.Debug(Groups[i].Target.GetLocation().ToString());
             }
 
-            Bot.Game.Debug("MaxScore:" + maxScore);
-            Bot.Game.Debug("Max Ass " + string.Join(",", maxAssignment));
-            Bot.Game.Debug("\n");
-
+            Bot.Game.Debug("----------TARGETS--------------");
+            for (int i = 0; i < dimensions.Length; i++)
+            {
+                Bot.Game.Debug(possibleAssignments[i][maxAssignment[i]].Target.ToS());
+            }
+            Bot.Game.Debug("----------TARGETS--------------");
         }
 
         /// <summary>

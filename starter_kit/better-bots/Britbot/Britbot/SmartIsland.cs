@@ -258,5 +258,9 @@ namespace Britbot
 
             return enemyCount;
         }
+        public string ToS()
+        {
+            return "Island, id: " + Id + " location: " + Loc.ToString();;
+        }
     }
 }

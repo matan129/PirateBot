@@ -307,5 +307,14 @@ namespace Britbot
             //update direction
             Heading += newDir;
         }
+
+        public string ToS()
+        {
+            string s = "Enemy Group, Pirates: ";
+            foreach (int pirate in EnemyPirates)
+                s += " " + pirate;
+
+            return s;
+        }
     }
 }
