@@ -11,6 +11,52 @@ namespace Britbot
     /// </summary>
     public class Group
     {
+        #region Members
+
+        /// <summary>
+        /// Direction of the group to make navigation more precise
+        /// </summary>
+        public HeadingVector Heading { get; private set; }
+
+        /// <summary>
+        /// The Group ID number
+        /// useful for debugging
+        /// </summary>
+        public readonly int Id;
+
+        /// <summary>
+        /// List of the indexes of the pirates in this group
+        /// </summary>
+        public List<int> Pirates { get; private set; }
+
+        /// <summary>
+        /// The target of the Group
+        /// </summary>
+        public ITarget Target { get; private set; }
+
+        /// <summary>
+        /// The group's role (i.e. destroyer or attacker)
+        /// </summary>
+        public GroupRole Role { get; private set; }
+
+        /// <summary>
+        /// List of priorities for this group
+        /// </summary>
+        public List<Score> Priorities { get; private set; }
+
+        /// <summary>
+        /// A thread for complex calculations that can be ran in parallel to other stuff
+        /// </summary>
+        public Thread CalcThread { get; private set; }
+
+        /// <summary>
+        /// static member to give each group a unique id based on its number of creation
+        /// </summary>
+        public static int GroupCounter { get; private set; }
+
+        #endregion
+
+        #region constructor
         /// <summary>
         /// Creates a new group with set amount of ships (without thinking to much)
         /// </summary>
@@ -18,6 +64,7 @@ namespace Britbot
         public Group(int amount)
         {
             //TODO try to auto choose group members by distance?
+
             //get id and update counter
             this.Id = GroupCounter++;
 
@@ -34,6 +81,7 @@ namespace Britbot
                 }
             }
         }
+        #endregion
 
         /// <summary>
         /// Sets the target of the group, while doing so also resets the heading vector
@@ -43,10 +91,10 @@ namespace Britbot
         public void SetTarget(ITarget target)
         {
             //if it isn't the same target as before update and reset heading
-            if (Target != target)
+            if (!Equals(this.Target, target))
             {
-                Target = target;
-                Heading.SetCoordinates(0, 0);
+                this.Target = target;
+                this.Heading.SetCoordinates(0, 0);
             }
         }
 
@@ -113,50 +161,5 @@ namespace Britbot
         {
             throw new NotImplementedException();
         }
-
-        #region Members
-
-        /// <summary>
-        /// Direction of the group to make navigation more precise
-        /// </summary>
-        public HeadingVector Heading;
-
-        /// <summary>
-        /// The Group ID number
-        /// useful for debugging
-        /// </summary>
-        public readonly int Id;
-
-        /// <summary>
-        /// List of the indexes of the pirates in this group
-        /// </summary>
-        public List<int> Pirates { get; private set; }
-
-        /// <summary>
-        /// The target of the Group
-        /// </summary>
-        private ITarget Target;
-
-        /// <summary>
-        /// The group's role (i.e. destroyer or attacker)
-        /// </summary>
-        public GroupRole Role { get; private set; }
-
-        /// <summary>
-        /// List of priorities for this group
-        /// </summary>
-        public List<Score> Priorities { get; private set; }
-
-        /// <summary>
-        /// A thread for complex calculations that can be ran in parallel to other stuff
-        /// </summary>
-        public Thread CalcThread { get; private set; }
-
-        /// <summary>
-        /// static member to give each group a unique id based on its number of creation
-        /// </summary>
-        private static int GroupCounter;
-
-        #endregion
     }
 }

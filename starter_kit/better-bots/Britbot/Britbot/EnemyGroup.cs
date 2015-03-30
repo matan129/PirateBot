@@ -9,6 +9,7 @@ namespace Britbot
     /// </summary>
     public class EnemyGroup : ITarget
     {
+        #region members
         /// <summary>
         /// What is this?
         /// </summary>
@@ -23,6 +24,100 @@ namespace Britbot
         /// The direction this group's heading to 
         /// </summary>
         public HeadingVector Heading { get; private set; }
+        #endregion
+
+        #region constructors
+        /// <summary>
+        /// Creates a new instance of the EnemyGroup class
+        /// </summary>
+        public EnemyGroup()
+        {
+            
+        }
+
+        /// <summary>
+        /// Creates a new instance of the EnemyGroup class
+        /// </summary>
+        public EnemyGroup(Location prevLoc, List<int> enemyPirates, HeadingVector heading)
+        {
+            PrevLoc = prevLoc;
+            EnemyPirates = enemyPirates;
+            Heading = heading;
+        }
+        #endregion
+
+        #region overloaded operators and overrided methods
+        /// <summary>
+        /// Tests if two enemy groups are the same
+        /// </summary>
+        /// <param name="operandB">the target to test with</param>
+        /// <returns>True if identical or false otherwise</returns>
+        public bool Equals(ITarget operandB)
+        {
+            if (operandB is EnemyGroup)
+            {
+                return operandB.GetHashCode() == this.GetHashCode();
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Tests if two enemy groups are the same
+        /// </summary>
+        /// <param name="other">the EnemyGroup to test with</param>
+        /// <returns>True if identical or false otherwise</returns>
+        protected bool Equals(EnemyGroup other)
+        {
+            return Equals(PrevLoc, other.PrevLoc) && Equals(EnemyPirates, other.EnemyPirates) && Equals(Heading, other.Heading);
+        }
+
+        /// <summary>
+        /// Tests if two enemy groups are the same
+        /// </summary>
+        /// <param name="obj">the object to test with</param>
+        /// <returns>True if identical or false otherwise</returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((EnemyGroup)obj);
+        }
+
+        /// <summary>
+        /// Tests if two enemy groups are the same
+        /// </summary>
+        /// <returns>True if identical or false otherwise</returns>
+        public static bool operator ==(EnemyGroup a, EnemyGroup b)
+        {
+            return a.GetHashCode() == b.GetHashCode();
+        }
+
+        /// <summary>
+        /// Tests if two enemy groups are the not same
+        /// </summary>
+        /// <returns>false if identical or true otherwise</returns>
+        public static bool operator !=(EnemyGroup a, EnemyGroup b)
+        {
+            return !(a == b);
+        }
+
+        /// <summary>
+        /// Get a unique-ish hash for this instance
+        /// </summary>
+        /// <returns>A unique-ish hash for this instance</returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (PrevLoc != null ? PrevLoc.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (EnemyPirates != null ? EnemyPirates.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (Heading != null ? Heading.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+        #endregion
 
         /// <summary>
         /// Gets the score for this group
@@ -79,7 +174,7 @@ namespace Britbot
         /// <returns></returns>
         public Direction GetDirection(Group group)
         {
-            //calculates the direction besed on the geographical data from the game
+            //calculates the direction based on the geographical data from the game
             return HeadingVector.CalculateDirectionToMovingTarget(group.GetLocation(), group.Heading, GetLocation(),
                 Heading);
         }
@@ -167,7 +262,7 @@ namespace Britbot
                 if (HeadingVector.CalcDistFromLine(isle.GetLocation(), GetLocation(), Heading) < toleranceMargin)
                     return isle;
             }
-            /* I THINK I HAVE A BETTER Solution THEN THIS
+            /* TODO I THINK I HAVE A BETTER Solution THEN THIS
             //Go over each location determined by the heading vector
             foreach (Location loc in this.Heading.EnumerateLocations(this.GetLocation()))
             {
@@ -186,7 +281,6 @@ namespace Britbot
                     }
                 }
             }*/
-
 
             return null;
         }

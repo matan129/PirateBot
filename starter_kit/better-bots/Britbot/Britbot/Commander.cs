@@ -8,22 +8,20 @@ namespace Britbot
     public static class Commander
     {
         /// <summary>
-        /// This static constructor (yeah, I know it's odd) will run once and initialize the commander
+        /// List of groups of our pirates
+        /// </summary>
+        public static List<Group> Groups { get; private set; }
+
+        /// <summary>
+        /// This static constructor will run once and initialize the commander
         /// </summary>
         static Commander()
         {
-            //create as much groups of 2 as possible, no need to save them because they save themselves
-            //TODO this should be changed - group should not auto-add themselves, it's clearly anti pattern here.
             for (int i = 0; i < Bot.Game.MyPirates().Count; i += 2)
             {
                 Groups.Add(new Group(2));
             }
         }
-
-        /// <summary>
-        /// List of groups of our pirates
-        /// </summary>
-        public static List<Group> Groups { get; private set; }
 
         /// <summary>
         /// Do something!

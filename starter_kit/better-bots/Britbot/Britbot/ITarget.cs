@@ -1,4 +1,5 @@
-﻿using Pirates;
+﻿using System.Net.Configuration;
+using Pirates;
 
 namespace Britbot
 {
@@ -27,5 +28,13 @@ namespace Britbot
         /// <param name="origin">The group requesting directions</param>
         /// <returns></returns>
         Direction GetDirection(Group origin);
+
+        /// <summary>
+        /// Tests if two targets are the same
+        /// </summary>
+        /// <param name="operandB">The other target to test</param>
+        /// <returns>true if identical, false either</returns>
+        bool Equals(ITarget operandB);
+
     }
 }
