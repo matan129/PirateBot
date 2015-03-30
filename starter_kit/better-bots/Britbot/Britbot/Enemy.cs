@@ -74,5 +74,24 @@ namespace Britbot
             foreach (EnemyGroup eGroup in Groups)
                 eGroup.UpdateHeading();
         }
+
+        /// <summary>
+        /// Tranfers enemy configuration to int[] form
+        /// </summary>
+        /// <returns>Enemy configuration in the form of int array </returns>
+        public static int[] GetConfig()
+        {
+            //Creates the config array
+            int[] config = new int[Enemy.Groups.Count];
+
+            //Fills the array according to enemy config
+            for (int i = 0; i < Enemy.Groups.Count; i++)
+            {
+                config[i] = Enemy.Groups[i].EnemyPirates.Count;
+            }
+
+            return config;
+
+        }
     }
 }
