@@ -351,12 +351,13 @@ namespace Britbot
         /// <returns></returns>
         public static double SolveStupidEquation(double a, double b, double c, double d, double e)
         {
+            //TODO fix this
             int[] signs = {-1, 1};
             //there are 4 options, going over them 2 by 2
-            for (int i = 1; i <= 2; i++) //i is the sign of c in r
+            for (int i = 0; i <= 1; i++) //i is the sign of c in r
             {
                 int cSign = signs[i];
-                for (int j = 1; j <= 2; j++) //j is the sign of e in r
+                for (int j = 0; j <= 1; j++) //j is the sign of e in r
                 {
                     int eSign = signs[j];
                     double r = -(cSign*b + eSign*d)/(a + cSign*c + eSign*e);
@@ -386,8 +387,9 @@ namespace Britbot
         /// <param name="linePoint">the point on the trajectory (ship)</param>
         /// <param name="dir">direction of the line (direction of the ship)</param>
         /// <returns></returns>
-        public static int CalcDistFromLine(Location point, Location linePoint, HeadingVector dir)
+        public static double CalcDistFromLine(Location point, Location linePoint, HeadingVector dir)
         {
+            //TODO fix this - Matan Kom
             //Find the difference vector between the point and the line point
             HeadingVector dif = CalcDifference(point, linePoint);
 
@@ -395,17 +397,17 @@ namespace Britbot
             double tMin = dir*dif/dir.Norm();
 
             //calculating actual distance (see calculation)
-            return (int) (Math.Abs(dif.X - tMin*dir.X) + Math.Abs(dif.Y - tMin*dir.Y));
+            return (Math.Abs(dif.X - tMin*dir.X) + Math.Abs(dif.Y - tMin*dir.Y));
         }
 
 
         public int ComparePirateByDirection(int p1, int p2)
         {
             //calculate both pirates position on the line created by hv
-            int p1Dist = CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p1).Loc, this.Orthogonal());
-            int p2Dist = CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p2).Loc, this.Orthogonal());
+            double p1Dist = CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p1).Loc, this.Orthogonal());
+            double p2Dist = CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p2).Loc, this.Orthogonal());
 
-            return p2Dist - p1Dist;
+            return (int)(p2Dist - p1Dist);
         }
 
         #region operators
@@ -465,7 +467,7 @@ namespace Britbot
         /// <returns>true if they are not the same, else otherwise</returns>
         public static bool operator !=(HeadingVector hv1, HeadingVector hv2)
         {
-            return hv1.X != hv2.X && hv1.Y != hv2.Y;
+            return !(hv1 == hv2);
         }
 
         #endregion

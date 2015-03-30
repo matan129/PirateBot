@@ -142,7 +142,7 @@ namespace Britbot
 
 
             //update heading
-            Heading += newDir;
+           /* Heading += newDir;
 
             //sort pirates by the new heading
             Pirates.Sort((p1, p2) => Heading.ComparePirateByDirection(p2, p1));
@@ -161,13 +161,13 @@ namespace Britbot
                  * 
                  * P.S unlike the previous version of this method, although my lines are not the shortest,
                  * it is readable. Seriously, try reading it.
-                 */
+                 
                 foreach (Pirate pete in this.Pirates.Skip(1).ToList().ConvertAll(p => Bot.Game.GetMyPirate(p)))
                 {
                     Direction order = Bot.Game.GetDirections(pete, Bot.Game.GetMyPirate(Pirates[0])).First();
                     Bot.Game.SetSail(pete, order);
                 }
-            }
+            }*/
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Britbot
         /// <returns>how many living pirates are in the group</returns>
         public int LiveCount()
         {
-            return Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost);
+            return this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost);
         }
 
         /// <summary>
@@ -189,9 +189,8 @@ namespace Britbot
             List<Score> scores = new List<Score>();
 
             //Add all targets to the list
-            
             //TODO Fix enemy group targeting
-            //priorityList.AddRange(Enemy.Groups);
+            priorityList.AddRange(Enemy.Groups);
             priorityList.AddRange(SmartIsland.IslandList);
             
             //Add a score for each target we got
@@ -206,6 +205,9 @@ namespace Britbot
 
             //set it to this instance of Group
             this.Priorities = scores;
+            
+            Bot.Game.Debug("Enemy Groups Count: " + Enemy.Groups.Count);
+            Bot.Game.Debug("Priorities Count: " + this.Priorities.Count);
         }
     }
 }

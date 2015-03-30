@@ -26,8 +26,25 @@ namespace Britbot
 
             Groups = new List<Group>();
 
-            for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
-                Groups.Add(new Group(i, 1));
+            switch (Bot.Game.AllMyPirates().Count)
+            {
+                case 3:
+                    Groups.Add(new Group(0, 2));
+                    Groups.Add(new Group(2, 1));
+                    break;
+                case 4:
+                    Groups.Add(new Group(0, 3));
+                    Groups.Add(new Group(3, 1));
+                    break;
+                case 5:
+                    Groups.Add(new Group(0, 3));
+                    Groups.Add(new Group(3, 2));
+                    break;
+                case 6:
+                    Groups.Add(new Group(0, 3));
+                    Groups.Add(new Group(3, 3));
+                    break;
+            }
         }
 
         /// <summary>
@@ -110,14 +127,15 @@ namespace Britbot
                 }
 
                 //calculate new score
-                int newScore = (int)GlobalizeScore(scoreArr);
-                Bot.Game.Debug("NewScore " + newScore);
+
+                           int newScore = (int)GlobalizeScore(scoreArr);
+               /* Bot.Game.Debug("NewScore " + newScore);
                 Bot.Game.Debug("MaxScore " + maxScore);
 
                 Bot.Game.Debug("Iterator Vals count " + iterator.Values.Count());
                 Bot.Game.Debug(string.Join(",", iterator.Values));
                 Bot.Game.Debug("\n");
-
+*/
                 //check if the score is better
                 if (newScore > maxScore)
                 {
@@ -147,6 +165,7 @@ namespace Britbot
             {
                 Bot.Game.Debug(possibleAssignments[i][maxAssignment[i]].Target.ToS());
             }
+            //Bot.Game.Debug((possibleAssignments[0][maxAssignment[0]].Target.Equals(possibleAssignments[2][maxAssignment[2]].Target).ToString()));
             Bot.Game.Debug("----------TARGETS--------------");
         }
 
@@ -162,7 +181,7 @@ namespace Britbot
             //TODO: WE NEED SOME CONSTANTS IN THE COMMANDER BASED ON STUFF
             //TODO this is not finished
 
-            int score = 0;
+            double score = 0;
             double timeAvg = 0;
 
             foreach (Score s in scoreArr)
@@ -173,7 +192,7 @@ namespace Britbot
                 }
                 else if (s.Type == TargetType.EnemyGroup)
                 {
-                    score += 200*s.Value;
+                    score += 2000000*s.Value;
                 }
 
                 timeAvg += s.Eta;
@@ -182,14 +201,14 @@ namespace Britbot
             //check if there are two of the same target
             for (int i = 0; i < scoreArr.Count() - 1; i++)
             {
-                for (int j = i + 1; j < scoreArr.Count() - 1; j++)
+                for (int j = i + 1; j < scoreArr.Length; j++)
                 {
                     if (scoreArr[i].Target.Equals(scoreArr[j].Target))
                         score -= 100000000;
                 }
             }
 
-            return score*scoreArr.Count() - timeAvg;
+            return score*scoreArr.Length / timeAvg;
         }
 
         /// <summary>

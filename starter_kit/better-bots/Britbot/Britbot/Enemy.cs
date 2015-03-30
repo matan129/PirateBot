@@ -60,7 +60,9 @@ namespace Britbot
                 //add the new group to the list of groups
                 updatedGroups.Add(newGroup);
             }
-            
+
+            Bot.Game.Debug("ENEMY GROUPS: " + string.Join(",", updatedGroups));
+
             return updatedGroups;
         }
 
@@ -70,7 +72,10 @@ namespace Britbot
         /// </summary>
         public static void Update()
         {
-            Groups = AnalyzeEnemyGroups();
+            List<EnemyGroup> updated = AnalyzeEnemyGroups();
+            Groups = Groups.Intersect(updated).ToList();
+            Groups = Groups.Union(updated).ToList();
+
             foreach (EnemyGroup eGroup in Groups)
                 eGroup.UpdateHeading();
         }

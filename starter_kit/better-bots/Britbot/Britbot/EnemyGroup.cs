@@ -15,6 +15,13 @@ namespace Britbot
         /// </summary>
         public Location PrevLoc { get; set; }
 
+        public static int idCount;
+
+        /// <summary>
+        /// unique-ish id for the enemy group
+        /// </summary>
+        public readonly int Id;
+
         /// <summary>
         /// List of pirate indexes in this group
         /// </summary>
@@ -32,6 +39,7 @@ namespace Britbot
         /// </summary>
         public EnemyGroup()
         {
+            this.Id = idCount++;
             this.EnemyPirates = new List<int>();
             this.PrevLoc = new Location(0,0);
             this.Heading = new HeadingVector(this.PrevLoc);
@@ -42,6 +50,7 @@ namespace Britbot
         /// </summary>
         public EnemyGroup(Location prevLoc, List<int> enemyPirates, HeadingVector heading)
         {
+            this.Id = idCount++;
             PrevLoc = prevLoc;
             EnemyPirates = enemyPirates;
             Heading = heading;
@@ -58,7 +67,8 @@ namespace Britbot
         {
             if (operandB is EnemyGroup)
             {
-                return operandB.GetHashCode() == this.GetHashCode();
+                EnemyGroup b = (EnemyGroup)operandB;
+                return this.Id == b.Id;
             }
 
             return false;
@@ -71,7 +81,7 @@ namespace Britbot
         /// <returns>True if identical or false otherwise</returns>
         protected bool Equals(EnemyGroup other)
         {
-            return Equals(PrevLoc, other.PrevLoc) && Equals(EnemyPirates, other.EnemyPirates) && Equals(Heading, other.Heading);
+            return ReferenceEquals(this,other);
         }
 
         /// <summary>
@@ -93,7 +103,7 @@ namespace Britbot
         /// <returns>True if identical or false otherwise</returns>
         public static bool operator ==(EnemyGroup a, EnemyGroup b)
         {
-            return a.GetHashCode() == b.GetHashCode();
+            return a.Equals(b);
         }
 
         /// <summary>
@@ -104,21 +114,7 @@ namespace Britbot
         {
             return !(a == b);
         }
-
-        /// <summary>
-        /// Get a unique-ish hash for this instance
-        /// </summary>
-        /// <returns>A unique-ish hash for this instance</returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hashCode = (PrevLoc != null ? PrevLoc.GetHashCode() : 0);
-                hashCode = (hashCode*397) ^ (EnemyPirates != null ? EnemyPirates.GetHashCode() : 0);
-                hashCode = (hashCode*397) ^ (Heading != null ? Heading.GetHashCode() : 0);
-                return hashCode;
-            }
-        }
+        
         #endregion
 
         /// <summary>
@@ -130,14 +126,19 @@ namespace Britbot
         {
             //Reduce the score in proportion to distance
             //lower score is worse. Mind the minus sign!
-            int distance = HeadingVector.CalcDistFromLine(origin.GetLocation(),this.GetLocation(), this.Heading);
+            double distance = HeadingVector.CalcDistFromLine(origin.GetLocation(),this.GetLocation(), this.Heading);
             
+            Bot.Game.Debug("DISTANCE: " + distance);
+
             //consider attack radious
             distance -=  2*Bot.Game.GetAttackRadius();
 
             //if the group is strong enough to take the enemy group add its score
             if (origin.LiveCount() > this.LiveCount())
-                return new Score(this, TargetType.EnemyGroup, this.LiveCount(), distance);
+            {
+                Bot.Game.Debug("dis-disqualified " + this.Id + " " + this.LiveCount() + " " + origin.LiveCount());
+                return new Score(this, TargetType.EnemyGroup, this.EnemyPirates.Count, distance);
+            }
             else //otherwise we don't even want to consider it
                 return null;
         }
@@ -306,6 +307,11 @@ namespace Britbot
 
             //update direction
             Heading += newDir;
+        }
+
+        public override string ToString()
+        {
+            return this.EnemyPirates.Count.ToString();
         }
 
         public string ToS()

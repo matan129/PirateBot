@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using System.Runtime.Remoting.Messaging;
 
 namespace Britbot
 {
@@ -21,12 +22,12 @@ namespace Britbot
         /// <summary>
         /// value of the island if island, number of ships if ship
         /// </summary>
-        public int Value { get; private set; }
+        public double Value { get; private set; }
 
         /// <summary>
         /// Time until completion
         /// </summary>
-        public int Eta;
+        public double Eta;
 
         /// <summary>
         /// Holds the target score relative to the attacker
@@ -35,7 +36,7 @@ namespace Britbot
         /// <param name="type">The type of the target (island or enemy group)</param>
         /// <param name="value">The Numerical value of the target</param>
         /// <param name="eta">Estimated time to arrive at target</param>
-        public Score(ITarget target, TargetType type, int value, int eta)
+        public Score(ITarget target, TargetType type, double value, double eta)
         {
             this.Target = target;
             this.Type = type;
