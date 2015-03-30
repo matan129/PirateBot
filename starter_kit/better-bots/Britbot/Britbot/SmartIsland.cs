@@ -176,7 +176,7 @@ namespace Britbot
             }
         }
 
-        #endregion
+       #endregion
 
         /// <summary>
         /// Calculates the score of this island relative to a certain group by calculating how many potential points it will generate.

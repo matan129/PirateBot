@@ -10,8 +10,8 @@ namespace Britbot
         /// <summary>
         /// The current game, which is accessible to all the types in the assembly
         /// </summary>
-        internal static IPirateGame Game { get; private set; }
-
+        public static IPirateGame Game { get; private set; }
+        
         /// <summary>
         /// Makes a move. Basically invokes the commander.
         /// </summary>
@@ -26,5 +26,6 @@ namespace Britbot
             //since we have a static constructor there
             Commander.Play();
         }
+        
     }
 }

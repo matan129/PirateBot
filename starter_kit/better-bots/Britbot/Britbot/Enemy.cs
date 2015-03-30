@@ -13,15 +13,24 @@ namespace Britbot
         /// A list of the enemy's groups
         /// </summary>
         public static List<EnemyGroup> Groups { get; private set; }
+        
+        /// <summary>
+        /// Static enemy constructor
+        /// </summary>
+        static Enemy()
+        {
+           Groups = new List<EnemyGroup>();
+        }
 
         /// <summary>
         /// Split the enemy into its groups
+        /// Should be invoked every turn to re-analyze
         /// </summary>
-        public static void AnalyzeConfig()
+        public static List<EnemyGroup> AnalyzeEnemyGroups()
         {
             //TODO: check that you don't recreate enemy groups if you don't need to
 
-            List<EnemyGroup> groups = new List<EnemyGroup>();
+            List<EnemyGroup> updatedGroups = new List<EnemyGroup>();
 
             //iterate over all the pirate of the enemy
             foreach (Pirate pete in Bot.Game.AllEnemyPirates().Where(p => !p.IsLost))
@@ -31,11 +40,11 @@ namespace Britbot
                 newGroup.EnemyPirates.Add(pete.Id);
 
                 //check if there are any older group already containing the current pirate
-                List<EnemyGroup> containsPete = groups.Where(g => g.IsInGroup(pete.Id)).ToList();
+                List<EnemyGroup> containsPete = updatedGroups.Where(g => g.IsInGroup(pete.Id)).ToList();
                 if (containsPete.Count > 0)
                 {
                     //if there are, remove these groups
-                    groups.RemoveAll(g => g.IsInGroup(pete.Id));
+                    updatedGroups.RemoveAll(g => g.IsInGroup(pete.Id));
 
                     //Add the pirates from the groups we removed to the current new group
                     foreach (EnemyGroup gr in containsPete)
@@ -49,18 +58,19 @@ namespace Britbot
                 newGroup.PrevLoc = newGroup.GetLocation();
 
                 //add the new group to the list of groups
-                groups.Add(newGroup);
+                updatedGroups.Add(newGroup);
             }
-
-            Groups = groups;
+            
+            return updatedGroups;
         }
 
         /// <summary>
-        /// does every turn updating
-        /// namely direction updating
+        /// Does every turn updating
+        /// Should be called every turn 
         /// </summary>
         public static void Update()
         {
+            Groups = AnalyzeEnemyGroups();
             foreach (EnemyGroup eGroup in Groups)
                 eGroup.UpdateHeading();
         }

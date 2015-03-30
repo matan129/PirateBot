@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -57,29 +58,31 @@ namespace Britbot
         #endregion
 
         #region constructor
+
         /// <summary>
         /// Creates a new group with set amount of ships (without thinking to much)
         /// </summary>
+        /// <param name="index">The stating index of the fist pirate in the group</param>
         /// <param name="amount">How many pirates will be in the group</param>
-        public Group(int amount)
+        public Group(int index, int amount)
         {
+            this.Pirates = new List<int>();
+            this.Heading = new HeadingVector(0, 0);
+            this.Priorities = new List<Score>();
+            this.Role = new GroupRole();
+
             //TODO try to auto choose group members by distance?
 
             //get id and update counter
             this.Id = GroupCounter++;
-
-            //counting variable for the added pirates
-            int count = 0;
-
-            for (int i = 0; i < Bot.Game.MyPirates().Count && count < amount; i++)
+            
+            for (; amount > 0; amount--)
             {
-                if (!Commander.IsEmployed(i))
-                {
-                    //add pirate and update count
-                    Pirates.Add(i);
-                    count++;
-                }
+                Bot.Game.Debug("Adding pirate at index {0} to this groups pirates", index + amount - 1);
+                this.Pirates.Add(index + amount - 1);
             }
+
+            Bot.Game.Debug("\n");
         }
         #endregion
 
@@ -91,7 +94,12 @@ namespace Britbot
         public void SetTarget(ITarget target)
         {
             //if it isn't the same target as before update and reset heading
-            if (!Equals(this.Target, target))
+            if (this.Target == null)
+            {
+                this.Target = target;
+                this.Heading.SetCoordinates(0, 0);
+            } 
+            else if (!Equals(this.Target, target))
             {
                 this.Target = target;
                 this.Heading.SetCoordinates(0, 0);
@@ -125,6 +133,15 @@ namespace Britbot
             //get Direction of movement
             Direction newDir = Target.GetDirection(this);
 
+            foreach (Pirate pirate in this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)))
+            {
+                Bot.Game.SetSail(pirate,Bot.Game.GetDirections(pirate,this.Target.GetLocation()).First());
+            }
+
+            return;
+            //TODO fix this - this movement patter is not workin at all.
+            
+
             //update heading
             Heading += newDir;
 
@@ -141,7 +158,7 @@ namespace Britbot
                  * We convert back the collection (which the Skip() method returned) of IDs with the first pirate ID taken out to a normal list<int>
                  * We convert this list of ints to pirates via the ConvertAll() method, with p being a pirate's ID 
                  * Then we iterate over each pirate in this list.
-                 * voilà!
+                 * Voilà!
                  * 
                  * P.S unlike the previous version of this method, although my lines are not the shortest,
                  * it is readable. Seriously, try reading it.
@@ -159,7 +176,22 @@ namespace Britbot
         /// </summary>
         public void CalcPriorities()
         {
-            throw new NotImplementedException();
+            //init some lists
+            List<ITarget> priorityList = new List<ITarget>();
+            List<Score> scores = new List<Score>();
+
+            //Add all targets to the list
+            priorityList.AddRange(SmartIsland.IslandList);
+            priorityList.AddRange(Enemy.Groups);
+            
+            //Add a score for each target we got
+            foreach (ITarget target in priorityList)
+            {
+                scores.Add(target.GetScore(this));
+            }
+
+            //set it to this instance of Group
+            this.Priorities = scores;
         }
     }
 }

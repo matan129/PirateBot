@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Britbot
 {
@@ -11,12 +12,12 @@ namespace Britbot
         /// <summary>
         /// array of dimension, given at the constructor and never changes
         /// </summary>
-        private int[] dimensions;
-        
+        public int[] Dimensions { get; private set; }
+
         /// <summary>
         /// The values of the iteration vector
         /// </summary>
-        public int[] Values;
+        public int[] Values { get; set; }
 
         /// <summary>
         /// assigns dimensions and initiate value of iteration
@@ -27,13 +28,12 @@ namespace Britbot
         {
             //set the given dimensions
 
-            this.dimensions = dims;
+            this.Dimensions = dims;
 
             //check if dimensions are legal (meaning strictly positive)
-            foreach (int dim in dimensions)
+            if (Dimensions.Any(dim => dim <= 0))
             {
-                if (dim <= 0)
-                    throw new Exception("Dimensions must be strictly positive");
+                throw new InvalidIteratorDimension("Dimensions must be strictly positive");
             }
 
             //initiate count at zero
@@ -67,14 +67,14 @@ namespace Britbot
         /// you can count up to the given dimension each turn
         /// </summary>
         /// <returns>false if the iteration is finished (gone back to zero), true otherwise</returns>
-        public bool AdvanceIteration()
+        public bool NextIteration()
         {
             //going over the vector entries
             for (int i = 0; i < this.Values.Length; i++)
             {
                 //if we don't need to go over the top of the dimension just add
 
-                if (this.Values[i] < this.dimensions[i] - 1)
+                if (this.Values[i] < this.Dimensions[i] - 1)
                 {
                     this.Values[i]++;
                     break;
@@ -92,7 +92,7 @@ namespace Britbot
         /// <returns>A textual description for this ExpIterator</returns>
         public override string ToString()
         {
-            return "dimensions: " + dimensions + "\n" + "MultiIndex: " + Values;
+            return "dimensions: " + Dimensions + "\n" + "MultiIndex: " + Values;
         }
     }
 }

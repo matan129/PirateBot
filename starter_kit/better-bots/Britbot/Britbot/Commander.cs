@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Britbot
 {
@@ -17,9 +20,15 @@ namespace Britbot
         /// </summary>
         static Commander()
         {
-            for (int i = 0; i < Bot.Game.MyPirates().Count; i += 2)
+            //TODO fix this
+            Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
+
+            Groups = new List<Group>();
+
+            for (int i = 0; i < Bot.Game.AllMyPirates().Count - 1; i += 2)
             {
-                Groups.Add(new Group(2));
+                Bot.Game.Debug("Initializing Group {0} with 2 pirates",i);
+                Groups.Add(new Group(i,2));
             }
         }
 
@@ -34,7 +43,7 @@ namespace Britbot
             //calculate targets
             AssignTargets();
 
-            //move forces
+            //Move forces
             MoveForces();
         }
 
@@ -44,7 +53,7 @@ namespace Britbot
         /// <param name="config">The new configuration. i.e. {2,2,2} for three groups of two pirates</param>
         public static void DistributeForces(int[] config)
         {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -80,17 +89,17 @@ namespace Britbot
             //read all possible target-group assignment
             Score[][] possibleAssignments = GetPossibleTargetMatrix();
 
-
-            //WHAT is going on here? more explanations plese Matan (Kom)
+            
             //indecies of the best assignment yet
             int[] maxAssignment = new int[dimensions.Length];
             int maxScore = 0;
 
             //create new iteration object
-            ExpIterator eit = new ExpIterator(dimensions);
+            ExpIterator iterator = new ExpIterator(dimensions);
 
             //Score array for calculations in each iteration
             Score[] scoreArr = new Score[dimensions.Length];
+           
             //iterating over all possible target assignments
             do
             {
@@ -99,21 +108,21 @@ namespace Britbot
                 {
                     //set the i-th score to be the current iteration value
                     //of the i-th group
-                    scoreArr[i] = possibleAssignments[i][eit.Values[i]];
+                    scoreArr[i] = possibleAssignments[i][iterator.Values[i]];
                 }
 
                 //calculate new score
-                int newScore = (int)GlobalScore(scoreArr);
+                int newScore = (int)GlobalizeScore(scoreArr);
 
                 //check if the score is better
                 if (newScore > maxScore)
                 {
                     //replace best
                     maxScore = newScore;
-                    maxAssignment = eit.Values;
+                    maxAssignment = iterator.Values;
                 }
             } 
-            while (eit.AdvanceIteration());
+            while (iterator.NextIteration());
 
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
@@ -123,23 +132,24 @@ namespace Britbot
         }
 
         /// <summary>
-        /// This function shpud convert an array of local scores into a numeric
+        /// This function should convert an array of local scores into a numeric
         /// score based on global criteria
         /// score class is not finished yet so meanwhile it is pretty dumb
         /// </summary>
         /// <param name="scoreArr">array of local scores</param>
         /// <returns></returns>
-        public static double GlobalScore(Score[] scoreArr)
+        public static double GlobalizeScore(IEnumerable<Score> scoreArr)
         {
-            //TODO implement this
+            //TODO: WE NEED SOME CONSTANTS IN THE COMMANDER BASED ON STUFF
+            //TODO this is not finished
+
             int score = 0;
             double timeAvg = 0;
+
             foreach (Score s in scoreArr)
             {
-                //THIS IS a little less BULLSHIT BUT THE SCORE CLASS ISNT READY YET
                 if (s.Type == TargetType.Island)
                 {
-                    //TODO: WE NEED SOME CONSTANTS IN THE COMMANDER BASED ON STUFF
                     score += 100*s.Value;
                 }
                 else if (s.Type == TargetType.EnemyGroup)
@@ -150,7 +160,7 @@ namespace Britbot
                 timeAvg += s.Eta;
             }
 
-            return score*scoreArr.Length/timeAvg;
+            return score * scoreArr.Count() / timeAvg;
         }
 
         /// <summary>
@@ -208,7 +218,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// makes all the groups move based on thier targets
+        /// makes all the groups move based on their targets
         /// </summary>
         private static void MoveForces()
         {

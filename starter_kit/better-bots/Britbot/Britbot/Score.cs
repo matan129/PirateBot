@@ -1,9 +1,12 @@
-﻿namespace Britbot
+﻿using System;
+using System.Dynamic;
+
+namespace Britbot
 {
     /// <summary>
     /// A class represent information about a target's score in relation to a specific group
     /// </summary>
-    public class Score
+    public class Score : IComparable, IComparable<Score>
     {
         /// <summary>
         /// The target being scored
@@ -38,6 +41,32 @@
             this.Type = type;
             this.Value = value;
             this.Eta = eta;
+        }
+
+        /// <summary>
+        /// Used to compare two score elements
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int CompareTo(object obj)
+        {
+            Score score = obj as Score;
+            if (score != null)
+            {
+                return this.CompareTo(score);
+            }
+            
+            throw new ArgumentException("Object must a a Score in order to compare it with another score object");
+        }
+
+        /// <summary>
+        /// Used to compare two score elements
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(Score other)
+        {
+            return (this.Value*10 - this.Eta).CompareTo((other.Value*10 - other.Eta));
         }
     }
 

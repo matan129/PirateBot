@@ -32,7 +32,9 @@ namespace Britbot
         /// </summary>
         public EnemyGroup()
         {
-            
+            this.EnemyPirates = new List<int>();
+            this.PrevLoc = new Location(0,0);
+            this.Heading = new HeadingVector(this.PrevLoc);
         }
 
         /// <summary>

@@ -4,28 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5E814B3F-B269-4F9C-B482-84C5416AC731}</ProjectGuid>
+    <ProjectGuid>{A55AD32A-8CE7-4D9F-B7EC-850220F73731}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Britbot</RootNamespace>
-    <AssemblyName>Britbot</AssemblyName>
+    <RootNamespace>DaemonNine</RootNamespace>
+    <AssemblyName>DaemonNine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IPirateGame">
-      <HintPath>..\..\SarcasticBot\SarcasticBot\IPirateGame.dll</HintPath>
+      <HintPath>..\..\..\bots\csharp\IPirateGame.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,35 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ai.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="Commander.cs" />
-    <Compile Include="Enemy.cs" />
-    <Compile Include="EnemyGroup.cs" />
-    <Compile Include="Exceptions.cs" />
-    <Compile Include="ExpIterator.cs" />
-    <Compile Include="Extentions.cs" />
-    <Compile Include="Group.cs" />
-    <Compile Include="GroupRole.cs" />
-    <Compile Include="HeadingVector.cs" />
-    <Compile Include="ITarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Score.cs" />
-    <Compile Include="SmartIsland.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

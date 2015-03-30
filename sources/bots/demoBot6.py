@@ -1,7 +1,5 @@
-""" Demo 6 sends all pirates a time to conquer the closest island """
-
 def do_turn(game):
-    if len(game.not_my_islands()) == 0:
+    if len(game.not_my_islands()) < 1:
         return 
     assigned_pirates = set()
 
