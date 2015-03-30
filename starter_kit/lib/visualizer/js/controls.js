@@ -45,7 +45,8 @@ angular.module('visualizerApp').controller('VisualizerCtrl', ['$scope', function
             options.turn = 0;
         }
         options.updateExternalView = function() {
-            setTimeout(function() {
+            set
+(function() {
                 $scope.$apply(function() {
                     if (!$scope.debugMessages) {
                         $scope.debugMessages = loadDebugMessages($scope.visualizer.state.replay.meta.debug_messages);

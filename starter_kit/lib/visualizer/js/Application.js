@@ -247,7 +247,13 @@ Visualizer.prototype.progress = function(log, func, id) {
 	this.progressList.push(id);
 	var vis = this;
 	if (log) this.logOut(log);
-	window.setTimeout(function() {
+	window.set
+
+
+
+
+
+(function() {
 		var k;
 		func();
 		for (k = 0; k < vis.progressList.length; k++) {

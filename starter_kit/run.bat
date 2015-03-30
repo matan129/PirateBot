@@ -27,6 +27,8 @@ rem remove trailing backslash
 IF %bot1:~-1%==\ SET bot1=%bot1:~0,-1%
 IF %bot2:~-1%==\ SET bot2=%bot2:~0,-1%
 
+echo %pyexe% "%~dp0lib\playgame.py" --loadtime 10000 -e -E -d --debug_in_replay --engine_seed 42 --player_seed 42 --log_dir "%~dp0lib\game_logs" --map_file "%map%" "%bot1%" "%bot2%"
+pause
 
 %pyexe% "%~dp0lib\playgame.py" --loadtime 10000 -e -E -d --debug_in_replay --engine_seed 42 --player_seed 42 --log_dir "%~dp0lib\game_logs" --map_file "%map%" "%bot1%" "%bot2%"
 goto:EOF
