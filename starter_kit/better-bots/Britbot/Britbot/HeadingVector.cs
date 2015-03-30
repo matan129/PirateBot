@@ -398,6 +398,16 @@ namespace Britbot
             return (int) (Math.Abs(dif.X - tMin*dir.X) + Math.Abs(dif.Y - tMin*dir.Y));
         }
 
+
+        public int ComparePirateByDirection(int p1, int p2)
+        {
+            //calculate both pirates position on the line created by hv
+            int p1Dist = CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p1).Loc, this.Orthogonal());
+            int p2Dist = CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p2).Loc, this.Orthogonal());
+
+            return p2Dist - p1Dist;
+        }
+
         #region operators
 
         /// <summary>

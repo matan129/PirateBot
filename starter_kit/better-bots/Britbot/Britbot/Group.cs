@@ -132,22 +132,22 @@ namespace Britbot
         {
             //get Direction of movement
             Direction newDir = Target.GetDirection(this);
-
+            /*
             foreach (Pirate pirate in this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)))
             {
                 Bot.Game.SetSail(pirate,Bot.Game.GetDirections(pirate,this.Target.GetLocation()).First());
             }
 
-            return;
+            return;*/
             //TODO fix this - this movement patter is not workin at all.
             
 
             //update heading
             Heading += newDir;
 
-            //first move the first pirate 
-            Pirate leader = Bot.Game.GetMyPirate(this.Pirates.First());
-            Bot.Game.SetSail(leader, newDir);
+            //sort pirates by the new heading
+            Pirates.Sort((p1, p2) => Heading.ComparePirateByDirection(p1, p2));
+            Bot.Game.SetSail(Bot.Game.GetMyPirate(Pirates[0]), newDir);
 
             //if there are others, move them after him
             if (Pirates.Count > 1)
@@ -165,7 +165,7 @@ namespace Britbot
                  */
                 foreach (Pirate pete in this.Pirates.Skip(1).ToList().ConvertAll(p => Bot.Game.GetMyPirate(p)))
                 {
-                    Direction order = Bot.Game.GetDirections(pete, leader).First();
+                    Direction order = Bot.Game.GetDirections(pete, Bot.Game.GetMyPirate(Pirates[0])).First();
                     Bot.Game.SetSail(pete, order);
                 }
             }
