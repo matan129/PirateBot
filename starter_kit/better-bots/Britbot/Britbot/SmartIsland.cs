@@ -143,8 +143,6 @@ namespace Britbot
         /// <returns>True if the islands are the same or false otherwise</returns>
         protected bool Equals(SmartIsland other)
         {
-            if (this.Id == other.Id)
-                Bot.Game.Debug("Hazzah");
             return this.Id == other.Id;
         }
 
@@ -200,7 +198,7 @@ namespace Britbot
 
             //check if the island isn't already ours, if so disqualify it and return null
             if (this.Owner != Consts.ME)
-                return new Score(this, TargetType.Island, this.Value, distance + captureTime);
+                return new Score(this, TargetType.Island, (origin.Pirates.Count * (this.Value -1)) + 1, distance + captureTime);
             else
                 return null;
         }

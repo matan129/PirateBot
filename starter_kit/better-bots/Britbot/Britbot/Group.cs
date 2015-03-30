@@ -116,13 +116,24 @@ namespace Britbot
             int x = 0;
             int y = 0;
 
-            foreach (int pirate in Pirates)
+            if(this.Pirates == null)
+                this.Pirates = new List<int>();
+
+            foreach (int pirate in this.Pirates)
             {
-                x += Bot.Game.GetEnemyPirate(pirate).Loc.Col;
-                y += Bot.Game.GetEnemyPirate(pirate).Loc.Row;
+                x += Bot.Game.GetMyPirate(pirate).Loc.Col;
+                y += Bot.Game.GetMyPirate(pirate).Loc.Row;
             }
 
-            return new Location(y/Pirates.Count, x/Pirates.Count);
+            try
+            {
+                return new Location(y / Pirates.Count, x / Pirates.Count);
+            }
+            catch (Exception)
+            {
+                return new Location(0,0);
+            }
+            
         }
 
         /// <summary>
@@ -190,7 +201,7 @@ namespace Britbot
 
             //Add all targets to the list
             //TODO Fix enemy group targeting
-            priorityList.AddRange(Enemy.Groups);
+            //priorityList.AddRange(Enemy.Groups);
             priorityList.AddRange(SmartIsland.IslandList);
             
             //Add a score for each target we got

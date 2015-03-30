@@ -41,8 +41,17 @@ namespace Britbot
                     Groups.Add(new Group(3, 2));
                     break;
                 case 6:
-                    Groups.Add(new Group(0, 3));
-                    Groups.Add(new Group(3, 3));
+                    if (Bot.Game.EnemyIslands().Count > 0)
+                    {
+                        Groups.Add(new Group(0, 6));
+                        
+                    }
+                    else
+                    {
+                        Groups.Add(new Group(0, 1));
+                        Groups.Add(new Group(1, 3));
+                        Groups.Add(new Group(4, 2));
+                    }
                     break;
             }
         }
@@ -110,7 +119,17 @@ namespace Britbot
             int maxScore = 0;
 
             //create new iteration object
-            ExpIterator iterator = new ExpIterator(dimensions);
+            ExpIterator iterator;
+            try
+            {
+                iterator = new ExpIterator(dimensions);
+            }
+            catch (Exception)
+            {
+                Bot.Game.Debug("resting");
+                return;
+            }
+            
 
             //Score array for calculations in each iteration
             Score[] scoreArr = new Score[dimensions.Length];
@@ -146,8 +165,7 @@ namespace Britbot
                     {
                         maxAssignment[i] = iterator.Values[i];
                     }
-
-                    Bot.Game.Debug("Max Assignment " + string.Join(",", maxAssignment));
+                    
                 }
             } 
             while (iterator.NextIteration());
@@ -157,7 +175,6 @@ namespace Britbot
             {
                 Groups[i].SetTarget(possibleAssignments[i][maxAssignment[i]].Target);
                 
-                Bot.Game.Debug(Groups[i].Target.GetLocation().ToString());
             }
 
             Bot.Game.Debug("----------TARGETS--------------");
@@ -188,7 +205,7 @@ namespace Britbot
             {
                 if (s.Type == TargetType.Island)
                 {
-                    score += 100*s.Value;
+                    score += 100* s.Value;
                 }
                 else if (s.Type == TargetType.EnemyGroup)
                 {

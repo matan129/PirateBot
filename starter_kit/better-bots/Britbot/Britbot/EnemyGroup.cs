@@ -81,7 +81,7 @@ namespace Britbot
         /// <returns>True if identical or false otherwise</returns>
         protected bool Equals(EnemyGroup other)
         {
-            return ReferenceEquals(this,other);
+            return ReferenceEquals(this, other);
         }
 
         /// <summary>
@@ -150,10 +150,19 @@ namespace Britbot
         public Location GetLocation()
         {
             //Get a list of all location of the enemy pirates in this group
-            List<Location> locs =
-                this.EnemyPirates.ConvertAll(e => Bot.Game.GetEnemyPirate(e))
-                    .Select(p => p.Loc)
-                    .Concat(new Location[] {}).ToList();
+            List<Location> locs = new List<Location>();
+
+            Bot.Game.Debug("PIRATES::" + this.EnemyPirates.Count);
+
+            if(this.EnemyPirates == null) return new Location(0,0);
+
+            foreach (int e in this.EnemyPirates)
+            {
+                Pirate enemyPirate = Bot.Game.GetEnemyPirate(e);
+                locs.Add(enemyPirate.Loc);
+            }
+
+            Bot.Game.Debug("PIRATES 2::" + this.EnemyPirates.Count);
 
             //sum all the locations!
             int totalCol = locs.Sum(loc => loc.Col);
