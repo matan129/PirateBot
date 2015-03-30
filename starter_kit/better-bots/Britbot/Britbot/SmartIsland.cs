@@ -31,7 +31,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Value of the island, or how may mnrnal island it is worth
+        /// Value of the island, or how may normal island it is worth
         /// </summary>
         public int Value
         {
@@ -143,7 +143,9 @@ namespace Britbot
         /// <returns>True if the islands are the same or false otherwise</returns>
         protected bool Equals(SmartIsland other)
         {
-            return CaptureTurns == other.CaptureTurns && Value == other.Value && Equals(Loc, other.Loc);
+            if (this.Id == other.Id)
+                Bot.Game.Debug("Hazzah");
+            return this.Id == other.Id;
         }
 
         /// <summary>
@@ -153,10 +155,11 @@ namespace Britbot
         /// <returns>True if the islands are the same or false otherwise</returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((SmartIsland)obj);
+            if (obj is SmartIsland)
+            {
+                return Equals((SmartIsland) obj);
+            }
+            return false;
         }
 
         /// <summary>

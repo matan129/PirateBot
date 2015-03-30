@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 
 namespace Britbot
 {
@@ -25,11 +26,9 @@ namespace Britbot
 
             Groups = new List<Group>();
 
-            for (int i = 0; i < Bot.Game.AllMyPirates().Count - 1; i += 2)
-            {
-                Bot.Game.Debug("Initializing Group {0} with 2 pirates",i);
-                Groups.Add(new Group(i,2));
-            }
+            Groups.Add(new Group(0,2));
+            Groups.Add(new Group(2, 2));
+            Groups.Add(new Group(4, 1));
         }
 
         /// <summary>
@@ -113,13 +112,25 @@ namespace Britbot
 
                 //calculate new score
                 int newScore = (int)GlobalizeScore(scoreArr);
+                Bot.Game.Debug("NewScore " + newScore);
+                Bot.Game.Debug("MaxScore " + maxScore);
+
+                Bot.Game.Debug("Iterator Vals count " + iterator.Values.Count());
+                Bot.Game.Debug(string.Join(",", iterator.Values));
+                Bot.Game.Debug("\n");
 
                 //check if the score is better
                 if (newScore > maxScore)
                 {
                     //replace best
                     maxScore = newScore;
-                    maxAssignment = iterator.Values;
+
+                    for (int i = 0; i < maxAssignment.Length; i++)
+                    {
+                        maxAssignment[i] = iterator.Values[i];
+                    }
+
+                    Bot.Game.Debug("Max Assignment " + string.Join(",", maxAssignment));
                 }
             } 
             while (iterator.NextIteration());
@@ -128,7 +139,14 @@ namespace Britbot
             for (int i = 0; i < dimensions.Length; i++)
             {
                 Groups[i].SetTarget(possibleAssignments[i][maxAssignment[i]].Target);
+                
+                Bot.Game.Debug(Groups[i].Target.GetLocation().ToString());
             }
+
+            Bot.Game.Debug("MaxScore:" + maxScore);
+            Bot.Game.Debug("Max Ass " + string.Join(",", maxAssignment));
+            Bot.Game.Debug("\n");
+
         }
 
         /// <summary>
@@ -166,11 +184,11 @@ namespace Britbot
                 for (int j = i + 1; j < scoreArr.Count() - 1; j++)
                 {
                     if (scoreArr[i].Target.Equals(scoreArr[j].Target))
-                        score -= 10000;
+                        score -= 100000000;
                 }
             }
 
-            return score * scoreArr.Count() / timeAvg;
+            return score*scoreArr.Count() - timeAvg;
         }
 
         /// <summary>

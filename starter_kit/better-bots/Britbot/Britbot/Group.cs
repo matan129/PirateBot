@@ -132,15 +132,14 @@ namespace Britbot
         {
             //get Direction of movement
             Direction newDir = Target.GetDirection(this);
-            /*
+
             foreach (Pirate pirate in this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)))
             {
-                Bot.Game.SetSail(pirate,Bot.Game.GetDirections(pirate,this.Target.GetLocation()).First());
+                Bot.Game.SetSail(pirate, Bot.Game.GetDirections(pirate, this.Target.GetLocation()).First());
             }
 
-            return;*/
-            //TODO fix this - this movement patter is not workin at all.
-            
+            return;
+
 
             //update heading
             Heading += newDir;
@@ -190,8 +189,10 @@ namespace Britbot
             List<Score> scores = new List<Score>();
 
             //Add all targets to the list
+            
+            //TODO Fix enemy group targeting
+            //priorityList.AddRange(Enemy.Groups);
             priorityList.AddRange(SmartIsland.IslandList);
-            priorityList.AddRange(Enemy.Groups);
             
             //Add a score for each target we got
             foreach (ITarget target in priorityList)
