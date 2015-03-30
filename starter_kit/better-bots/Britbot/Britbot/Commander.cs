@@ -138,7 +138,7 @@ namespace Britbot
         /// </summary>
         /// <param name="scoreArr">array of local scores</param>
         /// <returns></returns>
-        public static double GlobalizeScore(IEnumerable<Score> scoreArr)
+        public static double GlobalizeScore(Score[] scoreArr)
         {
             //TODO: WE NEED SOME CONSTANTS IN THE COMMANDER BASED ON STUFF
             //TODO this is not finished
@@ -158,6 +158,16 @@ namespace Britbot
                 }
 
                 timeAvg += s.Eta;
+            }
+
+            //check if there are two of the same target
+            for (int i = 0; i < scoreArr.Count() - 1; i++)
+            {
+                for (int j = i + 1; j < scoreArr.Count() - 1; j++)
+                {
+                    if (scoreArr[i].Target.Equals(scoreArr[j].Target))
+                        score -= 10000;
+                }
             }
 
             return score * scoreArr.Count() / timeAvg;

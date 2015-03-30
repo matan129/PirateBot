@@ -130,20 +130,16 @@ namespace Britbot
         {
             //Reduce the score in proportion to distance
             //lower score is worse. Mind the minus sign!
-            int distance = InRangeGroupDistance(this, origin);
-            int scoreVal = -distance;
+            int distance = HeadingVector.CalcDistFromLine(origin.GetLocation(),this.GetLocation(), this.Heading);
+            
+            //consider attack radious
+            distance -=  2*Bot.Game.GetAttackRadius();
 
-            distance +=  + 2*Bot.Game.GetAttackRadius();
-
-            /*
-             * if the score requesting group is bigger then this enemy group, add a bunch of points because killing enemy
-             * ships is awesome. Otherwise, reduce lots of point because the origin group does not want to die!
-             */
-            scoreVal += 25*(origin.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost)) -
-                        this.EnemyPirates.ConvertAll(e => Bot.Game.GetEnemyPirate(e)).Count(e => !e.IsLost);
-
-            //return new score instance with the relevant information
-            return new Score(this, TargetType.EnemyGroup, scoreVal, distance);
+            //if the group is strong enough to take the enemy group add its score
+            if (origin.LiveCount() > this.LiveCount())
+                return new Score(this, TargetType.EnemyGroup, this.LiveCount(), distance);
+            else //otherwise we don't even want to consider it
+                return null;
         }
 
         /// <summary>
@@ -179,6 +175,15 @@ namespace Britbot
             //calculates the direction based on the geographical data from the game
             return HeadingVector.CalculateDirectionToMovingTarget(group.GetLocation(), group.Heading, GetLocation(),
                 Heading);
+        }
+
+        /// <summary>
+        /// counts how many living pirates are in the group
+        /// </summary>
+        /// <returns>how many living pirates are in the group</returns>
+        public int LiveCount()
+        {
+            return EnemyPirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost);
         }
 
         /// <summary>

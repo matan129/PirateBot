@@ -195,39 +195,11 @@ namespace Britbot
             //Amount of turns it takes to capture an island
             int captureTime = this.CaptureTurns;
 
-            //The amount of theoretical islands that we own
-            //TODO maybe insert other considerations to this calculation - not very reliable at the moment
-            int theoreticalIslandCount = this.Value + Bot.Game.MyIslands().Count;
-
-            //The amount of points we would earn per turn if we owned said island
-            int pointsPerTurn = (int) Math.Pow(2, theoreticalIslandCount) - 1;
-
-            //The Amount of turns we will probably own said island
-            int maxOwnershipTurns = 0;
-
-            //The amount of future turns
-            int turnNumber = 0;
-
-            //Approximation of number of points we will have in the future
-            int projectedPoints = 0;
-
-            while (turnNumber < maxOwnershipTurns)
-            {
-                projectedPoints = pointsPerTurn*(turnNumber - (distance + captureTime));
-
-                //TODO awaiting review (Matan R) - this line was missing so I assumed it should be here, please confirm.
-                turnNumber++;
-            }
-
-            //As there is no such thing as negative points, Show 0.
-            if (projectedPoints < 0)
-            {
-                projectedPoints = 0;
-            }
-
-            //TODO MaxOwnerShipTurns will be calculated using enemy group's heading and proximity to island
-            //TODO this should be double checked - waiting for review (Matan R)
-            return new Score(this, TargetType.Island, projectedPoints, distance);
+            //check if the island isn't already ours, if so disqualify it and return null
+            if (this.Owner != Consts.ME)
+                return new Score(this, TargetType.Island, this.Value, distance + captureTime);
+            else
+                return null;
         }
 
         /// <summary>

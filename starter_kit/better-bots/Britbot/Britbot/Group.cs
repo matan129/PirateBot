@@ -146,7 +146,7 @@ namespace Britbot
             Heading += newDir;
 
             //sort pirates by the new heading
-            Pirates.Sort((p1, p2) => Heading.ComparePirateByDirection(p1, p2));
+            Pirates.Sort((p1, p2) => Heading.ComparePirateByDirection(p2, p1));
             Bot.Game.SetSail(Bot.Game.GetMyPirate(Pirates[0]), newDir);
 
             //if there are others, move them after him
@@ -172,6 +172,15 @@ namespace Britbot
         }
 
         /// <summary>
+        /// counts how many living pirates are in the group
+        /// </summary>
+        /// <returns>how many living pirates are in the group</returns>
+        public int LiveCount()
+        {
+            return Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost);
+        }
+
+        /// <summary>
         /// Calculate target priorities for this group
         /// </summary>
         public void CalcPriorities()
@@ -187,7 +196,11 @@ namespace Britbot
             //Add a score for each target we got
             foreach (ITarget target in priorityList)
             {
-                scores.Add(target.GetScore(this));
+                //calculate the score for this specific target
+                Score newScore = target.GetScore(this);
+                //check if score wasn't null, meaning if target was disqualified
+                if (newScore != null)
+                    scores.Add(newScore);
             }
 
             //set it to this instance of Group
