@@ -36,7 +36,6 @@ namespace Britbot
             foreach (EnemyGroup eGroup in Groups)
             {
                 //assuming eGroup isn't empty
-
                 EnemyGroup retiredGroup;
                 List<int> retiredPirates = new List<int>();
 
