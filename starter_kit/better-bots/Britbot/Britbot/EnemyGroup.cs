@@ -124,6 +124,15 @@ namespace Britbot
         /// <returns>The score for this group</returns>
         public Score GetScore(Group origin)
         {
+            //first check if groups direction is stable, otherwise disquallify
+            int stabilityCoeff = 2;
+            if (this.Heading.Norm1() < stabilityCoeff)
+                return null;
+
+            //next check if it even possible to catch the ship, otherwise disqualify
+            if (!HeadingVector.IsReachable(origin.GetLocation(), GetLocation(), Heading))
+                return null;
+
             //Reduce the score in proportion to distance
             //lower score is worse. Mind the minus sign!
             double distance = HeadingVector.CalcDistFromLine(origin.GetLocation(),this.GetLocation(), this.Heading);
@@ -131,7 +140,7 @@ namespace Britbot
             Bot.Game.Debug("EnemyGroup's HeadingVector CalcFromLine returned: " + distance);
 
             //consider attack radious
-            distance -=  2*Bot.Game.GetAttackRadius();
+            distance -=  Bot.Game.GetAttackRadius();
 
             //if the group is strong enough to take the enemy group add its score
             if (origin.LiveCount() > this.LiveCount())
@@ -242,6 +251,24 @@ namespace Britbot
         }
 
         /// <summary>
+        /// Determines if an enemy pirate belongs to to the group of id's specified
+        /// </summary>
+        /// <param name="group">The indecies of the pirate in the group</param>
+        /// <param name="enemyPirate">The index of the enemy pirate</param>
+        /// <returns>True if the pirate belongs to the group or false, otherwise</returns>
+        public static bool IsInGroup(List<int> group,int enemyPirate)
+        {
+            Pirate ePirate = Bot.Game.GetEnemyPirate(enemyPirate);
+
+            //Check if the given pirate is close (max of 2 distance units) to any of the pirates already in this group
+            return
+                group.ConvertAll(e => Bot.Game.GetEnemyPirate(e))
+                    .Select(ep => Bot.Game.Distance(ep, ePirate))
+                    .Concat(new int[] { })
+                    .Min() <= 2;
+        }
+
+        /// <summary>
         /// Gets the minimal distance from this enemy group to a location
         /// </summary>
         /// <param name="location">the location to test for</param>
@@ -312,6 +339,46 @@ namespace Britbot
 
             //update direction
             Heading += newDir;
+        }
+
+        /// <summary>
+        /// given a list of pirates (that assumed to be contained in the pirates of the group)
+        /// creates a new EnemyGroup with this groups geographical parameters and removes the 
+        /// removed pirates
+        /// </summary>
+        /// <param name="removedPirates"></param>
+        /// <returns></returns>
+        public EnemyGroup Split(List<int> removedPirates)
+        {
+            //if it means to recreate the whole group, then no need to do anything
+            if (removedPirates.Count == EnemyPirates.Count)
+                return null;
+
+            //create new group
+            EnemyGroup newEnemyGroup = new EnemyGroup(this.PrevLoc, removedPirates, this.Heading);
+
+            //remove pirates
+            this.EnemyPirates.RemoveAll(pirate => removedPirates.Contains(pirate));
+
+            //return new enemy Group
+            return newEnemyGroup;
+        }
+
+        /// <summary>
+        /// joins a given enemy group to this by adding its pirates and avraging the geographic data
+        /// if given itself, does nothing
+        /// </summary>
+        /// <param name="enemyGroup">the group to add</param>
+        public void Join(EnemyGroup enemyGroup)
+        {
+            //check if id are the same then no need to do anything
+            if (this.Id == enemyGroup.Id)
+                return;
+
+            //otherwise add their pirates and ajust stuff
+            this.EnemyPirates.AddRange(enemyGroup.EnemyPirates);
+            this.Heading += enemyGroup.Heading;
+            PrevLoc = new Location((this.PrevLoc.Row + enemyGroup.PrevLoc.Row) / 2, (this.PrevLoc.Col + enemyGroup.PrevLoc.Col) / 2);
         }
 
         public override string ToString()

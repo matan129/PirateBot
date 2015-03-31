@@ -28,6 +28,47 @@ namespace Britbot
         /// </summary>
         public static List<EnemyGroup> AnalyzeEnemyGroups()
         {
+            //the updated list
+            List<EnemyGroup> newEnemyList = new List<EnemyGroup>();
+
+            //first split group if we need to 
+            //go over all the existing group and update them if needed
+            foreach (EnemyGroup eGroup in Groups)
+            {
+                //assuming eGroup isn't empty
+
+                EnemyGroup retiredGroup;
+                List<int> retiredPirates = new List<int>();
+
+                //split the group for smaller group if needed
+                do
+                {
+                    //setting pivot
+                    retiredPirates.Add(eGroup.EnemyPirates[0]);
+
+                    //going over all the others
+                    for (int i = 1; i < eGroup.EnemyPirates.Count; i++)
+                    {
+                        //if the new pirate is close to any of the previous, add him
+                        if(EnemyGroup.IsInGroup(retiredPirates, eGroup.EnemyPirates[i]))
+                            retiredPirates.Add(eGroup.EnemyPirates[i]);
+                    }
+
+                    //retire those pirates
+                    retiredGroup = eGroup.Split(retiredPirates);
+
+                    //check if there were actually pirates ritired or just the entire groups stayed together
+                    if (retiredGroup != null)
+                        newEnemyList.Add(retiredGroup);
+
+                } while (retiredPirates != null);
+                //here we add the pirates left in the last iteration
+                newEnemyList.Add(eGroup);
+            }
+
+            //TODO: now combine them if we need to
+            
+            /*
             //TODO: check that you don't recreate enemy groups if you don't need to
 
             List<EnemyGroup> updatedGroups = new List<EnemyGroup>();
@@ -62,8 +103,8 @@ namespace Britbot
             }
 
             Bot.Game.Debug("Enemy Configuration: " + string.Join(",", updatedGroups));
-
-            return updatedGroups;
+            */
+            return newEnemyList;
         }
 
         /// <summary>
