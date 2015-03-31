@@ -60,6 +60,7 @@ class HeadTail(object):
             sep = unicode('')
         return self.capture_head + sep + self.capture_tail
 
+
 def run_game(game, botcmds, options):
     # file descriptors for replay and streaming formats
     replay_log = options.get('replay_log', None)
@@ -67,6 +68,8 @@ def run_game(game, botcmds, options):
     verbose_log = options.get('verbose_log', None)
     debug_log = options.get('debug_log', None)
     debug_in_replay = options.get('debug_in_replay', None)
+    debug_max_length = options.get('debug_max_length', None)
+    debug_max_count = options.get('debug_max_count', None)
     # file descriptors for bots, should be list matching # of bots
     input_logs = options.get('input_logs', [None]*len(botcmds))
     output_logs = options.get('output_logs', [None]*len(botcmds))
@@ -90,6 +93,33 @@ def run_game(game, botcmds, options):
     bot_status = []
     bot_turns = []
     debug_msgs = [[] for _ in range(len(botcmds))]
+    debug_msgs_length = [0 for _ in range(len(botcmds))]
+    debug_msgs_count = [0 for _ in range(len(botcmds))]
+    debug_msgs_exceeded = [False for _ in range(len(botcmds))]
+
+    #helper function to add messages for replay data
+    def add_debug_messages(bot_index, turn, level, messages):
+        if (not debug_in_replay) or len(messages) == 0:
+            return
+
+        # In order to calculate this only if we not already exceeded
+        if not debug_msgs_exceeded[bot_index]:
+            messages_size = sum(map(lambda m: len(m), messages))
+            debug_msgs_length[bot_index] += messages_size
+            debug_msgs_count[bot_index] += len(messages)
+
+            if (debug_msgs_count[bot_index] > debug_max_count) or (
+                debug_msgs_length[bot_index] > debug_max_length):
+                # update the calculated exceeded
+                debug_msgs_exceeded[bot_index] = True
+
+        if (debug_msgs_exceeded[bot_index]):
+            debug_msgs[bot_index].append([turn, 2, ["Exceeded debug messages limit."]])
+            if error_logs and error_logs[bot_index]:
+                error_logs[bot_index].write("Exceeded debug messages limit.\n")
+        else:
+            debug_msgs[bot_index].append([turn, level, messages])
+
     if capture_errors:
         error_logs = [HeadTail(log, capture_errors_max) for log in error_logs]
     try:
@@ -121,7 +151,7 @@ def run_game(game, botcmds, options):
 
             if not bot_cmd:
                 # couldnt generate bot command - couldnt recognize the language of the code
-                debug_msgs[b].append([0, 2, ["Couldnt recognize code language. Are you sure code files are correct?"]])
+                add_debug_messages(b, 0, 2, ["Couldnt recognize code language. Are you sure code files are correct?"])
 
         if stream_log:
             # stream the start info - including non-player info
@@ -199,16 +229,14 @@ def run_game(game, botcmds, options):
                     if messages:
                         debug_log.write('turn %4d bot %s Debug prints:\n' % (turn, bot_name))
                         debug_log.write('Debug>> ' + '\nDebug>> '.join(messages)+'\n')
-                        if debug_in_replay:
-                            debug_msgs[b].append([turn, 0, messages])
+                        add_debug_messages(b, turn, 0, messages)
                 
             # handle any logs that get_moves produced
             for b, errors in enumerate(error_lines):
                 if errors:
                     if error_logs and error_logs[b]:
                         error_logs[b].write(unicode('\n').join(errors)+unicode('\n'))
-                    if debug_in_replay:
-                        debug_msgs[b].append([turn, 2, [unicode('\n').join(errors)+unicode('\n')]])
+                    add_debug_messages(b, turn, 2, [unicode('\n').join(errors)+unicode('\n')])
                         
             # set status for timeouts and crashes
             for b, status in enumerate(statuses):
@@ -237,8 +265,7 @@ def run_game(game, botcmds, options):
                         if output_logs and output_logs[b]:
                             output_logs[b].write('\n'.join(ignored)+'\n')
                             output_logs[b].flush()
-                        if debug_in_replay:
-                            debug_msgs[b].append([turn, 1, ignored])
+                        add_debug_messages(b, turn, 1, ignored)
                             
                     if invalid:
                         if strict:
@@ -252,8 +279,7 @@ def run_game(game, botcmds, options):
                         if output_logs and output_logs[b]:
                             output_logs[b].write('\n'.join(invalid)+'\n')
                             output_logs[b].flush()
-                        if debug_in_replay:
-                            debug_msgs[b].append([turn, 1, invalid])
+                        add_debug_messages(b, turn, 1, invalid)
 
             if turn > 0:
                 game.finish_turn()

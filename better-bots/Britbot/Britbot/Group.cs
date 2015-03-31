@@ -252,8 +252,8 @@ namespace Britbot
             List<Location> list = new List<Location>();
             
             for (int i = -1; i <= 1; i++)
-                for (int j = -1; j <=1; J++)
-                    list.Add(new Location(loc.Row+i, loc.Col+j);
+                for (int j = -1; j <= 1; j++)
+                    list.Add(new Location(loc.Row+i, loc.Col+j));
 
             return list;
 

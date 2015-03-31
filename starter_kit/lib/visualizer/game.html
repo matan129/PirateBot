@@ -87,4 +87,35 @@
             <div class="name">{{ visualizer.state.replay.meta['playernames'][1] }}</div>
         </div>
     </div>
+    <div id="replay-code" style="display: none">import json
+        owner_number = 0
+        def do_turn(game):
+        global turns
+        global owner_number
+        turn = game.get_turn() - 1
+
+        if turn == 0:
+        turns = json.loads(turns)
+        owner_number = 1
+        pirate = game.get_pirate_on((turns[0][0], turns[0][1]))
+        if not pirate:
+        game.debug('------MAYBE THIS IS THE WRONG MAP?------')
+        if pirate.owner == game.ME:
+        owner_number = turns[0][4]
+        else:
+        owner_number = turns[0][4] + 1 % 2
+
+        for pirate_data in turns:
+        owner = pirate_data[4]
+        spawn_turn = pirate_data[2]
+        die_turn = pirate_data[3]
+
+        if owner != owner_number or turn < spawn_turn or turn >= die_turn:
+        continue
+
+        moves = pirate_data[5]
+        pirate_id = pirate_data[7]
+        index = turn - spawn_turn
+        if index < len(moves):
+        game.set_sail(game.get_my_pirate(pirate_id), str(moves[index]))</div>
 </div>

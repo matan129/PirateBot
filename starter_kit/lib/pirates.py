@@ -141,8 +141,13 @@ class Pirates(Game):
                 self.add_initial_pirate(pirate_loc, player, id)
 
         # initialize zones and create enemy_zone lists
+        self.zones[0] = []
+        self.zones[1] = []
         for player, zone_data in enumerate(map_data['zones']):
-            self.zones[player] = self.get_zone_locations(zone_data[0], zone_data[1:])
+            if zone_data[0].isdigit():
+                player = int(zone_data[0])
+                zone_data = zone_data[1:]
+            self.zones[player] += self.get_zone_locations(zone_data[0], zone_data[1:])
         #self.print_zone()
 
         # this is for the visualizer to display moves which didnt work for various reasons

@@ -135,7 +135,7 @@ def main(argv):
                       help="Run bots in serial, instead of parallel.")
 
     parser.add_option("--turntime", dest="turntime",
-                      default=1000000000, type="int",
+                      default=1000, type="int",
                       help="Amount of time to give each bot, in milliseconds")
     parser.add_option("--loadtime", dest="loadtime",
                       default=5000, type="int",
@@ -221,6 +221,12 @@ def main(argv):
     log_group.add_option("--debug_in_replay", dest="debug_in_replay", 
                          action='store_true',default=False,
                          help="Specify if should insert debug/warning/error prints in replay file")
+    game_group.add_option("--debug_max_count", dest="debug_max_count",
+                          default=10000, type="int",
+                          help="Maximum number of debug message to be stored in replay data")
+    game_group.add_option("--debug_max_length", dest="debug_max_length",
+                          default=200000, type="int",
+                          help="Maximum total length of debug message to be stored in replay data")
     log_group.add_option('-R', '--log_replay', dest='log_replay',
                          action='store_true', default=False),
     log_group.add_option('-S', '--log_stream', dest='log_stream',
@@ -352,6 +358,8 @@ def run_rounds(opts,args):
         "map_file": opts.map,
         "turns": opts.turns,
         "debug_in_replay": opts.debug_in_replay,
+        "debug_max_length": opts.debug_max_length,
+        "debug_max_count": opts.debug_max_count,
         "log_replay": opts.log_replay,
         "log_stream": opts.log_stream,
         "log_input": opts.log_input,

@@ -247,13 +247,7 @@ Visualizer.prototype.progress = function(log, func, id) {
 	this.progressList.push(id);
 	var vis = this;
 	if (log) this.logOut(log);
-	window.set
-
-
-
-
-
-(function() {
+	window.setTimeout(function() {
 		var k;
 		func();
 		for (k = 0; k < vis.progressList.length; k++) {
@@ -461,7 +455,7 @@ Visualizer.prototype.tryStart = function() {
 			this.imgMgr.colorize('island_sea', colors);
 		}
 		this.map.water = this.imgMgr.images['water'];
-        this.map.zone = this.imgMgr.images['zone'];
+		this.map.zone = this.imgMgr.images['zone'];
 		this.map.board = this.imgMgr.images['board'];
 		this.map.island_waterline = this.imgMgr.images['island_waterline'];
 		this.map.sea_line = this.imgMgr.images['sea_line'];
@@ -766,11 +760,15 @@ Visualizer.prototype.resize = function(forced) {
 			ctx.fillStyle = '#fff';
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 		}
+		if (forced) {
+			// because of the zones we want to draw the map again if resize is forced
+			this.map.invalid = true;
+		}
 
 		// 3. visualizer placement
-        this.shiftedMap.x = 0;
-        this.shiftedMap.y = 0;
-        this.shiftedMap.setSize(newSize.w, newSize.h);
+		this.shiftedMap.x = 0;
+		this.shiftedMap.y = 0;
+		this.shiftedMap.setSize(newSize.w, newSize.h);
 
 		this.setZoom(this.state.config['zoom']);
 

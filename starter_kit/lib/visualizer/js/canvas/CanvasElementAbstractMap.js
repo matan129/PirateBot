@@ -37,7 +37,7 @@ CanvasElementAbstractMap.prototype.redFocusRectFun = function(xs, ys) {
  */
 CanvasElementAbstractMap.prototype.draw = function() {
 	var row, col, xs, ys;
-    var zones, playerZone, z, x1, y1;
+	var zones, playerZone, z, x1, y1;
 	var rows = this.state.replay.rows;
 	var cols = this.state.replay.cols;
 	var rowOpt = this.state.options['row'];
@@ -45,35 +45,41 @@ CanvasElementAbstractMap.prototype.draw = function() {
 	this.ctx.fillStyle = this.ctx.createPattern(this.water, 'repeat');
 	this.ctx.fillRect(0, 0, this.w, this.h);
 
-    // here we want to draw the zone over the water
-    zones = this.state.replay.meta['replaydata']['zones'];
-    for (i = 0; i < zones.length; i++) {
-        playerZone = zones[i];
-        for (j = 0; j < playerZone.length; j++) {
-            z = playerZone[j];
-            x1 = (z[1]) * this.scale;
-            y1 = (z[0]) * this.scale;
-            this.ctx.drawImage(this.zone, 0, 0, 200, 200, x1, y1, this.scale, this.scale);
-        }
-    }
+	// here we want to draw the zone over the water
+	if (this.state.config['showZones']) {
+		zones = this.state.replay.meta['replaydata']['zones'];
+		for (var i = 0; i < zones.length; i++) {
+			playerZone = zones[i];
+			for (var j = 0; j < playerZone.length; j++) {
+				z = playerZone[j];
+				x1 = (z[1]) * this.scale;
+				y1 = (z[0]) * this.scale;
+				// TODO zones fill style
+				this.ctx.globalAlpha = 0.3;
+				this.ctx.fillStyle = this.state.options.playercolors[i];
+				this.ctx.fillRect(x1, y1, this.scale, this.scale);
+				this.ctx.globalAlpha = 1;
+			}
+		}
+	}
 
 	// show grid
-    if (this.state.config['showGrid']) {
-    	this.ctx.beginPath();
-		this.ctx.lineWidth=0.2;
+	if (this.state.config['showGrid']) {
+		this.ctx.beginPath();
+		this.ctx.lineWidth = 0.2;
 
-    	for (i = 0; i <= rows; i++) {
-    		var offset = 0.7;
-    		this.ctx.moveTo(0, (i-offset) * this.scale);
-    		this.ctx.lineTo(cols * this.scale, (i-offset) * this.scale);
-    	}
-    	for (i = 0; i <= cols; i++) {
-    		this.ctx.moveTo(i * this.scale, 0);
-    		this.ctx.lineTo(i * this.scale, cols * this.scale);
-    	}
-    	this.ctx.strokeStyle = "black";
+		for (i = 0; i <= rows; i++) {
+			var offset = 0.7;
+			this.ctx.moveTo(0, (i - offset) * this.scale);
+			this.ctx.lineTo(cols * this.scale, (i - offset) * this.scale);
+		}
+		for (i = 0; i <= cols; i++) {
+			this.ctx.moveTo(i * this.scale, 0);
+			this.ctx.lineTo(i * this.scale, cols * this.scale);
+		}
+		this.ctx.strokeStyle = "black";
 		this.ctx.stroke();
-    }
+	}
 
 	// marker
 	if (!isNaN(rowOpt) && !isNaN(colOpt)) {

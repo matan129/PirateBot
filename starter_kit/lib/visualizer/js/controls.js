@@ -45,8 +45,7 @@ angular.module('visualizerApp').controller('VisualizerCtrl', ['$scope', function
             options.turn = 0;
         }
         options.updateExternalView = function() {
-            set
-(function() {
+            setTimeout(function() {
                 $scope.$apply(function() {
                     if (!$scope.debugMessages) {
                         $scope.debugMessages = loadDebugMessages($scope.visualizer.state.replay.meta.debug_messages);
@@ -124,9 +123,26 @@ angular.module('visualizerApp').controller('VisualizerCtrl', ['$scope', function
 
     $scope.toggleLog = function() {
         $scope.displayLog = !$scope.displayLog;
+        $scope.visualizer.state.config['showZones'] = !$scope.visualizer.state.config['showZones'];
         setTimeout(function() {
-            $scope.visualizer.resize();
+            $scope.visualizer.resize(true);
         }, 0);
+    };
+
+    $scope.download = function() {
+        var data = JSON.stringify(JSON.stringify($scope.visualizer.state.replay.meta.replaydata.ants));
+        var text = 'turns = ' + data + '\n' + document.getElementById('replay-code').textContent;
+
+        var pom = document.createElement('a');
+        pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        pom.setAttribute('download', 'dummy.py');
+
+        pom.style.display = 'none';
+        document.body.appendChild(pom);
+
+        pom.click();
+
+        document.body.removeChild(pom);
     };
 
     $scope.debugPlayerIndex = 1;
