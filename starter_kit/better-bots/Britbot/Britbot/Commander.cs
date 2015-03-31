@@ -124,16 +124,7 @@ namespace Britbot
 
             //create new iteration object
             ExpIterator iterator;
-            try
-            {
-                iterator = new ExpIterator(dimensions);
-            }
-            catch (Exception)
-            {
-                Bot.Game.Debug("resting");
-                return;
-            }
-            
+            iterator = new ExpIterator(dimensions);
 
             //Score array for calculations in each iteration
             Score[] scoreArr = new Score[dimensions.Length];

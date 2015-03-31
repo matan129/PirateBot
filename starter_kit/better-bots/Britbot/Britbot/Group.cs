@@ -217,7 +217,6 @@ namespace Britbot
             //set it to this instance of Group
             this.Priorities = scores;
             
-            Bot.Game.Debug("Enemy Groups Count: " + Enemy.Groups.Count);
             Bot.Game.Debug("Priorities Count: " + this.Priorities.Count);
         }
     }

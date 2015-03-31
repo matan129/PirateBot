@@ -61,7 +61,7 @@ namespace Britbot
                 updatedGroups.Add(newGroup);
             }
 
-            Bot.Game.Debug("ENEMY GROUPS: " + string.Join(",", updatedGroups));
+            Bot.Game.Debug("Enemy Configuration: " + string.Join(",", updatedGroups));
 
             return updatedGroups;
         }

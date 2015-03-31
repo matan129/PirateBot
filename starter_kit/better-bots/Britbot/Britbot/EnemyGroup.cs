@@ -128,7 +128,7 @@ namespace Britbot
             //lower score is worse. Mind the minus sign!
             double distance = HeadingVector.CalcDistFromLine(origin.GetLocation(),this.GetLocation(), this.Heading);
             
-            Bot.Game.Debug("DISTANCE: " + distance);
+            Bot.Game.Debug("EnemyGroup's HeadingVector CalcFromLine returned: " + distance);
 
             //consider attack radious
             distance -=  2*Bot.Game.GetAttackRadius();
@@ -136,7 +136,7 @@ namespace Britbot
             //if the group is strong enough to take the enemy group add its score
             if (origin.LiveCount() > this.LiveCount())
             {
-                Bot.Game.Debug("dis-disqualified " + this.Id + " " + this.LiveCount() + " " + origin.LiveCount());
+                Bot.Game.Debug("EnemyGroup was moved to ExpIterator processing:" + this.Id + " " + this.LiveCount() + " " + origin.LiveCount());
                 return new Score(this, TargetType.EnemyGroup, this.EnemyPirates.Count, distance);
             }
             else //otherwise we don't even want to consider it
@@ -152,8 +152,6 @@ namespace Britbot
             //Get a list of all location of the enemy pirates in this group
             List<Location> locs = new List<Location>();
 
-            Bot.Game.Debug("PIRATES::" + this.EnemyPirates.Count);
-
             if(this.EnemyPirates == null) return new Location(0,0);
 
             foreach (int e in this.EnemyPirates)
@@ -161,8 +159,6 @@ namespace Britbot
                 Pirate enemyPirate = Bot.Game.GetEnemyPirate(e);
                 locs.Add(enemyPirate.Loc);
             }
-
-            Bot.Game.Debug("PIRATES 2::" + this.EnemyPirates.Count);
 
             //sum all the locations!
             int totalCol = locs.Sum(loc => loc.Col);
