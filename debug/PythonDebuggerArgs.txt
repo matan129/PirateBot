@@ -1,0 +1,1 @@
+--loadtime 10000 -e -E -d --turntime=1000000000 --debug_in_replay --engine_seed 42 --player_seed 42 --log_dir "game_logs" --map_file "..\maps\default_map.map" "..\..\better-bots\Britbot\Britbot" "..\bots\demoBot5.pyc"
