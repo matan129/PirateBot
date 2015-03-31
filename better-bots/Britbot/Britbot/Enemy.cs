@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Pirates;
 
 namespace Britbot
 {
@@ -10,17 +9,17 @@ namespace Britbot
     public static class Enemy
     {
         /// <summary>
-        /// A list of the enemy's groups
-        /// </summary>
-        public static List<EnemyGroup> Groups { get; private set; }
-        
-        /// <summary>
         /// Static enemy constructor
         /// </summary>
         static Enemy()
         {
-           Groups = new List<EnemyGroup>();
+            Groups = new List<EnemyGroup>();
         }
+
+        /// <summary>
+        /// A list of the enemy's groups
+        /// </summary>
+        public static List<EnemyGroup> Groups { get; private set; }
 
         /// <summary>
         /// Split the enemy into its groups
@@ -49,7 +48,7 @@ namespace Britbot
                     for (int i = 1; i < eGroup.EnemyPirates.Count; i++)
                     {
                         //if the new pirate is close to any of the previous, add him
-                        if(EnemyGroup.IsInGroup(retiredPirates, eGroup.EnemyPirates[i]))
+                        if (EnemyGroup.IsInGroup(retiredPirates, eGroup.EnemyPirates[i]))
                             retiredPirates.Add(eGroup.EnemyPirates[i]);
                     }
 
@@ -59,14 +58,13 @@ namespace Britbot
                     //check if there were actually pirates ritired or just the entire groups stayed together
                     if (retiredGroup != null)
                         newEnemyList.Add(retiredGroup);
-
                 } while (retiredPirates != null);
                 //here we add the pirates left in the last iteration
                 newEnemyList.Add(eGroup);
             }
 
             //TODO: now combine them if we need to
-            
+
             /*
             //TODO: check that you don't recreate enemy groups if you don't need to
 
@@ -127,16 +125,15 @@ namespace Britbot
         public static int[] GetConfig()
         {
             //Creates the config array
-            int[] config = new int[Enemy.Groups.Count];
+            int[] config = new int[Groups.Count];
 
             //Fills the array according to enemy config
-            for (int i = 0; i < Enemy.Groups.Count; i++)
+            for (int i = 0; i < Groups.Count; i++)
             {
-                config[i] = Enemy.Groups[i].EnemyPirates.Count;
+                config[i] = Groups[i].EnemyPirates.Count;
             }
 
             return config;
-
         }
     }
 }

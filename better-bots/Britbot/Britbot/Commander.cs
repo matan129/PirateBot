@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Policy;
 
 namespace Britbot
 {
@@ -11,11 +9,6 @@ namespace Britbot
     /// </summary>
     public static class Commander
     {
-        /// <summary>
-        /// List of groups of our pirates
-        /// </summary>
-        public static List<Group> Groups { get; private set; }
-
         /// <summary>
         /// This static constructor will run once and initialize the commander
         /// </summary>
@@ -45,10 +38,10 @@ namespace Britbot
                     {
                         Groups.Add(new Group(0, 1));
                         Groups.Add(new Group(1, 1));
-						Groups.Add(new Group(2, 1));
-						Groups.Add(new Group(3, 1));
-						Groups.Add(new Group(4, 1));
-						Groups.Add(new Group(5, 1));
+                        Groups.Add(new Group(2, 1));
+                        Groups.Add(new Group(3, 1));
+                        Groups.Add(new Group(4, 1));
+                        Groups.Add(new Group(5, 1));
                     }
                     else
                     {
@@ -59,6 +52,11 @@ namespace Britbot
                     break;
             }
         }
+
+        /// <summary>
+        /// List of groups of our pirates
+        /// </summary>
+        public static List<Group> Groups { get; private set; }
 
         /// <summary>
         /// Do something!
@@ -117,7 +115,7 @@ namespace Britbot
             //read all possible target-group assignment
             Score[][] possibleAssignments = GetPossibleTargetMatrix();
 
-            
+
             //indecies of the best assignment yet
             int[] maxAssignment = new int[dimensions.Length];
             int maxScore = 0;
@@ -128,7 +126,7 @@ namespace Britbot
 
             //Score array for calculations in each iteration
             Score[] scoreArr = new Score[dimensions.Length];
-           
+
             //iterating over all possible target assignments
             do
             {
@@ -142,8 +140,8 @@ namespace Britbot
 
                 //calculate new score
 
-                           int newScore = (int)GlobalizeScore(scoreArr);
-               /* Bot.Game.Debug("NewScore " + newScore);
+                int newScore = (int) GlobalizeScore(scoreArr);
+                /* Bot.Game.Debug("NewScore " + newScore);
                 Bot.Game.Debug("MaxScore " + maxScore);
 
                 Bot.Game.Debug("Iterator Vals count " + iterator.Values.Count());
@@ -160,16 +158,13 @@ namespace Britbot
                     {
                         maxAssignment[i] = iterator.Values[i];
                     }
-                    
                 }
-            } 
-            while (iterator.NextIteration());
+            } while (iterator.NextIteration());
 
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
             {
                 Groups[i].SetTarget(possibleAssignments[i][maxAssignment[i]].Target);
-                
             }
 
             Bot.Game.Debug("----------TARGETS--------------");
@@ -200,7 +195,7 @@ namespace Britbot
             {
                 if (s.Type == TargetType.Island)
                 {
-                    score += 100* s.Value;
+                    score += 100*s.Value;
                 }
                 else if (s.Type == TargetType.EnemyGroup)
                 {
@@ -220,7 +215,7 @@ namespace Britbot
                 }
             }
 
-            return score*scoreArr.Length / timeAvg;
+            return score*scoreArr.Length/timeAvg;
         }
 
         /// <summary>

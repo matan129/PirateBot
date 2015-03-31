@@ -10,16 +10,6 @@ namespace Britbot
     internal class ExpIterator
     {
         /// <summary>
-        /// array of dimension, given at the constructor and never changes
-        /// </summary>
-        public int[] Dimensions { get; private set; }
-
-        /// <summary>
-        /// The values of the iteration vector
-        /// </summary>
-        public int[] Values { get; set; }
-
-        /// <summary>
         /// assigns dimensions and initiate value of iteration
         /// </summary>
         /// <param name="dims">dimensions of the iteration</param>
@@ -43,6 +33,16 @@ namespace Britbot
                 Values[i] = 0;
             }
         }
+
+        /// <summary>
+        /// array of dimension, given at the constructor and never changes
+        /// </summary>
+        public int[] Dimensions { get; private set; }
+
+        /// <summary>
+        /// The values of the iteration vector
+        /// </summary>
+        public int[] Values { get; set; }
 
         /// <summary>
         /// checks if all the entries of the iteration are zero

@@ -1,5 +1,4 @@
-﻿using System.Net.Configuration;
-using Pirates;
+﻿using Pirates;
 
 namespace Britbot
 {
@@ -14,7 +13,7 @@ namespace Britbot
         /// <param name="origin">The group requesting the score</param>
         /// <returns>A Score instance for the target</returns>
         Score GetScore(Group origin);
-        
+
         /// <summary>
         /// Gets the location of the target
         /// </summary>
@@ -35,7 +34,6 @@ namespace Britbot
         /// <param name="operandB">The other target to test</param>
         /// <returns>true if identical, false either</returns>
         bool Equals(ITarget operandB);
-
 
         string ToS();
     }

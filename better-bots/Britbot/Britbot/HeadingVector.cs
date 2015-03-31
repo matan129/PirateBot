@@ -400,7 +400,6 @@ namespace Britbot
             return (Math.Abs(dif.X - tMin*dir.X) + Math.Abs(dif.Y - tMin*dir.Y));
         }
 
-
         /// <summary>
         /// Given two pirates (id) it tells you who is "more" in a specific direction than the other
         /// </summary>
@@ -413,7 +412,7 @@ namespace Britbot
             double p1Dist = CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p1).Loc, this.Orthogonal());
             double p2Dist = CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p2).Loc, this.Orthogonal());
 
-            return (int)(p2Dist - p1Dist);
+            return (int) (p2Dist - p1Dist);
         }
 
         /// <summary>
@@ -429,10 +428,11 @@ namespace Britbot
             //----------------------calculation of naive maximum intersection----------------------
             HeadingVector diffVector = CalcDifference(target, group);
 
-            double cosAlpha = diffVector * targetHeading / (diffVector.Norm() * targetHeading.Norm());
+            double cosAlpha = diffVector*targetHeading/(diffVector.Norm()*targetHeading.Norm());
 
-            Location maxIntersection = new Location(target.Row + (int)(targetHeading.Y * diffVector.Norm() * cosAlpha / targetHeading.Norm()),
-                                                    target.Col + (int)(targetHeading.X * diffVector.Norm() * cosAlpha / targetHeading.Norm()));
+            Location maxIntersection =
+                new Location(target.Row + (int) (targetHeading.Y*diffVector.Norm()*cosAlpha/targetHeading.Norm()),
+                    target.Col + (int) (targetHeading.X*diffVector.Norm()*cosAlpha/targetHeading.Norm()));
             //----------------------------------------------------------------------------------------
 
             //to account for nummeric mistakes we take antitolerance coefficient
@@ -440,11 +440,13 @@ namespace Britbot
 
             //compare distances
             //check who is closer
-            if (Bot.Game.Distance(group, maxIntersection) < Bot.Game.Distance(target, maxIntersection) - antiToleranceCoeff)
+            if (Bot.Game.Distance(group, maxIntersection) <
+                Bot.Game.Distance(target, maxIntersection) - antiToleranceCoeff)
                 return true;
 
             return false;
         }
+
         #region operators
 
         /// <summary>

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Dynamic;
-using System.Runtime.Remoting.Messaging;
 
 namespace Britbot
 {
@@ -10,6 +8,11 @@ namespace Britbot
     public class Score : IComparable, IComparable<Score>
     {
         /// <summary>
+        /// Time until completion
+        /// </summary>
+        public double Eta;
+
+        /// <summary>
         /// The target being scored
         /// </summary>
         public ITarget Target;
@@ -18,16 +21,6 @@ namespace Britbot
         /// target's type
         /// </summary>
         public TargetType Type;
-
-        /// <summary>
-        /// value of the island if island, number of ships if ship
-        /// </summary>
-        public double Value { get; private set; }
-
-        /// <summary>
-        /// Time until completion
-        /// </summary>
-        public double Eta;
 
         /// <summary>
         /// Holds the target score relative to the attacker
@@ -45,6 +38,11 @@ namespace Britbot
         }
 
         /// <summary>
+        /// value of the island if island, number of ships if ship
+        /// </summary>
+        public double Value { get; private set; }
+
+        /// <summary>
         /// Used to compare two score elements
         /// </summary>
         /// <param name="obj"></param>
@@ -56,7 +54,7 @@ namespace Britbot
             {
                 return this.CompareTo(score);
             }
-            
+
             throw new ArgumentException("Object must a a Score in order to compare it with another score object");
         }
 

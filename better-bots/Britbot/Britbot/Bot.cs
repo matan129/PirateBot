@@ -1,6 +1,5 @@
 ﻿using System;
 using Pirates;
-using System.Diagnostics;
 
 namespace Britbot
 {
@@ -30,15 +29,13 @@ namespace Britbot
                 //note that we do not have to explicitly initialize the commander, 
                 //since we have a static constructor there
                 Commander.Play();
-
             }
             catch (Exception ex)
             {
-                Bot.Game.Debug("++++++++++++++++++++++++++++++++++++++++");
-                Bot.Game.Debug("Almost crashed because of " + ex.Message);
-                Bot.Game.Debug("++++++++++++++++++++++++++++++++++++++++");
+                Game.Debug("++++++++++++++++++++++++++++++++++++++++");
+                Game.Debug("Almost crashed because of " + ex.Message);
+                Game.Debug("++++++++++++++++++++++++++++++++++++++++");
             }
         }
-
     }
 }

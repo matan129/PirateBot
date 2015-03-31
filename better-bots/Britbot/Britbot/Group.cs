@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -12,51 +11,6 @@ namespace Britbot
     /// </summary>
     public class Group
     {
-        #region Members
-
-        /// <summary>
-        /// Direction of the group to make navigation more precise
-        /// </summary>
-        public HeadingVector Heading { get; private set; }
-
-        /// <summary>
-        /// The Group ID number
-        /// useful for debugging
-        /// </summary>
-        public readonly int Id;
-
-        /// <summary>
-        /// List of the indexes of the pirates in this group
-        /// </summary>
-        public List<int> Pirates { get; private set; }
-
-        /// <summary>
-        /// The target of the Group
-        /// </summary>
-        public ITarget Target { get; private set; }
-
-        /// <summary>
-        /// The group's role (i.e. destroyer or attacker)
-        /// </summary>
-        public GroupRole Role { get; private set; }
-
-        /// <summary>
-        /// List of priorities for this group
-        /// </summary>
-        public List<Score> Priorities { get; private set; }
-
-        /// <summary>
-        /// A thread for complex calculations that can be ran in parallel to other stuff
-        /// </summary>
-        public Thread CalcThread { get; private set; }
-
-        /// <summary>
-        /// static member to give each group a unique id based on its number of creation
-        /// </summary>
-        public static int GroupCounter { get; private set; }
-
-        #endregion
-
         #region constructor
 
         /// <summary>
@@ -75,7 +29,7 @@ namespace Britbot
 
             //get id and update counter
             this.Id = GroupCounter++;
-            
+
             for (; amount > 0; amount--)
             {
                 Bot.Game.Debug("Adding pirate at index {0} to this groups pirates", index + amount - 1);
@@ -84,6 +38,7 @@ namespace Britbot
 
             Bot.Game.Debug("\n");
         }
+
         #endregion
 
         /// <summary>
@@ -98,7 +53,7 @@ namespace Britbot
             {
                 this.Target = target;
                 this.Heading.SetCoordinates(0, 0);
-            } 
+            }
             else if (!Equals(this.Target, target))
             {
                 this.Target = target;
@@ -116,7 +71,7 @@ namespace Britbot
             int x = 0;
             int y = 0;
 
-            if(this.Pirates == null)
+            if (this.Pirates == null)
                 this.Pirates = new List<int>();
 
             foreach (int pirate in this.Pirates)
@@ -127,13 +82,12 @@ namespace Britbot
 
             try
             {
-                return new Location(y / Pirates.Count, x / Pirates.Count);
+                return new Location(y/Pirates.Count, x/Pirates.Count);
             }
             catch (Exception)
             {
-                return new Location(0,0);
+                return new Location(0, 0);
             }
-            
         }
 
         /// <summary>
@@ -149,11 +103,9 @@ namespace Britbot
                 Bot.Game.SetSail(pirate, Bot.Game.GetDirections(pirate, this.Target.GetLocation()).First());
             }
 
-            return;
-
 
             //update heading
-           /* Heading += newDir;
+            /* Heading += newDir;
 
             //sort pirates by the new heading
             Pirates.Sort((p1, p2) => Heading.ComparePirateByDirection(p2, p1));
@@ -203,7 +155,7 @@ namespace Britbot
             //TODO Fix enemy group targeting
             //priorityList.AddRange(Enemy.Groups);
             priorityList.AddRange(SmartIsland.IslandList);
-            
+
             //Add a score for each target we got
             foreach (ITarget target in priorityList)
             {
@@ -216,14 +168,13 @@ namespace Britbot
 
             //set it to this instance of Group
             this.Priorities = scores;
-            
+
             Bot.Game.Debug("Priorities Count: " + this.Priorities.Count);
         }
 
         public static Location GetFutureLocation(Location cur, Direction dir)
         {
-            
-            switch(dir)
+            switch (dir)
             {
                 case Direction.NORTH:
                     cur.Row--;
@@ -240,23 +191,65 @@ namespace Britbot
                 case Direction.WEST:
                     cur.Col--;
                     break;
-                    
             }
 
             return cur;
-
         }
 
         private List<Location> GetMLocList(Location loc)
         {
             List<Location> list = new List<Location>();
-            
+
             for (int i = -1; i <= 1; i++)
                 for (int j = -1; j <= 1; j++)
-                    list.Add(new Location(loc.Row+i, loc.Col+j));
+                    list.Add(new Location(loc.Row + i, loc.Col + j));
 
             return list;
-
         }
+
+        #region Members
+
+        /// <summary>
+        /// Direction of the group to make navigation more precise
+        /// </summary>
+        public HeadingVector Heading { get; private set; }
+
+        /// <summary>
+        /// The Group ID number
+        /// useful for debugging
+        /// </summary>
+        public readonly int Id;
+
+        /// <summary>
+        /// List of the indexes of the pirates in this group
+        /// </summary>
+        public List<int> Pirates { get; private set; }
+
+        /// <summary>
+        /// The target of the Group
+        /// </summary>
+        public ITarget Target { get; private set; }
+
+        /// <summary>
+        /// The group's role (i.e. destroyer or attacker)
+        /// </summary>
+        public GroupRole Role { get; private set; }
+
+        /// <summary>
+        /// List of priorities for this group
+        /// </summary>
+        public List<Score> Priorities { get; private set; }
+
+        /// <summary>
+        /// A thread for complex calculations that can be ran in parallel to other stuff
+        /// </summary>
+        public Thread CalcThread { get; private set; }
+
+        /// <summary>
+        /// static member to give each group a unique id based on its number of creation
+        /// </summary>
+        public static int GroupCounter { get; private set; }
+
+        #endregion
     }
 }
