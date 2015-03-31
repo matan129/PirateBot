@@ -401,6 +401,12 @@ namespace Britbot
         }
 
 
+        /// <summary>
+        /// Given two pirates (id) it tells you who is "more" in a specific direction than the other
+        /// </summary>
+        /// <param name="p1">first pirate</param>
+        /// <param name="p2">second pirate</param>
+        /// <returns></returns>
         public int ComparePirateByDirection(int p1, int p2)
         {
             //calculate both pirates position on the line created by hv
@@ -410,6 +416,35 @@ namespace Britbot
             return (int)(p2Dist - p1Dist);
         }
 
+        /// <summary>
+        /// This method calculates if you would be able to reach an enemy group or it would run away
+        /// 
+        /// </summary>
+        /// <param name="group">your location</param>
+        /// <param name="target">Enemy group location</param>
+        /// <param name="targetHeading">Enemy direction</param>
+        /// <returns>true if it is possible to reach, else otherwise</returns>
+        public static bool IsReachable(Location group, Location target, HeadingVector targetHeading)
+        {
+            //----------------------calculation of naive maximum intersection----------------------
+            HeadingVector diffVector = CalcDifference(target, group);
+
+            double cosAlpha = diffVector * targetHeading / (diffVector.Norm() * targetHeading.Norm());
+
+            Location maxIntersection = new Location(target.Row + (int)(targetHeading.Y * diffVector.Norm() * cosAlpha / targetHeading.Norm()),
+                                                    target.Col + (int)(targetHeading.X * diffVector.Norm() * cosAlpha / targetHeading.Norm()));
+            //----------------------------------------------------------------------------------------
+
+            //to account for nummeric mistakes we take antitolerance coefficient
+            const int antiToleranceCoeff = 2;
+
+            //compare distances
+            //check who is closer
+            if (Bot.Game.Distance(group, maxIntersection) < Bot.Game.Distance(target, maxIntersection) - antiToleranceCoeff)
+                return true;
+
+            return false;
+        }
         #region operators
 
         /// <summary>
