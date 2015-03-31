@@ -219,5 +219,44 @@ namespace Britbot
             
             Bot.Game.Debug("Priorities Count: " + this.Priorities.Count);
         }
+
+        public static Location GetFutureLocation(Location cur, Direction dir)
+        {
+            
+            switch(dir)
+            {
+                case Direction.NORTH:
+                    cur.Row--;
+                    break;
+
+                case Direction.SOUTH:
+                    cur.Row++;
+                    break;
+
+                case Direction.EAST:
+                    cur.Col++;
+                    break;
+
+                case Direction.WEST:
+                    cur.Col--;
+                    break;
+                    
+            }
+
+            return cur;
+
+        }
+
+        private List<Location> GetMLocList(Location loc)
+        {
+            List<Location> list = new List<Location>();
+            
+            for (int i = -1; i <= 1; i++)
+                for (int j = -1; j <=1; J++)
+                    list.Add(new Location(loc.Row+i, loc.Col+j);
+
+            return list;
+
+        }
     }
 }

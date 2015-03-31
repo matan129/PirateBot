@@ -1,5 +1,6 @@
 ﻿using System;
 using Pirates;
+using System.Diagnostics;
 
 namespace Britbot
 {
@@ -19,6 +20,7 @@ namespace Britbot
         /// <param name="state">The current game state</param>
         public void DoTurn(IPirateGame state)
         {
+            //Debugger.Break();
             try
             {
                 //update the game so other classes will get updated data
