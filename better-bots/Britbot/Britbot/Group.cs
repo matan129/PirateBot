@@ -25,8 +25,6 @@ namespace Britbot
             this.Priorities = new List<Score>();
             this.Role = new GroupRole();
 
-            //TODO try to auto choose group members by distance?
-
             //get id and update counter
             this.Id = GroupCounter++;
 
@@ -52,12 +50,12 @@ namespace Britbot
             if (this.Target == null)
             {
                 this.Target = target;
-                this.Heading.SetCoordinates(0, 0);
+                this.Heading.SetCoordinates();
             }
             else if (!Equals(this.Target, target))
             {
                 this.Target = target;
-                this.Heading.SetCoordinates(0, 0);
+                this.Heading.SetCoordinates();
             }
         }
 
@@ -152,6 +150,7 @@ namespace Britbot
             List<Score> scores = new List<Score>();
 
             //Add all targets to the list
+
             //TODO Fix enemy group targeting
             //priorityList.AddRange(Enemy.Groups);
             priorityList.AddRange(SmartIsland.IslandList);

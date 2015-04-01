@@ -116,13 +116,12 @@ namespace Britbot
             Score[][] possibleAssignments = GetPossibleTargetMatrix();
 
 
-            //indecies of the best assignment yet
+            //indexes of the best assignment yet
             int[] maxAssignment = new int[dimensions.Length];
             int maxScore = 0;
 
             //create new iteration object
-            ExpIterator iterator;
-            iterator = new ExpIterator(dimensions);
+            ExpIterator iterator = new ExpIterator(dimensions);
 
             //Score array for calculations in each iteration
             Score[] scoreArr = new Score[dimensions.Length];
@@ -185,8 +184,7 @@ namespace Britbot
         /// <returns></returns>
         public static double GlobalizeScore(Score[] scoreArr)
         {
-            //TODO: WE NEED SOME CONSTANTS IN THE COMMANDER BASED ON STUFF
-            //TODO this is not finished
+            //TODO this is not finished + we need some smarted constantshere 
 
             double score = 0;
             double timeAvg = 0;

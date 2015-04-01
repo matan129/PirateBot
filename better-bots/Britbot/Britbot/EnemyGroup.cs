@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Pirates;
 
@@ -17,7 +16,7 @@ namespace Britbot
         /// <returns>The score for this group</returns>
         public Score GetScore(Group origin)
         {
-            //first check if groups direction is stable, otherwise disquallify
+            //first check if groups direction is stable, otherwise disqualify
             int stabilityCoeff = 2;
             if (this.Heading.Norm1() < stabilityCoeff)
                 return null;
@@ -155,7 +154,7 @@ namespace Britbot
         /// <summary>
         /// Determines if an enemy pirate belongs to to the group of id's specified
         /// </summary>
-        /// <param name="group">The indecies of the pirate in the group</param>
+        /// <param name="group">The indexes of the pirate in the group</param>
         /// <param name="enemyPirate">The index of the enemy pirate</param>
         /// <returns>True if the pirate belongs to the group or false, otherwise</returns>
         public static bool IsInGroup(List<int> group, int enemyPirate)
@@ -260,7 +259,7 @@ namespace Britbot
             EnemyGroup newEnemyGroup = new EnemyGroup(this.PrevLoc, removedPirates, this.Heading);
 
             //remove pirates
-            this.EnemyPirates.RemoveAll(pirate => removedPirates.Contains(pirate));
+            this.EnemyPirates.RemoveAll(removedPirates.Contains);
 
             //return new enemy Group
             return newEnemyGroup;
@@ -277,7 +276,7 @@ namespace Britbot
             if (this.Id == enemyGroup.Id)
                 return;
 
-            //otherwise add their pirates and ajust stuff
+            //otherwise add their pirates and adjust stuff
             this.EnemyPirates.AddRange(enemyGroup.EnemyPirates);
             this.Heading += enemyGroup.Heading;
             PrevLoc = new Location((this.PrevLoc.Row + enemyGroup.PrevLoc.Row)/2,
@@ -296,7 +295,7 @@ namespace Britbot
         /// </summary>
         public Location PrevLoc { get; set; }
 
-        public static int idCount;
+        public static int IdCount;
 
         /// <summary>
         /// unique-ish id for the enemy group
@@ -322,7 +321,7 @@ namespace Britbot
         /// </summary>
         public EnemyGroup()
         {
-            this.Id = idCount++;
+            this.Id = IdCount++;
             this.EnemyPirates = new List<int>();
             this.PrevLoc = new Location(0, 0);
             this.Heading = new HeadingVector(this.PrevLoc);
@@ -333,7 +332,7 @@ namespace Britbot
         /// </summary>
         public EnemyGroup(Location prevLoc, List<int> enemyPirates, HeadingVector heading)
         {
-            this.Id = idCount++;
+            this.Id = IdCount++;
             PrevLoc = prevLoc;
             EnemyPirates = enemyPirates;
             Heading = heading;
@@ -350,10 +349,11 @@ namespace Britbot
         /// <returns>True if identical or false otherwise</returns>
         public bool Equals(ITarget operandB)
         {
-            if (operandB is EnemyGroup)
+            EnemyGroup enemyGroup = operandB as EnemyGroup;
+            if (enemyGroup != null)
             {
-                EnemyGroup b = (EnemyGroup) operandB;
-                return this.Id == b.Id;
+                EnemyGroup b = enemyGroup;
+                return Equals(this, b);
             }
 
             return false;
@@ -366,7 +366,14 @@ namespace Britbot
         /// <returns>True if identical or false otherwise</returns>
         protected bool Equals(EnemyGroup other)
         {
-            return ReferenceEquals(this, other);
+            if (this.EnemyPirates.Count != other.EnemyPirates.Count)
+                return false;
+
+            for (int i = 0; i < this.EnemyPirates.Count; i++)
+                if (this.EnemyPirates[i] != other.EnemyPirates[i])
+                    return false;
+
+            return true;
         }
 
         /// <summary>
@@ -380,24 +387,6 @@ namespace Britbot
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
             return Equals((EnemyGroup) obj);
-        }
-
-        /// <summary>
-        /// Tests if two enemy groups are the same
-        /// </summary>
-        /// <returns>True if identical or false otherwise</returns>
-        public static bool operator ==(EnemyGroup a, EnemyGroup b)
-        {
-            return a.Equals(b);
-        }
-
-        /// <summary>
-        /// Tests if two enemy groups are the not same
-        /// </summary>
-        /// <returns>false if identical or true otherwise</returns>
-        public static bool operator !=(EnemyGroup a, EnemyGroup b)
-        {
-            return !(a == b);
         }
 
         #endregion

@@ -28,63 +28,47 @@ namespace Britbot
         /// </summary>
         public static List<EnemyGroup> AnalyzeEnemyGroups()
         {
-            //If there are no groups yet
+            List<EnemyGroup> analysis = AnalyzeFull();
+            List<EnemyGroup> veteranGroups = new List<EnemyGroup>(analysis.Count);
+
             if (Groups.Count == 0)
+                return analysis;
+
+            foreach (EnemyGroup enemyGroup in analysis)
             {
-                return AnalyzeFull();
-            }
-
-
-            /*TODO this IS not working! 
-             * the logic here is incorrect
-             * 1. the retiredGroup never changes here and hence the do-while loop will go on forever
-             * 2. What happenes if an enemygroup splits into three groups?
-             * 3. WHat happenes if someone jons a group?
-            */
-            //the updated list
-            List<EnemyGroup> newEnemyList = new List<EnemyGroup>();
-
-            //first split group if we need to 
-            //go over all the existing groups and update them if needed
-            foreach (EnemyGroup eGroup in Groups)
-            {
-                //assuming eGroup isn't empty
-                EnemyGroup retiredGroup;
-                List<int> retiredPirates = new List<int>();
-
-                //split the group for smaller group if needed
-                do
+                foreach (EnemyGroup veteran in Groups)
                 {
-                    //setting pivot
-                    retiredPirates.Add(eGroup.EnemyPirates[0]);
-
-                    //going over all the others
-                    for (int i = 1; i < eGroup.EnemyPirates.Count; i++)
+                    /*
+                     * check if the groups are the same.
+                     * Note that Equals() does a deep comparison 
+                     * (I overrided it to check if the pirates in each enemy group are the same)                    
+                     */
+                    if (Equals(veteran, enemyGroup))
                     {
-                        //if the new pirate is close to any of the previous, add him
-                        if (EnemyGroup.IsInGroup(retiredPirates, eGroup.EnemyPirates[i]))
-                            retiredPirates.Add(eGroup.EnemyPirates[i]);
+                        /* 
+                         * note that we are adding the group already in the old Groups list
+                         * it's the same object
+                         */
+                        veteranGroups.Add(veteran);
+                        analysis.Remove(enemyGroup);
+                        break;
                     }
-
-                    //retire those pirates
-                    retiredGroup = eGroup.Split(retiredPirates);
-
-                    //check if there were actually pirates retired or just the entire groups stayed together
-                    if (retiredGroup != null)
-                        newEnemyList.Add(retiredGroup);
-                } while (retiredPirates != null);
-                //here we add the pirates left in the last iteration
-                newEnemyList.Add(eGroup);
+                }
             }
 
-            //TODO: now combine them if we need to
-            return newEnemyList;
+            analysis.AddRange(veteranGroups);
+            return analysis;
         }
 
+        /// <summary>
+        /// Normal analysis of enemy groups, without considering the previous configurations
+        /// Note that using this method alone will break the heading mechanism because this method
+        /// technically return new groups each time (although they might be the same config) 
+        /// </summary>
+        /// <returns>A list of enemy groups</returns>
         private static List<EnemyGroup> AnalyzeFull()
         {
             List<EnemyGroup> updatedGroups = new List<EnemyGroup>();
-
             IEnumerable<Pirate> enemyAlivePirates = Bot.Game.AllEnemyPirates().Where(p => !p.IsLost);
 
             //iterate over all the alive pirate of the enemy
@@ -108,7 +92,7 @@ namespace Britbot
                     }
                 }
 
-                //TODO: important, it must be here or direction cant be calculated
+                //important, it must be here or direction cant be calculated
                 //Set location
                 newGroup.PrevLoc = newGroup.GetLocation();
 
@@ -134,7 +118,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Tranfers enemy configuration to int[] form
+        /// Transfers enemy configuration to int[] form
         /// </summary>
         /// <returns>Enemy configuration in the form of int array </returns>
         public static int[] GetConfig()

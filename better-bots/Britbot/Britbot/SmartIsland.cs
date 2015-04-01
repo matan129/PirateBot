@@ -28,7 +28,8 @@ namespace Britbot
 
             //check if the island isn't already ours, if so disqualify it and return null
             if (this.Owner != Consts.ME)
-                return new Score(this, TargetType.Island, (origin.Pirates.Count*(this.Value - 1)) + 1,distance + captureTime);
+                return new Score(this, TargetType.Island, (origin.Pirates.Count*(this.Value - 1)) + 1,
+                    distance + captureTime);
             return null;
         }
 
@@ -49,14 +50,13 @@ namespace Britbot
         /// <returns>best direction</returns>
         public Direction GetDirection(Group group)
         {
-            //calculates the direction besed on the geographical data from the game
-            return HeadingVector.CalculateDirectionToStaitionaryTarget(group.GetLocation(), group.Heading, GetLocation());
+            //calculates the direction based on the geographical data from the game
+            return HeadingVector.CalculateDirectionToStationeryTarget(group.GetLocation(), group.Heading, GetLocation());
         }
 
         public string GetDescription()
         {
             return "Island, id: " + Id + " location: " + Loc;
-            ;
         }
 
         /// <summary>
@@ -67,10 +67,10 @@ namespace Britbot
         {
             int enemyCount = 0; //amount of enemy pirates in proximity to the Island
             int closestIslandDistance = 0; //The distance between this Island and the one nearest too it
-            foreach (SmartIsland eisland in IslandList)
+            foreach (SmartIsland eIsland in IslandList)
                 //Calculates the distance between this island and the one nearest
             {
-                int temp = Bot.Game.Distance(eisland.Loc, this.Loc);
+                int temp = Bot.Game.Distance(eIsland.Loc, this.Loc);
                 if (temp < closestIslandDistance)
                 {
                     closestIslandDistance = temp;
@@ -210,9 +210,10 @@ namespace Britbot
         /// <returns>True if the islands are the same or false otherwise</returns>
         public bool Equals(ITarget operandB)
         {
-            if (operandB is SmartIsland)
+            SmartIsland b = operandB as SmartIsland;
+            if (b != null)
             {
-                return Equals((SmartIsland) operandB);
+                return Equals(b);
             }
 
             return false;
@@ -235,28 +236,12 @@ namespace Britbot
         /// <returns>True if the islands are the same or false otherwise</returns>
         public override bool Equals(object obj)
         {
-            if (obj is SmartIsland)
+            SmartIsland b = obj as SmartIsland;
+            if (b != null)
             {
-                return Equals((SmartIsland) obj);
+                return Equals(b);
             }
             return false;
-        }
-
-        /// <summary>
-        /// Gets a unique-ish hash for this instace of SmartIsland
-        /// ReSharper generated code
-        /// </summary>
-        /// <returns>A hash for this island</returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hashCode = base.GetHashCode();
-                hashCode = (hashCode*397) ^ CaptureTurns;
-                hashCode = (hashCode*397) ^ Value;
-                hashCode = (hashCode*397) ^ (Loc != null ? Loc.GetHashCode() : 0);
-                return hashCode;
-            }
         }
 
         #endregion

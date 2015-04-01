@@ -45,18 +45,18 @@ namespace Britbot
         /// <summary>
         /// Simple assignment constructor
         /// </summary>
-        /// <param name="X">X value</param>
-        /// <param name="Y">Y Value</param>
-        public HeadingVector(int X, int Y)
+        /// <param name="x">X value</param>
+        /// <param name="y">Y Value</param>
+        public HeadingVector(int x, int y)
         {
-            this.X = X;
-            this.Y = Y;
+            this.X = x;
+            this.Y = y;
         }
 
         /// <summary>
         /// Simple Conversion from Location class
         /// </summary>
-        /// <param name="Location">location</param>
+        /// <param name="loc">location</param>
         public HeadingVector(Location loc)
         {
             this.X = loc.Col;
@@ -74,15 +74,15 @@ namespace Britbot
         public int Y { get; private set; }
 
         /// <summary>
-        /// regular set function for convinience
-        /// sets both X and Y simultaniously
+        /// regular set function for convenience
+        /// sets both X and Y simultaneously
         /// </summary>
-        /// <param name="X">X value, default is 0</param>
-        /// <param name="Y">Y value, default is 0</param>
-        public void SetCoordinates(int X = 0, int Y = 0)
+        /// <param name="x">X value, default is 0</param>
+        /// <param name="y">Y value, default is 0</param>
+        public void SetCoordinates(int x = 0, int y = 0)
         {
-            this.X = X;
-            this.Y = Y;
+            this.X = x;
+            this.Y = y;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Britbot
         /// otherwise, we assume there was a change in course and so we start again
         /// </summary>
         /// <param name="hv1">the main direction, the one we comparing the other to</param>
-        /// <param name="hv2">the new direction</param>
+        /// <param name="d">the new direction</param>
         /// <returns>itself if we need to use many operation in the same line</returns>
         public static HeadingVector operator +(HeadingVector hv1, Direction d)
         {
@@ -155,7 +155,7 @@ namespace Britbot
         /// </summary>
         /// <param name="hv1">first vector</param>
         /// <param name="hv2">second vector</param>
-        /// <returns>the deifference between the two vectors</returns>
+        /// <returns>the difference between the two vectors</returns>
         public static HeadingVector operator -(HeadingVector hv1, HeadingVector hv2)
         {
             //defining the result
@@ -171,7 +171,7 @@ namespace Britbot
         /// <summary>
         /// Calculates the direction vector between two points
         /// </summary>
-        /// <param name="source">the point of begining</param>
+        /// <param name="source">the point of beginning</param>
         /// <param name="target">the target (end point)</param>
         /// <returns></returns>
         public static HeadingVector CalcDifference(Location source, Location target)
@@ -193,39 +193,35 @@ namespace Britbot
         /// <returns>A vector perpendicular to the given vector</returns>
         public HeadingVector Orthogonal()
         {
-            HeadingVector newHv = new HeadingVector();
-
-            //like multiplying by i
-            newHv.X = Y;
-            newHv.Y = -X;
-            return newHv;
+            //like multiplying by -1
+            return new HeadingVector {X = this.Y, Y = -this.X};
         }
 
         //------------NORMS------------
 
         /// <summary>
-        /// Returns the squere of the vector's length
-        /// might be used to normelize vectors for some computation
+        /// Returns the square of the vector's length
+        /// might be used to normalize vectors for some computation
         /// </summary>
-        /// <returns>the length of the vector squered</returns>
-        public int NormSquered()
+        /// <returns>the length of the vector squared</returns>
+        public int NormSquared()
         {
             return X*X + Y*Y;
         }
 
         /// <summary>
-        /// returns the length of the vector (as a dobule)
-        /// might be used to normelize vectors for some computation
+        /// returns the length of the vector (as a double)
+        /// might be used to normalize vectors for some computation
         /// </summary>
         /// <returns>the length of the vector</returns>
         public double Norm()
         {
-            return Math.Sqrt(NormSquered());
+            return Math.Sqrt(NormSquared());
         }
 
         /// <summary>
         /// returns the sum of X and Y meaning the duration of time
-        /// of the calculation. this can be used as a creadablity measure
+        /// of the calculation. this can be used as a creditability measure
         /// </summary>
         /// <returns>duration of time since last nullifying data</returns>
         public int Norm1()
@@ -254,7 +250,7 @@ namespace Britbot
 
             //A function that gets the next location
             Func<Location, Location> getNextLocation =
-                delegate(Location location) { return new Location(location.Row + this.X, location.Col + this.Y); };
+                location => new Location(location.Row + this.X, location.Col + this.Y);
 
             //Emit new location while the location is not our of the map
             while (!isOutOfBoundaries.Invoke(getNextLocation.Invoke(originPivot)))
@@ -274,7 +270,7 @@ namespace Britbot
         /// <param name="myHeading">current direction</param>
         /// <param name="target">Targets location</param>
         /// <returns></returns>
-        public static Direction CalculateDirectionToStaitionaryTarget(Location myLoc, HeadingVector myHeading,
+        public static Direction CalculateDirectionToStationeryTarget(Location myLoc, HeadingVector myHeading,
             Location target)
         {
             //get the desired direction
@@ -293,7 +289,7 @@ namespace Britbot
                 //means that we are almost in the right direction
                 double newFitCoef = 1 - (newHeading*desiredVector)/(newHeading.Norm()*desiredVector.Norm());
 
-                //check if this direction is better (coeffitient is smaller) then the others
+                //check if this direction is better (coefficient is smaller) then the others
                 if (newFitCoef < directionFitCoeff)
                 {
                     //replace best
@@ -309,7 +305,7 @@ namespace Britbot
         /// <summary>
         /// This function calculates the directions to a moving target
         /// it does so by solving the intersection point equation as appears in 
-        /// calculation sheet 1 and then using the above CalculateDirectionToStaitionaryTarget
+        /// calculation sheet 1 and then using the above CalculateDirectionToStationeryTarget
         /// i am very likely to be wrong here
         /// </summary>
         /// <param name="myLoc">location of the one asking for directions</param>
@@ -335,7 +331,7 @@ namespace Britbot
                 target.Col + (int) (r*targetHeading.X));
 
             //returning path to intersection
-            return CalculateDirectionToStaitionaryTarget(myLoc, myHeading, intersection);
+            return CalculateDirectionToStationeryTarget(myLoc, myHeading, intersection);
         }
 
         /// <summary>
@@ -362,7 +358,7 @@ namespace Britbot
                     int eSign = signs[j];
                     double r = -(cSign*b + eSign*d)/(a + cSign*c + eSign*e);
 
-                    //check if r isn't possitive, if so we can skip it
+                    //check if r isn't positive, if so we can skip it
                     if (r <= 0)
                         continue;
 
@@ -435,7 +431,7 @@ namespace Britbot
                     target.Col + (int) (targetHeading.X*diffVector.Norm()*cosAlpha/targetHeading.Norm()));
             //----------------------------------------------------------------------------------------
 
-            //to account for nummeric mistakes we take antitolerance coefficient
+            //to account for numeric mistakes we take antitolerance coefficient
             const int antiToleranceCoeff = 2;
 
             //compare distances

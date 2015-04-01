@@ -12,11 +12,11 @@ namespace Britbot
         /// Gets a SmartIsland by index, as we would do with a normal Island
         /// </summary>
         /// <param name="game"></param>
-        /// <param name="Id">The SmartIsland's ID, which is equal to the ID of the normal island it encapsulates</param>
+        /// <param name="id">The SmartIsland's ID, which is equal to the ID of the normal island it encapsulates</param>
         /// <returns>The SmartIsland with the relevant ID</returns>
-        public static SmartIsland GetSmartIsland(this IPirateGame game, int Id)
+        public static SmartIsland GetSmartIsland(this IPirateGame game, int id)
         {
-            return SmartIsland.IslandList.Find(isle => isle.Id == Id);
+            return SmartIsland.IslandList.Find(isle => isle.Id == id);
         }
 
         /// <summary>
