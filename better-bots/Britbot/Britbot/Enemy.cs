@@ -29,18 +29,15 @@ namespace Britbot
         /// </summary>
         public static List<EnemyGroup> AnalyzeEnemyGroups()
         {
-            List<EnemyGroup> analysis = AnalyzeFull();
-
-            Bot.Game.Debug("Raw Enemy Config: " + String.Join(",",analysis));
-
-            List<EnemyGroup> veteranGroups = new List<EnemyGroup>(analysis.Count);
+            EnemyGroup[] analysis = AnalyzeFull().ToArray();
 
             if (Groups.Count == 0)
-                return analysis;
+                return analysis.ToList();
 
-            bool[] removeAtAnalysis = new bool[analysis.Count];
+            List<EnemyGroup> veteranGroups = new List<EnemyGroup>(analysis.Length);
+            bool[] removeAtAnalysis = new bool[analysis.Length];
 
-            for (int i = 0; i < analysis.Count; i++)
+            for (int i = 0; i < analysis.Length; i++)
             {
                 EnemyGroup enemyGroup = analysis[i];
                 foreach (EnemyGroup veteran in Groups)
@@ -63,21 +60,24 @@ namespace Britbot
                 }
             }
 
-            for (int i = 0; i < analysis.Count; i++)
-            {
-                if(removeAtAnalysis[i])
-                    analysis.RemoveAt(i);
-            }
-            
-            Bot.Game.Debug("Enemy Veteran Groups: " + String.Join(",", veteranGroups));
-            Bot.Game.Debug("Enemy New Groups: " + String.Join(",", analysis));
-           
-            analysis.AddRange(veteranGroups);
+            Bot.Game.Debug("Enemy veteran groups: " + String.Join(",", veteranGroups));
 
-            Bot.Game.Debug("TOTAL ENEMY CONFIG: "+ string.Join(",", analysis));
+            string newGroupsInfo = "";
+
+            for (int i = 0; i < analysis.Length; i++)
+            {
+                if (!removeAtAnalysis[i])
+                {
+                    veteranGroups.Add(analysis[i]);
+                    newGroupsInfo += analysis[i] + ",";
+                }
+            }
+
+            Bot.Game.Debug("Enemy new groups: " + newGroupsInfo.TrimEnd(','));
+            Bot.Game.Debug("Total enemy config: "+ string.Join(",", veteranGroups));
 
             //TODO there are wrong configs here
-            return analysis;
+            return veteranGroups;
         }
 
         /// <summary>
