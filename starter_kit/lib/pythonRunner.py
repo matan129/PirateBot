@@ -459,11 +459,10 @@ class Pirates():
         # this abstracts getting an object with a 'location' member or a tuple
         # it will also work if obj is iterable (i.e. - tuple or list of something with locations)
         # assumes all objects in obj (if iterable) are of same type)
-        if 'location' in dir(obj):
+        if hasattr(obj, 'location'):
             return obj.location
         elif len(obj) > 0:
-            if 'location' not in dir(obj[0]):
-            # it must be a location tuple (x, y) or a list of location tuples
+            if not hasattr(obj, 'location'):
                 return obj
         return [o.location for o in obj]
 

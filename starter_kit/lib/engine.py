@@ -192,6 +192,8 @@ def run_game(game, botcmds, options):
             # get moves from each player
             if turn == 0:
                 time_limit = loadtime
+            elif turn == 1:
+            	time_limit = max([turntime * 10, 1.500])
             else:
                 time_limit = turntime
 

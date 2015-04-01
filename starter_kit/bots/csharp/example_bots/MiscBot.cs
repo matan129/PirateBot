@@ -30,7 +30,7 @@ namespace misc_example
             // A turn may only take up till one second - you can check the time if your code is very slow
             game.Debug("We have {0} time remaining for our turn", game.TimeRemaining());
             // Sleep 20 miliseconds so that we can see that the time remainning changes
-            Thread.Sleep(20);
+            Thread.Sleep(90);
             game.Debug("Now we have {0} time remaining for our turn", game.TimeRemaining());
 
             // We can see what turn it is and how many there will be

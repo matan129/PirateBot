@@ -1,0 +1,30 @@
+﻿// Decompiled with JetBrains decompiler
+// Type: Britbot.Extensions
+// Assembly: b1iry5ht, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// MVID: 6E84BA16-E0F0-4D91-BADE-8A0B9BF81F38
+// Assembly location: C:\Users\Matan\AppData\Local\Temp\b1iry5ht.dll
+
+using Pirates;
+using System;
+using System.Collections.Generic;
+
+namespace Britbot
+{
+  public static class Extensions
+  {
+    public static SmartIsland GetSmartIsland(this IPirateGame game, int id)
+    {
+      return SmartIsland.IslandList.Find((Predicate<SmartIsland>) (isle => isle.Id == id));
+    }
+
+    public static List<SmartIsland> SmartIslands(this IPirateGame game)
+    {
+      return SmartIsland.IslandList;
+    }
+
+    public static List<Direction> GetDirections(this IPirateGame game, Pirate a, Pirate b)
+    {
+      return Bot.Game.GetDirections(a.get_Loc(), b.get_Loc());
+    }
+  }
+}

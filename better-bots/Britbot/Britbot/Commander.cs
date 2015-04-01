@@ -39,7 +39,6 @@ namespace Britbot
                     {
                         Groups.Add(new Group(0, 5));
                         Groups.Add(new Group(5, 1));
-
                     }
                     else
                     {
