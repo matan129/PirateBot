@@ -13,4 +13,19 @@ namespace Britbot
         {
         }
     }
+
+
+    internal class InvalidRingException : Exception
+    {
+        public InvalidRingException()
+        {
+            
+        }
+
+        public InvalidRingException(string message)
+            : base(message)
+        {
+            
+        }
+    }
 }

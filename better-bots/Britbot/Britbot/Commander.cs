@@ -30,9 +30,9 @@ namespace Britbot
                     Groups.Add(new Group(3, 1));
                     break;
                 case 5:
-                    Groups.Add(new Group(0, 2));
-                    Groups.Add(new Group(2, 2));
-                    Groups.Add(new Group(4, 1));
+                    Groups.Add(new Group(0, 5));
+                   // Groups.Add(new Group(2, 2));
+                  //  Groups.Add(new Group(4, 1));
                     break;
                 case 6:
                     if (Bot.Game.EnemyIslands().Count > 0)
@@ -46,6 +46,33 @@ namespace Britbot
                         Groups.Add(new Group(1, 3));
                         Groups.Add(new Group(4, 2));
                     }
+                    break;
+                case 7:
+                    Groups.Add(new Group(0, 2));
+                    Groups.Add(new Group(2, 3));
+                    Groups.Add(new Group(5, 2));
+                    break;
+                case 8:
+                    Groups.Add(new Group(0, 3));
+                    Groups.Add(new Group(3, 2));
+                    Groups.Add(new Group(5, 2));
+                    Groups.Add(new Group(7, 1));
+                    break;
+                case 9:
+                    Groups.Add(new Group(0, 3));
+                    Groups.Add(new Group(3, 3));
+                    Groups.Add(new Group(6, 2));
+                    Groups.Add(new Group(8, 1));
+                    Groups.Add(new Group(0,9));
+                    break;
+                default:
+                    for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count % 2; i += 2)
+                    {
+                        Groups.Add(new Group(i,2));
+                    }
+
+                    if(Bot.Game.AllMyPirates().Count % 2 == 1)
+                        Groups.Add(new Group(Bot.Game.AllMyPirates().Count,1));
                     break;
             }
         }
@@ -174,7 +201,7 @@ namespace Britbot
         /// <returns></returns>
         public static double GlobalizeScore(Score[] scoreArr)
         {
-            //TODO this is not finished + we need some smarted constantshere 
+            //TODO this is not finished + we need some smarted constants here 
 
             double score = 0;
             double timeAvg = 0;
@@ -187,7 +214,7 @@ namespace Britbot
                 }
                 else if (s.Type == TargetType.EnemyGroup)
                 {
-                    score += 2000000*s.Value;
+                    score += 200*s.Value;
                 }
 
                 timeAvg += s.Eta;
@@ -203,7 +230,7 @@ namespace Britbot
                 }
             }
 
-            return score*scoreArr.Length/timeAvg;
+            return (score*scoreArr.Length)/(timeAvg / scoreArr.Length);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using Pirates;
 
 namespace Britbot
@@ -40,6 +41,42 @@ namespace Britbot
         public static List<Direction> GetDirections(this IPirateGame game, Pirate a, Pirate b)
         {
             return Bot.Game.GetDirections(a.Loc, b.Loc);
+        }
+
+        public static IEnumerable<Pirate> InRangeFriends(this Pirate pirate)
+        {
+            foreach (Pirate myPirate in Bot.Game.AllMyPirates())
+            {
+                if (Bot.Game.InRange(pirate,myPirate))
+                    yield return myPirate;
+            }
+        }
+
+        public static List<Direction> GetDirectionsFixed(this Pirate pirate, Location loc)
+        {
+            Location pirateLocation = pirate.Loc;
+
+            if(pirateLocation == loc)
+                return new List<Direction> {Direction.NOTHING};
+
+            List<Direction> possibleDirections = new List<Direction>(2);
+
+            if(pirateLocation.Col < loc.Col)
+                possibleDirections.Add(Direction.EAST);
+            else
+                possibleDirections.Add(Direction.WEST);
+
+            if(pirateLocation.Row < loc.Row)
+                possibleDirections.Add(Direction.SOUTH);
+            else
+                possibleDirections.Add(Direction.NORTH);
+
+            return possibleDirections;
+        }
+
+        public static bool IsActuallyPassable(this Location loc)
+        {
+            return !Bot.Game.IsOccupied(loc) && Bot.Game.IsPassable(loc);
         }
     }
 }
