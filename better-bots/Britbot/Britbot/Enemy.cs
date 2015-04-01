@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Pirates;
 
@@ -29,6 +30,9 @@ namespace Britbot
         public static List<EnemyGroup> AnalyzeEnemyGroups()
         {
             List<EnemyGroup> analysis = AnalyzeFull();
+
+            Bot.Game.Debug("Raw Enemy Config: " + String.Join(",",analysis));
+
             List<EnemyGroup> veteranGroups = new List<EnemyGroup>(analysis.Count);
 
             if (Groups.Count == 0)
@@ -61,10 +65,18 @@ namespace Britbot
 
             for (int i = 0; i < analysis.Count; i++)
             {
-                analysis.RemoveAt(i);
+                if(removeAtAnalysis[i])
+                    analysis.RemoveAt(i);
             }
             
+            Bot.Game.Debug("Enemy Veteran Groups: " + String.Join(",", veteranGroups));
+            Bot.Game.Debug("Enemy New Groups: " + String.Join(",", analysis));
+           
             analysis.AddRange(veteranGroups);
+
+            Bot.Game.Debug("TOTAL ENEMY CONFIG: "+ string.Join(",", analysis));
+
+            //TODO there are wrong configs here
             return analysis;
         }
 
