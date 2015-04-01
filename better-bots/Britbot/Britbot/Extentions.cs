@@ -56,19 +56,19 @@ namespace Britbot
         {
             Location pirateLocation = pirate.Loc;
 
-            if(pirateLocation == loc)
+            if(pirateLocation.Col == loc.Col && pirateLocation.Row == loc.Row)
                 return new List<Direction> {Direction.NOTHING};
 
             List<Direction> possibleDirections = new List<Direction>(2);
 
             if(pirateLocation.Col < loc.Col)
                 possibleDirections.Add(Direction.EAST);
-            else
+            else if (pirateLocation.Col > loc.Col)
                 possibleDirections.Add(Direction.WEST);
 
             if(pirateLocation.Row < loc.Row)
                 possibleDirections.Add(Direction.SOUTH);
-            else
+            else if (pirateLocation.Row > loc.Row)
                 possibleDirections.Add(Direction.NORTH);
 
             return possibleDirections;

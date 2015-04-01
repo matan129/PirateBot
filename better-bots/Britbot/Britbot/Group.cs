@@ -157,21 +157,28 @@ namespace Britbot
                 foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
                 {
                     Pirate pete = Bot.Game.GetMyPirate(formOrder.Key);
-                    if (pete.Loc == formOrder.Value)
+                    if (pete.Loc.Col == formOrder.Value.Col && pete.Loc.Row == formOrder.Value.Row)
                     {
                         Bot.Game.SetSail(pete, Direction.NOTHING);
+                        Bot.Game.Debug("Skipping over " + pete);
                         continue;
                     }
                     else
                     {
+                        Bot.Game.Debug("Entering forming loop for {0} to go to {1}", pete, formOrder.Value);
                         List<Direction> possibleDirections = Bot.Game.GetDirections(pete, formOrder.Value);
                         Direction dir = Direction.NOTHING;
+                        
+                        Bot.Game.Debug("Possible Directions: " + String.Join(",",possibleDirections));
 
                         for (int i = 0; i < possibleDirections.Count; i++)
                         {
                             dir = possibleDirections[i];
 
-                            if (Utility.AddDirection(pete.Loc, dir).IsActuallyPassable())
+                            if(dir == Direction.NOTHING)
+                                break;
+
+                            if (Bot.Game.Destination(pete.Loc, dir).IsActuallyPassable())
                                 break;
                         }
 
@@ -211,20 +218,16 @@ namespace Britbot
         /// <returns></returns>
         private bool IsFormed()
         {
-            Pirate[] pirates = this.FormOrders.Keys.ToList().ConvertAll(p => Bot.Game.GetMyPirate(p)).ToArray();
-            Location[] locations = this.FormOrders.Values.ToArray();
-
-            Location offest = Utility.SubtractLocation(locations[0], pirates[0].Loc);
-
-            for (int i = 1; i < pirates.Length; i++)
+            foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
             {
-                //ignore lost pirates
-                if(pirates[i].IsLost)
-                    continue;
+                Pirate pete = Bot.Game.GetMyPirate(formOrder.Key);
+                int deltaCol = pete.Loc.Col - formOrder.Value.Col;
+                int deltaRow = pete.Loc.Row - formOrder.Value.Row;
 
-                if (pirates[i].Loc != Utility.AddLocation(locations[i],offest))
+                if (pete.Loc.Col + deltaCol!= formOrder.Value.Col 
+                    && pete.Loc.Row + deltaRow == formOrder.Value.Row)
                 {
-                    Bot.Game.Debug("Group {0} is not formed yet",this.Id);
+                    Bot.Game.Debug("Group {0} is not formed yet", this.Id);
                     return false;
                 }
             }
@@ -241,24 +244,32 @@ namespace Britbot
             Bot.Game.Debug("Forming group structure");
             Pirate centerPirate = this.FindCenterPirate();
             Location[] structure = GetStructure(centerPirate.Loc);
+            bool[] matchedLocations = new bool[structure.Length];
             Dictionary<Pirate,Location> orders = new Dictionary<Pirate, Location>();
             List<Pirate> groupPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
+            groupPirates.Sort((b,a) => Bot.Game.Distance(a,centerPirate).CompareTo(Bot.Game.Distance(b,centerPirate)));
 
             //Match a pirate for each location in the structure
             foreach (Pirate pirate in groupPirates)
             {
                 Location closestLocation = null;
                 int minDistance = Bot.Game.GetCols() + Bot.Game.GetRows();
+                int matchIndex = 0;
 
                 for (int i = 0; i < structure.Length; i++)
                 {
+                    //Skip over taken spots
+                    if (matchedLocations[i] == true) continue;
+
                     if (Bot.Game.Distance(pirate.Loc, structure[i]) < minDistance)
                     {
                         minDistance = Bot.Game.Distance(pirate.Loc, structure[i]);
                         closestLocation = structure[i];
+                        matchIndex = i;
                     }
                 }
 
+                matchedLocations[matchIndex] = true;
                 orders.Add(pirate,closestLocation);
             }
 
