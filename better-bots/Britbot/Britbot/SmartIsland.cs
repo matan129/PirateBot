@@ -181,7 +181,7 @@ namespace Britbot
             int captureTime = this.CaptureTurns;
 
             //check if the island isn't already ours, if so disqualify it and return null
-            if (this.Owner != Consts.ME)
+            if (this.Owner != Consts.ME || this.TeamCapturing == Consts.ENEMY)
                 return new Score(this, TargetType.Island, (origin.Pirates.Count*(this.Value - 1)) + 1,
                     distance + captureTime);
             return null;

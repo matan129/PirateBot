@@ -37,12 +37,9 @@ namespace Britbot
                 case 6:
                     if (Bot.Game.EnemyIslands().Count > 0)
                     {
-                        Groups.Add(new Group(0, 1));
-                        Groups.Add(new Group(1, 1));
-                        Groups.Add(new Group(2, 1));
-                        Groups.Add(new Group(3, 1));
-                        Groups.Add(new Group(4, 1));
+                        Groups.Add(new Group(0, 5));
                         Groups.Add(new Group(5, 1));
+
                     }
                     else
                     {
