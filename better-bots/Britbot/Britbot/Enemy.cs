@@ -34,8 +34,11 @@ namespace Britbot
             if (Groups.Count == 0)
                 return analysis;
 
-            foreach (EnemyGroup enemyGroup in analysis)
+            bool[] removeAtAnalysis = new bool[analysis.Count];
+
+            for (int i = 0; i < analysis.Count; i++)
             {
+                EnemyGroup enemyGroup = analysis[i];
                 foreach (EnemyGroup veteran in Groups)
                 {
                     /*
@@ -50,12 +53,17 @@ namespace Britbot
                          * it's the same object
                          */
                         veteranGroups.Add(veteran);
-                        analysis.Remove(enemyGroup);
+                        removeAtAnalysis[i] = true;
                         break;
                     }
                 }
             }
 
+            for (int i = 0; i < analysis.Count; i++)
+            {
+                analysis.RemoveAt(i);
+            }
+            
             analysis.AddRange(veteranGroups);
             return analysis;
         }
