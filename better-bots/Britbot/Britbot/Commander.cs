@@ -115,7 +115,6 @@ namespace Britbot
             //read all possible target-group assignment
             Score[][] possibleAssignments = GetPossibleTargetMatrix();
 
-
             //indexes of the best assignment yet
             int[] maxAssignment = new int[dimensions.Length];
             int maxScore = 0;
@@ -138,15 +137,8 @@ namespace Britbot
                 }
 
                 //calculate new score
-
                 int newScore = (int) GlobalizeScore(scoreArr);
-                /* Bot.Game.Debug("NewScore " + newScore);
-                Bot.Game.Debug("MaxScore " + maxScore);
-
-                Bot.Game.Debug("Iterator Vals count " + iterator.Values.Count());
-                Bot.Game.Debug(string.Join(",", iterator.Values));
-                Bot.Game.Debug("\n");
-*/
+                
                 //check if the score is better
                 if (newScore > maxScore)
                 {
@@ -166,13 +158,14 @@ namespace Britbot
                 Groups[i].SetTarget(possibleAssignments[i][maxAssignment[i]].Target);
             }
 
+            #region Debug Prints
             Bot.Game.Debug("----------TARGETS--------------");
             for (int i = 0; i < dimensions.Length; i++)
             {
                 Bot.Game.Debug(possibleAssignments[i][maxAssignment[i]].Target.GetDescription());
             }
-            //Bot.Game.Debug((possibleAssignments[0][maxAssignment[0]].Target.Equals(possibleAssignments[2][maxAssignment[2]].Target).ToString()));
             Bot.Game.Debug("----------TARGETS--------------");
+            #endregion
         }
 
         /// <summary>

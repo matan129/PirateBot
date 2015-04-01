@@ -10,7 +10,17 @@ namespace Britbot
     internal class ExpIterator
     {
         /// <summary>
-        /// assigns dimensions and initiate value of iteration
+        /// array of dimension, given at the constructor and never changes
+        /// </summary>
+        public int[] Dimensions { get; private set; }
+
+        /// <summary>
+        /// The values of the iteration vector
+        /// </summary>
+        public int[] Values { get; set; }
+        
+        /// <summary>
+        /// Assigns dimensions and initiate value of iteration
         /// </summary>
         /// <param name="dims">dimensions of the iteration</param>
         /// <exception cref="Exception">Dimensions must be strictly positive</exception>
@@ -33,17 +43,7 @@ namespace Britbot
                 Values[i] = 0;
             }
         }
-
-        /// <summary>
-        /// array of dimension, given at the constructor and never changes
-        /// </summary>
-        public int[] Dimensions { get; private set; }
-
-        /// <summary>
-        /// The values of the iteration vector
-        /// </summary>
-        public int[] Values { get; set; }
-
+       
         /// <summary>
         /// checks if all the entries of the iteration are zero
         /// </summary>
@@ -92,7 +92,7 @@ namespace Britbot
         /// <returns>A textual description for this ExpIterator</returns>
         public override string ToString()
         {
-            return "dimensions: " + Dimensions + "\n" + "MultiIndex: " + Values;
+            return "Dimensions: " + Dimensions + "\n" + "MultiIndex: " + Values;
         }
     }
 }

@@ -11,6 +11,51 @@ namespace Britbot
     /// </summary>
     public class Group
     {
+        #region Members
+
+        /// <summary>
+        /// Direction of the group to make navigation more precise
+        /// </summary>
+        public HeadingVector Heading { get; private set; }
+
+        /// <summary>
+        /// The Group ID number
+        /// useful for debugging
+        /// </summary>
+        public readonly int Id;
+
+        /// <summary>
+        /// List of the indexes of the pirates in this group
+        /// </summary>
+        public List<int> Pirates { get; private set; }
+
+        /// <summary>
+        /// The target of the Group
+        /// </summary>
+        public ITarget Target { get; private set; }
+
+        /// <summary>
+        /// The group's role (i.e. destroyer or attacker)
+        /// </summary>
+        public GroupRole Role { get; private set; }
+
+        /// <summary>
+        /// List of priorities for this group
+        /// </summary>
+        public List<Score> Priorities { get; private set; }
+
+        /// <summary>
+        /// A thread for complex calculations that can be ran in parallel to other stuff
+        /// </summary>
+        public Thread CalcThread { get; private set; }
+
+        /// <summary>
+        /// static member to give each group a unique id based on its number of creation
+        /// </summary>
+        public static int GroupCounter { get; private set; }
+
+        #endregion
+
         #region constructor
 
         /// <summary>
@@ -93,11 +138,14 @@ namespace Britbot
         /// </summary>
         public void Move()
         {
+            //TODO Get this done
             //get Direction of movement
             Direction newDir = Target.GetDirection(this);
 
-            foreach (Pirate pirate in this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)))
+            for (int i = 0; i < this.Pirates.Count; i++)
             {
+                Pirate pirate = Bot.Game.GetMyPirate(this.Pirates[i]);
+
                 Bot.Game.SetSail(pirate, Bot.Game.GetDirections(pirate, this.Target.GetLocation()).First());
             }
 
@@ -205,50 +253,5 @@ namespace Britbot
 
             return list;
         }
-
-        #region Members
-
-        /// <summary>
-        /// Direction of the group to make navigation more precise
-        /// </summary>
-        public HeadingVector Heading { get; private set; }
-
-        /// <summary>
-        /// The Group ID number
-        /// useful for debugging
-        /// </summary>
-        public readonly int Id;
-
-        /// <summary>
-        /// List of the indexes of the pirates in this group
-        /// </summary>
-        public List<int> Pirates { get; private set; }
-
-        /// <summary>
-        /// The target of the Group
-        /// </summary>
-        public ITarget Target { get; private set; }
-
-        /// <summary>
-        /// The group's role (i.e. destroyer or attacker)
-        /// </summary>
-        public GroupRole Role { get; private set; }
-
-        /// <summary>
-        /// List of priorities for this group
-        /// </summary>
-        public List<Score> Priorities { get; private set; }
-
-        /// <summary>
-        /// A thread for complex calculations that can be ran in parallel to other stuff
-        /// </summary>
-        public Thread CalcThread { get; private set; }
-
-        /// <summary>
-        /// static member to give each group a unique id based on its number of creation
-        /// </summary>
-        public static int GroupCounter { get; private set; }
-
-        #endregion
     }
 }

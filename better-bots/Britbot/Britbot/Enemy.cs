@@ -10,17 +10,17 @@ namespace Britbot
     public static class Enemy
     {
         /// <summary>
+        /// A list of the enemy's groups
+        /// </summary>
+        public static List<EnemyGroup> Groups { get; private set; }
+
+        /// <summary>
         /// Static enemy constructor
         /// </summary>
         static Enemy()
         {
             Groups = new List<EnemyGroup>();
         }
-
-        /// <summary>
-        /// A list of the enemy's groups
-        /// </summary>
-        public static List<EnemyGroup> Groups { get; private set; }
 
         /// <summary>
         /// Split the enemy into its groups

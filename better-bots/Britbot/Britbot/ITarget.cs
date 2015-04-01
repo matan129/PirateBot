@@ -35,6 +35,10 @@ namespace Britbot
         /// <returns>true if identical, false either</returns>
         bool Equals(ITarget operandB);
 
+        /// <summary>
+        /// Gets a string description forthis Target for log purposes 
+        /// </summary>
+        /// <returns></returns>
         string GetDescription();
     }
 }
