@@ -30,9 +30,9 @@ namespace Britbot
                     Groups.Add(new Group(3, 1));
                     break;
                 case 5:
-                    Groups.Add(new Group(0, 5));
-                   // Groups.Add(new Group(2, 2));
-                  //  Groups.Add(new Group(4, 1));
+                    Groups.Add(new Group(0, 2));
+                    Groups.Add(new Group(2, 2));
+                    Groups.Add(new Group(4, 1));
                     break;
                 case 6:
                     if (Bot.Game.EnemyIslands().Count > 0)

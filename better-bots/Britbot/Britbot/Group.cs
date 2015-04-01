@@ -76,6 +76,7 @@ namespace Britbot
         /// <param name="amount">How many pirates will be in the group</param>
         public Group(int index, int amount)
         {
+            Bot.Game.Debug("*******************************************");
             this.Pirates = new List<int>();
             this.Heading = new HeadingVector(0, 0);
             this.Priorities = new List<Score>();
@@ -248,6 +249,8 @@ namespace Britbot
             Dictionary<Pirate,Location> orders = new Dictionary<Pirate, Location>();
             List<Pirate> groupPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
             groupPirates.Sort((b,a) => Bot.Game.Distance(a,centerPirate).CompareTo(Bot.Game.Distance(b,centerPirate)));
+            
+            Bot.Game.Debug("Structure is: " + String.Join(",", (object[]) structure));
 
             //Match a pirate for each location in the structure
             foreach (Pirate pirate in groupPirates)
@@ -274,8 +277,17 @@ namespace Britbot
             }
 
             //sort the orders so the closest pirates are first to avoid collisions
-            this.FormOrders = orders.OrderBy(pair => Bot.Game.Distance(pair.Key.Loc, pair.Value))
+            try
+            {
+                this.FormOrders = orders.OrderBy(pair => Bot.Game.Distance(pair.Key.Loc, pair.Value))
                 .ToDictionary(pair => pair.Key.Id, pair => pair.Value);
+            }
+            catch (Exception ex )
+            {
+                Bot.Game.Debug("Caught exception while sorting the dictionary. info: " + ex.Message);
+                this.FormOrders = orders.ToDictionary(pair => pair.Key.Id, pair => pair.Value);
+            }
+            
 
             Bot.Game.Debug("====FORMING TO====");
             foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
@@ -292,13 +304,12 @@ namespace Britbot
         /// <returns></returns>
         private Location[] GetStructure(Location pivot)
         {
-            int RequiredRing = (int) Math.Ceiling((double) (this.Pirates.Count/4));
+            int requiredRing = (int) Math.Ceiling((decimal) (this.Pirates.Count - 1)/4);
+            Bot.Game.Debug("Required ring for this group with {0} pirates is #{1} for pivot {2}",this.Pirates.Count, requiredRing, pivot);
 
-            Bot.Game.Debug("Maximum required ring is {0} for pivot {1}", RequiredRing, pivot);
+            List<Location> rings = new List<Location>();
 
-            List<Location> rings = new List<Location>((((4 + RequiredRing)*RequiredRing/4)/2) + 1);
-
-            for (int ordinal = 0; ordinal <= RequiredRing; ordinal++)
+            for (int ordinal = 0; ordinal <= requiredRing; ordinal++)
             {
                 rings.AddRange(GetRing(pivot,ordinal));
             }

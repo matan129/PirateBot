@@ -1,0 +1,650 @@
+turn  107 bot [Britbot] invalid actions:
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  108 bot [Britbot] invalid actions:
+o 9 7 n # You tried to move a pirate but dont have one at this location
+turn  109 bot [Britbot] invalid actions:
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  110 bot [Britbot] invalid actions:
+o 9 7 n # You tried to move a pirate but dont have one at this location
+turn  111 bot [Britbot] invalid actions:
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  112 bot [Britbot] invalid actions:
+o 9 7 n # You tried to move a pirate but dont have one at this location
+turn  113 bot [Britbot] invalid actions:
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  114 bot [Britbot] invalid actions:
+o 9 7 n # You tried to move a pirate but dont have one at this location
+turn  115 bot [Britbot] invalid actions:
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  116 bot [Britbot] invalid actions:
+o 9 7 n # You tried to move a pirate but dont have one at this location
+turn  117 bot [Britbot] invalid actions:
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  118 bot [Britbot] invalid actions:
+o 9 7 n # You tried to move a pirate but dont have one at this location
+turn  119 bot [Britbot] invalid actions:
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  120 bot [Britbot] invalid actions:
+o 9 7 n # You tried to move a pirate but dont have one at this location
+turn  121 bot [Britbot] invalid actions:
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  122 bot [Britbot] invalid actions:
+o 9 7 n # You tried to move a pirate but dont have one at this location
+turn  123 bot [Britbot] invalid actions:
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  124 bot Britbot ignored actions:
+o 0 16 n # move blocked - cant move out of map
+turn  124 bot [Britbot] invalid actions:
+o 9 7 n # You tried to move a pirate but dont have one at this location
+turn  125 bot [Britbot] invalid actions:
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  126 bot [Britbot] invalid actions:
+o 9 7 s # You tried to move a pirate but dont have one at this location
+turn  127 bot [Britbot] invalid actions:
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  128 bot [Britbot] invalid actions:
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 9 7 n # You tried to move a pirate but dont have one at this location
+turn  129 bot [Britbot] invalid actions:
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  130 bot [Britbot] invalid actions:
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 9 7 s # You tried to move a pirate but dont have one at this location
+turn  131 bot [Britbot] invalid actions:
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  132 bot [Britbot] invalid actions:
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 9 7 n # You tried to move a pirate but dont have one at this location
+turn  133 bot [Britbot] invalid actions:
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 9 7 e # You tried to move a pirate but dont have one at this location
+turn  134 bot [Britbot] invalid actions:
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 9 7 s # You tried to move a pirate but dont have one at this location
+turn  135 bot [Britbot] invalid actions:
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+turn  136 bot [Britbot] invalid actions:
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+turn  137 bot [Britbot] invalid actions:
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+turn  138 bot [Britbot] invalid actions:
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+turn  139 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+turn  140 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+turn  141 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  142 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  143 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  143 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  144 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  144 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  145 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  145 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  146 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  146 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  147 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  147 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  148 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  148 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  149 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  149 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  150 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  150 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  151 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  151 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  152 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  152 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  153 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  153 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  154 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  154 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  155 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  155 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  156 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  156 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  157 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  157 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  158 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  158 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  159 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  159 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  160 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  160 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  161 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  161 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  162 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  162 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  163 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  163 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  164 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  164 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  165 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  165 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  166 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  166 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  167 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  167 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  168 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  168 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  169 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  169 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  170 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  170 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  171 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  171 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  172 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  172 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  173 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  173 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  174 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  174 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  175 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  175 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  176 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  176 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  177 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  177 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  178 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  178 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  179 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  179 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  180 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  180 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  181 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  181 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  182 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  182 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  183 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  183 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  184 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  184 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  185 bot Britbot ignored actions:
+o 34 26 s # move blocked - cant move out of map
+turn  185 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 19 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 s # You tried to move a pirate but dont have one at this location
+turn  186 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 10 19 n # You tried to move a pirate but dont have one at this location
+o 10 18 n # You tried to move a pirate but dont have one at this location
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  187 bot [Britbot] invalid actions:
+o 9 21 w # You tried to move a pirate but dont have one at this location
+o 10 18 w # You tried to move a pirate but dont have one at this location
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  188 bot [Britbot] invalid actions:
+o 9 21 n # You tried to move a pirate but dont have one at this location
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  189 bot [Britbot] invalid actions:
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  190 bot [Britbot] invalid actions:
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  191 bot [Britbot] invalid actions:
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  192 bot [Britbot] invalid actions:
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  193 bot [Britbot] invalid actions:
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  194 bot [Britbot] invalid actions:
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  195 bot [Britbot] invalid actions:
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  196 bot [Britbot] invalid actions:
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  197 bot [Britbot] invalid actions:
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  198 bot [Britbot] invalid actions:
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  199 bot [Britbot] invalid actions:
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  200 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+o 5 19 n # You tried to move a pirate but dont have one at this location
+turn  201 bot [Britbot] invalid actions:
+o 21 26 w # You tried to move a pirate but dont have one at this location
+turn  202 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  203 bot [Britbot] invalid actions:
+o 21 26 w # You tried to move a pirate but dont have one at this location
+turn  204 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  205 bot [Britbot] invalid actions:
+o 21 26 w # You tried to move a pirate but dont have one at this location
+turn  206 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  207 bot [Britbot] invalid actions:
+o 21 26 w # You tried to move a pirate but dont have one at this location
+turn  208 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  209 bot [Britbot] invalid actions:
+o 21 26 w # You tried to move a pirate but dont have one at this location
+turn  210 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  211 bot [Britbot] invalid actions:
+o 21 26 w # You tried to move a pirate but dont have one at this location
+turn  212 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  213 bot [Britbot] invalid actions:
+o 21 26 w # You tried to move a pirate but dont have one at this location
+turn  214 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  215 bot [Britbot] invalid actions:
+o 21 26 w # You tried to move a pirate but dont have one at this location
+turn  216 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  217 bot [Britbot] invalid actions:
+o 21 26 w # You tried to move a pirate but dont have one at this location
+turn  218 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  219 bot [Britbot] invalid actions:
+o 21 26 w # You tried to move a pirate but dont have one at this location
+turn  220 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  221 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  222 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  223 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  224 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  225 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  226 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  227 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  228 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  229 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  230 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  231 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  232 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  233 bot [Britbot] invalid actions:
+o 21 26 n # You tried to move a pirate but dont have one at this location
+turn  241 bot [Britbot] invalid actions:
+o 27 10 w # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+o 25 7 w # You tried to move a pirate but dont have one at this location
+turn  242 bot [Britbot] invalid actions:
+o 27 10 n # You tried to move a pirate but dont have one at this location
+o 26 7 n # You tried to move a pirate but dont have one at this location
+o 25 7 n # You tried to move a pirate but dont have one at this location
+turn  243 bot [Britbot] invalid actions:
+o 29 18 w # You tried to move a pirate but dont have one at this location
+o 27 10 w # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+o 25 7 w # You tried to move a pirate but dont have one at this location
+turn  244 bot [Britbot] invalid actions:
+o 29 18 n # You tried to move a pirate but dont have one at this location
+o 27 10 n # You tried to move a pirate but dont have one at this location
+o 26 7 n # You tried to move a pirate but dont have one at this location
+o 25 7 n # You tried to move a pirate but dont have one at this location
+turn  245 bot [Britbot] invalid actions:
+o 29 18 w # You tried to move a pirate but dont have one at this location
+o 27 10 w # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+o 25 7 w # You tried to move a pirate but dont have one at this location
+turn  246 bot [Britbot] invalid actions:
+o 29 18 n # You tried to move a pirate but dont have one at this location
+o 27 10 n # You tried to move a pirate but dont have one at this location
+o 26 7 n # You tried to move a pirate but dont have one at this location
+o 25 7 n # You tried to move a pirate but dont have one at this location
+turn  247 bot [Britbot] invalid actions:
+o 29 18 w # You tried to move a pirate but dont have one at this location
+o 27 10 w # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+o 25 7 w # You tried to move a pirate but dont have one at this location
+turn  248 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  249 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  250 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  251 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  252 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  253 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  254 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  255 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  256 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  257 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  258 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  259 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  260 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  261 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  262 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  263 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  264 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  265 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  266 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  267 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  268 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  269 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  270 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  271 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  272 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  273 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  274 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+turn  275 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  276 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+o 26 7 s # You tried to move a pirate but dont have one at this location
+turn  277 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  278 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  279 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  280 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  281 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  282 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  283 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  284 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  285 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  286 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  287 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  288 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
+o 26 7 w # You tried to move a pirate but dont have one at this location
+turn  289 bot [Britbot] invalid actions:
+o 29 18 e # You tried to move a pirate but dont have one at this location
+turn  290 bot [Britbot] invalid actions:
+o 29 18 s # You tried to move a pirate but dont have one at this location
