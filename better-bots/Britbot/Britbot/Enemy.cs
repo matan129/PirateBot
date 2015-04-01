@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Pirates;
 
 namespace Britbot
 {
@@ -27,11 +28,24 @@ namespace Britbot
         /// </summary>
         public static List<EnemyGroup> AnalyzeEnemyGroups()
         {
+            //If there are no groups yet
+            if (Groups.Count == 0)
+            {
+                return AnalyzeFull();
+            }
+
+
+            /*TODO this IS not working! 
+             * the logic here is incorrect
+             * 1. the retiredGroup never changes here and hence the do-while loop will go on forever
+             * 2. What happenes if an enemygroup splits into three groups?
+             * 3. WHat happenes if someone jons a group?
+            */
             //the updated list
             List<EnemyGroup> newEnemyList = new List<EnemyGroup>();
 
             //first split group if we need to 
-            //go over all the existing group and update them if needed
+            //go over all the existing groups and update them if needed
             foreach (EnemyGroup eGroup in Groups)
             {
                 //assuming eGroup isn't empty
@@ -55,7 +69,7 @@ namespace Britbot
                     //retire those pirates
                     retiredGroup = eGroup.Split(retiredPirates);
 
-                    //check if there were actually pirates ritired or just the entire groups stayed together
+                    //check if there were actually pirates retired or just the entire groups stayed together
                     if (retiredGroup != null)
                         newEnemyList.Add(retiredGroup);
                 } while (retiredPirates != null);
@@ -64,14 +78,17 @@ namespace Britbot
             }
 
             //TODO: now combine them if we need to
+            return newEnemyList;
+        }
 
-            /*
-            //TODO: check that you don't recreate enemy groups if you don't need to
-
+        private static List<EnemyGroup> AnalyzeFull()
+        {
             List<EnemyGroup> updatedGroups = new List<EnemyGroup>();
 
-            //iterate over all the pirate of the enemy
-            foreach (Pirate pete in Bot.Game.AllEnemyPirates().Where(p => !p.IsLost))
+            IEnumerable<Pirate> enemyAlivePirates = Bot.Game.AllEnemyPirates().Where(p => !p.IsLost);
+
+            //iterate over all the alive pirate of the enemy
+            foreach (Pirate pete in  enemyAlivePirates)
             {
                 //create a new group and add the current pirate to it
                 EnemyGroup newGroup = new EnemyGroup();
@@ -99,9 +116,7 @@ namespace Britbot
                 updatedGroups.Add(newGroup);
             }
 
-            Bot.Game.Debug("Enemy Configuration: " + string.Join(",", updatedGroups));
-            */
-            return newEnemyList;
+            return updatedGroups;
         }
 
         /// <summary>

@@ -53,7 +53,7 @@ namespace Britbot
             return HeadingVector.CalculateDirectionToStaitionaryTarget(group.GetLocation(), group.Heading, GetLocation());
         }
 
-        public string ToS()
+        public string GetDescription()
         {
             return "Island, id: " + Id + " location: " + Loc;
             ;

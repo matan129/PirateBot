@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Pirates;
 
@@ -84,7 +85,7 @@ namespace Britbot
                 Heading);
         }
 
-        public string ToS()
+        public string GetDescription()
         {
             string s = "Enemy Group, Pirates: ";
             foreach (int pirate in EnemyPirates)

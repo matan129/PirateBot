@@ -35,6 +35,6 @@ namespace Britbot
         /// <returns>true if identical, false either</returns>
         bool Equals(ITarget operandB);
 
-        string ToS();
+        string GetDescription();
     }
 }

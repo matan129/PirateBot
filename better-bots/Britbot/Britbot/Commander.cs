@@ -14,11 +14,11 @@ namespace Britbot
         /// </summary>
         static Commander()
         {
-            //TODO fix this
             Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
 
             Groups = new List<Group>();
 
+            //TODO initial config should be better then this
             switch (Bot.Game.AllMyPirates().Count)
             {
                 case 3:
@@ -63,7 +63,7 @@ namespace Britbot
         /// </summary>
         public static void Play()
         {
-            //update the enemy
+            //update the enemy info
             Enemy.Update();
 
             //calculate targets
@@ -170,7 +170,7 @@ namespace Britbot
             Bot.Game.Debug("----------TARGETS--------------");
             for (int i = 0; i < dimensions.Length; i++)
             {
-                Bot.Game.Debug(possibleAssignments[i][maxAssignment[i]].Target.ToS());
+                Bot.Game.Debug(possibleAssignments[i][maxAssignment[i]].Target.GetDescription());
             }
             //Bot.Game.Debug((possibleAssignments[0][maxAssignment[0]].Target.Equals(possibleAssignments[2][maxAssignment[2]].Target).ToString()));
             Bot.Game.Debug("----------TARGETS--------------");
