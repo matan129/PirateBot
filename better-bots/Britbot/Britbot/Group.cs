@@ -19,8 +19,6 @@ namespace Britbot
         /// </summary>
         public HeadingVector Heading { get; private set; }
 
-        public int formTolerance = 0;
-
         /// <summary>
         /// The Group ID number
         /// useful for debugging
@@ -253,7 +251,7 @@ namespace Britbot
                 }
             }
 
-            if (formCounter > this.formTolerance)
+            if (formCounter > 0)
             {
                 Bot.Game.Debug("Group {0} is not formed yet", this.Id);
                 return false;
@@ -401,17 +399,7 @@ namespace Britbot
             averageLocation.Col /= myPirates.Count;
             averageLocation.Row /= myPirates.Count;
 
-            myPirates.Sort((b,a) => a.Loc.Col.CompareTo(b.Loc.Col));
-            foreach (Pirate myPirate in myPirates)
-            {
-                int newDistance = Bot.Game.Distance(myPirate.Loc, averageLocation);
-                if (newDistance < minDistance)
-                {
-                    minDistance = newDistance;
-                    center = myPirate;
-                }
-            }
-            Bot.Game.Debug("\nCenter Pirate: {0}\n" ,center);
+            Bot.Game.Debug("Center : {0}", averageLocation);
             return averageLocation;
         }
         

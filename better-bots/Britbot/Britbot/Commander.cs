@@ -17,25 +17,12 @@ namespace Britbot
             Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
 
             Groups = new List<Group>();
-            /*
-            if (Bot.Game.AllMyPirates().Count%2 == 0)
-            {
-                Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count / 2));
-                Groups.Add(new Group(Bot.Game.AllMyPirates().Count/2, Bot.Game.AllMyPirates().Count/2));
-            }
-            else
-            {
-                Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count/2));
-                Groups.Add(new Group(Bot.Game.AllMyPirates().Count/2, (Bot.Game.AllMyPirates().Count - 1)/2));
-            }
-            */
+            
             //TODO initial config should be better then this
-
 
             if (Bot.Game.Islands().Count == 1)
             {
                 Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
-                Groups.Last().formTolerance = 1;
                 return;
             }
         
