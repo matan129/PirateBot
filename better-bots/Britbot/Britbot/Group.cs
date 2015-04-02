@@ -19,6 +19,8 @@ namespace Britbot
         /// </summary>
         public HeadingVector Heading { get; private set; }
 
+        public int formTolerance = 0;
+
         /// <summary>
         /// The Group ID number
         /// useful for debugging
@@ -153,7 +155,7 @@ namespace Britbot
         /// </summary>
         public void Move()
         {
-            if (this.IsForming)
+            if (!this.IsFormed())
             {
                 foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
                 {
@@ -186,12 +188,10 @@ namespace Britbot
                         Bot.Game.SetSail(pete, dir);
                     }
                 }
-
-                this.IsForming = !this.IsFormed();
             }
             else
             {
-                List<Direction> possibleDirections = Bot.Game.GetDirections(this.FindCenterPirate().Loc,this.Target.GetLocation());
+                List<Direction> possibleDirections = Bot.Game.GetDirections(this.FindCenter(),this.Target.GetLocation());
 
                 int tryAlternateDirection = Bot.Game.GetTurn() % 2;
 
@@ -214,23 +214,49 @@ namespace Britbot
         }
 
         /// <summary>
+        /// Return the percent of lost pirates in this group
+        /// </summary>
+        /// <returns></returns>
+        private double CasualtiesPercent()
+        {
+            return 100* (this.Pirates.Count(p => Bot.Game.GetMyPirate(p).IsLost)/this.Pirates.Count);
+        }
+
+        /// <summary>
         /// Checks if the group is formed
         /// </summary>
         /// <returns></returns>
         private bool IsFormed()
         {
+            if(this.CasualtiesPercent() > 30)
+                return false;
+
+            int deltaCol = 0, deltaRow = 0;
+            bool deltaFlag = false;
+            int formCounter = 0;
             foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
             {
                 Pirate pete = Bot.Game.GetMyPirate(formOrder.Key);
-                int deltaCol = pete.Loc.Col - formOrder.Value.Col;
-                int deltaRow = pete.Loc.Row - formOrder.Value.Row;
 
-                if (pete.Loc.Col + deltaCol!= formOrder.Value.Col 
-                    && pete.Loc.Row + deltaRow == formOrder.Value.Row)
+                if(pete.IsLost)
+                    continue;
+
+                if (!deltaFlag)
                 {
-                    Bot.Game.Debug("Group {0} is not formed yet", this.Id);
-                    return false;
+                    deltaCol = formOrder.Value.Col - pete.Loc.Col;
+                    deltaRow = formOrder.Value.Row - pete.Loc.Row;
+                    deltaFlag = true;
                 }
+                if (pete.Loc.Col + deltaCol != formOrder.Value.Col || pete.Loc.Row + deltaRow != formOrder.Value.Row)
+                {
+                    formCounter++;
+                }
+            }
+
+            if (formCounter > this.formTolerance)
+            {
+                Bot.Game.Debug("Group {0} is not formed yet", this.Id);
+                return false;
             }
 
             Bot.Game.Debug("Group {0} is formed", this.Id);
@@ -243,12 +269,12 @@ namespace Britbot
         private void FormDictionary()
         {
             Bot.Game.Debug("Forming group structure");
-            Pirate centerPirate = this.FindCenterPirate();
-            Location[] structure = GetStructure(centerPirate.Loc);
+            Location center = this.FindCenter();
+            Location[] structure = GetStructure(center);
             bool[] matchedLocations = new bool[structure.Length];
             Dictionary<Pirate,Location> orders = new Dictionary<Pirate, Location>();
             List<Pirate> groupPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
-            groupPirates.Sort((b,a) => Bot.Game.Distance(a,centerPirate).CompareTo(Bot.Game.Distance(b,centerPirate)));
+            groupPirates.Sort((b,a) => Bot.Game.Distance(a.Loc,center).CompareTo(Bot.Game.Distance(b.Loc,center)));
             
             Bot.Game.Debug("Structure is: " + String.Join(",", (object[]) structure));
 
@@ -277,17 +303,8 @@ namespace Britbot
             }
 
             //sort the orders so the closest pirates are first to avoid collisions
-            try
-            {
-                this.FormOrders = orders.OrderBy(pair => Bot.Game.Distance(pair.Key.Loc, pair.Value))
+            this.FormOrders = orders.OrderBy(pair => Bot.Game.Distance(pair.Key.Loc, pair.Value))
                 .ToDictionary(pair => pair.Key.Id, pair => pair.Value);
-            }
-            catch (Exception ex )
-            {
-                Bot.Game.Debug("Caught exception while sorting the dictionary. info: " + ex.Message);
-                this.FormOrders = orders.ToDictionary(pair => pair.Key.Id, pair => pair.Value);
-            }
-            
 
             Bot.Game.Debug("====FORMING TO====");
             foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
@@ -367,7 +384,7 @@ namespace Britbot
         /// Find the center pirate in the group, which is the pirate closest to the average locationof the group
         /// </summary>
         /// <returns>The center pirate</returns>
-        private Pirate FindCenterPirate()
+        private Location FindCenter()
         {
             Pirate center = null;
             decimal minDistance = Bot.Game.GetCols() + Bot.Game.GetRows();
@@ -384,9 +401,9 @@ namespace Britbot
             averageLocation.Col /= myPirates.Count;
             averageLocation.Row /= myPirates.Count;
 
+            myPirates.Sort((b,a) => a.Loc.Col.CompareTo(b.Loc.Col));
             foreach (Pirate myPirate in myPirates)
             {
-                //decimal newDistance = GetAvgLocation(myPirate);
                 int newDistance = Bot.Game.Distance(myPirate.Loc, averageLocation);
                 if (newDistance < minDistance)
                 {
@@ -395,7 +412,7 @@ namespace Britbot
                 }
             }
             Bot.Game.Debug("\nCenter Pirate: {0}\n" ,center);
-            return center;
+            return averageLocation;
         }
         
         /// <summary>

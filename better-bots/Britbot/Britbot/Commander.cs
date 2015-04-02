@@ -17,8 +17,29 @@ namespace Britbot
             Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
 
             Groups = new List<Group>();
-
+            /*
+            if (Bot.Game.AllMyPirates().Count%2 == 0)
+            {
+                Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count / 2));
+                Groups.Add(new Group(Bot.Game.AllMyPirates().Count/2, Bot.Game.AllMyPirates().Count/2));
+            }
+            else
+            {
+                Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count/2));
+                Groups.Add(new Group(Bot.Game.AllMyPirates().Count/2, (Bot.Game.AllMyPirates().Count - 1)/2));
+            }
+            */
             //TODO initial config should be better then this
+
+
+            if (Bot.Game.Islands().Count == 1)
+            {
+                Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
+                Groups.Last().formTolerance = 1;
+                return;
+            }
+        
+
             switch (Bot.Game.AllMyPirates().Count)
             {
                 case 3:
@@ -26,8 +47,13 @@ namespace Britbot
                     Groups.Add(new Group(2, 1));
                     break;
                 case 4:
-                    Groups.Add(new Group(0, 3));
-                    Groups.Add(new Group(3, 1));
+                    if(Bot.Game.AllEnemyPirates().Count > 4)
+                        Groups.Add(new Group(0, 4));
+                    else
+                    {
+                        Groups.Add(new Group(0, 3));
+                        Groups.Add(new Group(3, 1));
+                    }
                     break;
                 case 5:
                     Groups.Add(new Group(0, 2));
@@ -49,7 +75,7 @@ namespace Britbot
                     break;
                 case 7:
                     Groups.Add(new Group(0, 2));
-                    Groups.Add(new Group(2, 3));
+                   Groups.Add(new Group(2, 3));
                     Groups.Add(new Group(5, 2));
                     break;
                 case 8:
@@ -73,6 +99,7 @@ namespace Britbot
 
                     if(Bot.Game.AllMyPirates().Count % 2 == 1)
                         Groups.Add(new Group(Bot.Game.AllMyPirates().Count,1));
+                    Groups.Add(new Group(0,Bot.Game.AllMyPirates().Count));
                     break;
             }
         }
