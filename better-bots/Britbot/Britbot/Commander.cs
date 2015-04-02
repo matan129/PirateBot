@@ -57,9 +57,7 @@ namespace Britbot
                     {
                         Groups.Add(new Group(0, 1));
                         Groups.Add(new Group(1, 1));
-                        Groups.Add(new Group(2, 2));
-                        Groups.Add(new Group(4, 1));
-                        Groups.Add(new Group(5, 1));
+                        Groups.Add(new Group(2, 4));
                     }
                     break;
                 case 7:
