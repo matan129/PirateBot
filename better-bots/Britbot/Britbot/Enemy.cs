@@ -137,22 +137,6 @@ namespace Britbot
                 eGroup.UpdateHeading();
         }
 
-        /// <summary>
-        /// Transfers enemy configuration to int[] form
-        /// </summary>
-        /// <returns>Enemy configuration in the form of int array </returns>
-        public static int[] GetConfig()
-        {
-            //Creates the config array
-            int[] config = new int[Groups.Count];
-
-            //Fills the array according to enemy config
-            for (int i = 0; i < Groups.Count; i++)
-            {
-                config[i] = Groups[i].EnemyPirates.Count;
-            }
-
-            return config;
-        }
+        
     }
 }

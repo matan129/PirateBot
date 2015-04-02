@@ -135,26 +135,21 @@ namespace Britbot
             throw new NotImplementedException();
         }
 
-
+        /// <summary>
+        /// Returns a list of ints that describes the currunt wanted configuration
+        /// </summary>
+        /// <returns>ULTIMATE group configuration</returns>
         public static List<int> GetUltimateGameConfig()
         {
 
-            int[] eConfig = Enemy.GetConfig();
+            int[] eConfig = Enemy.Groups.ConvertAll(group => group.EnemyPirates.Count).ToArray();
+
+            Array.Sort(eConfig,(a,b) => a.CompareTo(b));
 
             List<int> ret = new List<int>();
 
             int myPirates = Bot.Game.AllMyPirates().Count;
 
-            /*if (eConfig.Length == 1)
-            {
-                
-                for (int i = 0; i < myPirates; i++)
-                    ret.Add(1);
-                return ret;
-            }*/
-
-            Array.Sort(eConfig);
-            Array.Reverse(eConfig);
 
             for (int i = 0; i < eConfig.Length && myPirates > 0; i++)
             {
@@ -170,9 +165,9 @@ namespace Britbot
                 myPirates--;
             }
 
-            while(ret.Count>Bot.Game.Islands().Count)
+            while(ret.Count > Bot.Game.Islands().Count)
             {
-                ret[0] += ret.Last();
+                ret[ret.Count-2] += ret.Last();
                 ret.RemoveAt(ret.Count - 1);
             }
 
