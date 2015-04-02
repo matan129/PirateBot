@@ -473,6 +473,18 @@ namespace Britbot
 
             Bot.Game.Debug("Priorities Count: " + this.Priorities.Count);
         }
+        /// <summary>
+        /// Adds a pirate to this group, removing it from any other group it was in.
+        /// </summary>
+        /// <param name="index">The pirate's index</param>
+        public void AddPirate(int index)
+        {
+            foreach (Group g in Commander.Groups)
+            {
+                g.Pirates.Remove(index);
+            }
+            this.Pirates.Add(index);
+        }
 
         #region Members
 
@@ -524,4 +536,5 @@ namespace Britbot
 
         #endregion
     }
+
 }

@@ -135,6 +135,8 @@ namespace Britbot
             throw new NotImplementedException();
         }
 
+
+
         /// <summary>
         /// Checks if a specific pirate is already occupied in some group
         /// </summary>
