@@ -26,7 +26,6 @@ namespace Britbot
             this.Heading = new HeadingVector(0, 0);
             this.Priorities = new List<Score>();
             this.Role = new GroupRole();
-            this.IsForming = true;
 
             //get id and update counter
             this.Id = GroupCounter++;
@@ -319,7 +318,7 @@ namespace Britbot
 
             for (int ordinal = 0; ordinal <= requiredRing; ordinal++)
             {
-                rings.AddRange(GetRing(pivot, ordinal));
+                rings.AddRange(Group.GetRing(pivot, ordinal));
             }
 
             return rings.Take(this.Pirates.Count).ToArray();
@@ -517,11 +516,6 @@ namespace Britbot
         /// static member to give each group a unique id based on its number of creation
         /// </summary>
         public static int GroupCounter { get; private set; }
-
-        /// <summary>
-        /// Indicates if this group is still forming into attack structure
-        /// </summary>
-        public bool IsForming { get; private set; }
 
         /// <summary>
         /// The required location for each pirate in the group to get to attack structure

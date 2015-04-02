@@ -24,7 +24,7 @@ namespace Britbot
             //check if dimensions are legal (meaning strictly positive)
             if (Dimensions.Any(dim => dim <= 0))
             {
-                throw new InvalidIteratorDimension("Dimensions must be strictly positive");
+                throw new InvalidIteratorDimensionException("Dimensions must be strictly positive");
             }
 
             //initiate count at zero

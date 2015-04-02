@@ -25,7 +25,7 @@ namespace Britbot
                 Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
                 return;
             }
-
+            
             //TODO this is awfully specific for the game bots. We have to generalize this
             switch (Bot.Game.AllMyPirates().Count)
             {
@@ -93,17 +93,18 @@ namespace Britbot
                     Commander.Groups.Add(new Group(0, 9));
                     break;
                 default:
-                    for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
+                   /* for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
                     {
                         Commander.Groups.Add(new Group(i, 2));
                     }
 
                     if (Bot.Game.AllMyPirates().Count%2 == 1)
-                        Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));
+                        Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));*/
                     Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
                     break;
             }
         }
+        
 
         /// <summary>
         /// List of groups of our pirates

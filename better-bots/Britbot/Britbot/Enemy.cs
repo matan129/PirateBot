@@ -15,7 +15,7 @@ namespace Britbot
         /// </summary>
         static Enemy()
         {
-            Groups = new List<EnemyGroup>();
+            Enemy.Groups = new List<EnemyGroup>();
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Britbot
         /// </summary>
         public static List<EnemyGroup> AnalyzeEnemyGroups()
         {
-            EnemyGroup[] analysis = AnalyzeFull().ToArray();
+            EnemyGroup[] analysis = Enemy.AnalyzeFull().ToArray();
 
             if (Groups.Count == 0)
                 return analysis.ToList();
@@ -40,7 +40,7 @@ namespace Britbot
             for (int i = 0; i < analysis.Length; i++)
             {
                 EnemyGroup enemyGroup = analysis[i];
-                foreach (EnemyGroup veteran in Groups)
+                foreach (EnemyGroup veteran in Enemy.Groups)
                 {
                     /*
                      * check if the groups are the same.
