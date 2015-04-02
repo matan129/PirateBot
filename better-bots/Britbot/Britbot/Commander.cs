@@ -26,7 +26,7 @@ namespace Britbot
                 return;
             }
 
-
+            //TODO this is awefully spesific for the game bots. We have to generalize this
             switch (Bot.Game.AllMyPirates().Count)
             {
                 case 3:
