@@ -6,6 +6,7 @@ namespace Britbot
     /// <summary>
     /// this class will be used to go over every possible group-target assignment
     /// it is like counting in base ten with unclear amount of fingers
+    /// https://www.youtube.com/watch?v=UIKGV2cTgqA
     /// </summary>
     internal class ExpIterator
     {

@@ -1,7 +1,7 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using Pirates;
 
@@ -349,6 +349,7 @@ namespace Britbot
                 int b = pivot.Col;
 
                 //this solves the equation I described in the calculations folder
+                //Rings_proof.jpg
                 for (int x = a - ringOrdinal; x <= a + ringOrdinal; x++)
                 {
                     Location y1 =
@@ -365,11 +366,17 @@ namespace Britbot
                                 ((2*b -
                                   Math.Sqrt(4*Math.Pow(b, 2) +
                                             4*(Math.Pow(ringOrdinal - Math.Abs(a - x), 2) - Math.Pow(b, 2))))/2));
+
+                    //Check for duplicates
                     if (y1.Col != y2.Col || y1.Row != y2.Row)
                         ring.Add(y2);
                 }
 
-                ring.ForEach(x => Bot.Game.Debug(x + " "));
+                //Put the locations of the ring at the debug log
+                StringBuilder ringLocationsDesc = new StringBuilder();
+                ring.ForEach(x => ringLocationsDesc.Append(x + " "));
+                Bot.Game.Debug(ringLocationsDesc.ToString());
+
                 return ring;
             }
             else
@@ -384,6 +391,7 @@ namespace Britbot
         /// <returns>The center pirate</returns>
         private Location FindCenter()
         {
+            //TODO consider moving the center to outside of the rings (see lone_island map games)
             Pirate center = null;
             decimal minDistance = Bot.Game.GetCols() + Bot.Game.GetRows();
             List<Pirate> myPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
@@ -400,7 +408,18 @@ namespace Britbot
             averageLocation.Row /= myPirates.Count;
 
             Bot.Game.Debug("Center : {0}", averageLocation);
-            return averageLocation;
+
+            foreach (Pirate myPirate in myPirates)
+            {
+                int newDistance = Bot.Game.Distance(myPirate.Loc, averageLocation);
+                if (newDistance < minDistance)
+                {
+                    minDistance = newDistance;
+                    center = myPirate;
+                }
+            }
+            Bot.Game.Debug("Center Pirate: {0}", center);
+            return center.Loc;
         }
         
         /// <summary>
