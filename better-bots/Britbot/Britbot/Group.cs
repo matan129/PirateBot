@@ -226,39 +226,71 @@ namespace Britbot
         /// <returns></returns>
         private bool IsFormed()
         {
-            if(this.CasualtiesPercent() > 30)
+            if(this.CasualtiesPercent() > 20)
                 return false;
+                      
 
             int deltaCol = 0, deltaRow = 0;
             bool deltaFlag = false;
-            int formCounter = 0;
+            bool confirmUnstructured = false;
+            Pirate pete = null;
+
             foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
             {
-                Pirate pete = Bot.Game.GetMyPirate(formOrder.Key);
+                pete = Bot.Game.GetMyPirate(formOrder.Key);
 
-                if(pete.IsLost)
-                    continue;
+                if (pete != null)
+                {
+                    if (pete.IsLost)
+                        continue;
 
-                if (!deltaFlag)
-                {
-                    deltaCol = formOrder.Value.Col - pete.Loc.Col;
-                    deltaRow = formOrder.Value.Row - pete.Loc.Row;
-                    deltaFlag = true;
-                }
-                if (pete.Loc.Col + deltaCol != formOrder.Value.Col || pete.Loc.Row + deltaRow != formOrder.Value.Row)
-                {
-                    formCounter++;
+                    if (!deltaFlag)
+                    {
+                        deltaCol = formOrder.Value.Col - pete.Loc.Col;
+                        deltaRow = formOrder.Value.Row - pete.Loc.Row;
+                        deltaFlag = true;
+                    }
+
+                    if (pete.Loc.Col + deltaCol != formOrder.Value.Col || pete.Loc.Row + deltaRow != formOrder.Value.Row)
+                    {
+                        //proceed to the next test
+                        confirmUnstructured = true;
+                        break;
+                    }
                 }
             }
 
-            if (formCounter > 0)
+            if (!confirmUnstructured)
             {
-                Bot.Game.Debug("Group {0} is not formed yet", this.Id);
-                return false;
+                Bot.Game.Debug("Group {0} is formed", this.Id);
+                return true;
             }
 
-            Bot.Game.Debug("Group {0} is formed", this.Id);
-            return true;
+            pete = Bot.Game.GetPirateOn(this.FindCenter());
+            
+            if (pete != null)
+            {
+                Location[] structure = null;
+                try
+                {
+                    structure = GetStructure(pete.Loc);
+                }
+                catch (InvalidLocationException ex)
+                {
+                    Bot.Game.Debug("Group {0} is not formed yet", this.Id);
+                    return false;
+                }
+                
+
+                if (structure.All(loc => Bot.Game.GetPirateOn(loc) != null))
+                {
+                    Bot.Game.Debug("Group {0} is formed", this.Id);
+                    return true;
+                }
+            }
+
+            Bot.Game.Debug("Group {0} is not formed yet", this.Id);
+            return false;
         }
 
         /// <summary>
@@ -268,7 +300,24 @@ namespace Britbot
         {
             Bot.Game.Debug("Forming group structure");
             Location center = this.FindCenter();
-            Location[] structure = GetStructure(center);
+            Location[] structure = null;
+
+            while (true)
+            {
+                try
+                {
+                    structure = GetStructure(center);
+                    break;
+                }
+                catch (InvalidLocationException ex)
+                {
+                    center = AdvancePivot(center);
+                    Bot.Game.Debug("New Center is " + center);
+                    continue;
+                }   
+            }
+
+
             bool[] matchedLocations = new bool[structure.Length];
             Dictionary<Pirate,Location> orders = new Dictionary<Pirate, Location>();
             List<Pirate> groupPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
@@ -326,10 +375,34 @@ namespace Britbot
 
             for (int ordinal = 0; ordinal <= requiredRing; ordinal++)
             {
-                rings.AddRange(GetRing(pivot,ordinal));
+                rings.AddRange(GetRing(pivot, ordinal));
             }
 
             return rings.Take(this.Pirates.Count).ToArray();
+        }
+
+        private Location AdvancePivot(Location pivot)
+        {
+            int maxCols = Bot.Game.GetCols();
+            int maxRows = Bot.Game.GetRows();
+
+            int addCol = 0, addRow = 0;
+            int deltaCol = maxCols - pivot.Col;
+            int deltaRow = maxRows - pivot.Row;
+
+            if (deltaCol > pivot.Col)
+                addCol++;
+            else if (deltaCol < pivot.Col)
+                addCol--;
+
+            if (deltaRow > pivot.Row)
+                addRow++;
+            else if (deltaRow < pivot.Row)
+                addRow--;
+
+            pivot = new Location(pivot.Row + addRow, pivot.Col + addCol);
+            Bot.Game.Debug("#### Pivot advanced to " + pivot + " ####");
+            return pivot;
         }
 
         /// <summary>
@@ -358,6 +431,10 @@ namespace Britbot
                                 ((2*b +
                                   Math.Sqrt(4*Math.Pow(b, 2) +
                                             4*(Math.Pow(ringOrdinal - Math.Abs(a - x), 2) - Math.Pow(b, 2))))/2));
+
+                    if(!Bot.Game.IsPassable(y1))
+                        throw new InvalidLocationException("Location is not passable!");
+
                     ring.Add(y1);
 
                     Location y2 =
@@ -366,6 +443,9 @@ namespace Britbot
                                 ((2*b -
                                   Math.Sqrt(4*Math.Pow(b, 2) +
                                             4*(Math.Pow(ringOrdinal - Math.Abs(a - x), 2) - Math.Pow(b, 2))))/2));
+
+                    if (!Bot.Game.IsPassable(y2))
+                        throw new InvalidLocationException("Location is not passable!");
 
                     //Check for duplicates
                     if (y1.Col != y2.Col || y1.Row != y2.Row)
@@ -392,8 +472,6 @@ namespace Britbot
         private Location FindCenter()
         {
             //TODO consider moving the center to outside of the rings (see lone_island map games)
-            Pirate center = null;
-            decimal minDistance = Bot.Game.GetCols() + Bot.Game.GetRows();
             List<Pirate> myPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
 
             Location averageLocation = new Location(0,0);
@@ -408,18 +486,7 @@ namespace Britbot
             averageLocation.Row /= myPirates.Count;
 
             Bot.Game.Debug("Center : {0}", averageLocation);
-
-            foreach (Pirate myPirate in myPirates)
-            {
-                int newDistance = Bot.Game.Distance(myPirate.Loc, averageLocation);
-                if (newDistance < minDistance)
-                {
-                    minDistance = newDistance;
-                    center = myPirate;
-                }
-            }
-            Bot.Game.Debug("Center Pirate: {0}", center);
-            return center.Loc;
+            return averageLocation;
         }
         
         /// <summary>
@@ -460,36 +527,6 @@ namespace Britbot
             this.Priorities = scores;
 
             Bot.Game.Debug("Priorities Count: " + this.Priorities.Count);
-        }
-
-        /// <summary>
-        /// Combines a location and a direction to the location the direction leads to
-        /// </summary>
-        /// <param name="cur"></param>
-        /// <param name="dir"></param>
-        /// <returns></returns>
-        public static Location GetFutureLocation(Location cur, Direction dir)
-        {
-            switch (dir)
-            {
-                case Direction.NORTH:
-                    cur.Row--;
-                    break;
-
-                case Direction.SOUTH:
-                    cur.Row++;
-                    break;
-
-                case Direction.EAST:
-                    cur.Col++;
-                    break;
-
-                case Direction.WEST:
-                    cur.Col--;
-                    break;
-            }
-
-            return cur;
         }
     }
 }

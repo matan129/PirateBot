@@ -28,4 +28,18 @@ namespace Britbot
             
         }
     }
+
+    internal class InvalidLocationException : Exception
+    {
+         public InvalidLocationException()
+        {
+            
+        }
+
+         public InvalidLocationException(string message)
+            : base(message)
+        {
+            
+        }
+    }
 }

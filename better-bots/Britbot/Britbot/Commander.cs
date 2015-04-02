@@ -56,20 +56,31 @@ namespace Britbot
                     else
                     {
                         Groups.Add(new Group(0, 1));
-                        Groups.Add(new Group(1, 3));
-                        Groups.Add(new Group(4, 2));
+                        Groups.Add(new Group(1, 1));
+                        Groups.Add(new Group(2, 2));
+                        Groups.Add(new Group(4, 1));
+                        Groups.Add(new Group(5, 1));
                     }
                     break;
                 case 7:
                     Groups.Add(new Group(0, 2));
-                   Groups.Add(new Group(2, 3));
+                    Groups.Add(new Group(2, 3));
                     Groups.Add(new Group(5, 2));
                     break;
                 case 8:
-                    Groups.Add(new Group(0, 3));
-                    Groups.Add(new Group(3, 2));
-                    Groups.Add(new Group(5, 2));
-                    Groups.Add(new Group(7, 1));
+                    if (Bot.Game.GetMyPirate(7).Loc.Row == 39)
+                    {
+                        Groups.Add(new Group(0, 4));
+                        Groups.Add(new Group(4, 3));
+                        Groups.Add(new Group(7, 1));
+                    }
+                    else
+                    {
+                        Groups.Add(new Group(0, 3));
+                        Groups.Add(new Group(3, 2));
+                        Groups.Add(new Group(5, 2));
+                        Groups.Add(new Group(7, 1));
+                    }
                     break;
                 case 9:
                     Groups.Add(new Group(0, 3));
