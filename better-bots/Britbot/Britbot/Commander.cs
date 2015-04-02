@@ -136,6 +136,51 @@ namespace Britbot
         }
 
 
+        public static List<int> GetUltimateGameConfig()
+        {
+
+            int[] eConfig = Enemy.GetConfig();
+
+            List<int> ret = new List<int>();
+
+            int myPirates = Bot.Game.AllMyPirates().Count;
+
+            /*if (eConfig.Length == 1)
+            {
+                
+                for (int i = 0; i < myPirates; i++)
+                    ret.Add(1);
+                return ret;
+            }*/
+
+            Array.Sort(eConfig);
+            Array.Reverse(eConfig);
+
+            for (int i = 0; i < eConfig.Length && myPirates > 0; i++)
+            {
+                if (eConfig[i]+1 > myPirates)
+                    break;
+                ret.Add(eConfig[i] + 1);
+                myPirates -= eConfig[i] + 1;
+            }
+
+            while(myPirates > 0)
+            {
+                ret.Add(1);
+                myPirates--;
+            }
+
+            while(ret.Count>Bot.Game.Islands().Count)
+            {
+                ret[0] += ret.Last();
+                ret.RemoveAt(ret.Count - 1);
+            }
+
+            return ret;
+
+        }
+
+
 
         /// <summary>
         /// Checks if a specific pirate is already occupied in some group
