@@ -9,6 +9,89 @@ namespace Britbot
     /// </summary>
     public class SmartIsland : ITarget
     {
+        /// <summary>
+        /// Calculates the score of this island relative to a certain group by calculating how many potential points it will generate.
+        /// </summary>
+        /// <param name="origin">The original group of pirates of the type "Group"</param>
+        /// <returns>Returns the Score for the Target</returns>
+        public Score GetScore(Group origin)
+        {
+            //calculates the minimum distance between a group and said island
+            int distance =
+                origin.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p))
+                    .Select(e => Bot.Game.Distance(e.Loc, this.Loc))
+                    .Concat(new int[] {})
+                    .Min();
+
+            //Amount of turns it takes to capture an island
+            int captureTime = this.CaptureTurns;
+
+            //check if the island isn't already ours, if so disqualify it and return null
+            if (this.Owner != Consts.ME || this.TeamCapturing == Consts.ENEMY)
+                return new Score(this, TargetType.Island, (origin.Pirates.Count*(this.Value - 1)) + 1,
+                    distance + captureTime);
+            return null;
+        }
+
+        /// <summary>
+        /// Get the location of the Island
+        /// </summary>
+        /// <returns>The Location of the island</returns>
+        public Location GetLocation()
+        {
+            return Loc;
+        }
+
+        /// <summary>
+        /// Implements the getDirection method of the ITarget interface
+        /// searches for the direction which brings the path closest to a straight line
+        /// </summary>
+        /// <param name="group">The group asking for direction</param>
+        /// <returns>best direction</returns>
+        public Direction GetDirection(Group group)
+        {
+            //calculates the direction based on the geographical data from the game
+            return HeadingVector.CalculateDirectionToStationeryTarget(group.GetLocation(), group.Heading, GetLocation());
+        }
+
+        public string GetDescription()
+        {
+            return "Island, id: " + Id + " location: " + Loc;
+        }
+
+        /// <summary>
+        /// Checks if there are enemies near said Island that will probably attack it
+        /// </summary>
+        /// <returns>The amount of enemies near the target</returns>
+        public int NearbyEnemyCount()
+        {
+            int enemyCount = 0; //amount of enemy pirates in proximity to the Island
+            int closestIslandDistance = 0; //The distance between this Island and the one nearest too it
+            foreach (SmartIsland eIsland in IslandList)
+                //Calculates the distance between this island and the one nearest
+            {
+                int temp = Bot.Game.Distance(eIsland.Loc, this.Loc);
+                if (temp < closestIslandDistance)
+                {
+                    closestIslandDistance = temp;
+                }
+            }
+
+            // All enemy pirates are heading towards a certain island and it is safe to assume that they are heading towards the one nearest to them
+            int dangerRadius = closestIslandDistance/2;
+            foreach (EnemyGroup eGroup in Enemy.Groups)
+            {
+                //Checks if the group of islands is near the island and if they are getting closer or farther
+                if (eGroup.MinimalDistanceTo(this.Loc) <= dangerRadius && eGroup.GuessTarget() == this)
+                {
+                    //Calculates the sum of pirates in proximity to the island
+                    enemyCount = enemyCount + eGroup.EnemyPirates.Count;
+                }
+            }
+
+            return enemyCount;
+        }
+
         #region members
 
         /// <summary>
@@ -162,88 +245,5 @@ namespace Britbot
         }
 
         #endregion
-        
-        /// <summary>
-        /// Calculates the score of this island relative to a certain group by calculating how many potential points it will generate.
-        /// </summary>
-        /// <param name="origin">The original group of pirates of the type "Group"</param>
-        /// <returns>Returns the Score for the Target</returns>
-        public Score GetScore(Group origin)
-        {
-            //calculates the minimum distance between a group and said island
-            int distance =
-                origin.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p))
-                    .Select(e => Bot.Game.Distance(e.Loc, this.Loc))
-                    .Concat(new int[] {})
-                    .Min();
-
-            //Amount of turns it takes to capture an island
-            int captureTime = this.CaptureTurns;
-
-            //check if the island isn't already ours, if so disqualify it and return null
-            if (this.Owner != Consts.ME || this.TeamCapturing == Consts.ENEMY)
-                return new Score(this, TargetType.Island, (origin.Pirates.Count*(this.Value - 1)) + 1,
-                    distance + captureTime);
-            return null;
-        }
-
-        /// <summary>
-        /// Get the location of the Island
-        /// </summary>
-        /// <returns>The Location of the island</returns>
-        public Location GetLocation()
-        {
-            return Loc;
-        }
-
-        /// <summary>
-        /// Implements the getDirection method of the ITarget interface
-        /// searches for the direction which brings the path closest to a straight line
-        /// </summary>
-        /// <param name="group">The group asking for direction</param>
-        /// <returns>best direction</returns>
-        public Direction GetDirection(Group group)
-        {
-            //calculates the direction based on the geographical data from the game
-            return HeadingVector.CalculateDirectionToStationeryTarget(group.GetLocation(), group.Heading, GetLocation());
-        }
-
-        public string GetDescription()
-        {
-            return "Island, id: " + Id + " location: " + Loc;
-        }
-
-        /// <summary>
-        /// Checks if there are enemies near said Island that will probably attack it
-        /// </summary>
-        /// <returns>The amount of enemies near the target</returns>
-        public int NearbyEnemyCount()
-        {
-            int enemyCount = 0; //amount of enemy pirates in proximity to the Island
-            int closestIslandDistance = 0; //The distance between this Island and the one nearest too it
-            foreach (SmartIsland eIsland in IslandList)
-                //Calculates the distance between this island and the one nearest
-            {
-                int temp = Bot.Game.Distance(eIsland.Loc, this.Loc);
-                if (temp < closestIslandDistance)
-                {
-                    closestIslandDistance = temp;
-                }
-            }
-
-            // All enemy pirates are heading towards a certain island and it is safe to assume that they are heading towards the one nearest to them
-            int dangerRadius = closestIslandDistance/2;
-            foreach (EnemyGroup eGroup in Enemy.Groups)
-            {
-                //Checks if the group of islands is near the island and if they are getting closer or farther
-                if (eGroup.MinimalDistanceTo(this.Loc) <= dangerRadius && eGroup.GuessTarget() == this)
-                {
-                    //Calculates the sum of pirates in proximity to the island
-                    enemyCount = enemyCount + eGroup.EnemyPirates.Count;
-                }
-            }
-
-            return enemyCount;
-        }
     }
 }

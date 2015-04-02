@@ -9,109 +9,6 @@ namespace Britbot
     /// </summary>
     public class EnemyGroup : ITarget
     {
-        #region members
-
-        /// <summary>
-        /// What is this?
-        /// </summary>
-        public Location PrevLoc { get; set; }
-
-        public static int IdCount;
-
-        /// <summary>
-        /// unique-ish id for the enemy group
-        /// </summary>
-        public readonly int Id;
-
-        /// <summary>
-        /// List of pirate indexes in this group
-        /// </summary>
-        public List<int> EnemyPirates { get; private set; }
-
-        /// <summary>
-        /// The direction this group's heading to 
-        /// </summary>
-        public HeadingVector Heading { get; private set; }
-
-        #endregion
-
-        #region constructors
-
-        /// <summary>
-        /// Creates a new instance of the EnemyGroup class
-        /// </summary>
-        public EnemyGroup()
-        {
-            this.Id = IdCount++;
-            this.EnemyPirates = new List<int>();
-            this.PrevLoc = new Location(0, 0);
-            this.Heading = new HeadingVector(this.PrevLoc);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the EnemyGroup class
-        /// </summary>
-        public EnemyGroup(Location prevLoc, List<int> enemyPirates, HeadingVector heading)
-        {
-            this.Id = IdCount++;
-            PrevLoc = prevLoc;
-            EnemyPirates = enemyPirates;
-            Heading = heading;
-        }
-
-        #endregion
-
-        #region overloaded operators and overrided methods
-
-        /// <summary>
-        /// Tests if two enemy groups are the same
-        /// </summary>
-        /// <param name="operandB">the target to test with</param>
-        /// <returns>True if identical or false otherwise</returns>
-        public bool Equals(ITarget operandB)
-        {
-            EnemyGroup enemyGroup = operandB as EnemyGroup;
-            if (enemyGroup != null)
-            {
-                EnemyGroup b = enemyGroup;
-                return Equals(this, b);
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Tests if two enemy groups are the same
-        /// </summary>
-        /// <param name="other">the EnemyGroup to test with</param>
-        /// <returns>True if identical or false otherwise</returns>
-        protected bool Equals(EnemyGroup other)
-        {
-            if (this.EnemyPirates.Count != other.EnemyPirates.Count)
-                return false;
-
-            for (int i = 0; i < this.EnemyPirates.Count; i++)
-                if (this.EnemyPirates[i] != other.EnemyPirates[i])
-                    return false;
-
-            return true;
-        }
-
-        /// <summary>
-        /// Tests if two enemy groups are the same
-        /// </summary>
-        /// <param name="obj">the object to test with</param>
-        /// <returns>True if identical or false otherwise</returns>
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((EnemyGroup)obj);
-        }
-
-        #endregion
-
         /// <summary>
         /// Gets the score for this group
         /// </summary>
@@ -300,7 +197,8 @@ namespace Britbot
             //Sort the islands by distance from this enemy group
             List<SmartIsland> sortedByDistance = SmartIsland.IslandList;
             sortedByDistance.Sort(
-                (a, b) => Bot.Game.Distance(b.Loc, this.GetLocation()).CompareTo(Bot.Game.Distance(a.Loc, this.GetLocation())));
+                (a, b) =>
+                    Bot.Game.Distance(b.Loc, this.GetLocation()).CompareTo(Bot.Game.Distance(a.Loc, this.GetLocation())));
 
             //Should be tested because magic numbers aren't a good habit
             const int toleranceMargin = 2;
@@ -376,5 +274,108 @@ namespace Britbot
         {
             return this.EnemyPirates.Count.ToString();
         }
+
+        #region members
+
+        /// <summary>
+        /// What is this?
+        /// </summary>
+        public Location PrevLoc { get; set; }
+
+        public static int IdCount;
+
+        /// <summary>
+        /// unique-ish id for the enemy group
+        /// </summary>
+        public readonly int Id;
+
+        /// <summary>
+        /// List of pirate indexes in this group
+        /// </summary>
+        public List<int> EnemyPirates { get; private set; }
+
+        /// <summary>
+        /// The direction this group's heading to 
+        /// </summary>
+        public HeadingVector Heading { get; private set; }
+
+        #endregion
+
+        #region constructors
+
+        /// <summary>
+        /// Creates a new instance of the EnemyGroup class
+        /// </summary>
+        public EnemyGroup()
+        {
+            this.Id = IdCount++;
+            this.EnemyPirates = new List<int>();
+            this.PrevLoc = new Location(0, 0);
+            this.Heading = new HeadingVector(this.PrevLoc);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the EnemyGroup class
+        /// </summary>
+        public EnemyGroup(Location prevLoc, List<int> enemyPirates, HeadingVector heading)
+        {
+            this.Id = IdCount++;
+            PrevLoc = prevLoc;
+            EnemyPirates = enemyPirates;
+            Heading = heading;
+        }
+
+        #endregion
+
+        #region overloaded operators and overrided methods
+
+        /// <summary>
+        /// Tests if two enemy groups are the same
+        /// </summary>
+        /// <param name="operandB">the target to test with</param>
+        /// <returns>True if identical or false otherwise</returns>
+        public bool Equals(ITarget operandB)
+        {
+            EnemyGroup enemyGroup = operandB as EnemyGroup;
+            if (enemyGroup != null)
+            {
+                EnemyGroup b = enemyGroup;
+                return Equals(this, b);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Tests if two enemy groups are the same
+        /// </summary>
+        /// <param name="other">the EnemyGroup to test with</param>
+        /// <returns>True if identical or false otherwise</returns>
+        protected bool Equals(EnemyGroup other)
+        {
+            if (this.EnemyPirates.Count != other.EnemyPirates.Count)
+                return false;
+
+            for (int i = 0; i < this.EnemyPirates.Count; i++)
+                if (this.EnemyPirates[i] != other.EnemyPirates[i])
+                    return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Tests if two enemy groups are the same
+        /// </summary>
+        /// <param name="obj">the object to test with</param>
+        /// <returns>True if identical or false otherwise</returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((EnemyGroup) obj);
+        }
+
+        #endregion
     }
 }

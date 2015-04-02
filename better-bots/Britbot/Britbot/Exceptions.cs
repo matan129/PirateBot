@@ -19,27 +19,23 @@ namespace Britbot
     {
         public InvalidRingException()
         {
-            
         }
 
         public InvalidRingException(string message)
             : base(message)
         {
-            
         }
     }
 
     internal class InvalidLocationException : Exception
     {
-         public InvalidLocationException()
+        public InvalidLocationException()
         {
-            
         }
 
-         public InvalidLocationException(string message)
+        public InvalidLocationException(string message)
             : base(message)
         {
-            
         }
     }
 }

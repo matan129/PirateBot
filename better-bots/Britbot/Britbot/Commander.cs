@@ -17,7 +17,7 @@ namespace Britbot
             Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
 
             Groups = new List<Group>();
-            
+
             //TODO initial config should be better then this
 
             if (Bot.Game.Islands().Count == 1)
@@ -25,7 +25,7 @@ namespace Britbot
                 Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
                 return;
             }
-        
+
 
             switch (Bot.Game.AllMyPirates().Count)
             {
@@ -34,7 +34,7 @@ namespace Britbot
                     Groups.Add(new Group(2, 1));
                     break;
                 case 4:
-                    if(Bot.Game.AllEnemyPirates().Count > 4)
+                    if (Bot.Game.AllEnemyPirates().Count > 4)
                         Groups.Add(new Group(0, 4));
                     else
                     {
@@ -85,17 +85,17 @@ namespace Britbot
                     Groups.Add(new Group(3, 3));
                     Groups.Add(new Group(6, 2));
                     Groups.Add(new Group(8, 1));
-                    Groups.Add(new Group(0,9));
+                    Groups.Add(new Group(0, 9));
                     break;
                 default:
-                    for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count % 2; i += 2)
+                    for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
                     {
-                        Groups.Add(new Group(i,2));
+                        Groups.Add(new Group(i, 2));
                     }
 
-                    if(Bot.Game.AllMyPirates().Count % 2 == 1)
-                        Groups.Add(new Group(Bot.Game.AllMyPirates().Count,1));
-                    Groups.Add(new Group(0,Bot.Game.AllMyPirates().Count));
+                    if (Bot.Game.AllMyPirates().Count%2 == 1)
+                        Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));
+                    Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
                     break;
             }
         }
@@ -185,7 +185,7 @@ namespace Britbot
 
                 //calculate new score
                 int newScore = (int) GlobalizeScore(scoreArr);
-                
+
                 //check if the score is better
                 if (newScore > maxScore)
                 {
@@ -206,12 +206,14 @@ namespace Britbot
             }
 
             #region Debug Prints
+
             Bot.Game.Debug("----------TARGETS--------------");
             for (int i = 0; i < dimensions.Length; i++)
             {
                 Bot.Game.Debug(possibleAssignments[i][maxAssignment[i]].Target.GetDescription());
             }
             Bot.Game.Debug("----------TARGETS--------------");
+
             #endregion
         }
 
@@ -224,8 +226,7 @@ namespace Britbot
         /// <returns></returns>
         public static double GlobalizeScore(Score[] scoreArr)
         {
-            //TODO this is not finished + we need some smarted constants here 
-
+            //TODO this is not finished + we need some smarter constants here 
             double score = 0;
             double timeAvg = 0;
 
@@ -253,7 +254,7 @@ namespace Britbot
                 }
             }
 
-            return (score*scoreArr.Length)/(timeAvg / scoreArr.Length);
+            return (score*scoreArr.Length)/(timeAvg/scoreArr.Length);
         }
 
         /// <summary>
