@@ -93,10 +93,14 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Move the pirates!
+        /// Decides where to move each pirate in the group
         /// </summary>
-        public void Move()
+        /// <returns>A list that matches each pirate in the group a location to move to</returns>
+        public IEnumerable<KeyValuePair<Pirate,Direction>> GetGroupMoves()
         {
+            //Note that IEnumerable gives you the possibility of doing a yield return statement
+            //yield return returns one element each time, 
+            //So we don't have to explicitly keep a list of the moves
             if (!this.IsFormed())
             {
                 foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
@@ -104,7 +108,7 @@ namespace Britbot
                     Pirate pete = Bot.Game.GetMyPirate(formOrder.Key);
                     if (pete.Loc.Col == formOrder.Value.Col && pete.Loc.Row == formOrder.Value.Row)
                     {
-                        Bot.Game.SetSail(pete, Direction.NOTHING);
+                        yield return new KeyValuePair<Pirate, Direction>(pete,Direction.NOTHING);
                         Bot.Game.Debug("Skipping over " + pete);
                     }
                     else
@@ -126,7 +130,7 @@ namespace Britbot
                                 break;
                         }
 
-                        Bot.Game.SetSail(pete, dir);
+                        yield return new KeyValuePair<Pirate, Direction>(pete, dir);
                     }
                 }
             }

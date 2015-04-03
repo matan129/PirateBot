@@ -4,6 +4,8 @@ using System.Threading;
 
 namespace Britbot
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// This class is a bot.
     /// </summary>
@@ -26,13 +28,18 @@ namespace Britbot
             //The amount of time per turn. Remember to leave time for fallback bot
             int timeout = Bot.Game.TimeRemaining();
 
+            //A dictionary of moves that will be executed later
+            Dictionary<Pirate,Direction> allMoves = new Dictionary<Pirate, Direction>();
+
             try
             {
-                //Begin the commander stuff with 85% of the time we have so there will be time for fallback
-                //TODO this may rarely stop the commander after it moved couple of groups but not all of them
-                //So maybe we should change it so the Commander.Play() method will return instructions to a pirate mover that will be invoked anyways
-                //And this way we can run the fallback code simultaneously and execute its instructions if needed
-                Bot.ExecuteCommander((int)(timeout * 0.85));
+                /*
+                 * Begin the commander stuff with 85% of the time we have so there will be time for fallback
+                 * NOTE: I changed the commander and Group classes so the do not move anything by themselves, they just return
+                 * moving instructions in the form of a Dictionary<Pirate,Direction>. This is because we do not want to abort the commander 
+                 * after it moved couple of pirates but not all of them           
+                 */
+                allMoves = Bot.ExecuteCommander((int)(timeout * 0.85));
             }
             catch (Exception ex)
             {
@@ -40,17 +47,21 @@ namespace Britbot
                 Bot.Game.Debug("Bot almost crashed because of exception: " + ex.Message);
                 Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             }
+
+            //Actually move stuff
+            Mover.MoveAll(allMoves);
         }
 
         /// <summary>
         /// Executes the commander with specified timeout
         /// </summary>
         /// <param name="timeout">timeout in milliseconds</param>
-        public static void ExecuteCommander(int timeout)
+        public static Dictionary<Pirate,Direction> ExecuteCommander(int timeout)
         {
+            Dictionary<Pirate,Direction> movesDictionary = new Dictionary<Pirate, Direction>();
+
             //Setup a thread which will start the Commander.Play method when the it starts
-            //This is also valid: Thread commanderThread = new Thread(() => Commander.Play());
-            Thread commanderThread = new Thread(Commander.Play);
+            Thread commanderThread = new Thread(() => movesDictionary = Commander.Play());
 
             //Start the thread
             commanderThread.Start();
@@ -64,11 +75,19 @@ namespace Britbot
                 //..abort it and continue to the fallback code
                 commanderThread.Abort();
 
-                Bot.Game.Debug("##############################################");
-                Bot.Game.Debug("Commander time out, switching to fallback code");
-                Bot.Game.Debug("##############################################");
+                Bot.Game.Debug("###############################################");
+                Bot.Game.Debug("Commander timed out, switching to fallback code");
+                Bot.Game.Debug("###############################################");
 
                 //TODO Execute emergency override/fallback code
+                //i.e. return GetFallbackMoves();
+                
+                //I will throw an exception in the meanwhile so this code will properly compile
+                throw new NotImplementedException();
+            }
+            else
+            {
+                return movesDictionary;
             }
         }
     }

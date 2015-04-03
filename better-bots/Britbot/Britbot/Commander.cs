@@ -4,6 +4,8 @@ using System.Linq;
 
 namespace Britbot
 {
+    using Pirates;
+
     /// <summary>
     /// Just stuff that makes the hard decisions
     /// </summary>
@@ -26,7 +28,9 @@ namespace Britbot
                 Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
                 return;
             }
-            
+
+
+            #region Terrible Switch-Case
             //TODO this is awfully specific for the game bots. We have to generalize this
             switch (Bot.Game.AllMyPirates().Count)
             {
@@ -100,10 +104,16 @@ namespace Britbot
                     }
 
                     if (Bot.Game.AllMyPirates().Count%2 == 1)
-                        Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));*/
-                    Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
+                        Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));
+                    * Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));*/
+                    for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
+                    {
+                        Commander.Groups.Add(new Group(i, 1));
+                    }
+
                     break;
             }
+            #endregion
         }
         
 
@@ -115,7 +125,7 @@ namespace Britbot
         /// <summary>
         /// Do something!
         /// </summary>
-        public static void Play()
+        public static Dictionary<Pirate, Direction> Play()
         {
             //update the enemy info
             Enemy.Update();
@@ -123,8 +133,8 @@ namespace Britbot
             //calculate targets
             Commander.AssignTargets();
 
-            //Move forces
-            Commander.MoveForces();
+            //Get the moves for all the pirates and return them
+            return Commander.GetAllMoves();
         }
 
         /// <summary>
@@ -137,7 +147,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Returns a list of ints that describes the currunt wanted configuration
+        /// Returns a list of integers that describes the current wanted configuration
         /// </summary>
         /// <returns>ULTIMATE group configuration</returns>
         public static List<int> GetUltimateGameConfig()
@@ -361,12 +371,20 @@ namespace Britbot
         }
 
         /// <summary>
-        /// makes all the groups move based on their targets
+        /// Gets all th moves for each pirate in each group
         /// </summary>
-        private static void MoveForces()
+        /// <returns>A dictionary that gives each pirate a direction to move to in this turn</returns>
+        private static Dictionary<Pirate,Direction> GetAllMoves()
         {
+            //A list with all the moves from all groups
+            List<KeyValuePair<Pirate,Direction>> allMoves = new List<KeyValuePair<Pirate, Direction>>(Bot.Game.AllMyPirates().Count);
+
+            //Get the moves from each group we have
             foreach (Group group in Commander.Groups)
-                group.Move();
+                allMoves.AddRange(group.GetGroupMoves());
+
+            //Convert the moves list to dictionary
+            return allMoves.ToDictionary(pair => pair.Key, pair => pair.Value);
         }
     }
 }
