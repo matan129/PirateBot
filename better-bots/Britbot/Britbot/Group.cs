@@ -7,8 +7,6 @@ using Pirates;
 
 namespace Britbot
 {
-    using System.Security.Cryptography;
-
     /// <summary>
     /// Represents a structure of few of our pirates that have a common goal
     /// </summary>
@@ -133,15 +131,17 @@ namespace Britbot
                                 break;
 
                             if (Bot.Game.Destination(pete.Loc, dir).IsActuallyPassable())
-                                actualDirections.Add(dir);
+                                break;
                         }
 
-                        if(actualDirections.Count > 1)
-                            yield return new KeyValuePair<Pirate, Direction>(pete, actualDirections[tryAlternateDirection]);
+                        yield return new KeyValuePair<Pirate, Direction>(pete, dir);
+                        
+                        /*if(actualDirections.Count > 1)
+                            
                         else if(actualDirections.Count == 1)
                             yield return new KeyValuePair<Pirate, Direction>(pete, actualDirections[0]);
                         else
-                            yield return new KeyValuePair<Pirate, Direction>(pete,Direction.NOTHING);
+                            yield return new KeyValuePair<Pirate, Direction>(pete,Direction.NOTHING);*/
                     }
                 }
             }

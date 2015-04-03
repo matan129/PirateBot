@@ -130,23 +130,23 @@ namespace Britbot
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
             {
-
                 //update the enemy info
                 Enemy.Update();
 
                 //calculate targets
                 Commander.AssignTargets();
+
+                //Get the moves for all the pirates and return them
+                return Commander.GetAllMoves();
             }
             catch (Exception ex)
             {
                 Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
                 Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            }
-         
-            //Get the moves for all the pirates and return them
-            return Commander.GetAllMoves();
 
+                return null;
+            }
         }
 
         /// <summary>

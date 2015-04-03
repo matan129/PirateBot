@@ -48,6 +48,9 @@ namespace Britbot
                 Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             }
 
+            if (allMoves == null)
+                allMoves = Bot.DoFallback();
+
             //Actually move stuff
             Mover.MoveAll(allMoves);
         }
