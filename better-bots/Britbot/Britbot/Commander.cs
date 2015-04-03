@@ -14,6 +14,7 @@ namespace Britbot
         /// </summary>
         static Commander()
         {
+
             Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
 
             Groups = new List<Group>();

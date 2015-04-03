@@ -1,5 +1,6 @@
 ﻿using System;
 using Pirates;
+using System.Threading;
 
 namespace Britbot
 {
@@ -19,10 +20,15 @@ namespace Britbot
         /// <param name="state">The current game state</param>
         public void DoTurn(IPirateGame state)
         {
+            const int TIMEOUT = 100; //The amount of time per turn. Remember to leave time for fallback bot
             try
             {
                 //update the game so other classes will get updated data
                 Game = state;
+
+                //Begin Timing turn
+                
+                Timer (TIMEOUT);
 
                 //play!
                 //note that we do not have to explicitly initialize the commander, 
@@ -35,6 +41,18 @@ namespace Britbot
                 Game.Debug("Almost crashed because of " + ex.Message);
                 Game.Debug("++++++++++++++++++++++++++++++++++++++++");
             }
+        }
+       public static void Timer(int timeout)
+        {
+            Thread thread = new Thread(() => Thread.Sleep(100));
+           thread.Start();
+           Boolean intime = thread.Join(timeout);
+           if (!intime)
+           {
+               thread.Abort();
+               //Execute emergency override
+               //Fallback code
+           }
         }
     }
 }
