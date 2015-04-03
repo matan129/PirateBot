@@ -20,39 +20,56 @@ namespace Britbot
         /// <param name="state">The current game state</param>
         public void DoTurn(IPirateGame state)
         {
-            const int TIMEOUT = 100; //The amount of time per turn. Remember to leave time for fallback bot
+            //update the game so other classes will get updated data
+            Bot.Game = state;
+
+            //The amount of time per turn. Remember to leave time for fallback bot
+            int timeout = Bot.Game.TimeRemaining();
+
             try
             {
-                //update the game so other classes will get updated data
-                Game = state;
-
-                //Begin Timing turn
-                
-                Timer (TIMEOUT);
-
-                //play!
-                //note that we do not have to explicitly initialize the commander, 
-                //since we have a static constructor there
-                Commander.Play();
+                //Begin the commander stuff with 85% of the time we have so there will be time for fallback
+                //TODO this may rarely stop the commander after it moved couple of groups but not all of them
+                //So maybe we should change it so the Commander.Play() method will return instructions to a pirate mover that will be invoked anyways
+                //And this way we can run the fallback code simultaneously and execute its instructions if needed
+                Bot.ExecuteCommander((int)(timeout * 0.85));
             }
             catch (Exception ex)
             {
-                Game.Debug("++++++++++++++++++++++++++++++++++++++++");
-                Game.Debug("Almost crashed because of " + ex.Message);
-                Game.Debug("++++++++++++++++++++++++++++++++++++++++");
+                Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                Bot.Game.Debug("Bot almost crashed because of exception: " + ex.Message);
+                Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             }
         }
-       public static void Timer(int timeout)
+
+        /// <summary>
+        /// Executes the commander with specified timeout
+        /// </summary>
+        /// <param name="timeout">timeout in milliseconds</param>
+        public static void ExecuteCommander(int timeout)
         {
-            Thread thread = new Thread(() => Thread.Sleep(100));
-           thread.Start();
-           Boolean intime = thread.Join(timeout);
-           if (!intime)
-           {
-               thread.Abort();
-               //Execute emergency override
-               //Fallback code
-           }
+            //Setup a thread which will start the Commander.Play method when the it starts
+            //This is also valid: Thread commanderThread = new Thread(() => Commander.Play());
+            Thread commanderThread = new Thread(Commander.Play);
+
+            //Start the thread
+            commanderThread.Start();
+
+            //Test if the commander is finished on time
+            bool inTime = commanderThread.Join(timeout);
+            
+            //if it's stuck...
+            if (!inTime)
+            {
+                //..abort it and continue to the fallback code
+                commanderThread.Abort();
+
+                Bot.Game.Debug("##############################################");
+                Bot.Game.Debug("Commander time out, switching to fallback code");
+                Bot.Game.Debug("##############################################");
+
+                //TODO Execute emergency override/fallback code
+            }
         }
     }
 }
