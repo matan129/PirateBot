@@ -83,12 +83,23 @@ namespace Britbot
                 //i.e. return GetFallbackMoves();
                 
                 //I will throw an exception in the meanwhile so this code will properly compile
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
+                return Bot.DoFallback();
             }
             else
             {
                 return movesDictionary;
             }
+        }
+
+        static Dictionary<Pirate,Direction> DoFallback()
+        {
+            Dictionary<Pirate, Direction> fallback= new Dictionary<Pirate, Direction>();
+            foreach (Pirate pirate in Bot.Game.AllMyPirates())
+            {
+                fallback.Add(pirate,Direction.NOTHING);
+            }   
+            return fallback;
         }
     }
 }

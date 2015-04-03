@@ -54,6 +54,23 @@ namespace Britbot
             return HeadingVector.CalculateDirectionToStationeryTarget(group.GetLocation(), group.Heading, GetLocation());
         }
 
+        public TargetType GetTargetType()
+        {
+            return TargetType.Island;
+        }
+
+        public static bool IsNearNonOurIsland(Location loc, int Range)
+        {
+            foreach (SmartIsland island in SmartIsland.IslandList)
+            {
+                if(island.Owner == Consts.ME) continue;
+                
+                if(Bot.Game.Distance(loc,island) < Range)
+                    return true;
+            }
+            return false;
+        }
+
         public string GetDescription()
         {
             return "Island, id: " + Id + " location: " + Loc;

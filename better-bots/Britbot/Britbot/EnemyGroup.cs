@@ -85,6 +85,11 @@ namespace Britbot
                 Heading);
         }
 
+        public TargetType GetTargetType()
+        {
+            return TargetType.EnemyGroup;
+        }
+
         public string GetDescription()
         {
             string s = "Enemy Group, Pirates: ";
@@ -149,6 +154,9 @@ namespace Britbot
             Pirate ePirate = Bot.Game.GetEnemyPirate(enemyPirate);
 
             //Check if the given pirate is close (max of 2 distance units) to any of the pirates already in this group
+            if(ePirate.IsLost)
+                return false;
+
             return
                 this.EnemyPirates.ConvertAll(e => Bot.Game.GetEnemyPirate(e))
                     .Select(ep => Bot.Game.Distance(ep, ePirate))
@@ -165,6 +173,9 @@ namespace Britbot
         public static bool IsInGroup(List<int> group, int enemyPirate)
         {
             Pirate ePirate = Bot.Game.GetEnemyPirate(enemyPirate);
+
+            if (ePirate.IsLost)
+                return false;
 
             //Check if the given pirate is close (max of 2 distance units) to any of the pirates already in this group
             return

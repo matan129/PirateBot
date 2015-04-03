@@ -7,6 +7,8 @@ using Pirates;
 
 namespace Britbot
 {
+    using System.Security.Cryptography;
+
     /// <summary>
     /// Represents a structure of few of our pirates that have a common goal
     /// </summary>
@@ -98,6 +100,8 @@ namespace Britbot
         /// <returns>A list that matches each pirate in the group a location to move to</returns>
         public IEnumerable<KeyValuePair<Pirate,Direction>> GetGroupMoves()
         {
+            int tryAlternateDirection = Bot.Game.GetTurn() % 2;
+
             //Note that IEnumerable gives you the possibility of doing a yield return statement
             //yield return returns one element each time, 
             //So we don't have to explicitly keep a list of the moves
@@ -119,6 +123,8 @@ namespace Britbot
 
                         Bot.Game.Debug("Possible Directions: " + String.Join(",", possibleDirections));
 
+                        List<Direction> actualDirections = new List<Direction>();
+
                         for (int i = 0; i < possibleDirections.Count; i++)
                         {
                             dir = possibleDirections[i];
@@ -127,33 +133,47 @@ namespace Britbot
                                 break;
 
                             if (Bot.Game.Destination(pete.Loc, dir).IsActuallyPassable())
-                                break;
+                                actualDirections.Add(dir);
                         }
 
-                        yield return new KeyValuePair<Pirate, Direction>(pete, dir);
+                        if(actualDirections.Count > 1)
+                            yield return new KeyValuePair<Pirate, Direction>(pete, actualDirections[tryAlternateDirection]);
+                        else if(actualDirections.Count == 1)
+                            yield return new KeyValuePair<Pirate, Direction>(pete, actualDirections[0]);
+                        else
+                            yield return new KeyValuePair<Pirate, Direction>(pete,Direction.NOTHING);
                     }
                 }
             }
             else
             {
-                List<Direction> possibleDirections = Bot.Game.GetDirections(this.FindCenter(), this.Target.GetLocation());
-
-                int tryAlternateDirection = Bot.Game.GetTurn()%2;
-
-                Direction master;
-                if (possibleDirections.Count > 1)
-                    master = possibleDirections[tryAlternateDirection];
-                else
-                    master = possibleDirections.First();
-
                 List<Pirate> myPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
-                Location targetLoc = this.Target.GetLocation();
-                myPirates.Sort(
-                    (b, a) => Bot.Game.Distance(a.Loc, targetLoc).CompareTo(Bot.Game.Distance(b.Loc, targetLoc)));
 
-                foreach (Pirate myPirate in myPirates)
+                if(this.Target.GetTargetType() != TargetType.NoTarget)
                 {
-                    Bot.Game.SetSail(myPirate, master);
+                    List<Direction> possibleDirections = Bot.Game.GetDirections(this.FindCenter(), this.Target.GetLocation());
+                    
+                    Direction master;
+                    if (possibleDirections.Count > 1)
+                        master = possibleDirections[tryAlternateDirection];
+                    else
+                        master = possibleDirections.First();
+                    
+                    Location targetLoc = this.Target.GetLocation();
+                    myPirates.Sort(
+                                   (b, a) => Bot.Game.Distance(a.Loc, targetLoc).CompareTo(Bot.Game.Distance(b.Loc, targetLoc)));
+
+                    foreach (Pirate myPirate in myPirates)
+                    {
+                        yield return new KeyValuePair<Pirate, Direction>(myPirate, master);
+                    }
+                }
+                else //stay
+                {
+                    foreach (Pirate myPirate in myPirates)
+                    {
+                        yield return new KeyValuePair<Pirate, Direction>(myPirate, Direction.NOTHING);
+                    }
                 }
             }
         }
@@ -215,9 +235,10 @@ namespace Britbot
 
             pete = Bot.Game.GetPirateOn(this.FindCenter());
 
+            Location[] structure = null;
+
             if (pete != null)
             {
-                Location[] structure = null;
                 try
                 {
                     structure = GetStructure(pete.Loc);
@@ -237,32 +258,35 @@ namespace Britbot
             }
 
             Bot.Game.Debug("Group {0} is not formed yet", this.Id);
+            this.FormDictionary(structure);
             return false;
         }
 
         /// <summary>
         /// Forms the group to the optimal shape
         /// </summary>
-        private void FormDictionary()
+        private void FormDictionary(Location[] structure = null)
         {
-            Bot.Game.Debug("Forming group structure");
             Location center = this.FindCenter();
-            Location[] structure = null;
-
-            while (true)
+            
+            if(structure == null)
             {
-                try
+                Bot.Game.Debug("Forming group structure");
+
+                while (true)
                 {
-                    structure = GetStructure(center);
-                    break;
-                }
-                catch (InvalidLocationException ex)
-                {
-                    center = AdvancePivot(center);
-                    Bot.Game.Debug("New Center is " + center);
+                    try
+                    {
+                        structure = GetStructure(center);
+                        break;
+                    }
+                    catch (InvalidLocationException ex)
+                    {
+                        center = AdvancePivot(center);
+                        Bot.Game.Debug("New Center is " + center);
+                    }
                 }
             }
-
 
             bool[] matchedLocations = new bool[structure.Length];
             Dictionary<Pirate, Location> orders = new Dictionary<Pirate, Location>();
@@ -384,6 +408,7 @@ namespace Britbot
                                   Math.Sqrt(4*Math.Pow(b, 2) +
                                             4*(Math.Pow(ringOrdinal - Math.Abs(a - x), 2) - Math.Pow(b, 2))))/2));
 
+                    //we do not want to form on a island not ours - it's dangerous
                     if (!Bot.Game.IsPassable(y1))
                         throw new InvalidLocationException("Location is not passable!");
 
@@ -420,7 +445,6 @@ namespace Britbot
         /// <returns>The center pirate</returns>
         private Location FindCenter()
         {
-            //TODO consider moving the center to outside of the rings (see lone_island map games)
             List<Pirate> myPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
 
             Location averageLocation = new Location(0, 0);
@@ -433,6 +457,20 @@ namespace Britbot
 
             averageLocation.Col /= myPirates.Count;
             averageLocation.Row /= myPirates.Count;
+
+            /*
+            int minDistance = Bot.Game.GetCols() + Bot.Game.GetCols();
+            Pirate pete = null;
+
+            foreach (Pirate pirate in myPirates)
+            {
+                int currDistance = Bot.Game.Distance(averageLocation, pirate.Loc);
+                if (currDistance < minDistance)
+                {
+                    minDistance = currDistance;
+                    pete = pirate;
+                }
+            }*/
 
             Bot.Game.Debug("Center : {0}", averageLocation);
             return averageLocation;
@@ -475,7 +513,7 @@ namespace Britbot
             //set it to this instance of Group
             this.Priorities = scores;
 
-            //check if priorities empty, if so add NoTarget To prevent dimention problem
+            //check if priorities empty, if so add NoTarget To prevent dimension problem
             if (this.Priorities.Count == 0)
             {
                 //create a NoTarget

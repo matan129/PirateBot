@@ -19,6 +19,11 @@ namespace Britbot
             return SmartIsland.IslandList.Find(isle => isle.Id == id);
         }
 
+        public static int Distance(this IPirateGame game, Location loc, SmartIsland isle)
+        {
+            return Bot.Game.Distance(loc, isle.Loc);
+        }
+
         /// <summary>
         /// Gets the list of SmartIsland like we would normally do with normal Islands
         /// </summary>

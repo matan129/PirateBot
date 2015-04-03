@@ -17,7 +17,8 @@ namespace Britbot
             //iterate over all moves and execute them
             foreach (KeyValuePair<Pirate, Direction> move in moves)
             {
-                Bot.Game.SetSail(move.Key,move.Value);
+                if(!move.Key.IsLost)
+                    Bot.Game.SetSail(move.Key,move.Value);
             }
         }
     }

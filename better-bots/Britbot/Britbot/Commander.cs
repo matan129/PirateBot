@@ -98,18 +98,18 @@ namespace Britbot
                     Commander.Groups.Add(new Group(0, 9));
                     break;
                 default:
-                   /* for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
+                    for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
                     {
                         Commander.Groups.Add(new Group(i, 2));
                     }
 
                     if (Bot.Game.AllMyPirates().Count%2 == 1)
                         Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));
-                    * Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));*/
-                    for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
-                    {
+                    //Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
+                    /*for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
+                    `{
                         Commander.Groups.Add(new Group(i, 1));
-                    }
+                    }*/
 
                     break;
             }
@@ -127,14 +127,26 @@ namespace Britbot
         /// </summary>
         public static Dictionary<Pirate, Direction> Play()
         {
-            //update the enemy info
-            Enemy.Update();
+            //note that because this method is on a separate thread we need this try-catch although we have on our bot
+            try
+            {
 
-            //calculate targets
-            Commander.AssignTargets();
+                //update the enemy info
+                Enemy.Update();
 
+                //calculate targets
+                Commander.AssignTargets();
+            }
+            catch (Exception ex)
+            {
+                Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
+                Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            }
+         
             //Get the moves for all the pirates and return them
             return Commander.GetAllMoves();
+
         }
 
         /// <summary>

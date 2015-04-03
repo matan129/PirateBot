@@ -36,7 +36,13 @@ namespace Britbot
         bool Equals(ITarget operandB);
 
         /// <summary>
-        /// Gets a string description forthis Target for log purposes 
+        /// Get the type of the target
+        /// </summary>
+        /// <returns></returns>
+        TargetType GetTargetType();
+
+        /// <summary>
+        /// Gets a string description for this Target for log purposes 
         /// </summary>
         /// <returns></returns>
         string GetDescription();

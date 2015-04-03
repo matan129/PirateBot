@@ -55,6 +55,11 @@ namespace Britbot
             return false;
         }
 
+        public TargetType GetTargetType()
+        {
+            return TargetType.NoTarget;
+        }
+
         /// <summary>
         /// Gets a string description forthis Target for log purposes 
         /// </summary>
