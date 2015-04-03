@@ -11,17 +11,17 @@ namespace Britbot
     public static class Enemy
     {
         /// <summary>
-        /// A list of the enemy's groups
-        /// </summary>
-        public static List<EnemyGroup> Groups { get; private set; }
-
-        /// <summary>
         /// Static enemy constructor
         /// </summary>
         static Enemy()
         {
-            Groups = new List<EnemyGroup>();
+            Enemy.Groups = new List<EnemyGroup>();
         }
+
+        /// <summary>
+        /// A list of the enemy's groups
+        /// </summary>
+        public static List<EnemyGroup> Groups { get; private set; }
 
         /// <summary>
         /// Split the enemy into its groups
@@ -29,7 +29,7 @@ namespace Britbot
         /// </summary>
         public static List<EnemyGroup> AnalyzeEnemyGroups()
         {
-            EnemyGroup[] analysis = AnalyzeFull().ToArray();
+            EnemyGroup[] analysis = Enemy.AnalyzeFull().ToArray();
 
             if (Groups.Count == 0)
                 return analysis.ToList();
@@ -40,7 +40,7 @@ namespace Britbot
             for (int i = 0; i < analysis.Length; i++)
             {
                 EnemyGroup enemyGroup = analysis[i];
-                foreach (EnemyGroup veteran in Groups)
+                foreach (EnemyGroup veteran in Enemy.Groups)
                 {
                     /*
                      * check if the groups are the same.
@@ -74,7 +74,7 @@ namespace Britbot
             }
 
             Bot.Game.Debug("Enemy new groups: " + newGroupsInfo.TrimEnd(','));
-            Bot.Game.Debug("Total enemy config: "+ string.Join(",", veteranGroups));
+            Bot.Game.Debug("Total enemy config: " + string.Join(",", veteranGroups));
 
             //TODO there are wrong configs here
             return veteranGroups;
@@ -137,22 +137,6 @@ namespace Britbot
                 eGroup.UpdateHeading();
         }
 
-        /// <summary>
-        /// Transfers enemy configuration to int[] form
-        /// </summary>
-        /// <returns>Enemy configuration in the form of int array </returns>
-        public static int[] GetConfig()
-        {
-            //Creates the config array
-            int[] config = new int[Groups.Count];
-
-            //Fills the array according to enemy config
-            for (int i = 0; i < Groups.Count; i++)
-            {
-                config[i] = Groups[i].EnemyPirates.Count;
-            }
-
-            return config;
-        }
+        
     }
 }

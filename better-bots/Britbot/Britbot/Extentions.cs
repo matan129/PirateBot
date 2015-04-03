@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net.NetworkInformation;
 using Pirates;
 
 namespace Britbot
@@ -47,36 +46,41 @@ namespace Britbot
         {
             foreach (Pirate myPirate in Bot.Game.AllMyPirates())
             {
-                if (Bot.Game.InRange(pirate,myPirate))
+                if (Bot.Game.InRange(pirate, myPirate))
                     yield return myPirate;
             }
         }
 
-        public static List<Direction> GetDirectionsFixed(this Pirate pirate, Location loc)
-        {
-            Location pirateLocation = pirate.Loc;
-
-            if(pirateLocation.Col == loc.Col && pirateLocation.Row == loc.Row)
-                return new List<Direction> {Direction.NOTHING};
-
-            List<Direction> possibleDirections = new List<Direction>(2);
-
-            if(pirateLocation.Col < loc.Col)
-                possibleDirections.Add(Direction.EAST);
-            else if (pirateLocation.Col > loc.Col)
-                possibleDirections.Add(Direction.WEST);
-
-            if(pirateLocation.Row < loc.Row)
-                possibleDirections.Add(Direction.SOUTH);
-            else if (pirateLocation.Row > loc.Row)
-                possibleDirections.Add(Direction.NORTH);
-
-            return possibleDirections;
-        }
-
+        /// <summary>
+        /// Tests if location is actually passable
+        /// </summary>
+        /// <param name="loc"></param>
+        /// <returns></returns>
         public static bool IsActuallyPassable(this Location loc)
         {
             return !Bot.Game.IsOccupied(loc) && Bot.Game.IsPassable(loc);
+        }
+
+        /// <summary>
+        /// Adds two locations togther
+        /// </summary>
+        /// <param name="loc1"></param>
+        /// <param name="loc2"></param>
+        /// <returns></returns>
+        public static Location Add(this Location loc1, Location loc2)
+        {
+            return new Location(loc1.Row + loc2.Row, loc2.Col + loc2.Col);
+        }
+
+        /// <summary>
+        /// Subtracts a location from the location calling this method
+        /// </summary>
+        /// <param name="loc1"></param>
+        /// <param name="loc2"></param>
+        /// <returns></returns>
+        public static Location Subtract(this Location loc1, Location loc2)
+        {
+            return new Location(loc1.Row - loc2.Row, loc2.Col - loc2.Col);
         }
     }
 }
