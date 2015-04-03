@@ -471,6 +471,14 @@ namespace Britbot
             //set it to this instance of Group
             this.Priorities = scores;
 
+            //check if priorities empty, if so add NoTarget To prevent dimention problem
+            if (this.Priorities.Count == 0)
+            {
+                //create a NoTarget
+                NoTarget noTarget = new NoTarget();
+                this.Priorities.Add(noTarget.GetScore(this));
+            }
+
             Bot.Game.Debug("Priorities Count: " + this.Priorities.Count);
         }
         /// <summary>

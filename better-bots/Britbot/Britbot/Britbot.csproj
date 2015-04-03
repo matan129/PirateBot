@@ -69,6 +69,7 @@
     <Compile Include="GroupRole.cs" />
     <Compile Include="HeadingVector.cs" />
     <Compile Include="ITarget.cs" />
+    <Compile Include="NoTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="SmartIsland.cs" />

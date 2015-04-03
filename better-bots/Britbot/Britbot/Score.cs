@@ -75,6 +75,7 @@ namespace Britbot
     public enum TargetType
     {
         Island,
+        NoTarget,
         EnemyGroup
     }
 }
