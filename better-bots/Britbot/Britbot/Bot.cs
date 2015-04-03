@@ -47,12 +47,15 @@ namespace Britbot
                 Bot.Game.Debug("Bot almost crashed because of exception: " + ex.Message);
                 Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             }
+            finally
+            {
+                if (allMoves == null)
+                    allMoves = DoFallback();
 
-            if (allMoves == null)
-                allMoves = Bot.DoFallback();
-
-            //Actually move stuff
-            Mover.MoveAll(allMoves);
+                //Actually move stuff
+                Mover.MoveAll(allMoves);
+            }
+            
         }
 
         /// <summary>

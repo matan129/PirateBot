@@ -3,6 +3,8 @@ using Pirates;
 
 namespace Britbot
 {
+    using System;
+
     /// <summary>
     /// This class is used for the physical moving of pirates in the game
     /// </summary>
@@ -14,11 +16,24 @@ namespace Britbot
         /// <param name="moves">A dictionary of consists of entries that have a pirate and a corresponding direction to move at</param>
         public static void MoveAll(Dictionary<Pirate, Direction> moves)
         {
-            //iterate over all moves and execute them
-            foreach (KeyValuePair<Pirate, Direction> move in moves)
+            try
             {
-                if(!move.Key.IsLost)
-                    Bot.Game.SetSail(move.Key,move.Value);
+                //iterate over all moves and execute them
+                foreach (KeyValuePair<Pirate, Direction> move in moves)
+                {
+                    if (!move.Key.IsLost)
+                        Bot.Game.SetSail(move.Key, move.Value);
+                }
+            }
+            catch
+            {
+                //iterate over all moves and execute them
+                foreach (Pirate p in Bot.Game.AllMyPirates())
+                {
+                    if (!p.IsLost)
+                        Bot.Game.SetSail(p,Direction.NOTHING);
+                }
+         
             }
         }
     }
