@@ -27,7 +27,7 @@ namespace Britbot
             }
             catch
             {
-                //iterate over all moves and execute them
+                //don't move anything if we crash, but this will save us from timeout
                 foreach (Pirate p in Bot.Game.AllMyPirates())
                 {
                     if (!p.IsLost)

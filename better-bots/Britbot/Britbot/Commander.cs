@@ -1,22 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Britbot
+﻿namespace Britbot
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
     using Pirates;
 
     /// <summary>
-    /// Just stuff that makes the hard decisions
+    ///     Just stuff that makes the hard decisions
     /// </summary>
     public static class Commander
     {
         /// <summary>
-        /// This static constructor will run once and initialize the commander
+        ///     List of groups of our pirates
+        /// </summary>
+        public static List<Group> Groups { get; private set; }
+
+        /// <summary>
+        ///     This static constructor will run once and initialize the commander
         /// </summary>
         static Commander()
         {
-
             Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
 
             Commander.Groups = new List<Group>();
@@ -29,8 +33,8 @@ namespace Britbot
                 return;
             }
 
-
             #region Terrible Switch-Case
+
             //TODO this is awfully specific for the game bots. We have to generalize this
             switch (Bot.Game.AllMyPirates().Count)
             {
@@ -98,29 +102,21 @@ namespace Britbot
                     Commander.Groups.Add(new Group(0, 9));
                     break;
                 default:
-                    for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
+                    /*for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
                     {
                         Commander.Groups.Add(new Group(i, 2));
                     }
 
                     if (Bot.Game.AllMyPirates().Count%2 == 1)
-                        Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));
+                        Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));*/
                     //Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
-                    /*for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
-                    `{
+                    for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
                         Commander.Groups.Add(new Group(i, 1));
-                    }*/
 
                     break;
             }
             #endregion
         }
-        
-
-        /// <summary>
-        /// List of groups of our pirates
-        /// </summary>
-        public static List<Group> Groups { get; private set; }
 
         /// <summary>
         /// Do something!
@@ -258,6 +254,7 @@ namespace Britbot
                     //replace best
                     maxScore = newScore;
                     Array.Copy(iterator.Values, maxAssignment, iterator.Values.Length);
+
                 }
             } while (iterator.NextIteration());
 
@@ -266,18 +263,17 @@ namespace Britbot
 
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
+
             {
                 Commander.Groups[i].SetTarget(scoreArr[i].Target);
             }
 
             #region Debug Prints
 
-            Bot.Game.Debug("----------TARGETS--------------");
+            Bot.Game.Debug("===============TARGETS===============");
             for (int i = 0; i < dimensions.Length; i++)
-            {
                 Bot.Game.Debug(possibleAssignments[i][maxAssignment[i]].Target.GetDescription());
-            }
-            Bot.Game.Debug("----------TARGETS--------------");
+            Bot.Game.Debug("===============TARGETS===============");
 
             #endregion
         }
@@ -306,10 +302,13 @@ namespace Britbot
             return scoreArr;
         }
 
+        
+        
+
         /// <summary>
-        /// This function should convert an array of local scores into a numeric
-        /// score based on global criteria
-        /// score class is not finished yet so meanwhile it is pretty dumb
+        ///     This function should convert an array of local scores into a numeric
+        ///     score based on global criteria
+        ///     score class is not finished yet so meanwhile it is pretty dumb
         /// </summary>
         /// <param name="scoreArr">array of local scores</param>
         /// <returns></returns>
@@ -322,13 +321,9 @@ namespace Britbot
             foreach (Score s in scoreArr)
             {
                 if (s.Type == TargetType.Island)
-                {
                     score += 100*s.Value;
-                }
                 else if (s.Type == TargetType.EnemyGroup)
-                {
                     score += 200*s.Value;
-                }
 
                 timeAvg += s.Eta;
             }
@@ -346,24 +341,33 @@ namespace Britbot
             return (score*scoreArr.Length)/(timeAvg/scoreArr.Length);
         }
 
+        
+     
         /// <summary>
-        /// this method forces all groups to calculate their priorities
+        ///     Gets all th moves for each pirate in each group
         /// </summary>
-        private static void StartCalcPriorities()
+        /// <returns>A dictionary that gives each pirate a direction to move to in this turn</returns>
+        private static Dictionary<Pirate, Direction> GetAllMoves()
         {
+            //A list with all the moves from all groups
+            List<KeyValuePair<Pirate, Direction>> allMoves =
+                new List<KeyValuePair<Pirate, Direction>>(Bot.Game.AllMyPirates().Count);
+
+            //Get the moves from each group we have
             foreach (Group group in Commander.Groups)
-            {
-                group.CalcPriorities();
-            }
+                allMoves.AddRange(group.GetGroupMoves());
+
+            //Convert the moves list to dictionary
+            return allMoves.ToDictionary(pair => pair.Key, pair => pair.Value);
         }
 
         /// <summary>
-        /// This function goes over all the groups, reads their priorities and
-        /// arranges them in a 2-dimensional array: Each group has it's own row
-        /// which contains all its possible targets.
-        /// Note: it is a jagged array and each group may have different number of 
-        /// targets.
-        /// We use array because it has quick access property which we will use heavily
+        ///     This function goes over all the groups, reads their priorities and
+        ///     arranges them in a 2-dimensional array: Each group has it's own row
+        ///     which contains all its possible targets.
+        ///     Note: it is a jagged array and each group may have different number of
+        ///     targets.
+        ///     We use array because it has quick access property which we will use heavily
         /// </summary>
         /// <returns>Matrix of all possible targets</returns>
         private static Score[][] GetPossibleTargetMatrix()
@@ -382,8 +386,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Get the dimension vector which later will be used to create the iteration
-        /// over all possible Group-Target assignments
+        ///     Get the dimension vector which later will be used to create the iteration
+        ///     over all possible Group-Target assignments
         /// </summary>
         /// <returns>array of numbers of priorities for each group</returns>
         private static int[] GetTargetsDimensions()
@@ -393,28 +397,18 @@ namespace Britbot
 
             //go over all the groups and read number of priorities to dimension
             for (int i = 0; i < Commander.Groups.Count; i++)
-            {
                 dimensions[i] = Commander.Groups[i].Priorities.Count;
-            }
 
             return dimensions;
         }
 
         /// <summary>
-        /// Gets all th moves for each pirate in each group
+        ///     this method forces all groups to calculate their priorities
         /// </summary>
-        /// <returns>A dictionary that gives each pirate a direction to move to in this turn</returns>
-        private static Dictionary<Pirate,Direction> GetAllMoves()
+        private static void StartCalcPriorities()
         {
-            //A list with all the moves from all groups
-            List<KeyValuePair<Pirate,Direction>> allMoves = new List<KeyValuePair<Pirate, Direction>>(Bot.Game.AllMyPirates().Count);
-
-            //Get the moves from each group we have
             foreach (Group group in Commander.Groups)
-                allMoves.AddRange(group.GetGroupMoves());
-
-            //Convert the moves list to dictionary
-            return allMoves.ToDictionary(pair => pair.Key, pair => pair.Value);
+                group.CalcPriorities();
         }
     }
 }

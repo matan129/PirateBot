@@ -178,18 +178,18 @@ namespace Britbot
         /// </summary>
         static SmartIsland()
         {
-            IslandList = new List<SmartIsland>();
+            SmartIsland.IslandList = new List<SmartIsland>();
             foreach (Island island in Bot.Game.Islands())
             {
-                IslandList.Add(new SmartIsland(island.Id));
+                SmartIsland.IslandList.Add(new SmartIsland(island.Id));
             }
         }
 
         /// <summary>
-        /// Creats a new SmartIsland
+        /// Creates a new SmartIsland
         /// </summary>
         /// <param name="encapsulate">The regular island index to encapsulate</param>
-        public SmartIsland(int encapsulate)
+        private SmartIsland(int encapsulate)
         {
             this.Id = encapsulate;
         }
