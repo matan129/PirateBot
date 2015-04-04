@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Pirates;
-
-namespace Britbot.Fallback
+﻿namespace Britbot.Fallback
 {
+    using System.Collections.Generic;
+    using Pirates;
+
     /// <summary>
     /// This is the fallback bot
     /// its execution time must be low
