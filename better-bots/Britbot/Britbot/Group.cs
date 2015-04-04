@@ -27,9 +27,9 @@ namespace Britbot
             this.Role = new GroupRole();
 
             //get id and update counter
-            this.Id = GroupCounter++;
-
-            Bot.Game.Debug("===============GROUP {0}===============", this.Id);
+            this.Id = Group.GroupCounter++;
+            
+            Bot.Game.Debug("===================GROUP {0}===================", this.Id);
 
             for (; amount > 0; amount--)
             {
@@ -54,7 +54,7 @@ namespace Britbot
                 this.Target = target;
                 this.Heading.SetCoordinates();
             }
-            else if (!Equals(this.Target, target))
+            else if (!object.Equals(this.Target, target))
             {
                 this.Target = target;
                 this.Heading.SetCoordinates();
@@ -82,7 +82,7 @@ namespace Britbot
 
             try
             {
-                return new Location(y/Pirates.Count, x/Pirates.Count);
+                return new Location(y/this.Pirates.Count, x/this.Pirates.Count);
             }
             catch (Exception)
             {
@@ -239,7 +239,7 @@ namespace Britbot
             {
                 try
                 {
-                    structure = GetStructure(pete.Loc);
+                    structure = this.GetStructure(pete.Loc);
                 }
                 catch (InvalidLocationException ex)
                 {
@@ -275,12 +275,12 @@ namespace Britbot
                 {
                     try
                     {
-                        structure = GetStructure(center);
+                        structure = this.GetStructure(center);
                         break;
                     }
                     catch (InvalidLocationException ex)
                     {
-                        center = AdvancePivot(center);
+                        center = this.AdvancePivot(center);
                        // Bot.Game.Debug("New Center is " + center);
                     }
                 }

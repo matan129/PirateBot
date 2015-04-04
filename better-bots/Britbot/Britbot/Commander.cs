@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
     using Pirates;
 
     /// <summary>
@@ -21,7 +20,8 @@
         /// </summary>
         static Commander()
         {
-            
+            try
+            {
                 Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
 
                 Commander.Groups = new List<Group>();
@@ -48,8 +48,8 @@
                         {
                             Commander.Groups.Add(new Group(0, 1));
                             Commander.Groups.Add(new Group(1, 1));
-                            Commander.Groups.Add(new Group(2, 1));
-                            Commander.Groups.Add(new Group(3, 1));
+                            Commander.Groups.Add(new Group(2, 2));
+                            //Commander.Groups.Add(new Group(2, 1));
                         }
                         else
                         {
@@ -63,10 +63,9 @@
                         Commander.Groups.Add(new Group(4, 1));
                         break;
                     case 6:
-
-                        Commander.Groups.Add(new Group(0, 4));
-                        Commander.Groups.Add(new Group(4, 1));
-                        Commander.Groups.Add(new Group(5, 1));
+                        Commander.Groups.Add(new Group(0, 3));
+                        Commander.Groups.Add(new Group(3, 2));
+                        Commander.Groups.Add(new Group(3, 1));
                         break;
                     case 7:
                         Commander.Groups.Add(new Group(0, 2));
@@ -110,83 +109,18 @@
                 }
 
                 #endregion
-
-            
-        }
-        
-
-        /// <summary>
-        /// Distribute our pirates into groups and re-arrange them at the start of the game
-        /// </summary>
-        /// <param name="config">The new configuration. i.e. {2,2,2} for three groups of two pirates</param>
-        public static void DistributeForces(int[] config)
-        {
-            throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                Bot.Game.Debug("=============COMMANDER EXCEPTION===============");
+                Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
+                Bot.Game.Debug("=============COMMANDER EXCEPTION===============");
+            }
         }
 
         /// <summary>
-        /// Returns a list of integers that describes the current wanted configuration
-        /// </summary>
-        /// <returns>ULTIMATE group configuration</returns>
-        public static List<int> GetUltimateGameConfig()
-        {
-
-            int[] eConfig = Enemy.Groups.ConvertAll(group => group.EnemyPirates.Count).ToArray();
-
-            Array.Sort(eConfig,(a,b) => a.CompareTo(b));
-
-            List<int> ret = new List<int>();
-
-            int myPirates = Bot.Game.AllMyPirates().Count;
-
-
-            for (int i = 0; i < eConfig.Length && myPirates > 0; i++)
-            {
-                if (eConfig[i]+1 > myPirates)
-                    break;
-                ret.Add(eConfig[i] + 1);
-                myPirates -= eConfig[i] + 1;
-            }
-
-            while(myPirates > 0)
-            {
-                ret.Add(1);
-                myPirates--;
-            }
-
-            while(ret.Count > Bot.Game.Islands().Count)
-            {
-                ret[ret.Count-2] += ret.Last();
-                ret.RemoveAt(ret.Count - 1);
-            }
-
-            return ret;
-
-        }
-
-
-
-        /// <summary>
-        /// Checks if a specific pirate is already occupied in some group
-        /// </summary>
-        /// <param name="pirate">id of the target</param>
-        /// <returns>true if it is already assigned, false otherwise</returns>
-        public static bool IsEmployed(int pirate)
-        {
-            //going over all the groups searching for the specific pirate
-            foreach (Group group in Commander.Groups)
-            {
-                //if found return true
-                if (group.Pirates.Contains(pirate))
-                    return true;
-            }
-            //else return false
-            return false;
-        }
-
-        /// <summary>
-        /// Assigns targets to each group based on pure magic
-        /// Also initiate local scoring
+        ///     Assigns targets to each group based on pure magic
+        ///     Also initiate local scoring
         /// </summary>
         public static void CalculateAndAssignTargets()
         {
@@ -224,7 +158,6 @@
                     //replace best
                     maxScore = newScore;
                     Array.Copy(iterator.Values, maxAssignment, iterator.Values.Length);
-
                 }
             } while (iterator.NextIteration());
 
@@ -234,46 +167,64 @@
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
 
-            {
                 Commander.Groups[i].SetTarget(scoreArr[i].Target);
-            }
 
             #region Debug Prints
 
-            Bot.Game.Debug("===============TARGETS===============");
+            Bot.Game.Debug("=====================TARGETS===================");
             for (int i = 0; i < dimensions.Length; i++)
                 Bot.Game.Debug(possibleAssignments[i][maxAssignment[i]].Target.GetDescription());
-            Bot.Game.Debug("===============TARGETS===============");
+            Bot.Game.Debug("=====================TARGETS===================");
 
             #endregion
         }
 
-
         /// <summary>
-        /// Given all the possible assignments, and a specific assignment (given by array of indexes)
-        /// returns the actual scores corresponding to this assignment
+        ///     Distribute our pirates into groups and re-arrange them at the start of the game
         /// </summary>
-        /// <param name="possibleAssignments">jagged array of all possible assignments</param>
-        /// <param name="assignment">indexes of this assignment</param>
-        /// <returns></returns>
-        private static Score[] GetSpeciphicAssignmentScores(Score[][] possibleAssignments, int[] assignment)
+        /// <param name="config">The new configuration. i.e. {2,2,2} for three groups of two pirates</param>
+        public static void DistributeForces(int[] config)
         {
-            //declare the array to later be returned
-            Score[] scoreArr = new Score[possibleAssignments.Length];
-
-            //fill the array with the appropriate values
-            for (int i = 0; i < scoreArr.Length; i++)
-            {
-                //fill the i'th place of the score array with the target of the i'th group in the assignment index
-                scoreArr[i] = possibleAssignments[i][assignment[i]];
-            }
-
-            //return the result
-            return scoreArr;
+            throw new NotImplementedException();
         }
 
-        
-        
+        /// <summary>
+        ///     Returns a list of integers that describes the current wanted configuration
+        /// </summary>
+        /// <returns>ULTIMATE group configuration</returns>
+        public static List<int> GetUltimateGameConfig()
+        {
+            int[] eConfig = Enemy.Groups.ConvertAll(group => group.EnemyPirates.Count).ToArray();
+
+            Array.Sort(eConfig, (a, b) => a.CompareTo(b));
+
+            List<int> ret = new List<int>();
+
+            int myPirates = Bot.Game.AllMyPirates().Count;
+
+
+            for (int i = 0; i < eConfig.Length && myPirates > 0; i++)
+            {
+                if (eConfig[i] + 1 > myPirates)
+                    break;
+                ret.Add(eConfig[i] + 1);
+                myPirates -= eConfig[i] + 1;
+            }
+
+            while (myPirates > 0)
+            {
+                ret.Add(1);
+                myPirates--;
+            }
+
+            while (ret.Count > Bot.Game.Islands().Count)
+            {
+                ret[ret.Count - 2] += ret.Last();
+                ret.RemoveAt(ret.Count - 1);
+            }
+
+            return ret;
+        }
 
         /// <summary>
         ///     This function should convert an array of local scores into a numeric
@@ -312,6 +263,24 @@
         }
 
         /// <summary>
+        ///     Checks if a specific pirate is already occupied in some group
+        /// </summary>
+        /// <param name="pirate">id of the target</param>
+        /// <returns>true if it is already assigned, false otherwise</returns>
+        public static bool IsEmployed(int pirate)
+        {
+            //going over all the groups searching for the specific pirate
+            foreach (Group group in Commander.Groups)
+            {
+                //if found return true
+                if (group.Pirates.Contains(pirate))
+                    return true;
+            }
+            //else return false
+            return false;
+        }
+
+        /// <summary>
         ///     Do something!
         /// </summary>
         public static Dictionary<Pirate, Direction> Play()
@@ -330,9 +299,9 @@
             }
             catch (Exception ex)
             {
-                Bot.Game.Debug("====COMMANDER EXCEPTION====");
+                Bot.Game.Debug("=============COMMANDER EXCEPTION===============");
                 Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
-                Bot.Game.Debug("====COMMANDER EXCEPTION====");
+                Bot.Game.Debug("=============COMMANDER EXCEPTION===============");
 
                 return null;
             }
@@ -378,6 +347,29 @@
 
             //return the matrix
             return possibleTargets;
+        }
+
+        /// <summary>
+        ///     Given all the possible assignments, and a specific assignment (given by array of indexes)
+        ///     returns the actual scores corresponding to this assignment
+        /// </summary>
+        /// <param name="possibleAssignments">jagged array of all possible assignments</param>
+        /// <param name="assignment">indexes of this assignment</param>
+        /// <returns></returns>
+        private static Score[] GetSpeciphicAssignmentScores(Score[][] possibleAssignments, int[] assignment)
+        {
+            //declare the array to later be returned
+            Score[] scoreArr = new Score[possibleAssignments.Length];
+
+            //fill the array with the appropriate values
+            for (int i = 0; i < scoreArr.Length; i++)
+            {
+                //fill the i'th place of the score array with the target of the i'th group in the assignment index
+                scoreArr[i] = possibleAssignments[i][assignment[i]];
+            }
+
+            //return the result
+            return scoreArr;
         }
 
         /// <summary>

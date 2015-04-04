@@ -32,6 +32,10 @@
         /// <returns>if the commander is on time or not</returns>
         private static bool ExecuteBot()
         {
+            //clear the last moves
+            Bot._fallbackMoves.Clear();
+            Bot._movesDictionary.Clear();
+
             //setup the threads
             Thread commanderThread = new Thread(() => Bot._movesDictionary = Commander.Play());
             Thread fallbackThread = new Thread(() => Bot._fallbackMoves = FallbackBot.GetFallbackTurns());
@@ -82,9 +86,9 @@
             }
             catch (Exception ex)
             {
-                Bot.Game.Debug("==========ERROR==========");
+                Bot.Game.Debug("=================BOT ERROR=====================");
                 Bot.Game.Debug("Bot almost crashed because of exception: " + ex.Message);
-                Bot.Game.Debug("==========ERROR==========");
+                Bot.Game.Debug("=================BOT ERROR=====================");
             }
             finally
             {
