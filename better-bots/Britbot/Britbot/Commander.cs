@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Britbot
 {
+    using System.Threading;
     using Pirates;
 
     /// <summary>
@@ -98,19 +99,18 @@ namespace Britbot
                     Commander.Groups.Add(new Group(0, 9));
                     break;
                 default:
-                    for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
+                    /*for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
                     {
                         Commander.Groups.Add(new Group(i, 2));
                     }
 
                     if (Bot.Game.AllMyPirates().Count%2 == 1)
-                        Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));
+                        Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));*/
                     //Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
-                    /*for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
-                    `{
+                    for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
+                    {
                         Commander.Groups.Add(new Group(i, 1));
-                    }*/
-
+                    }
                     break;
             }
             #endregion
@@ -141,6 +141,9 @@ namespace Britbot
             }
             catch (Exception ex)
             {
+                if (ex is ThreadAbortException)
+                    throw ex;
+
                 Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
                 Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");

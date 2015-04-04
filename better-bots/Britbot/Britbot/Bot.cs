@@ -50,7 +50,7 @@ namespace Britbot
             finally
             {
                 if (allMoves == null)
-                    allMoves = DoFallback();
+                    allMoves = Bot.DoFallback();
 
                 //Actually move stuff
                 Mover.MoveAll(allMoves);
@@ -85,12 +85,7 @@ namespace Britbot
                 Bot.Game.Debug("Commander timed out, switching to fallback code");
                 Bot.Game.Debug("###############################################");
 
-                //TODO Execute emergency override/fallback code
-                //i.e. return GetFallbackMoves();
-                
-                //I will throw an exception in the meanwhile so this code will properly compile
-                //throw new NotImplementedException();
-                return Bot.DoFallback();
+                return null;
             }
             else
             {
@@ -103,7 +98,10 @@ namespace Britbot
             Dictionary<Pirate, Direction> fallback= new Dictionary<Pirate, Direction>();
             foreach (Pirate pirate in Bot.Game.AllMyPirates())
             {
-                fallback.Add(pirate,Direction.NOTHING);
+                if(Bot.Game.GetTurn()%2 == 0)
+                    fallback.Add(pirate,Direction.NORTH);
+                else
+                    fallback.Add(pirate, Direction.SOUTH);
             }   
             return fallback;
         }
