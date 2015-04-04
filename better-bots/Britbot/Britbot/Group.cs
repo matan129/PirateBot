@@ -147,16 +147,52 @@ namespace Britbot
             {
                 List<Pirate> myPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
 
-                if(this.Target.GetTargetType() != TargetType.NoTarget)
+                if (this.Target.GetTargetType() != TargetType.NoTarget)
                 {
-                    List<Direction> possibleDirections = Bot.Game.GetDirections(this.FindCenter(true), this.Target.GetLocation());
+                    List<Direction> possibleDirections = Bot.Game.GetDirections(this.FindCenter(true),
+                                                                                this.Target.GetLocation());
+                    List<Direction> filteredDirections = new List<Direction>(possibleDirections.Count);
                     
-                    Direction master;
-                    if (possibleDirections.Count > 1)
-                        master = possibleDirections[tryAlternateDirection];
+                    foreach (Direction dir in possibleDirections)
+                    {
+                        if (this.Pirates.All(p =>
+                                                 {
+                                                     Pirate pete = Bot.Game.GetMyPirate(p);
+                                                     if (Bot.Game.IsPassable(Bot.Game.Destination(pete, dir)))
+                                                         return true;
+                                                     return false;
+                                                 }))
+                           filteredDirections.Add(dir);
+                    }
+
+
+                    Direction master = Direction.NOTHING;
+                    if (filteredDirections.Count > 1)
+                        master = filteredDirections[tryAlternateDirection];
+                    else if (filteredDirections.Count != 0)
+                        master = filteredDirections.First();
                     else
-                        master = possibleDirections.First();
-                    
+                    {
+                        foreach (Direction dir in possibleDirections)
+                        {
+                            Direction opposite = dir.Oppsite();
+
+                            if (this.Pirates.All(p =>
+                                                 {
+                                                     Pirate pete = Bot.Game.GetMyPirate(p);
+                                                     if (Bot.Game.IsPassable(Bot.Game.Destination(pete, opposite)))
+                                                         return true;
+                                                     return false;
+                                                 }))
+                            {
+                                master = opposite;
+                                break;
+                            }
+                        }
+                    }
+
+
+
                     Location targetLoc = this.Target.GetLocation();
                     myPirates.Sort(
                                    (b, a) => Bot.Game.Distance(a.Loc, targetLoc).CompareTo(Bot.Game.Distance(b.Loc, targetLoc)));

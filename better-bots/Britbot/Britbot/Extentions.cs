@@ -24,6 +24,28 @@ namespace Britbot
             return Bot.Game.Distance(loc, isle.Loc);
         }
 
+
+        public static Direction Oppsite(this Direction dir)
+        {
+            switch (dir)
+            {
+                case Direction.EAST:
+                    return Direction.WEST;
+                    break;
+                case Direction.NORTH:
+                    return Direction.SOUTH;
+                    break;
+                case Direction.WEST:
+                    return Direction.EAST;
+                    break;
+                case Direction.SOUTH:
+                    return Direction.NORTH;
+                    break;
+                default:
+                    return Direction.NOTHING;
+            }
+        }
+
         /// <summary>
         /// Gets the list of SmartIsland like we would normally do with normal Islands
         /// </summary>

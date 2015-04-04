@@ -68,7 +68,7 @@
                         Commander.Groups.Add(new Group(4, 1));
                         break;
                     case 6:
-                        if(Bot.Game.AllEnemyPirates().Count > 6)
+                        if(Bot.Game.EnemyIslands().Count > 0)
                         {
                             Commander.Groups.Add(new Group(0, 5));
                             Commander.Groups.Add(new Group(5, 1));
@@ -77,7 +77,8 @@
                         {
                             Commander.Groups.Add(new Group(0, 1));
                             Commander.Groups.Add(new Group(1, 3));
-                            Commander.Groups.Add(new Group(4, 2));
+                            Commander.Groups.Add(new Group(4, 1));
+                            Commander.Groups.Add(new Group(5, 1));
                         }
                         break;
                     case 7:
@@ -298,6 +299,8 @@
         /// </summary>
         public static Dictionary<Pirate, Direction> Play()
         {
+            int enteringTurn = Bot.Game.GetTurn();
+
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
             {
@@ -308,7 +311,12 @@
                 Commander.CalculateAndAssignTargets();
 
                 //Get the moves for all the pirates and return them
-                return Commander.GetAllMoves();
+                Dictionary<Pirate,Direction> moves = Commander.GetAllMoves();
+
+                if (Bot.Game.GetTurn() == enteringTurn)
+                    return moves;
+                else
+                    return null;
             }
             catch (Exception ex)
             {
@@ -316,7 +324,7 @@
                 Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
                 Bot.Game.Debug("==========COMMANDER EXCEPTION============");
             
-                return new Dictionary<Pirate, Direction>();
+                return null;
             }
         }
 

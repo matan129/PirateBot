@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Security;
     using System.Security.Permissions;
     using System.Threading;
@@ -22,7 +23,7 @@
         /// The moves the commander decided on
         /// </summary>
         private static Dictionary<Pirate, Direction> _movesDictionary = new Dictionary<Pirate, Direction>();
-
+        
         /// <summary>
         /// The fallback moves the fallback bot generated
         /// </summary>
@@ -40,28 +41,32 @@
             Bot._movesDictionary = new Dictionary<Pirate, Direction>();
 
             //setup the threads
-            Thread commanderThread = new Thread(() => Bot._movesDictionary = Commander.Play());
-            Thread fallbackThread = new Thread(() => Bot._fallbackMoves = FallbackBot.GetFallbackTurns());
+            Thread commanderThread = new Thread(() =>
+                                                {
+                                                    Dictionary<Pirate, Direction> moves = Commander.Play();
+                                                    if (moves != null)
+                                                        Bot._movesDictionary = moves;
+                                                }) {IsBackground = true};
 
+            Thread fallbackThread = new Thread(() => Bot._fallbackMoves = FallbackBot.GetFallbackTurns())
+                                    {
+                                        IsBackground
+                                            = true
+                                    };
+            
             //Start the threads simultaneously
             commanderThread.Start();
             fallbackThread.Start();
 
             //Test if the commander is finished on time
             bool inTime = commanderThread.Join((int) (Bot.Game.TimeRemaining()*0.5));
-			
-            //Bot._fallbackThread.Join();
 
             //if it's stuck...
             if (!inTime)
             {
-                //..suspend it forever and continue to the fallback code
-                
-
                 Bot.Game.Debug("=================TIMEOUT=======================");
                 Bot.Game.Debug("Commander timed out, switching to fallback code");
                 Bot.Game.Debug("=================TIMEOUT=======================");
-                
             }
             
             //return if the commander is on time
