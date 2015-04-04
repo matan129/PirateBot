@@ -119,13 +119,84 @@
                 Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
                 Bot.Game.Debug("=============COMMANDER EXCEPTION===============");
             }
+
+        }
+        
+
+        /// <summary>
+        /// Distribute our pirates into groups and re-arrange them at the start of the game
+        /// </summary>
+        /// <param name="config">The new configuration. i.e. {2,2,2} for three groups of two pirates</param>
+        public static void DistributeForces(int[] config)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        ///     Assigns targets to each group based on pure magic
-        ///     Also initiate local scoring
+        /// Returns a list of integers that describes the current wanted configuration
         /// </summary>
-        public static void AssignTargets()
+        /// <returns>ULTIMATE group configuration</returns>
+        public static List<int> GetUltimateGameConfig()
+        {
+
+            int[] eConfig = Enemy.Groups.ConvertAll(group => group.EnemyPirates.Count).ToArray();
+
+            Array.Sort(eConfig,(a,b) => a.CompareTo(b));
+
+            List<int> ret = new List<int>();
+
+            int myPirates = Bot.Game.AllMyPirates().Count;
+
+
+            for (int i = 0; i < eConfig.Length && myPirates > 0; i++)
+            {
+                if (eConfig[i]+1 > myPirates)
+                    break;
+                ret.Add(eConfig[i] + 1);
+                myPirates -= eConfig[i] + 1;
+            }
+
+            while(myPirates > 0)
+            {
+                ret.Add(1);
+                myPirates--;
+            }
+
+            while(ret.Count > Bot.Game.Islands().Count)
+            {
+                ret[ret.Count-2] += ret.Last();
+                ret.RemoveAt(ret.Count - 1);
+            }
+
+            return ret;
+
+        }
+
+
+
+        /// <summary>
+        /// Checks if a specific pirate is already occupied in some group
+        /// </summary>
+        /// <param name="pirate">id of the target</param>
+        /// <returns>true if it is already assigned, false otherwise</returns>
+        public static bool IsEmployed(int pirate)
+        {
+            //going over all the groups searching for the specific pirate
+            foreach (Group group in Commander.Groups)
+            {
+                //if found return true
+                if (group.Pirates.Contains(pirate))
+                    return true;
+            }
+            //else return false
+            return false;
+        }
+
+        /// <summary>
+        /// Assigns targets to each group based on pure magic
+        /// Also initiate local scoring
+        /// </summary>
+        public static void CalculateAndAssignTargets()
         {
             //force groups to calculate priorities
             Commander.StartCalcPriorities();
@@ -150,12 +221,7 @@
             do
             {
                 //set score array for current iteration
-                for (int i = 0; i < dimensions.Length; i++)
-                {
-                    //set the i-th score to be the current iteration value
-                    //of the i-th group
-                    scoreArr[i] = possibleAssignments[i][iterator.Values[i]];
-                }
+                scoreArr = Commander.GetSpeciphicAssignmentScores(possibleAssignments, iterator.Values);
 
                 //calculate new score
                 int newScore = (int) Commander.GlobalizeScore(scoreArr);
@@ -165,15 +231,20 @@
                 {
                     //replace best
                     maxScore = newScore;
+                    Array.Copy(iterator.Values, maxAssignment, iterator.Values.Length);
 
-                    for (int i = 0; i < maxAssignment.Length; i++)
-                        maxAssignment[i] = iterator.Values[i];
                 }
             } while (iterator.NextIteration());
 
+            //read the "winning" assignment
+            scoreArr = Commander.GetSpeciphicAssignmentScores(possibleAssignments, maxAssignment);
+
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
-                Commander.Groups[i].SetTarget(possibleAssignments[i][maxAssignment[i]].Target);
+
+            {
+                Commander.Groups[i].SetTarget(scoreArr[i].Target);
+            }
 
             #region Debug Prints
 
@@ -185,52 +256,32 @@
             #endregion
         }
 
-        /// <summary>
-        ///     Distribute our pirates into groups and re-arrange them at the start of the game
-        /// </summary>
-        /// <param name="config">The new configuration. i.e. {2,2,2} for three groups of two pirates</param>
-        public static void DistributeForces(int[] config)
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
-        ///     Returns a list of integers that describes the current wanted configuration
+        /// Given all the possible assignments, and a specific assignment (given by array of indexes)
+        /// returns the actual scores corresponding to this assignment
         /// </summary>
-        /// <returns>ULTIMATE group configuration</returns>
-        public static List<int> GetUltimateGameConfig()
+        /// <param name="possibleAssignments">jagged array of all possible assignments</param>
+        /// <param name="assignment">indexes of this assignment</param>
+        /// <returns></returns>
+        private static Score[] GetSpeciphicAssignmentScores(Score[][] possibleAssignments, int[] assignment)
         {
-            int[] eConfig = Enemy.Groups.ConvertAll(group => group.EnemyPirates.Count).ToArray();
+            //declare the array to later be returned
+            Score[] scoreArr = new Score[possibleAssignments.Length];
 
-            Array.Sort(eConfig, (a, b) => a.CompareTo(b));
-
-            List<int> ret = new List<int>();
-
-            int myPirates = Bot.Game.AllMyPirates().Count;
-
-
-            for (int i = 0; i < eConfig.Length && myPirates > 0; i++)
+            //fill the array with the appropriate values
+            for (int i = 0; i < scoreArr.Length; i++)
             {
-                if (eConfig[i] + 1 > myPirates)
-                    break;
-                ret.Add(eConfig[i] + 1);
-                myPirates -= eConfig[i] + 1;
+                //fill the i'th place of the score array with the target of the i'th group in the assignment index
+                scoreArr[i] = possibleAssignments[i][assignment[i]];
             }
 
-            while (myPirates > 0)
-            {
-                ret.Add(1);
-                myPirates--;
-            }
-
-            while (ret.Count > Bot.Game.Islands().Count)
-            {
-                ret[ret.Count - 2] += ret.Last();
-                ret.RemoveAt(ret.Count - 1);
-            }
-
-            return ret;
+            //return the result
+            return scoreArr;
         }
+
+        
+        
 
         /// <summary>
         ///     This function should convert an array of local scores into a numeric
@@ -269,24 +320,6 @@
         }
 
         /// <summary>
-        ///     Checks if a specific pirate is already occupied in some group
-        /// </summary>
-        /// <param name="pirate">id of the target</param>
-        /// <returns>true if it is already assigned, false otherwise</returns>
-        public static bool IsEmployed(int pirate)
-        {
-            //going over all the groups searching for the specific pirate
-            foreach (Group group in Commander.Groups)
-            {
-                //if found return true
-                if (group.Pirates.Contains(pirate))
-                    return true;
-            }
-            //else return false
-            return false;
-        }
-
-        /// <summary>
         ///     Do something!
         /// </summary>
         public static Dictionary<Pirate, Direction> Play()
@@ -298,7 +331,7 @@
                 Enemy.Update();
 
                 //calculate targets
-                Commander.AssignTargets();
+                Commander.CalculateAndAssignTargets();
 
                 //Get the moves for all the pirates and return them
                 return Commander.GetAllMoves();

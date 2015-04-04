@@ -22,12 +22,12 @@ namespace Britbot
                 return null;
 
             //next check if it even possible to catch the ship, otherwise disqualify
-            if (!HeadingVector.IsReachable(origin.GetLocation(), GetLocation(), Heading))
+            if (!Navigator.IsReachable(origin.GetLocation(), GetLocation(), Heading))
                 return null;
 
             //Reduce the score in proportion to distance
             //lower score is worse. Mind the minus sign!
-            double distance = HeadingVector.CalcDistFromLine(origin.GetLocation(), this.GetLocation(), this.Heading);
+            double distance = Navigator.CalcDistFromLine(origin.GetLocation(), this.GetLocation(), this.Heading);
 
             Bot.Game.Debug("EnemyGroup's HeadingVector CalcFromLine returned: " + distance);
 
@@ -81,7 +81,7 @@ namespace Britbot
         public Direction GetDirection(Group group)
         {
             //calculates the direction based on the geographical data from the game
-            return HeadingVector.CalculateDirectionToMovingTarget(group.GetLocation(), group.Heading, GetLocation(),
+            return Navigator.CalculateDirectionToMovingTarget(group.GetLocation(), group.Heading, GetLocation(),
                 Heading);
         }
 
@@ -217,7 +217,7 @@ namespace Britbot
             foreach (SmartIsland isle in sortedByDistance)
             {
                 //check if distance is smaller then tolerance margin
-                if (HeadingVector.CalcDistFromLine(isle.GetLocation(), GetLocation(), Heading) < toleranceMargin)
+                if (Navigator.CalcDistFromLine(isle.GetLocation(), GetLocation(), Heading) < toleranceMargin)
                     return isle;
             }
 
@@ -237,7 +237,7 @@ namespace Britbot
             PrevLoc = GetLocation();
 
             //update direction
-            Heading += newDir;
+            Heading.adjustHeading(newDir);
         }
 
         /// <summary>
@@ -322,7 +322,7 @@ namespace Britbot
             this.Id = IdCount++;
             this.EnemyPirates = new List<int>();
             this.PrevLoc = new Location(0, 0);
-            this.Heading = new HeadingVector(this.PrevLoc);
+            this.Heading = new HeadingVector();
         }
 
         /// <summary>
