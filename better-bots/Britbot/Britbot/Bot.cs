@@ -59,7 +59,7 @@
             fallbackThread.Start();
 
             //Test if the commander is finished on time
-            bool inTime = commanderThread.Join((int) (Bot.Game.TimeRemaining()*0.5));
+            bool inTime = commanderThread.Join((int) (Bot.Game.TimeRemaining()*0.85));
 
             //if it's stuck...
             if (!inTime)

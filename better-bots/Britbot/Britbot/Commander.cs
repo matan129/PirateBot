@@ -68,17 +68,17 @@
                         Commander.Groups.Add(new Group(4, 1));
                         break;
                     case 6:
-                        if(Bot.Game.EnemyIslands().Count > 0)
+                        if(Bot.Game.EnemyIslands().Count > 6)
                         {
                             Commander.Groups.Add(new Group(0, 5));
                             Commander.Groups.Add(new Group(5, 1));
                         }
                         else
                         {
+                            Commander.Groups.Add(new Group(2, 4));
                             Commander.Groups.Add(new Group(0, 1));
-                            Commander.Groups.Add(new Group(1, 3));
-                            Commander.Groups.Add(new Group(4, 1));
-                            Commander.Groups.Add(new Group(5, 1));
+                            Commander.Groups.Add(new Group(1, 1));
+                            //Commander.Groups.Add(new Group(2, 4));
                         }
                         break;
                     case 7:
@@ -269,7 +269,7 @@
                 for (int j = i + 1; j < scoreArr.Length; j++)
                 {
                     if (scoreArr[i].Target.Equals(scoreArr[j].Target))
-                        score -= 100000000;
+                        score = -100000000;
                 }
             }
 
