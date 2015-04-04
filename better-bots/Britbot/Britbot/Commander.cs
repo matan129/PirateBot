@@ -134,7 +134,7 @@ namespace Britbot
                 Enemy.Update();
 
                 //calculate targets
-                Commander.AssignTargets();
+                Commander.CalculateAndAssignTargets();
 
                 //Get the moves for all the pirates and return them
                 return Commander.GetAllMoves();
@@ -222,7 +222,7 @@ namespace Britbot
         /// Assigns targets to each group based on pure magic
         /// Also initiate local scoring
         /// </summary>
-        public static void AssignTargets()
+        public static void CalculateAndAssignTargets()
         {
             //force groups to calculate priorities
             Commander.StartCalcPriorities();
@@ -247,12 +247,7 @@ namespace Britbot
             do
             {
                 //set score array for current iteration
-                for (int i = 0; i < dimensions.Length; i++)
-                {
-                    //set the i-th score to be the current iteration value
-                    //of the i-th group
-                    scoreArr[i] = possibleAssignments[i][iterator.Values[i]];
-                }
+                scoreArr = Commander.GetSpeciphicAssignmentScores(possibleAssignments, iterator.Values);
 
                 //calculate new score
                 int newScore = (int) Commander.GlobalizeScore(scoreArr);
@@ -262,18 +257,17 @@ namespace Britbot
                 {
                     //replace best
                     maxScore = newScore;
-
-                    for (int i = 0; i < maxAssignment.Length; i++)
-                    {
-                        maxAssignment[i] = iterator.Values[i];
-                    }
+                    Array.Copy(iterator.Values, maxAssignment, iterator.Values.Length);
                 }
             } while (iterator.NextIteration());
+
+            //read the "winning" assignment
+            scoreArr = Commander.GetSpeciphicAssignmentScores(possibleAssignments, maxAssignment);
 
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
             {
-                Commander.Groups[i].SetTarget(possibleAssignments[i][maxAssignment[i]].Target);
+                Commander.Groups[i].SetTarget(scoreArr[i].Target);
             }
 
             #region Debug Prints
@@ -286,6 +280,30 @@ namespace Britbot
             Bot.Game.Debug("----------TARGETS--------------");
 
             #endregion
+        }
+
+
+        /// <summary>
+        /// Given all the possible assignments, and a specific assignment (given by array of indecies)
+        /// returns the actual scores corresponding to this assignment
+        /// </summary>
+        /// <param name="possibleAssignments">jagged array of all possible assignments</param>
+        /// <param name="assignment">indecies of this assignment</param>
+        /// <returns></returns>
+        private static Score[] GetSpeciphicAssignmentScores(Score[][] possibleAssignments, int[] assignment)
+        {
+            //declare the array to later be returned
+            Score[] scoreArr = new Score[possibleAssignments.Length];
+
+            //fill the array with the appropriate values
+            for (int i = 0; i < scoreArr.Length; i++)
+            {
+                //fill the i'th place of the score array with the target of the i'th group in the assignment index
+                scoreArr[i] = possibleAssignments[i][assignment[i]];
+            }
+
+            //return the result
+            return scoreArr;
         }
 
         /// <summary>
