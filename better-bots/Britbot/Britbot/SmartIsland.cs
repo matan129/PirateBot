@@ -26,8 +26,10 @@ namespace Britbot
             //Amount of turns it takes to capture an island
             int captureTime = this.CaptureTurns;
 
-            if (this.Owner == Consts.ENEMY)
-                captureTime *= 2;
+            //TODO this is disabled in the meanwhile because it caused us to lost
+            //should be taken into consideration in the score globalizing function
+            /*if (this.Owner == Consts.ENEMY)
+                captureTime *= 2;*/
 
             //check if the island isn't already ours, if so disqualify it and return null
             if (this.Owner != Consts.ME || this.TeamCapturing == Consts.ENEMY)

@@ -25,17 +25,7 @@
         /// The fallback moves the fallback bot generated
         /// </summary>
         private static Dictionary<Pirate, Direction> _fallbackMoves = new Dictionary<Pirate, Direction>();
-
-        /// <summary>
-        /// The thread that the commander runs on
-        /// </summary>
-        private static Thread _commanderThread;
-
-        /// <summary>
-        /// The thread the fallback bot runs on
-        /// </summary>
-        private static Thread _fallbackThread;
-
+        
         /// <summary>
         /// Executes the commander with specified timeout, and the fallback in parallel
         /// </summary>
@@ -43,22 +33,22 @@
         private static bool ExecuteBot()
         {
             //setup the threads
-            Bot._commanderThread = new Thread(() => Bot._movesDictionary = Commander.Play());
-            Bot._fallbackThread = new Thread(() => Bot._fallbackMoves = FallbackBot.GetFallbackTurns());
+            Thread commanderThread = new Thread(() => Bot._movesDictionary = Commander.Play());
+            Thread fallbackThread = new Thread(() => Bot._fallbackMoves = FallbackBot.GetFallbackTurns());
 
             //Start the threads simultaneously
-            Bot._commanderThread.Start();
-            Bot._fallbackThread.Start();
+            commanderThread.Start();
+            fallbackThread.Start();
 
             //Test if the commander is finished on time
-            bool inTime = Bot._commanderThread.Join((int) (Bot.Game.TimeRemaining()*0.45));
-            Bot._fallbackThread.Join();
+            bool inTime = commanderThread.Join((int) (Bot.Game.TimeRemaining()*0.5));
+            //Bot._fallbackThread.Join();
 
             //if it's stuck...
             if (!inTime)
             {
                 //..abort it and continue to the fallback code
-                Bot._commanderThread.Abort();
+                //commanderThread.Abort();
 
                 Bot.Game.Debug("=================TIMEOUT=======================");
                 Bot.Game.Debug("Commander timed out, switching to fallback code");
@@ -92,9 +82,9 @@
             }
             catch (Exception ex)
             {
-                Bot.Game.Debug("========================ERROR==========================");
+                Bot.Game.Debug("==========ERROR==========");
                 Bot.Game.Debug("Bot almost crashed because of exception: " + ex.Message);
-                Bot.Game.Debug("========================ERROR==========================");
+                Bot.Game.Debug("==========ERROR==========");
             }
             finally
             {

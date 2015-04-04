@@ -149,7 +149,7 @@ namespace Britbot
 
                 if(this.Target.GetTargetType() != TargetType.NoTarget)
                 {
-                    List<Direction> possibleDirections = Bot.Game.GetDirections(this.FindCenter(), this.Target.GetLocation());
+                    List<Direction> possibleDirections = Bot.Game.GetDirections(this.FindCenter(true), this.Target.GetLocation());
                     
                     Direction master;
                     if (possibleDirections.Count > 1)
@@ -231,7 +231,7 @@ namespace Britbot
                 return true;
             }
 
-            pete = Bot.Game.GetPirateOn(this.FindCenter());
+            pete = Bot.Game.GetPirateOn(this.FindCenter(false));
 
             Location[] structure = null;
 
@@ -265,7 +265,7 @@ namespace Britbot
         /// </summary>
         private void FormDictionary(Location[] structure = null)
         {
-            Location center = this.FindCenter();
+            Location center = this.FindCenter(false);
             
             if(structure == null)
             {
@@ -437,10 +437,11 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Find the center pirate in the group, which is the pirate closest to the average locationof the group
+        /// Find the center of the group
         /// </summary>
+        /// <param name="enforcePirate">if you ant the function to strictly return a location of a pirate or just the average location</param>
         /// <returns>The center pirate</returns>
-        private Location FindCenter()
+        private Location FindCenter(bool enforcePirate)
         {
             List<Pirate> myPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
 
@@ -455,19 +456,23 @@ namespace Britbot
             averageLocation.Col /= myPirates.Count;
             averageLocation.Row /= myPirates.Count;
 
-            /*
-            int minDistance = Bot.Game.GetCols() + Bot.Game.GetCols();
-            Pirate pete = null;
-
-            foreach (Pirate pirate in myPirates)
+            if(enforcePirate)
             {
-                int currDistance = Bot.Game.Distance(averageLocation, pirate.Loc);
-                if (currDistance < minDistance)
+                int minDistance = Bot.Game.GetCols() + Bot.Game.GetCols();
+                Pirate pete = null;
+
+                foreach (Pirate pirate in myPirates)
                 {
-                    minDistance = currDistance;
-                    pete = pirate;
+                    int currDistance = Bot.Game.Distance(averageLocation, pirate.Loc);
+                    if (currDistance < minDistance)
+                    {
+                        minDistance = currDistance;
+                        pete = pirate;
+                    }
                 }
-            }*/
+
+                averageLocation = pete.Loc;
+            }
 
             //Bot.Game.Debug("Center : {0}", averageLocation);
             return averageLocation;

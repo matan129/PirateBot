@@ -21,18 +21,16 @@
         /// </summary>
         static Commander()
         {
-            try
-            {
-
+            
                 Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
 
-                Groups = new List<Group>();
+                Commander.Groups = new List<Group>();
 
                 //TODO initial config should be better then this
 
                 if (Bot.Game.Islands().Count == 1)
                 {
-                    Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
+                    Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
                     return;
                 }
 
@@ -42,59 +40,60 @@
                 switch (Bot.Game.AllMyPirates().Count)
                 {
                     case 3:
-                        Groups.Add(new Group(0, 2));
-                        Groups.Add(new Group(2, 1));
+                        Commander.Groups.Add(new Group(0, 2));
+                        Commander.Groups.Add(new Group(2, 1));
                         break;
                     case 4:
                         if (Bot.Game.AllEnemyPirates().Count > 4)
                         {
-                            Groups.Add(new Group(0, 1));
-                            Groups.Add(new Group(1, 1));
-                            Groups.Add(new Group(2, 1));
-                            Groups.Add(new Group(3, 1));
+                            Commander.Groups.Add(new Group(0, 1));
+                            Commander.Groups.Add(new Group(1, 1));
+                            Commander.Groups.Add(new Group(2, 1));
+                            Commander.Groups.Add(new Group(3, 1));
                         }
                         else
                         {
-                            Groups.Add(new Group(0, 3));
-                            Groups.Add(new Group(3, 1));
+                            Commander.Groups.Add(new Group(0, 3));
+                            Commander.Groups.Add(new Group(3, 1));
                         }
                         break;
                     case 5:
-                        Groups.Add(new Group(0, 2));
-                        Groups.Add(new Group(2, 2));
-                        Groups.Add(new Group(4, 1));
+                        Commander.Groups.Add(new Group(0, 2));
+                        Commander.Groups.Add(new Group(2, 2));
+                        Commander.Groups.Add(new Group(4, 1));
                         break;
                     case 6:
 
-                        Groups.Add(new Group(0, 5));
-                        Groups.Add(new Group(5, 1));
+                        Commander.Groups.Add(new Group(0, 4));
+                        Commander.Groups.Add(new Group(4, 1));
+                        Commander.Groups.Add(new Group(5, 1));
                         break;
                     case 7:
-                        Groups.Add(new Group(0, 2));
-                        Groups.Add(new Group(2, 3));
-                        Groups.Add(new Group(5, 2));
+                        Commander.Groups.Add(new Group(0, 2));
+                        Commander.Groups.Add(new Group(2, 3));
+                        Commander.Groups.Add(new Group(5, 2));
                         break;
                     case 8:
                         if (Bot.Game.GetMyPirate(7).Loc.Row == 39)
                         {
-                            Groups.Add(new Group(0, 4));
-                            Groups.Add(new Group(4, 3));
-                            Groups.Add(new Group(7, 1));
+                            Commander.Groups.Add(new Group(0, 4));
+                            Commander.Groups.Add(new Group(4, 3));
+                            Commander.Groups.Add(new Group(7, 1));
                         }
                         else
                         {
-                            Groups.Add(new Group(0, 3));
-                            Groups.Add(new Group(3, 2));
-                            Groups.Add(new Group(5, 2));
-                            Groups.Add(new Group(7, 1));
+                            Commander.Groups.Add(new Group(0, 3));
+                            Commander.Groups.Add(new Group(3, 2));
+                            Commander.Groups.Add(new Group(5, 2));
+                            Commander.Groups.Add(new Group(7, 1));
                         }
                         break;
                     case 9:
-                        Groups.Add(new Group(0, 3));
-                        Groups.Add(new Group(3, 3));
-                        Groups.Add(new Group(6, 2));
-                        Groups.Add(new Group(8, 1));
-                        Groups.Add(new Group(0, 9));
+                        Commander.Groups.Add(new Group(0, 3));
+                        Commander.Groups.Add(new Group(3, 3));
+                        Commander.Groups.Add(new Group(6, 2));
+                        Commander.Groups.Add(new Group(8, 1));
+                        Commander.Groups.Add(new Group(0, 9));
                         break;
                     default:
                         /*for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
@@ -106,20 +105,13 @@
                         Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));*/
                         //Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
                         for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
-                            Groups.Add(new Group(i, 1));
+                            Commander.Groups.Add(new Group(i, 1));
                         break;
                 }
 
                 #endregion
 
-            }
-            catch (Exception ex)
-            {
-                Bot.Game.Debug("=============COMMANDER EXCEPTION===============");
-                Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
-                Bot.Game.Debug("=============COMMANDER EXCEPTION===============");
-            }
-
+            
         }
         
 
@@ -338,9 +330,9 @@
             }
             catch (Exception ex)
             {
-                Bot.Game.Debug("========COMMANDER EXCEPTION===========");
+                Bot.Game.Debug("====COMMANDER EXCEPTION====");
                 Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
-                Bot.Game.Debug("========COMMANDER EXCEPTION===========");
+                Bot.Game.Debug("====COMMANDER EXCEPTION====");
 
                 return null;
             }
