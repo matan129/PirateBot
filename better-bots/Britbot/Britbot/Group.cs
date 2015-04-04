@@ -21,7 +21,6 @@ namespace Britbot
         /// <param name="amount">How many pirates will be in the group</param>
         public Group(int index, int amount)
         {
-            Bot.Game.Debug("*******************************************");
             this.Pirates = new List<int>();
             this.Heading = new HeadingVector(0, 0);
             this.Priorities = new List<Score>();
@@ -30,14 +29,13 @@ namespace Britbot
             //get id and update counter
             this.Id = GroupCounter++;
 
+            Bot.Game.Debug("===============GROUP {0}===============", this.Id);
+
             for (; amount > 0; amount--)
             {
-                Bot.Game.Debug("Adding pirate at index {0} to this groups pirates", index + amount - 1);
                 this.Pirates.Add(index + amount - 1);
             }
-
-            Bot.Game.Debug("\n");
-
+            
             this.FormDictionary();
         }
 
@@ -111,15 +109,15 @@ namespace Britbot
                     if (pete.Loc.Col == formOrder.Value.Col && pete.Loc.Row == formOrder.Value.Row)
                     {
                         yield return new KeyValuePair<Pirate, Direction>(pete,Direction.NOTHING);
-                        Bot.Game.Debug("Skipping over " + pete);
+                        //Bot.Game.Debug("Skipping over " + pete);
                     }
                     else
                     {
-                        Bot.Game.Debug("Entering forming loop for {0} to go to {1}", pete, formOrder.Value);
+                        //Bot.Game.Debug("Entering forming loop for {0} to go to {1}", pete, formOrder.Value);
                         List<Direction> possibleDirections = Bot.Game.GetDirections(pete, formOrder.Value);
                         Direction dir = Direction.NOTHING;
 
-                        Bot.Game.Debug("Possible Directions: " + String.Join(",", possibleDirections));
+                        //Bot.Game.Debug("Possible Directions: " + String.Join(",", possibleDirections));
 
                         List<Direction> actualDirections = new List<Direction>();
 
@@ -283,7 +281,7 @@ namespace Britbot
                     catch (InvalidLocationException ex)
                     {
                         center = AdvancePivot(center);
-                        Bot.Game.Debug("New Center is " + center);
+                       // Bot.Game.Debug("New Center is " + center);
                     }
                 }
             }
@@ -293,7 +291,7 @@ namespace Britbot
             List<Pirate> groupPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
             groupPirates.Sort((b, a) => Bot.Game.Distance(a.Loc, center).CompareTo(Bot.Game.Distance(b.Loc, center)));
 
-            Bot.Game.Debug("Structure is: " + String.Join(",", (object[]) structure));
+            //Bot.Game.Debug("Structure is: " + String.Join(",", (object[]) structure));
 
             //Match a pirate for each location in the structure
             foreach (Pirate pirate in groupPirates)
@@ -339,8 +337,7 @@ namespace Britbot
         private Location[] GetStructure(Location pivot)
         {
             int requiredRing = (int) Math.Ceiling((decimal) (this.Pirates.Count - 1)/4);
-            Bot.Game.Debug("Required ring for this group with {0} pirates is #{1} for pivot {2}", this.Pirates.Count,
-                requiredRing, pivot);
+            //Bot.Game.Debug("Required ring for this group with {0} pirates is #{1} for pivot {2}", this.Pirates.Count,requiredRing, pivot);
 
             List<Location> rings = new List<Location>();
 
@@ -377,7 +374,7 @@ namespace Britbot
                 addRow--;
 
             pivot = new Location(pivot.Row + addRow, pivot.Col + addCol);
-            Bot.Game.Debug("#### Pivot advanced to " + pivot + " ####");
+            //Bot.Game.Debug("#### Pivot advanced to " + pivot + " ####");
             return pivot;
         }
 
@@ -389,7 +386,7 @@ namespace Britbot
         /// <returns></returns>
         private static List<Location> GetRing(Location pivot, int ringOrdinal)
         {
-            Bot.Game.Debug("Emitting Locations for ring #{0} from pivot {1}", ringOrdinal, pivot);
+            //Bot.Game.Debug("Emitting Locations for ring #{0} from pivot {1}", ringOrdinal, pivot);
 
             if (ringOrdinal >= 0)
             {
@@ -430,9 +427,9 @@ namespace Britbot
                 }
 
                 //Put the locations of the ring at the debug log
-                StringBuilder ringLocationsDesc = new StringBuilder();
+              /*  StringBuilder ringLocationsDesc = new StringBuilder();
                 ring.ForEach(x => ringLocationsDesc.Append(x + " "));
-                Bot.Game.Debug(ringLocationsDesc.ToString());
+                Bot.Game.Debug(ringLocationsDesc.ToString());*/
 
                 return ring;
             }
@@ -472,7 +469,7 @@ namespace Britbot
                 }
             }*/
 
-            Bot.Game.Debug("Center : {0}", averageLocation);
+            //Bot.Game.Debug("Center : {0}", averageLocation);
             return averageLocation;
         }
 
@@ -521,7 +518,7 @@ namespace Britbot
                 this.Priorities.Add(noTarget.GetScore(this));
             }
 
-            Bot.Game.Debug("Priorities Count: " + this.Priorities.Count);
+            //Bot.Game.Debug("Priorities Count: " + this.Priorities.Count);
         }
         /// <summary>
         /// Adds a pirate to this group, removing it from any other group it was in.

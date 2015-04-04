@@ -1,13 +1,13 @@
-﻿using System;
-using Pirates;
-using System.Threading;
-
-namespace Britbot
+﻿namespace Britbot
 {
+    using System;
     using System.Collections.Generic;
+    using System.Threading;
+    using Fallback;
+    using Pirates;
 
     /// <summary>
-    /// This class is a bot.
+    ///     This class is a bot.
     /// </summary>
     public class Bot : IPirateBot
     {
@@ -17,7 +17,61 @@ namespace Britbot
         public static IPirateGame Game { get; private set; }
 
         /// <summary>
-        /// Makes a move. Basically invokes the commander.
+        /// The moves the commander decided on
+        /// </summary>
+        private static Dictionary<Pirate, Direction> _movesDictionary = new Dictionary<Pirate, Direction>();
+
+        /// <summary>
+        /// The fallback moves the fallback bot generated
+        /// </summary>
+        private static Dictionary<Pirate, Direction> _fallbackMoves = new Dictionary<Pirate, Direction>();
+
+        /// <summary>
+        /// The thread that the commander runs on
+        /// </summary>
+        private static Thread _commanderThread;
+
+        /// <summary>
+        /// The thread the fallback bot runs on
+        /// </summary>
+        private static Thread _fallbackThread;
+
+        /// <summary>
+        /// Executes the commander with specified timeout, and the fallback in parallel
+        /// </summary>
+        /// <returns>if the commander is on time or not</returns>
+        private static bool ExecuteBot()
+        {
+            //setup the threads
+            Bot._commanderThread = new Thread(() => Bot._movesDictionary = Commander.Play());
+            Bot._fallbackThread = new Thread(() => Bot._fallbackMoves = FallbackBot.GetFallbackTurns());
+
+            //Start the threads simultaneously
+            Bot._commanderThread.Start();
+            Bot._fallbackThread.Start();
+
+            //Test if the commander is finished on time
+            bool inTime = Bot._commanderThread.Join((int) (Bot.Game.TimeRemaining()*0.5));
+            Bot._fallbackThread.Join();
+
+            //if it's stuck...
+            if (!inTime)
+            {
+                //..abort it and continue to the fallback code
+                Bot._commanderThread.Abort();
+
+                Bot.Game.Debug("=================TIMEOUT=======================");
+                Bot.Game.Debug("Commander timed out, switching to fallback code");
+                Bot.Game.Debug("=================TIMEOUT=======================");
+                
+            }
+            
+            //return if the commander is on time
+            return inTime;
+        }
+
+        /// <summary>
+        /// Invokes out bot. Yeah.
         /// </summary>
         /// <param name="state">The current game state</param>
         public void DoTurn(IPirateGame state)
@@ -25,85 +79,31 @@ namespace Britbot
             //update the game so other classes will get updated data
             Bot.Game = state;
 
-            //The amount of time per turn. Remember to leave time for fallback bot
-            int timeout = Bot.Game.TimeRemaining();
-
-            //A dictionary of moves that will be executed later
-            Dictionary<Pirate,Direction> allMoves = new Dictionary<Pirate, Direction>();
+            bool commanderOk = false;
 
             try
             {
-                /*
-                 * Begin the commander stuff with 85% of the time we have so there will be time for fallback
+                /*                 
                  * NOTE: I changed the commander and Group classes so the do not move anything by themselves, they just return
                  * moving instructions in the form of a Dictionary<Pirate,Direction>. This is because we do not want to abort the commander 
-                 * after it moved couple of pirates but not all of them           
+                 * after it moved couple of pirates but not all of them                            
                  */
-                allMoves = Bot.ExecuteCommander((int)(timeout * 0.85));
+                commanderOk = Bot.ExecuteBot();
             }
             catch (Exception ex)
             {
-                Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                Bot.Game.Debug("========================ERROR==========================");
                 Bot.Game.Debug("Bot almost crashed because of exception: " + ex.Message);
-                Bot.Game.Debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                Bot.Game.Debug("========================ERROR==========================");
             }
             finally
             {
-                if (allMoves == null)
-                    allMoves = Bot.DoFallback();
-
                 //Actually move stuff
-                Mover.MoveAll(allMoves);
-            }
-            
-        }
-
-        /// <summary>
-        /// Executes the commander with specified timeout
-        /// </summary>
-        /// <param name="timeout">timeout in milliseconds</param>
-        public static Dictionary<Pirate,Direction> ExecuteCommander(int timeout)
-        {
-            Dictionary<Pirate,Direction> movesDictionary = new Dictionary<Pirate, Direction>();
-
-            //Setup a thread which will start the Commander.Play method when the it starts
-            Thread commanderThread = new Thread(() => movesDictionary = Commander.Play());
-
-            //Start the thread
-            commanderThread.Start();
-
-            //Test if the commander is finished on time
-            bool inTime = commanderThread.Join(timeout);
-            
-            //if it's stuck...
-            if (!inTime)
-            {
-                //..abort it and continue to the fallback code
-                commanderThread.Abort();
-
-                Bot.Game.Debug("###############################################");
-                Bot.Game.Debug("Commander timed out, switching to fallback code");
-                Bot.Game.Debug("###############################################");
-
-                return null;
-            }
-            else
-            {
-                return movesDictionary;
-            }
-        }
-
-        static Dictionary<Pirate,Direction> DoFallback()
-        {
-            Dictionary<Pirate, Direction> fallback= new Dictionary<Pirate, Direction>();
-            foreach (Pirate pirate in Bot.Game.AllMyPirates())
-            {
-                if(Bot.Game.GetTurn()%2 == 0)
-                    fallback.Add(pirate,Direction.NORTH);
+                if(commanderOk)
+                    Mover.MoveAll(Bot._movesDictionary);
                 else
-                    fallback.Add(pirate, Direction.SOUTH);
-            }   
-            return fallback;
+                    Mover.MoveAll(Bot._fallbackMoves);
+            }
         }
     }
 }
