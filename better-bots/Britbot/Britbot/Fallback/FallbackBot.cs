@@ -23,8 +23,8 @@
                 else
                     fallback.Add(pirate, Direction.SOUTH);
             }
-
-            Bot.Game.Debug("========FALLBACK READY========");
+            
+            Bot.Game.Debug("===============FALLBACK READY=================");
 
             return fallback;
         }

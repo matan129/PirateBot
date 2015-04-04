@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Security;
+    using System.Security.Permissions;
     using System.Threading;
     using Fallback;
     using Pirates;
@@ -30,11 +32,12 @@
         /// Executes the commander with specified timeout, and the fallback in parallel
         /// </summary>
         /// <returns>if the commander is on time or not</returns>
+        [SecurityPermission(SecurityAction.Demand)]
         private static bool ExecuteBot()
         {
             //clear the last moves
-            Bot._fallbackMoves.Clear();
-            Bot._movesDictionary.Clear();
+            Bot._fallbackMoves = new Dictionary<Pirate, Direction>();
+            Bot._movesDictionary = new Dictionary<Pirate, Direction>();
 
             //setup the threads
             Thread commanderThread = new Thread(() => Bot._movesDictionary = Commander.Play());
@@ -46,13 +49,14 @@
 
             //Test if the commander is finished on time
             bool inTime = commanderThread.Join((int) (Bot.Game.TimeRemaining()*0.5));
+			
             //Bot._fallbackThread.Join();
 
             //if it's stuck...
             if (!inTime)
             {
-                //..abort it and continue to the fallback code
-                //commanderThread.Abort();
+                //..suspend it forever and continue to the fallback code
+                
 
                 Bot.Game.Debug("=================TIMEOUT=======================");
                 Bot.Game.Debug("Commander timed out, switching to fallback code");
@@ -73,6 +77,9 @@
             //update the game so other classes will get updated data
             Bot.Game = state;
 
+            SmartIsland.Init();
+            Commander.Init();
+            
             bool commanderOk = false;
 
             try

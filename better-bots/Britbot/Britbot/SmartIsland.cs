@@ -178,11 +178,16 @@ namespace Britbot
 
         #region constructors
 
+        private static bool _initFlag = false;
+
         /// <summary>
         /// A static constructor which initializes the static island list on the first reference to a SmartIsland
         /// </summary>
-        static SmartIsland()
+        public static void Init()
         {
+            if(SmartIsland._initFlag) return;
+
+            SmartIsland._initFlag = true;
             SmartIsland.IslandList = new List<SmartIsland>();
             foreach (Island island in Bot.Game.Islands())
             {

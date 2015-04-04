@@ -15,11 +15,16 @@
         /// </summary>
         public static List<Group> Groups { get; private set; }
 
+
+        private static bool _initFlag = false;
         /// <summary>
         ///     This static constructor will run once and initialize the commander
         /// </summary>
-        static Commander()
+        public static void Init()
         {
+            if (Commander._initFlag) return;
+
+            Commander._initFlag = true;
             try
             {
                 Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
@@ -63,9 +68,17 @@
                         Commander.Groups.Add(new Group(4, 1));
                         break;
                     case 6:
-                        Commander.Groups.Add(new Group(0, 3));
-                        Commander.Groups.Add(new Group(3, 2));
-                        Commander.Groups.Add(new Group(3, 1));
+                        if(Bot.Game.AllEnemyPirates().Count > 6)
+                        {
+                            Commander.Groups.Add(new Group(0, 5));
+                            Commander.Groups.Add(new Group(5, 1));
+                        }
+                        else
+                        {
+                            Commander.Groups.Add(new Group(0, 1));
+                            Commander.Groups.Add(new Group(1, 3));
+                            Commander.Groups.Add(new Group(4, 2));
+                        }
                         break;
                     case 7:
                         Commander.Groups.Add(new Group(0, 2));
@@ -107,14 +120,14 @@
                             Commander.Groups.Add(new Group(i, 1));
                         break;
                 }
-
+                
                 #endregion
             }
             catch (Exception ex)
             {
-                Bot.Game.Debug("=============COMMANDER EXCEPTION===============");
+                Bot.Game.Debug("==========COMMANDER EXCEPTION============");
                 Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
-                Bot.Game.Debug("=============COMMANDER EXCEPTION===============");
+                Bot.Game.Debug("==========COMMANDER EXCEPTION============");
             }
         }
 
@@ -299,11 +312,11 @@
             }
             catch (Exception ex)
             {
-                Bot.Game.Debug("=============COMMANDER EXCEPTION===============");
+                Bot.Game.Debug("==========COMMANDER EXCEPTION============");
                 Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
-                Bot.Game.Debug("=============COMMANDER EXCEPTION===============");
-
-                return null;
+                Bot.Game.Debug("==========COMMANDER EXCEPTION============");
+            
+                return new Dictionary<Pirate, Direction>();
             }
         }
 
