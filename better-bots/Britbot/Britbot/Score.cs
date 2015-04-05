@@ -1,29 +1,44 @@
-﻿using System;
+﻿#region Usings
+
+using System;
+
+#endregion
 
 namespace Britbot
 {
     /// <summary>
-    /// A class represent information about a target's score in relation to a specific group
+    ///     A class represent information about a target's score in relation to a specific group
     /// </summary>
     public class Score : IComparable, IComparable<Score>
     {
+        #region Fields & Properies
+
         /// <summary>
-        /// Time until completion
+        ///     Time until completion
         /// </summary>
         public double Eta;
 
         /// <summary>
-        /// The target being scored
+        ///     The target being scored
         /// </summary>
         public ITarget Target;
 
         /// <summary>
-        /// target's type
+        ///     target's type
         /// </summary>
         public TargetType Type;
 
         /// <summary>
-        /// Holds the target score relative to the attacker
+        ///     value of the island if island, number of ships if ship
+        /// </summary>
+        public double Value { get; private set; }
+
+        #endregion
+
+        #region Constructors & Initializers
+
+        /// <summary>
+        ///     Holds the target score relative to the attacker
         /// </summary>
         /// <param name="target">The target this score relates to</param>
         /// <param name="type">The type of the target (island or enemy group)</param>
@@ -37,13 +52,12 @@ namespace Britbot
             this.Eta = eta;
         }
 
-        /// <summary>
-        /// value of the island if island, number of ships if ship
-        /// </summary>
-        public double Value { get; private set; }
+        #endregion
+
+        #region Interface Implementations
 
         /// <summary>
-        /// Used to compare two score elements
+        ///     Used to compare two score elements
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -59,18 +73,20 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Used to compare two score elements
+        ///     Used to compare two score elements
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
         public int CompareTo(Score other)
         {
-            return (this.Value*10 - this.Eta).CompareTo((other.Value*10 - other.Eta));
+            return (this.Value * 10 - this.Eta).CompareTo((other.Value * 10 - other.Eta));
         }
+
+        #endregion
     }
 
     /// <summary>
-    /// An enum represent the type of the target of a group
+    ///     An enum represent the type of the target of a group
     /// </summary>
     public enum TargetType
     {

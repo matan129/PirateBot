@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
+﻿#region Usings
+
+using System.Collections.Generic;
 using Pirates;
+
+#endregion
 
 namespace Britbot
 {
     /// <summary>
-    /// This class provied various extension methods for the IPirateGame interface
+    ///     This class provied various extension methods for the IPirateGame interface
     /// </summary>
     public static class Extensions
     {
         /// <summary>
-        /// Gets a SmartIsland by index, as we would do with a normal Island
+        ///     Gets a SmartIsland by index, as we would do with a normal Island
         /// </summary>
         /// <param name="game"></param>
         /// <param name="id">The SmartIsland's ID, which is equal to the ID of the normal island it encapsulates</param>
@@ -23,7 +27,6 @@ namespace Britbot
         {
             return Bot.Game.Distance(loc, isle.Loc);
         }
-
 
         public static Direction Oppsite(this Direction dir)
         {
@@ -47,7 +50,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Gets the list of SmartIsland like we would normally do with normal Islands
+        ///     Gets the list of SmartIsland like we would normally do with normal Islands
         /// </summary>
         /// <param name="game"></param>
         /// <returns>A list containing all the SmartIslands in game</returns>
@@ -57,8 +60,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Gets a list of directions to move from a pirate to another pirate
-        /// Note that this method is NOT smart, its output is location only based
+        ///     Gets a list of directions to move from a pirate to another pirate
+        ///     Note that this method is NOT smart, its output is location only based
         /// </summary>
         /// <param name="game"></param>
         /// <param name="a">the moving pirate</param>
@@ -79,7 +82,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Tests if location is actually passable
+        ///     Tests if location is actually passable
         /// </summary>
         /// <param name="loc"></param>
         /// <returns></returns>
@@ -89,7 +92,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Adds two locations togther
+        ///     Adds two locations togther
         /// </summary>
         /// <param name="loc1"></param>
         /// <param name="loc2"></param>
@@ -100,7 +103,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Subtracts a location from the location calling this method
+        ///     Subtracts a location from the location calling this method
         /// </summary>
         /// <param name="loc1"></param>
         /// <param name="loc2"></param>

@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿#region Usings
+
+using System;
 using Pirates;
+
+#endregion
 
 namespace Britbot
 {
     /// <summary>
-    /// this class will deal with geographical calculations and direction calculation
+    ///     this class will deal with geographical calculations and direction calculation
     /// </summary>
-    class Navigator
+    internal static class Navigator
     {
         /// <summary>
-        /// Given your location, you current direction and the target's location, this method
-        /// calculates the best direction for you to move in order to simulate a straight line of
-        /// motion to to your target
+        ///     Given your location, you current direction and the target's location, this method
+        ///     calculates the best direction for you to move in order to simulate a straight line of
+        ///     motion to to your target
         /// </summary>
         /// <param name="myLoc">Location of the one calling for direction</param>
         /// <param name="myHeading">current direction</param>
@@ -53,10 +54,10 @@ namespace Britbot
         }
 
         /// <summary>
-        /// This function calculates the directions to a moving target
-        /// it does so by solving the intersection point equation as appears in 
-        /// calculation sheet 1 and then using the above CalculateDirectionToStationeryTarget
-        /// i am very likely to be wrong here
+        ///     This function calculates the directions to a moving target
+        ///     it does so by solving the intersection point equation as appears in
+        ///     calculation sheet 1 and then using the above CalculateDirectionToStationeryTarget
+        ///     i am very likely to be wrong here
         /// </summary>
         /// <param name="myLoc">location of the one asking for directions</param>
         /// <param name="myHeading">direction vector of the one looking for direction</param>
@@ -84,9 +85,9 @@ namespace Britbot
         }
 
         /// <summary>
-        /// This function should solve equation (*) in calculation sheet 2
-        /// I am not sure if this works, the solution was annoying as hell, hope i
-        /// did everything right
+        ///     This function should solve equation (*) in calculation sheet 2
+        ///     I am not sure if this works, the solution was annoying as hell, hope i
+        ///     did everything right
         /// </summary>
         /// <param name="a">|d|_{1}</param>
         /// <param name="b">t_{x} - u_{x}</param>
@@ -97,7 +98,7 @@ namespace Britbot
         public static double SolveStupidEquation(double a, double b, double c, double d, double e)
         {
             //TODO fix this
-            int[] signs = { -1, 1 };
+            int[] signs = {-1, 1};
             //there are 4 options, going over them 2 by 2
             for (int i = 0; i <= 1; i++) //i is the sign of c in r
             {
@@ -125,8 +126,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// calculates distance (in turns) from ship's trajectory to a given island location (point)
-        /// uses the calculation in calculation sheet 3
+        ///     calculates distance (in turns) from ship's trajectory to a given island location (point)
+        ///     uses the calculation in calculation sheet 3
         /// </summary>
         /// <param name="point">the point outside the trajectory (island)</param>
         /// <param name="linePoint">the point on the trajectory (ship)</param>
@@ -146,24 +147,23 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Given two pirates (id) it tells you who is "more" in a specific direction than the other
+        ///     Given two pirates (id) it tells you who is "more" in a specific direction than the other
         /// </summary>
         /// <param name="p1">first pirate</param>
         /// <param name="p2">second pirate</param>
         /// <param name="hv">the direction we compare in</param>
         /// <returns></returns>
-        public int ComparePirateByDirection(int p1, int p2, HeadingVector hv)
+        public static int ComparePirateByDirection(int p1, int p2, HeadingVector hv)
         {
             //calculate both pirates position on the line created by hv
             double p1Dist = CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p1).Loc, hv.Orthogonal());
             double p2Dist = CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p2).Loc, hv.Orthogonal());
 
-            return (int)(p2Dist - p1Dist);
+            return (int) (p2Dist - p1Dist);
         }
-       
+
         /// <summary>
-        /// This method calculates if you would be able to reach an enemy group or it would run away
-        /// 
+        ///     This method calculates if you would be able to reach an enemy group or it would run away
         /// </summary>
         /// <param name="group">your location</param>
         /// <param name="target">Enemy group location</param>
@@ -175,7 +175,7 @@ namespace Britbot
             HeadingVector diffVector = HeadingVector.CalcDifference(target, group);
 
             double cosAlpha = diffVector.Normalize() * targetHeading.Normalize();
-            double sacleCoeff = diffVector.Norm() * cosAlpha ;
+            double sacleCoeff = diffVector.Norm() * cosAlpha;
 
             Location maxIntersection = HeadingVector.AddvanceByVector(target, sacleCoeff * targetHeading.Normalize());
             //----------------------------------------------------------------------------------------

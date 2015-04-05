@@ -1,28 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Usings
+
+using System;
 using Pirates;
+
+#endregion
 
 namespace Britbot
 {
     /// <summary>
-    /// This class accumulates direction over large number of turns
-    /// we assume (0,0) is the left top corner of the screen and that
+    ///     This class accumulates direction over large number of turns
+    ///     we assume (0,0) is the left top corner of the screen and that
     /// </summary>
     public class HeadingVector
     {
+        #region Fields & Properies
+
         /// <summary>
-        /// Positive X value means left and vice-versa
+        ///     Positive X value means left and vice-versa
         /// </summary>
         public double X { get; private set; }
 
         /// <summary>
-        /// Positive Y value means down and vice-versa
+        ///     Positive Y value means down and vice-versa
         /// </summary>
         public double Y { get; private set; }
 
+        #endregion
+
+        #region Constructors & Initializers
+
         /// <summary>
-        /// Conversion constructor: takes a direction of the game and turns it into 
-        /// a vector
+        ///     Conversion constructor: takes a direction of the game and turns it into
+        ///     a vector
         /// </summary>
         /// <param name="d">The game direction class(namely south,east,west...)</param>
         public HeadingVector(Direction d = Direction.NOTHING)
@@ -53,7 +62,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Simple assignment constructor
+        ///     Simple assignment constructor
         /// </summary>
         /// <param name="x">X value</param>
         /// <param name="y">Y Value</param>
@@ -63,9 +72,11 @@ namespace Britbot
             this.Y = y;
         }
 
+        #endregion
+
         /// <summary>
-        /// regular set function for convenience
-        /// sets both X and Y simultaneously
+        ///     regular set function for convenience
+        ///     sets both X and Y simultaneously
         /// </summary>
         /// <param name="x">X value, default is 0</param>
         /// <param name="y">Y value, default is 0</param>
@@ -76,7 +87,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Copies the parameters of a given heading vector
+        ///     Copies the parameters of a given heading vector
         /// </summary>
         /// <param name="hv">the heading vector to copy from</param>
         public void SetCoordinates(HeadingVector hv)
@@ -86,22 +97,22 @@ namespace Britbot
         }
 
         /// <summary>
-        /// calculates the dot product for two vectors
-        /// used to check if angles are sharp or doll (if they are the correct terms)
+        ///     calculates the dot product for two vectors
+        ///     used to check if angles are sharp or doll (if they are the correct terms)
         /// </summary>
         /// <param name="hv1">first vector</param>
         /// <param name="hv2">second vector</param>
         /// <returns>the scalar product</returns>
         public static double operator *(HeadingVector hv1, HeadingVector hv2)
         {
-            return hv1.X*hv2.X + hv1.Y*hv2.Y;
+            return hv1.X * hv2.X + hv1.Y * hv2.Y;
         }
 
         /// <summary>
-        /// this static method updates the direction based on the new one
-        /// if the new direction is not to far from the one given (up to 90 degrees)
-        /// it simply adds to the previous count vector
-        /// otherwise, we assume there was a change in course and so we start again
+        ///     this static method updates the direction based on the new one
+        ///     if the new direction is not to far from the one given (up to 90 degrees)
+        ///     it simply adds to the previous count vector
+        ///     otherwise, we assume there was a change in course and so we start again
         /// </summary>
         /// <param name="hv1">the main direction, the one we comparing the other to</param>
         /// <param name="d">the new direction</param>
@@ -119,7 +130,7 @@ namespace Britbot
             //otherwise normal vector addition
             //WOW math is useful
             //I thought you HATED the applied math department
-            if (hv1*hv2 < 0)
+            if (hv1 * hv2 < 0)
             {
                 newHv = hv2;
             }
@@ -131,26 +142,23 @@ namespace Britbot
             //return the new heading vector
             return newHv;
         }
+
         /// <summary>
-        /// same as the previous function just used as a method
+        ///     same as the previous function just used as a method
         /// </summary>
         /// <param name="Dir">new Direction</param>
         /// <returns></returns>
         public HeadingVector adjustHeading(Direction Dir)
         {
             //just use the existing function
-            this.SetCoordinates(HeadingVector.adjustHeading(this, Dir));
+            this.SetCoordinates(adjustHeading(this, Dir));
 
             //return this for a+b+c calculations
             return this;
         }
 
-        
-
-
-
         /// <summary>
-        /// Calculates the direction vector between two points
+        ///     Calculates the direction vector between two points
         /// </summary>
         /// <param name="source">the point of beginning</param>
         /// <param name="target">the target (end point)</param>
@@ -158,11 +166,12 @@ namespace Britbot
         public static HeadingVector CalcDifference(Location source, Location target)
         {
             //assigning new variable
-            return new HeadingVector(target.Col - source.Col,target.Row - source.Row);
+            return new HeadingVector(target.Col - source.Col, target.Row - source.Row);
         }
+
         /// <summary>
-        /// given your location and your heading this function calculates your new position after 
-        /// going with the vector. consider the bounderies of the game
+        ///     given your location and your heading this function calculates your new position after
+        ///     going with the vector. consider the bounderies of the game
         /// </summary>
         /// <param name="loc">your location</param>
         /// <param name="hv">your heading</param>
@@ -170,9 +179,9 @@ namespace Britbot
         public static Location AddvanceByVector(Location loc, HeadingVector hv)
         {
             //calculate new col
-            int col = loc.Col + (int)hv.X;
-            int row = loc.Row + (int)hv.Y;
-            
+            int col = loc.Col + (int) hv.X;
+            int row = loc.Row + (int) hv.Y;
+
             //check if out of boundries
             //first check negative valuse
             col = Math.Max(col, 0);
@@ -187,8 +196,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Calculates a new vector perpendicular to the given one
-        /// it simply rotates 90 degrees anti clockwise
+        ///     Calculates a new vector perpendicular to the given one
+        ///     it simply rotates 90 degrees anti clockwise
         /// </summary>
         /// <returns>A vector perpendicular to the given vector</returns>
         public HeadingVector Orthogonal()
@@ -200,18 +209,18 @@ namespace Britbot
         //------------NORMS------------
 
         /// <summary>
-        /// Returns the square of the vector's length
-        /// might be used to normalize vectors for some computation
+        ///     Returns the square of the vector's length
+        ///     might be used to normalize vectors for some computation
         /// </summary>
         /// <returns>the length of the vector squared</returns>
         public double NormSquared()
         {
-            return X*X + Y*Y;
+            return X * X + Y * Y;
         }
 
         /// <summary>
-        /// returns the length of the vector (as a double)
-        /// might be used to normalize vectors for some computation
+        ///     returns the length of the vector (as a double)
+        ///     might be used to normalize vectors for some computation
         /// </summary>
         /// <returns>the length of the vector</returns>
         public double Norm()
@@ -220,7 +229,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// returns a new normalized vector
+        ///     returns a new normalized vector
         /// </summary>
         /// <returns>new normalized vector</returns>
         public HeadingVector Normalize()
@@ -229,8 +238,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// returns the sum of X and Y meaning the duration of time
-        /// of the calculation. this can be used as a creditability measure
+        ///     returns the sum of X and Y meaning the duration of time
+        ///     of the calculation. this can be used as a creditability measure
         /// </summary>
         /// <returns>duration of time since last nullifying data</returns>
         public double Norm1()
@@ -239,7 +248,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// To string function...
+        ///     To string function...
         /// </summary>
         /// <returns>a string :)</returns>
         public override string ToString()
@@ -248,34 +257,12 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Enumerates the location determined by the direction if this heading vector and the pivot supplied
+        ///     Enumerates the location determined by the direction if this heading vector and the pivot supplied
         /// </summary>
         /// <param name="originPivot">The pivot to refer to</param>
         /// <returns>a collection of the relevant locations</returns>
-        /*public IEnumerable<Location> EnumerateLocations(Location originPivot)
-        {
-            //A function that determines if a location is out of the map's boundaries
-            Func<Location, bool> isOutOfBoundaries = delegate { return false; };
-
-            //A function that gets the next location
-            Func<Location, Location> getNextLocation =
-                location => new Location(location.Row + this.X, location.Col + this.Y);
-
-            //Emit new location while the location is not our of the map
-            while (!isOutOfBoundaries.Invoke(getNextLocation.Invoke(originPivot)))
-            {
-                originPivot = getNextLocation.Invoke(originPivot);
-
-                yield return originPivot;
-            }
-        }*/
-
-        
-
-        #region operators
-
         /// <summary>
-        /// Check if the two objects are the same
+        ///     Check if the two objects are the same
         /// </summary>
         /// <param name="other">Other HeadingVector to compare to</param>
         /// <returns>true if equal and false otherwise</returns>
@@ -285,33 +272,28 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Check if the two objects are the same
+        ///     Check if the two objects are the same
         /// </summary>
         /// <param name="obj">Other object to compare to</param>
         /// <returns>true if equal and false otherwise</returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            if (obj.GetType() != this.GetType())
+                return false;
             return Equals((HeadingVector) obj);
         }
 
         /// <summary>
-        /// Get a hash code for this instance. Should be use by system sorting and what not.
-        /// ReSharper generated code
+        ///     Get a hash code for this instance. Should be use by system sorting and what not.
+        ///     ReSharper generated code
         /// </summary>
         /// <returns>the hash code for this instance of HeadingVector</returns>
-        /*public override int GetHashCode()
-        {
-            unchecked
-            {
-                return (X*397) ^ Y;
-            }
-        }*/
-
         /// <summary>
-        /// checks if two vectors are the same: compares both entries
+        ///     checks if two vectors are the same: compares both entries
         /// </summary>
         /// <param name="hv1">first vector</param>
         /// <param name="hv2">second vector</param>
@@ -322,7 +304,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// checks if two vectors are not the same: compares both entries
+        ///     checks if two vectors are not the same: compares both entries
         /// </summary>
         /// <param name="hv1">first vector</param>
         /// <param name="hv2">second vector</param>
@@ -333,7 +315,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// regular "algebraic" sum of two vectors
+        ///     regular "algebraic" sum of two vectors
         /// </summary>
         /// <param name="hv1">first vector</param>
         /// <param name="hv2">second vector</param>
@@ -351,7 +333,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// regular "algebraic" difference between two vectors
+        ///     regular "algebraic" difference between two vectors
         /// </summary>
         /// <param name="hv1">first vector</param>
         /// <param name="hv2">second vector</param>
@@ -369,7 +351,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// just scalar multipication
+        ///     just scalar multipication
         /// </summary>
         /// <param name="scalar">a scalar</param>
         /// <param name="hv">a vector</param>
@@ -381,7 +363,5 @@ namespace Britbot
 
             return newHv;
         }
-
-        #endregion
     }
 }

@@ -1,23 +1,76 @@
-﻿using System;
+﻿#region Usings
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using Pirates;
 
+#endregion
+
 namespace Britbot
 {
-    using System.Runtime.CompilerServices;
-
     /// <summary>
-    /// Represents a structure of few of our pirates that have a common goal
+    ///     Represents a structure of few of our pirates that have a common goal
     /// </summary>
     public class Group
     {
-        #region constructor
+        #region Fields & Properies
 
         /// <summary>
-        /// Creates a new group with set amount of ships (without thinking to much)
+        ///     The Group ID number
+        ///     useful for debugging
+        /// </summary>
+        public readonly int Id;
+
+        private int _formTurnsAttempt;
+
+        /// <summary>
+        ///     Direction of the group to make navigation more precise
+        /// </summary>
+        public HeadingVector Heading { get; private set; }
+
+        /// <summary>
+        ///     List of the indexes of the pirates in this group
+        /// </summary>
+        public List<int> Pirates { get; private set; }
+
+        /// <summary>
+        ///     The target of the Group
+        /// </summary>
+        public ITarget Target { get; private set; }
+
+        /// <summary>
+        ///     The group's role (i.e. destroyer or attacker)
+        /// </summary>
+        public GroupRole Role { get; private set; }
+
+        /// <summary>
+        ///     List of priorities for this group
+        /// </summary>
+        public List<Score> Priorities { get; private set; }
+
+        /// <summary>
+        ///     A thread for complex calculations that can be ran in parallel to other stuff
+        /// </summary>
+        public Thread CalcThread { get; private set; }
+
+        /// <summary>
+        ///     static member to give each group a unique id based on its number of creation
+        /// </summary>
+        public static int GroupCounter { get; private set; }
+
+        /// <summary>
+        ///     The required location for each pirate in the group to get to attack structure
+        /// </summary>
+        public Dictionary<int, Location> FormOrders { get; private set; }
+
+        #endregion
+
+        #region Constructors & Initializers
+
+        /// <summary>
+        ///     Creates a new group with set amount of ships (without thinking to much)
         /// </summary>
         /// <param name="index">The stating index of the fist pirate in the group</param>
         /// <param name="amount">How many pirates will be in the group</param>
@@ -29,23 +82,23 @@ namespace Britbot
             this.Role = new GroupRole();
 
             //get id and update counter
-            this.Id = Group.GroupCounter++;
-            
+            this.Id = GroupCounter++;
+
             Bot.Game.Debug("===================GROUP {0}===================", this.Id);
 
             for (; amount > 0; amount--)
             {
                 this.Pirates.Add(index + amount - 1);
             }
-            
+
             this.FormDictionary();
         }
 
         #endregion
 
         /// <summary>
-        /// Sets the target of the group, while doing so also resets the heading vector
-        /// if there is need (meaning if we didn't choose the same target again).
+        ///     Sets the target of the group, while doing so also resets the heading vector
+        ///     if there is need (meaning if we didn't choose the same target again).
         /// </summary>
         /// <param name="target">the new target</param>
         public void SetTarget(ITarget target)
@@ -56,7 +109,7 @@ namespace Britbot
                 this.Target = target;
                 this.Heading.SetCoordinates();
             }
-            else if (!object.Equals(this.Target, target))
+            else if (!Equals(this.Target, target))
             {
                 this.Target = target;
                 this.Heading.SetCoordinates();
@@ -64,7 +117,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Returns the average location for this group
+        ///     Returns the average location for this group
         /// </summary>
         /// <returns>Returns the average location for this group</returns>
         public Location GetLocation()
@@ -84,7 +137,7 @@ namespace Britbot
 
             try
             {
-                return new Location(y/this.Pirates.Count, x/this.Pirates.Count);
+                return new Location(y / this.Pirates.Count, x / this.Pirates.Count);
             }
             catch (Exception)
             {
@@ -93,10 +146,10 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Decides where to move each pirate in the group
+        ///     Decides where to move each pirate in the group
         /// </summary>
         /// <returns>A list that matches each pirate in the group a location to move to</returns>
-        public IEnumerable<KeyValuePair<Pirate,Direction>> GetGroupMoves()
+        public IEnumerable<KeyValuePair<Pirate, Direction>> GetGroupMoves()
         {
             int tryAlternateDirection = Bot.Game.GetTurn() % 2;
 
@@ -105,7 +158,7 @@ namespace Britbot
             //So we don't have to explicitly keep a list of the moves
             if (!this.IsFormed())
             {
-                if (this._formTurnsAttempt > this.Pirates.Count*2)
+                if (this._formTurnsAttempt > this.Pirates.Count * 2)
                     this.FormDictionary();
 
                 this._formTurnsAttempt++;
@@ -115,7 +168,7 @@ namespace Britbot
                     Pirate pete = Bot.Game.GetMyPirate(formOrder.Key);
                     if (pete.Loc.Col == formOrder.Value.Col && pete.Loc.Row == formOrder.Value.Row)
                     {
-                        yield return new KeyValuePair<Pirate, Direction>(pete,Direction.NOTHING);
+                        yield return new KeyValuePair<Pirate, Direction>(pete, Direction.NOTHING);
                         //Bot.Game.Debug("Skipping over " + pete);
                     }
                     else
@@ -145,32 +198,32 @@ namespace Britbot
                 if (this.Target.GetTargetType() != TargetType.NoTarget)
                 {
                     List<Direction> possibleDirections = Bot.Game.GetDirections(this.FindCenter(true),
-                                                                                this.Target.GetLocation());
+                        this.Target.GetLocation());
                     List<Direction> filteredDirections = new List<Direction>(possibleDirections.Count);
-                    
+
                     foreach (Direction dir in possibleDirections)
                     {
                         if (this.Pirates.All(p =>
-                                                 {
-                                                     Pirate pete = Bot.Game.GetMyPirate(p);
-                                                     if (Bot.Game.IsPassable(Bot.Game.Destination(pete, dir)))
-                                                         return true;
-                                                     return false;
-                                                 }))
-                           filteredDirections.Add(dir);
+                        {
+                            Pirate pete = Bot.Game.GetMyPirate(p);
+                            if (Bot.Game.IsPassable(Bot.Game.Destination(pete, dir)))
+                                return true;
+                            return false;
+                        }))
+                            filteredDirections.Add(dir);
                     }
 
 
                     Direction master = Direction.NOTHING;
                     Location targetLoc = this.Target.GetLocation();
 
-                    if(this.Pirates.Any(i =>
-                                        {
-                                            Pirate p = Bot.Game.GetMyPirate(i);
-                                            if(p.Loc == targetLoc)
-                                                return true;
-                                            return false;
-                                        }))
+                    if (this.Pirates.Any(i =>
+                    {
+                        Pirate p = Bot.Game.GetMyPirate(i);
+                        if (p.Loc == targetLoc)
+                            return true;
+                        return false;
+                    }))
                         master = Direction.NOTHING;
                     if (filteredDirections.Count > 1)
                         master = filteredDirections[tryAlternateDirection];
@@ -183,12 +236,12 @@ namespace Britbot
                             Direction opposite = dir.Oppsite();
 
                             if (this.Pirates.All(p =>
-                                                 {
-                                                     Pirate pete = Bot.Game.GetMyPirate(p);
-                                                     if (Bot.Game.IsPassable(Bot.Game.Destination(pete, opposite)))
-                                                         return true;
-                                                     return false;
-                                                 }))
+                            {
+                                Pirate pete = Bot.Game.GetMyPirate(p);
+                                if (Bot.Game.IsPassable(Bot.Game.Destination(pete, opposite)))
+                                    return true;
+                                return false;
+                            }))
                             {
                                 master = opposite;
                                 break;
@@ -197,7 +250,7 @@ namespace Britbot
                     }
 
                     myPirates.Sort(
-                                   (b, a) => Bot.Game.Distance(a.Loc, targetLoc).CompareTo(Bot.Game.Distance(b.Loc, targetLoc)));
+                        (b, a) => Bot.Game.Distance(a.Loc, targetLoc).CompareTo(Bot.Game.Distance(b.Loc, targetLoc)));
 
                     foreach (Pirate myPirate in myPirates)
                     {
@@ -214,19 +267,17 @@ namespace Britbot
             }
         }
 
-        private int _formTurnsAttempt;
-
         /// <summary>
-        /// Return the percent of lost pirates in this group
+        ///     Return the percent of lost pirates in this group
         /// </summary>
         /// <returns></returns>
         private double CasualtiesPercent()
         {
-            return 100*(this.Pirates.Count(p => Bot.Game.GetMyPirate(p).IsLost)/this.Pirates.Count);
+            return 100 * (this.Pirates.Count(p => Bot.Game.GetMyPirate(p).IsLost) / this.Pirates.Count);
         }
 
         /// <summary>
-        /// Checks if the group is formed
+        ///     Checks if the group is formed
         /// </summary>
         /// <returns></returns>
         private bool IsFormed()
@@ -283,9 +334,9 @@ namespace Britbot
             {
                 return false;
             }
-            
+
             int emptyCells = 0;
-            
+
             foreach (Location loc in structureFull)
             {
                 Pirate p = Bot.Game.GetPirateOn(loc);
@@ -293,20 +344,20 @@ namespace Britbot
                     emptyCells++;
             }
 
-            if(emptyCells == structureFull.Length - this.Pirates.Count)
+            if (emptyCells == structureFull.Length - this.Pirates.Count)
                 return true;
             return false;
         }
 
         /// <summary>
-        /// Forms the group to the optimal shape
+        ///     Forms the group to the optimal shape
         /// </summary>
         private void FormDictionary(Location[] structure = null)
         {
             this._formTurnsAttempt = 0;
             Location center = this.FindCenter(false);
-            
-            if(structure == null)
+
+            if (structure == null)
             {
                 Bot.Game.Debug("Forming group structure");
 
@@ -320,7 +371,7 @@ namespace Britbot
                     catch (InvalidLocationException ex)
                     {
                         center = this.AdvancePivot(center);
-                       // Bot.Game.Debug("New Center is " + center);
+                        // Bot.Game.Debug("New Center is " + center);
                     }
                 }
             }
@@ -342,7 +393,8 @@ namespace Britbot
                 for (int i = 0; i < structure.Length; i++)
                 {
                     //Skip over taken spots
-                    if (matchedLocations[i]) continue;
+                    if (matchedLocations[i])
+                        continue;
 
                     if (Bot.Game.Distance(pirate.Loc, structure[i]) < minDistance)
                     {
@@ -369,21 +421,21 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Get the structure for the group
+        ///     Get the structure for the group
         /// </summary>
         /// <param name="pivot">The center of the group</param>
         /// <param name="trim"></param>
         /// <returns></returns>
         private Location[] GetStructure(Location pivot, bool trim)
         {
-            int requiredRing = (int) Math.Ceiling((decimal) (this.Pirates.Count - 1)/4);
+            int requiredRing = (int) Math.Ceiling((decimal) (this.Pirates.Count - 1) / 4);
             //Bot.Game.Debug("Required ring for this group with {0} pirates is #{1} for pivot {2}", this.Pirates.Count,requiredRing, pivot);
 
             List<Location> rings = new List<Location>();
 
             for (int ordinal = 0; ordinal <= requiredRing; ordinal++)
             {
-                rings.AddRange(Group.GetRing(pivot, ordinal));
+                rings.AddRange(GetRing(pivot, ordinal));
             }
 
             if (trim)
@@ -392,7 +444,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Moves a location closer to the center of the map
+        ///     Moves a location closer to the center of the map
         /// </summary>
         /// <param name="pivot"></param>
         /// <returns></returns>
@@ -421,7 +473,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Get the ring of the specified index relative to the given pivot
+        ///     Get the ring of the specified index relative to the given pivot
         /// </summary>
         /// <param name="pivot">The ring's center</param>
         /// <param name="ringOrdinal">the index of the ring</param>
@@ -432,7 +484,7 @@ namespace Britbot
 
             if (ringOrdinal >= 0)
             {
-                List<Location> ring = new List<Location>(ringOrdinal*4);
+                List<Location> ring = new List<Location>(ringOrdinal * 4);
                 int a = pivot.Row;
                 int b = pivot.Col;
 
@@ -443,9 +495,9 @@ namespace Britbot
                     Location y1 =
                         new Location(x,
                             (int)
-                                ((2*b +
-                                  Math.Sqrt(4*Math.Pow(b, 2) +
-                                            4*(Math.Pow(ringOrdinal - Math.Abs(a - x), 2) - Math.Pow(b, 2))))/2));
+                                ((2 * b +
+                                  Math.Sqrt(4 * Math.Pow(b, 2) +
+                                            4 * (Math.Pow(ringOrdinal - Math.Abs(a - x), 2) - Math.Pow(b, 2)))) / 2));
 
                     //we do not want to form on a island not ours - it's dangerous
                     if (!Bot.Game.IsPassable(y1))
@@ -456,9 +508,9 @@ namespace Britbot
                     Location y2 =
                         new Location(x,
                             (int)
-                                ((2*b -
-                                  Math.Sqrt(4*Math.Pow(b, 2) +
-                                            4*(Math.Pow(ringOrdinal - Math.Abs(a - x), 2) - Math.Pow(b, 2))))/2));
+                                ((2 * b -
+                                  Math.Sqrt(4 * Math.Pow(b, 2) +
+                                            4 * (Math.Pow(ringOrdinal - Math.Abs(a - x), 2) - Math.Pow(b, 2)))) / 2));
 
                     if (!Bot.Game.IsPassable(y2))
                         throw new InvalidLocationException("Location is not passable!");
@@ -469,7 +521,7 @@ namespace Britbot
                 }
 
                 //Put the locations of the ring at the debug log
-              /*  StringBuilder ringLocationsDesc = new StringBuilder();
+                /*  StringBuilder ringLocationsDesc = new StringBuilder();
                 ring.ForEach(x => ringLocationsDesc.Append(x + " "));
                 Bot.Game.Debug(ringLocationsDesc.ToString());*/
 
@@ -479,9 +531,12 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Find the center of the group
+        ///     Find the center of the group
         /// </summary>
-        /// <param name="enforcePirate">if you ant the function to strictly return a location of a pirate or just the average location</param>
+        /// <param name="enforcePirate">
+        ///     if you ant the function to strictly return a location of a pirate or just the average
+        ///     location
+        /// </param>
         /// <returns>The center pirate</returns>
         private Location FindCenter(bool enforcePirate)
         {
@@ -498,7 +553,7 @@ namespace Britbot
             averageLocation.Col /= myPirates.Count;
             averageLocation.Row /= myPirates.Count;
 
-            if(enforcePirate)
+            if (enforcePirate)
             {
                 int minDistance = Bot.Game.GetCols() + Bot.Game.GetCols();
                 Pirate pete = null;
@@ -521,7 +576,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// counts how many living pirates are in the group
+        ///     counts how many living pirates are in the group
         /// </summary>
         /// <returns>how many living pirates are in the group</returns>
         public int LiveCount()
@@ -530,7 +585,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Calculate target priorities for this group
+        ///     Calculate target priorities for this group
         /// </summary>
         public void CalcPriorities()
         {
@@ -567,8 +622,9 @@ namespace Britbot
 
             //Bot.Game.Debug("Priorities Count: " + this.Priorities.Count);
         }
+
         /// <summary>
-        /// Adds a pirate to this group, removing it from any other group it was in.
+        ///     Adds a pirate to this group, removing it from any other group it was in.
         /// </summary>
         /// <param name="index">The pirate's index</param>
         public void AddPirate(int index)
@@ -579,56 +635,5 @@ namespace Britbot
             }
             this.Pirates.Add(index);
         }
-
-        #region Members
-
-        /// <summary>
-        /// Direction of the group to make navigation more precise
-        /// </summary>
-        public HeadingVector Heading { get; private set; }
-
-        /// <summary>
-        /// The Group ID number
-        /// useful for debugging
-        /// </summary>
-        public readonly int Id;
-
-        /// <summary>
-        /// List of the indexes of the pirates in this group
-        /// </summary>
-        public List<int> Pirates { get; private set; }
-
-        /// <summary>
-        /// The target of the Group
-        /// </summary>
-        public ITarget Target { get; private set; }
-
-        /// <summary>
-        /// The group's role (i.e. destroyer or attacker)
-        /// </summary>
-        public GroupRole Role { get; private set; }
-
-        /// <summary>
-        /// List of priorities for this group
-        /// </summary>
-        public List<Score> Priorities { get; private set; }
-
-        /// <summary>
-        /// A thread for complex calculations that can be ran in parallel to other stuff
-        /// </summary>
-        public Thread CalcThread { get; private set; }
-
-        /// <summary>
-        /// static member to give each group a unique id based on its number of creation
-        /// </summary>
-        public static int GroupCounter { get; private set; }
-
-        /// <summary>
-        /// The required location for each pirate in the group to get to attack structure
-        /// </summary>
-        public Dictionary<int, Location> FormOrders { get; private set; }
-
-        #endregion
     }
-
 }

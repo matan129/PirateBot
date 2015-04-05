@@ -1,17 +1,37 @@
-﻿using System;
+﻿#region Usings
+
+using System;
 using System.Linq;
+
+#endregion
 
 namespace Britbot
 {
     /// <summary>
-    /// this class will be used to go over every possible group-target assignment
-    /// it is like counting in base ten with unclear amount of fingers
-    /// https://www.youtube.com/watch?v=UIKGV2cTgqA
+    ///     this class will be used to go over every possible group-target assignment
+    ///     it is like counting in base ten with unclear amount of fingers
+    ///     https://www.youtube.com/watch?v=UIKGV2cTgqA
     /// </summary>
     internal class ExpIterator
     {
+        #region Fields & Properies
+
         /// <summary>
-        /// Assigns dimensions and initiate value of iteration
+        ///     array of dimension, given at the constructor and never changes
+        /// </summary>
+        public int[] Dimensions { get; private set; }
+
+        /// <summary>
+        ///     The values of the iteration vector
+        /// </summary>
+        public int[] Values { get; set; }
+
+        #endregion
+
+        #region Constructors & Initializers
+
+        /// <summary>
+        ///     Assigns dimensions and initiate value of iteration
         /// </summary>
         /// <param name="dims">dimensions of the iteration</param>
         /// <exception cref="Exception">Dimensions must be strictly positive</exception>
@@ -35,18 +55,10 @@ namespace Britbot
             }
         }
 
-        /// <summary>
-        /// array of dimension, given at the constructor and never changes
-        /// </summary>
-        public int[] Dimensions { get; private set; }
+        #endregion
 
         /// <summary>
-        /// The values of the iteration vector
-        /// </summary>
-        public int[] Values { get; set; }
-
-        /// <summary>
-        /// checks if all the entries of the iteration are zero
+        ///     checks if all the entries of the iteration are zero
         /// </summary>
         /// <returns>true if it is so, false otherwise</returns>
         public bool IsZero()
@@ -63,9 +75,9 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Main functionality of this class: it advances iteration
-        /// it is just like long addition (bad translation?) only
-        /// you can count up to the given dimension each turn
+        ///     Main functionality of this class: it advances iteration
+        ///     it is just like long addition (bad translation?) only
+        ///     you can count up to the given dimension each turn
         /// </summary>
         /// <returns>false if the iteration is finished (gone back to zero), true otherwise</returns>
         public bool NextIteration()
@@ -88,7 +100,7 @@ namespace Britbot
         }
 
         /// <summary>
-        ///  Provides a textual description for this ExpIterator
+        ///     Provides a textual description for this ExpIterator
         /// </summary>
         /// <returns>A textual description for this ExpIterator</returns>
         public override string ToString()

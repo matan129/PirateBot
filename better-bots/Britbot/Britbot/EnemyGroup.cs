@@ -1,16 +1,78 @@
-﻿using System.Collections.Generic;
+﻿#region Usings
+
+using System.Collections.Generic;
 using System.Linq;
 using Pirates;
+
+#endregion
 
 namespace Britbot
 {
     /// <summary>
-    /// A class which represents an enemy group
+    ///     A class which represents an enemy group
     /// </summary>
     public class EnemyGroup : ITarget
     {
+        #region Static Fields & Consts
+
+        public static int IdCount;
+
+        #endregion
+
+        #region Fields & Properies
+
         /// <summary>
-        /// Gets the score for this group
+        ///     unique-ish id for the enemy group
+        /// </summary>
+        public readonly int Id;
+
+        /// <summary>
+        ///     What is this?
+        /// </summary>
+        public Location PrevLoc { get; set; }
+
+        /// <summary>
+        ///     List of pirate indexes in this group
+        /// </summary>
+        public List<int> EnemyPirates { get; private set; }
+
+        /// <summary>
+        ///     The direction this group's heading to
+        /// </summary>
+        public HeadingVector Heading { get; private set; }
+
+        #endregion
+
+        #region Constructors & Initializers
+
+        /// <summary>
+        ///     Creates a new instance of the EnemyGroup class
+        /// </summary>
+        public EnemyGroup()
+        {
+            this.Id = IdCount++;
+            this.EnemyPirates = new List<int>();
+            this.PrevLoc = new Location(0, 0);
+            this.Heading = new HeadingVector();
+        }
+
+        /// <summary>
+        ///     Creates a new instance of the EnemyGroup class
+        /// </summary>
+        public EnemyGroup(Location prevLoc, List<int> enemyPirates, HeadingVector heading)
+        {
+            this.Id = IdCount++;
+            PrevLoc = prevLoc;
+            EnemyPirates = enemyPirates;
+            Heading = heading;
+        }
+
+        #endregion
+
+        #region Interface Implementations
+
+        /// <summary>
+        ///     Gets the score for this group
         /// </summary>
         /// <param name="origin">The group requesting the evaluation</param>
         /// <returns>The score for this group</returns>
@@ -46,7 +108,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Returns the average location for this group
+        ///     Returns the average location for this group
         /// </summary>
         /// <returns>Returns the average location for this group</returns>
         public Location GetLocation()
@@ -54,7 +116,8 @@ namespace Britbot
             //Get a list of all location of the enemy pirates in this group
             List<Location> locs = new List<Location>();
 
-            if (this.EnemyPirates == null) return new Location(0, 0);
+            if (this.EnemyPirates == null)
+                return new Location(0, 0);
 
             foreach (int e in this.EnemyPirates)
             {
@@ -67,14 +130,14 @@ namespace Britbot
             int totalRow = locs.Sum(loc => loc.Row);
 
             //return the average location
-            return new Location(totalCol/locs.Count, totalRow/locs.Count);
+            return new Location(totalCol / locs.Count, totalRow / locs.Count);
         }
 
         /// <summary>
-        /// This implements the GetDirection of the ITarget interface
-        /// it returns the best direction to keep the given group (which asked for directions)
-        /// in a path perpendicular to the direction of the enemy ship thus ensuring
-        /// that it will reach it as soon as possible
+        ///     This implements the GetDirection of the ITarget interface
+        ///     it returns the best direction to keep the given group (which asked for directions)
+        ///     in a path perpendicular to the direction of the enemy ship thus ensuring
+        ///     that it will reach it as soon as possible
         /// </summary>
         /// <param name="group"></param>
         /// <returns></returns>
@@ -100,7 +163,26 @@ namespace Britbot
         }
 
         /// <summary>
-        /// counts how many living pirates are in the group
+        ///     Tests if two enemy groups are the same
+        /// </summary>
+        /// <param name="operandB">the target to test with</param>
+        /// <returns>True if identical or false otherwise</returns>
+        public bool Equals(ITarget operandB)
+        {
+            EnemyGroup enemyGroup = operandB as EnemyGroup;
+            if (enemyGroup != null)
+            {
+                EnemyGroup b = enemyGroup;
+                return Equals(this, b);
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        /// <summary>
+        ///     counts how many living pirates are in the group
         /// </summary>
         /// <returns>how many living pirates are in the group</returns>
         public int LiveCount()
@@ -109,8 +191,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Determined the minimal time (or distance) between a Group and an 
-        /// EnemyGroup before they will get into each others' attack radius.
+        ///     Determined the minimal time (or distance) between a Group and an
+        ///     EnemyGroup before they will get into each others' attack radius.
         /// </summary>
         /// <param name="eg">The EnemyGroup</param>
         /// <param name="group">The Group</param>
@@ -132,7 +214,8 @@ namespace Britbot
 
                     int distance = Bot.Game.Distance(p, aPirate);
 
-                    if (distance >= minDistance) continue;
+                    if (distance >= minDistance)
+                        continue;
 
                     minDistance = distance;
                     enemyPirate = p;
@@ -141,11 +224,11 @@ namespace Britbot
             }
 
             //return the distance between these pirates with the range in mind
-            return Bot.Game.Distance(enemyPirate.Loc, myPirate.Loc) - Bot.Game.GetAttackRadius()*2;
+            return Bot.Game.Distance(enemyPirate.Loc, myPirate.Loc) - Bot.Game.GetAttackRadius() * 2;
         }
 
         /// <summary>
-        /// Determines if an enemy pirate belongs to this enemy group.
+        ///     Determines if an enemy pirate belongs to this enemy group.
         /// </summary>
         /// <param name="enemyPirate">The index of the enemy pirate</param>
         /// <returns>True if the pirate belongs to the group or false, otherwise</returns>
@@ -154,7 +237,7 @@ namespace Britbot
             Pirate ePirate = Bot.Game.GetEnemyPirate(enemyPirate);
 
             //Check if the given pirate is close (max of 2 distance units) to any of the pirates already in this group
-            if(ePirate.IsLost)
+            if (ePirate.IsLost)
                 return false;
 
             return
@@ -165,7 +248,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Determines if an enemy pirate belongs to to the group of id's specified
+        ///     Determines if an enemy pirate belongs to to the group of id's specified
         /// </summary>
         /// <param name="group">The indexes of the pirate in the group</param>
         /// <param name="enemyPirate">The index of the enemy pirate</param>
@@ -186,7 +269,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Gets the minimal distance from this enemy group to a location
+        ///     Gets the minimal distance from this enemy group to a location
         /// </summary>
         /// <param name="location">the location to test for</param>
         /// <returns>The minimal distance from this group to that location</returns>
@@ -200,7 +283,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Tries to determine the island target of this group from its HeadingVector.
+        ///     Tries to determine the island target of this group from its HeadingVector.
         /// </summary>
         /// <returns>A SmartIsland if its probably the target or null if no island found</returns>
         public SmartIsland GuessTarget()
@@ -225,8 +308,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// This method updates Enemy's group direction and previous place (for the next turn calculations)
-        /// This method is called by the enemy class only!!!
+        ///     This method updates Enemy's group direction and previous place (for the next turn calculations)
+        ///     This method is called by the enemy class only!!!
         /// </summary>
         public void UpdateHeading()
         {
@@ -241,9 +324,9 @@ namespace Britbot
         }
 
         /// <summary>
-        /// given a list of pirates (that assumed to be contained in the pirates of the group)
-        /// creates a new EnemyGroup with this groups geographical parameters and removes the 
-        /// removed pirates
+        ///     given a list of pirates (that assumed to be contained in the pirates of the group)
+        ///     creates a new EnemyGroup with this groups geographical parameters and removes the
+        ///     removed pirates
         /// </summary>
         /// <param name="removedPirates"></param>
         /// <returns></returns>
@@ -264,8 +347,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// joins a given enemy group to this by adding its pirates and avraging the geographic data
-        /// if given itself, does nothing
+        ///     joins a given enemy group to this by adding its pirates and avraging the geographic data
+        ///     if given itself, does nothing
         /// </summary>
         /// <param name="enemyGroup">the group to add</param>
         public void Join(EnemyGroup enemyGroup)
@@ -277,8 +360,8 @@ namespace Britbot
             //otherwise add their pirates and adjust stuff
             this.EnemyPirates.AddRange(enemyGroup.EnemyPirates);
             this.Heading += enemyGroup.Heading;
-            PrevLoc = new Location((this.PrevLoc.Row + enemyGroup.PrevLoc.Row)/2,
-                (this.PrevLoc.Col + enemyGroup.PrevLoc.Col)/2);
+            PrevLoc = new Location((this.PrevLoc.Row + enemyGroup.PrevLoc.Row) / 2,
+                (this.PrevLoc.Col + enemyGroup.PrevLoc.Col) / 2);
         }
 
         public override string ToString()
@@ -286,79 +369,8 @@ namespace Britbot
             return this.EnemyPirates.Count.ToString();
         }
 
-        #region members
-
         /// <summary>
-        /// What is this?
-        /// </summary>
-        public Location PrevLoc { get; set; }
-
-        public static int IdCount;
-
-        /// <summary>
-        /// unique-ish id for the enemy group
-        /// </summary>
-        public readonly int Id;
-
-        /// <summary>
-        /// List of pirate indexes in this group
-        /// </summary>
-        public List<int> EnemyPirates { get; private set; }
-
-        /// <summary>
-        /// The direction this group's heading to 
-        /// </summary>
-        public HeadingVector Heading { get; private set; }
-
-        #endregion
-
-        #region constructors
-
-        /// <summary>
-        /// Creates a new instance of the EnemyGroup class
-        /// </summary>
-        public EnemyGroup()
-        {
-            this.Id = IdCount++;
-            this.EnemyPirates = new List<int>();
-            this.PrevLoc = new Location(0, 0);
-            this.Heading = new HeadingVector();
-        }
-
-        /// <summary>
-        /// Creates a new instance of the EnemyGroup class
-        /// </summary>
-        public EnemyGroup(Location prevLoc, List<int> enemyPirates, HeadingVector heading)
-        {
-            this.Id = IdCount++;
-            PrevLoc = prevLoc;
-            EnemyPirates = enemyPirates;
-            Heading = heading;
-        }
-
-        #endregion
-
-        #region overloaded operators and overrided methods
-
-        /// <summary>
-        /// Tests if two enemy groups are the same
-        /// </summary>
-        /// <param name="operandB">the target to test with</param>
-        /// <returns>True if identical or false otherwise</returns>
-        public bool Equals(ITarget operandB)
-        {
-            EnemyGroup enemyGroup = operandB as EnemyGroup;
-            if (enemyGroup != null)
-            {
-                EnemyGroup b = enemyGroup;
-                return Equals(this, b);
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Tests if two enemy groups are the same
+        ///     Tests if two enemy groups are the same
         /// </summary>
         /// <param name="other">the EnemyGroup to test with</param>
         /// <returns>True if identical or false otherwise</returns>
@@ -375,18 +387,19 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Tests if two enemy groups are the same
+        ///     Tests if two enemy groups are the same
         /// </summary>
         /// <param name="obj">the object to test with</param>
         /// <returns>True if identical or false otherwise</returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            if (obj.GetType() != this.GetType())
+                return false;
             return Equals((EnemyGroup) obj);
         }
-
-        #endregion
     }
 }

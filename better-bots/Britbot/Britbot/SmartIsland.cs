@@ -1,16 +1,120 @@
-﻿using System.Collections.Generic;
+﻿#region Usings
+
+using System.Collections.Generic;
 using System.Linq;
 using Pirates;
+
+#endregion
 
 namespace Britbot
 {
     /// <summary>
-    /// A Class that encapsulates the default Island type and adds important methods to it
+    ///     A Class that encapsulates the default Island type and adds important methods to it
     /// </summary>
     public class SmartIsland : ITarget
     {
+        #region Static Fields & Consts
+
+        private static bool _initFlag;
+
+        #endregion
+
+        #region Fields & Properies
+
         /// <summary>
-        /// Calculates the score of this island relative to a certain group by calculating how many potential points it will generate.
+        ///     The unique ID of the island
+        /// </summary>
+        public readonly int Id;
+
+        /// <summary>
+        ///     A static island list of all the islands in game
+        /// </summary>
+        public static List<SmartIsland> IslandList { get; private set; }
+
+        /// <summary>
+        ///     Turns to capture the island
+        /// </summary>
+        public int CaptureTurns
+        {
+            get { return Bot.Game.GetIsland(this.Id).CaptureTurns; }
+        }
+
+        /// <summary>
+        ///     Value of the island, or how may normal island it is worth
+        /// </summary>
+        public int Value
+        {
+            get { return Bot.Game.GetIsland(this.Id).Value; }
+        }
+
+        /// <summary>
+        ///     THe location of the island
+        /// </summary>
+        public Location Loc
+        {
+            get { return Bot.Game.GetIsland(this.Id).Loc; }
+        }
+
+        /// <summary>
+        ///     The team currently capturing the island
+        /// </summary>
+        public int TeamCapturing
+        {
+            get { return Bot.Game.GetIsland(this.Id).TeamCapturing; }
+        }
+
+        /// <summary>
+        ///     How many turns this island is being captured
+        /// </summary>
+        public int TurnsBeingCaptured
+        {
+            get { return Bot.Game.GetIsland(this.Id).TurnsBeingCaptured; }
+        }
+
+        /// <summary>
+        ///     Who owns the island?
+        /// </summary>
+        public int Owner
+        {
+            get { return Bot.Game.GetIsland(this.Id).Owner; }
+        }
+
+        #endregion
+
+        #region Constructors & Initializers
+
+        /// <summary>
+        ///     Creates a new SmartIsland
+        /// </summary>
+        /// <param name="encapsulate">The regular island index to encapsulate</param>
+        private SmartIsland(int encapsulate)
+        {
+            this.Id = encapsulate;
+        }
+
+        /// <summary>
+        ///     A static constructor which initializes the static island list on the first reference to a SmartIsland
+        /// </summary>
+        public static void Init()
+        {
+            if (_initFlag)
+                return;
+
+            _initFlag = true;
+            IslandList = new List<SmartIsland>();
+            foreach (Island island in Bot.Game.Islands())
+            {
+                IslandList.Add(new SmartIsland(island.Id));
+            }
+        }
+
+        #endregion
+
+        #region Interface Implementations
+
+        /// <summary>
+        ///     Calculates the score of this island relative to a certain group by calculating how many potential points it will
+        ///     generate.
         /// </summary>
         /// <param name="origin">The original group of pirates of the type "Group"</param>
         /// <returns>Returns the Score for the Target</returns>
@@ -33,13 +137,13 @@ namespace Britbot
 
             //check if the island isn't already ours, if so disqualify it and return null
             if (this.Owner != Consts.ME || this.TeamCapturing == Consts.ENEMY)
-                return new Score(this, TargetType.Island, (origin.Pirates.Count*(this.Value - 1)) + 1,
+                return new Score(this, TargetType.Island, (origin.Pirates.Count * (this.Value - 1)) + 1,
                     distance + captureTime);
             return null;
         }
 
         /// <summary>
-        /// Get the location of the Island
+        ///     Get the location of the Island
         /// </summary>
         /// <returns>The Location of the island</returns>
         public Location GetLocation()
@@ -48,8 +152,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Implements the getDirection method of the ITarget interface
-        /// searches for the direction which brings the path closest to a straight line
+        ///     Implements the getDirection method of the ITarget interface
+        ///     searches for the direction which brings the path closest to a straight line
         /// </summary>
         /// <param name="group">The group asking for direction</param>
         /// <returns>best direction</returns>
@@ -64,25 +168,49 @@ namespace Britbot
             return TargetType.Island;
         }
 
-        public static bool IsNearNonOurIsland(Location loc, int Range)
-        {
-            foreach (SmartIsland island in SmartIsland.IslandList)
-            {
-                if(island.Owner == Consts.ME) continue;
-                
-                if(Bot.Game.Distance(loc,island) < Range)
-                    return true;
-            }
-            return false;
-        }
-
         public string GetDescription()
         {
             return "Island, id: " + Id + " location: " + Loc;
         }
 
         /// <summary>
-        /// Checks if there are enemies near said Island that will probably attack it
+        ///     Checks if 2 smart Islands are equal
+        /// </summary>
+        /// <param name="operandB">The island to check with</param>
+        /// <returns>True if the islands are the same or false otherwise</returns>
+        public bool Equals(ITarget operandB)
+        {
+            SmartIsland b = operandB as SmartIsland;
+            if (b != null)
+            {
+                return Equals(b);
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        public override int GetHashCode()
+        {
+            return this.Id;
+        }
+
+        public static bool IsNearNonOurIsland(Location loc, int Range)
+        {
+            foreach (SmartIsland island in IslandList)
+            {
+                if (island.Owner == Consts.ME)
+                    continue;
+
+                if (Bot.Game.Distance(loc, island) < Range)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        ///     Checks if there are enemies near said Island that will probably attack it
         /// </summary>
         /// <returns>The amount of enemies near the target</returns>
         public int NearbyEnemyCount()
@@ -100,7 +228,7 @@ namespace Britbot
             }
 
             // All enemy pirates are heading towards a certain island and it is safe to assume that they are heading towards the one nearest to them
-            int dangerRadius = closestIslandDistance/2;
+            int dangerRadius = closestIslandDistance / 2;
             foreach (EnemyGroup eGroup in Enemy.Groups)
             {
                 //Checks if the group of islands is near the island and if they are getting closer or farther
@@ -114,102 +242,8 @@ namespace Britbot
             return enemyCount;
         }
 
-        #region members
-
         /// <summary>
-        /// A static island list of all the islands in game
-        /// </summary>
-        public static List<SmartIsland> IslandList { get; private set; }
-
-        /// <summary>
-        /// The unique ID of the island
-        /// </summary>
-        public readonly int Id;
-
-        /// <summary>
-        /// Turns to capture the island
-        /// </summary>
-        public int CaptureTurns
-        {
-            get { return Bot.Game.GetIsland(this.Id).CaptureTurns; }
-        }
-
-        /// <summary>
-        /// Value of the island, or how may normal island it is worth
-        /// </summary>
-        public int Value
-        {
-            get { return Bot.Game.GetIsland(this.Id).Value; }
-        }
-
-        /// <summary>
-        /// THe location of the island
-        /// </summary>
-        public Location Loc
-        {
-            get { return Bot.Game.GetIsland(this.Id).Loc; }
-        }
-
-        /// <summary>
-        /// The team currently capturing the island
-        /// </summary>
-        public int TeamCapturing
-        {
-            get { return Bot.Game.GetIsland(this.Id).TeamCapturing; }
-        }
-
-        /// <summary>
-        /// How many turns this island is being captured
-        /// </summary>
-        public int TurnsBeingCaptured
-        {
-            get { return Bot.Game.GetIsland(this.Id).TurnsBeingCaptured; }
-        }
-
-        /// <summary>
-        /// Who owns the island?
-        /// </summary>
-        public int Owner
-        {
-            get { return Bot.Game.GetIsland(this.Id).Owner; }
-        }
-
-        #endregion
-
-        #region constructors
-
-        private static bool _initFlag = false;
-
-        /// <summary>
-        /// A static constructor which initializes the static island list on the first reference to a SmartIsland
-        /// </summary>
-        public static void Init()
-        {
-            if(SmartIsland._initFlag) return;
-
-            SmartIsland._initFlag = true;
-            SmartIsland.IslandList = new List<SmartIsland>();
-            foreach (Island island in Bot.Game.Islands())
-            {
-                SmartIsland.IslandList.Add(new SmartIsland(island.Id));
-            }
-        }
-
-        /// <summary>
-        /// Creates a new SmartIsland
-        /// </summary>
-        /// <param name="encapsulate">The regular island index to encapsulate</param>
-        private SmartIsland(int encapsulate)
-        {
-            this.Id = encapsulate;
-        }
-
-        #endregion
-
-        #region operator overloading and overriding methods
-
-        /// <summary>
-        /// Checks if 2 smart Islands are equal
+        ///     Checks if 2 smart Islands are equal
         /// </summary>
         /// <param name="a">Island 1</param>
         /// <param name="b">Island 2</param>
@@ -220,7 +254,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Checks if 2 smart islands are different
+        ///     Checks if 2 smart islands are different
         /// </summary>
         /// <param name="a">Island 1</param>
         /// <param name="b">Island 2</param>
@@ -231,23 +265,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Checks if 2 smart Islands are equal
-        /// </summary>
-        /// <param name="operandB">The island to check with</param>
-        /// <returns>True if the islands are the same or false otherwise</returns>
-        public bool Equals(ITarget operandB)
-        {
-            SmartIsland b = operandB as SmartIsland;
-            if (b != null)
-            {
-                return Equals(b);
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Checks if 2 smart Islands are equal
+        ///     Checks if 2 smart Islands are equal
         /// </summary>
         /// <param name="other">The island to check with</param>
         /// <returns>True if the islands are the same or false otherwise</returns>
@@ -257,7 +275,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Checks if 2 smart Islands are equal
+        ///     Checks if 2 smart Islands are equal
         /// </summary>
         /// <param name="obj">The object to check with</param>
         /// <returns>True if the islands are the same or false otherwise</returns>
@@ -270,7 +288,5 @@ namespace Britbot
             }
             return false;
         }
-
-        #endregion
     }
 }

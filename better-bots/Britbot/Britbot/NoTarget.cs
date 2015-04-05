@@ -1,19 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿#region Usings
+
 using Pirates;
+
+#endregion
+
 namespace Britbot
 {
     /// <summary>
-    /// This class represents a null target wich does nothing
-    /// this will help us prevent cases of dimentions error due to 
-    /// null priority lists
+    ///     This class represents a null target wich does nothing
+    ///     this will help us prevent cases of dimentions error due to
+    ///     null priority lists
     /// </summary>
-    class NoTarget : ITarget
+    internal class NoTarget : ITarget
     {
+        #region Interface Implementations
+
         /// <summary>
-        /// fulfills the interface, just returns zeroish score
+        ///     fulfills the interface, just returns zeroish score
         /// </summary>
         /// <param name="origin">the group for which the score is calculated</param>
         /// <returns></returns>
@@ -23,7 +26,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// returns the origin because what else
+        ///     returns the origin because what else
         /// </summary>
         /// <returns>returns the origin</returns>
         public Location GetLocation()
@@ -32,7 +35,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// just returns no direction
+        ///     just returns no direction
         /// </summary>
         /// <param name="origin">The group requesting directions</param>
         /// <returns>nothing</returns>
@@ -42,9 +45,9 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Tests if two targets are the same
-        /// returns true if the other target is a no target
-        /// false otherwise
+        ///     Tests if two targets are the same
+        ///     returns true if the other target is a no target
+        ///     false otherwise
         /// </summary>
         /// <param name="operandB">The other target to test</param>
         /// <returns>true if operandB is NoTarget, false either</returns>
@@ -61,12 +64,14 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Gets a string description forthis Target for log purposes 
+        ///     Gets a string description forthis Target for log purposes
         /// </summary>
         /// <returns></returns>
         public string GetDescription()
         {
             return "NoTarget. Nothing interesting here";
         }
+
+        #endregion
     }
 }

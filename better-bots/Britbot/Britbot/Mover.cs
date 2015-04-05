@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+﻿#region Usings
+
+using System.Collections.Generic;
 using Pirates;
+
+#endregion
 
 namespace Britbot
 {
-    using System;
-
     /// <summary>
-    /// This class is used for the physical moving of pirates in the game
+    ///     This class is used for the physical moving of pirates in the game
     /// </summary>
-    static class Mover
+    internal static class Mover
     {
         /// <summary>
-        /// Moves pirate according to the moves dictionary it got
+        ///     Moves pirate according to the moves dictionary it got
         /// </summary>
         /// <param name="moves">A dictionary of consists of entries that have a pirate and a corresponding direction to move at</param>
         public static void MoveAll(Dictionary<Pirate, Direction> moves)
@@ -31,9 +33,8 @@ namespace Britbot
                 foreach (Pirate p in Bot.Game.AllMyPirates())
                 {
                     if (!p.IsLost)
-                        Bot.Game.SetSail(p,Direction.NOTHING);
+                        Bot.Game.SetSail(p, Direction.NOTHING);
                 }
-         
             }
         }
     }

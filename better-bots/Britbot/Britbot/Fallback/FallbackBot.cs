@@ -1,16 +1,20 @@
-﻿namespace Britbot.Fallback
-{
-    using System.Collections.Generic;
-    using Pirates;
+﻿#region Usings
 
+using System.Collections.Generic;
+using Pirates;
+
+#endregion
+
+namespace Britbot.Fallback
+{
     /// <summary>
-    /// This is the fallback bot
-    /// its execution time must be low
+    ///     This is the fallback bot
+    ///     its execution time must be low
     /// </summary>
     public class FallbackBot
     {
         /// <summary>
-        /// Generates the fallback moves
+        ///     Generates the fallback moves
         /// </summary>
         /// <returns></returns>
         public static Dictionary<Pirate, Direction> GetFallbackTurns()
@@ -23,7 +27,7 @@
                 else
                     fallback.Add(pirate, Direction.SOUTH);
             }
-            
+
             Bot.Game.Debug("===============FALLBACK READY=================");
 
             return fallback;

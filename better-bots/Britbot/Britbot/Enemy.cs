@@ -1,35 +1,47 @@
-﻿using System;
+﻿#region Usings
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Pirates;
 
+#endregion
+
 namespace Britbot
 {
     /// <summary>
-    /// This class represent the enemy bot in the game
+    ///     This class represent the enemy bot in the game
     /// </summary>
     public static class Enemy
     {
-        /// <summary>
-        /// Static enemy constructor
-        /// </summary>
-        static Enemy()
-        {
-            Enemy.Groups = new List<EnemyGroup>();
-        }
+        #region Fields & Properies
 
         /// <summary>
-        /// A list of the enemy's groups
+        ///     A list of the enemy's groups
         /// </summary>
         public static List<EnemyGroup> Groups { get; private set; }
 
+        #endregion
+
+        #region Constructors & Initializers
+
         /// <summary>
-        /// Split the enemy into its groups
-        /// Should be invoked every turn to re-analyze
+        ///     Static enemy constructor
+        /// </summary>
+        static Enemy()
+        {
+            Groups = new List<EnemyGroup>();
+        }
+
+        #endregion
+
+        /// <summary>
+        ///     Split the enemy into its groups
+        ///     Should be invoked every turn to re-analyze
         /// </summary>
         public static List<EnemyGroup> AnalyzeEnemyGroups()
         {
-            EnemyGroup[] analysis = Enemy.AnalyzeFull().ToArray();
+            EnemyGroup[] analysis = AnalyzeFull().ToArray();
 
             if (Groups.Count == 0)
                 return analysis.ToList();
@@ -40,7 +52,7 @@ namespace Britbot
             for (int i = 0; i < analysis.Length; i++)
             {
                 EnemyGroup enemyGroup = analysis[i];
-                foreach (EnemyGroup veteran in Enemy.Groups)
+                foreach (EnemyGroup veteran in Groups)
                 {
                     /*
                      * check if the groups are the same.
@@ -81,9 +93,9 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Normal analysis of enemy groups, without considering the previous configurations
-        /// Note that using this method alone will break the heading mechanism because this method
-        /// technically return new groups each time (although they might be the same config) 
+        ///     Normal analysis of enemy groups, without considering the previous configurations
+        ///     Note that using this method alone will break the heading mechanism because this method
+        ///     technically return new groups each time (although they might be the same config)
         /// </summary>
         /// <returns>A list of enemy groups</returns>
         private static List<EnemyGroup> AnalyzeFull()
@@ -124,8 +136,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Does every turn updating
-        /// Should be called every turn 
+        ///     Does every turn updating
+        ///     Should be called every turn
         /// </summary>
         public static void Update()
         {
@@ -136,7 +148,5 @@ namespace Britbot
             foreach (EnemyGroup eGroup in Groups)
                 eGroup.UpdateHeading();
         }
-
-        
     }
 }

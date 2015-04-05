@@ -1,11 +1,17 @@
-﻿using System;
+﻿#region Usings
+
+using System;
 using System.Runtime.Serialization;
+
+#endregion
 
 namespace Britbot
 {
     [Serializable]
     public class InvalidIteratorDimensionException : Exception
     {
+        #region Constructors & Initializers
+
         //
         // For guidelines regarding the creation of new exception types, see
         //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
@@ -30,12 +36,16 @@ namespace Britbot
             StreamingContext context) : base(info, context)
         {
         }
+
+        #endregion
     }
 
 
     [Serializable]
     public class InvalidRingException : Exception
     {
+        #region Constructors & Initializers
+
         //
         // For guidelines regarding the creation of new exception types, see
         //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
@@ -60,11 +70,15 @@ namespace Britbot
             StreamingContext context) : base(info, context)
         {
         }
+
+        #endregion
     }
 
     [Serializable]
     public class InvalidLocationException : Exception
     {
+        #region Constructors & Initializers
+
         //
         // For guidelines regarding the creation of new exception types, see
         //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
@@ -89,11 +103,15 @@ namespace Britbot
             StreamingContext context) : base(info, context)
         {
         }
+
+        #endregion
     }
 
     [Serializable]
     public class CommanderGaveUpException : Exception
     {
+        #region Constructors & Initializers
+
         //
         // For guidelines regarding the creation of new exception types, see
         //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
@@ -118,6 +136,7 @@ namespace Britbot
             StreamingContext context) : base(info, context)
         {
         }
+
+        #endregion
     }
-    
 }
