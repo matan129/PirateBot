@@ -48,8 +48,10 @@ namespace Britbot
         public void DoTurn(IPirateGame state)
         {
             //update the game so other classes will get updated data
-            Game = state;
+            Bot.Game = state;
 
+            //Initialize all the stuff
+            //Note that there is a flag in these classes making sure that Init() will run only once
             SmartIsland.Init();
             Commander.Init();
 
@@ -62,21 +64,21 @@ namespace Britbot
                  * moving instructions in the form of a Dictionary<Pirate,Direction>. This is because we do not want to abort the commander 
                  * after it moved couple of pirates but not all of them                            
                  */
-                commanderOk = ExecuteBot();
+                commanderOk = Bot.ExecuteBot();
             }
             catch (Exception ex)
             {
-                Game.Debug("=================BOT ERROR=====================");
-                Game.Debug("Bot almost crashed because of exception: " + ex.Message);
-                Game.Debug("=================BOT ERROR=====================");
+                Bot.Game.Debug("=================BOT ERROR=====================");
+                Bot.Game.Debug("Bot almost crashed because of exception: " + ex.Message);
+                Bot.Game.Debug("=================BOT ERROR=====================");
             }
             finally
             {
                 //Actually move stuff
                 if (commanderOk)
-                    Mover.MoveAll(_movesDictionary);
+                    Mover.MoveAll(Bot._movesDictionary);
                 else
-                    Mover.MoveAll(_fallbackMoves);
+                    Mover.MoveAll(Bot._fallbackMoves);
             }
         }
 
@@ -90,8 +92,8 @@ namespace Britbot
         private static bool ExecuteBot()
         {
             //clear the last moves
-            _fallbackMoves.Clear();
-            _movesDictionary.Clear();
+            Bot._fallbackMoves.Clear();
+            Bot._movesDictionary.Clear();
 
             //setup the threads
             Thread commanderThread = new Thread(() =>
@@ -100,19 +102,7 @@ namespace Britbot
                 {
                     Dictionary<Pirate, Direction> moves = Commander.Play();
                     if (moves != null)
-                        _movesDictionary = moves;
-                }
-                catch
-                {
-                    // this will catch the ThreadAbortException
-                }
-            }) {IsBackground = true};
-
-            Thread fallbackThread = new Thread(() =>
-            {
-                try
-                {
-                    _fallbackMoves = FallbackBot.GetFallbackTurns();
+                        Bot._movesDictionary = moves;
                 }
                 catch
                 {
@@ -120,8 +110,24 @@ namespace Britbot
                 }
             })
             {
-                IsBackground
-                    = true
+                IsBackground = true,
+                Name = "CommanderThread on turn " + Bot.Game.GetTurn()
+            };
+
+            Thread fallbackThread = new Thread(() =>
+            {
+                try
+                {
+                    Bot._fallbackMoves = FallbackBot.GetFallbackTurns();
+                }
+                catch
+                {
+                    // this will catch the ThreadAbortException
+                }
+            })
+            {
+                IsBackground = true,
+                Name = "FallbackThread on turn " + Bot.Game.GetTurn()
             };
 
             //Start the threads simultaneously
@@ -129,15 +135,18 @@ namespace Britbot
             fallbackThread.Start();
 
             //Test if the commander is finished on time
-            bool inTime = commanderThread.Join((int) (Game.TimeRemaining() * 0.85));
+            bool inTime = commanderThread.Join((int) (Bot.Game.TimeRemaining() * 0.85));
 
             //if it's stuck...
             if (!inTime)
             {
+                //..Abort the commander thread. 
+                //TODO this is dangerous, we have to switch to something a bit more reliable
                 commanderThread.Abort();
-                Game.Debug("=================TIMEOUT=======================");
-                Game.Debug("Commander timed out, switching to fallback code");
-                Game.Debug("=================TIMEOUT=======================");
+
+                Bot.Game.Debug("=================TIMEOUT=======================");
+                Bot.Game.Debug("Commander timed out, switching to fallback code");
+                Bot.Game.Debug("=================TIMEOUT=======================");
             }
 
             //return if the commander is on time

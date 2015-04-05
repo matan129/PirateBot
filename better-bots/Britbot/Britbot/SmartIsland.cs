@@ -97,14 +97,14 @@ namespace Britbot
         /// </summary>
         public static void Init()
         {
-            if (_initFlag)
+            if (SmartIsland._initFlag)
                 return;
 
-            _initFlag = true;
-            IslandList = new List<SmartIsland>();
+            SmartIsland._initFlag = true;
+            SmartIsland.IslandList = new List<SmartIsland>();
             foreach (Island island in Bot.Game.Islands())
             {
-                IslandList.Add(new SmartIsland(island.Id));
+                SmartIsland.IslandList.Add(new SmartIsland(island.Id));
             }
         }
 
@@ -198,7 +198,7 @@ namespace Britbot
 
         public static bool IsNearNonOurIsland(Location loc, int Range)
         {
-            foreach (SmartIsland island in IslandList)
+            foreach (SmartIsland island in SmartIsland.IslandList)
             {
                 if (island.Owner == Consts.ME)
                     continue;
@@ -217,7 +217,7 @@ namespace Britbot
         {
             int enemyCount = 0; //amount of enemy pirates in proximity to the Island
             int closestIslandDistance = 0; //The distance between this Island and the one nearest too it
-            foreach (SmartIsland eIsland in IslandList)
+            foreach (SmartIsland eIsland in SmartIsland.IslandList)
                 //Calculates the distance between this island and the one nearest
             {
                 int temp = Bot.Game.Distance(eIsland.Loc, this.Loc);
@@ -250,7 +250,7 @@ namespace Britbot
         /// <returns>True if the islands are the same or false otherwise</returns>
         public static bool operator ==(SmartIsland a, SmartIsland b)
         {
-            return Equals(a, b);
+            return object.Equals(a, b);
         }
 
         /// <summary>
@@ -261,7 +261,7 @@ namespace Britbot
         /// <returns>False if the islands are the same or true otherwise</returns>
         public static bool operator !=(SmartIsland a, SmartIsland b)
         {
-            return !Equals(a, b);
+            return !object.Equals(a, b);
         }
 
         /// <summary>

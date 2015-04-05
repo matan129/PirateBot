@@ -1,6 +1,7 @@
 ﻿#region Usings
 
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -82,7 +83,7 @@ namespace Britbot
             this.Role = new GroupRole();
 
             //get id and update counter
-            this.Id = GroupCounter++;
+            this.Id = Group.GroupCounter++;
 
             Bot.Game.Debug("===================GROUP {0}===================", this.Id);
 
@@ -109,7 +110,7 @@ namespace Britbot
                 this.Target = target;
                 this.Heading.SetCoordinates();
             }
-            else if (!Equals(this.Target, target))
+            else if (!object.Equals(this.Target, target))
             {
                 this.Target = target;
                 this.Heading.SetCoordinates();
@@ -155,9 +156,10 @@ namespace Britbot
 
             //Note that IEnumerable gives you the possibility of doing a yield return statement
             //yield return returns one element each time, 
-            //So we don't have to explicitly keep a list of the moves
+            //So we don't have to explicitly keep a list of the moves in this function
             if (!this.IsFormed())
             {
+                //TODO split this to another method
                 if (this._formTurnsAttempt > this.Pirates.Count * 2)
                     this.FormDictionary();
 
@@ -169,16 +171,15 @@ namespace Britbot
                     if (pete.Loc.Col == formOrder.Value.Col && pete.Loc.Row == formOrder.Value.Row)
                     {
                         yield return new KeyValuePair<Pirate, Direction>(pete, Direction.NOTHING);
-                        //Bot.Game.Debug("Skipping over " + pete);
                     }
                     else
                     {
                         List<Direction> possibleDirections = Bot.Game.GetDirections(pete, formOrder.Value);
                         Direction dir = Direction.NOTHING;
 
-                        for (int i = 0; i < possibleDirections.Count; i++)
+                        foreach (Direction t in possibleDirections)
                         {
-                            dir = possibleDirections[i];
+                            dir = t;
 
                             if (dir == Direction.NOTHING)
                                 break;
@@ -225,7 +226,7 @@ namespace Britbot
                         return false;
                     }))
                         master = Direction.NOTHING;
-                    if (filteredDirections.Count > 1)
+                    if (filteredDirections.Count >= tryAlternateDirection)
                         master = filteredDirections[tryAlternateDirection];
                     else if (filteredDirections.Count != 0)
                         master = filteredDirections.First();
@@ -290,7 +291,7 @@ namespace Britbot
             bool deltaFlag = false;
             bool confirmUnstructured = false;
             Pirate pete = null;
-
+            
             foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
             {
                 pete = Bot.Game.GetMyPirate(formOrder.Key);
@@ -321,22 +322,28 @@ namespace Britbot
                 Bot.Game.Debug("Group {0} is formed", this.Id);
                 return true;
             }
-
+            
             Location pivot = this.FindCenter(true);
-
             Location[] structureFull = null;
 
             try
             {
                 structureFull = this.GetStructure(pivot, false);
             }
-            catch (InvalidLocationException)
+            catch
             {
+                Bot.Game.Debug("Group {0} is not formed yet", this.Id);
+                return false;
+            }
+            
+            if (structureFull == null)
+            {
+                Bot.Game.Debug("Group {0} is not formed yet", this.Id);
                 return false;
             }
 
             int emptyCells = 0;
-
+            
             foreach (Location loc in structureFull)
             {
                 Pirate p = Bot.Game.GetPirateOn(loc);
@@ -345,7 +352,12 @@ namespace Britbot
             }
 
             if (emptyCells == structureFull.Length - this.Pirates.Count)
+            {
+                Bot.Game.Debug("Group {0} is formed", this.Id);
                 return true;
+            }
+
+            Bot.Game.Debug("Group {0} is not formed yet", this.Id);
             return false;
         }
 
@@ -428,6 +440,7 @@ namespace Britbot
         /// <returns></returns>
         private Location[] GetStructure(Location pivot, bool trim)
         {
+            Bot.Game.Debug("Entered GetSturcture");
             int requiredRing = (int) Math.Ceiling((decimal) (this.Pirates.Count - 1) / 4);
             //Bot.Game.Debug("Required ring for this group with {0} pirates is #{1} for pivot {2}", this.Pirates.Count,requiredRing, pivot);
 
@@ -435,9 +448,9 @@ namespace Britbot
 
             for (int ordinal = 0; ordinal <= requiredRing; ordinal++)
             {
-                rings.AddRange(GetRing(pivot, ordinal));
+                rings.AddRange(Group.GetRing(pivot, ordinal));
             }
-
+            Bot.Game.Debug("found rings");
             if (trim)
                 return rings.Take(this.Pirates.Count).ToArray();
             return rings.ToArray();
@@ -480,7 +493,7 @@ namespace Britbot
         /// <returns></returns>
         private static List<Location> GetRing(Location pivot, int ringOrdinal)
         {
-            //Bot.Game.Debug("Emitting Locations for ring #{0} from pivot {1}", ringOrdinal, pivot);
+            Bot.Game.Debug("Emitting Locations for ring #{0} from pivot {1}", ringOrdinal, pivot);
 
             if (ringOrdinal >= 0)
             {

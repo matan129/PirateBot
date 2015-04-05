@@ -50,7 +50,7 @@ namespace Britbot
         /// </summary>
         public EnemyGroup()
         {
-            this.Id = IdCount++;
+            this.Id = EnemyGroup.IdCount++;
             this.EnemyPirates = new List<int>();
             this.PrevLoc = new Location(0, 0);
             this.Heading = new HeadingVector();
@@ -61,7 +61,7 @@ namespace Britbot
         /// </summary>
         public EnemyGroup(Location prevLoc, List<int> enemyPirates, HeadingVector heading)
         {
-            this.Id = IdCount++;
+            this.Id = EnemyGroup.IdCount++;
             PrevLoc = prevLoc;
             EnemyPirates = enemyPirates;
             Heading = heading;
@@ -173,7 +173,7 @@ namespace Britbot
             if (enemyGroup != null)
             {
                 EnemyGroup b = enemyGroup;
-                return Equals(this, b);
+                return object.Equals(this, b);
             }
 
             return false;
@@ -393,9 +393,9 @@ namespace Britbot
         /// <returns>True if identical or false otherwise</returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
+            if (object.ReferenceEquals(null, obj))
                 return false;
-            if (ReferenceEquals(this, obj))
+            if (object.ReferenceEquals(this, obj))
                 return true;
             if (obj.GetType() != this.GetType())
                 return false;

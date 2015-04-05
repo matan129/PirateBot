@@ -151,7 +151,7 @@ namespace Britbot
         public HeadingVector adjustHeading(Direction Dir)
         {
             //just use the existing function
-            this.SetCoordinates(adjustHeading(this, Dir));
+            this.SetCoordinates(HeadingVector.adjustHeading(this, Dir));
 
             //return this for a+b+c calculations
             return this;
@@ -278,9 +278,9 @@ namespace Britbot
         /// <returns>true if equal and false otherwise</returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
+            if (object.ReferenceEquals(null, obj))
                 return false;
-            if (ReferenceEquals(this, obj))
+            if (object.ReferenceEquals(this, obj))
                 return true;
             if (obj.GetType() != this.GetType())
                 return false;
