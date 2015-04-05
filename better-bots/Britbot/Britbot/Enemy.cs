@@ -87,8 +87,7 @@ namespace Britbot
 
             Bot.Game.Debug("Enemy new groups: " + newGroupsInfo.TrimEnd(','));
             Bot.Game.Debug("Total enemy config: " + string.Join(",", veteranGroups));
-
-            //TODO there are wrong configs here
+            
             return veteranGroups;
         }
 

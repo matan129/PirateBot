@@ -2,7 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Permissions;
+using System.Threading;
 using Pirates;
 
 #endregion
@@ -34,6 +37,7 @@ namespace Britbot
         /// <summary>
         ///     This static constructor will run once and initialize the commander
         /// </summary>
+        [SecurityPermissionAttribute(SecurityAction.Demand, ControlThread = true)]
         public static void Init()
         {
             if (Commander._initFlag)
@@ -139,8 +143,22 @@ namespace Britbot
             }
             catch (Exception ex)
             {
+                if (ex is ThreadAbortException)
+                {
+                    Bot.Game.Debug("****** COMMANDER EXITING DUE TO THREAD ABORT ******");
+                    Thread.ResetAbort();
+                    return;
+                }
+
                 Bot.Game.Debug("==========COMMANDER EXCEPTION============");
                 Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
+
+                //Holy shit. This actually works!!
+                StackTrace exTrace = new StackTrace(ex, true);
+                StackFrame frame = exTrace.GetFrame(0);
+                Bot.Game.Debug("The exception was thrown from method {0} at file {1} at line #{2}", frame.GetMethod(),
+                    frame.GetFileName(), frame.GetFileLineNumber());
+
                 Bot.Game.Debug("==========COMMANDER EXCEPTION============");
             }
         }
@@ -317,6 +335,7 @@ namespace Britbot
         /// <summary>
         ///     Do something!
         /// </summary>
+        [SecurityPermissionAttribute(SecurityAction.Demand, ControlThread = true)]
         public static Dictionary<Pirate, Direction> Play()
         {
             int enteringTurn = Bot.Game.GetTurn();
@@ -339,8 +358,22 @@ namespace Britbot
             }
             catch (Exception ex)
             {
+                if (ex is ThreadAbortException)
+                {
+                    Bot.Game.Debug("****** COMMANDER EXITING DUE TO THREAD ABORT ******");
+                    Thread.ResetAbort();
+                    return null;
+                }
+                
                 Bot.Game.Debug("==========COMMANDER EXCEPTION============");
                 Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
+
+                //Holy shit. This actually works!!
+                StackTrace exTrace = new StackTrace(ex, true);
+                StackFrame frame = exTrace.GetFrame(0);
+                Bot.Game.Debug("The exception was thrown from method {0} at file {1} at line #{2}", frame.GetMethod(),
+                    frame.GetFileName(), frame.GetFileLineNumber());
+
                 Bot.Game.Debug("==========COMMANDER EXCEPTION============");
 
                 return null;

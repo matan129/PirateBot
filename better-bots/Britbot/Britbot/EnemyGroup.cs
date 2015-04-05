@@ -1,7 +1,9 @@
 ﻿#region Usings
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Pirates;
 
 #endregion
@@ -122,7 +124,9 @@ namespace Britbot
             foreach (int e in this.EnemyPirates)
             {
                 Pirate enemyPirate = Bot.Game.GetEnemyPirate(e);
-                locs.Add(enemyPirate.Loc);
+
+                if(enemyPirate != null)
+                    locs.Add(enemyPirate.Loc);
             }
 
             //sum all the locations!
@@ -130,7 +134,10 @@ namespace Britbot
             int totalRow = locs.Sum(loc => loc.Row);
 
             //return the average location
-            return new Location(totalCol / locs.Count, totalRow / locs.Count);
+            if (locs.Count != 0)
+                return new Location(totalCol / locs.Count, totalRow / locs.Count);
+
+            return new Location(0,0);
         }
 
         /// <summary>
@@ -235,6 +242,10 @@ namespace Britbot
         public bool IsInGroup(int enemyPirate)
         {
             Pirate ePirate = Bot.Game.GetEnemyPirate(enemyPirate);
+
+            //check if the pirate is null
+            if (ePirate == null)
+                return false;
 
             //Check if the given pirate is close (max of 2 distance units) to any of the pirates already in this group
             if (ePirate.IsLost)

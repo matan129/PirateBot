@@ -13,7 +13,7 @@
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterId />
     <InterpreterVersion />
-    <CommandLineArguments>--loadtime 10000 -e -E -d --turntime=1000000000 --debug_in_replay --engine_seed 42 --player_seed 42 --log_dir "game_logs" --map_file "..\maps\default_map.map" "..\bots\demoBot8.pyc" "..\..\better-bots\Britbot\Britbot" </CommandLineArguments>
+    <CommandLineArguments>--loadtime 10000 -e -E -d --turntime=1000000000 --debug_in_replay --engine_seed 42 --player_seed 42 --log_dir "game_logs" --map_file "..\maps\2_lone_island.map" "..\bots\demoBot8.pyc" "..\..\better-bots\Britbot\Britbot" </CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />

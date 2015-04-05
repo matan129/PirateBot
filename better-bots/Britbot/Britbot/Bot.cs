@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Security.Permissions;
 using System.Threading;
 using Britbot.Fallback;
@@ -70,6 +71,12 @@ namespace Britbot
             {
                 Bot.Game.Debug("=================BOT ERROR=====================");
                 Bot.Game.Debug("Bot almost crashed because of exception: " + ex.Message);
+
+                StackTrace exTrace = new StackTrace(ex, true);
+                StackFrame frame = exTrace.GetFrame(0);
+                Bot.Game.Debug("The exception was thrown from method {0} at file {1} at line #{2}", frame.GetMethod(),
+                    frame.GetFileName(), frame.GetFileLineNumber());
+
                 Bot.Game.Debug("=================BOT ERROR=====================");
             }
             finally
@@ -88,7 +95,7 @@ namespace Britbot
         ///     Executes the commander with specified timeout, and the fallback in parallel
         /// </summary>
         /// <returns>if the commander is on time or not</returns>
-        [SecurityPermission(SecurityAction.Demand)]
+        [SecurityPermissionAttribute(SecurityAction.Demand, ControlThread = true)]
         private static bool ExecuteBot()
         {
             //clear the last moves
@@ -134,7 +141,7 @@ namespace Britbot
             commanderThread.Start();
             fallbackThread.Start();
 
-            //Test if the commander is finished on time
+            //Test if the commander is finished on time. Give it 85% of the time remaining to be sure we won't timeout
             bool inTime = commanderThread.Join((int) (Bot.Game.TimeRemaining() * 0.85));
 
             //if it's stuck...
