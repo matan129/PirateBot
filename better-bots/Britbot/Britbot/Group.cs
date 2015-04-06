@@ -277,24 +277,35 @@ namespace Britbot
                 {
                     //All the possible direction from the pirate to its position the the structure
                     List<Direction> possibleDirections = Bot.Game.GetDirections(pete, formOrder.Value);
-                    Direction dir = Direction.NOTHING;
+
+                    int tryAlternate = Bot.Game.GetTurn() % 2;
+                    List<Direction> filteredDirections = new List<Direction>(possibleDirections.Count);
 
                     //iterate over the possible directions
                     foreach (Direction t in possibleDirections)
                     {
-                        dir = t;
 
                         //check if the direction is NOTHING - it means that the pirate is in place (double check with the previous if)
-                        if (dir == Direction.NOTHING)
+                        if (t == Direction.NOTHING)
+                        {
+                            filteredDirections.Add(t);
                             break;
+                        }
 
-                        //if the direction is actually passable: break...
-                        if (Bot.Game.Destination(pete.Loc, dir).IsActuallyPassable())
-                            break;
+                        //if the direction is actually passable add it to the list
+                        if (Bot.Game.Destination(pete.Loc, t).IsActuallyPassable())
+                            filteredDirections.Add(t);
                     }
 
-                    //..and return it
-                    yield return new KeyValuePair<Pirate, Direction>(pete, dir);
+                    //and return it
+                    if(filteredDirections.Count == 0)
+                        yield return new KeyValuePair<Pirate, Direction>(pete, Direction.NOTHING);
+                    else if(Bot.Game.Distance(pete.Loc,formOrder.Value) <= 10)
+                        yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections[0]);
+                    else if(filteredDirections.Count >= tryAlternate + 1)
+                        yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections[tryAlternate]);
+                    else
+                        yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections[0]);
                 }
             }
         }
