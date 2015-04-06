@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Configuration;
 using System.Threading;
 using Pirates;
+using Extensions = Britbot.Extensions;
 
 #endregion
 
@@ -176,7 +177,6 @@ namespace Britbot
                 List<Pirate> myPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
 
                 //Proceed to moving to the target unless it's a NoTarget - then we stay in place
-                //TODO might be better if we found some other stuff to do with not working pirates
                 if (this.Target.GetTargetType() != TargetType.NoTarget)
                 {
                     //Target location
@@ -456,7 +456,7 @@ namespace Britbot
                     {
                         //if the location is invalid (i.e. the current center requires a location outside the map)
                         //advance the location towards the center of the map
-                        center = this.AdvancePivot(center);
+                        center = center.AdvancePivot();
                     }
                 }
             }
@@ -532,49 +532,21 @@ namespace Britbot
             //generate the location for each ring
             for (int ordinal = 0; ordinal <= requiredRing; ordinal++)
             {
-                rings.AddRange(Group.GetRing(pivot, ordinal));
+                rings.AddRange(Group.GenerateRingLocations(pivot, ordinal));
             }
             
             //convert the list into array and return it
             return rings.Take(this.Pirates.Count).ToArray();
         }
-
-        /// <summary>
-        ///     Moves a location closer to the center of the map
-        /// </summary>
-        /// <param name="pivot"></param>
-        /// <returns></returns>
-        private Location AdvancePivot(Location pivot)
-        {
-            //this basically moves the location closer to the center of the map
-            int maxCols = Bot.Game.GetCols();
-            int maxRows = Bot.Game.GetRows();
-
-            int addCol = 0, addRow = 0;
-            int deltaCol = maxCols - pivot.Col;
-            int deltaRow = maxRows - pivot.Row;
-
-            if (deltaCol > pivot.Col)
-                addCol++;
-            else if (deltaCol < pivot.Col)
-                addCol--;
-
-            if (deltaRow > pivot.Row)
-                addRow++;
-            else if (deltaRow < pivot.Row)
-                addRow--;
-
-            pivot = new Location(pivot.Row + addRow, pivot.Col + addCol);
-            return pivot;
-        }
-
+        
         /// <summary>
         ///     Get the ring of the specified index relative to the given pivot
         /// </summary>
         /// <param name="pivot">The ring's center</param>
         /// <param name="ringOrdinal">the index of the ring</param>
+        /// <exception cref="InvalidLocationException">This method will throw this exception if a location it generated is not passable</exception>
         /// <returns></returns>
-        private static List<Location> GetRing(Location pivot, int ringOrdinal)
+        private static List<Location> GenerateRingLocations(Location pivot, int ringOrdinal)
         {
             //check if the ring index is OK
             if (ringOrdinal < 0)

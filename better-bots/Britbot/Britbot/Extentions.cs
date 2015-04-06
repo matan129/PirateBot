@@ -72,11 +72,16 @@ namespace Britbot
             return Bot.Game.GetDirections(a.Loc, b.Loc);
         }
 
+        /// <summary>
+        /// Returns all the friend pirates (that is, our pirates) that are in support range of the pirate
+        /// </summary>
+        /// <param name="pirate"></param>
+        /// <returns></returns>
         public static IEnumerable<Pirate> InRangeFriends(this Pirate pirate)
         {
             foreach (Pirate myPirate in Bot.Game.AllMyPirates())
             {
-                if (Bot.Game.InRange(pirate, myPirate))
+                if (!myPirate.IsLost && myPirate.Id != pirate.Id && Bot.Game.InRange(pirate, myPirate))
                     yield return myPirate;
             }
         }
@@ -111,6 +116,35 @@ namespace Britbot
         public static Location Subtract(this Location loc1, Location loc2)
         {
             return new Location(loc1.Row - loc2.Row, loc2.Col - loc2.Col);
+        }
+
+        /// <summary>
+        ///     Moves a location closer to the center of the map
+        /// </summary>
+        /// <param name="pivot"></param>
+        /// <returns></returns>
+        public static Location AdvancePivot(this Location pivot)
+        {
+            //this basically moves the location closer to the center of the map
+            int maxCols = Bot.Game.GetCols();
+            int maxRows = Bot.Game.GetRows();
+
+            int addCol = 0, addRow = 0;
+            int deltaCol = maxCols - pivot.Col;
+            int deltaRow = maxRows - pivot.Row;
+
+            if (deltaCol > pivot.Col)
+                addCol++;
+            else if (deltaCol < pivot.Col)
+                addCol--;
+
+            if (deltaRow > pivot.Row)
+                addRow++;
+            else if (deltaRow < pivot.Row)
+                addRow--;
+
+            pivot = new Location(pivot.Row + addRow, pivot.Col + addCol);
+            return pivot;
         }
     }
 }
