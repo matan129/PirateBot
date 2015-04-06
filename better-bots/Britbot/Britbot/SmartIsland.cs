@@ -1,5 +1,6 @@
 ﻿#region Usings
 
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using Pirates;
@@ -271,7 +272,9 @@ namespace Britbot
         /// <returns>True if the islands are the same or false otherwise</returns>
         protected bool Equals(SmartIsland other)
         {
-            return this.Id == other.Id;
+            bool eq = this.Id == other.Id;
+            //Bot.Game.Debug("Ack identical targets: " + eq);
+            return eq;
         }
 
         /// <summary>
@@ -284,7 +287,7 @@ namespace Britbot
             SmartIsland b = obj as SmartIsland;
             if (b != null)
             {
-                return Equals(b);
+                return this.Equals(b);
             }
             return false;
         }

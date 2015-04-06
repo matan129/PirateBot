@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Permissions;
 using System.Threading;
 using Pirates;
@@ -28,7 +29,7 @@ namespace Britbot
         /// <summary>
         ///     List of groups of our pirates
         /// </summary>
-        public static List<Group> Groups { get; private set; }
+        public static List<Group> Groups { get; set; }
 
         #endregion
 
@@ -141,15 +142,14 @@ namespace Britbot
 
                 #endregion
             }
+            catch (ThreadAbortException)
+            {
+                Bot.Game.Debug("****** COMMANDER EXITING DUE TO THREAD ABORT ******");
+                Thread.ResetAbort();
+                return;
+            }
             catch (Exception ex)
             {
-                if (ex is ThreadAbortException)
-                {
-                    Bot.Game.Debug("****** COMMANDER EXITING DUE TO THREAD ABORT ******");
-                    Thread.ResetAbort();
-                    return;
-                }
-
                 Bot.Game.Debug("==========COMMANDER EXCEPTION============");
                 Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
 
@@ -194,7 +194,7 @@ namespace Britbot
             do
             {
                 //set score array for current iteration
-                scoreArr = Commander.GetSpeciphicAssignmentScores(possibleAssignments, iterator.Values);
+                scoreArr = Commander.GetSpecificAssignmentScores(possibleAssignments, iterator.Values);
 
                 //calculate new score
                 int newScore = (int) Commander.GlobalizeScore(scoreArr);
@@ -209,7 +209,7 @@ namespace Britbot
             } while (iterator.NextIteration());
 
             //read the "winning" assignment
-            scoreArr = Commander.GetSpeciphicAssignmentScores(possibleAssignments, maxAssignment);
+            scoreArr = Commander.GetSpecificAssignmentScores(possibleAssignments, maxAssignment);
 
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
@@ -291,10 +291,10 @@ namespace Britbot
                 switch (s.Type)
                 {
                     case TargetType.Island:
-                        score += 100 * s.Value;
+                        score +=  s.Value;
                         break;
                     case TargetType.EnemyGroup:
-                        score += 200 * s.Value;
+                        score += 2 * s.Value;
                         break;
                 }
 
@@ -356,15 +356,16 @@ namespace Britbot
                     return moves;
                 return null;
             }
+            catch (ThreadAbortException)
+            {
+                Bot.Game.Debug("****** COMMANDER EXITING DUE TO THREAD ABORT ******");
+                Thread.ResetAbort();
+                return null;
+            }
             catch (Exception ex)
             {
-                if (ex is ThreadAbortException)
-                {
-                    Bot.Game.Debug("****** COMMANDER EXITING DUE TO THREAD ABORT ******");
-                    Thread.ResetAbort();
-                    return null;
-                }
-                
+
+
                 Bot.Game.Debug("==========COMMANDER EXCEPTION============");
                 Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
 
@@ -429,7 +430,7 @@ namespace Britbot
         /// <param name="possibleAssignments">jagged array of all possible assignments</param>
         /// <param name="assignment">indexes of this assignment</param>
         /// <returns></returns>
-        private static Score[] GetSpeciphicAssignmentScores(Score[][] possibleAssignments, int[] assignment)
+        private static Score[] GetSpecificAssignmentScores(Score[][] possibleAssignments, int[] assignment)
         {
             //declare the array to later be returned
             Score[] scoreArr = new Score[possibleAssignments.Length];
