@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Permissions;
 using System.Threading;
+using System.Threading.Tasks;
 using Britbot.Fallback;
 using Pirates;
 
@@ -102,68 +103,70 @@ namespace Britbot
             //clear the last moves
             Bot._fallbackMoves.Clear();
             Bot._movesDictionary.Clear();
+            
+            //setup time check flag
+            bool onTime = false;
 
-            //setup the threads
-            Thread commanderThread = new Thread(() =>
-            {
-                try
-                {
-                    Dictionary<Pirate, Direction> moves = Commander.Play();
-                    if (moves != null)
-                        Bot._movesDictionary = moves;
-                }
-                catch
-                {
-                    // this will catch the ThreadAbortException
-                }
-            })
-            {
-                IsBackground = true,
-                Name = "CommanderThread on turn " + Bot.Game.GetTurn()
-            };
-
-            Thread fallbackThread = new Thread(() =>
-            {
-                try
-                {
-                    Bot._fallbackMoves = FallbackBot.GetFallbackTurns();
-                }
-                catch
-                {
-                    // this will catch the ThreadAbortException
-                }
-            })
-            {
-                IsBackground = true,
-                Name = "FallbackThread on turn " + Bot.Game.GetTurn()
-            };
-
-            //Start the threads simultaneously
-            commanderThread.Start();
-            fallbackThread.Start();
-
+            //setup time remaining
             int time;
             if (Bot.Game.GetTurn() > 1)
                 time = Bot.Game.TimeRemaining();
             else
-                time = 1000;
+                time = 1000; //1000 ms
 
-            //Test if the commander is finished on time. Give it 85% of the time remaining to be sure we won't timeout
-            bool inTime = commanderThread.Join((int) (time * 0.85));
+            int safeTimeout = (int) (time * 0.85);
+
+            //timeout setup
+            CancellationTokenSource commanderCancellationSource = new CancellationTokenSource(safeTimeout);
+
+            //Commander task setup and start
+            Task commanderTask =
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        Bot._movesDictionary = Commander.Play(commanderCancellationSource.Token, out onTime);
+                    }
+                    catch (Exception ex)
+                    {
+                        Bot.Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
+                                       Bot.Game.GetTurn());
+                        Bot.Game.Debug(ex.ToString());
+                    }
+                    
+                });
+                    
+
+            //Fallback task setup and start
+            Task fallbackTask =
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        Bot._fallbackMoves = FallbackBot.GetFallbackTurns();
+                    }
+                    catch (Exception ex)
+                    {
+                        Bot.Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN " +
+                                       Bot.Game.GetTurn());
+                        Bot.Game.Debug(ex.ToString());
+                    }
+                });
+
+            //Wait for the tasks for some time
+            commanderTask.Wait(safeTimeout);
+            //fallbackTask.Wait();
+
             //if it's stuck...
-            if (!inTime)
+            if (!onTime)
             {
-                //..Abort the commander thread. 
-                //TODO this is dangerous, we have to switch to something a bit more reliable
-                commanderThread.Abort();
-
                 Bot.Game.Debug("=================TIMEOUT=======================");
                 Bot.Game.Debug("Commander timed out, switching to fallback code");
                 Bot.Game.Debug("=================TIMEOUT=======================");
             }
 
             //return if the commander is on time
-            return inTime;
+            return onTime;
         }
     }
 }

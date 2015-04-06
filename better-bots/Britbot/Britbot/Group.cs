@@ -156,8 +156,9 @@ namespace Britbot
         /// <summary>
         ///     Decides where to move each pirate in the group
         /// </summary>
+        /// <param name="cancellationToken"></param>
         /// <returns>A list that matches each pirate in the group a location to move to</returns>
-        public IEnumerable<KeyValuePair<Pirate, Direction>> GetGroupMoves()
+        public IEnumerable<KeyValuePair<Pirate, Direction>> GetGroupMoves(CancellationToken cancellationToken)
         {
             //Note that IEnumerable gives you the possibility of doing a yield return statement
             //yield return returns one element each time, 
@@ -168,7 +169,7 @@ namespace Britbot
             if (!this.IsFormed())
             {
                 //return for each of our pirate its move
-                foreach (var keyValuePair in this.GetStructureMoves())
+                foreach (var keyValuePair in this.GetStructureMoves(cancellationToken))
                     yield return keyValuePair;
             }
             else //if the group is in structure and ready to attack
@@ -185,6 +186,9 @@ namespace Britbot
                     //Get all the moves from the center pirate in the group to the target
                     List<Direction> possibleDirections = Bot.Game.GetDirections(this.FindCenter(true),
                         targetLoc);
+
+                    //Throwing an exception if cancellation was requested.
+                    cancellationToken.ThrowIfCancellationRequested();
 
                     //A list of the directions we can actually move in (see below)
                     List<Direction> filteredDirections = new List<Direction>(possibleDirections.Count);
@@ -251,8 +255,9 @@ namespace Britbot
         /// <summary>
         /// Get the correct moves to get into structure
         /// </summary>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        private IEnumerable<KeyValuePair<Pirate, Direction>> GetStructureMoves()
+        private IEnumerable<KeyValuePair<Pirate, Direction>> GetStructureMoves(CancellationToken cancellationToken)
         {
             //check if we are not stuck try to get into formation for too long
             if (this._formTurnsAttempt > this.Pirates.Count * 2)
@@ -265,6 +270,9 @@ namespace Britbot
             //iterate over all the structure (each pirate in the group has a reserved location in the structure)
             foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
             {
+                //Throwing an exception if cancellation was requested.
+                cancellationToken.ThrowIfCancellationRequested();
+
                 //Get the actual pirate object by its ID
                 Pirate pete = Bot.Game.GetMyPirate(formOrder.Key);
 
@@ -284,7 +292,6 @@ namespace Britbot
                     //iterate over the possible directions
                     foreach (Direction t in possibleDirections)
                     {
-
                         //check if the direction is NOTHING - it means that the pirate is in place (double check with the previous if)
                         if (t == Direction.NOTHING)
                         {
@@ -676,7 +683,9 @@ namespace Britbot
         /// <summary>
         ///     Calculate target priorities for this group
         /// </summary>
-        public void CalcPriorities()
+        /// <param name="cancellationToken"></param>
+        /// <exception cref="OperationCanceledException">The token has had cancellation requested.</exception>
+        public void CalcPriorities(CancellationToken cancellationToken)
         {
             //init some lists
             List<ITarget> priorityList = new List<ITarget>();
@@ -691,6 +700,9 @@ namespace Britbot
             //Add a score for each target we got
             foreach (ITarget target in priorityList)
             {
+                //Throwing an exception if cancellation was requested.
+                cancellationToken.ThrowIfCancellationRequested();
+
                 //calculate the score for this specific target
                 Score newScore = target.GetScore(this);
                 //check if score wasn't null, meaning if target was disqualified

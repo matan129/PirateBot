@@ -22,19 +22,17 @@ namespace Britbot.Fallback
         public static Dictionary<Pirate, Direction> GetFallbackTurns()
         {
             Dictionary<Pirate, Direction> fallback = new Dictionary<Pirate, Direction>();
+            foreach (Pirate pirate in Bot.Game.AllMyPirates())
+            {
+                if (Bot.Game.GetTurn() % 2 == 0)
+                    fallback.Add(pirate, Direction.NORTH);
+                else
+                    fallback.Add(pirate, Direction.SOUTH);
+            }
 
-            if (Commander.Groups == null || Commander.Groups.Count == 0)
-                //the commander isn't inted so we have to create the groups ourselves
-                Commander.Groups = FallbackBot.GetFallbackGroups();
-
-            Bot.Game.Debug("******* FALLBACK READY *******");
+            Bot.Game.Debug("===============FALLBACK READY=================");
 
             return fallback;
-        }
-
-        private static List<Group> GetFallbackGroups()
-        {
-            throw new NotImplementedException();
         }
     }
 }
