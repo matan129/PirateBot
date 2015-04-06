@@ -291,10 +291,10 @@ namespace Britbot
                 switch (s.Type)
                 {
                     case TargetType.Island:
-                        score +=  s.Value;
+                        score += 100* s.Value;
                         break;
                     case TargetType.EnemyGroup:
-                        score += 2 * s.Value;
+                        score += 200 * s.Value;
                         break;
                 }
 
