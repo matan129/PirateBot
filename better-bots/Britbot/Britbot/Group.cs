@@ -300,12 +300,12 @@ namespace Britbot
                     //and return it
                     if(filteredDirections.Count == 0)
                         yield return new KeyValuePair<Pirate, Direction>(pete, Direction.NOTHING);
-                    else if(Bot.Game.Distance(pete.Loc,formOrder.Value) <= 10)
-                        yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections[0]);
+                    else if(Bot.Game.Distance(pete.Loc,formOrder.Value) <= 15)
+                        yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections.First());
                     else if(filteredDirections.Count >= tryAlternate + 1)
                         yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections[tryAlternate]);
                     else
-                        yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections[0]);
+                        yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections.First());
                 }
             }
         }

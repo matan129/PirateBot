@@ -55,6 +55,7 @@ namespace Britbot
             //Note that there is a flag in these classes making sure that Init() will run only once
             SmartIsland.Init();
             Commander.Init();
+            Enemy.Init();
 
             bool commanderOk = false;
 
@@ -141,9 +142,14 @@ namespace Britbot
             commanderThread.Start();
             fallbackThread.Start();
 
-            //Test if the commander is finished on time. Give it 85% of the time remaining to be sure we won't timeout
-            bool inTime = commanderThread.Join((int) (Bot.Game.TimeRemaining() * 0.85));
+            int time;
+            if (Bot.Game.GetTurn() > 1)
+                time = Bot.Game.TimeRemaining();
+            else
+                time = 1000;
 
+            //Test if the commander is finished on time. Give it 85% of the time remaining to be sure we won't timeout
+            bool inTime = commanderThread.Join((int) (time * 0.85));
             //if it's stuck...
             if (!inTime)
             {

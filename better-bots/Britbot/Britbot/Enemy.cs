@@ -21,6 +21,8 @@ namespace Britbot
         /// </summary>
         public static List<EnemyGroup> Groups { get; private set; }
 
+        private static bool initFlag = false;
+
         #endregion
 
         #region Constructors & Initializers
@@ -28,9 +30,14 @@ namespace Britbot
         /// <summary>
         ///     Static enemy constructor
         /// </summary>
-        static Enemy()
+        public static void Init()
         {
-            Enemy.Groups = new List<EnemyGroup>();
+            if (!Enemy.initFlag)
+            {
+                Enemy.Groups = new List<EnemyGroup>();
+                Enemy.initFlag = true;
+            }
+
         }
 
         #endregion
@@ -59,7 +66,7 @@ namespace Britbot
                      * Note that Equals() does a deep comparison 
                      * (I overrided it to check if the pirates in each enemy group are the same)                    
                      */
-                    if (object.Equals(veteran, enemyGroup))
+                    if (Equals(veteran, enemyGroup))
                     {
                         /* 
                          * note that we are adding the group already in the old Groups list
