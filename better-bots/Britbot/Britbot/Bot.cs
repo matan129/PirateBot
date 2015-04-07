@@ -54,7 +54,7 @@ namespace Britbot
         public void DoTurn(IPirateGame state)
         {
             //update the game so other classes will get updated data
-            Game = state;
+            Game = state;            
 
             bool commanderOk = false;
 
@@ -111,54 +111,54 @@ namespace Britbot
             else
                 time = 1000; //1000 ms
 
-            int safeTimeout = (int) (time * 0.85);
+            int safeTimeout = (int)(time * 0.65);
 
             //timeout setup
-            CancellationTokenSource commanderCancellationSource = new CancellationTokenSource(safeTimeout);
-
-            //Commander task setup and start
-            _tasks[0] =
-                Task.Factory.StartNew(() =>
-                {
-                    try
-                    {
-                        _movesDictionary = Commander.Play(commanderCancellationSource.Token, out onTime);
-                    }
-                    catch (Exception ex)
-                    {
-                        Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
-                                   Game.GetTurn());
-                        Game.Debug(ex.ToString());
-                    }
-                });
-
-            //Fallback task setup and start
-            _tasks[1] =
-                Task.Factory.StartNew(() =>
-                {
-                    try
-                    {
-                        _fallbackMoves = FallbackBot.GetFallbackTurns();
-                    }
-                    catch (Exception ex)
-                    {
-                        Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN " +
-                                   Game.GetTurn());
-                        Game.Debug(ex.ToString());
-                    }
-                });
-
-            //Wait for the tasks until the same timeout is over.
-            Task.WaitAll(_tasks, safeTimeout);
-
-            //if it's stuck...
-            if (!onTime)
+            using (CancellationTokenSource commanderCancellationSource = new CancellationTokenSource(safeTimeout))
             {
-                Game.Debug("=================TIMEOUT=======================");
-                Game.Debug("Commander timed out, switching to fallback code");
-                Game.Debug("=================TIMEOUT=======================");
-            }
+                //Commander task setup and start
+                _tasks[0] =
+                    Task.Factory.StartNew(() =>
+                    {
+                        try
+                        {
+                            _movesDictionary = Commander.Play(commanderCancellationSource.Token, out onTime);
+                        }
+                        catch (Exception ex)
+                        {
+                            Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
+                                       Game.GetTurn());
+                            Game.Debug(ex.ToString());
+                        }
+                    });
 
+                //Fallback task setup and start
+                _tasks[1] =
+                    Task.Factory.StartNew(() =>
+                    {
+                        try
+                        {
+                            _fallbackMoves = FallbackBot.GetFallbackTurns();
+                        }
+                        catch (Exception ex)
+                        {
+                            Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN " +
+                                       Game.GetTurn());
+                            Game.Debug(ex.ToString());
+                        }
+                    });
+
+                //Wait for the tasks until the same timeout is over.
+                Task.WaitAll(_tasks, safeTimeout);
+
+                //if it's stuck...
+                if (!onTime)
+                {
+                    Game.Debug("=================TIMEOUT=======================");
+                    Game.Debug("Commander timed out, switching to fallback code");
+                    Game.Debug("=================TIMEOUT=======================");
+                }
+            }
             //return if the commander is on time
             return onTime;
         }

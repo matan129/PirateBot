@@ -51,7 +51,7 @@ namespace Britbot
                     Y = 1;
                     break;
                 case Direction.WEST:
-                    X = 1;
+                    X = -1;
                     Y = 0;
                     break;
                 default:
@@ -59,6 +59,16 @@ namespace Britbot
                     Y = 0;
                     break;
             }
+        }
+
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="toCopy"></param>
+        public HeadingVector(HeadingVector toCopy)
+        {
+            this.X = toCopy.X;
+            this.Y = toCopy.Y;
         }
 
         /// <summary>
@@ -115,15 +125,13 @@ namespace Britbot
         ///     otherwise, we assume there was a change in course and so we start again
         /// </summary>
         /// <param name="hv1">the main direction, the one we comparing the other to</param>
-        /// <param name="d">the new direction</param>
+        /// <param name="hv2">the new heading</param>
         /// <returns>itself if we need to use many operation in the same line</returns>
-        public static HeadingVector adjustHeading(HeadingVector hv1, Direction d)
+        public static HeadingVector adjustHeading(HeadingVector hv1, HeadingVector hv2)
         {
             //defining the result
-            HeadingVector newHv = hv1;
+            HeadingVector newHv = new HeadingVector(hv1);
 
-            //cast d into vector
-            HeadingVector hv2 = new HeadingVector(d);
 
             //if dot product is negative it means that the angle is bigger
             // then 90 so it implies change in direction: reset count
@@ -131,6 +139,10 @@ namespace Britbot
             //WOW math is useful
             //I thought you HATED the applied math department
             if (hv1 * hv2 < 0)
+            {
+                newHv = hv2;
+            }//also check that new direction isn't nothing
+            else if (hv2.Norm() == 0)
             {
                 newHv = hv2;
             }
@@ -144,11 +156,22 @@ namespace Britbot
         }
 
         /// <summary>
+        /// same as the previous one just gets a direction insted of a heading vector
+        /// </summary>
+        /// <param name="hv1">the main direction, the one we comparing the other to</param>
+        /// <param name="dir">the new direction</param>
+        /// <returns></returns>
+        public static HeadingVector adjustHeading(HeadingVector hv1, Direction dir)
+        {
+            return HeadingVector.adjustHeading(hv1, new HeadingVector(dir));
+        }
+
+        /// <summary>
         ///     same as the previous function just used as a method
         /// </summary>
         /// <param name="Dir">new Direction</param>
         /// <returns></returns>
-        public HeadingVector adjustHeading(Direction Dir)
+        public HeadingVector adjustHeading(HeadingVector Dir)
         {
             //just use the existing function
             this.SetCoordinates(HeadingVector.adjustHeading(this, Dir));
@@ -158,6 +181,19 @@ namespace Britbot
         }
 
         /// <summary>
+        ///     same as the previous function just gets a direction
+        /// </summary>
+        /// <param name="Dir">new Direction</param>
+        /// <returns></returns>
+        public HeadingVector adjustHeading(Direction Dir)
+        {
+            //just use the existing function
+            this.SetCoordinates(HeadingVector.adjustHeading(this, new HeadingVector(Dir)));
+
+            //return this for a+b+c calculations
+            return this;
+        }
+        /// <summary>
         ///     Calculates the direction vector between two points
         /// </summary>
         /// <param name="source">the point of beginning</param>
@@ -166,7 +202,7 @@ namespace Britbot
         public static HeadingVector CalcDifference(Location source, Location target)
         {
             //assigning new variable
-            return new HeadingVector(target.Col - source.Col, target.Row - source.Row);
+            return new HeadingVector( target.Col - source.Col,target.Row - source.Row);
         }
 
         /// <summary>
@@ -323,7 +359,7 @@ namespace Britbot
         public static HeadingVector operator +(HeadingVector hv1, HeadingVector hv2)
         {
             //defining the result
-            HeadingVector newHv = hv1;
+            HeadingVector newHv = new HeadingVector(hv1);
 
             //adding up
             newHv.X += hv2.X;
@@ -341,7 +377,7 @@ namespace Britbot
         public static HeadingVector operator -(HeadingVector hv1, HeadingVector hv2)
         {
             //defining the result
-            HeadingVector newHv = hv1;
+            HeadingVector newHv = new HeadingVector(hv1);
 
             //Substraction
             newHv.X -= hv2.X;

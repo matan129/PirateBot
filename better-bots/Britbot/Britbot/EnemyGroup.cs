@@ -135,7 +135,7 @@ namespace Britbot
 
             //return the average location
             if (locs.Count != 0)
-                return new Location(totalCol / locs.Count, totalRow / locs.Count);
+                return new Location( totalRow / locs.Count,totalCol / locs.Count);
 
             return new Location(0, 0);
         }
@@ -151,7 +151,7 @@ namespace Britbot
         public Direction GetDirection(Group group)
         {
             //calculates the direction based on the geographical data from the game
-            return Navigator.CalculateDirectionToMovingTarget(group.GetLocation(), group.Heading, GetLocation(),
+            return Navigator.CalculateDirectionToMovingTarget(group.FindCenter(true), group.Heading, GetLocation(),
                 Heading);
         }
 
@@ -325,13 +325,13 @@ namespace Britbot
         public void UpdateHeading()
         {
             //get the new direction of the last turn
-            Direction newDir = Bot.Game.GetDirections(PrevLoc, GetLocation())[0];
+            HeadingVector newHeading = HeadingVector.CalcDifference(this.PrevLoc, this.GetLocation());
 
             //update previous location
             PrevLoc = GetLocation();
 
             //update direction
-            Heading.adjustHeading(newDir);
+            Heading.adjustHeading(newHeading);
         }
 
         /// <summary>
@@ -377,7 +377,8 @@ namespace Britbot
 
         public override string ToString()
         {
-            return this.EnemyPirates.Count.ToString();
+            return "EnemyGroup- id: " + this.Id + ", pirates count: " + this.EnemyPirates.Count
+                                      + ", Heading: " + this.Heading.ToString() + "\n";
         }
 
         /// <summary>

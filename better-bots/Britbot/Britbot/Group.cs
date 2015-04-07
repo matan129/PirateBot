@@ -104,6 +104,12 @@ namespace Britbot
 
         #endregion
 
+        public override string ToString()
+        {
+            return "Group - id: " + this.Id + " pirate count: " + this.Pirates.Count + "location: " + this.FindCenter(true)
+                                  + " heading: " + Heading;
+        }
+
         /// <summary>
         ///     Sets the target of the group, while doing so also resets the heading vector
         ///     if there is need (meaning if we didn't choose the same target again).
@@ -180,6 +186,7 @@ namespace Britbot
                 //Proceed to moving to the target unless it's a NoTarget - then we stay in place
                 if (this.Target.GetTargetType() != TargetType.NoTarget)
                 {
+                    /*
                     //Target location
                     Location targetLoc = this.Target.GetLocation();
 
@@ -234,12 +241,25 @@ namespace Britbot
                     //sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions
                     myPirates.Sort(
                         (b, a) => Bot.Game.Distance(a.Loc, targetLoc).CompareTo(Bot.Game.Distance(b.Loc, targetLoc)));
+                    */
+                    Direction master = Target.GetDirection(this);
 
+                    //sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions
+                    myPirates = myPirates.OrderBy(p => Navigator.CalcDistFromLine(new Location(0, 0), GetLocation(), (new HeadingVector(master)).Orthogonal())).ToList();
                     //return for each pirate the pirate and its direction
                     foreach (Pirate myPirate in myPirates)
                     {
                         yield return new KeyValuePair<Pirate, Direction>(myPirate, master);
                     }
+
+                    //update heading
+                    Bot.Game.Debug("--------GROUP id: " + Id + "-----------");
+                    Bot.Game.Debug("Heading: " + Heading.ToString());
+                    Bot.Game.Debug("master: " + master.ToString());
+                    this.Heading.adjustHeading(master);
+                    Bot.Game.Debug("newHeading: " + Heading.ToString());
+                    Bot.Game.Debug("----------------------------------------");
+
                 }
                 else //stay if we are on target
                 {
@@ -623,7 +643,7 @@ namespace Britbot
         ///     location
         /// </param>
         /// <returns>The center pirate</returns>
-        private Location FindCenter(bool enforcePirate)
+        public Location FindCenter(bool enforcePirate)
         {
             //convert all the pirates indexes to actual pirate list
             List<Pirate> myPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
@@ -694,8 +714,8 @@ namespace Britbot
             //Add all targets to the list
 
             //TODO Fix enemy group targeting
-            //priorityList.AddRange(Enemy.Groups);
-            priorityList.AddRange(SmartIsland.IslandList);
+            priorityList.AddRange(Enemy.Groups);
+            //priorityList.AddRange(SmartIsland.IslandList);
 
             //Add a score for each target we got
             foreach (ITarget target in priorityList)

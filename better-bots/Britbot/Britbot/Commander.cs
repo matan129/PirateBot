@@ -39,7 +39,7 @@ namespace Britbot
 
             //TODO initial config should be better then this
 
-            if (Bot.Game.Islands().Count == 1)
+            if (Bot.Game.Islands().Count == 1 || true)
             {
                 Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
                 return;
@@ -286,7 +286,7 @@ namespace Britbot
                     cancellationToken.ThrowIfCancellationRequested();
 
                     if (scoreArr[i].Target.Equals(scoreArr[j].Target))
-                        score = -100000000;
+                        return -100000000;
                 }
             }
 
@@ -319,6 +319,11 @@ namespace Britbot
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
             {
+                Bot.Game.Debug("--------------our ships---------------");
+                foreach (Group g in Groups)
+                    Bot.Game.Debug(g.ToString());
+                Bot.Game.Debug("--------------------------------------");
+
                 //update the enemy info
                 Enemy.Update(cancellationToken);
 

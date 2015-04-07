@@ -151,7 +151,7 @@ namespace Britbot
         public Direction GetDirection(Group group)
         {
             //calculates the direction based on the geographical data from the game
-            return Navigator.CalculateDirectionToStationeryTarget(group.GetLocation(), group.Heading, GetLocation());
+            return Navigator.CalculateDirectionToStationeryTarget(group.FindCenter(true), group.Heading, GetLocation());
         }
 
         public TargetType GetTargetType()

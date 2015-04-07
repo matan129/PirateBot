@@ -171,6 +171,14 @@ namespace Britbot
 
             //update heading in parallel
             Parallel.ForEach(Groups, eGroup => eGroup.UpdateHeading());
+
+            //logging
+            Bot.Game.Debug("------------Enemy Groups--------------\n");
+            foreach (EnemyGroup eGroup in Groups)
+            {
+                Bot.Game.Debug(eGroup.ToString());
+            }
+            Bot.Game.Debug("--------------------------------------\n");
         }
     }
 }

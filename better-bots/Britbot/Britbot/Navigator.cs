@@ -30,7 +30,7 @@ namespace Britbot
             //variable for the best direction so far
             Direction bestDirection = Direction.NOTHING;
             double directionFitCoeff = -1;
-
+            Bot.Game.Debug("---------------NAVIGATOR------------------");
             //going over all directions
             foreach (Direction dir in Bot.Game.GetDirections(myLoc, target))
             {
@@ -40,6 +40,12 @@ namespace Britbot
                 //means that we are almost in the right direction
                 double newFitCoef = newHeading.Normalize() * desiredVector.Normalize();
 
+                
+                Bot.Game.Debug("desired " + desiredVector.ToString());
+                Bot.Game.Debug("newHeading " + newHeading.ToString());
+                Bot.Game.Debug("newFitCoef " + newFitCoef);
+                Bot.Game.Debug("dir " + dir.ToString());
+
                 //check if this direction is better (coefficient is larget) then the others
                 if (newFitCoef > directionFitCoeff)
                 {
@@ -48,7 +54,7 @@ namespace Britbot
                     directionFitCoeff = newFitCoef;
                 }
             }
-
+            Bot.Game.Debug("------------------------------------------");
             //return best direction found
             return bestDirection;
         }
