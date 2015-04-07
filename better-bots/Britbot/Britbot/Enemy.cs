@@ -16,14 +16,18 @@ namespace Britbot
     /// </summary>
     public static class Enemy
     {
+        #region Static Fields & Consts
+
+        private static bool initFlag;
+
+        #endregion
+
         #region Fields & Properies
 
         /// <summary>
         ///     A list of the enemy's groups
         /// </summary>
         public static List<EnemyGroup> Groups { get; private set; }
-
-        private static bool initFlag = false;
 
         #endregion
 
@@ -34,12 +38,11 @@ namespace Britbot
         /// </summary>
         public static void Init()
         {
-            if (!Enemy.initFlag)
+            if (!initFlag)
             {
-                Enemy.Groups = new List<EnemyGroup>();
-                Enemy.initFlag = true;
+                Groups = new List<EnemyGroup>();
+                initFlag = true;
             }
-
         }
 
         #endregion
@@ -52,9 +55,9 @@ namespace Britbot
         /// <exception cref="OperationCanceledException">The token has had cancellation requested.</exception>
         public static List<EnemyGroup> AnalyzeEnemyGroups(CancellationToken cancellationToken)
         {
-            EnemyGroup[] analysis = Enemy.AnalyzeFull(cancellationToken).ToArray();
+            EnemyGroup[] analysis = AnalyzeFull(cancellationToken).ToArray();
 
-            if (Enemy.Groups.Count == 0)
+            if (Groups.Count == 0)
                 return analysis.ToList();
 
             List<EnemyGroup> veteranGroups = new List<EnemyGroup>(analysis.Length);
@@ -66,11 +69,11 @@ namespace Britbot
                 cancellationToken.ThrowIfCancellationRequested();
 
                 EnemyGroup enemyGroup = analysis[i];
-                foreach (EnemyGroup veteran in Enemy.Groups)
+                foreach (EnemyGroup veteran in Groups)
                 {
                     //Throwing an exception if cancellation was requested.
                     cancellationToken.ThrowIfCancellationRequested();
-                    
+
 
                     /*
                      * check if the groups are the same.
@@ -108,7 +111,7 @@ namespace Britbot
 
             Bot.Game.Debug("Enemy new groups: " + newGroupsInfo.TrimEnd(','));
             Bot.Game.Debug("Total enemy config: " + string.Join(",", veteranGroups));
-            
+
             return veteranGroups;
         }
 
@@ -170,14 +173,14 @@ namespace Britbot
         public static void Update(CancellationToken cancellationToken)
         {
             //update the enemy data
-            List<EnemyGroup> updated = Enemy.AnalyzeEnemyGroups(cancellationToken);
+            List<EnemyGroup> updated = AnalyzeEnemyGroups(cancellationToken);
 
             //update the enemyGroups by logical stuff
-            Enemy.Groups = Enemy.Groups.Intersect(updated).ToList();
-            Enemy.Groups = Enemy.Groups.Union(updated).ToList();
+            Groups = Groups.Intersect(updated).ToList();
+            Groups = Groups.Union(updated).ToList();
 
             //update heading in parallel
-            Parallel.ForEach(Enemy.Groups, eGroup => eGroup.UpdateHeading());
+            Parallel.ForEach(Groups, eGroup => eGroup.UpdateHeading());
         }
     }
 }

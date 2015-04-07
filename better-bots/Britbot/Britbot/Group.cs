@@ -164,7 +164,7 @@ namespace Britbot
             //yield return returns one element each time, 
             //So we don't have to explicitly keep a list of the moves in this function
             int tryAlternateDirection = Bot.Game.GetTurn() % 2;
-            
+
             //Check if the group is formed into structure. If not, get the moves to get into the structure
             if (!this.IsFormed())
             {
@@ -305,11 +305,11 @@ namespace Britbot
                     }
 
                     //and return it
-                    if(filteredDirections.Count == 0)
+                    if (filteredDirections.Count == 0)
                         yield return new KeyValuePair<Pirate, Direction>(pete, Direction.NOTHING);
-                    else if(Bot.Game.Distance(pete.Loc,formOrder.Value) <= 15)
+                    else if (Bot.Game.Distance(pete.Loc, formOrder.Value) <= 15)
                         yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections.First());
-                    else if(filteredDirections.Count >= tryAlternate + 1)
+                    else if (filteredDirections.Count >= tryAlternate + 1)
                         yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections[tryAlternate]);
                     else
                         yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections.First());
@@ -332,7 +332,7 @@ namespace Britbot
         /// <returns></returns>
         private bool IsFormed(bool checkCasualties = true, int casualtiesThreshold = 20)
         {
-            if(checkCasualties)
+            if (checkCasualties)
                 if (this.CasualtiesPercent() > casualtiesThreshold) //if there are many casualties
                     return false;
 
@@ -346,13 +346,13 @@ namespace Britbot
             //bool to flag if there is need for another formation test (see below)
             bool confirmUnstructured = false;
             Pirate pete = null;
-            
+
             //iterate over the forming instructions 
             foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
             {
                 //get the actual pirate from its ID
                 pete = Bot.Game.GetMyPirate(formOrder.Key);
-                
+
                 if (pete != null)
                 {
                     //ignore dead pirates
@@ -405,7 +405,7 @@ namespace Britbot
                 Bot.Game.Debug("Group {0} is not formed yet", this.Id);
                 return false;
             }
-            
+
             //if we still failed to get a new structure for whatever reason...
             if (structureFull == null)
             {
@@ -417,13 +417,13 @@ namespace Britbot
             //if we got a new structure successfully...
             //this is the number of empty location in the group's structure
             int emptyCells = 0;
-            
+
             //iterate over all the locations in the new structure
             foreach (Location loc in structureFull)
             {
                 //try to find a pirate in the location
                 Pirate p = Bot.Game.GetPirateOn(loc);
-                
+
                 //if there's not pirate of ours on the location
                 if (!(p != null && p.Owner == Consts.ME))
                     //advance the counter
@@ -455,7 +455,7 @@ namespace Britbot
 
             //find the average location of the group (not the center pirate!)
             Location center = this.FindCenter(false);
-            
+
             //if we didn't get a pre calculated structure, calculate it below
             if (structure == null)
             {
@@ -552,11 +552,11 @@ namespace Britbot
             {
                 rings.AddRange(Group.GenerateRingLocations(pivot, ordinal));
             }
-            
+
             //convert the list into array and return it
             return rings.Take(this.Pirates.Count).ToArray();
         }
-        
+
         /// <summary>
         ///     Get the ring of the specified index relative to the given pivot
         /// </summary>
@@ -585,7 +585,7 @@ namespace Britbot
                             ((2 * b +
                               Math.Sqrt(4 * Math.Pow(b, 2) +
                                         4 * (Math.Pow(ringOrdinal - Math.Abs(a - x), 2) - Math.Pow(b, 2)))) / 2));
-                
+
                 //if the location is nit passable, throw an expection (caught by the calling function)
                 if (!Bot.Game.IsPassable(y1))
                     throw new InvalidLocationException("Location is not passable!");
@@ -600,7 +600,7 @@ namespace Britbot
                             ((2 * b -
                               Math.Sqrt(4 * Math.Pow(b, 2) +
                                         4 * (Math.Pow(ringOrdinal - Math.Abs(a - x), 2) - Math.Pow(b, 2)))) / 2));
-                
+
                 //if the location is nit passable, throw an expection (caught by the calling function)
                 if (!Bot.Game.IsPassable(y2))
                     throw new InvalidLocationException("Location is not passable!");

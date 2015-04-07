@@ -125,7 +125,7 @@ namespace Britbot
             {
                 Pirate enemyPirate = Bot.Game.GetEnemyPirate(e);
 
-                if(enemyPirate != null)
+                if (enemyPirate != null)
                     locs.Add(enemyPirate.Loc);
             }
 
@@ -137,7 +137,7 @@ namespace Britbot
             if (locs.Count != 0)
                 return new Location(totalCol / locs.Count, totalRow / locs.Count);
 
-            return new Location(0,0);
+            return new Location(0, 0);
         }
 
         /// <summary>

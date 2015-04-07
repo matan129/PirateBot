@@ -75,13 +75,13 @@ namespace Britbot
             double e = targetHeading.Y;
 
             //calculating r, hopefully
-            double r = Navigator.SolveStupidEquation(a, b, c, d, e);
+            double r = SolveStupidEquation(a, b, c, d, e);
 
             //finally, calculating the intersection point
             Location intersection = HeadingVector.AddvanceByVector(target, r * targetHeading);
 
             //returning path to intersection
-            return Navigator.CalculateDirectionToStationeryTarget(myLoc, myHeading, intersection);
+            return CalculateDirectionToStationeryTarget(myLoc, myHeading, intersection);
         }
 
         /// <summary>
@@ -156,8 +156,8 @@ namespace Britbot
         public static int ComparePirateByDirection(int p1, int p2, HeadingVector hv)
         {
             //calculate both pirates position on the line created by hv
-            double p1Dist = Navigator.CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p1).Loc, hv.Orthogonal());
-            double p2Dist = Navigator.CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p2).Loc, hv.Orthogonal());
+            double p1Dist = CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p1).Loc, hv.Orthogonal());
+            double p2Dist = CalcDistFromLine(new Location(0, 0), Bot.Game.GetMyPirate(p2).Loc, hv.Orthogonal());
 
             return (int) (p2Dist - p1Dist);
         }
