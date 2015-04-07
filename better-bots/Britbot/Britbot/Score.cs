@@ -29,10 +29,13 @@ namespace Britbot
         public TargetType Type;
 
         /// <summary>
-        ///     value of the island if island, number of ships if ship
+        ///     value of the island if island
         /// </summary>
         public double Value { get; private set; }
-
+        /// <summary>
+        /// Amount of enemy ships nearBy
+        /// </summary>
+        public double EnemyShips;
         #endregion
 
         #region Constructors & Initializers
@@ -42,14 +45,16 @@ namespace Britbot
         /// </summary>
         /// <param name="target">The target this score relates to</param>
         /// <param name="type">The type of the target (island or enemy group)</param>
-        /// <param name="value">The Numerical value of the target</param>
+        /// <param name="value">The Numerical value of the island</param>
+        /// <param name="EnemyShips">amount of enemy ships nearby</param>
         /// <param name="eta">Estimated time to arrive at target</param>
-        public Score(ITarget target, TargetType type, double value, double eta)
+        public Score(ITarget target, TargetType type, double value, double EnemyShips, double eta)
         {
             this.Target = target;
             this.Type = type;
             this.Value = value;
             this.Eta = eta;
+            this.EnemyShips = EnemyShips;
         }
 
         #endregion

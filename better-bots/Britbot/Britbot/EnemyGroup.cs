@@ -82,7 +82,7 @@ namespace Britbot
         {
             //first check if groups direction is stable, otherwise disqualify
             int stabilityCoeff = 2;
-            if (this.Heading.Norm1() < stabilityCoeff)
+            if (this.Heading.Norm1() < stabilityCoeff && this.Heading.Norm1() != 0)
                 return null;
 
             //next check if it even possible to catch the ship, otherwise disqualify
@@ -103,7 +103,7 @@ namespace Britbot
             {
                 Bot.Game.Debug("EnemyGroup was moved to ExpIterator processing:" + this.Id + " " + this.LiveCount() +
                                " " + origin.LiveCount());
-                return new Score(this, TargetType.EnemyGroup, this.EnemyPirates.Count, distance);
+                return new Score(this, TargetType.EnemyGroup,0, this.EnemyPirates.Count, distance);
             }
 
             return null;
@@ -151,6 +151,10 @@ namespace Britbot
         public Direction GetDirection(Group group)
         {
             //calculates the direction based on the geographical data from the game
+            //first check if stationary
+            if (this.Heading.Norm() == 0)
+                return Navigator.CalculateDirectionToStationeryTarget(group.FindCenter(true), group.Heading, this.GetLocation());
+            //otherwise
             return Navigator.CalculateDirectionToMovingTarget(group.FindCenter(true), group.Heading, GetLocation(),
                 Heading);
         }

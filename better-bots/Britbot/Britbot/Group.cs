@@ -684,7 +684,8 @@ namespace Britbot
                 }
 
                 //set the returned location to the central pirate location
-                averageLocation = pete.Loc;
+                if(pete != null)
+                    averageLocation = pete.Loc;
             }
 
             //return the location
@@ -715,7 +716,7 @@ namespace Britbot
 
             //TODO Fix enemy group targeting
             priorityList.AddRange(Enemy.Groups);
-            //priorityList.AddRange(SmartIsland.IslandList);
+            priorityList.AddRange(SmartIsland.IslandList);
 
             //Add a score for each target we got
             foreach (ITarget target in priorityList)
@@ -740,6 +741,12 @@ namespace Britbot
                 NoTarget noTarget = new NoTarget();
                 this.Priorities.Add(noTarget.GetScore(this));
             }
+
+            //limit outselfs to so and so targets
+            //first sort by something (meanwhile distance)
+            this.Priorities = this.Priorities.OrderBy(score => score.Eta).ToList();
+            //throw away all but CalcMaxPrioritiesNum
+            this.Priorities = this.Priorities.Take(Commander.CalcMaxPrioritiesNum()).ToList();
         }
 
         /// <summary>

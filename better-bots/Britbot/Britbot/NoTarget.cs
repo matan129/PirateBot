@@ -22,7 +22,7 @@ namespace Britbot
         /// <returns></returns>
         public Score GetScore(Group origin)
         {
-            return new Score(this, TargetType.NoTarget, 0, 1);
+            return new Score(this, TargetType.NoTarget, 0,0, 1);
         }
 
         /// <summary>

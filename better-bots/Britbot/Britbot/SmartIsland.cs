@@ -1,5 +1,6 @@
 ﻿#region Usings
 
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
@@ -111,6 +112,10 @@ namespace Britbot
         /// <returns>Returns the Score for the Target</returns>
         public Score GetScore(Group origin)
         {
+            //check if there are more enemies than we can kill
+            if (this.NearbyEnemyCount(20) >= origin.LiveCount())
+                return null;
+
             //calculates the minimum distance between a group and said island
             int distance =
                 origin.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p))
@@ -128,7 +133,7 @@ namespace Britbot
 
             //check if the island isn't already ours, if so disqualify it and return null
             if (this.Owner != Consts.ME || this.TeamCapturing == Consts.ENEMY)
-                return new Score(this, TargetType.Island, (origin.Pirates.Count * (this.Value - 1)) + 1,
+                return new Score(this, TargetType.Island, this.Value, this.NearbyEnemyCount(5),
                     distance + captureTime);
             return null;
         }
@@ -204,10 +209,10 @@ namespace Britbot
         ///     Checks if there are enemies near said Island that will probably attack it
         /// </summary>
         /// <returns>The amount of enemies near the target</returns>
-        public int NearbyEnemyCount()
+        public int NearbyEnemyCount(int dangerRadius = 15)
         {
             int enemyCount = 0; //amount of enemy pirates in proximity to the Island
-            int closestIslandDistance = 0; //The distance between this Island and the one nearest too it
+            /*int closestIslandDistance = 0; //The distance between this Island and the one nearest too it
             foreach (SmartIsland eIsland in SmartIsland.IslandList)
                 //Calculates the distance between this island and the one nearest
             {
@@ -216,10 +221,7 @@ namespace Britbot
                 {
                     closestIslandDistance = temp;
                 }
-            }
-
-            // All enemy pirates are heading towards a certain island and it is safe to assume that they are heading towards the one nearest to them
-            int dangerRadius = closestIslandDistance / 2;
+            }*/
             foreach (EnemyGroup eGroup in Enemy.Groups)
             {
                 //Checks if the group of islands is near the island and if they are getting closer or farther

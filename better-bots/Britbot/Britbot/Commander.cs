@@ -24,6 +24,8 @@ namespace Britbot
         /// </summary>
         public static List<Group> Groups { get; set; }
 
+
+        public static int MaxIterator = 100000;
         #endregion
 
         #region Constructors & Initializers
@@ -39,7 +41,7 @@ namespace Britbot
 
             //TODO initial config should be better then this
 
-            if (Bot.Game.Islands().Count == 1 || true)
+            if (Bot.Game.Islands().Count == 1 )
             {
                 Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
                 return;
@@ -130,6 +132,11 @@ namespace Britbot
         }
 
         #endregion
+
+        public static int CalcMaxPrioritiesNum()
+        {
+            return (int)(Math.Pow(MaxIterator, 1.0 / Groups.Count));
+        }
 
         /// <summary>
         ///     Assigns targets to each group based on pure magic
@@ -261,16 +268,8 @@ namespace Britbot
                 //Throwing an exception if cancellation was requested.
                 cancellationToken.ThrowIfCancellationRequested();
 
-                switch (s.Type)
-                {
-                    case TargetType.Island:
-                        score += 100 * s.Value;
-                        break;
-                    case TargetType.EnemyGroup:
-                        score += 200 * s.Value;
-                        break;
-                }
-
+                score += 100 * s.Value;
+                score += 200 * s.EnemyShips;
                 timeAvg += s.Eta;
             }
 
@@ -318,11 +317,14 @@ namespace Britbot
         {
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
-            {
+            {/*
+                Bot.Game.Debug("\n\n--------------priorities num---------------");
+                Bot.Game.Debug("Max number of priorities: " + Commander.CalcMaxPrioritiesNum());
+                Bot.Game.Debug("--------------------------------------\n\n");
                 Bot.Game.Debug("--------------our ships---------------");
                 foreach (Group g in Groups)
                     Bot.Game.Debug(g.ToString());
-                Bot.Game.Debug("--------------------------------------");
+                Bot.Game.Debug("--------------------------------------");*/
 
                 //update the enemy info
                 Enemy.Update(cancellationToken);

@@ -30,7 +30,7 @@ namespace Britbot
             //variable for the best direction so far
             Direction bestDirection = Direction.NOTHING;
             double directionFitCoeff = -1;
-            Bot.Game.Debug("---------------NAVIGATOR------------------");
+
             //going over all directions
             foreach (Direction dir in Bot.Game.GetDirections(myLoc, target))
             {
@@ -39,13 +39,7 @@ namespace Britbot
                 //calculate the dot product with the desired direction and normalize, if it is close to 1 it 
                 //means that we are almost in the right direction
                 double newFitCoef = newHeading.Normalize() * desiredVector.Normalize();
-
                 
-                Bot.Game.Debug("desired " + desiredVector.ToString());
-                Bot.Game.Debug("newHeading " + newHeading.ToString());
-                Bot.Game.Debug("newFitCoef " + newFitCoef);
-                Bot.Game.Debug("dir " + dir.ToString());
-
                 //check if this direction is better (coefficient is larget) then the others
                 if (newFitCoef > directionFitCoeff)
                 {
@@ -54,7 +48,7 @@ namespace Britbot
                     directionFitCoeff = newFitCoef;
                 }
             }
-            Bot.Game.Debug("------------------------------------------");
+
             //return best direction found
             return bestDirection;
         }
@@ -177,6 +171,10 @@ namespace Britbot
         /// <returns>true if it is possible to reach, else otherwise</returns>
         public static bool IsReachable(Location group, Location target, HeadingVector targetHeading)
         {
+            //if the target is stationary then return true
+            if (targetHeading.Norm() == 0)
+                return true;
+
             //----------------------calculation of naive maximum intersection----------------------
             HeadingVector diffVector = HeadingVector.CalcDifference(target, group);
 
