@@ -112,7 +112,8 @@ namespace Britbot
             else
                 time = 1000; //1000 ms
 
-            int safeTimeout = (int)(time * 0.65);
+            time = 1000;
+            int safeTimeout = (int)(time * 1000.65);
 
             //timeout setup
             using (CancellationTokenSource commanderCancellationSource = new CancellationTokenSource(safeTimeout))
@@ -125,11 +126,12 @@ namespace Britbot
                         {
                             _movesDictionary = Commander.Play(commanderCancellationSource.Token, out onTime);
                         }
-                        catch (Exception ex)
+                        catch (AggregateException ex)
                         {
                             Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
                                        Game.GetTurn());
-                            Game.Debug(ex.ToString());
+                            foreach(Exception e in ex.InnerExceptions)
+                                Game.Debug(e.ToString());
                         }
                     });
 

@@ -93,16 +93,12 @@ namespace Britbot
             //lower score is worse. Mind the minus sign!
             double distance = Navigator.CalcDistFromLine(origin.GetLocation(), this.GetLocation(), this.Heading);
 
-            Bot.Game.Debug("EnemyGroup's HeadingVector CalcFromLine returned: " + distance);
-
             //consider attack radious
             distance -= Bot.Game.GetAttackRadius();
 
             //if the group is strong enough to take the enemy group add its score
             if (origin.LiveCount() > this.LiveCount())
             {
-                Bot.Game.Debug("EnemyGroup was moved to ExpIterator processing:" + this.Id + " " + this.LiveCount() +
-                               " " + origin.LiveCount());
                 return new Score(this, TargetType.EnemyGroup,0, this.EnemyPirates.Count, distance);
             }
 

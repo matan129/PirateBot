@@ -25,7 +25,7 @@ namespace Britbot
         public static List<Group> Groups { get; set; }
 
 
-        public static int MaxIterator = 100000;
+        public static int MaxIterator = 10000;
         #endregion
 
         #region Constructors & Initializers
@@ -191,15 +191,6 @@ namespace Britbot
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
                 Groups[i].SetTarget(scoreArr[i].Target);
-
-            #region Debug Prints
-
-            Bot.Game.Debug("=====================TARGETS===================");
-            for (int i = 0; i < dimensions.Length; i++)
-                Bot.Game.Debug(possibleAssignments[i][maxAssignment[i]].Target.GetDescription());
-            Bot.Game.Debug("=====================TARGETS===================");
-
-            #endregion
         }
 
         /// <summary>
@@ -317,20 +308,18 @@ namespace Britbot
         {
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
-            {/*
-                Bot.Game.Debug("\n\n--------------priorities num---------------");
-                Bot.Game.Debug("Max number of priorities: " + Commander.CalcMaxPrioritiesNum());
-                Bot.Game.Debug("--------------------------------------\n\n");
-                Bot.Game.Debug("--------------our ships---------------");
-                foreach (Group g in Groups)
-                    Bot.Game.Debug(g.ToString());
-                Bot.Game.Debug("--------------------------------------");*/
+            {
 
                 //update the enemy info
                 Enemy.Update(cancellationToken);
 
+                Bot.Game.Debug("Alowed Targets: " + CalcMaxPrioritiesNum());
+
                 //calculate targets
                 CalculateAndAssignTargets(cancellationToken);
+
+                foreach (Group g in Groups)
+                    g.Debug();
 
                 //Get the moves for all the pirates and return them
                 Dictionary<Pirate, Direction> moves = GetAllMoves(cancellationToken);
@@ -338,6 +327,14 @@ namespace Britbot
                 //we are on time!
                 onTime = true;
                 return moves;
+            }
+            catch (AggregateException ex)
+            {
+                Bot.Game.Debug("****** COMMANDER EXITING DUE TO AggregateException ******");
+                foreach (Exception e in ex.InnerExceptions)
+                    Bot.Game.Debug(e.ToString());
+                onTime = false;
+                return new Dictionary<Pirate, Direction>();
             }
             catch (OperationCanceledException) //catch task cancellation
             {
@@ -453,6 +450,8 @@ namespace Britbot
         {
             //this may calculate some of the stuff in parallel and therefore faster 
             Parallel.ForEach(Groups, g => g.CalcPriorities(cancellationToken));
+
+            Bot.Game.Debug("Priorities Calculated");
         }
     }
 }

@@ -83,8 +83,6 @@ namespace Britbot
                 }
             }
 
-            Bot.Game.Debug("Enemy veteran groups: " + String.Join(",", veteranGroups));
-
             string newGroupsInfo = "";
 
             for (int i = 0; i < analysis.Length; i++)
@@ -99,8 +97,6 @@ namespace Britbot
                 }
             }
 
-            Bot.Game.Debug("Enemy new groups: " + newGroupsInfo.TrimEnd(','));
-            Bot.Game.Debug("Total enemy config: " + string.Join(",", veteranGroups));
 
             return veteranGroups;
         }
@@ -172,13 +168,6 @@ namespace Britbot
             //update heading in parallel
             Parallel.ForEach(Groups, eGroup => eGroup.UpdateHeading());
 
-            //logging
-            Bot.Game.Debug("------------Enemy Groups--------------\n");
-            foreach (EnemyGroup eGroup in Groups)
-            {
-                Bot.Game.Debug(eGroup.ToString());
-            }
-            Bot.Game.Debug("--------------------------------------\n");
         }
     }
 }

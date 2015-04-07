@@ -110,6 +110,15 @@ namespace Britbot
                                   + " heading: " + Heading;
         }
 
+        public void Debug()
+        {
+            Bot.Game.Debug("--------------GROUP " + Id + " ------------------------");
+            Bot.Game.Debug(this.Pirates.Count + " Pirates: " + string.Join(", ", this.Pirates));
+            Bot.Game.Debug("Location: " + GetLocation().ToString() + " Heading: " + Heading.ToString());
+            Bot.Game.Debug("Target: " + Target.ToString() + " Location: " + Target.GetLocation());
+            Bot.Game.Debug("-------------------------------------------------------");
+        }
+
         /// <summary>
         ///     Sets the target of the group, while doing so also resets the heading vector
         ///     if there is need (meaning if we didn't choose the same target again).
@@ -253,13 +262,7 @@ namespace Britbot
                     }
 
                     //update heading
-                    Bot.Game.Debug("--------GROUP id: " + Id + "-----------");
-                    Bot.Game.Debug("Heading: " + Heading.ToString());
-                    Bot.Game.Debug("master: " + master.ToString());
                     this.Heading.adjustHeading(master);
-                    Bot.Game.Debug("newHeading: " + Heading.ToString());
-                    Bot.Game.Debug("----------------------------------------");
-
                 }
                 else //stay if we are on target
                 {

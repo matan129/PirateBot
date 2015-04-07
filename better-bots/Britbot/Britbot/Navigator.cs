@@ -174,6 +174,10 @@ namespace Britbot
             //if the target is stationary then return true
             if (targetHeading.Norm() == 0)
                 return true;
+            //first check if it is running away (its direction is about the same as the difference between you
+            if (HeadingVector.CalcDifference(group, target) * targetHeading > 0)
+                return false;
+
 
             //----------------------calculation of naive maximum intersection----------------------
             HeadingVector diffVector = HeadingVector.CalcDifference(target, group);
