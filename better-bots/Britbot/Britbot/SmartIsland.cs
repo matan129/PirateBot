@@ -225,7 +225,7 @@ namespace Britbot
             foreach (EnemyGroup eGroup in Enemy.Groups)
             {
                 //Checks if the group of islands is near the island and if they are getting closer or farther
-                if (eGroup.MinimalDistanceTo(this.Loc) <= dangerRadius && eGroup.GuessTarget() == this)
+                if (eGroup.MinimalDistanceTo(this.Loc) <= dangerRadius /*&& eGroup.GuessTarget() == this*/)
                 {
                     //Calculates the sum of pirates in proximity to the island
                     enemyCount = enemyCount + eGroup.EnemyPirates.Count;

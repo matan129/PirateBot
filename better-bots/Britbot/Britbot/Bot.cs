@@ -126,12 +126,11 @@ namespace Britbot
                         {
                             _movesDictionary = Commander.Play(commanderCancellationSource.Token, out onTime);
                         }
-                        catch (AggregateException ex)
+                        catch (Exception ex)
                         {
                             Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
                                        Game.GetTurn());
-                            foreach(Exception e in ex.InnerExceptions)
-                                Game.Debug(e.ToString());
+                            Game.Debug(ex.ToString());
                         }
                     });
 

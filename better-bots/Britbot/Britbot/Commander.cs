@@ -309,7 +309,6 @@ namespace Britbot
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
             {
-
                 //update the enemy info
                 Enemy.Update(cancellationToken);
 
