@@ -14,12 +14,6 @@ namespace Britbot
     /// </summary>
     public class SmartIsland : ITarget
     {
-        #region Static Fields & Consts
-
-        private static bool _initFlag;
-
-        #endregion
-
         #region Fields & Properies
 
         /// <summary>
@@ -96,12 +90,8 @@ namespace Britbot
         /// <summary>
         ///     A static constructor which initializes the static island list on the first reference to a SmartIsland
         /// </summary>
-        public static void Init()
+        static SmartIsland()
         {
-            if (SmartIsland._initFlag)
-                return;
-
-            SmartIsland._initFlag = true;
             SmartIsland.IslandList = new List<SmartIsland>();
             foreach (Island island in Bot.Game.Islands())
             {

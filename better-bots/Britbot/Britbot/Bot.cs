@@ -56,12 +56,6 @@ namespace Britbot
             //update the game so other classes will get updated data
             Game = state;
 
-            //Initialize all the stuff
-            //Note that there is a flag in these classes making sure that Init() will run only once
-            SmartIsland.Init();
-            Commander.Init();
-            Enemy.Init();
-
             bool commanderOk = false;
 
             try

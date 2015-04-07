@@ -17,12 +17,6 @@ namespace Britbot
     /// </summary>
     public static class Commander
     {
-        #region Static Fields & Consts
-
-        private static bool _initFlag;
-
-        #endregion
-
         #region Fields & Properies
 
         /// <summary>
@@ -37,11 +31,8 @@ namespace Britbot
         /// <summary>
         ///     This static constructor will run once and initialize the commander
         /// </summary>
-        public static void Init()
+        static Commander()
         {
-            if (_initFlag)
-                return;
-
             Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
 
             Groups = new List<Group>();

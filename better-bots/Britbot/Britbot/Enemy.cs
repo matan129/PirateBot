@@ -16,12 +16,6 @@ namespace Britbot
     /// </summary>
     public static class Enemy
     {
-        #region Static Fields & Consts
-
-        private static bool initFlag;
-
-        #endregion
-
         #region Fields & Properies
 
         /// <summary>
@@ -36,13 +30,9 @@ namespace Britbot
         /// <summary>
         ///     Static enemy constructor
         /// </summary>
-        public static void Init()
+        static Enemy()
         {
-            if (!initFlag)
-            {
-                Groups = new List<EnemyGroup>();
-                initFlag = true;
-            }
+            Groups = new List<EnemyGroup>();
         }
 
         #endregion
