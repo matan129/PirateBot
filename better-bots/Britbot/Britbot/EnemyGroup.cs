@@ -82,7 +82,7 @@ namespace Britbot
         {
             //first check if groups direction is stable, otherwise disqualify
             int stabilityCoeff = 2;
-            if (this.Heading.Norm1() < stabilityCoeff && this.Heading.Norm1() != 0)
+            if (this.Heading.Norm1() < stabilityCoeff)
                 return null;
 
             //next check if it even possible to catch the ship, otherwise disqualify
@@ -92,7 +92,7 @@ namespace Britbot
             //if it is very close to some island then return null since we might as well go for the island not creating
             //double targets
             foreach (SmartIsland sIsle in SmartIsland.IslandList)
-                if (Bot.Game.InRange(this.GetLocation(), sIsle.Loc))
+                if (Bot.Game.IsReallyInRange(this.GetLocation(), sIsle.Loc))
                     return null;
 
             //Reduce the score in proportion to distance
@@ -100,7 +100,7 @@ namespace Britbot
             double distance = Navigator.CalcDistFromLine(origin.GetLocation(), this.GetLocation(), this.Heading);
 
             //consider attack radious
-            distance -= Bot.Game.GetAttackRadius();
+            distance -= Math.Sqrt( Bot.Game.GetAttackRadius());
             distance = Math.Max(distance, 0);
 
 
@@ -262,7 +262,7 @@ namespace Britbot
 
             return
                 this.EnemyPirates.ConvertAll(e => Bot.Game.GetEnemyPirate(e))
-                    .Any(e => Bot.Game.InRange(ePirate, e));
+                    .Any(e => Bot.Game.IsReallyInRange(ePirate.Loc, e.Loc));
         }
 
         /// <summary>
@@ -296,9 +296,8 @@ namespace Britbot
             double min = Bot.Game.GetCols() + Bot.Game.GetRows();
             foreach (int pirate in EnemyPirates)
             {
-                HeadingVector difference = HeadingVector.CalcDifference(location,Bot.Game.GetEnemyPirate(pirate).Loc);
-                if (difference.NormSquared() < min)
-                    min = difference.NormSquared();
+                if (Bot.Game.EuclidianDistanceSquared(location,this.GetLocation()) < min)
+                    min = Bot.Game.EuclidianDistanceSquared(location, this.GetLocation());
             }
             return min;
         }
@@ -388,7 +387,7 @@ namespace Britbot
         public override string ToString()
         {
             return "EnemyGroup- id: " + this.Id + ", pirates count: " + this.EnemyPirates.Count
-                                      + ", Heading: " + this.Heading.ToString() + "\n";
+                                      + ", Heading: " + this.Heading.ToString() + " location: " + GetLocation();
         }
 
         /// <summary>

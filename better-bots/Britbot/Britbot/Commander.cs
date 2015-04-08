@@ -175,7 +175,7 @@ namespace Britbot
 
                 //calculate new score
                 double newScore = GlobalizeScore(scoreArr, cancellationToken);
-                Bot.Game.Debug("new score: " + newScore);
+
                 //check if the score is better
                 if (newScore > maxScore)
                 {
@@ -320,6 +320,14 @@ namespace Britbot
 
                 //calculate targets
                 CalculateAndAssignTargets(cancellationToken);
+
+                Bot.Game.Debug("-------------priorities--------------");
+                foreach (Group g in Groups)
+                {
+                    Bot.Game.Debug("Group " + g.Id);
+                    foreach (Score pri in g.Priorities)
+                        Bot.Game.Debug(pri.ToString());
+                }
 
                 foreach (Group g in Groups)
                     g.Debug();

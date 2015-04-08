@@ -112,8 +112,13 @@ namespace Britbot
         /// <returns>Returns the Score for the Target</returns>
         public Score GetScore(Group origin)
         {
+            //constant defining how far to look for enemy ships 
+            int DangerZone = 4 * Bot.Game.GetAttackRadius();
+            //constant defining how far to consider enemies capturing the island
+            int CaptureZone = Bot.Game.GetAttackRadius();
+
             //check if there are more enemies than we can kill
-            if (this.NearbyEnemyCount(Bot.Game.GetAttackRadius() + 1) >= origin.LiveCount())
+            if (this.NearbyEnemyCount(DangerZone) > origin.LiveCount())
                 return null;
 
             //calculates the minimum distance between a group and said island
@@ -129,7 +134,7 @@ namespace Britbot
 
             //check if the island isn't already ours, if so disqualify it and return null
             if (this.Owner != Consts.ME || this.TeamCapturing == Consts.ENEMY)
-                return new Score(this, TargetType.Island, this.Value, this.NearbyEnemyCount(10),
+                return new Score(this, TargetType.Island, this.Value, this.NearbyEnemyCount(CaptureZone),
                     distance + captureTime);
             return null;
         }
@@ -221,11 +226,12 @@ namespace Britbot
             foreach (EnemyGroup eGroup in Enemy.Groups)
             {
                 //Checks if the group of islands is near the island and if they are getting closer or farther
-                if (eGroup.MinimalSquaredDistanceTo(this.Loc) <= dangerRadius /*&& eGroup.GuessTarget() == this*/)
+                if (eGroup.MinimalSquaredDistanceTo(this.Loc) <= dangerRadius )
                 {
                     //Calculates the sum of pirates in proximity to the island
                     enemyCount = enemyCount + eGroup.EnemyPirates.Count;
                 }
+
             }
 
             return enemyCount;

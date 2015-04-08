@@ -1,5 +1,5 @@
 ﻿#region Usings
-
+using System;
 using System.Collections.Generic;
 using Pirates;
 
@@ -47,6 +47,32 @@ namespace Britbot
                 default:
                     return Direction.NOTHING;
             }
+        }
+
+
+        /// <summary>
+        /// extention method calculating the square of the euclidian distance between
+        /// two locations
+        /// </summary>
+        /// <param name="game">For the compliler magic</param>
+        /// <param name="loc1">first location</param>
+        /// <param name="loc2">second location</param>
+        /// <returns>regular distance squered</returns>
+        public static double EuclidianDistanceSquared(this IPirateGame game, Location loc1, Location loc2)
+        {
+            return Math.Pow(loc1.Col - loc2.Col, 2) + Math.Pow(loc1.Row - loc2.Row, 2);
+        }
+
+        /// <summary>
+        /// replacement for the function provided since it doesn't account for pirates capturing
+        /// </summary>
+        /// <param name="game">For the compliler magic</param>
+        /// <param name="loc1">first location</param>
+        /// <param name="loc2">second location</param>
+        /// <returns>true if realy the two point are within range</returns>
+        public static bool IsReallyInRange(this IPirateGame game, Location loc1, Location loc2)
+        {
+            return game.EuclidianDistanceSquared(loc1, loc2) < game.GetAttackRadius();
         }
 
         /// <summary>

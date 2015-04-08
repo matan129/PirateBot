@@ -112,7 +112,8 @@ namespace Britbot
 
         public void Debug()
         {
-            Bot.Game.Debug("Group " + Id + " " + this.Pirates.Count + " Pirates: " + string.Join(", ", this.Pirates));
+            Bot.Game.Debug("------------------------GROUP " + Id + " ----------------------------------");
+            Bot.Game.Debug(this.Pirates.Count + " Pirates: " + string.Join(", ", this.Pirates));
             Bot.Game.Debug("Location: " + GetLocation().ToString() + " Heading: " + Heading.ToString());
             Bot.Game.Debug("Target: " + Target.ToString() + " Location: " + Target.GetLocation());
         }

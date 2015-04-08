@@ -88,6 +88,11 @@ namespace Britbot
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return "Target: " + Target.ToString() + " value: " + Value + " Enemy: " + EnemyShips + " ETA: " + Eta;
+        }
     }
 
     /// <summary>
