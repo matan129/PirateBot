@@ -722,6 +722,9 @@ namespace Britbot
         /// <exception cref="OperationCanceledException">The token has had cancellation requested.</exception>
         public void CalcPriorities(CancellationToken cancellationToken)
         {
+            //inital path finding for this group
+            Navigator.UpdateMap(this.Pirates.Count);
+
             //init some lists
             List<ITarget> priorityList = new List<ITarget>();
             List<Score> scores = new List<Score>();

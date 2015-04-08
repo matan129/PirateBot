@@ -24,7 +24,7 @@ namespace Britbot
         /// <returns>optimal direction</returns>
         public static Direction CalculateDirectionToStationeryTarget(Location myLoc, HeadingVector myHeading,
             Location target)
-        {
+        {/*
             //get the desired direction
             HeadingVector desiredVector = HeadingVector.CalcDifference(myLoc, target);
 
@@ -51,7 +51,8 @@ namespace Britbot
             }
 
             //return best direction found
-            return bestDirection;
+            return bestDirection;*/
+            return Navigator.CalculatePath(myLoc, target);
         }
 
         /// <summary>
@@ -205,8 +206,19 @@ namespace Britbot
             return false;
         }
 
-        public static Direction CalculatePath(Location start, Location target, int groupStrength)
+        /// <summary>
+        /// Calculates first direction in path according to the A* algorithem
+        /// explanation + the pseudo code used to write this can be found in 
+        /// http://en.wikipedia.org/wiki/A*_search_algorithm
+        /// </summary>
+        /// <param name="start">the location you are in (meaning the group)</param>
+        /// <param name="target">the desired location (meaning the target)</param>
+        /// <returns>direction you should go to reach your target</returns>
+        public static Direction CalculatePath(Location start, Location target)
         {
+            //first set up the for a new target calculation
+            Node.SetUpCalculation(target);
+
             //Priority queue of the currently checked nodes. Thank You BlueRaja
             HeapPriorityQueue<Node> openset = new HeapPriorityQueue<Node>(Bot.Game.GetCols() + Bot.Game.GetRows());
 
@@ -226,9 +238,75 @@ namespace Britbot
 
                 //set current node status
                 currentNode.IsEvaluated = true;
-            }
 
-            return Direction.NORTH;
+                //going over the Neighbors of the current cell
+                foreach (Node neighbor in currentNode.GetNeighbors())
+                {
+                    //if we already calculated this neighbor, skip to the next
+                    if (neighbor.IsEvaluated)
+                        continue;
+
+                    //calculate the new G score from this rout
+                    double tentativeG = currentNode.G + neighbor.Weight;
+
+
+                    //if the neighbor isn't in the open set
+                    //or we just found a better score for him (tentativeG < G)
+                    //or if G value is default -1
+                    //then add him to openset
+                    if ((!openset.Contains(neighbor)) || (neighbor.G == -1) || (tentativeG < neighbor.G))
+                    {
+                        //update G score
+                        neighbor.G = tentativeG;
+
+                        ////if the neighbor isn't in the open set, add him
+                        if (!openset.Contains(neighbor))
+                        {
+                            openset.Enqueue(neighbor, neighbor.F());
+                        }
+                    }
+                }
+            }
+            
+
+
+            //now we have made the necessary calculations, just get the desired direction
+            Node bestNextNode = null;
+
+            //go over the neighbors of the begining
+            foreach (Node neighbor in beginning.GetNeighbors())
+            {
+                //if bestNode is null update and skip to next iteration
+                if(bestNextNode == null)
+                {
+                    bestNextNode = neighbor;
+                    continue;
+                }
+                //if this neighbors score is better then update
+                if(neighbor.F() < bestNextNode.F())
+                {
+                    bestNextNode = neighbor;
+                }
+            }
+            //check if best node is null, if so then i am an idiot and YOU NEED TO INFORM ME OF THAT IMMIDIATELY
+            if(bestNextNode == null)
+            {
+                throw new Exception("Matan K is stupid as shit, please go and tell him that");
+            }
+            else
+            {
+                return Bot.Game.GetDirections(beginning.Loc, bestNextNode.Loc)[0];
+            }
+        }
+
+        /// <summary>
+        /// function to update map for specific group
+        /// simply calls the Node.updateMap function
+        /// </summary>
+        /// <param name="groupStrength">strength of the group calling</param>
+        public static void UpdateMap(int groupStrength)
+        {
+            Node.UpdateMap(groupStrength);
         }
     }
 }

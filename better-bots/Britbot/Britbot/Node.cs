@@ -3,6 +3,8 @@
 using System;
 using Britbot.PriorityQueue;
 using Pirates;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion
 
@@ -71,7 +73,7 @@ namespace Britbot
             #endregion
 
             /// <summary>
-            /// This function should be called ONCE PER GROUP
+            /// This function should be called ONCE PER GROUP in the CalculatePriorities function
             /// it updates the map data based on the current game state
             /// it sets what areas are passable and what are dangerous
             /// </summary>
@@ -110,7 +112,7 @@ namespace Britbot
             }
 
             /// <summary>
-            /// This function should be called PER TARGET
+            /// This function should be called PER TARGET in the Navigator.CalculatePath method
             /// it updates the heuristic values based on distance from the target
             /// also sets G value to default -1
             /// </summary>
@@ -243,6 +245,58 @@ namespace Britbot
             public double F()
             {
                 return this.H + this.G;
+            }
+
+            /// <summary>
+            /// checks if a curtain node is passible, meaning its wight isn't infinity
+            /// </summary>
+            /// <returns>True if it has a finite weight, else otherwise</returns>
+            public bool IsPassable()
+            {
+                return this.Weight < Node.Infinity;
+            }
+
+            /// <summary>
+            /// returns the neighbors of the Node, meaning the adjacent location wich are not
+            /// impassible
+            /// </summary>
+            /// <returns></returns>
+            public List<Node> GetNeighbors()
+            {
+                //allocating a new list
+                List<Node> neighbors = new List<Node>();
+
+                //array to help iterating over the four neighbors
+                int [] coeff = {-1, 1};
+
+                //read X and Y from this.loc
+                int X = this.Loc.Col;
+                int Y = this.Loc.Row;
+
+                //going over neighbors
+                for (int deltaY = 0; deltaY < 2; deltaY++)
+                {
+                    for (int deltaX = 0; deltaX < 2; deltaX++)
+                    {
+                        //get the iterated neighbor coordinates
+                        int neighborX = X + coeff[deltaX];
+                        int neighborY = Y + coeff[deltaY];
+
+                        //check if out of bounderie, if so, continue to next iteration
+                        if ((neighborX < 0) || (neighborX >= Bot.Game.GetCols()) ||
+                            (neighborY < 0) || (neighborY >= Bot.Game.GetRows()))
+                            continue;
+
+                        //check if impassable, if so, continue to next iteration
+                        if (!Node.Map[neighborY, neighborX].IsPassable())
+                            continue;
+
+                        //if we are here it means that the neighbor is ok, so add him to the list
+                        neighbors.Add(Map[neighborY, neighborX]);
+                    }
+                }
+
+                return neighbors;
             }
 
             //-------------------operators----------------------
