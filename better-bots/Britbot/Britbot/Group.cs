@@ -580,6 +580,16 @@ namespace Britbot
         }
 
         /// <summary>
+        /// returns the amount of rings in the formation for given amount of pirates
+        /// </summary>
+        /// <param name="pirateNum">amount of pirates in formation</param>
+        /// <returns>the amount of rings in the formation</returns>
+        public static int GetRingCount(int pirateNum)
+        {
+            return (int)Math.Ceiling((decimal)(pirateNum - 1) / 4); 
+        }
+
+        /// <summary>
         ///     Get the ring of the specified index relative to the given pivot
         /// </summary>
         /// <param name="pivot">The ring's center</param>

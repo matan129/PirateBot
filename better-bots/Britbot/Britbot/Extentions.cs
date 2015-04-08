@@ -86,6 +86,36 @@ namespace Britbot
         }
 
         /// <summary>
+        /// This function checks if it is bossible to put a group of given radious with a given radious in 
+        /// curtain location without pirates getting in enemy zone
+        /// </summary>
+        /// <param name="game">Compiler magic</param>
+        /// <param name="loc">the location of the 0 ring (the one we check)</param>
+        /// <param name="passRadious">the radius of the group (amount of rings)</param>
+        /// <returns>true if it is possible to put a group with passRadious rings in this location</returns>
+        public static bool IsPassableEnough(this IPirateGame game, Location loc, int passRadious)
+        {
+            //going over all close location looking for impassable location
+            //iterating over x distances from loc (from -passRadius to +passRadiou) 
+            for (int x = -passRadious; x <= passRadious; x++)
+            {
+                //iterating over y values within reasenable distance (from -Math.abs(passRadious - x) to +Math.abs(passRadious - x)
+                for (int y = -Math.Abs(passRadious - x); y <= Math.Abs(passRadious - x); y++)
+                {
+                    //create the current location
+                    Location currLoc = new Location(loc.Row + y, loc.Col + x);
+
+                    //if current location isn't passable return false
+                    if (!Bot.Game.IsPassable(currLoc))
+                        return false;
+                }
+            }
+            //if here then all the area is passible
+            return true;
+        }
+
+
+        /// <summary>
         ///     Gets a list of directions to move from a pirate to another pirate
         ///     Note that this method is NOT smart, its output is location only based
         /// </summary>

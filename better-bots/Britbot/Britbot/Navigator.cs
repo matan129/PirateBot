@@ -203,5 +203,66 @@ namespace Britbot
 
             return false;
         }
+
+
+
+        //-------------------------------------------------------------------------------------------------------------------
+        //--------------------------------------------SERIOUS SHIT OVER HERE-------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------------
+
+        //------------------------------------------ A* path finding algorithem ---------------------------------------------
+        
+        /// <summary>
+        /// private class representing each cell of the map
+        /// </summary>
+        private class Node
+        {
+            /// <summary>
+            /// The X coordinate of the Node
+            /// </summary>
+            public Location Loc;
+
+            /// <summary>
+            /// the weight of the cell, should be higher near enemies and unpassable places
+            /// </summary>
+            public double Weight;
+
+            /// <summary>
+            /// the calculated G function score of the algorithem for this specific node
+            /// it will be updated during the algorithem
+            /// </summary>
+            public double G;
+
+            /// <summary>
+            /// The huristic coefficient, it will simply be the euclidian distance
+            /// </summary>
+            public double H;
+
+            //-------------------operators----------------------
+
+            /// <summary>
+            /// Equals operator, compares the locations
+            /// </summary>
+            /// <param name="obj">the object we are comparing to</param>
+            /// <returns>true if the locations are the same, else otherwise</returns>
+            public override bool Equals(object obj)
+            {
+                //check if it is even a Node
+                if(obj.GetType() == this.GetType())
+                {
+                    return (this.Loc == ((Node) obj).Loc);
+                }
+                //otherwise
+                return false;
+            }
+        }
+
+        private Node[,] InitialNodes(int groupStrength)
+        {
+            //create array of nodes corresponding to the actual locations in the map
+            Node[,] Map = new Node[Bot.Game.GetCols(), Bot.Game.GetRows()];
+
+            return Map;
+        }
     }
 }
