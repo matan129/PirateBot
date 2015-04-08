@@ -2,6 +2,8 @@
 {
     public class PriorityQueueNode
     {
+        #region Fields & Properies
+
         /// <summary>
         /// The Priority to insert this node at.  Must be set BEFORE adding a node to the queue
         /// </summary>
@@ -20,5 +22,7 @@
         /// Represents the current position in the queue
         /// </summary>
         public int QueueIndex { get; set; }
+
+        #endregion
     }
 }

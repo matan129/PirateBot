@@ -2,19 +2,23 @@
 
 using System;
 using Pirates;
+using Priority_Queue;
 
 #endregion
 
 namespace Britbot
 {
-    partial class Navigator
+    /// <summary>
+    ///     this class will deal with geographical calculations and direction calculation
+    /// </summary>
+    internal static partial class Navigator
     {
-        //------------------------------------------ A* path finding algorithm ---------------------------------------------
+        #region Fields & Properies
 
         /// <summary>
         /// private class representing each cell of the map
         /// </summary>
-        private class Node
+        internal class Node : PriorityQueueNode
         {
             #region Static Fields & Consts
 
@@ -22,6 +26,12 @@ namespace Britbot
             /// this weight represents an impassable cell
             /// </summary>
             public const double Infinity = 1025583;
+
+            /// <summary>
+            /// A static array of nodes representing the map
+            /// ------------IMPORTANT: like with locations the access to this Map is Map[y,x]-------
+            /// </summary>
+            public static Node[,] Map = new Node[Bot.Game.GetRows(), Bot.Game.GetCols()];
 
             #endregion
 
@@ -39,20 +49,34 @@ namespace Britbot
             public double H;
 
             /// <summary>
+            /// true if G value has been calculated
+            /// </summary>
+            public bool IsEvaluated;
+
+            /// <summary>
+            /// True if we already went over this node
+            /// </summary>
+            public bool IsTraveled;
+
+            /// <summary>
             /// The X coordinate of the Node
             /// </summary>
             public Location Loc;
 
             /// <summary>
-            /// the weight of the cell, should be higher near enemies and not passable places
+            /// the weight of the cell, should be higher near enemies and un-passable places
             /// </summary>
             public double Weight;
 
             #endregion
 
-            #region Constructors & Initializers
-
-            private static Node[,] InitialNodes(int groupStrength, Location target)
+            /// <summary>
+            /// This function should be called ONCE PER GROUP
+            /// it updates the map data based on the current game state
+            /// it sets what areas are passable and what are dangerous
+            /// </summary>
+            /// <param name="groupStrength">amount of pirates in the group</param>
+            public static void UpdateMap(int groupStrength)
             {
                 //reading board size
                 int cols = Bot.Game.GetCols();
@@ -61,72 +85,72 @@ namespace Britbot
                 //get the radius of the group
                 int groupRadius = Group.GetRingCount(groupStrength);
 
-                //create array of nodes corresponding to the actual locations in the map
-                //--------IMPORTANT: the access to the map is like with location- first Y than X !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                Node[,] Map = new Node[rows, cols];
-
                 //go over the entire map, set locations and their wight
                 for (int x = 0; x < cols; x++)
                 {
                     for (int y = 0; y < rows; y++)
                     {
                         //set the location inside the node
-                        Map[y, x].Loc = new Location(y, x);
-
-                        //set the huristic parameter to be the regular distance
-                        Map[y, x].H = Bot.Game.Distance(Map[y, x].Loc, target);
-
-                        //set the calculated G parameter to 0
-                        Map[y, x].G = 0;
+                        Node.Map[y, x].Loc = new Location(y, x);
 
                         //check if this is passable
-                        if (!Bot.Game.IsPassableEnough(Map[y, x].Loc, groupRadius))
+                        if (!Bot.Game.IsPassableEnough(Node.Map[y, x].Loc, groupRadius))
                         {
                             //set the weight of the node to "infinity"
-                            Map[y, x].Weight = Node.Infinity;
+                            Node.Map[y, x].Weight = Node.Infinity;
 
                             //if so then we are finished here, move to next Node
                             continue;
                         }
 
                         //now set the wight based on enemyGroups
-                        double EnemyFactor = 1;
+                        double enemyFactor = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
                     }
                 }
-
-
-                return Map;
             }
-
-            #endregion
-
-            //-------------------operators----------------------
 
             /// <summary>
-            /// Equals operator, compares the locations
+            /// This function should be called PER TARGET
+            /// it updates the heuristic values based on distance from the target
+            /// also sets G value to default -1
             /// </summary>
-            /// <param name="obj">the object we are comparing to</param>
-            /// <returns>true if the locations are the same, else otherwise</returns>
-            public override bool Equals(object obj)
+            /// <param name="target"></param>
+            public static void SetUpCalculation(Location target)
             {
-                //check if it is even a Node
-                if (obj.GetType() == this.GetType())
+                //going over all the cells in the Map updating their heuristic value to be 
+                //distance from target
+                for (int y = 0; y < Bot.Game.GetRows(); y++)
                 {
-                    return (this.Loc == ((Node) obj).Loc);
-                }
+                    for (int x = 0; x < Bot.Game.GetCols(); x++)
+                    {
+                        Node.Map[y, x].H = Bot.Game.Distance(Node.Map[y, x].Loc, target);
 
-                //otherwise
-                return false;
+                        //set the calculated G parameter to -1
+                        Node.Map[y, x].G = -1;
+
+                        //set IsTraveled status and IsEvaluated
+                        Node.Map[y, x].IsTraveled = false;
+
+                        Node.Map[y, x].IsEvaluated = false;
+                    }
+                }
             }
 
-            private static double CalcEnemyFactor(Location loc, int groupStrength)
+            /// <summary>
+            /// helper function to calculate how dangerous is curtain location for a specific group
+            /// it calculation is based on distances from strong enemy groups and lots of stupid constants 
+            /// </summary>
+            /// <param name="loc">the location we are testing</param>
+            /// <param name="GroupStrength">the group strength (because danger is relative)</param>
+            /// <returns>the weight of the location</returns>
+            private static double CalcEnemyFactor(Location loc, int GroupStrength)
             {
                 //constant defining The addvantage factor we have because of our great structure
                 const int addvantageFactor = 1;
 
                 //constants representing the danger distribution across the map (good for enemies we can kill, bad otherwise)
                 const double badDangerSpreadCoeff = 0.5;
-                const double goodDangerSpreadCoeff = 0.1;
+                //const double goodDangerSpreadCoeff = 0.1;
 
                 //read attack radious
                 double attackRadius = Bot.Game.GetAttackRadius();
@@ -140,8 +164,7 @@ namespace Britbot
                 //goes well we subtract them
 
                 //initialize count
-                double eBadFactor = 1;
-                double eGoodFactor = 1;
+                double eBadFactor = 2;
                 double eGoodTurnsToBadFactor = 0;
 
                 //enemy count
@@ -168,14 +191,13 @@ namespace Britbot
 
                     //we remove one Attack Radious as precaution
                     distanceSquared = Math.Max(0, distanceSquared - Bot.Game.GetAttackRadius());
+                    //then we normalize
+                    distanceSquared = 1 / Node.Infinity + distanceSquared / (Node.Infinity * (dangerZone - Bot.Game.GetAttackRadius()));
 
                     //if they are stronger than us
-                    if (enemyStrength - addvantageFactor > groupStrength)
+                    if (enemyStrength - addvantageFactor > GroupStrength)
                     {
                         //add to bad factor
-
-                        //first we normalize the distance
-                        distanceSquared = distanceSquared / (Node.Infinity * (dangerZone - Bot.Game.GetAttackRadius()));
 
                         //we add in an "inverse to the distant" way and proportional to the enemy group strength
                         //we also add coefficient so at the edge of the dangerzone it will be badDangerSpreadCoeff * infinity
@@ -183,29 +205,65 @@ namespace Britbot
                     }
                     else
                     {
-                        //we add to both the good and the good gone bad just in case
-
-                        //first we normalize the distance
-                        distanceSquared = distanceSquared / (Node.Infinity * (dangerZone - Bot.Game.GetAttackRadius()));
+                        //we add to the good gone bad just in case
 
                         //we add in an "inverse to the distant" way and proportional to the enemy group strength
                         //we also add coefficient so at the edge of the dangerzone it will be badDangerSpreadCoeff * infinity
-                        eGoodFactor += goodDangerSpreadCoeff * enemyStrength / distanceSquared;
                         eGoodTurnsToBadFactor += badDangerSpreadCoeff * enemyStrength / distanceSquared;
                     }
+
                 }
 
                 //check if we are good or naughty 
-                if (enemyCount - addvantageFactor > groupStrength)
+                if (enemyCount - addvantageFactor > GroupStrength)
                 {
                     //good
-                    return eGoodFactor;
+                    return 1;
                 }
                 else
                 {
                     return eBadFactor + eGoodTurnsToBadFactor;
                 }
             }
+
+            /// <summary>
+            /// Returns the Node in the map corresponding to the locations specified
+            /// </summary>
+            /// <param name="loc">the location we want</param>
+            /// <returns>The node in the map corresponding to the location</returns>
+            public static Node GetLocationNodeFromMap(Location loc)
+            {
+                return Node.Map[loc.Row, loc.Col];
+            }
+
+            /// <summary>
+            /// calculates the F function (what we are minimizing)
+            /// </summary>
+            /// <returns>F value</returns>
+            public double F()
+            {
+                return this.H + this.G;
+            }
+
+            //-------------------operators----------------------
+
+            /// <summary>
+            /// Equals operator, compares the locations
+            /// </summary>
+            /// <param name="obj">the object we are comparing to</param>
+            /// <returns>true if the locations are the same, else otherwise</returns>
+            public override bool Equals(object obj)
+            {
+                //check if it is even a Node
+                if (obj.GetType() == this.GetType())
+                {
+                    return (this.Loc == ((Node)obj).Loc);
+                }
+                //otherwise
+                return false;
+            }
         }
+
+        #endregion
     }
 }

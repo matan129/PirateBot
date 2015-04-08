@@ -7,8 +7,8 @@ using Pirates;
 namespace Britbot
 {
     /// <summary>
-    ///     This class represents a null target wich does nothing
-    ///     this will help us prevent cases of dimentions error due to
+    ///     This class represents a null target which does nothing
+    ///     this will help us prevent cases of dimensions error due to
     ///     null priority lists
     /// </summary>
     internal class NoTarget : ITarget
@@ -16,7 +16,7 @@ namespace Britbot
         #region Interface Implementations
 
         /// <summary>
-        ///     fulfills the interface, just returns zeroish score
+        ///     fulfills the interface, just returns "zeroish" score
         /// </summary>
         /// <param name="origin">the group for which the score is calculated</param>
         /// <returns></returns>
