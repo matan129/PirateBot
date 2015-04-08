@@ -74,6 +74,9 @@
     <Compile Include="Navigator.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NoTarget.cs" />
+    <Compile Include="PriorityQueue\HeapPriorityQueue.cs" />
+    <Compile Include="PriorityQueue\IPriorityQueue.cs" />
+    <Compile Include="PriorityQueue\PriorityQueueNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="SmartIsland.cs" />
@@ -92,12 +95,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Priority Queue\Priority Queue.csproj">
-      <Project>{1531C1EA-BD53-41D1-A34B-CFCDF79D2651}</Project>
-      <Name>Priority Queue</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -181,7 +181,7 @@ namespace Britbot
             if (!this.IsFormed())
             {
                 //return for each of our pirate its move
-                foreach (var keyValuePair in this.GetStructureMoves(cancellationToken))
+                foreach (KeyValuePair<Pirate, Direction> keyValuePair in this.GetStructureMoves(cancellationToken))
                     yield return keyValuePair;
             }
             else //if the group is in structure and ready to attack

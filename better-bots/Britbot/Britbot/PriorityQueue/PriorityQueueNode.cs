@@ -1,4 +1,4 @@
-﻿namespace Priority_Queue
+﻿namespace Britbot.PriorityQueue
 {
     public class PriorityQueueNode
     {

@@ -1,8 +1,8 @@
 ﻿#region Usings
 
 using System;
+using Britbot.PriorityQueue;
 using Pirates;
-using Priority_Queue;
 
 #endregion
 
@@ -210,9 +210,9 @@ namespace Britbot
             //Priority queue of the currently checked nodes. Thank You BlueRaja
             HeapPriorityQueue<Node> openset = new HeapPriorityQueue<Node>(Bot.Game.GetCols() + Bot.Game.GetRows());
 
-            //set the begining
-            Node begining = Node.GetLocationNodeFromMap(start);
-            openset.Enqueue(begining, begining.F());
+            //set the beginning
+            Node beginning = Node.GetLocationNodeFromMap(start);
+            openset.Enqueue(beginning, beginning.F());
 
             //begin the iteration
             while (openset.Count > 0)

@@ -1,8 +1,8 @@
 ﻿#region Usings
 
 using System;
+using Britbot.PriorityQueue;
 using Pirates;
-using Priority_Queue;
 
 #endregion
 
