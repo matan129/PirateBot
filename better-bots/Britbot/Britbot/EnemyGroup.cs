@@ -254,9 +254,7 @@ namespace Britbot
 
             return
                 this.EnemyPirates.ConvertAll(e => Bot.Game.GetEnemyPirate(e))
-                    .Select(ep => Bot.Game.Distance(ep, ePirate))
-                    .Concat(new int[] {})
-                    .Min() <= 2;
+                    .Any(e => Bot.Game.InRange(ePirate, e));
         }
 
         /// <summary>
