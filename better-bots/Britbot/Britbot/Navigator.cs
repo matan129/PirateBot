@@ -135,6 +135,10 @@ namespace Britbot
         /// <returns></returns>
         public static double CalcDistFromLine(Location point, Location linePoint, HeadingVector dir)
         {
+            //first check if no direction
+            if (dir.NormSquared() == 0)
+                return Bot.Game.Distance(point, linePoint);
+
             //TODO fix this - Matan Kom
             //Find the difference vector between the point and the line point
             HeadingVector dif = HeadingVector.CalcDifference(point, linePoint);

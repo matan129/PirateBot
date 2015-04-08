@@ -112,8 +112,7 @@ namespace Britbot
             else
                 time = 1000; //1000 ms
 
-            time = 1000;
-            int safeTimeout = (int)(time * 1000.65);
+            int safeTimeout = (int)(time * 0.65);
 
             //timeout setup
             using (CancellationTokenSource commanderCancellationSource = new CancellationTokenSource(safeTimeout))
@@ -131,6 +130,7 @@ namespace Britbot
                             Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
                                        Game.GetTurn());
                             Game.Debug(ex.ToString());
+                            throw;
                         }
                     });
 
@@ -147,6 +147,7 @@ namespace Britbot
                             Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN " +
                                        Game.GetTurn());
                             Game.Debug(ex.ToString());
+                            throw;
                         }
                     });
 

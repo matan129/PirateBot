@@ -156,7 +156,7 @@ namespace Britbot
 
             //indexes of the best assignment yet
             int[] maxAssignment = new int[dimensions.Length];
-            int maxScore = 0;
+            double maxScore = -9999999999999;
 
             //create new iteration object
             ExpIterator iterator = new ExpIterator(dimensions);
@@ -174,8 +174,8 @@ namespace Britbot
                 scoreArr = GetSpecificAssignmentScores(possibleAssignments, iterator.Values);
 
                 //calculate new score
-                int newScore = (int) GlobalizeScore(scoreArr, cancellationToken);
-
+                double newScore = GlobalizeScore(scoreArr, cancellationToken);
+                Bot.Game.Debug("new score: " + newScore);
                 //check if the score is better
                 if (newScore > maxScore)
                 {
@@ -191,6 +191,10 @@ namespace Britbot
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
                 Groups[i].SetTarget(scoreArr[i].Target);
+
+            Bot.Game.Debug("Max score: " + maxScore);
+            Bot.Game.Debug("maxx ass: " + string.Join(", ", maxAssignment));
+            Bot.Game.Debug("dimention: " + string.Join(", ", iterator.Dimensions));
         }
 
         /// <summary>
@@ -259,13 +263,13 @@ namespace Britbot
                 //Throwing an exception if cancellation was requested.
                 cancellationToken.ThrowIfCancellationRequested();
 
-                score += 100 * s.Value;
-                score += 200 * s.EnemyShips;
+                score += Math.Pow(2,Bot.Game.MyIslands().Count + s.Value);
+                score += 0.2 * Math.Pow(3 , s.EnemyShips);
                 timeAvg += s.Eta;
             }
 
             //check if there are two of the same target
-            for (int i = 0; i < scoreArr.Count() - 1; i++)
+            for (int i = 0; i < scoreArr.Length - 1; i++)
             {
                 //Throwing an exception if cancellation was requested.
                 cancellationToken.ThrowIfCancellationRequested();
@@ -276,11 +280,11 @@ namespace Britbot
                     cancellationToken.ThrowIfCancellationRequested();
 
                     if (scoreArr[i].Target.Equals(scoreArr[j].Target))
-                        return -100000000;
+                        score -= 100;
                 }
             }
-
-            return (score * scoreArr.Length) / (timeAvg / scoreArr.Length);
+            
+            return score - timeAvg/scoreArr.Length ;
         }
 
         /// <summary>
@@ -333,12 +337,14 @@ namespace Britbot
                 foreach (Exception e in ex.InnerExceptions)
                     Bot.Game.Debug(e.ToString());
                 onTime = false;
+                throw;
                 return new Dictionary<Pirate, Direction>();
             }
             catch (OperationCanceledException) //catch task cancellation
             {
                 Bot.Game.Debug("****** COMMANDER EXITING DUE TO TASK CANCELLATION ******");
                 onTime = false;
+                throw;
                 return new Dictionary<Pirate, Direction>();
             }
             catch (Exception ex) //catch everyting else
@@ -354,6 +360,7 @@ namespace Britbot
 
                 Bot.Game.Debug("==========COMMANDER EXCEPTION============");
                 onTime = false;
+                throw;
                 return new Dictionary<Pirate, Direction>();
             }
         }

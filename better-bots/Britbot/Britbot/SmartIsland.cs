@@ -113,15 +113,11 @@ namespace Britbot
         public Score GetScore(Group origin)
         {
             //check if there are more enemies than we can kill
-            if (this.NearbyEnemyCount(20) >= origin.LiveCount())
+            if (this.NearbyEnemyCount(Bot.Game.GetAttackRadius() + 1) >= origin.LiveCount())
                 return null;
 
             //calculates the minimum distance between a group and said island
-            int distance =
-                origin.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p))
-                    .Select(e => Bot.Game.Distance(e.Loc, this.Loc))
-                    .Concat(new int[] {})
-                    .Min();
+            int distance = Bot.Game.Distance(this.Loc, origin.FindCenter(true));
 
             //Amount of turns it takes to capture an island
             int captureTime = this.CaptureTurns;
@@ -133,7 +129,7 @@ namespace Britbot
 
             //check if the island isn't already ours, if so disqualify it and return null
             if (this.Owner != Consts.ME || this.TeamCapturing == Consts.ENEMY)
-                return new Score(this, TargetType.Island, this.Value, this.NearbyEnemyCount(5),
+                return new Score(this, TargetType.Island, this.Value, this.NearbyEnemyCount(10),
                     distance + captureTime);
             return null;
         }
@@ -225,7 +221,7 @@ namespace Britbot
             foreach (EnemyGroup eGroup in Enemy.Groups)
             {
                 //Checks if the group of islands is near the island and if they are getting closer or farther
-                if (eGroup.MinimalDistanceTo(this.Loc) <= dangerRadius /*&& eGroup.GuessTarget() == this*/)
+                if (eGroup.MinimalSquaredDistanceTo(this.Loc) <= dangerRadius /*&& eGroup.GuessTarget() == this*/)
                 {
                     //Calculates the sum of pirates in proximity to the island
                     enemyCount = enemyCount + eGroup.EnemyPirates.Count;

@@ -89,15 +89,23 @@ namespace Britbot
             if (!Navigator.IsReachable(origin.GetLocation(), GetLocation(), Heading))
                 return null;
 
+            //if it is very close to some island then return null since we might as well go for the island not creating
+            //double targets
+            foreach (SmartIsland sIsle in SmartIsland.IslandList)
+                if (Bot.Game.InRange(this.GetLocation(), sIsle.Loc))
+                    return null;
+
             //Reduce the score in proportion to distance
             //lower score is worse. Mind the minus sign!
             double distance = Navigator.CalcDistFromLine(origin.GetLocation(), this.GetLocation(), this.Heading);
 
             //consider attack radious
             distance -= Bot.Game.GetAttackRadius();
+            distance = Math.Max(distance, 0);
+
 
             //if the group is strong enough to take the enemy group add its score
-            if (origin.LiveCount() > this.LiveCount())
+            if (origin.LiveCount() >= this.EnemyPirates.Count)
             {
                 return new Score(this, TargetType.EnemyGroup,0, this.EnemyPirates.Count, distance);
             }
@@ -285,13 +293,16 @@ namespace Britbot
         /// </summary>
         /// <param name="location">the location to test for</param>
         /// <returns>The minimal distance from this group to that location</returns>
-        public int MinimalDistanceTo(Location location)
+        public double MinimalSquaredDistanceTo(Location location)
         {
-            return
-                this.EnemyPirates.ConvertAll(p => Bot.Game.GetEnemyPirate(p))
-                    .Select(pirate => Bot.Game.Distance(pirate.Loc, location))
-                    .Concat(new int[] {})
-                    .Min();
+            double min = Bot.Game.GetCols() + Bot.Game.GetRows();
+            foreach (int pirate in EnemyPirates)
+            {
+                HeadingVector difference = HeadingVector.CalcDifference(location,Bot.Game.GetEnemyPirate(pirate).Loc);
+                if (difference.NormSquared() < min)
+                    min = difference.NormSquared();
+            }
+            return min;
         }
 
         /// <summary>
