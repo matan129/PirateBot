@@ -92,6 +92,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Priority Queue\Priority Queue.csproj">
+      <Project>{1531C1EA-BD53-41D1-A34B-CFCDF79D2651}</Project>
+      <Name>Priority Queue</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
