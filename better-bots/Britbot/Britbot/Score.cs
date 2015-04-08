@@ -14,6 +14,11 @@ namespace Britbot
         #region Fields & Properies
 
         /// <summary>
+        /// Amount of enemy ships nearBy
+        /// </summary>
+        public double EnemyShips;
+
+        /// <summary>
         ///     Time until completion
         /// </summary>
         public double Eta;
@@ -32,10 +37,7 @@ namespace Britbot
         ///     value of the island if island
         /// </summary>
         public double Value { get; private set; }
-        /// <summary>
-        /// Amount of enemy ships nearBy
-        /// </summary>
-        public double EnemyShips;
+
         #endregion
 
         #region Constructors & Initializers

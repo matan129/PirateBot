@@ -1,4 +1,5 @@
 ﻿#region Usings
+
 using System;
 using System.Collections.Generic;
 using Pirates;
@@ -48,7 +49,6 @@ namespace Britbot
                     return Direction.NOTHING;
             }
         }
-
 
         /// <summary>
         /// extention method calculating the square of the euclidian distance between
@@ -113,7 +113,6 @@ namespace Britbot
             //if here then all the area is passible
             return true;
         }
-
 
         /// <summary>
         ///     Gets a list of directions to move from a pirate to another pirate
