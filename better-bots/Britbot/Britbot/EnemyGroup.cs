@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using Pirates;
 
 #endregion
@@ -100,14 +99,14 @@ namespace Britbot
             double distance = Navigator.CalcDistFromLine(origin.GetLocation(), this.GetLocation(), this.Heading);
 
             //consider attack radious
-            distance -= Math.Sqrt( Bot.Game.GetAttackRadius());
+            distance -= Math.Sqrt(Bot.Game.GetAttackRadius());
             distance = Math.Max(distance, 0);
 
 
             //if the group is strong enough to take the enemy group add its score
             if (origin.LiveCount() >= this.EnemyPirates.Count)
             {
-                return new Score(this, TargetType.EnemyGroup,0, this.EnemyPirates.Count, distance);
+                return new Score(this, TargetType.EnemyGroup, 0, this.EnemyPirates.Count, distance);
             }
 
             return null;
@@ -139,7 +138,7 @@ namespace Britbot
 
             //return the average location
             if (locs.Count != 0)
-                return new Location( totalRow / locs.Count,totalCol / locs.Count);
+                return new Location(totalRow / locs.Count, totalCol / locs.Count);
 
             return new Location(0, 0);
         }
@@ -157,7 +156,8 @@ namespace Britbot
             //calculates the direction based on the geographical data from the game
             //first check if stationary
             if (this.Heading.Norm() == 0)
-                return Navigator.CalculateDirectionToStationeryTarget(group.FindCenter(true), group.Heading, this.GetLocation());
+                return Navigator.CalculateDirectionToStationeryTarget(group.FindCenter(true), group.Heading,
+                    this.GetLocation());
             //otherwise
             return Navigator.CalculateDirectionToMovingTarget(group.FindCenter(true), group.Heading, GetLocation(),
                 Heading);
@@ -296,7 +296,7 @@ namespace Britbot
             double min = Bot.Game.GetCols() + Bot.Game.GetRows();
             foreach (int pirate in EnemyPirates)
             {
-                if (Bot.Game.EuclidianDistanceSquared(location,this.GetLocation()) < min)
+                if (Bot.Game.EuclidianDistanceSquared(location, this.GetLocation()) < min)
                     min = Bot.Game.EuclidianDistanceSquared(location, this.GetLocation());
             }
             return min;
@@ -387,7 +387,7 @@ namespace Britbot
         public override string ToString()
         {
             return "EnemyGroup- id: " + this.Id + ", pirates count: " + this.EnemyPirates.Count
-                                      + ", Heading: " + this.Heading.ToString() + " location: " + GetLocation();
+                   + ", Heading: " + this.Heading.ToString() + " location: " + GetLocation();
         }
 
         /// <summary>

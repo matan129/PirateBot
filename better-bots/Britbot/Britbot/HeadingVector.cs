@@ -141,7 +141,7 @@ namespace Britbot
             if (hv1 * hv2 < 0)
             {
                 newHv = hv2;
-            }//also check that new direction isn't nothing
+            } //also check that new direction isn't nothing
             else if (hv2.Norm() == 0)
             {
                 newHv = hv2;
@@ -193,6 +193,7 @@ namespace Britbot
             //return this for a+b+c calculations
             return this;
         }
+
         /// <summary>
         ///     Calculates the direction vector between two points
         /// </summary>
@@ -202,7 +203,7 @@ namespace Britbot
         public static HeadingVector CalcDifference(Location source, Location target)
         {
             //assigning new variable
-            return new HeadingVector( target.Col - source.Col,target.Row - source.Row);
+            return new HeadingVector(target.Col - source.Col, target.Row - source.Row);
         }
 
         /// <summary>

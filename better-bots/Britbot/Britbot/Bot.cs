@@ -53,9 +53,8 @@ namespace Britbot
         /// <param name="state">The current game state</param>
         public void DoTurn(IPirateGame state)
         {
-
             //update the game so other classes will get updated data
-            Game = state;            
+            Bot.Game = state;
 
             bool commanderOk = false;
 
@@ -66,27 +65,27 @@ namespace Britbot
                  * moving instructions in the form of a Dictionary<Pirate,Direction>. This is because we do not want to abort the commander 
                  * after it moved couple of pirates but not all of them                            
                  */
-                commanderOk = ExecuteBot();
+                commanderOk = Bot.ExecuteBot();
             }
             catch (Exception ex)
             {
-                Game.Debug("=================BOT ERROR=====================");
-                Game.Debug("Bot almost crashed because of exception: " + ex.Message);
+                Bot.Game.Debug("=================BOT ERROR=====================");
+                Bot.Game.Debug("Bot almost crashed because of exception: " + ex.Message);
 
                 StackTrace exTrace = new StackTrace(ex, true);
                 StackFrame frame = exTrace.GetFrame(0);
-                Game.Debug("The exception was thrown from method {0} at file {1} at line #{2}", frame.GetMethod(),
+                Bot.Game.Debug("The exception was thrown from method {0} at file {1} at line #{2}", frame.GetMethod(),
                     frame.GetFileName(), frame.GetFileLineNumber());
 
-                Game.Debug("=================BOT ERROR=====================");
+                Bot.Game.Debug("=================BOT ERROR=====================");
             }
             finally
             {
                 //Actually move stuff
                 if (commanderOk)
-                    Mover.MoveAll(_movesDictionary);
+                    Mover.MoveAll(Bot._movesDictionary);
                 else
-                    Mover.MoveAll(_fallbackMoves);
+                    Mover.MoveAll(Bot._fallbackMoves);
             }
         }
 
@@ -99,67 +98,67 @@ namespace Britbot
         private static bool ExecuteBot()
         {
             //clear the last moves
-            _fallbackMoves.Clear();
-            _movesDictionary.Clear();
+            Bot._fallbackMoves.Clear();
+            Bot._movesDictionary.Clear();
 
             //setup time check flag
             bool onTime = false;
 
             //setup time remaining
             int time;
-            if (Game.GetTurn() > 1)
-                time = Game.TimeRemaining();
+            if (Bot.Game.GetTurn() > 1)
+                time = Bot.Game.TimeRemaining();
             else
                 time = 1000; //1000 ms
 
-            int safeTimeout = (int)(time * 0.65);
+            int safeTimeout = (int) (time * 0.65);
 
             //timeout setup
             using (CancellationTokenSource commanderCancellationSource = new CancellationTokenSource(safeTimeout))
             {
                 //Commander task setup and start
-                _tasks[0] =
+                Bot._tasks[0] =
                     Task.Factory.StartNew(() =>
                     {
                         try
                         {
-                            _movesDictionary = Commander.Play(commanderCancellationSource.Token, out onTime);
+                            Bot._movesDictionary = Commander.Play(commanderCancellationSource.Token, out onTime);
                         }
                         catch (Exception ex)
                         {
-                            Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
-                                       Game.GetTurn());
-                            Game.Debug(ex.ToString());
+                            Bot.Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
+                                       Bot.Game.GetTurn());
+                            Bot.Game.Debug(ex.ToString());
                             throw;
                         }
                     });
 
                 //Fallback task setup and start
-                _tasks[1] =
+                Bot._tasks[1] =
                     Task.Factory.StartNew(() =>
                     {
                         try
                         {
-                            _fallbackMoves = FallbackBot.GetFallbackTurns();
+                            Bot._fallbackMoves = FallbackBot.GetFallbackTurns();
                         }
                         catch (Exception ex)
                         {
-                            Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN " +
-                                       Game.GetTurn());
-                            Game.Debug(ex.ToString());
+                            Bot.Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN " +
+                                       Bot.Game.GetTurn());
+                            Bot.Game.Debug(ex.ToString());
                             throw;
                         }
                     });
 
                 //Wait for the tasks until the same timeout is over.
-                Task.WaitAll(_tasks, safeTimeout);
+                Task.WaitAll(Bot._tasks, safeTimeout);
 
                 //if it's stuck...
                 if (!onTime)
                 {
-                    Game.Debug("=================TIMEOUT=======================");
-                    Game.Debug("Commander timed out, switching to fallback code");
-                    Game.Debug("=================TIMEOUT=======================");
+                    Bot.Game.Debug("=================TIMEOUT=======================");
+                    Bot.Game.Debug("Commander timed out, switching to fallback code");
+                    Bot.Game.Debug("=================TIMEOUT=======================");
                 }
             }
             //return if the commander is on time

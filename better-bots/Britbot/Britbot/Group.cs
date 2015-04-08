@@ -1,13 +1,10 @@
 ﻿#region Usings
 
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Configuration;
 using System.Threading;
 using Pirates;
-using Extensions = Britbot.Extensions;
 
 #endregion
 
@@ -106,8 +103,9 @@ namespace Britbot
 
         public override string ToString()
         {
-            return "Group - id: " + this.Id + " pirate count: " + this.Pirates.Count + "location: " + this.FindCenter(true)
-                                  + " heading: " + Heading;
+            return "Group - id: " + this.Id + " pirate count: " + this.Pirates.Count + "location: " +
+                   this.FindCenter(true)
+                   + " heading: " + Heading;
         }
 
         public void Debug()
@@ -253,7 +251,11 @@ namespace Britbot
                     Direction master = Target.GetDirection(this);
 
                     //sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions
-                    myPirates = myPirates.OrderBy(p => Navigator.CalcDistFromLine(new Location(0, 0), GetLocation(), (new HeadingVector(master)).Orthogonal())).ToList();
+                    myPirates =
+                        myPirates.OrderBy(
+                            p =>
+                                Navigator.CalcDistFromLine(new Location(0, 0), GetLocation(),
+                                    (new HeadingVector(master)).Orthogonal())).ToList();
                     //return for each pirate the pirate and its direction
                     foreach (Pirate myPirate in myPirates)
                     {
@@ -586,7 +588,7 @@ namespace Britbot
         /// <returns>the amount of rings in the formation</returns>
         public static int GetRingCount(int pirateNum)
         {
-            return (int)Math.Ceiling((decimal)(pirateNum - 1) / 4); 
+            return (int) Math.Ceiling((decimal) (pirateNum - 1) / 4);
         }
 
         /// <summary>
@@ -696,7 +698,7 @@ namespace Britbot
                 }
 
                 //set the returned location to the central pirate location
-                if(pete != null)
+                if (pete != null)
                     averageLocation = pete.Loc;
             }
 

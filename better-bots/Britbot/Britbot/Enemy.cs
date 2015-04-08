@@ -32,7 +32,7 @@ namespace Britbot
         /// </summary>
         static Enemy()
         {
-            Groups = new List<EnemyGroup>();
+            Enemy.Groups = new List<EnemyGroup>();
         }
 
         #endregion
@@ -45,9 +45,9 @@ namespace Britbot
         /// <exception cref="OperationCanceledException">The token has had cancellation requested.</exception>
         public static List<EnemyGroup> AnalyzeEnemyGroups(CancellationToken cancellationToken)
         {
-            EnemyGroup[] analysis = AnalyzeFull(cancellationToken).ToArray();
+            EnemyGroup[] analysis = Enemy.AnalyzeFull(cancellationToken).ToArray();
 
-            if (Groups.Count == 0)
+            if (Enemy.Groups.Count == 0)
                 return analysis.ToList();
 
             List<EnemyGroup> veteranGroups = new List<EnemyGroup>(analysis.Length);
@@ -59,7 +59,7 @@ namespace Britbot
                 cancellationToken.ThrowIfCancellationRequested();
 
                 EnemyGroup enemyGroup = analysis[i];
-                foreach (EnemyGroup veteran in Groups)
+                foreach (EnemyGroup veteran in Enemy.Groups)
                 {
                     //Throwing an exception if cancellation was requested.
                     cancellationToken.ThrowIfCancellationRequested();
@@ -70,7 +70,7 @@ namespace Britbot
                      * Note that Equals() does a deep comparison 
                      * (I overrided it to check if the pirates in each enemy group are the same)                    
                      */
-                    if (Equals(veteran, enemyGroup))
+                    if (object.Equals(veteran, enemyGroup))
                     {
                         /* 
                          * note that we are adding the group already in the old Groups list
@@ -159,15 +159,14 @@ namespace Britbot
         public static void Update(CancellationToken cancellationToken)
         {
             //update the enemy data
-            List<EnemyGroup> updated = AnalyzeEnemyGroups(cancellationToken);
+            List<EnemyGroup> updated = Enemy.AnalyzeEnemyGroups(cancellationToken);
 
             //update the enemyGroups by logical stuff
-            Groups = Groups.Intersect(updated).ToList();
-            Groups = Groups.Union(updated).ToList();
+            Enemy.Groups = Enemy.Groups.Intersect(updated).ToList();
+            Enemy.Groups = Enemy.Groups.Union(updated).ToList();
 
             //update heading in parallel
-            Parallel.ForEach(Groups, eGroup => eGroup.UpdateHeading());
-
+            Parallel.ForEach(Enemy.Groups, eGroup => eGroup.UpdateHeading());
         }
     }
 }

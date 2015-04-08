@@ -1,9 +1,6 @@
 ﻿#region Usings
 
-using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Linq;
 using Pirates;
 
 #endregion
@@ -80,15 +77,6 @@ namespace Britbot
         #region Constructors & Initializers
 
         /// <summary>
-        ///     Creates a new SmartIsland
-        /// </summary>
-        /// <param name="encapsulate">The regular island index to encapsulate</param>
-        private SmartIsland(int encapsulate)
-        {
-            this.Id = encapsulate;
-        }
-
-        /// <summary>
         ///     A static constructor which initializes the static island list on the first reference to a SmartIsland
         /// </summary>
         static SmartIsland()
@@ -98,6 +86,15 @@ namespace Britbot
             {
                 SmartIsland.IslandList.Add(new SmartIsland(island.Id));
             }
+        }
+
+        /// <summary>
+        ///     Creates a new SmartIsland
+        /// </summary>
+        /// <param name="encapsulate">The regular island index to encapsulate</param>
+        private SmartIsland(int encapsulate)
+        {
+            this.Id = encapsulate;
         }
 
         #endregion
@@ -226,12 +223,11 @@ namespace Britbot
             foreach (EnemyGroup eGroup in Enemy.Groups)
             {
                 //Checks if the group of islands is near the island and if they are getting closer or farther
-                if (eGroup.MinimalSquaredDistanceTo(this.Loc) <= dangerRadius )
+                if (eGroup.MinimalSquaredDistanceTo(this.Loc) <= dangerRadius)
                 {
                     //Calculates the sum of pirates in proximity to the island
                     enemyCount = enemyCount + eGroup.EnemyPirates.Count;
                 }
-
             }
 
             return enemyCount;
