@@ -36,10 +36,7 @@ namespace Britbot.PriorityQueue
         /// </summary>
         public int Count
         {
-            get
-            {
-                return this._numNodes;
-            }
+            get { return this._numNodes; }
         }
 
         /// <summary>
@@ -48,16 +45,13 @@ namespace Britbot.PriorityQueue
         /// </summary>
         public int MaxSize
         {
-            get
-            {
-                return this._nodes.Length - 1;
-            }
+            get { return this._nodes.Length - 1; }
         }
 
         /// <summary>
         /// Removes every node from the queue.  O(n) (So, don't do this often!)
         /// </summary>
-        #if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         #endif
         public void Clear()
@@ -69,18 +63,18 @@ namespace Britbot.PriorityQueue
         /// <summary>
         /// Returns (in O(1)!) whether the given node is in the queue.  O(1)
         /// </summary>
-        #if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         #endif
         public bool Contains(T node)
         {
-            return (this._nodes[node.QueueIndex].Equals( node));
+            return (this._nodes[node.QueueIndex].Equals(node));
         }
 
         /// <summary>
         /// Enqueue a node - .Priority must be set beforehand!  O(log n)
         /// </summary>
-        #if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         #endif
         public void Enqueue(T node, double priority)
@@ -93,9 +87,10 @@ namespace Britbot.PriorityQueue
             this.CascadeUp(this._nodes[this._numNodes]);
         }
 
-        #if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         #endif
+
         private void Swap(T node1, T node2)
         {
             //Swap the nodes
@@ -113,34 +108,36 @@ namespace Britbot.PriorityQueue
         {
             //aka Heapify-up
             int parent = node.QueueIndex / 2;
-            while(parent >= 1)
+            while (parent >= 1)
             {
                 T parentNode = this._nodes[parent];
-                if(this.HasHigherPriority(parentNode, node))
+                if (this.HasHigherPriority(parentNode, node))
                     break;
 
                 //Node has lower priority value, so move it up the heap
-                this.Swap(node, parentNode); //For some reason, this is faster with Swap() rather than (less..?) individual operations, like in CascadeDown()
+                this.Swap(node, parentNode);
+                    //For some reason, this is faster with Swap() rather than (less..?) individual operations, like in CascadeDown()
 
                 parent = node.QueueIndex / 2;
             }
         }
 
-        #if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         #endif
+
         private void CascadeDown(T node)
         {
             //aka Heapify-down
             T newParent;
             int finalQueueIndex = node.QueueIndex;
-            while(true)
+            while (true)
             {
                 newParent = node;
                 int childLeftIndex = 2 * finalQueueIndex;
 
                 //Check if the left-child is higher-priority than the current node
-                if(childLeftIndex > this._numNodes)
+                if (childLeftIndex > this._numNodes)
                 {
                     //This could be placed outside the loop, but then we'd have to check newParent != node twice
                     node.QueueIndex = finalQueueIndex;
@@ -149,24 +146,24 @@ namespace Britbot.PriorityQueue
                 }
 
                 T childLeft = this._nodes[childLeftIndex];
-                if(this.HasHigherPriority(childLeft, newParent))
+                if (this.HasHigherPriority(childLeft, newParent))
                 {
                     newParent = childLeft;
                 }
 
                 //Check if the right-child is higher-priority than either the current node or the left child
                 int childRightIndex = childLeftIndex + 1;
-                if(childRightIndex <= this._numNodes)
+                if (childRightIndex <= this._numNodes)
                 {
                     T childRight = this._nodes[childRightIndex];
-                    if(this.HasHigherPriority(childRight, newParent))
+                    if (this.HasHigherPriority(childRight, newParent))
                     {
                         newParent = childRight;
                     }
                 }
 
                 //If either of the children has higher (smaller) priority, swap and continue cascading
-                if(newParent != node)
+                if (newParent != node)
                 {
                     //Move new parent to its new index.  node will be moved once, at the end
                     //Doing it this way is one less assignment operation than calling Swap()
@@ -190,13 +187,13 @@ namespace Britbot.PriorityQueue
         /// Returns true if 'higher' has higher priority than 'lower', false otherwise.
         /// Note that calling HasHigherPriority(node, node) (ie. both arguments the same node) will return false
         /// </summary>
-        #if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         #endif
         private bool HasHigherPriority(T higher, T lower)
         {
             return (higher.Priority < lower.Priority ||
-                (higher.Priority == lower.Priority && higher.InsertionIndex < lower.InsertionIndex));
+                    (higher.Priority == lower.Priority && higher.InsertionIndex < lower.InsertionIndex));
         }
 
         /// <summary>
@@ -214,10 +211,7 @@ namespace Britbot.PriorityQueue
         /// </summary>
         public T First
         {
-            get
-            {
-                return this._nodes[1];
-            }
+            get { return this._nodes[1]; }
         }
 
         /// <summary>
@@ -225,7 +219,7 @@ namespace Britbot.PriorityQueue
         /// <b>Forgetting to call this method will result in a corrupted queue!</b>
         /// O(log n)
         /// </summary>
-        #if NET_VERSION_4_5
+#if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         #endif
         public void UpdatePriority(T node, double priority)
@@ -240,7 +234,7 @@ namespace Britbot.PriorityQueue
             int parentIndex = node.QueueIndex / 2;
             T parentNode = this._nodes[parentIndex];
 
-            if(parentIndex > 0 && this.HasHigherPriority(node, parentNode))
+            if (parentIndex > 0 && this.HasHigherPriority(node, parentNode))
             {
                 this.CascadeUp(node);
             }
@@ -256,11 +250,12 @@ namespace Britbot.PriorityQueue
         /// </summary>
         public void Remove(T node)
         {
-            if (!this.Contains(node)) {
-              return;
+            if (!this.Contains(node))
+            {
+                return;
             }
-            
-            if(this._numNodes <= 1)
+
+            if (this._numNodes <= 1)
             {
                 this._nodes[1] = null;
                 this._numNodes = 0;
@@ -270,7 +265,7 @@ namespace Britbot.PriorityQueue
             //Make sure the node is the last node in the queue
             bool wasSwapped = false;
             T formerLastNode = this._nodes[this._numNodes];
-            if(node.QueueIndex != this._numNodes)
+            if (node.QueueIndex != this._numNodes)
             {
                 //Swap the node with the last node
                 this.Swap(node, formerLastNode);
@@ -280,7 +275,7 @@ namespace Britbot.PriorityQueue
             this._numNodes--;
             this._nodes[node.QueueIndex] = null;
 
-            if(wasSwapped)
+            if (wasSwapped)
             {
                 //Now bubble formerLastNode (which is no longer the last node) up or down as appropriate
                 this.OnNodeUpdated(formerLastNode);
@@ -289,7 +284,7 @@ namespace Britbot.PriorityQueue
 
         public IEnumerator<T> GetEnumerator()
         {
-            for(int i = 1; i <= this._numNodes; i++)
+            for (int i = 1; i <= this._numNodes; i++)
                 yield return this._nodes[i];
         }
 
@@ -304,16 +299,18 @@ namespace Britbot.PriorityQueue
         /// </summary>
         public bool IsValidQueue()
         {
-            for(int i = 1; i < this._nodes.Length; i++)
+            for (int i = 1; i < this._nodes.Length; i++)
             {
-                if(this._nodes[i] != null)
+                if (this._nodes[i] != null)
                 {
                     int childLeftIndex = 2 * i;
-                    if(childLeftIndex < this._nodes.Length && this._nodes[childLeftIndex] != null && this.HasHigherPriority(this._nodes[childLeftIndex], this._nodes[i]))
+                    if (childLeftIndex < this._nodes.Length && this._nodes[childLeftIndex] != null &&
+                        this.HasHigherPriority(this._nodes[childLeftIndex], this._nodes[i]))
                         return false;
 
                     int childRightIndex = childLeftIndex + 1;
-                    if(childRightIndex < this._nodes.Length && this._nodes[childRightIndex] != null && this.HasHigherPriority(this._nodes[childRightIndex], this._nodes[i]))
+                    if (childRightIndex < this._nodes.Length && this._nodes[childRightIndex] != null &&
+                        this.HasHigherPriority(this._nodes[childRightIndex], this._nodes[i]))
                         return false;
                 }
             }

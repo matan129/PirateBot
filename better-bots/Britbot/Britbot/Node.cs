@@ -1,10 +1,9 @@
 ﻿#region Usings
 
 using System;
+using System.Collections.Generic;
 using Britbot.PriorityQueue;
 using Pirates;
-using System.Collections.Generic;
-using System.Linq;
 
 #endregion
 
@@ -69,6 +68,24 @@ namespace Britbot
             /// the weight of the cell, should be higher near enemies and un-passable places
             /// </summary>
             public double Weight;
+
+            #endregion
+
+            #region Constructors & Initializers
+
+            /// <summary>
+            /// One time initializing of the Node array
+            /// </summary>
+            static Node()
+            {
+                for (int i = 0; i < Node.Map.GetLength(0); i++)
+                {
+                    for (int j = 0; j < Node.Map.GetLength(1); j++)
+                    {
+                        Node.Map[i, j] = new Node();
+                    }
+                }
+            }
 
             #endregion
 
@@ -194,7 +211,8 @@ namespace Britbot
                     //we remove one Attack Radious as precaution
                     distanceSquared = Math.Max(0, distanceSquared - Bot.Game.GetAttackRadius());
                     //then we normalize
-                    distanceSquared = 1 / Node.Infinity + distanceSquared / (Node.Infinity * (dangerZone - Bot.Game.GetAttackRadius()));
+                    distanceSquared = 1 / Node.Infinity +
+                                      distanceSquared / (Node.Infinity * (dangerZone - Bot.Game.GetAttackRadius()));
 
                     //if they are stronger than us
                     if (enemyStrength - addvantageFactor > GroupStrength)
@@ -213,7 +231,6 @@ namespace Britbot
                         //we also add coefficient so at the edge of the dangerzone it will be badDangerSpreadCoeff * infinity
                         eGoodTurnsToBadFactor += badDangerSpreadCoeff * enemyStrength / distanceSquared;
                     }
-
                 }
 
                 //check if we are good or naughty 
@@ -267,7 +284,7 @@ namespace Britbot
                 List<Node> neighbors = new List<Node>();
 
                 //array to help iterating over the four neighbors
-                int [] coeff = {-1, 1};
+                int[] coeff = {-1, 1};
 
                 //read X and Y from this.loc
                 int X = this.Loc.Col;
@@ -292,7 +309,7 @@ namespace Britbot
                             continue;
 
                         //if we are here it means that the neighbor is ok, so add him to the list
-                        neighbors.Add(Map[neighborY, neighborX]);
+                        neighbors.Add(Node.Map[neighborY, neighborX]);
                     }
                 }
 
@@ -311,7 +328,7 @@ namespace Britbot
                 //check if it is even a Node
                 if (obj.GetType() == this.GetType())
                 {
-                    return (this.Loc == ((Node)obj).Loc);
+                    return (this.Loc == ((Node) obj).Loc);
                 }
                 //otherwise
                 return false;

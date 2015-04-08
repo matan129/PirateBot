@@ -621,7 +621,7 @@ namespace Britbot
                                         4 * (Math.Pow(ringOrdinal - Math.Abs(a - x), 2) - Math.Pow(b, 2)))) / 2));
 
                 //if the location is nit passable, throw an expection (caught by the calling function)
-                if (!Bot.Game.IsPassable(y1))
+                if (Bot.Game.IsInMap(y1) || !Bot.Game.IsPassable(y1))
                     throw new InvalidLocationException("Location is not passable!");
 
                 //add the location to the ring
@@ -636,7 +636,7 @@ namespace Britbot
                                         4 * (Math.Pow(ringOrdinal - Math.Abs(a - x), 2) - Math.Pow(b, 2)))) / 2));
 
                 //if the location is nit passable, throw an expection (caught by the calling function)
-                if (!Bot.Game.IsPassable(y2))
+                if (Bot.Game.IsInMap(y2) || !Bot.Game.IsPassable(y2))
                     throw new InvalidLocationException("Location is not passable!");
 
                 //Check for duplicates

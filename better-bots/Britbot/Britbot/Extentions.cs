@@ -86,31 +86,40 @@ namespace Britbot
         }
 
         /// <summary>
-        /// This function checks if it is bossible to put a group of given radious with a given radious in 
-        /// curtain location without pirates getting in enemy zone
+        /// This function checks if it is possible to put a group of given radious with a given radious in 
+        /// certain location without pirates getting in enemy zone
         /// </summary>
-        /// <param name="game">Compiler magic</param>
+        /// <param name="game">Compiler magic</param> DAMM RIGHT IT IS
         /// <param name="loc">the location of the 0 ring (the one we check)</param>
-        /// <param name="passRadious">the radius of the group (amount of rings)</param>
+        /// <param name="passRadius">the radius of the group (amount of rings)</param>
         /// <returns>true if it is possible to put a group with passRadious rings in this location</returns>
-        public static bool IsPassableEnough(this IPirateGame game, Location loc, int passRadious)
+        public static bool IsPassableEnough(this IPirateGame game, Location loc, int passRadius)
         {
-            //going over all close location looking for impassable location
-            //iterating over x distances from loc (from -passRadius to +passRadiou) 
-            for (int x = -passRadious; x <= passRadious; x++)
+            //go over the locations and check if they are passable.
+            for (int i = loc.Row - passRadius; i < loc.Row + passRadius; i++)
             {
-                //iterating over y values within reasenable distance (from -Math.abs(passRadious - x) to +Math.abs(passRadious - x)
-                for (int y = -Math.Abs(passRadious - x); y <= Math.Abs(passRadious - x); y++)
+                for (int j = -passRadius; j < passRadius; j++)
                 {
-                    //create the current location
-                    Location currLoc = new Location(loc.Row + y, loc.Col + x);
+                    Location testLocation = new Location(loc.Row + i, loc.Col + j);
 
-                    //if current location isn't passable return false
-                    if (!Bot.Game.IsPassable(currLoc))
-                        return false;
+                    //check if passable
+                    return game.IsInMap(testLocation) && game.IsPassable(testLocation);
                 }
             }
-            //if here then all the area is passible
+
+            //return true if Ok
+            return true;
+        }
+
+        public static bool IsInMap(this IPirateGame game, Location testLocation)
+        {
+            int mapRow = game.GetRows();
+            int mapCol = game.GetCols();
+
+            //check if outside of the map
+            if (testLocation.Row >= mapRow || testLocation.Col >= mapCol)
+                return false;
+
             return true;
         }
 

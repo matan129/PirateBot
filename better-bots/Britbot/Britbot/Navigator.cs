@@ -24,7 +24,8 @@ namespace Britbot
         /// <returns>optimal direction</returns>
         public static Direction CalculateDirectionToStationeryTarget(Location myLoc, HeadingVector myHeading,
             Location target)
-        {/*
+        {
+/*
             //get the desired direction
             HeadingVector desiredVector = HeadingVector.CalcDifference(myLoc, target);
 
@@ -267,7 +268,6 @@ namespace Britbot
                     }
                 }
             }
-            
 
 
             //now we have made the necessary calculations, just get the desired direction
@@ -277,19 +277,19 @@ namespace Britbot
             foreach (Node neighbor in beginning.GetNeighbors())
             {
                 //if bestNode is null update and skip to next iteration
-                if(bestNextNode == null)
+                if (bestNextNode == null)
                 {
                     bestNextNode = neighbor;
                     continue;
                 }
                 //if this neighbors score is better then update
-                if(neighbor.F() < bestNextNode.F())
+                if (neighbor.F() < bestNextNode.F())
                 {
                     bestNextNode = neighbor;
                 }
             }
             //check if best node is null, if so then i am an idiot and YOU NEED TO INFORM ME OF THAT IMMIDIATELY
-            if(bestNextNode == null)
+            if (bestNextNode == null)
             {
                 throw new Exception("Matan K is stupid as shit, please go and tell him that");
             }

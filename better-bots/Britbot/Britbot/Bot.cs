@@ -114,53 +114,52 @@ namespace Britbot
             int safeTimeout = (int) (time * 0.65);
 
             //timeout setup
-            using (CancellationTokenSource commanderCancellationSource = new CancellationTokenSource(safeTimeout))
-            {
-                //Commander task setup and start
-                Bot._tasks[0] =
-                    Task.Factory.StartNew(() =>
-                    {
-                        try
-                        {
-                            Bot._movesDictionary = Commander.Play(commanderCancellationSource.Token, out onTime);
-                        }
-                        catch (Exception ex)
-                        {
-                            Bot.Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
-                                       Bot.Game.GetTurn());
-                            Bot.Game.Debug(ex.ToString());
-                            throw;
-                        }
-                    });
-
-                //Fallback task setup and start
-                Bot._tasks[1] =
-                    Task.Factory.StartNew(() =>
-                    {
-                        try
-                        {
-                            Bot._fallbackMoves = FallbackBot.GetFallbackTurns();
-                        }
-                        catch (Exception ex)
-                        {
-                            Bot.Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN " +
-                                       Bot.Game.GetTurn());
-                            Bot.Game.Debug(ex.ToString());
-                            throw;
-                        }
-                    });
-
-                //Wait for the tasks until the same timeout is over.
-                Task.WaitAll(Bot._tasks, safeTimeout);
-
-                //if it's stuck...
-                if (!onTime)
+            CancellationTokenSource commanderCancellationSource = new CancellationTokenSource(safeTimeout);
+            //Commander task setup and start
+            Bot._tasks[0] =
+                Task.Factory.StartNew(() =>
                 {
-                    Bot.Game.Debug("=================TIMEOUT=======================");
-                    Bot.Game.Debug("Commander timed out, switching to fallback code");
-                    Bot.Game.Debug("=================TIMEOUT=======================");
-                }
+                    try
+                    {
+                        Bot._movesDictionary = Commander.Play(commanderCancellationSource.Token, out onTime);
+                    }
+                    catch (Exception ex)
+                    {
+                        Bot.Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
+                                       Bot.Game.GetTurn());
+                        Bot.Game.Debug(ex.ToString());
+                        throw;
+                    }
+                });
+
+            //Fallback task setup and start
+            Bot._tasks[1] =
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        Bot._fallbackMoves = FallbackBot.GetFallbackTurns();
+                    }
+                    catch (Exception ex)
+                    {
+                        Bot.Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN " +
+                                       Bot.Game.GetTurn());
+                        Bot.Game.Debug(ex.ToString());
+                        throw;
+                    }
+                });
+
+            //Wait for the tasks until the same timeout is over.
+            Task.WaitAll(Bot._tasks, safeTimeout);
+
+            //if it's stuck...
+            if (!onTime)
+            {
+                Bot.Game.Debug("=================TIMEOUT=======================");
+                Bot.Game.Debug("Commander timed out, switching to fallback code");
+                Bot.Game.Debug("=================TIMEOUT=======================");
             }
+
             //return if the commander is on time
             return onTime;
         }
