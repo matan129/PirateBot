@@ -123,7 +123,7 @@ namespace Britbot
                         }
 
                         //now set the wight based on enemyGroups
-                        double enemyFactor = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
+                        //double enemyFactor = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
                     }
                 }
             }
@@ -168,14 +168,14 @@ namespace Britbot
                 const int addvantageFactor = 1;
 
                 //constants representing the danger distribution across the map (good for enemies we can kill, bad otherwise)
-                const double badDangerSpreadCoeff = 0.5;
+                const double badDangerSpreadCoeff = 1;
                 //const double goodDangerSpreadCoeff = 0.1;
 
                 //read attack radious
                 double attackRadius = Bot.Game.GetAttackRadius();
 
                 //constant representing enemyships negative radius on the map
-                double dangerZone = 9 * attackRadius;
+                double dangerZone = 4 * attackRadius;
 
                 //We would like to avoid enemy groups bigger then our selves and move towords smaller one
                 //But there might be some smaller ones near one another and we won't know that till we 
@@ -333,6 +333,24 @@ namespace Britbot
                 //otherwise
                 return false;
             }
+            /*
+            /// <summary>
+            /// compares two nodes
+            /// first checks if null, else compares locations
+            /// </summary>
+            /// <param name="n1">first node</param>
+            /// <param name="n2">second node</param>
+            /// <returns></returns>
+            public static override bool operator ==(Node n1, Node n2)
+            {
+                //check nulls
+                if (object.ReferenceEquals(n1, null))
+                {
+                    return object.ReferenceEquals(n2, null);
+                }
+
+                return n1.Equals(n2);
+            }*/
         }
 
         #endregion

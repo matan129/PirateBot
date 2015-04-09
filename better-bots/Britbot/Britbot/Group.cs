@@ -248,6 +248,10 @@ namespace Britbot
                     myPirates.Sort(
                         (b, a) => Bot.Game.Distance(a.Loc, targetLoc).CompareTo(Bot.Game.Distance(b.Loc, targetLoc)));
                     */
+
+                    //inital path finding for this group
+                    Navigator.UpdateMap(this.Pirates.Count);
+
                     Direction master = Target.GetDirection(this);
 
                     //sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions
@@ -722,9 +726,6 @@ namespace Britbot
         /// <exception cref="OperationCanceledException">The token has had cancellation requested.</exception>
         public void CalcPriorities(CancellationToken cancellationToken)
         {
-            //inital path finding for this group
-            Navigator.UpdateMap(this.Pirates.Count);
-
             //init some lists
             List<ITarget> priorityList = new List<ITarget>();
             List<Score> scores = new List<Score>();

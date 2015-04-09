@@ -68,7 +68,7 @@ namespace Britbot.PriorityQueue
         #endif
         public bool Contains(T node)
         {
-            return (this._nodes[node.QueueIndex].Equals(node));
+            return (this._nodes[node.QueueIndex] == node);
         }
 
         /// <summary>

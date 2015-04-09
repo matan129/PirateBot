@@ -261,14 +261,19 @@ namespace Britbot
             //TODO this is not close to be finished + we need some smarter constants here 
             double score = 0;
             double timeAvg = 0;
+            double value = 0;
+            double enemyShips = 0;
 
             foreach (Score s in scoreArr)
             {
                 //Throwing an exception if cancellation was requested.
                 cancellationToken.ThrowIfCancellationRequested();
 
-                score += Math.Pow(2, Bot.Game.MyIslands().Count + s.Value);
-                score += 0.2 * Math.Pow(3, s.EnemyShips);
+
+                value += s.Value;
+                enemyShips += s.EnemyShips;
+                /*score += Math.Pow(2, Bot.Game.MyIslands().Count + s.Value);
+                score += 0.2 * Math.Pow(3, s.EnemyShips);*/
                 timeAvg += s.Eta;
             }
 
@@ -288,7 +293,7 @@ namespace Britbot
                 }
             }
 
-            return score - timeAvg / scoreArr.Length;
+            return score + Math.Pow(2, value) + 0.2*Math.Pow(3,enemyShips) - timeAvg / scoreArr.Length;
         }
 
         /// <summary>
