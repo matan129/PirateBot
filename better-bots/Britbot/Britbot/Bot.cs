@@ -115,6 +115,7 @@ namespace Britbot
 
             //timeout setup
             CancellationTokenSource commanderCancellationSource = new CancellationTokenSource(safeTimeout);
+
             //Commander task setup and start
             Bot._tasks[0] =
                 Task.Factory.StartNew(() =>
