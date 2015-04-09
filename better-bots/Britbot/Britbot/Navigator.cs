@@ -53,37 +53,12 @@ namespace Britbot
 
             //return best direction found
             return bestDirection;*/
-            Navigator.CalculatePath(myLoc, target);
-            Node beginning = Node.GetLocationNodeFromMap(myLoc);
-            //now we have made the necessary calculations, just get the desired direction
-            Node bestNextNode = null;
 
-            //go over the neighbors of the begining
-            foreach (Node neighbor in beginning.GetNeighbors())
-            {
-                Bot.Game.Debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                //if bestNode is null update and skip to next iteration
-                if (bestNextNode == null)
-                {
-                    bestNextNode = neighbor;
-                    continue;
-                }
-                //if this neighbors score is better then update
-                if (neighbor.F() < bestNextNode.F())
-                {
-                    bestNextNode = neighbor;
-                }
-            }
-            Bot.Game.Debug("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-            //check if best node is null, if so then i am an idiot and YOU NEED TO INFORM ME OF THAT IMMIDIATELY
-            if (bestNextNode == null)
-            {
-                throw new Exception("Matan K is stupid as shit, please go and tell him that");
-            }
-            else
-            {
-                return Bot.Game.GetDirections(beginning.Loc, bestNextNode.Loc)[0];
-            }
+            //first check if we are already at the target
+            if (myLoc.Equals(target))
+                return Direction.NOTHING;
+            //otherwise use the A* thing
+            return Navigator.CalculatePath(myLoc, target);            
         }
 
         /// <summary>
@@ -245,7 +220,7 @@ namespace Britbot
         /// <param name="start">the location you are in (meaning the group)</param>
         /// <param name="target">the desired location (meaning the target)</param>
         /// <returns>direction you should go to reach your target</returns>
-        public static void CalculatePath(Location start, Location target)
+        public static Direction CalculatePath(Location start, Location target)
         {
             //first set up the for a new target calculation
             Node.SetUpCalculation(target);
@@ -264,21 +239,19 @@ namespace Britbot
                 Node currentNode = openset.Dequeue();
 
                 //check if it is out target, if so we are done
-                /*if (currentNode.Loc.Equals(target))
-                    break;*/
+                if (currentNode.Loc.Equals(target))
+                    break;
 
                 //set current node status
                 currentNode.IsEvaluated = true;
 
                 //going over the Neighbors of the current cell
                 foreach (Node neighbor in currentNode.GetNeighbors())
-                {
-                    if (neighbor.Loc.Equals(target))
-                        return ;
+                {                  
 
                     //if we already calculated this neighbor, skip to the next
-                   /* if (neighbor.IsEvaluated)
-                        continue;*/
+                    if (neighbor.IsEvaluated)
+                        continue;
 
                     //calculate the new G score from this rout
                     //double tentativeG = currentNode.G + neighbor.Weight;
@@ -288,11 +261,10 @@ namespace Britbot
                     //or we just found a better score for him (tentativeG < G)
                     //or if G value is default -1
                     //then add him to openset
-                   /* if ((!openset.Contains(neighbor)) || (neighbor.G == -1) || (tentativeG < neighbor.G))
+                    if ((!openset.Contains(neighbor)) || (neighbor.G == -1) || (tentativeG < neighbor.G))
                     {
                         //update G score
-                        neighbor.G = tentativeG;
-                        
+                        neighbor.G = tentativeG;                        
 
                         ////if the neighbor isn't in the open set, add him
                         if (!openset.Contains(neighbor))
@@ -303,31 +275,50 @@ namespace Britbot
                         {
                             openset.UpdatePriority(neighbor, neighbor.F());
                         }
-                    }*/
-
-                    if (openset.Contains(neighbor) && tentativeG > neighbor.G)
-                        continue;
-
-                    if (neighbor.IsEvaluated && tentativeG > neighbor.G)
-                        continue;
-
-                    //update
-                    neighbor.G = tentativeG;
-                    //add node to queue
-                    if (openset.Contains(neighbor))
-                    {
-                        openset.UpdatePriority(neighbor, neighbor.F());
-                    }
-                    else
-                    {
-                        openset.Enqueue(neighbor, neighbor.F());
                     }
                 }
                 //update current node
                 currentNode.IsEvaluated = true;
             }
+            //now we have made the necessary calculations, just get the desired direction
+            return Navigator.FindBestDirectionOutOfMap(beginning);
+        }
 
+        /// <summary>
+        /// after the A* algorithm has finished, is simply finds the best neighbor of the
+        /// beginning node and returns the direction to it
+        /// </summary>
+        /// <param name="beginning">location of the one calling for directions</param>
+        /// <returns></returns>
+        private static Direction FindBestDirectionOutOfMap(Node beginning)
+        {
+            Node bestNextNode = null;
 
+            //go over the neighbors of the begining
+            foreach (Node neighbor in beginning.GetNeighbors())
+            {
+                //if bestNode is null update and skip to next iteration
+                if (bestNextNode == null)
+                {
+                    bestNextNode = neighbor;
+                    continue;
+                }
+                //if this neighbors score is better then update
+                if (neighbor.F() < bestNextNode.F())
+                {
+                    bestNextNode = neighbor;
+                }
+            }
+
+            //check if best node is null, if so then i am an idiot and YOU NEED TO INFORM ME OF THAT IMMIDIATELY
+            if (bestNextNode == null)
+            {
+                throw new Exception("Matan K is stupid as shit, please go and tell him that");
+            }
+            else
+            {
+                return Bot.Game.GetDirections(beginning.Loc, bestNextNode.Loc)[0];
+            }
         }
 
         /// <summary>

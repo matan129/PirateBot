@@ -96,14 +96,15 @@ namespace Britbot
         public static bool IsPassableEnough(this IPirateGame game, Location loc, int passRadius)
         {
             //go over the locations and check if they are passable.
-            for (int i = loc.Row - passRadius; i < loc.Row + passRadius; i++)
+            for (int deltaX = -passRadius; deltaX <= passRadius; deltaX++)
             {
-                for (int j = -passRadius; j < passRadius; j++)
+                for (int deltaY = -passRadius + Math.Abs(deltaX); deltaY <= passRadius - Math.Abs(deltaX); deltaY++)
                 {
-                    Location testLocation = new Location(loc.Row + i, loc.Col + j);
+                    Location testLocation = new Location(loc.Row + deltaY, loc.Col + deltaX);
 
                     //check if passable
-                    return game.IsInMap(testLocation) && game.IsPassable(testLocation);
+                    if (!game.IsInMap(testLocation) || !game.IsPassable(testLocation))
+                        return false;
                 }
             }
 
@@ -117,7 +118,8 @@ namespace Britbot
             int mapCol = game.GetCols();
 
             //check if outside of the map
-            if (testLocation.Row >= mapRow || testLocation.Col >= mapCol)
+            if (testLocation.Row >= mapRow || testLocation.Col >= mapCol ||
+                testLocation.Row < 0       || testLocation.Col < 0)
                 return false;
 
             return true;

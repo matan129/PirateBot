@@ -78,11 +78,14 @@ namespace Britbot
             /// </summary>
             static Node()
             {
-                for (int i = 0; i < Node.Map.GetLength(0); i++)
+                for (int y = 0; y < Node.Map.GetLength(0); y++)
                 {
-                    for (int j = 0; j < Node.Map.GetLength(1); j++)
+                    for (int x = 0; x < Node.Map.GetLength(1); x++)
                     {
-                        Node.Map[i, j] = new Node();
+                        Node.Map[y, x] = new Node();
+
+                        //set locations
+                        Node.Map[y, x].Loc = new Location(y, x);
                     }
                 }
             }
@@ -109,11 +112,9 @@ namespace Britbot
                 {
                     for (int y = 0; y < rows; y++)
                     {
-                        //set the location inside the node
-                        Node.Map[y, x].Loc = new Location(y, x);
-
                         //check if this is passable
-                        if (!Bot.Game.IsPassableEnough(Node.Map[y, x].Loc, groupRadius))
+                        //if (!Bot.Game.IsPassableEnough(Node.Map[y, x].Loc, groupRadius))
+                        if(!Bot.Game.IsPassableEnough(Node.Map[y, x].Loc,groupRadius))
                         {
                             //set the weight of the node to "infinity"
                             Node.Map[y, x].Weight = Node.Infinity;
