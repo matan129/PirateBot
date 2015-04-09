@@ -291,27 +291,43 @@ namespace Britbot
                 int X = this.Loc.Col;
                 int Y = this.Loc.Row;
 
+
                 //going over neighbors
-                for (int deltaY = 0; deltaY < 2; deltaY++)
+                for (int delata = 0; delata < 2; delata++)
                 {
-                    for (int deltaX = 0; deltaX < 2; deltaX++)
-                    {
-                        //get the iterated neighbor coordinates
-                        int neighborX = X + coeff[deltaX];
-                        int neighborY = Y + coeff[deltaY];
+                    //get the iterated neighbor coordinates
+                    int neighborX = X + coeff[delata];
+                    int neighborY = Y ;
 
-                        //check if out of bounderie, if so, continue to next iteration
-                        if ((neighborX < 0) || (neighborX >= Bot.Game.GetCols()) ||
-                            (neighborY < 0) || (neighborY >= Bot.Game.GetRows()))
-                            continue;
+                    //check if out of bounderie, if so, continue to next iteration
+                    if ((neighborX < 0) || (neighborX >= Bot.Game.GetCols()) ||
+                        (neighborY < 0) || (neighborY >= Bot.Game.GetRows()))
+                        continue;
 
-                        //check if impassable, if so, continue to next iteration
-                        if (!Node.Map[neighborY, neighborX].IsPassable())
-                            continue;
+                    //check if impassable, if so, continue to next iteration
+                    /*if (!Node.Map[neighborY, neighborX].IsPassable())
+                        continue;*/
 
-                        //if we are here it means that the neighbor is ok, so add him to the list
-                        neighbors.Add(Node.Map[neighborY, neighborX]);
-                    }
+                    //if we are here it means that the neighbor is ok, so add him to the list
+                    neighbors.Add(Node.Map[neighborY, neighborX]);
+                }
+                for (int delata = 0; delata < 2; delata++)
+                {
+                    //get the iterated neighbor coordinates
+                    int neighborX = X ;
+                    int neighborY = Y + coeff[delata];
+
+                    //check if out of bounderie, if so, continue to next iteration
+                    if ((neighborX < 0) || (neighborX >= Bot.Game.GetCols()) ||
+                        (neighborY < 0) || (neighborY >= Bot.Game.GetRows()))
+                        continue;
+
+                    //check if impassable, if so, continue to next iteration
+                   /* if (!Node.Map[neighborY, neighborX].IsPassable())
+                        continue;*/
+
+                    //if we are here it means that the neighbor is ok, so add him to the list
+                    neighbors.Add(Node.Map[neighborY, neighborX]);
                 }
 
                 return neighbors;
@@ -324,7 +340,7 @@ namespace Britbot
             /// </summary>
             /// <param name="obj">the object we are comparing to</param>
             /// <returns>true if the locations are the same, else otherwise</returns>
-            public override bool Equals(object obj)
+           /* public override bool Equals(object obj)
             {
                 //check if it is even a Node
                 if (obj.GetType() == this.GetType())
@@ -333,7 +349,7 @@ namespace Britbot
                 }
                 //otherwise
                 return false;
-            }
+            }*/
             /*
             /// <summary>
             /// compares two nodes
