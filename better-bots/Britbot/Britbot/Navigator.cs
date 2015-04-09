@@ -248,8 +248,8 @@ namespace Britbot
                         continue;
 
                     //calculate the new G score from this rout
-                    double tentativeG = currentNode.G + neighbor.Weight;
-
+                    //double tentativeG = currentNode.G + neighbor.Weight;
+                    double tentativeG = currentNode.G + 1;
 
                     //if the neighbor isn't in the open set
                     //or we just found a better score for him (tentativeG < G)
@@ -259,11 +259,16 @@ namespace Britbot
                     {
                         //update G score
                         neighbor.G = tentativeG;
+                        
 
                         ////if the neighbor isn't in the open set, add him
                         if (!openset.Contains(neighbor))
                         {
                             openset.Enqueue(neighbor, neighbor.F());
+                        }
+                        else //update
+                        {
+                            openset.UpdatePriority(neighbor, neighbor.F());
                         }
                     }
                 }
@@ -276,6 +281,7 @@ namespace Britbot
             //go over the neighbors of the begining
             foreach (Node neighbor in beginning.GetNeighbors())
             {
+                Bot.Game.Debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                 //if bestNode is null update and skip to next iteration
                 if (bestNextNode == null)
                 {
@@ -288,6 +294,7 @@ namespace Britbot
                     bestNextNode = neighbor;
                 }
             }
+            Bot.Game.Debug("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
             //check if best node is null, if so then i am an idiot and YOU NEED TO INFORM ME OF THAT IMMIDIATELY
             if (bestNextNode == null)
             {

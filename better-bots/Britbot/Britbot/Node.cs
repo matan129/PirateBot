@@ -262,7 +262,7 @@ namespace Britbot
             /// <returns>F value</returns>
             public double F()
             {
-                return this.H + this.G;
+                return  (this.H + this.G);
             }
 
             /// <summary>
