@@ -34,6 +34,12 @@ namespace Britbot
             /// </summary>
             public static Node[,] Map = new Node[Bot.Game.GetRows(), Bot.Game.GetCols()];
 
+            /// <summary>
+            /// This determines if we are using the Euclidian huristic or the Manhaten one
+            /// </summary>
+            public static bool EuclidianHuristic = true;
+
+
             #endregion
 
             #region Fields & Properies
@@ -123,7 +129,7 @@ namespace Britbot
                             continue;
                         }
 
-                        Node.Map[y, x].Weight = 1;
+                        Node.Map[y, x].Weight = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
                         //now set the wight based on enemyGroups
                         //double enemyFactor = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
                     }
@@ -144,7 +150,7 @@ namespace Britbot
                 {
                     for (int x = 0; x < Bot.Game.GetCols(); x++)
                     {
-                        Node.Map[y, x].H = Bot.Game.Distance(Node.Map[y, x].Loc, target);
+                        Node.Map[y, x].H = Node.HuristicFunction(Node.Map[y, x].Loc, target);
 
                         //set the calculated G parameter to -1
                         Node.Map[y, x].G = -1;
@@ -155,6 +161,23 @@ namespace Britbot
                         Node.Map[y, x].IsEvaluated = false;
                     }
                 }
+            }
+
+            /// <summary>
+            /// this determines the huristic function used for the A* algorithm based on the
+            /// EuclidianHuristic constant in Node
+            /// </summary>
+            /// <param name="loc1">first location</param>
+            /// <param name="loc2">second location</param>
+            /// <returns>huristic cost of going between them</returns>
+            public static double HuristicFunction(Location loc1, Location loc2)
+            {
+                //if we chose euclidian huristic
+                if (Node.EuclidianHuristic)
+                    return Bot.Game.EuclidianDistanceSquared(loc1, loc2);
+                // Manhatten huristic
+                else
+                    return Bot.Game.Distance(loc1, loc2);
             }
 
             /// <summary>
@@ -171,7 +194,6 @@ namespace Britbot
 
                 //constants representing the danger distribution across the map (good for enemies we can kill, bad otherwise)
                 const double badDangerSpreadCoeff = 1;
-                //const double goodDangerSpreadCoeff = 0.1;
 
                 //read attack radious
                 double attackRadius = Bot.Game.GetAttackRadius();
@@ -184,38 +206,25 @@ namespace Britbot
                 //go over all off them so we keep them in a separate tab of smaller group and if everything
                 //goes well we subtract them
 
-                //initialize count
-                double eBadFactor = 2;
-                double eGoodTurnsToBadFactor = 0;
-
-                //enemy count
-                int enemyCount = 0;
-
+                
                 //go over all the enemy groups 
                 foreach (EnemyGroup eGroup in Enemy.Groups)
                 {
                     //get distance of eGroup to the tested location
                     double distanceSquared = eGroup.MinimalSquaredDistanceTo(loc);
 
-                    //read enemy strength
-                    int enemyStrength = eGroup.EnemyPirates.Count;
-
-                    //check if this group is a threat
-                    if (distanceSquared <= dangerZone)
-                    {
-                        enemyCount += enemyStrength;
-                    }
-                    else //otherwise we can skip it
+                    //check if this group isn't a threat
+                    if (distanceSquared > dangerZone)
                     {
                         continue;
                     }
 
-                    //we remove one Attack Radious as precaution
-                    distanceSquared = Math.Max(0, distanceSquared - Bot.Game.GetAttackRadius());
-                    //then we normalize
-                    distanceSquared = 1 / Node.Infinity +
-                                      distanceSquared / (Node.Infinity * (dangerZone - Bot.Game.GetAttackRadius()));
+                    //read enemy strength
+                    int enemyStrength = eGroup.EnemyPirates.Count;                    
 
+                    //we remove one Attack Radious as precaution
+                    //distanceSquared = Math.Max(0, distanceSquared - Bot.Game.GetAttackRadius());
+                    
                     //if they are stronger than us
                     if (enemyStrength - addvantageFactor > GroupStrength)
                     {
@@ -223,28 +232,11 @@ namespace Britbot
 
                         //we add in an "inverse to the distant" way and proportional to the enemy group strength
                         //we also add coefficient so at the edge of the dangerzone it will be badDangerSpreadCoeff * infinity
-                        eBadFactor += badDangerSpreadCoeff * enemyStrength / distanceSquared;
-                    }
-                    else
-                    {
-                        //we add to the good gone bad just in case
-
-                        //we add in an "inverse to the distant" way and proportional to the enemy group strength
-                        //we also add coefficient so at the edge of the dangerzone it will be badDangerSpreadCoeff * infinity
-                        eGoodTurnsToBadFactor += badDangerSpreadCoeff * enemyStrength / distanceSquared;
+                        //eBadFactor = badDangerSpreadCoeff * enemyStrength / distanceSquared;
+                        return Node.Infinity;
                     }
                 }
-
-                //check if we are good or naughty 
-                if (enemyCount - addvantageFactor > GroupStrength)
-                {
-                    //good
-                    return 1;
-                }
-                else
-                {
-                    return eBadFactor + eGoodTurnsToBadFactor;
-                }
+                return 1;
             }
 
             /// <summary>
