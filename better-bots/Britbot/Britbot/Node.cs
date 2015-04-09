@@ -122,6 +122,7 @@ namespace Britbot
                             continue;
                         }
 
+                        Node.Map[y, x].Weight = 1;
                         //now set the wight based on enemyGroups
                         //double enemyFactor = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
                     }
