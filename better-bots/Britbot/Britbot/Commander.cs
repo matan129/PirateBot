@@ -42,6 +42,7 @@ namespace Britbot
             Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
 
             Commander.Groups = new List<Group>();
+            Commander.TurnTimer = new Stopwatch();
 
             //TODO initial config should be better then this
 
@@ -314,11 +315,16 @@ namespace Britbot
             return false;
         }
 
+        public static Stopwatch TurnTimer;
+        
+
         /// <summary>
         ///     Do something!
         /// </summary>
         public static Dictionary<Pirate, Direction> Play(CancellationToken cancellationToken, out bool onTime)
         {
+            Commander.TurnTimer.Restart();
+
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
             {
@@ -343,6 +349,8 @@ namespace Britbot
 
                 //Get the moves for all the pirates and return them
                 Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
+
+                Bot.Game.Debug("Commander done doing calculations and drinking coffee after {0}ms", Commander.TurnTimer.ElapsedMilliseconds);
 
                 //we are on time!
                 onTime = true;
