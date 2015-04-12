@@ -3,7 +3,8 @@
 using System;
 using Britbot.PriorityQueue;
 using Pirates;
-
+using System.Collections.Generic;
+using System.Linq;
 #endregion
 
 namespace Britbot
@@ -13,6 +14,8 @@ namespace Britbot
     /// </summary>
     internal static partial class Navigator
     {
+
+        public static List<long> time = new List<long>();
         /// <summary>
         ///     Given your location, you current direction and the target's location, this method
         ///     calculates the best direction for you to move in order to simulate a straight line of
@@ -24,8 +27,8 @@ namespace Britbot
         /// <returns>optimal direction</returns>
         public static Direction CalculateDirectionToStationeryTarget(Location myLoc, HeadingVector myHeading,
             Location target)
-        {
-/*
+        {/*
+
             //get the desired direction
             HeadingVector desiredVector = HeadingVector.CalcDifference(myLoc, target);
 
@@ -53,12 +56,16 @@ namespace Britbot
 
             //return best direction found
             return bestDirection;*/
-
+            TheD.BeginTime("Navigation");
+            Direction d;
             //first check if we are already at the target
             if (myLoc.Equals(target))
-                return Direction.NOTHING;
+                d= Direction.NOTHING;
             //otherwise use the A* thing
-            return Navigator.CalculatePath(myLoc, target);            
+                
+            d= Navigator.CalculatePath(myLoc, target);
+            TheD.StopTime("Navigation");
+            return d;
         }
 
         /// <summary>
@@ -224,9 +231,9 @@ namespace Britbot
         {
             //first set up the for a new target calculation
             Node.SetUpCalculation(target);
-
+            //Node.DebugPasses();
             //Priority queue of the currently checked nodes. Thank You BlueRaja
-            HeapPriorityQueue<Node> openset = new HeapPriorityQueue<Node>(Bot.Game.GetCols() + Bot.Game.GetRows());
+            HeapPriorityQueue<Node> openset = new HeapPriorityQueue<Node>(Bot.Game.GetCols() * Bot.Game.GetRows());
 
             //set the beginning
             Node beginning = Node.GetLocationNodeFromMap(start);
@@ -309,11 +316,18 @@ namespace Britbot
                     bestNextNode = neighbor;
                 }
             }
-
             //check if best node is null, if so then i am an idiot and YOU NEED TO INFORM ME OF THAT IMMIDIATELY
             if (bestNextNode == null)
             {
-                throw new Exception("Matan K is stupid as shit, please go and tell him that");
+                Bot.Game.Debug("--------------------------------------------------------------------------");
+                Bot.Game.Debug("--------------------------------------------------------------------------");
+                Bot.Game.Debug("--------------------------------------------------------------------------");
+                Bot.Game.Debug("            Matan K is stupid as shit, please go and tell him that");
+                Bot.Game.Debug("--------------------------------------------------------------------------");
+                Bot.Game.Debug("--------------------------------------------------------------------------");
+                Bot.Game.Debug("--------------------------------------------------------------------------");
+                return Direction.NOTHING;
+                //throw new Exception("Matan K is stupid as shit, please go and tell him that");
             }
             else
             {

@@ -109,8 +109,8 @@ namespace Britbot
             if (Bot.Game.GetTurn() > 1)
                 time = Bot.Game.TimeRemaining();
             else
-                time = 1000; //1000 ms
-
+                time = 100000; //1000 ms
+            
             int safeTimeout = (int) (time * 0.65);
 
             //timeout setup
@@ -129,7 +129,6 @@ namespace Britbot
                         Bot.Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
                                        Bot.Game.GetTurn());
                         Bot.Game.Debug(ex.ToString());
-                        throw;
                     }
                 });
 
@@ -146,7 +145,6 @@ namespace Britbot
                         Bot.Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN " +
                                        Bot.Game.GetTurn());
                         Bot.Game.Debug(ex.ToString());
-                        throw;
                     }
                 });
 
@@ -161,6 +159,7 @@ namespace Britbot
                 Bot.Game.Debug("=================TIMEOUT=======================");
             }
 
+            TheD.Debug();
             //return if the commander is on time
             return onTime;
         }

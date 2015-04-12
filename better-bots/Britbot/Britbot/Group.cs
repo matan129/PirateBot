@@ -248,12 +248,12 @@ namespace Britbot
                     myPirates.Sort(
                         (b, a) => Bot.Game.Distance(a.Loc, targetLoc).CompareTo(Bot.Game.Distance(b.Loc, targetLoc)));
                     */
-
+                    TheD.BeginTime("UpdateMap");
                     //inital path finding for this group
                     Navigator.UpdateMap(this.Pirates.Count);
-
+                    TheD.StopTime("UpdateMap");
                     Direction master = Target.GetDirection(this);
-
+                    
                     //sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions
                     myPirates =
                         myPirates.OrderBy(
@@ -265,7 +265,7 @@ namespace Britbot
                     {
                         yield return new KeyValuePair<Pirate, Direction>(myPirate, master);
                     }
-
+                    
                     //update heading
                     this.Heading.adjustHeading(master);
                 }
@@ -360,6 +360,7 @@ namespace Britbot
         /// <returns></returns>
         private bool IsFormed(bool checkCasualties = true, int casualtiesThreshold = 20)
         {
+            return true;
             if (checkCasualties)
                 if (this.CasualtiesPercent() > casualtiesThreshold) //if there are many casualties
                     return false;

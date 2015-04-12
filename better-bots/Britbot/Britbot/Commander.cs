@@ -328,32 +328,27 @@ namespace Britbot
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
             {
+                TheD.BeginTime("Update");
                 //update the enemy info
                 Enemy.Update(cancellationToken);
+                TheD.StopTime("Update");
 
-                Bot.Game.Debug("Alowed Targets: " + Commander.CalcMaxPrioritiesNum());
-
+                TheD.BeginTime("CalculateAndAssignTargets");
                 //calculate targets
                 Commander.CalculateAndAssignTargets(cancellationToken);
+                TheD.StopTime("CalculateAndAssignTargets");
 
-                Bot.Game.Debug("-------------priorities--------------");
-                foreach (Group g in Commander.Groups)
-                {
-                    Bot.Game.Debug("Group " + g.Id);
-                    foreach (Score pri in g.Priorities)
-                        Bot.Game.Debug(pri.ToString());
-                }
 
-                foreach (Group g in Commander.Groups)
-                    g.Debug();
-
+                TheD.BeginTime("GetAllMoves");
                 //Get the moves for all the pirates and return them
                 Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
-
+                TheD.StopTime("GetAllMoves");
                 Bot.Game.Debug("Commander done doing calculations and drinking coffee after {0}ms", Commander.TurnTimer.ElapsedMilliseconds);
-
+                
                 //we are on time!
                 onTime = true;
+
+
                 return moves;
             }
             catch (AggregateException ex)

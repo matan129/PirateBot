@@ -37,7 +37,7 @@ namespace Britbot
             /// <summary>
             /// This determines if we are using the Euclidian huristic or the Manhaten one
             /// </summary>
-            public static bool EuclidianHuristic = true;
+            public static bool EuclidianHuristic = false;
 
 
             #endregion
@@ -130,6 +130,7 @@ namespace Britbot
                         }
 
                         Node.Map[y, x].Weight = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
+                       // Node.Map[y, x].Weight = 1;
                         //now set the wight based on enemyGroups
                         //double enemyFactor = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
                     }
@@ -189,12 +190,13 @@ namespace Britbot
             /// <returns>the weight of the location</returns>
             private static double CalcEnemyFactor(Location loc, int GroupStrength)
             {
+                TheD.BeginTime("CalcEnemyFactor");
                 //constant defining The addvantage factor we have because of our great structure
-                const int addvantageFactor = 1;
-
-                //constants representing the danger distribution across the map (good for enemies we can kill, bad otherwise)
-                const double badDangerSpreadCoeff = 1;
-
+                int addvantageFactor = 0;
+                //if the structure gives us addvantage 
+                if (GroupStrength > 2)
+                    addvantageFactor = 1;
+                
                 //read attack radious
                 double attackRadius = Bot.Game.GetAttackRadius();
 
@@ -226,7 +228,7 @@ namespace Britbot
                     //distanceSquared = Math.Max(0, distanceSquared - Bot.Game.GetAttackRadius());
                     
                     //if they are stronger than us
-                    if (enemyStrength - addvantageFactor > GroupStrength)
+                    if (enemyStrength - addvantageFactor >= GroupStrength)
                     {
                         //add to bad factor
 
@@ -236,6 +238,7 @@ namespace Britbot
                         return Node.Infinity;
                     }
                 }
+                TheD.StopTime("CalcEnemyFactor");
                 return 1;
             }
 
@@ -267,6 +270,23 @@ namespace Britbot
                 return this.Weight < Node.Infinity;
             }
 
+
+            public static void DebugPasses()
+            {
+                string line = "";
+                for (int i = 0; i < Node.Map.GetLength(0); i++)
+                {
+                    for (int j = 0; j < Node.Map.GetLength(1); j++)
+                    {
+                        if (Node.Map[i, j].Weight >= 3)
+                            line += "x";
+                        else
+                            line += "-";
+                    }
+                    Bot.Game.Debug(line);
+                    line = "";
+                }
+            }
             /// <summary>
             /// returns the neighbors of the Node, meaning the adjacent location wich are not
             /// impassible
