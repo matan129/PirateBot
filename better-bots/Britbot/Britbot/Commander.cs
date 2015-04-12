@@ -18,7 +18,7 @@ namespace Britbot
     public static class Commander
     {
         #region Static Fields & Consts
-
+        //---------------#Magic_Numbers--------------------
         public static int MaxIterator = 10000;
 
         #endregion
@@ -197,9 +197,6 @@ namespace Britbot
             for (int i = 0; i < dimensions.Length; i++)
                 Commander.Groups[i].SetTarget(scoreArr[i].Target);
 
-            Bot.Game.Debug("Max score: " + maxScore);
-            Bot.Game.Debug("maxx ass: " + string.Join(", ", maxAssignment));
-            Bot.Game.Debug("dimention: " + string.Join(", ", iterator.Dimensions));
         }
 
         /// <summary>
@@ -290,7 +287,7 @@ namespace Britbot
                     cancellationToken.ThrowIfCancellationRequested();
 
                     if (scoreArr[i].Target.Equals(scoreArr[j].Target))
-                        score -= 100;
+                        score -= 1000;
                 }
             }
 
@@ -395,11 +392,9 @@ namespace Britbot
             //A list with all the moves from all groups
             List<KeyValuePair<Pirate, Direction>> allMoves =
                 new List<KeyValuePair<Pirate, Direction>>(Bot.Game.AllMyPirates().Count);
-
             //Get the moves from each group we have
             foreach (Group group in Commander.Groups)
                 allMoves.AddRange(group.GetGroupMoves(cancellationToken));
-
             //Convert the moves list to dictionary
             return allMoves.ToDictionary(pair => pair.Key, pair => pair.Value);
         }

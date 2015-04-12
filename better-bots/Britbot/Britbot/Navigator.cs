@@ -56,15 +56,16 @@ namespace Britbot
 
             //return best direction found
             return bestDirection;*/
-            TheD.BeginTime("Navigation");
+            TheD.BeginTime("CalculateDirectionToStationeryTarget");
             Direction d;
             //first check if we are already at the target
             if (myLoc.Equals(target))
                 d= Direction.NOTHING;
+            else
             //otherwise use the A* thing
                 
-            d= Navigator.CalculatePath(myLoc, target);
-            TheD.StopTime("Navigation");
+                d= Navigator.CalculatePath(myLoc, target);
+            TheD.StopTime("CalculateDirectionToStationeryTarget");
             return d;
         }
 
@@ -229,6 +230,7 @@ namespace Britbot
         /// <returns>direction you should go to reach your target</returns>
         public static Direction CalculatePath(Location start, Location target)
         {
+            TheD.BeginTime("CalculatePath");
             //first set up the for a new target calculation
             Node.SetUpCalculation(target);
             //Node.DebugPasses();
@@ -261,8 +263,8 @@ namespace Britbot
                         continue;
 
                     //calculate the new G score from this rout
-                    //double tentativeG = currentNode.G + neighbor.Weight;
-                    double tentativeG = currentNode.G + 1;
+                    double tentativeG = currentNode.G + neighbor.Weight;
+                   // double tentativeG = currentNode.G + 1;
 
                     //if the neighbor isn't in the open set
                     //or we just found a better score for him (tentativeG < G)
@@ -287,6 +289,7 @@ namespace Britbot
                 //update current node
                 currentNode.IsEvaluated = true;
             }
+            TheD.StopTime("CalculatePath");
             //now we have made the necessary calculations, just get the desired direction
             return Navigator.FindBestDirectionOutOfMap(beginning);
         }

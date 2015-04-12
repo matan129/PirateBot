@@ -166,6 +166,21 @@ namespace Britbot
         }
 
         /// <summary>
+        /// counts how many fighters does an enemy group has, not including ones capturing islands
+        /// </summary>
+        /// <returns>how many fighters does an enemy group has, not including ones capturing islands</returns>
+        public int FightCount()
+        {
+            int count = 0;
+            foreach (int pirate in this.Pirates)
+            {
+                if (!Bot.Game.isCapturing(Bot.Game.GetMyPirate(pirate)))
+                    count++;
+            }
+            return count;
+        }
+
+        /// <summary>
         ///     Decides where to move each pirate in the group
         /// </summary>
         /// <param name="cancellationToken"></param>
@@ -192,62 +207,6 @@ namespace Britbot
                 //Proceed to moving to the target unless it's a NoTarget - then we stay in place
                 if (this.Target.GetTargetType() != TargetType.NoTarget)
                 {
-                    /*
-                    //Target location
-                    Location targetLoc = this.Target.GetLocation();
-
-                    //Get all the moves from the center pirate in the group to the target
-                    List<Direction> possibleDirections = Bot.Game.GetDirections(this.FindCenter(true),
-                        targetLoc);
-
-                    //Throwing an exception if cancellation was requested.
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    //A list of the directions we can actually move in (see below)
-                    List<Direction> filteredDirections = new List<Direction>(possibleDirections.Count);
-
-                    //iterate over all the possible directions
-                    foreach (Direction dir in possibleDirections)
-                    {
-                        //check if all the pirates in the group can go in that direction (not out of the map / enemy zone)
-                        //if OK add this direction to the list of actually possible directions
-                        if (myPirates.All(pete => Bot.Game.IsPassable(Bot.Game.Destination(pete, dir))))
-                            filteredDirections.Add(dir);
-                    }
-
-                    //since we are in structure all the group should travel in sync. So everyone's direction is the master direction
-                    Direction master = Direction.NOTHING;
-
-                    //if we already have a pirate on the target do not move
-                    if (myPirates.Any(pete => pete.Loc == targetLoc))
-                        master = Direction.NOTHING;
-
-                    //If we need to move, check if we can alternate directions 
-                    //(usually there are 2 possible directions so we zig-zag)
-                    if (filteredDirections.Count >= tryAlternateDirection + 1)
-                        master = filteredDirections[tryAlternateDirection];
-                    else if (filteredDirections.Count != 0)
-                        master = filteredDirections.First();
-                    else //if there are no possible direction we're stuck, and need to move back
-                    {
-                        foreach (Direction dir in possibleDirections)
-                        {
-                            //get the direction oppsite to the direction in possbileDirection (which are seemingly impossible at this point)
-                            Direction opposite = dir.Oppsite();
-
-                            //check if this direction is OK with all the pirates
-                            if (myPirates.All(pete => Bot.Game.IsPassable(Bot.Game.Destination(pete, opposite))))
-                            {
-                                master = opposite;
-                                break;
-                            }
-                        }
-                    }
-
-                    //sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions
-                    myPirates.Sort(
-                        (b, a) => Bot.Game.Distance(a.Loc, targetLoc).CompareTo(Bot.Game.Distance(b.Loc, targetLoc)));
-                    */
                     TheD.BeginTime("UpdateMap");
                     //inital path finding for this group
                     Navigator.UpdateMap(this.Pirates.Count);
@@ -287,6 +246,7 @@ namespace Britbot
         /// <returns></returns>
         private IEnumerable<KeyValuePair<Pirate, Direction>> GetStructureMoves(CancellationToken cancellationToken)
         {
+            TheD.BeginTime("GetStructureMoves");
             //check if we are not stuck try to get into formation for too long
             if (this._formTurnsAttempt > this.Pirates.Count * 2)
                 //if we are stuck, request new instructions. This will reset the _formTurnsAttempt counter
@@ -343,6 +303,7 @@ namespace Britbot
                         yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections.First());
                 }
             }
+            TheD.StopTime("GetStructureMoves");
         }
 
         /// <summary>
@@ -360,7 +321,7 @@ namespace Britbot
         /// <returns></returns>
         private bool IsFormed(bool checkCasualties = true, int casualtiesThreshold = 20)
         {
-            return true;
+            TheD.BeginTime("IsFormed");
             if (checkCasualties)
                 if (this.CasualtiesPercent() > casualtiesThreshold) //if there are many casualties
                     return false;
@@ -470,6 +431,7 @@ namespace Britbot
 
             //if we are still not formed, return the right answer
             Bot.Game.Debug("Group {0} is not formed yet", this.Id);
+            TheD.StopTime("IsFormed");
             return false;
         }
 
@@ -479,6 +441,7 @@ namespace Britbot
         /// <param name="structure">Optional pre-calculated structure to generate instructions to</param>
         private void GenerateFormationInstructions(Location[] structure = null)
         {
+            TheD.BeginTime("GenerateFormationInstructions");
             //reser the forming attempts counter
             this._formTurnsAttempt = 0;
 
@@ -561,6 +524,7 @@ namespace Britbot
                 Bot.Game.Debug(Bot.Game.GetMyPirate(formOrder.Key) + "," + formOrder.Value);
             }
             Bot.Game.Debug("==================");
+            TheD.StopTime("GenerateFormationInstructions");
         }
 
         /// <summary>
@@ -570,6 +534,7 @@ namespace Britbot
         /// <returns></returns>
         private Location[] GenerateGroupStructure(Location pivot)
         {
+            TheD.BeginTime("GenerateGroupStructure");
             //find the required ring index for this group (see proff in calculation folder in the repo)
             int requiredRing = (int) Math.Ceiling((decimal) (this.Pirates.Count - 1) / 4);
 
@@ -581,7 +546,7 @@ namespace Britbot
             {
                 rings.AddRange(Group.GenerateRingLocations(pivot, ordinal));
             }
-
+            TheD.StopTime("GenerateGroupStructure");
             //convert the list into array and return it
             return rings.Take(this.Pirates.Count).ToArray();
         }
@@ -605,6 +570,7 @@ namespace Britbot
         /// <returns></returns>
         private static List<Location> GenerateRingLocations(Location pivot, int ringOrdinal)
         {
+            TheD.BeginTime("GenerateRingLocations");
             //check if the ring index is OK
             if (ringOrdinal < 0)
                 throw new InvalidRingException("Ring ordinal must be non-negative");
@@ -649,7 +615,7 @@ namespace Britbot
                     //if the two solution are different, add the second one
                     ring.Add(y2);
             }
-
+            TheD.StopTime("GenerateRingLocations");
             //return the list of location of the ring
             return ring;
         }
@@ -727,6 +693,7 @@ namespace Britbot
         /// <exception cref="OperationCanceledException">The token has had cancellation requested.</exception>
         public void CalcPriorities(CancellationToken cancellationToken)
         {
+            TheD.BeginTime("CalcPriorities");
             //init some lists
             List<ITarget> priorityList = new List<ITarget>();
             List<Score> scores = new List<Score>();
@@ -766,6 +733,8 @@ namespace Britbot
             this.Priorities = this.Priorities.OrderBy(score => score.Eta).ToList();
             //throw away all but CalcMaxPrioritiesNum
             this.Priorities = this.Priorities.Take(Commander.CalcMaxPrioritiesNum()).ToList();
+
+            TheD.StopTime("CalcPriorities");
         }
 
         /// <summary>
