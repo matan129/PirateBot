@@ -113,10 +113,27 @@ namespace Britbot
         }
 
         /// <summary>
-        ///     Returns the average location for this group
+        ///     Returns the average location for this group 
         /// </summary>
-        /// <returns>Returns the average location for this group</returns>
+        /// /// <param name="forcePirate">
+        ///     if you ant the function to strictly return a location of a pirate or just the average
+        ///     location
+        /// </param>
+        /// <returns>Returns the average location for this group or the pirate closest to the average</returns>
         public Location GetLocation()
+        {
+            return GetLocation(false);
+        }
+
+        /// <summary>
+        ///     Returns the average location for this group 
+        /// </summary>
+        /// /// <param name="forcePirate">
+        ///     if you ant the function to strictly return a location of a pirate or just the average
+        ///     location
+        /// </param>
+        /// <returns>Returns the average location for this group or the pirate closest to the average</returns>
+        public Location GetLocation(bool forcePirate)
         {
             //Get a list of all location of the enemy pirates in this group
             List<Location> locs = new List<Location>();
@@ -136,11 +153,37 @@ namespace Britbot
             int totalCol = locs.Sum(loc => loc.Col);
             int totalRow = locs.Sum(loc => loc.Row);
 
+            Location averageLocation = new Location(0,0);
+
             //return the average location
             if (locs.Count != 0)
-                return new Location(totalRow / locs.Count, totalCol / locs.Count);
+                averageLocation =  new Location(totalRow / locs.Count, totalCol / locs.Count);
 
-            return new Location(0, 0);
+            if (forcePirate)
+            {
+                int minDistance = Bot.Game.GetCols() + Bot.Game.GetCols();
+                Pirate pete = null;
+
+                //iterate over all the pirate and find the one with the minimun distance to the average location
+                foreach (Pirate pirate in this.EnemyPirates.ConvertAll(p => Bot.Game.GetEnemyPirate(p)))
+                {
+                    if (pirate.IsLost)
+                        continue;
+
+                    int currDistance = Bot.Game.Distance(averageLocation, pirate.Loc);
+                    if (currDistance < minDistance)
+                    {
+                        minDistance = currDistance;
+                        pete = pirate;
+                    }
+                }
+
+                //set the returned location to the central pirate location
+                if (pete != null)
+                    averageLocation = pete.Loc;
+            }
+
+            return averageLocation;
         }
 
         /// <summary>
@@ -422,5 +465,43 @@ namespace Britbot
                 return false;
             return Equals((EnemyGroup) obj);
         }
+        
+        public bool IsFormed() 
+        {
+            //TODO implement this nice thing on group also. Why would the enemy have the best tech when we dont?
+            Location[][] ringLocations = new Location[Group.GetRingCount(this.EnemyPirates.Count)][];
+
+            //set the pivot
+            Location pivot = this.GetLocation(true);
+
+            //set the locations
+            for (int i = 0; i < ringLocations.Length; i++)
+            {
+                 ringLocations[i] = Group.GenerateRingLocations(pivot, i).ToArray();
+            }
+
+            int maxRing = ringLocations.Length - 1;
+            int maxEmptySpots = (((maxRing - 1) * 4) + 1) - this.EnemyPirates.Count;
+
+            //iterate over all the rings
+            for (int i = 0; i < ringLocations.Length; i++)
+            {
+                //iterate over all the location in each ring
+                for (int k = 0; k < ringLocations[i].Length; k++)
+                {
+                    if (Bot.Game.GetPirateOn(ringLocations[i][k]) == null)
+                        if (i == maxRing)
+                            maxEmptySpots--;
+                        else
+                            return false;
+                }
+            }
+
+            if (maxEmptySpots < 0)
+                return false;
+
+            return true;
+        }
+
     }
 }

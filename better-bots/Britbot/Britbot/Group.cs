@@ -253,7 +253,7 @@ namespace Britbot
                     Navigator.UpdateMap(this.Pirates.Count);
                     TheD.StopTime("UpdateMap");
                     Direction master = Target.GetDirection(this);
-                    
+
                     //sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions
                     myPirates =
                         myPirates.OrderBy(
@@ -265,7 +265,7 @@ namespace Britbot
                     {
                         yield return new KeyValuePair<Pirate, Direction>(myPirate, master);
                     }
-                    
+
                     //update heading
                     this.Heading.adjustHeading(master);
                 }
@@ -603,7 +603,7 @@ namespace Britbot
         /// <param name="ringOrdinal">the index of the ring</param>
         /// <exception cref="InvalidLocationException">This method will throw this exception if a location it generated is not passable</exception>
         /// <returns></returns>
-        private static List<Location> GenerateRingLocations(Location pivot, int ringOrdinal)
+        internal static List<Location> GenerateRingLocations(Location pivot, int ringOrdinal)
         {
             //check if the ring index is OK
             if (ringOrdinal < 0)
@@ -657,12 +657,12 @@ namespace Britbot
         /// <summary>
         ///     Find the center of the group
         /// </summary>
-        /// <param name="enforcePirate">
+        /// <param name="forcePirate">
         ///     if you ant the function to strictly return a location of a pirate or just the average
         ///     location
         /// </param>
         /// <returns>The center pirate</returns>
-        public Location FindCenter(bool enforcePirate)
+        public Location FindCenter(bool forcePirate)
         {
             //convert all the pirates indexes to actual pirate list
             List<Pirate> myPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
@@ -683,7 +683,7 @@ namespace Britbot
 
             //if the caller strictly wants the central pirate of the group, 
             //calcute it by assuming that the center pirate is the closest to the average location
-            if (enforcePirate)
+            if (forcePirate)
             {
                 int minDistance = Bot.Game.GetCols() + Bot.Game.GetCols();
                 Pirate pete = null;
