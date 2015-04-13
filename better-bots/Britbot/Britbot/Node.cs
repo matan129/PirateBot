@@ -25,8 +25,9 @@ namespace Britbot
 
             /// <summary>
             /// this weight represents an impassable cell
+            /// //---------------#Magic_Numbers--------------------
             /// </summary>
-            public const double Infinity = 1025583;
+            public const double Infinity = 100;
 
             /// <summary>
             /// A static array of nodes representing the map
@@ -37,7 +38,7 @@ namespace Britbot
             /// <summary>
             /// This determines if we are using the Euclidian huristic or the Manhaten one
             /// </summary>
-            public static bool EuclidianHuristic = false;
+            public static bool EuclidianHuristic = true;
 
 
             #endregion
@@ -59,11 +60,6 @@ namespace Britbot
             /// true if G value has been calculated
             /// </summary>
             public bool IsEvaluated;
-
-            /// <summary>
-            /// True if we already went over this node
-            /// </summary>
-            public bool IsTraveled;
 
             /// <summary>
             /// The X coordinate of the Node
@@ -106,12 +102,24 @@ namespace Britbot
             /// <param name="groupStrength">amount of pirates in the group</param>
             public static void UpdateMap(int groupStrength)
             {
+
+                //---------------#Magic_Numbers--------------------
+                //Important constants of the functions
+                //the radious under wich to define locations in danget of enemy groups
+                //the higher it is, the performence are worse
+                int DangerRadious = 4 * Bot.Game.GetAttackRadius();
+
+                //the addvantage we have because we are so dandy
+                int AddvantageFactor = 0;
+                if (groupStrength > 2)
+                    AddvantageFactor = 1;
+
                 //reading board size
                 int cols = Bot.Game.GetCols();
                 int rows = Bot.Game.GetRows();
 
                 //get the radius of the group
-                int groupRadius = Group.GetRingCount(groupStrength);
+                int groupRadius = Group.GetRingCount(groupStrength) + 1;
 
                 //go over the entire map, set locations and their wight
                 for (int x = 0; x < cols; x++)
@@ -123,16 +131,64 @@ namespace Britbot
                         if(!Bot.Game.IsPassableEnough(Node.Map[y, x].Loc,groupRadius))
                         {
                             //set the weight of the node to "infinity"
-                            Node.Map[y, x].Weight = Node.Infinity;
+                            Node.Map[y, x].Weight = Node.Infinity * Node.Infinity;
 
                             //if so then we are finished here, move to next Node
                             continue;
                         }
 
-                        Node.Map[y, x].Weight = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
-                       // Node.Map[y, x].Weight = 1;
+                       // Node.Map[y, x].Weight = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
+                        Node.Map[y, x].Weight = 1;
                         //now set the wight based on enemyGroups
                         //double enemyFactor = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
+                    }
+                }
+                //going over enemy fleets and giving their location negative scores
+                foreach (EnemyGroup eGroup in Enemy.Groups)
+                {
+                    if (eGroup.FightCount() - AddvantageFactor >= groupStrength)
+                    {
+                        Node.BlockLocation(eGroup.GetLocation(), DangerRadious, eGroup.Heading);
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Creates a gradiante of bad score around a specific location with a given radious
+            /// </summary>
+            /// <param name="loc">the location of the danger</param>
+            /// <param name="radSquared">the square of the danger radious</param>
+            /// <param name="heading">the heading of the danger, to make the danger zone elipse like</param>
+            private static void BlockLocation(Location loc, int radSquared, HeadingVector heading)
+            {
+                //---------------#Magic_Numbers--------------------
+                //important constants:
+                //this determines how much we consider the heading of the danger, meaning how elipsy the 
+                //danger zone will be
+                const double headingFactor = 0.5;
+
+                //reading some important parameters
+                int rad = (int) Math.Sqrt(radSquared);
+                int maxX = Bot.Game.GetCols() - 1;
+                int maxY = Bot.Game.GetRows() - 1;
+
+                //going over a square centered at loc
+                for (int x = Math.Max(loc.Col - rad,0); x <= Math.Min(loc.Col + rad,maxX); x++)
+                {
+                    for (int y = Math.Max(loc.Row - rad, 0); y <= Math.Min(loc.Row + rad, maxY); y++)
+                    {
+                        //the current location
+                        Location currLoc = new Location(y,x);
+
+                        //blocking stuff according to their radious and direction
+                        HeadingVector diffVector = HeadingVector.CalcDifference(loc, currLoc);
+
+                        //calculate the distance considering the heading of the danger
+                        //if the current location is straight in the direction of the danger we add by proportion to headingFactor
+                        //if it is in the opposite direction we subtract according to headingFactor
+                        double distandeSquare = Bot.Game.EuclidianDistanceSquared(new Location(y, x), loc) + headingFactor * heading.Normalize() * diffVector;
+                        if(distandeSquare <= radSquared)
+                            Node.Map[y, x].Weight = Node.Infinity * (radSquared - distandeSquare) / radSquared;
                     }
                 }
             }
@@ -145,6 +201,7 @@ namespace Britbot
             /// <param name="target"></param>
             public static void SetUpCalculation(Location target)
             {
+                TheD.BeginTime("SetUpCalculation");
                 //going over all the cells in the Map updating their heuristic value to be 
                 //distance from target
                 for (int y = 0; y < Bot.Game.GetRows(); y++)
@@ -155,13 +212,11 @@ namespace Britbot
 
                         //set the calculated G parameter to -1
                         Node.Map[y, x].G = -1;
-
-                        //set IsTraveled status and IsEvaluated
-                        Node.Map[y, x].IsTraveled = false;
-
+                        
                         Node.Map[y, x].IsEvaluated = false;
                     }
                 }
+                TheD.StopTime("SetUpCalculation");
             }
 
             /// <summary>
@@ -181,66 +236,6 @@ namespace Britbot
                     return Bot.Game.Distance(loc1, loc2);
             }
 
-            /// <summary>
-            /// helper function to calculate how dangerous is curtain location for a specific group
-            /// it calculation is based on distances from strong enemy groups and lots of stupid constants 
-            /// </summary>
-            /// <param name="loc">the location we are testing</param>
-            /// <param name="GroupStrength">the group strength (because danger is relative)</param>
-            /// <returns>the weight of the location</returns>
-            private static double CalcEnemyFactor(Location loc, int GroupStrength)
-            {
-                TheD.BeginTime("CalcEnemyFactor");
-                //constant defining The addvantage factor we have because of our great structure
-                int addvantageFactor = 0;
-                //if the structure gives us addvantage 
-                if (GroupStrength > 2)
-                    addvantageFactor = 1;
-                
-                //read attack radious
-                double attackRadius = Bot.Game.GetAttackRadius();
-
-                //constant representing enemyships negative radius on the map
-                double dangerZone = 4 * attackRadius;
-
-                //We would like to avoid enemy groups bigger then our selves and move towords smaller one
-                //But there might be some smaller ones near one another and we won't know that till we 
-                //go over all off them so we keep them in a separate tab of smaller group and if everything
-                //goes well we subtract them
-
-                
-                //go over all the enemy groups 
-                foreach (EnemyGroup eGroup in Enemy.Groups)
-                {
-                    //get distance of eGroup to the tested location
-                    double distanceSquared = eGroup.MinimalSquaredDistanceTo(loc);
-
-                    //check if this group isn't a threat
-                    if (distanceSquared > dangerZone)
-                    {
-                        continue;
-                    }
-
-                    //read enemy strength
-                    int enemyStrength = eGroup.EnemyPirates.Count;                    
-
-                    //we remove one Attack Radious as precaution
-                    //distanceSquared = Math.Max(0, distanceSquared - Bot.Game.GetAttackRadius());
-                    
-                    //if they are stronger than us
-                    if (enemyStrength - addvantageFactor >= GroupStrength)
-                    {
-                        //add to bad factor
-
-                        //we add in an "inverse to the distant" way and proportional to the enemy group strength
-                        //we also add coefficient so at the edge of the dangerzone it will be badDangerSpreadCoeff * infinity
-                        //eBadFactor = badDangerSpreadCoeff * enemyStrength / distanceSquared;
-                        return Node.Infinity;
-                    }
-                }
-                TheD.StopTime("CalcEnemyFactor");
-                return 1;
-            }
 
             /// <summary>
             /// Returns the Node in the map corresponding to the locations specified
@@ -294,6 +289,7 @@ namespace Britbot
             /// <returns></returns>
             public List<Node> GetNeighbors()
             {
+                TheD.BeginTime("GetNeighbors");
                 //allocating a new list
                 List<Node> neighbors = new List<Node>();
 
@@ -342,7 +338,7 @@ namespace Britbot
                     //if we are here it means that the neighbor is ok, so add him to the list
                     neighbors.Add(Node.Map[neighborY, neighborX]);
                 }
-
+                TheD.StopTime("GetNeighbors");
                 return neighbors;
             }
 

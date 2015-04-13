@@ -110,12 +110,12 @@ namespace Britbot
         public Score GetScore(Group origin)
         {
             //constant defining how far to look for enemy ships 
-            int DangerZone = 4 * Bot.Game.GetAttackRadius();
+            int DangerZone = 6 * Bot.Game.GetAttackRadius();
             //constant defining how far to consider enemies capturing the island
             int CaptureZone = Bot.Game.GetAttackRadius();
 
             //check if there are more enemies than we can kill
-            if (this.NearbyEnemyCount(DangerZone) > origin.LiveCount())
+            if (this.NearbyEnemyCount(DangerZone) > origin.FightCount())
                 return null;
 
             //calculates the minimum distance between a group and said island

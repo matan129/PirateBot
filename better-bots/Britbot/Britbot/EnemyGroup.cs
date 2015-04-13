@@ -79,6 +79,7 @@ namespace Britbot
         /// <returns>The score for this group</returns>
         public Score GetScore(Group origin)
         {
+            //---------------#Magic_Numbers--------------------
             //first check if groups direction is stable, otherwise disqualify
             int stabilityCoeff = 2;
             if (this.Heading.Norm1() < stabilityCoeff)
@@ -104,7 +105,7 @@ namespace Britbot
 
 
             //if the group is strong enough to take the enemy group add its score
-            if (origin.LiveCount() >= this.EnemyPirates.Count)
+            if (origin.FightCount() >= this.FightCount())
             {
                 return new Score(this, TargetType.EnemyGroup, 0, this.EnemyPirates.Count, distance);
             }
@@ -249,6 +250,20 @@ namespace Britbot
             return EnemyPirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost);
         }
 
+        /// <summary>
+        /// counts how many fighters does an enemy group has, not including ones capturing islands
+        /// </summary>
+        /// <returns>how many fighters does an enemy group has, not including ones capturing islands</returns>
+        public int FightCount()
+        {
+            int count = 0;
+            foreach (int pirate in this.EnemyPirates)
+            {
+                if (!Bot.Game.isCapturing(Bot.Game.GetEnemyPirate(pirate)))
+                    count++;
+            }
+            return count;
+        }
         /// <summary>
         ///     Determined the minimal time (or distance) between a Group and an
         ///     EnemyGroup before they will get into each others' attack radius.

@@ -39,12 +39,14 @@ namespace Britbot
 
         public static void Debug()
         {
+            double avg = 0;
             Bot.Game.Debug("------------------------PROFILING-----------------------");
             foreach (KeyValuePair<string, List<long>> kv in times)
             {
-                Bot.Game.Debug(kv.Key + " Avg: " + kv.Value.Average());
-                Bot.Game.Debug(kv.Key + " Max: " + kv.Value.Max());
+                avg += kv.Value.Average();
+                Bot.Game.Debug(kv.Key + " Avg: " + kv.Value.Average() + "\t Max: " + kv.Value.Max());
             }
+            Bot.Game.Debug("Total avg: " + avg);
         }
     }
 }
