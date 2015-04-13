@@ -1,4 +1,4 @@
-﻿#region Usings
+﻿#region #Usings
 
 using System;
 
@@ -14,7 +14,7 @@ namespace Britbot
         #region Fields & Properies
 
         /// <summary>
-        /// Amount of enemy ships nearBy
+        ///     Amount of enemy ships nearBy
         /// </summary>
         public double EnemyShips;
 
@@ -93,7 +93,7 @@ namespace Britbot
 
         public override string ToString()
         {
-            return "Target: " + Target.ToString() + " value: " + Value + " Enemy: " + EnemyShips + " ETA: " + Eta;
+            return "Target: " + this.Target + " value: " + Value + " Enemy: " + EnemyShips + " ETA: " + Eta;
         }
     }
 

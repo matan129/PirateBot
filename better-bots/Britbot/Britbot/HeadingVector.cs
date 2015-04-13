@@ -1,4 +1,4 @@
-﻿#region Usings
+﻿#region #Usings
 
 using System;
 using Pirates;
@@ -62,7 +62,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Copy constructor
+        ///     Copy constructor
         /// </summary>
         /// <param name="toCopy"></param>
         public HeadingVector(HeadingVector toCopy)
@@ -156,7 +156,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// same as the previous one just gets a direction insted of a heading vector
+        ///     same as the previous one just gets a direction insted of a heading vector
         /// </summary>
         /// <param name="hv1">the main direction, the one we comparing the other to</param>
         /// <param name="dir">the new direction</param>
