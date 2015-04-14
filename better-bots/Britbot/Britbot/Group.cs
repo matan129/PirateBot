@@ -668,6 +668,9 @@ namespace Britbot
             //iterate over all the pirates and add their locations to the sum
             foreach (Pirate myPirate in myPirates)
             {
+                if (myPirate == null)
+                    continue;
+
                 averageLocation.Row += myPirate.Loc.Row;
                 averageLocation.Col += myPirate.Loc.Col;
             }

@@ -118,7 +118,6 @@ namespace Britbot
                     Commander.Groups.Add(new Group(3, 3));
                     Commander.Groups.Add(new Group(6, 2));
                     Commander.Groups.Add(new Group(8, 1));
-                    Commander.Groups.Add(new Group(0, 9));
                     break;
                 default:
                     /*for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
@@ -355,14 +354,12 @@ namespace Britbot
                 foreach (Exception e in ex.InnerExceptions)
                     Bot.Game.Debug(e.ToString());
                 onTime = false;
-                throw;
                 return new Dictionary<Pirate, Direction>();
             }
             catch (OperationCanceledException) //catch task cancellation
             {
                 Bot.Game.Debug("****** COMMANDER EXITING DUE TO TASK CANCELLATION ******");
                 onTime = false;
-                throw;
                 return new Dictionary<Pirate, Direction>();
             }
             catch (Exception ex) //catch everyting else
@@ -378,7 +375,6 @@ namespace Britbot
 
                 Bot.Game.Debug("==========COMMANDER EXCEPTION============");
                 onTime = false;
-                throw;
                 return new Dictionary<Pirate, Direction>();
             }
         }

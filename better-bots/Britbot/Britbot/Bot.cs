@@ -105,11 +105,11 @@ namespace Britbot
             bool onTime = false;
 
             //setup time remaining
-            int time;
-            if (Bot.Game.GetTurn() > 1)
+            int time = Bot.Game.TimeRemaining();
+            /*if (Bot.Game.GetTurn() > 1)
                 time = Bot.Game.TimeRemaining();
             else
-                time = 100000; //1000 ms
+                time = 100000; //1000 ms*/
             
             int safeTimeout = (int) (time * 0.65);
 
