@@ -555,8 +555,8 @@ namespace Britbot
             //find the required ring index for this group (see proof in calculation folder in the repo)
             int maxRing = (int) Math.Ceiling((decimal) (this.Pirates.Count - 1) / 4);
 
-            //list of location in all the rings
-            Location[][] rings = new Location[maxRing][];
+            //list of location in all the rings. Note that we add one because ring # is 0-based
+            Location[][] rings = new Location[maxRing + 1][];
             
             //generate the locations for each ring
             for (int i = 0; i < rings.Length; i++)
@@ -565,13 +565,13 @@ namespace Britbot
             }
 
             /*
-             * trim the last ring if required. I.e. if we have 4 pirate, maxRing will be 1 and it will have 5 spots.
+             * trim the last ring if required. i.e. if we have 4 pirate, maxRing will be 1 and it will have 5 spots.
              * so if trimming was required the last ring will be trimmed to 3 (so 3 + 1 is the number of pirates in this group).
              */
             if (trim)
             {
-                int requiredSpotsAtLastRing = this.Pirates.Count - Group.GetStructureVolume(maxRing - 1);
-                rings[maxRing - 1] = rings[maxRing - 1].Take(requiredSpotsAtLastRing).ToArray();
+                int spareSpots = Group.GetStructureVolume(maxRing) - this.Pirates.Count;
+                rings[maxRing] = rings[maxRing].Take(rings[maxRing].Length - spareSpots).ToArray();
             }
 
             TheD.StopTime("GenerateGroupStructure");

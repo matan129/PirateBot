@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7C4F41AD-86F9-41D7-9E52-634664007D78}</ProjectGuid>
+    <ProjectGuid>{D7E4930D-BFF2-4787-9C14-CBD10817CE22}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AssemblyName>PiratesCsh</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile />
-    <ApplicationVersion>1.0.5569.19785</ApplicationVersion>
+    <ApplicationVersion>1.0.5581.42591</ApplicationVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -36,6 +36,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HunterBot\HunterBot.cs" />
+    <Compile Include="ScaredBot\ScaredBot.cs" />
+    <Compile Include="MyBot\TestBot.cs" />
+    <Compile Include="MyBot\DevelopBot.cs" />
+    <Compile Include="MyBot\TutorialBot.cs" />
+    <Compile Include="MyBot\MyBot.cs" />
     <Compile Include="Pirates\Pirate.cs" />
     <Compile Include="Pirates\Direction.cs" />
     <Compile Include="Pirates\Consts.cs" />
@@ -49,12 +55,6 @@
     <Compile Include="Pirates\InnerConsts.cs" />
     <Compile Include="Pirates\Island.cs" />
     <Compile Include="Pirates\Location.cs" />
-    <Compile Include="HunterBot\HunterBot.cs" />
-    <Compile Include="ScaredBot\ScaredBot.cs" />
-    <Compile Include="MyBot\TestBot.cs" />
-    <Compile Include="MyBot\DevelopBot.cs" />
-    <Compile Include="MyBot\TutorialBot.cs" />
-    <Compile Include="MyBot\MyBot.cs" />
     <Compile Include="BunkerBot\BunkerBot.cs" />
     <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>

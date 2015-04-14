@@ -1,7 +1,7 @@
 ﻿// Decompiled with JetBrains decompiler
 // Type: Pirates.PirateGame
-// Assembly: PiratesCsh, Version=1.0.5569.19785, Culture=neutral, PublicKeyToken=null
-// MVID: A3BB42EC-B38F-4348-B6D7-902E3B33DA85
+// Assembly: PiratesCsh, Version=1.0.5581.42591, Culture=neutral, PublicKeyToken=null
+// MVID: F9F1F072-EFD6-461C-A5E1-7E4E5CE853F7
 // Assembly location: C:\Users\Matan\Documents\Repositories\PirateBot\starter_kit\lib\cshRunner.exe
 
 using System;
@@ -340,7 +340,7 @@ namespace Pirates
 
     public int TimeRemaining()
     {
-      return this.TurnTime - (DateTime.Now - this.TurnStartTime).Milliseconds;
+      return ((int) Convert.ToInt16(this.Turn == 1) * 9 + 1) * this.TurnTime - (DateTime.Now - this.TurnStartTime).Milliseconds;
     }
 
     public Direction StepTowards(Pirate pirate, Location target)
@@ -554,8 +554,8 @@ namespace Pirates
 
     public bool IsPassable(Location location)
     {
-      if (location.Row >= 0 && location.Col >= 0 && (this.Map[location.Row, location.Col] != -4 && location.Row < this.Rows))
-        return location.Col < this.Cols;
+      if (location.Row >= 0 && location.Col >= 0 && (location.Row < this.Rows && location.Col < this.Cols))
+        return this.Map[location.Row, location.Col] != -4;
       return false;
     }
 
@@ -567,7 +567,9 @@ namespace Pirates
     public Location Destination(Location loc, Direction d)
     {
       Location location = InnerConsts.AIM[d];
-      return new Location(loc.Row + location.Row % this.Rows, loc.Col + location.Col % this.Cols);
+      if (this.Cyclic)
+        return new Location(loc.Row + location.Row % this.Rows, loc.Col + location.Col % this.Cols);
+      return new Location(loc.Row + location.Row, loc.Col + location.Col);
     }
 
     public int Distance(Location loc1, Location loc2)
