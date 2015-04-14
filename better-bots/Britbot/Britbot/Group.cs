@@ -105,15 +105,15 @@ namespace Britbot
         {
             return "Group - id: " + this.Id + " pirate count: " + this.Pirates.Count + "location: " +
                    this.FindCenter(true)
-                   + " heading: " + Heading;
+                   + " heading: " + this.Heading;
         }
 
         public void Debug()
         {
-            Bot.Game.Debug("------------------------GROUP " + Id + " ----------------------------------");
-            Bot.Game.Debug(this.Pirates.Count + " Pirates: " + string.Join(", ", this.Pirates));
-            Bot.Game.Debug("Location: " + GetLocation().ToString() + " Heading: " + Heading.ToString());
-            Bot.Game.Debug("Target: " + Target.ToString() + " Location: " + Target.GetLocation());
+            Bot.Game.Debug("------------------------GROUP " + this.Id + " ----------------------------------");
+            Bot.Game.Debug(this.Pirates.Count + " Pirates: " + String.Join(", ", this.Pirates));
+            Bot.Game.Debug("Location: " + this.GetLocation().ToString() + " Heading: " + this.Heading.ToString());
+            Bot.Game.Debug("Target: " + this.Target.ToString() + " Location: " + this.Target.GetLocation());
         }
 
         /// <summary>
@@ -211,13 +211,13 @@ namespace Britbot
                     //inital path finding for this group
                     Navigator.UpdateMap(this.Pirates.Count);
                     TheD.StopTime("UpdateMap");
-                    Direction master = Target.GetDirection(this);
+                    Direction master = this.Target.GetDirection(this);
 
                     //sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions
                     myPirates =
                         myPirates.OrderBy(
                             p =>
-                                Navigator.CalcDistFromLine(new Location(0, 0), GetLocation(),
+                                Navigator.CalcDistFromLine(new Location(0, 0), this.GetLocation(),
                                     (new HeadingVector(master)).Orthogonal())).ToList();
                     //return for each pirate the pirate and its direction
                     foreach (Pirate myPirate in myPirates)
@@ -319,11 +319,12 @@ namespace Britbot
         ///     Checks if the group is formed
         /// </summary>
         /// <returns></returns>
-        private bool IsFormed(bool checkCasualties = true, int casualtiesThreshold = 20)
+        private bool IsFormed(bool checkCasualties = true, int casualtiesThresholdPercent = 20)
         {
             TheD.BeginTime("IsFormed");
+
             if (checkCasualties)
-                if (this.CasualtiesPercent() > casualtiesThreshold) //if there are many casualties
+                if (this.CasualtiesPercent() > casualtiesThresholdPercent) //if there are many casualties
                     return false;
 
             //the offsets from the original location.
@@ -335,13 +336,12 @@ namespace Britbot
 
             //bool to flag if there is need for another formation test (see below)
             bool confirmUnstructured = false;
-            Pirate pete = null;
 
             //iterate over the forming instructions 
             foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
             {
                 //get the actual pirate from its ID
-                pete = Bot.Game.GetMyPirate(formOrder.Key);
+                Pirate pete = Bot.Game.GetMyPirate(formOrder.Key);
 
                 if (pete != null)
                 {
@@ -377,18 +377,19 @@ namespace Britbot
                 Bot.Game.Debug("Group {0} is formed", this.Id);
                 return true;
             }
+            
             //else, proceed to the next test
 
             //find the central pirate in the group
             Location pivot = this.FindCenter(true);
 
             //the group's new structure (formation)
-            Location[] structureFull = null;
+            Location[][] structureFull = null;
 
             //try to get a new formation
             try
             {
-                structureFull = this.GenerateGroupStructure(pivot);
+                structureFull = this.GenerateGroupStructure(pivot, false);
             }
             catch //if there's an exception (such as InvalidLocationException) return false
             {
@@ -409,17 +410,30 @@ namespace Britbot
             int emptyCells = 0;
 
             //iterate over all the locations in the new structure
-            foreach (Location loc in structureFull)
+            for (int i = 0; i < structureFull.Length; i++)
             {
-                //try to find a pirate in the location
-                Pirate p = Bot.Game.GetPirateOn(loc);
+                for(int k = 0; k < structureFull[i].Length; k++)
+                {
+                    //try to find a pirate in the location
+                    Pirate p = Bot.Game.GetPirateOn(structureFull[i][k]);
 
-                //if there's not pirate of ours on the location
-                if (!(p != null && p.Owner == Consts.ME))
-                    //advance the counter
-                    emptyCells++;
+                    //if there's not pirate of ours on the location
+                    if (!(p != null && p.Owner == Consts.ME))
+                    {
+                        //check if this is the last ring, where some empty spots are OK
+                        if (i == structureFull.Length - 1)
+                            //advance the counter
+                            emptyCells++;
+                        else
+                        {
+                            //quit the iterations because the group is not formed for sure
+                            //I know goto is bad but this is a legitimate case for this (rare one!)
+                            goto ReturnFalse;
+                        }
+                    }
+                }
             }
-
+            
             //check if the empty cells is what it should be
             //(the structure array might be larger than the # of pirates in the group,
             //like if we have 4 pirates we need the 2nd ring (index 1) but but there will be on free spot)
@@ -429,6 +443,7 @@ namespace Britbot
                 return true;
             }
 
+        ReturnFalse:
             //if we are still not formed, return the right answer
             Bot.Game.Debug("Group {0} is not formed yet", this.Id);
             TheD.StopTime("IsFormed");
@@ -442,7 +457,7 @@ namespace Britbot
         private void GenerateFormationInstructions(Location[] structure = null)
         {
             TheD.BeginTime("GenerateFormationInstructions");
-            //reser the forming attempts counter
+            //reset the forming attempts counter
             this._formTurnsAttempt = 0;
 
             //find the average location of the group (not the center pirate!)
@@ -459,7 +474,7 @@ namespace Britbot
                     try
                     {
                         //generate the structure
-                        structure = this.GenerateGroupStructure(center);
+                        structure = this.GenerateGroupStructure(center).Flatten();
                         break;
                     }
                     catch (InvalidLocationException ex)
@@ -531,24 +546,38 @@ namespace Britbot
         ///     Get the structure for the group
         /// </summary>
         /// <param name="pivot">The center of the group</param>
-        /// <returns></returns>
-        private Location[] GenerateGroupStructure(Location pivot)
+        /// <param name="trim">If  to trim the locations to the number of pirates in this group</param>
+        /// <returns>An array of location array per ring required</returns>
+        private Location[][] GenerateGroupStructure(Location pivot, bool trim = true)
         {
             TheD.BeginTime("GenerateGroupStructure");
-            //find the required ring index for this group (see proff in calculation folder in the repo)
-            int requiredRing = (int) Math.Ceiling((decimal) (this.Pirates.Count - 1) / 4);
+            
+            //find the required ring index for this group (see proof in calculation folder in the repo)
+            int maxRing = (int) Math.Ceiling((decimal) (this.Pirates.Count - 1) / 4);
 
             //list of location in all the rings
-            List<Location> rings = new List<Location>();
-
-            //generate the location for each ring
-            for (int ordinal = 0; ordinal <= requiredRing; ordinal++)
+            Location[][] rings = new Location[maxRing][];
+            
+            //generate the locations for each ring
+            for (int i = 0; i < rings.Length; i++)
             {
-                rings.AddRange(Group.GenerateRingLocations(pivot, ordinal));
+                rings[i] = Group.GenerateRingLocations(pivot, i).ToArray();
             }
+
+            /*
+             * trim the last ring if required. I.e. if we have 4 pirate, maxRing will be 1 and it will have 5 spots.
+             * so if trimming was required the last ring will be trimmed to 3 (so 3 + 1 is the number of pirates in this group).
+             */
+            if (trim)
+            {
+                int requiredSpotsAtLastRing = this.Pirates.Count - Group.GetStructureVolume(maxRing - 1);
+                rings[maxRing - 1] = rings[maxRing - 1].Take(requiredSpotsAtLastRing).ToArray();
+            }
+
             TheD.StopTime("GenerateGroupStructure");
-            //convert the list into array and return it
-            return rings.Take(this.Pirates.Count).ToArray();
+
+            //return the location array
+            return rings;
         }
 
         /// <summary>
@@ -752,6 +781,12 @@ namespace Britbot
 
             //add the pirate to this group index
             this.Pirates.Add(index);
+        }
+
+        public static int GetStructureVolume(int maxRing)
+        {
+            //this is basic summation of arithmetic sequence, excluding the 0th ring because it's special. then we add it back.
+            return (((2 * maxRing + 2) * maxRing ) + 1);
         }
     }
 }

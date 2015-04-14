@@ -9,10 +9,33 @@ using Pirates;
 namespace Britbot
 {
     /// <summary>
-    ///     This class provied various extension methods for the IPirateGame interface
+    ///     This class provides various extension methods for the IPirateGame interface
     /// </summary>
     public static class Extensions
     {
+
+        /// <summary>
+        /// Smashes a two dimensional array to a flat one.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="jaggedAray"></param>
+        /// <returns></returns>
+        public static T[] Flatten<T>(this T[][] jaggedAray)
+        {
+            List<T> flatList = new List<T>();
+
+            for (int i = 0; i < jaggedAray.Length; i++)
+            {
+                for (int k = 0; k < jaggedAray[i].Length; k++)
+                {
+                    flatList.Add(jaggedAray[i][k]);
+                }
+            }
+
+            return flatList.ToArray();
+        }
+    
+
         /// <summary>
         ///     Gets a SmartIsland by index, as we would do with a normal Island
         /// </summary>

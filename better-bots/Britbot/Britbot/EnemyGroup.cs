@@ -483,7 +483,6 @@ namespace Britbot
         
         public bool IsFormed() 
         {
-            //TODO implement this nice thing on group also. Why would the enemy have the best tech when we dont?
             Location[][] ringLocations = new Location[Group.GetRingCount(this.EnemyPirates.Count)][];
 
             //set the pivot
@@ -495,8 +494,11 @@ namespace Britbot
                  ringLocations[i] = Group.GenerateRingLocations(pivot, i).ToArray();
             }
 
-            int maxRing = ringLocations.Length - 1;
-            int maxEmptySpots = (((maxRing - 1) * 4) + 1) - this.EnemyPirates.Count;
+            //excluding the 0th ring which is special
+            int maxRing = ringLocations.Length - 2;
+
+            //this is basic summation of arithmetic sequence excluding the first ting
+            int maxEmptySpots = Group.GetStructureVolume(maxRing) - this.EnemyPirates.Count;
 
             //iterate over all the rings
             for (int i = 0; i < ringLocations.Length; i++)
@@ -517,6 +519,5 @@ namespace Britbot
 
             return true;
         }
-
     }
 }

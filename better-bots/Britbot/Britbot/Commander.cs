@@ -45,6 +45,7 @@ namespace Britbot
             Commander.TurnTimer = new Stopwatch();
 
             //TODO initial config should be better then this
+            //Hookup the UltimateConfig() here
 
             if (Bot.Game.Islands().Count == 1)
             {
@@ -135,7 +136,7 @@ namespace Britbot
 
             #endregion
         }
-
+        
         #endregion
 
         public static int CalcMaxPrioritiesNum()

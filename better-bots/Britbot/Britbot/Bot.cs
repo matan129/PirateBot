@@ -100,7 +100,7 @@ namespace Britbot
             //clear the last moves
             Bot._fallbackMoves.Clear();
             Bot._movesDictionary.Clear();
-
+            
             //setup time check flag
             bool onTime = false;
 
