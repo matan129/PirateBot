@@ -414,7 +414,7 @@ class Pirates():
         return self.spawnturns
 
     def time_remaining(self):
-        return self.turntime - int(1000 * (time.time() - self.turn_start_time))
+        return ((self.turn == 1) * 9 + 1) * self.turntime - int(1000 * (time.time() - self.turn_start_time))
 
     ''' Cloak API '''
 

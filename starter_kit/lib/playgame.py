@@ -192,6 +192,9 @@ def main(argv):
     game_group.add_option("--ghostcooldown", dest="ghostcooldown",
                           default=50, type="int",
                           help="Number of turns to change ownership of island")
+    game_group.add_option("--fogofwar", dest="fogofwar", 
+    					  default=False, action="store_true",
+    					  help="Activate option of fog of war and radius vision for ships")
     game_group.add_option("--linear_points", dest="linear_points",
                           default=None, type="int",
                           help="If points are linear - how much each island worth")
@@ -345,6 +348,7 @@ def run_rounds(opts,args):
         "spawnturns" : opts.spawnturns,
         "captureturns" : opts.captureturns,
         "ghostcooldown" : opts.ghostcooldown,
+        "fogofwar" : opts.fogofwar,
         "linear_points" : opts.linear_points,
         "exp_points" : opts.exp_points }
         

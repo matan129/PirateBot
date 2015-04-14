@@ -61,6 +61,7 @@ class Pirates(Game):
         self.loadtime = int(options['loadtime'])
         self.turntime = int(options['turntime'])
         self.viewradius = int(options["viewradius2"])
+        self.fogofwar = options.get('fogofwar')
         self.attackradius = int(options["attackradius2"])
         self.engine_seed = options.get('engine_seed', randint(-maxint-1, maxint))
         seed(self.engine_seed)
@@ -469,7 +470,8 @@ class Pirates(Game):
             ilk, id, row, col, owner = update[0:5]
 
             # only include updates to squares which are (visible) or (where a player ant just died) or (a fort)
-            if v[row][col] or ((ilk == 'd') and update[4] == player) or (ilk == 'f'):
+            # if fog of war flag not set then we always display visible results
+            if not self.fogofwar or v[row][col] or ((ilk == 'd') and update[4] == player) or (ilk == 'f'):
                 visible_updates.append(update)
 
                 # switch player perspective of player numbers
