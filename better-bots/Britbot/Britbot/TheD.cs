@@ -13,11 +13,12 @@ namespace Britbot
 
         public static Dictionary<string, List<long>> times = new Dictionary<string, List<long>>();
         public static Dictionary<string, long> begins = new Dictionary<string, long>();
-
+        public static Dictionary<string, int> count = new Dictionary<string, int>();
         #endregion
 
         public static void BeginTime(string key)
         {
+            Bot.Game.Debug("8======================> Debug Begining " + key);
             if (TheD.begins.ContainsKey(key))
             {
                 TheD.begins[key] = Commander.TurnTimer.ElapsedMilliseconds;
@@ -30,6 +31,7 @@ namespace Britbot
 
         public static void StopTime(string key)
         {
+            Bot.Game.Debug("8======================> Debug stoping " + key);
             if (TheD.times.ContainsKey(key))
             {
                 TheD.times[key].Add(Commander.TurnTimer.ElapsedMilliseconds - TheD.begins[key]);
@@ -41,6 +43,17 @@ namespace Britbot
             }
         }
 
+        public static void Count(string key)
+        {
+            if (TheD.count.ContainsKey(key))
+            {
+                TheD.count[key]++;
+            }
+            else
+            {
+                TheD.count.Add(key, 1);
+            }
+        }
         public static void Debug()
         {
             double avg = 0;

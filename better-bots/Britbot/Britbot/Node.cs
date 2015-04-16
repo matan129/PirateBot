@@ -107,7 +107,7 @@ namespace Britbot
                 //Important constants of the functions
                 //the radious under wich to define locations in danget of enemy groups
                 //the higher it is, the performence are worse
-                int DangerRadious = 4 * Bot.Game.GetAttackRadius();
+                int DangerRadious = 9 * Bot.Game.GetAttackRadius();
                 
                 //reading board size
                 int cols = Bot.Game.GetCols();
@@ -284,7 +284,6 @@ namespace Britbot
             /// <returns></returns>
             public List<Node> GetNeighbors()
             {
-                TheD.BeginTime("GetNeighbors");
                 //allocating a new list
                 List<Node> neighbors = new List<Node>();
 
@@ -333,7 +332,6 @@ namespace Britbot
                     //if we are here it means that the neighbor is ok, so add him to the list
                     neighbors.Add(Node.Map[neighborY, neighborX]);
                 }
-                TheD.StopTime("GetNeighbors");
                 return neighbors;
             }
 

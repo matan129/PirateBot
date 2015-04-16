@@ -20,7 +20,7 @@ namespace Britbot
 
         //---------------#Magic_Numbers--------------------
         //numbers of turns for wich we save data
-        const int outOfDateNumber = 5;
+        const int outOfDateNumber = 10;
         #endregion
 
         #region Fields & Properies
@@ -91,9 +91,9 @@ namespace Britbot
         {
             //---------------#Magic_Numbers--------------------
             //first check if groups direction is stable, otherwise disqualify
-            /*int stabilityCoeff = 2;
+            double stabilityCoeff = 0.75;
             if (this.GetHeadingSabilityCoeff() < stabilityCoeff)
-                return null;*/
+                return null;
 
             //next check if it even possible to catch the ship, otherwise disqualify
             if (!Navigator.IsReachable(origin.GetLocation(), GetLocation(), this.GetHeading()))
@@ -275,14 +275,27 @@ namespace Britbot
             //go over all pirates
             foreach (int pirate in this.EnemyPirates)
             {
+                //convert to pirate
+                Pirate pete = Bot.Game.GetEnemyPirate(pirate);
+
+                //check if this pirate counts
+                if(Bot.Game.isCapturing(pete))
+                    continue;
                 //count how many pirates are supporting him
                 int supportCount = 0;
 
                 //go over all other pirates
                 foreach (int otherPirate in this.EnemyPirates)
                 {
+                    //convert to pirate
+                    Pirate otherPete = Bot.Game.GetEnemyPirate(otherPirate);
+
+                    //check if this pirate counts
+                    if (Bot.Game.isCapturing(otherPete))
+                        continue;
+
                     //check if in range
-                    if (Bot.Game.InRange(Bot.Game.GetEnemyPirate(pirate), Bot.Game.GetEnemyPirate(otherPirate)))
+                    if (Bot.Game.EuclidianDistanceSquared(pete.Loc, otherPete.Loc) <= Bot.Game.GetAttackRadius()) 
                         supportCount++;
                 }
 
@@ -292,8 +305,7 @@ namespace Britbot
             }
 
             //return result
-            // + 1 because InRange accounts for itself
-            return maxFightCount + 1;
+            return maxFightCount;
         }
         /// <summary>
         ///     Determined the minimal time (or distance) between a Group and an
@@ -491,7 +503,21 @@ namespace Britbot
         /// <returns>Stability coefficient</returns>
         public double GetHeadingSabilityCoeff()
         {
-            return this.GetHeading().Norm1() / this.LastDirections.Count;
+            //count actual moves
+            int moveCount = 0;
+
+            //go over all the direction and compare to Direction.Nothing
+            foreach (Direction dir in this.LastDirections)
+            {
+                if (dir != Direction.NOTHING)
+                    moveCount++;
+            }
+            
+            //if move count is 0 then target is stationary and thus very stable
+            if (moveCount == 0)
+                return 1;
+            //otherwise return that
+            return this.GetHeading().Norm1() / moveCount;
         }
 
         

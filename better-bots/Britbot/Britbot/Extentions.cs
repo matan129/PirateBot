@@ -95,7 +95,7 @@ namespace Britbot
         /// <returns>true if realy the two point are within range</returns>
         public static bool IsReallyInRange(this IPirateGame game, Location loc1, Location loc2)
         {
-            return game.EuclidianDistanceSquared(loc1, loc2) < game.GetAttackRadius();
+            return game.EuclidianDistanceSquared(loc1, loc2) <= game.GetAttackRadius();
         }
 
         /// <summary>
