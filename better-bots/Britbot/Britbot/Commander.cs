@@ -195,8 +195,10 @@ namespace Britbot
 
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
+            {
+               // Bot.Game.Debug("Group {0} assinged to {1} at location {2}", i, scoreArr[i].Target.GetDescription());
                 Commander.Groups[i].SetTarget(scoreArr[i].Target);
-
+            }
         }
 
         /// <summary>
@@ -344,7 +346,6 @@ namespace Britbot
                 
                 //we are on time!
                 onTime = true;
-
 
                 return moves;
             }

@@ -161,6 +161,7 @@ namespace Britbot
             }
 
             TheD.Debug();
+
             //return if the commander is on time
             return onTime;
         }

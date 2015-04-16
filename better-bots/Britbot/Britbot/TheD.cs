@@ -1,12 +1,19 @@
-﻿#region #Usings
+﻿#define DEBUG_MASTER
+
+//comment the folowwing line if you want to enable debug.
+#undef DEBUG_MASTER
+
+#region #Usings
 
 using System.Collections.Generic;
 using System.Linq;
 
 #endregion
 
+
 namespace Britbot
 {
+
     internal class TheD
     {
         #region Static Fields & Consts
@@ -18,7 +25,9 @@ namespace Britbot
 
         public static void BeginTime(string key)
         {
+#if DEBUG_MASTER
             Bot.Game.Debug("8======================> Debug Begining " + key);
+#endif
             if (TheD.begins.ContainsKey(key))
             {
                 TheD.begins[key] = Commander.TurnTimer.ElapsedMilliseconds;
@@ -31,7 +40,9 @@ namespace Britbot
 
         public static void StopTime(string key)
         {
-            Bot.Game.Debug("8======================> Debug stoping " + key);
+#if DEBUG_MASTER
+            Bot.Game.Debug("8======================> Debug Stopping " + key);
+#endif
             if (TheD.times.ContainsKey(key))
             {
                 TheD.times[key].Add(Commander.TurnTimer.ElapsedMilliseconds - TheD.begins[key]);
@@ -54,8 +65,10 @@ namespace Britbot
                 TheD.count.Add(key, 1);
             }
         }
+
         public static void Debug()
         {
+#if (DEBUG_MASTER)
             double avg = 0;
             Bot.Game.Debug("------------------------PROFILING-----------------------");
             foreach (KeyValuePair<string, List<long>> kv in TheD.times)
@@ -64,6 +77,7 @@ namespace Britbot
                 Bot.Game.Debug(kv.Key + " Avg: " + kv.Value.Average() + "\t Max: " + kv.Value.Max());
             }
             Bot.Game.Debug("Total avg: " + avg);
+#endif
         }
     }
 }
