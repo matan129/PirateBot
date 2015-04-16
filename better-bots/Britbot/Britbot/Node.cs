@@ -108,12 +108,7 @@ namespace Britbot
                 //the radious under wich to define locations in danget of enemy groups
                 //the higher it is, the performence are worse
                 int DangerRadious = 4 * Bot.Game.GetAttackRadius();
-
-                //the addvantage we have because we are so dandy
-                int AddvantageFactor = 0;
-                if (groupStrength > 2)
-                    AddvantageFactor = 1;
-
+                
                 //reading board size
                 int cols = Bot.Game.GetCols();
                 int rows = Bot.Game.GetRows();
@@ -146,9 +141,9 @@ namespace Britbot
                 //going over enemy fleets and giving their location negative scores
                 foreach (EnemyGroup eGroup in Enemy.Groups)
                 {
-                    if (eGroup.FightCount() - AddvantageFactor >= groupStrength)
+                    if (eGroup.GetMaxFightPower() >= groupStrength)
                     {
-                        Node.BlockLocation(eGroup.GetLocation(), DangerRadious, eGroup.Heading);
+                        Node.BlockLocation(eGroup.GetLocation(), DangerRadious, eGroup.GetHeading());
                     }
                 }
             }

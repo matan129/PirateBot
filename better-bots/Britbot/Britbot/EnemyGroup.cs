@@ -18,6 +18,9 @@ namespace Britbot
 
         public static int IdCount;
 
+        //---------------#Magic_Numbers--------------------
+        //numbers of turns for wich we save data
+        const int outOfDateNumber = 5;
         #endregion
 
         #region Fields & Properies
@@ -37,11 +40,16 @@ namespace Britbot
         /// </summary>
         public List<int> EnemyPirates { get; private set; }
 
+        
         /// <summary>
-        ///     The direction this group's heading to
+        /// A queue of the last outOfDateNumber directions of this enemy group
         /// </summary>
-        public HeadingVector Heading { get; private set; }
+        private Queue<Direction> LastDirections;
 
+        /// <summary>
+        /// A queue of the last max fight power coefficients
+        /// </summary>
+        private Queue<int> LastMaxFightPower;
         #endregion
 
         #region Constructors & Initializers
@@ -54,18 +62,20 @@ namespace Britbot
             this.Id = EnemyGroup.IdCount++;
             this.EnemyPirates = new List<int>();
             this.PrevLoc = new Location(0, 0);
-            this.Heading = new HeadingVector();
+            this.LastDirections = new Queue<Direction>();
+            this.LastMaxFightPower = new Queue<int>();
         }
 
         /// <summary>
         ///     Creates a new instance of the EnemyGroup class
         /// </summary>
-        public EnemyGroup(Location prevLoc, List<int> enemyPirates, HeadingVector heading)
+        public EnemyGroup(Location prevLoc, List<int> enemyPirates)
         {
             this.Id = EnemyGroup.IdCount++;
             PrevLoc = prevLoc;
             EnemyPirates = enemyPirates;
-            Heading = heading;
+            this.LastDirections = new Queue<Direction>();
+            this.LastMaxFightPower = new Queue<int>();
         }
 
         #endregion
@@ -81,12 +91,12 @@ namespace Britbot
         {
             //---------------#Magic_Numbers--------------------
             //first check if groups direction is stable, otherwise disqualify
-            int stabilityCoeff = 2;
-            if (this.Heading.Norm1() < stabilityCoeff)
-                return null;
+            /*int stabilityCoeff = 2;
+            if (this.GetHeadingSabilityCoeff() < stabilityCoeff)
+                return null;*/
 
             //next check if it even possible to catch the ship, otherwise disqualify
-            if (!Navigator.IsReachable(origin.GetLocation(), GetLocation(), Heading))
+            if (!Navigator.IsReachable(origin.GetLocation(), GetLocation(), this.GetHeading()))
                 return null;
 
             //if it is very close to some island then return null since we might as well go for the island not creating
@@ -97,7 +107,7 @@ namespace Britbot
 
             //Reduce the score in proportion to distance
             //lower score is worse. Mind the minus sign!
-            double distance = Navigator.CalcDistFromLine(origin.GetLocation(), this.GetLocation(), this.Heading);
+            double distance = Navigator.CalcDistFromLine(origin.GetLocation(), this.GetLocation(), this.GetHeading());
 
             //consider attack radious
             distance -= Math.Sqrt(Bot.Game.GetAttackRadius());
@@ -105,7 +115,7 @@ namespace Britbot
 
 
             //if the group is strong enough to take the enemy group add its score
-            if (origin.FightCount() >= this.FightCount())
+            if (origin.FightCount() > this.GetMaxFightPower())
             {
                 return new Score(this, TargetType.EnemyGroup, 0, this.EnemyPirates.Count, distance);
             }
@@ -199,12 +209,12 @@ namespace Britbot
         {
             //calculates the direction based on the geographical data from the game
             //first check if stationary
-            if (this.Heading.Norm() == 0)
+            if (this.GetHeading().Norm() == 0)
                 return Navigator.CalculateDirectionToStationeryTarget(group.FindCenter(true), group.Heading,
                     this.GetLocation());
             //otherwise
             return Navigator.CalculateDirectionToMovingTarget(group.FindCenter(true), group.Heading, GetLocation(),
-                Heading);
+                this.GetHeading());
         }
 
         public TargetType GetTargetType()
@@ -250,19 +260,40 @@ namespace Britbot
             return EnemyPirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost);
         }
 
+        
+
         /// <summary>
-        /// counts how many fighters does an enemy group has, not including ones capturing islands
+        /// Calculates the maximum amount of pirates supporting each other in the enemy
+        /// formation
         /// </summary>
-        /// <returns>how many fighters does an enemy group has, not including ones capturing islands</returns>
-        public int FightCount()
+        /// <returns>The maximum amount of pirates supporting each other in the enemy formation</returns>
+        private int MaxFightCount()
         {
-            int count = 0;
+            //initialize maximum variable
+            int maxFightCount = 0;
+
+            //go over all pirates
             foreach (int pirate in this.EnemyPirates)
             {
-                if (!Bot.Game.isCapturing(Bot.Game.GetEnemyPirate(pirate)))
-                    count++;
+                //count how many pirates are supporting him
+                int supportCount = 0;
+
+                //go over all other pirates
+                foreach (int otherPirate in this.EnemyPirates)
+                {
+                    //check if in range
+                    if (Bot.Game.InRange(Bot.Game.GetEnemyPirate(pirate), Bot.Game.GetEnemyPirate(otherPirate)))
+                        supportCount++;
+                }
+
+                //check if the support count is bigger then the maximum
+                if (maxFightCount < supportCount)
+                    maxFightCount = supportCount;
             }
-            return count;
+
+            //return result
+            // + 1 because InRange accounts for itself
+            return maxFightCount + 1;
         }
         /// <summary>
         ///     Determined the minimal time (or distance) between a Group and an
@@ -378,7 +409,7 @@ namespace Britbot
             foreach (SmartIsland isle in sortedByDistance)
             {
                 //check if distance is smaller then tolerance margin
-                if (Navigator.CalcDistFromLine(isle.GetLocation(), GetLocation(), Heading) < toleranceMargin)
+                if (Navigator.CalcDistFromLine(isle.GetLocation(), GetLocation(), this.GetHeading()) < toleranceMargin)
                     return isle;
             }
 
@@ -386,66 +417,89 @@ namespace Britbot
         }
 
         /// <summary>
-        ///     This method updates Enemy's group direction and previous place (for the next turn calculations)
-        ///     This method is called by the enemy class only!!!
+        /// returns the average of the maximum fight power in the 
+        /// last outOfDateNumber of turns 
         /// </summary>
-        public void UpdateHeading()
+        /// <returns>returns the average of the maximum fight power</returns>
+        public double GetMaxFightPower()
+        {
+            //check if LastMaxFightPower isnt empty
+            if (this.LastMaxFightPower.Count == 0)
+                return 0;
+            //otherwise
+            return this.LastMaxFightPower.Average();
+        }
+        
+        /// <summary>
+        /// This method updates the previous location, the last directions and the fighting power
+        /// of this enemy group
+        /// </summary>
+        public void Update()
         {
             //get the new direction of the last turn
-            HeadingVector newHeading = HeadingVector.CalcDifference(this.PrevLoc, this.GetLocation());
+            Direction newDirection = Bot.Game.GetDirections(this.PrevLoc, this.GetLocation())[0];
 
             //update previous location
             PrevLoc = GetLocation();
 
-            //update direction
-            Heading.adjustHeading(newHeading);
+            //update directions
+            this.LastDirections.Enqueue(newDirection);
+
+            //check if we need to throw irrelevant stuff out
+            if (this.LastDirections.Count > outOfDateNumber)
+            {
+                this.LastDirections.Dequeue();
+            }
+
+            //update maximum fire power
+            this.LastMaxFightPower.Enqueue(this.MaxFightCount());
+
+            //check if we need to throw irrelevant stuff out
+            if (this.LastMaxFightPower.Count > outOfDateNumber)
+            {
+                this.LastMaxFightPower.Dequeue();
+            }
         }
 
         /// <summary>
-        ///     given a list of pirates (that assumed to be contained in the pirates of the group)
-        ///     creates a new EnemyGroup with this groups geographical parameters and removes the
-        ///     removed pirates
+        /// This function calculates this enemy group direction based on its last directions
+        /// simply adds them up
         /// </summary>
-        /// <param name="removedPirates"></param>
-        /// <returns></returns>
-        public EnemyGroup Split(List<int> removedPirates)
+        /// <returns>The heading of this enemy group</returns>
+        public HeadingVector GetHeading()
         {
-            //if it means to recreate the whole group, then no need to do anything
-            if (removedPirates.Count == EnemyPirates.Count)
-                return null;
+            //creating an accumulator heading vector with (0,0) values
+            HeadingVector hv = new HeadingVector();
 
-            //create new group
-            EnemyGroup newEnemyGroup = new EnemyGroup(this.PrevLoc, removedPirates, this.Heading);
+            //going over the last directions of this group and adding them up
+            foreach (Direction dir in this.LastDirections)
+            {
+                //temporal variable for conversion
+                HeadingVector currHeading = new HeadingVector(dir);
+                hv += currHeading;
+            }
 
-            //remove pirates
-            this.EnemyPirates.RemoveAll(removedPirates.Contains);
-
-            //return new enemy Group
-            return newEnemyGroup;
+            //return result
+            return hv;
         }
 
         /// <summary>
-        ///     joins a given enemy group to this by adding its pirates and avraging the geographic data
-        ///     if given itself, does nothing
+        /// calculates a stability coefficient for this ship
+        /// 1 means high stability and 0 means low one
+        /// it becomes lower if there are many direction changes
         /// </summary>
-        /// <param name="enemyGroup">the group to add</param>
-        public void Join(EnemyGroup enemyGroup)
+        /// <returns>Stability coefficient</returns>
+        public double GetHeadingSabilityCoeff()
         {
-            //check if id are the same then no need to do anything
-            if (this.Id == enemyGroup.Id)
-                return;
-
-            //otherwise add their pirates and adjust stuff
-            this.EnemyPirates.AddRange(enemyGroup.EnemyPirates);
-            this.Heading += enemyGroup.Heading;
-            PrevLoc = new Location((this.PrevLoc.Row + enemyGroup.PrevLoc.Row) / 2,
-                (this.PrevLoc.Col + enemyGroup.PrevLoc.Col) / 2);
+            return this.GetHeading().Norm1() / this.LastDirections.Count;
         }
+
+        
 
         public override string ToString()
         {
-            return "EnemyGroup- id: " + this.Id + ", pirates count: " + this.EnemyPirates.Count
-                   + ", Heading: " + this.Heading.ToString() + " location: " + GetLocation();
+            return "EnemyGroup- id: " + this.Id + ", fight power: " + this.GetMaxFightPower()
+                   + ", Heading: " + this.GetHeading().ToString() + " location: " + GetLocation();
         }
 
         /// <summary>

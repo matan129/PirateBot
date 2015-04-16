@@ -106,10 +106,10 @@ namespace Britbot
 
             //setup time remaining
             int time = Bot.Game.TimeRemaining();
-            /*if (Bot.Game.GetTurn() > 1)
+            if (Bot.Game.GetTurn() > 1)
                 time = Bot.Game.TimeRemaining();
             else
-                time = 100000; //1000 ms*/
+                time = 1000; //1000 ms*/
             
             int safeTimeout = (int) (time * 0.65);
 
@@ -157,6 +157,7 @@ namespace Britbot
                 Bot.Game.Debug("=================TIMEOUT=======================");
                 Bot.Game.Debug("Commander timed out, switching to fallback code");
                 Bot.Game.Debug("=================TIMEOUT=======================");
+
             }
 
             TheD.Debug();

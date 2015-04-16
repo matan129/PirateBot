@@ -354,12 +354,14 @@ namespace Britbot
                 foreach (Exception e in ex.InnerExceptions)
                     Bot.Game.Debug(e.ToString());
                 onTime = false;
+                TheD.Debug();
                 return new Dictionary<Pirate, Direction>();
             }
             catch (OperationCanceledException) //catch task cancellation
             {
                 Bot.Game.Debug("****** COMMANDER EXITING DUE TO TASK CANCELLATION ******");
                 onTime = false;
+                TheD.Debug();
                 return new Dictionary<Pirate, Direction>();
             }
             catch (Exception ex) //catch everyting else
@@ -375,6 +377,7 @@ namespace Britbot
 
                 Bot.Game.Debug("==========COMMANDER EXCEPTION============");
                 onTime = false;
+                TheD.Debug();
                 return new Dictionary<Pirate, Direction>();
             }
         }

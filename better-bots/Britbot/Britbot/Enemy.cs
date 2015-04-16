@@ -166,7 +166,18 @@ namespace Britbot
             Enemy.Groups = Enemy.Groups.Union(updated).ToList();
 
             //update heading in parallel
-            Parallel.ForEach(Enemy.Groups, eGroup => eGroup.UpdateHeading());
+            Parallel.ForEach(Enemy.Groups, eGroup => eGroup.Update());
+
+            Debug();
+        }
+
+        public static void Debug()
+        {
+            Bot.Game.Debug("------------ENEMY GROUPS-----------------");
+            foreach(EnemyGroup eg in Enemy.Groups)
+            {
+                Bot.Game.Debug(eg.ToString());
+            }
         }
     }
 }
