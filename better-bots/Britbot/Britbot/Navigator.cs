@@ -233,7 +233,6 @@ namespace Britbot
             TheD.BeginTime("CalculatePath");
             //first set up the for a new target calculation
             Node.SetUpCalculation(target);
-            //Node.DebugPasses();
             //Priority queue of the currently checked nodes. Thank You BlueRaja
             HeapPriorityQueue<Node> openset = new HeapPriorityQueue<Node>(Bot.Game.GetCols() * Bot.Game.GetRows());
 
@@ -290,6 +289,8 @@ namespace Britbot
                 currentNode.IsEvaluated = true;
             }
             TheD.StopTime("CalculatePath");
+
+            Node.DebugPasses();
             //now we have made the necessary calculations, just get the desired direction
             return Navigator.FindBestDirectionOutOfMap(beginning);
         }

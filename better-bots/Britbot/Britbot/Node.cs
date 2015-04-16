@@ -101,14 +101,7 @@ namespace Britbot
             /// </summary>
             /// <param name="groupStrength">amount of pirates in the group</param>
             public static void UpdateMap(int groupStrength)
-            {
-
-                //---------------#Magic_Numbers--------------------
-                //Important constants of the functions
-                //the radious under wich to define locations in danget of enemy groups
-                //the higher it is, the performence are worse
-                int DangerRadious = 9 * Bot.Game.GetAttackRadius();
-                
+            {                            
                 //reading board size
                 int cols = Bot.Game.GetCols();
                 int rows = Bot.Game.GetRows();
@@ -126,7 +119,7 @@ namespace Britbot
                         if(!Bot.Game.IsPassableEnough(Node.Map[y, x].Loc,groupRadius))
                         {
                             //set the weight of the node to "infinity"
-                            Node.Map[y, x].Weight = Node.Infinity * Node.Infinity;
+                            Node.Map[y, x].Weight = Node.Infinity ;
 
                             //if so then we are finished here, move to next Node
                             continue;
@@ -138,10 +131,27 @@ namespace Britbot
                         //double enemyFactor = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
                     }
                 }
+                //update enemy threat
+                Node.CalculateEnemyWeight(groupStrength);
+            }
+
+            /// <summary>
+            /// This adds the wight of the enemies wich pose a threat to 
+            /// the specified group size
+            /// </summary>
+            /// <param name="strength">strength of the group</param>
+            public static void CalculateEnemyWeight(int strength)
+            {
+                //---------------#Magic_Numbers--------------------
+                //Important constants of the functions
+                //the radious under wich to define locations in danget of enemy groups
+                //the higher it is, the performence are worse
+                int DangerRadious = 4 * Bot.Game.GetAttackRadius();
+
                 //going over enemy fleets and giving their location negative scores
                 foreach (EnemyGroup eGroup in Enemy.Groups)
                 {
-                    if (eGroup.GetMaxFightPower() >= groupStrength)
+                    if (eGroup.GetMaxFightPower() >= strength)
                     {
                         Node.BlockLocation(eGroup.GetLocation(), DangerRadious, eGroup.GetHeading());
                     }
@@ -160,7 +170,7 @@ namespace Britbot
                 //important constants:
                 //this determines how much we consider the heading of the danger, meaning how elipsy the 
                 //danger zone will be
-                const double headingFactor = 0.5;
+                const double headingFactor = 0.25;
 
                 //reading some important parameters
                 int rad = (int) Math.Sqrt(radSquared);
@@ -268,8 +278,12 @@ namespace Britbot
                 {
                     for (int j = 0; j < Node.Map.GetLength(1); j++)
                     {
-                        if (Node.Map[i, j].Weight >= 3)
-                            line += "x";
+                        if (Node.Map[i, j].H == 0)
+                            line += "O";
+                        else if (Node.Map[i, j].G == -1)
+                            line += "S";
+                        else if (Node.Map[i, j].Weight >= 3)
+                            line += "X";
                         else
                             line += "-";
                     }
