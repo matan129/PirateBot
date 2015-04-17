@@ -209,7 +209,7 @@ namespace Britbot
                 {
                     TheD.BeginTime("UpdateMap");
                     //inital path finding for this group
-                    Navigator.UpdateMap(this.Pirates.Count);
+                    Navigator.UpdateMap(this);
                     TheD.StopTime("UpdateMap");
                     Direction master = this.Target.GetDirection(this);
 

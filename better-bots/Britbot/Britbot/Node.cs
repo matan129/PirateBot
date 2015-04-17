@@ -99,15 +99,14 @@ namespace Britbot
             /// it updates the map data based on the current game state
             /// it sets what areas are passable and what are dangerous
             /// </summary>
-            /// <param name="groupStrength">amount of pirates in the group</param>
-            public static void UpdateMap(int groupStrength)
+            /// <param name="group">the group we update the map for</param>
+            public static void UpdateMap(Group group)
             {                            
                 //reading board size
                 int cols = Bot.Game.GetCols();
                 int rows = Bot.Game.GetRows();
 
                 //get the radius of the group
-                int groupRadius = Group.GetRingCount(groupStrength) + 1;
 
                 //go over the entire map, set locations and their wight
                 for (int x = 0; x < cols; x++)
@@ -116,7 +115,7 @@ namespace Britbot
                     {
                         //check if this is passable
                         //if (!Bot.Game.IsPassableEnough(Node.Map[y, x].Loc, groupRadius))
-                        if(!Bot.Game.IsPassableEnough(Node.Map[y, x].Loc,groupRadius))
+                        if (!Bot.Game.IsPassableEnough(Node.Map[y, x].Loc, group))
                         {
                             //set the weight of the node to "infinity"
                             Node.Map[y, x].Weight = Node.Infinity ;
@@ -132,7 +131,7 @@ namespace Britbot
                     }
                 }
                 //update enemy threat
-                Node.CalculateEnemyWeight(groupStrength);
+                Node.CalculateEnemyWeight(group.FightCount());
             }
 
             /// <summary>
@@ -280,8 +279,6 @@ namespace Britbot
                     {
                         if (Node.Map[i, j].H == 0)
                             line += "O";
-                        else if (Node.Map[i, j].G == -1)
-                            line += "S";
                         else if (Node.Map[i, j].Weight >= 3)
                             line += "X";
                         else

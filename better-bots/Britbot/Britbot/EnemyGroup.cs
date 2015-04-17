@@ -95,6 +95,11 @@ namespace Britbot
             if (this.GetHeadingSabilityCoeff() < stabilityCoeff)
                 return null;
 
+            //check if the enemy group isn't in spawn
+            //TODO: maybe we can be smarter here
+            if(!Bot.Game.IsPassable( this.GetLocation()))
+                return null;
+
             //next check if it even possible to catch the ship, otherwise disqualify
             if (!Navigator.IsReachable(origin.GetLocation(), GetLocation(), this.GetHeading()))
                 return null;

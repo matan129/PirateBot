@@ -1,8 +1,8 @@
 ﻿#define DEBUG_MASTER
-
+#define PROFILING
 //comment the folowwing line if you want to enable debug.
 #undef DEBUG_MASTER
-
+//#undef PROFILING
 #region #Usings
 
 using System.Collections.Generic;
@@ -68,7 +68,7 @@ namespace Britbot
 
         public static void Debug()
         {
-#if (DEBUG_MASTER)
+#if (PROFILING)
             double avg = 0;
             Bot.Game.Debug("------------------------PROFILING-----------------------");
             foreach (KeyValuePair<string, List<long>> kv in TheD.times)

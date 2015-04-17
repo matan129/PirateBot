@@ -343,10 +343,10 @@ namespace Britbot
         /// function to update map for specific group
         /// simply calls the Node.updateMap function
         /// </summary>
-        /// <param name="groupStrength">strength of the group calling</param>
-        public static void UpdateMap(int groupStrength)
+        /// <param name="groupStrength">Group whose path is being calculated</param>
+        public static void UpdateMap(Group group)
         {
-            Node.UpdateMap(groupStrength);
+            Node.UpdateMap(group);
         }
     }
 }

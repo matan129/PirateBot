@@ -109,15 +109,33 @@ namespace Britbot
         }
 
         /// <summary>
-        /// This function checks if it is possible to put a group of given radious with a given radious in 
+        /// This function checks if it is possible for a given group to be in 
         /// certain location without pirates getting in enemy zone
         /// </summary>
         /// <param name="game">Compiler magic</param> DAMM RIGHT IT IS
         /// <param name="loc">the location of the 0 ring (the one we check)</param>
-        /// <param name="passRadius">the radius of the group (amount of rings)</param>
-        /// <returns>true if it is possible to put a group with passRadious rings in this location</returns>
-        public static bool IsPassableEnough(this IPirateGame game, Location loc, int passRadius)
+        /// <param name="group">the group trying to pass</param>
+        /// <returns>true if it is possible to put this group in this location</returns>
+        public static bool IsPassableEnough(this IPirateGame game, Location loc, Group group)
         {
+            //going over all the pirates in the group
+            foreach (int pirate in group.Pirates)
+            {
+                //calculate differance vector between the Group's center and the given pirate
+                HeadingVector difference = HeadingVector.CalcDifference(group.FindCenter(true)
+                                                                      , Bot.Game.GetMyPirate(pirate).Loc);
+
+                //calculate the location of this pirate if the group is placed in loc
+                Location newLocation = HeadingVector.AddvanceByVector(loc, difference);
+
+                //check if isn't passable, if so return false
+                if (!game.IsInMap(newLocation) || !game.IsPassable(newLocation))
+                    return false;
+            }
+
+            //otherwise return true since all the pirates can fit here
+            return true;
+            /*
             //go over the locations and check if they are passable.
             for (int deltaX = -passRadius; deltaX <= passRadius; deltaX++)
             {
@@ -130,9 +148,8 @@ namespace Britbot
                         return false;
                 }
             }
-
+            */
             //return true if Ok
-            return true;
         }
 
         public static bool IsInMap(this IPirateGame game, Location testLocation)
