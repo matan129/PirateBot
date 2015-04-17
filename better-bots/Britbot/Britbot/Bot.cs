@@ -59,7 +59,7 @@ namespace Britbot
             Bot.Game.Debug("---------------------------------------------------------");
             Bot.Game.Debug("---------------------------------------------------------");
             Bot.Game.Debug("---------------------------------------------------------");
-            Bot.Game.Debug("ShouldWeTryToCatchEnemyShips: " + Enemy.ShouldWeTryToCatchEnemyShips());
+            Bot.Game.Debug("number of runaways: " + Enemy.EnemyIntelligenceSuspitionCounter);
             bool commanderOk = false;
 
             try

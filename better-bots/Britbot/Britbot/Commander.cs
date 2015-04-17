@@ -332,6 +332,9 @@ namespace Britbot
                 Enemy.Update(cancellationToken);
                 TheD.StopTime("Update");
 
+                //update smartIslands
+                SmartIsland.UpdateAll();
+
                 TheD.BeginTime("CalculateAndAssignTargets");
                 //calculate targets
                 Commander.CalculateAndAssignTargets(cancellationToken);

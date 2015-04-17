@@ -72,6 +72,11 @@ namespace Britbot
             get { return Bot.Game.GetIsland(this.Id).Owner; }
         }
 
+        /// <summary>
+        /// Queue of the last few amounts of enemy troops around this island
+        /// </summary>
+        private Queue<int> SurroundingForces;
+
         #endregion
 
         #region Constructors & Initializers
@@ -95,6 +100,7 @@ namespace Britbot
         private SmartIsland(int encapsulate)
         {
             this.Id = encapsulate;
+            this.SurroundingForces = new Queue<int>();
         }
 
         #endregion
@@ -109,13 +115,11 @@ namespace Britbot
         /// <returns>Returns the Score for the Target</returns>
         public Score GetScore(Group origin)
         {
-            //constant defining how far to look for enemy ships 
-            int DangerZone = 6 * Bot.Game.GetAttackRadius();
             //constant defining how far to consider enemies capturing the island
             int CaptureZone = Bot.Game.GetAttackRadius();
 
             //check if there are more enemies than we can kill
-            if (this.NearbyEnemyCount(DangerZone) > origin.FightCount())
+            if (this.GetEnemyNum() >= origin.FightCount())
                 return null;
 
             //calculates the minimum distance between a group and said island
@@ -182,6 +186,7 @@ namespace Britbot
 
             return false;
         }
+
         /// <summary>
         /// just interface implementation, does nothing
         /// so far
@@ -242,6 +247,44 @@ namespace Britbot
             return enemyCount;
         }
 
+        public void Update()
+        {
+            //---------------#Magic_Numbers--------------------
+            //constant defining how far to look for enemy ships 
+            int DangerZone = 6 * Bot.Game.GetAttackRadius();
+
+            //---------------#Magic_Numbers--------------------
+            const int HowLongToLookBack = 5;
+            //add new data
+            this.SurroundingForces.Enqueue(this.NearbyEnemyCount(DangerZone));
+
+            //trim the end of the queue if needed
+            if (this.SurroundingForces.Count > HowLongToLookBack)
+            {
+                this.SurroundingForces.Dequeue();
+            }
+        }
+
+        public int GetEnemyNum()
+        {
+            int max = 0;
+
+
+            foreach (int s in this.SurroundingForces)
+            {
+                if (s > max)
+                    max = s;
+            }
+            return max;
+        }
+
+        public static void UpdateAll()
+        {
+            foreach (SmartIsland sIsland in SmartIsland.IslandList)
+            {
+                sIsland.Update();
+            }
+        }
         /// <summary>
         ///     Checks if 2 smart Islands are equal
         /// </summary>

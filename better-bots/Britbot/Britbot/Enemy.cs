@@ -113,6 +113,7 @@ namespace Britbot
         {
             //This defines how high the suspision counter should be (meaning how many enemy group should be dessigned
             //before we deside we no longer chaise them
+            //---------------#Magic_Numbers--------------------
             const int NumberOfTimesTillWeLearn = 5;
 
             return Enemy.EnemyIntelligenceSuspitionCounter <= NumberOfTimesTillWeLearn;
