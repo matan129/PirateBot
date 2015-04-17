@@ -182,7 +182,16 @@ namespace Britbot
 
             return false;
         }
+        /// <summary>
+        /// just interface implementation, does nothing
+        /// so far
+        /// </summary>
+        public void TargetAssignmentEvent() { }
 
+        /// <summary>
+        /// cana"l
+        /// </summary>
+        public void TargetDessignmentEvent() { }
         #endregion
 
         public override int GetHashCode()

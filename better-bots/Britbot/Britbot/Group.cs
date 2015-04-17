@@ -128,11 +128,20 @@ namespace Britbot
             {
                 this.Target = target;
                 this.Heading.SetCoordinates();
+                //tell the target it got assigned
+                this.Target.TargetAssignmentEvent();
             }
             else if (!object.Equals(this.Target, target))
             {
+                //tell the previous target it was dessigned
+                this.Target.TargetDessignmentEvent();
+
+                //update
                 this.Target = target;
                 this.Heading.SetCoordinates();
+
+                //tell new target it got assigned
+                this.Target.TargetAssignmentEvent();
             }
         }
 
@@ -725,8 +734,9 @@ namespace Britbot
 
             //Add all targets to the list
 
-            //TODO Fix enemy group targeting
-            priorityList.AddRange(Enemy.Groups);
+            //check if we need to chaise ships, if so add them to calculation
+            if(Enemy.ShouldWeTryToCatchEnemyShips())
+                priorityList.AddRange(Enemy.Groups);
             priorityList.AddRange(SmartIsland.IslandList);
 
             //Add a score for each target we got

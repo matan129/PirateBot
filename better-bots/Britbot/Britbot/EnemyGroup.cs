@@ -50,6 +50,11 @@ namespace Britbot
         /// A queue of the last max fight power coefficients
         /// </summary>
         private Queue<int> LastMaxFightPower;
+
+        /// <summary>
+        /// The last turn in which this target was assigned
+        /// </summary>
+        private int LastAssignmentTurn;
         #endregion
 
         #region Constructors & Initializers
@@ -253,6 +258,30 @@ namespace Britbot
             return false;
         }
 
+        /// <summary>
+        /// updates the last turn of assignment
+        /// </summary>
+        public void TargetAssignmentEvent() 
+        {
+            this.LastAssignmentTurn = Bot.Game.GetTurn();
+        }
+
+        /// <summary>
+        /// checks if last assignment wasn't to close
+        /// if so it adds to the enemy suspition metter
+        /// </summary>
+        public void TargetDessignmentEvent() 
+        {
+            //this defines what is the minimum turn number till it is legit to change target (on average)
+            //---------------#Magic_Numbers--------------------
+            const int minimumTillItIsOkToDropTarget = 5;
+
+            //check if time from the last assignment raises suspition of inteligence in the enemy
+            if (Bot.Game.GetTurn() - this.LastAssignmentTurn < minimumTillItIsOkToDropTarget)
+            {
+                Enemy.EnemyIntelligenceSuspitionCounter++;
+            }
+        }
         #endregion
 
         /// <summary>

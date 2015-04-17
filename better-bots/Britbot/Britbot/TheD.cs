@@ -79,5 +79,10 @@ namespace Britbot
             Bot.Game.Debug("Total avg: " + avg);
 #endif
         }
+
+        public static void DumpDebug()
+        {
+            Bot.Game.Debug(TheD.times.ToString());
+        }
     }
 }

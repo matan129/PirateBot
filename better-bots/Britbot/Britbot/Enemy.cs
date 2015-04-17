@@ -23,6 +23,10 @@ namespace Britbot
         /// </summary>
         public static List<EnemyGroup> Groups { get; private set; }
 
+        /// <summary>
+        /// counter to check if we should try to catch targets
+        /// </summary>
+        public static int EnemyIntelligenceSuspitionCounter = 0;
         #endregion
 
         #region Constructors & Initializers
@@ -99,6 +103,19 @@ namespace Britbot
 
 
             return veteranGroups;
+        }
+
+        /// <summary>
+        /// Tells you if we need to try and chaise enemies
+        /// </summary>
+        /// <returns></returns>
+        public static bool ShouldWeTryToCatchEnemyShips()
+        {
+            //This defines how high the suspision counter should be (meaning how many enemy group should be dessigned
+            //before we deside we no longer chaise them
+            const int NumberOfTimesTillWeLearn = 5;
+
+            return Enemy.EnemyIntelligenceSuspitionCounter <= NumberOfTimesTillWeLearn;
         }
 
         /// <summary>
