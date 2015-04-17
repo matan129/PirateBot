@@ -3,7 +3,8 @@
 
 #Pirates files
 starter_kit/lib/*
-!starter_kit/lib/game_logs
+!starter_kit/lib/game_logs/*
+starter_kit/lib/game_logs/0*
 
 better-bots/Britbot/Britbot/Britbot.zip
 
