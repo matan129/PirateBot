@@ -18,15 +18,15 @@ namespace Britbot
     {
         #region Static Fields & Consts
 
-        public static Dictionary<string, List<long>> times = new Dictionary<string, List<long>>();
-        public static Dictionary<string, long> begins = new Dictionary<string, long>();
-        public static Dictionary<string, int> count = new Dictionary<string, int>();
+        private static Dictionary<string, List<long>> times = new Dictionary<string, List<long>>();
+        private static Dictionary<string, long> begins = new Dictionary<string, long>();
+        private static Dictionary<string, int> count = new Dictionary<string, int>();
         #endregion
 
         public static void BeginTime(string key)
         {
 #if DEBUG_MASTER
-            Bot.Game.Debug("8======================> Debug Begining " + key);
+            Bot.Game.Debug("8======================> Debug Begining " + key + " time: " + Bot.Game.TimeRemaining());
 #endif
             if (TheD.begins.ContainsKey(key))
             {
@@ -41,7 +41,7 @@ namespace Britbot
         public static void StopTime(string key)
         {
 #if DEBUG_MASTER
-            Bot.Game.Debug("8======================> Debug Stopping " + key);
+            Bot.Game.Debug("8======================> Debug Stopping " + key + " time: " + Bot.Game.TimeRemaining());
 #endif
             if (TheD.times.ContainsKey(key))
             {

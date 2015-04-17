@@ -56,6 +56,9 @@ namespace Britbot
             //update the game so other classes will get updated data
             Bot.Game = state;
 
+            Bot.Game.Debug("---------------------------------------------------------");
+            Bot.Game.Debug("---------------------------------------------------------");
+            Bot.Game.Debug("---------------------------------------------------------");
             bool commanderOk = false;
 
             try
@@ -106,7 +109,7 @@ namespace Britbot
 
             //setup time remaining
             int time = Bot.Game.TimeRemaining();
-            if (Bot.Game.GetTurn() > 1)
+            /*if (Bot.Game.GetTurn() > 1)
                 time = Bot.Game.TimeRemaining();
             else
                 time = 1000; //1000 ms*/
@@ -156,6 +159,7 @@ namespace Britbot
             {
                 Bot.Game.Debug("=================TIMEOUT=======================");
                 Bot.Game.Debug("Commander timed out, switching to fallback code");
+                Bot.Game.Debug("Time remaining: " + Bot.Game.TimeRemaining());
                 Bot.Game.Debug("=================TIMEOUT=======================");
 
             }

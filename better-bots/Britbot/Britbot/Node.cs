@@ -131,6 +131,7 @@ namespace Britbot
                     }
                 }
                 //update enemy threat
+
                 Node.CalculateEnemyWeight(group.FightCount());
             }
 
@@ -141,11 +142,12 @@ namespace Britbot
             /// <param name="strength">strength of the group</param>
             public static void CalculateEnemyWeight(int strength)
             {
+                TheD.BeginTime("CalculateEnemyWeight");
                 //---------------#Magic_Numbers--------------------
                 //Important constants of the functions
                 //the radious under wich to define locations in danget of enemy groups
                 //the higher it is, the performence are worse
-                int DangerRadious = 4 * Bot.Game.GetAttackRadius();
+                int DangerRadious = 9 * Bot.Game.GetAttackRadius();
 
                 //going over enemy fleets and giving their location negative scores
                 foreach (EnemyGroup eGroup in Enemy.Groups)
@@ -155,6 +157,7 @@ namespace Britbot
                         Node.BlockLocation(eGroup.GetLocation(), DangerRadious, eGroup.GetHeading());
                     }
                 }
+                TheD.StopTime("CalculateEnemyWeight");
             }
 
             /// <summary>
@@ -277,12 +280,17 @@ namespace Britbot
                 {
                     for (int j = 0; j < Node.Map.GetLength(1); j++)
                     {
-                        if (Node.Map[i, j].H == 0)
+
+                        if (Node.Map[i, j].G == -1 && Node.Map[i, j].Weight < 3)
+                            line += "*";
+                        else if (Node.Map[i, j].H == 0)
                             line += "O";
                         else if (Node.Map[i, j].Weight >= 3)
                             line += "X";
                         else
                             line += "-";
+
+                            
                     }
                     Bot.Game.Debug(line);
                     line = "";

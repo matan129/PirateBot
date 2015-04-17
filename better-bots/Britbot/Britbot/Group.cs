@@ -190,7 +190,6 @@ namespace Britbot
             //Note that IEnumerable gives you the possibility of doing a yield return statement
             //yield return returns one element each time, 
             //So we don't have to explicitly keep a list of the moves in this function
-            int tryAlternateDirection = Bot.Game.GetTurn() % 2;
 
             //Check if the group is formed into structure. If not, get the moves to get into the structure
             if (!this.IsFormed())
@@ -456,7 +455,6 @@ namespace Britbot
         /// <param name="structure">Optional pre-calculated structure to generate instructions to</param>
         private void GenerateFormationInstructions(Location[] structure = null)
         {
-            TheD.BeginTime("GenerateFormationInstructions");
             //reset the forming attempts counter
             this._formTurnsAttempt = 0;
 
@@ -539,7 +537,6 @@ namespace Britbot
                 Bot.Game.Debug(Bot.Game.GetMyPirate(formOrder.Key) + "," + formOrder.Value);
             }
             Bot.Game.Debug("==================");
-            TheD.StopTime("GenerateFormationInstructions");
         }
 
         /// <summary>
@@ -550,7 +547,6 @@ namespace Britbot
         /// <returns>An array of location array per ring required</returns>
         private Location[][] GenerateGroupStructure(Location pivot, bool trim = true)
         {
-            TheD.BeginTime("GenerateGroupStructure");
             
             //find the required ring index for this group (see proof in calculation folder in the repo)
             int maxRing = (int) Math.Ceiling((decimal) (this.Pirates.Count - 1) / 4);
@@ -574,7 +570,6 @@ namespace Britbot
                 rings[maxRing] = rings[maxRing].Take(rings[maxRing].Length - spareSpots).ToArray();
             }
 
-            TheD.StopTime("GenerateGroupStructure");
 
             //return the location array
             return rings;
@@ -599,7 +594,6 @@ namespace Britbot
         /// <returns></returns>
         internal static List<Location> GenerateRingLocations(Location pivot, int ringOrdinal)
         {
-            TheD.BeginTime("GenerateRingLocations");
             //check if the ring index is OK
             if (ringOrdinal < 0)
                 throw new InvalidRingException("Ring ordinal must be non-negative");
@@ -644,7 +638,6 @@ namespace Britbot
                     //if the two solution are different, add the second one
                     ring.Add(y2);
             }
-            TheD.StopTime("GenerateRingLocations");
             //return the list of location of the ring
             return ring;
         }
