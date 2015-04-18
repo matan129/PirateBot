@@ -238,7 +238,7 @@ namespace Britbot
                 //if we chose euclidian huristic
                 if (Node.EuclidianHuristic)
                     return Bot.Game.EuclidianDistanceSquared(loc1, loc2);
-                    // Manhatten huristic
+                // Manhatten huristic
                 return Bot.Game.Distance(loc1, loc2);
             }
 

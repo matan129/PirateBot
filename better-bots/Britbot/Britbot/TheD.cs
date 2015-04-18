@@ -2,7 +2,7 @@
 #define PROFILING
 
 //comment the folowwing lines if you want to enable debug and profiling.
-#undef DEBUG_MASTER
+#undef DEBUG
 #undef PROFILING
 
 #region #Usings

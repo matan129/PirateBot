@@ -1,0 +1,34 @@
+﻿#region #Usings
+
+using System;
+
+#endregion
+
+namespace Britbot
+{
+    /// <summary>
+    ///     Score calculation utilities
+    /// </summary>
+    internal static class ScoreHelper
+    {
+        /// <summary>
+        ///     Calculates the score for each turn
+        /// </summary>
+        /// <param name="totalIslandValues">Totals island value (i.e. there are islands worth two, etc)</param>
+        /// <returns></returns>
+        internal static int ScorePerTurn(int totalIslandValues)
+        {
+            return (int) Math.Floor(Math.Pow(2, totalIslandValues - 1));
+        }
+
+        /// <summary>
+        ///     Calculates the score for each turn
+        /// </summary>
+        /// <param name="totalIslandValues">Totals island value (i.e. there are islands worth two, etc)</param>
+        /// <returns></returns>
+        internal static double ScorePerTurn(double totalIslandValues)
+        {
+            return Math.Floor(Math.Pow(2, totalIslandValues - 1));
+        }
+    }
+}

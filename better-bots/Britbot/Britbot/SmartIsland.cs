@@ -223,7 +223,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Checks if there are enemies near said Island that will probably attack it
+        ///     Checks if there are enemies near said Island that will probably attack it
         /// </summary>
         /// <returns>The amount of enemies near the target</returns>
         public int NearbyEnemyCount(int dangerRadius = 15)
@@ -251,24 +251,26 @@ namespace Britbot
 
             return enemyCount;
         }
+
         /// <summary>
-        /// Calculates the minimum amount of turns that a island will be under our control
+        ///     Calculates the minimum amount of turns that a island will be under our control
         /// </summary>
         /// <returns>Distance of the nearest enemy group + the amount of turns it will take them to capture it</returns>
-        public int TurnsToEnemyCapture (Group myGroup )
+        public int TurnsToEnemyCapture(Group myGroup)
         {
             int tempDistance;
             int minDistance = Bot.Game.GetCols() + Bot.Game.GetRows();
-            
-             foreach (EnemyGroup eGroup in Enemy.Groups)
-                {
-                    tempDistance = Bot.Game.Distance(this.Loc, eGroup.GetLocation());
-                    if ((minDistance > tempDistance) && (eGroup.GetMaxFightPower() >= myGroup.FightCount()))
-                        minDistance = tempDistance;
-                }
-                        
-            return minDistance +  this.CaptureTurns;
+
+            foreach (EnemyGroup eGroup in Enemy.Groups)
+            {
+                tempDistance = Bot.Game.Distance(this.Loc, eGroup.GetLocation());
+                if ((minDistance > tempDistance) && (eGroup.GetMaxFightPower() >= myGroup.FightCount()))
+                    minDistance = tempDistance;
+            }
+
+            return minDistance + this.CaptureTurns;
         }
+
         public void Update()
         {
             //---------------#Magic_Numbers--------------------

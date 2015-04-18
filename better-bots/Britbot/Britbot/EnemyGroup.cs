@@ -127,7 +127,8 @@ namespace Britbot
             //if the group is strong enough to take the enemy group add its score
             if (origin.FightCount() > this.GetMaxFightPower())
             {
-                return new Score(this, TargetType.EnemyGroup, 0, this.EnemyPirates.Count, distance, Bot.Game.GetSpawnTurns());
+                return new Score(this, TargetType.EnemyGroup, 0, this.EnemyPirates.Count, distance,
+                    Bot.Game.GetSpawnTurns());
             }
 
             return null;

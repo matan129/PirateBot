@@ -69,7 +69,7 @@ namespace Britbot
         /// <returns></returns>
         public string GetDescription()
         {
-            return "NoTarget. Nothing interesting here";
+            return "NoTarget";
         }
 
         /// <summary>

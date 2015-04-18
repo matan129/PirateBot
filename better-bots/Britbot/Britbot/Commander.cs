@@ -48,7 +48,7 @@ namespace Britbot
 
             //TODO initial config should be better then this
             //Hookup the UltimateConfig() here
-            
+
             if (Bot.Game.Islands().Count == 1)
             {
                 Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
@@ -195,7 +195,7 @@ namespace Britbot
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
             {
-                // Bot.Game.Debug("Group {0} assinged to {1} at location {2}", i, scoreArr[i].Target.GetDescription());
+                Bot.Game.Debug("Group {0} assinged to {1}", i, scoreArr[i].Target.GetDescription());
                 Commander.Groups[i].SetTarget(scoreArr[i].Target);
             }
         }
@@ -250,18 +250,16 @@ namespace Britbot
         /// <summary>
         ///     This function should convert an array of local scores into a numeric
         ///     score based on global criteria
-        ///     score class is not finished yet so meanwhile it is pretty dumb
         /// </summary>
         /// <param name="scoreArr">array of local scores</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static double GlobalizeScore(Score[] scoreArr, CancellationToken cancellationToken)
+        private static double GlobalizeScore(Score[] scoreArr, CancellationToken cancellationToken)
         {
-            //TODO this is not close to be finished + we need some smarter constants here 
             double score = 0;
             double timeAvg = 0;
-            double numOfOwnedIslands = 0;
             double enemyShips = 0;
+            double ownedIslands = 0;
             double maxIslandOwnership = 0;
             double totalProjectedPoints = 0;
 
@@ -274,45 +272,36 @@ namespace Britbot
                 if (maxIslandOwnership < s.MinTurnsToEnemyCapture)
                     maxIslandOwnership = s.MinTurnsToEnemyCapture;
 
-                numOfOwnedIslands += s.Value; //Number of owned islands in this option
-                enemyShips += s.EnemyShips;
-                /*score += Math.Pow(2, Bot.Game.MyIslands().Count + s.Value);
-                score += 0.2 * Math.Pow(3, s.EnemyShips);*/
+                ownedIslands += s.Value; //Number of owned islands in this option
+                enemyShips += s.EnemyShips; //enemy ships destroyed in this option
                 timeAvg += s.Eta;
             }
 
             //check if there are two of the same target
             for (int i = 0; i < scoreArr.Length - 1; i++)
             {
-                //Throwing an exception if cancellation was requested.
-                cancellationToken.ThrowIfCancellationRequested();
-
                 for (int j = i + 1; j < scoreArr.Length; j++)
                 {
-                    //Throwing an exception if cancellation was requested.
-                    cancellationToken.ThrowIfCancellationRequested();
-
                     if (scoreArr[i].Target.Equals(scoreArr[j].Target))
                         score -= 1000;
                 }
             }
-            //TODO: 
-            //1. Take into account "Gold Islands" and increase numOfOwnedIslands accordingly
-            //2. Recalculate IslandOwnership when an enemy pirate dies (This will help better impliment the killing of enemy pirates in the score)
+
+            //TODO: Recalculate IslandOwnership when an enemy pirate dies (This will help better implement the killing of enemy pirates in the score)
             for (int i = 0; i < maxIslandOwnership; i++)
             {
                 foreach (Score s in scoreArr)
                 {
                     if (s.Eta >= i)
-                        numOfOwnedIslands = numOfOwnedIslands + s.Value;
-                    if (s.MinTurnsToEnemyCapture <= i)
-                        numOfOwnedIslands = numOfOwnedIslands - s.Value;
+                        ownedIslands += s.Value;
+                    if (s.MinTurnsToEnemyCapture < i)
+                        ownedIslands -= s.Value;
 
-                    totalProjectedPoints = totalProjectedPoints + Math.Pow(2, numOfOwnedIslands);
+                    totalProjectedPoints += ScoreHelper.ScorePerTurn(ownedIslands);
                 }
             }
+
             return score + totalProjectedPoints;
-           // return score + Math.Pow(2, numOfOwnedIslands) + 0.2 * Math.Pow(3, enemyShips) - timeAvg / scoreArr.Length;
         }
 
         /// <summary>

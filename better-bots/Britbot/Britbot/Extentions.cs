@@ -273,14 +273,14 @@ namespace Britbot
         /// <returns></returns>
         public static IEnumerable<IEnumerable<T>> Permutate<T>(this IEnumerable<T> items)
         {
-            foreach (var item in items)
+            foreach (T item in items)
             {
-                T[] head = new T[] { item };
-                var tail = items.Except(head).ToList();
-                var subLists = tail.Permutate();
+                T[] head = {item};
+                List<T> tail = items.Except(head).ToList();
+                IEnumerable<IEnumerable<T>> subLists = tail.Permutate();
                 if (subLists.Any())
                 {
-                    foreach (var subList in subLists)
+                    foreach (IEnumerable<T> subList in subLists)
                     {
                         yield return head.Concat(subList);
                     }
@@ -301,14 +301,14 @@ namespace Britbot
         /// <returns></returns>
         public static List<IEnumerable<T>> PartialPermutate<T>(this IEnumerable<T> items)
         {
-            List<IEnumerable<T>> result = new List<IEnumerable<T>>(items.Count() * Factorial(items.Count()));
+            List<IEnumerable<T>> result = new List<IEnumerable<T>>(items.Count() * Extensions.Factorial(items.Count()));
 
             foreach (IEnumerable<T> permutation in items.Permutate())
             {
                 for (int i = 1; i < permutation.Count(); i++)
                 {
                     IEnumerable<T> current = items.Take(i);
-                    if(!result.Contains(current))
+                    if (!result.Contains(current))
                         result.Add(current);
                 }
             }
@@ -316,6 +316,4 @@ namespace Britbot
             return result;
         }
     }
-
-
 }

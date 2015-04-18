@@ -61,7 +61,7 @@ namespace Britbot
         #endregion
 
         #region Constructors & Initializers
-        
+
         /// <summary>
         ///     Creates a new group with the given pirates
         /// </summary>
@@ -103,7 +103,6 @@ namespace Britbot
             //generate forming (getting into structure) instructions
             this.GenerateFormationInstructions();
         }
-
 
         #endregion
 
