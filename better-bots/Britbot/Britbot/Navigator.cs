@@ -1,4 +1,7 @@
-﻿#region #Usings
+﻿#define MAP_DEBUG
+#undef MAP_DEBUG
+
+#region #Usings
 
 using System;
 using System.Collections.Generic;
@@ -61,7 +64,7 @@ namespace Britbot
 
             //return best direction found
             return bestDirection;*/
-            TheD.BeginTime("CalculateDirectionToStationeryTarget");
+            Logger.BeginTime("CalculateDirectionToStationeryTarget");
             Direction d;
             //first check if we are already at the target
             if (myLoc.Equals(target))
@@ -70,7 +73,7 @@ namespace Britbot
             //otherwise use the A* thing
 
                 d = Navigator.CalculatePath(myLoc, target);
-            TheD.StopTime("CalculateDirectionToStationeryTarget");
+            Logger.StopTime("CalculateDirectionToStationeryTarget");
             return d;
         }
 
@@ -235,7 +238,7 @@ namespace Britbot
         /// <returns>direction you should go to reach your target</returns>
         public static Direction CalculatePath(Location start, Location target)
         {
-            TheD.BeginTime("CalculatePath");
+            Logger.BeginTime("CalculatePath");
             //first set up the for a new target calculation
             Node.SetUpCalculation(target);
             //Priority queue of the currently checked nodes. Thank You BlueRaja
@@ -292,9 +295,11 @@ namespace Britbot
                 //update current node
                 currentNode.IsEvaluated = true;
             }
-            TheD.StopTime("CalculatePath");
+            Logger.StopTime("CalculatePath");
 
+#if MAP_DEBUG
             Node.DebugPasses();
+#endif
             //now we have made the necessary calculations, just get the desired direction
             return Navigator.FindBestDirectionOutOfMap(beginning);
         }

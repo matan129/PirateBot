@@ -21,7 +21,7 @@ namespace Britbot
         /// <summary>
         ///     counter to check if we should try to catch targets
         /// </summary>
-        public static int EnemyIntelligenceSuspitionCounter = 0;
+        public static int EnemyIntelligenceSuspicionCounter = 0;
 
         #endregion
 
@@ -121,7 +121,7 @@ namespace Britbot
             //---------------#Magic_Numbers--------------------
             const int NumberOfTimesTillWeLearn = 5;
 
-            return Enemy.EnemyIntelligenceSuspitionCounter <= NumberOfTimesTillWeLearn;
+            return Enemy.EnemyIntelligenceSuspicionCounter <= NumberOfTimesTillWeLearn;
         }
 
         /// <summary>

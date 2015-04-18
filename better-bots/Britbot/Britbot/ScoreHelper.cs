@@ -13,20 +13,22 @@ namespace Britbot
     {
         /// <summary>
         ///     Calculates the score for each turn
+        ///     (Points Per Turn)
         /// </summary>
         /// <param name="totalIslandValues">Totals island value (i.e. there are islands worth two, etc)</param>
         /// <returns></returns>
-        internal static int ScorePerTurn(int totalIslandValues)
+        internal static int ComputePPT(int totalIslandValues)
         {
             return (int) Math.Floor(Math.Pow(2, totalIslandValues - 1));
         }
 
         /// <summary>
         ///     Calculates the score for each turn
+        ///     (Points Per Turn)        ///
         /// </summary>
         /// <param name="totalIslandValues">Totals island value (i.e. there are islands worth two, etc)</param>
         /// <returns></returns>
-        internal static double ScorePerTurn(double totalIslandValues)
+        internal static double ComputePPT(double totalIslandValues)
         {
             return Math.Floor(Math.Pow(2, totalIslandValues - 1));
         }

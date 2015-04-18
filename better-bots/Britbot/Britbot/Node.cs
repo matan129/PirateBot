@@ -141,7 +141,7 @@ namespace Britbot
             /// <param name="strength">strength of the group</param>
             public static void CalculateEnemyWeight(int strength)
             {
-                TheD.BeginTime("CalculateEnemyWeight");
+                Logger.BeginTime("CalculateEnemyWeight");
                 //---------------#Magic_Numbers--------------------
                 //Important constants of the functions
                 //the radious under wich to define locations in danget of enemy groups
@@ -156,7 +156,7 @@ namespace Britbot
                         Node.BlockLocation(eGroup.GetLocation(), DangerRadious, eGroup.GetHeading());
                     }
                 }
-                TheD.StopTime("CalculateEnemyWeight");
+                Logger.StopTime("CalculateEnemyWeight");
             }
 
             /// <summary>
@@ -208,7 +208,7 @@ namespace Britbot
             /// <param name="target"></param>
             public static void SetUpCalculation(Location target)
             {
-                TheD.BeginTime("SetUpCalculation");
+                Logger.BeginTime("SetUpCalculation");
                 //going over all the cells in the Map updating their heuristic value to be 
                 //distance from target
                 for (int y = 0; y < Bot.Game.GetRows(); y++)
@@ -223,7 +223,7 @@ namespace Britbot
                         Node.Map[y, x].IsEvaluated = false;
                     }
                 }
-                TheD.StopTime("SetUpCalculation");
+                Logger.StopTime("SetUpCalculation");
             }
 
             /// <summary>

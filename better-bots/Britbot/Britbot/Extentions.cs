@@ -118,7 +118,7 @@ namespace Britbot
         /// <returns>true if it is possible to put this group in this location</returns>
         public static bool IsPassableEnough(this IPirateGame game, Location loc, Group group)
         {
-            TheD.BeginTime("IsPassableEnough");
+            Logger.BeginTime("IsPassableEnough");
             //going over all the pirates in the group
             foreach (int pirate in group.Pirates)
             {
@@ -133,7 +133,7 @@ namespace Britbot
                 if (!game.IsInMap(newLocation) || !game.IsPassable(newLocation))
                     return false;
             }
-            TheD.StopTime("IsPassableEnough");
+            Logger.StopTime("IsPassableEnough");
             //otherwise return true since all the pirates can fit here
             return true;
             /*

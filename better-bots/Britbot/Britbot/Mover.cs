@@ -18,7 +18,7 @@ namespace Britbot
         /// <param name="moves">A dictionary of consists of entries that have a pirate and a corresponding direction to move at</param>
         public static void MoveAll(Dictionary<Pirate, Direction> moves)
         {
-            //TheD.BeginTime("MoveAll");
+            //Logger.BeginTime("MoveAll");
             try
             {
                 //iterate over all moves and execute them
@@ -37,7 +37,7 @@ namespace Britbot
                         Bot.Game.SetSail(p, Direction.NOTHING);
                 }
             }
-            //TheD.StopTime("MoveAll");
+            //Logger.StopTime("MoveAll");
         }
     }
 }
