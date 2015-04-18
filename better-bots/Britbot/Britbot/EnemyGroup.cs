@@ -220,7 +220,7 @@ namespace Britbot
             //check if time from the last assignment raises suspition of inteligence in the enemy
             if (Bot.Game.GetTurn() - this.LastAssignmentTurn < minimumTillItIsOkToDropTarget)
             {
-                Enemy.EnemyIntelligenceSuspitionCounter++;
+                Enemy.EnemyIntelligenceSuspicionCounter++;
             }
         }
 

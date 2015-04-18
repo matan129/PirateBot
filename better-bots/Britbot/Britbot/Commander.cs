@@ -20,6 +20,7 @@ namespace Britbot
         #region Static Fields & Consts
 
         public static Stopwatch TurnTimer;
+        public static string Version = "2.0.0";
 
         #endregion
 
@@ -39,6 +40,9 @@ namespace Britbot
         /// </summary>
         static Commander()
         {
+            Bot.Game.Debug("==============>");
+            Bot.Game.Debug("Commander V{0}", Commander.Version);
+            Bot.Game.Debug("==============>");
             Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
 
             Commander.Groups = new List<Group>();
@@ -297,9 +301,9 @@ namespace Britbot
                 {
                     //check if this target gives us points this turn
                     if ((s.Eta >= i) && (s.MinTurnsToEnemyCapture < i))
-                        totalAditionalIslandPoints += s.Value;    
+                        totalAditionalIslandPoints += s.Value;  
                 }
-                totalProjectedPoints += ScoreHelper.ScorePerTurn(totalAditionalIslandPoints);
+                totalProjectedPoints += ScoreHelper.ComputePPT(totalAditionalIslandPoints);
             }
 
             //TODO: give more points if we take an island from the enemy
@@ -335,24 +339,24 @@ namespace Britbot
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
             {
-                TheD.BeginTime("Update");
+                Logger.BeginTime("Update");
                 //update the enemy info
                 Enemy.Update(cancellationToken);
-                TheD.StopTime("Update");
+                Logger.StopTime("Update");
 
                 //update smartIslands
                 SmartIsland.UpdateAll();
 
-                TheD.BeginTime("CalculateAndAssignTargets");
+                Logger.BeginTime("CalculateAndAssignTargets");
                 //calculate targets
                 Commander.CalculateAndAssignTargets(cancellationToken);
-                TheD.StopTime("CalculateAndAssignTargets");
+                Logger.StopTime("CalculateAndAssignTargets");
 
 
-                TheD.BeginTime("GetAllMoves");
+                Logger.BeginTime("GetAllMoves");
                 //Get the moves for all the pirates and return them
                 Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
-                TheD.StopTime("GetAllMoves");
+                Logger.StopTime("GetAllMoves");
                 Bot.Game.Debug("Commander done doing calculations and drinking coffee after {0}ms",
                     Commander.TurnTimer.ElapsedMilliseconds);
 
@@ -367,14 +371,14 @@ namespace Britbot
                 foreach (Exception e in ex.InnerExceptions)
                     Bot.Game.Debug(e.ToString());
                 onTime = false;
-                TheD.Debug();
+                Logger.Debug();
                 return new Dictionary<Pirate, Direction>();
             }
             catch (OperationCanceledException) //catch task cancellation
             {
                 Bot.Game.Debug("****** COMMANDER EXITING DUE TO TASK CANCELLATION ******");
                 onTime = false;
-                TheD.Debug();
+                Logger.Debug();
                 return new Dictionary<Pirate, Direction>();
             }
             catch (Exception ex) //catch everyting else
@@ -390,7 +394,7 @@ namespace Britbot
 
                 Bot.Game.Debug("==========COMMANDER EXCEPTION============");
                 onTime = false;
-                TheD.Debug();
+                Logger.Debug();
                 return new Dictionary<Pirate, Direction>();
             }
         }

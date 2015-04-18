@@ -216,10 +216,10 @@ namespace Britbot
                 //Proceed to moving to the target unless it's a NoTarget - then we stay in place
                 if (this.Target.GetTargetType() != TargetType.NoTarget)
                 {
-                    TheD.BeginTime("UpdateMap");
+                    Logger.BeginTime("UpdateMap");
                     //inital path finding for this group
                     Navigator.UpdateMap(this);
-                    TheD.StopTime("UpdateMap");
+                    Logger.StopTime("UpdateMap");
                     Direction master = this.Target.GetDirection(this);
 
                     //sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions
@@ -255,7 +255,7 @@ namespace Britbot
         /// <returns></returns>
         private IEnumerable<KeyValuePair<Pirate, Direction>> GetStructureMoves(CancellationToken cancellationToken)
         {
-            TheD.BeginTime("GetStructureMoves");
+            Logger.BeginTime("GetStructureMoves");
             //check if we are not stuck try to get into formation for too long
             if (this._formTurnsAttempt > this.Pirates.Count * 2)
                 //if we are stuck, request new instructions. This will reset the _formTurnsAttempt counter
@@ -312,7 +312,7 @@ namespace Britbot
                         yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections.First());
                 }
             }
-            TheD.StopTime("GetStructureMoves");
+            Logger.StopTime("GetStructureMoves");
         }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace Britbot
         /// <returns></returns>
         private bool IsFormed(bool checkCasualties = true, int casualtiesThresholdPercent = 20)
         {
-            TheD.BeginTime("IsFormed");
+            Logger.BeginTime("IsFormed");
 
             if (checkCasualties)
                 if (this.CasualtiesPercent() > casualtiesThresholdPercent) //if there are many casualties
@@ -455,7 +455,7 @@ namespace Britbot
             ReturnFalse:
             //if we are still not formed, return the right answer
             Bot.Game.Debug("Group {0} is not formed yet", this.Id);
-            TheD.StopTime("IsFormed");
+            Logger.StopTime("IsFormed");
             return false;
         }
 
@@ -730,7 +730,7 @@ namespace Britbot
         /// <exception cref="OperationCanceledException">The token has had cancellation requested.</exception>
         public void CalcPriorities(CancellationToken cancellationToken)
         {
-            TheD.BeginTime("CalcPriorities");
+            Logger.BeginTime("CalcPriorities");
             //init some lists
             List<ITarget> priorityList = new List<ITarget>();
             List<Score> scores = new List<Score>();
@@ -772,7 +772,7 @@ namespace Britbot
             //throw away all but CalcMaxPrioritiesNum
             this.Priorities = this.Priorities.Take(Commander.CalcMaxPrioritiesNum()).ToList();
 
-            TheD.StopTime("CalcPriorities");
+            Logger.StopTime("CalcPriorities");
         }
 
         /// <summary>

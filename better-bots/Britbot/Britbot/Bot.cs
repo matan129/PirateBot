@@ -57,9 +57,7 @@ namespace Britbot
             Bot.Game = state;
 
             Bot.Game.Debug("---------------------------------------------------------");
-            Bot.Game.Debug("---------------------------------------------------------");
-            Bot.Game.Debug("---------------------------------------------------------");
-            Bot.Game.Debug("number of runaways: " + Enemy.EnemyIntelligenceSuspitionCounter);
+            Bot.Game.Debug("number of runaways: " + Enemy.EnemyIntelligenceSuspicionCounter);
             bool commanderOk = false;
 
             try
@@ -164,7 +162,7 @@ namespace Britbot
                 Bot.Game.Debug("=================TIMEOUT=======================");
             }
 
-            TheD.Debug();
+            Logger.Debug();
 
             //return if the commander is on time
             return onTime;
