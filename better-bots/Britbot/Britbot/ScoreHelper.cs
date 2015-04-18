@@ -24,11 +24,15 @@ namespace Britbot
         /// <summary>
         ///     Calculates the score for each turn
         /// </summary>
-        /// <param name="totalIslandValues">Totals island value (i.e. there are islands worth two, etc)</param>
+        /// <param name="totalIslandValues">Total added island value (i.e. there are islands worth two, etc)</param>
         /// <returns></returns>
         internal static double ScorePerTurn(double totalIslandValues)
         {
-            return Math.Floor(Math.Pow(2, totalIslandValues - 1));
+            //check if we have no islands
+            if(Bot.Game.MyIslands().Count == 0)
+                return Math.Floor(Math.Pow(2, totalIslandValues - 1));
+            //otherise we multiply with what we already get each turn
+            return Math.Floor(Math.Pow(2,Bot.Game.MyIslands().Count + totalIslandValues - 1));
         }
     }
 }
