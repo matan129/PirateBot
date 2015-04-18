@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoCorretOptions.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="Commander.cs" />
     <Compile Include="Enemy.cs" />
@@ -67,9 +68,9 @@
     <Compile Include="Extentions.cs" />
     <Compile Include="Fallback\FallbackBot.cs" />
     <Compile Include="Group.cs" />
-    <Compile Include="GroupRole.cs" />
     <Compile Include="HeadingVector.cs" />
     <Compile Include="ITarget.cs" />
+    <Compile Include="Magic.cs" />
     <Compile Include="Mover.cs" />
     <Compile Include="Navigator.cs" />
     <Compile Include="Node.cs" />

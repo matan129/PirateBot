@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Pirates;
 
 #endregion
@@ -252,5 +253,69 @@ namespace Britbot
             pivot = new Location(pivot.Row + addRow, pivot.Col + addCol);
             return pivot;
         }
+
+        public static int Factorial(int f)
+        {
+            for (int i = f - 1; i >= 0; i--)
+            {
+                f *= i;
+            }
+
+            return f;
+        }
+
+        /// <summary>
+        ///     Gets all permutations of a IEunumerable
+        ///     Complexity of O(n!)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static IEnumerable<IEnumerable<T>> Permutate<T>(this IEnumerable<T> items)
+        {
+            foreach (var item in items)
+            {
+                T[] head = new T[] { item };
+                var tail = items.Except(head).ToList();
+                var subLists = tail.Permutate();
+                if (subLists.Any())
+                {
+                    foreach (var subList in subLists)
+                    {
+                        yield return head.Concat(subList);
+                    }
+                }
+                else
+                {
+                    yield return head;
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Get all the possible sub lists without duplicates
+        ///     Complexity of O(n * n!)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static List<IEnumerable<T>> PartialPermutate<T>(this IEnumerable<T> items)
+        {
+            List<IEnumerable<T>> result = new List<IEnumerable<T>>(items.Count() * Factorial(items.Count()));
+
+            foreach (IEnumerable<T> permutation in items.Permutate())
+            {
+                for (int i = 1; i < permutation.Count(); i++)
+                {
+                    IEnumerable<T> current = items.Take(i);
+                    if(!result.Contains(current))
+                        result.Add(current);
+                }
+            }
+
+            return result;
+        }
     }
+
+
 }

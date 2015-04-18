@@ -127,30 +127,117 @@ namespace Britbot
         private static void AllocateGroups(AutoCorrectOptions autoCorrectLevel, params int[] config)
         {
             config = Commander.AutoCorrectConfig(autoCorrectLevel, config);
-
-            //sort the config (bigger values first)
-            Array.Sort(config, (a,b) => a.CompareTo(b));
-
+            
             //auto ditribute and correct by zones
             if (autoCorrectLevel >= AutoCorrectOptions.Zone) 
             {
                 Bot.Game.Debug("Adjusting config according to zones...");
 
+                //split our pirates to zones.
                 List<List<int>> myZones = Commander.SplitToZones();
 
                 //sort the zones by size (bigger first)
                 myZones.Sort((a, b) => a.Count.CompareTo(b.Count));
+                
+                //sort the config (bigger values first)
+                Array.Sort(config, (a, b) => a.CompareTo(b));
 
-                int[] assignedGroups = new int[config.Length];
+                //i.e. 4, {2,2} = zone of 4 pirates divided to 2 groups of two
+                List<ZoneConfigs> zoneConfig = new List<ZoneConfigs>(myZones.Count);
 
-                foreach (List<int> piratesInZone in myZones)
+                //init list
+                foreach (List<int> zone in myZones)
                 {
-                    int zoneCap = piratesInZone.Count;
+                    if(zone.Count == 0)
+                        continue;
 
-                    throw new NotImplementedException();
+                    zoneConfig.Add(new ZoneConfigs(zone.Count));
+                }
+                
+                //first of all, match groups which fill 100% of a zone
+                foreach (ZoneConfigs zone in zoneConfig)
+                {
+                    if (zone.Capacity == 0)
+                        continue;
+
+                    for (int k = 0; k < config.Length; k++)
+                    {
+                        if(config[k] == 0)
+                            continue;
+
+                        if (config[k] == zone.Capacity)
+                        {
+                            zone.AddGroup(config[k]);
+                            config[k] = 0;
+                        }
+                    }
+                }
+                
+            firstRound:
+                //first matching round
+                foreach (ZoneConfigs zone in zoneConfig)
+                {
+                    if (zone.Capacity == 0)
+                        continue;
+
+                    for (int k = 0; k < config.Length; k++)
+                    {
+                        int gConf = config[k];
+
+                        if (gConf == 0)
+                            continue;
+
+                        if (zone.Capacity >= gConf)
+                        {
+                            zone.AddGroup(gConf);
+                            config[k] = 0;
+                        }
+                    }
+                }
+
+                //second match round. If required, it will fragmate the groups
+                foreach (ZoneConfigs zone in zoneConfig)
+                {
+                    //skip full zones
+                    if (zone.Capacity == 0)
+                        continue;
+
+                    for (int i = 0; i < config.Length; i++)
+                    {
+                        //skip over matched groups
+                        if (config[i] == 0)
+                            continue;
+
+                        config[i] -= zone.Capacity;
+                        zone.AddGroup(zone.Capacity);
+                    }
+                }
+
+                if(zoneConfig.Any(z => z.Capacity != 0))
+                    goto firstRound; //kill me.
+
+                //finally, allocate forces
+                for (int i = 0; i < zoneConfig.Count; i++)
+                {
+                    Commander.AllocateZone(myZones[i], zoneConfig[i].Groups);
                 }
             }
         }
+
+        private static void AllocateZone(List<int> piratesInZone, List<int> config)
+        {
+            if(piratesInZone.Count != config.Sum())
+                throw new AllocationException(string.Format("Excepcted {0} pirates in zone config but got  {1}", piratesInZone.Count, config.Sum()));
+
+            Pirate[] pirates = piratesInZone.ConvertAll(p => Bot.Game.GetMyPirate(p)).ToArray();
+
+            foreach (int c in config)
+            {
+                
+            }
+
+        }
+
 
         /// <summary>
         ///     Auto corrects a given config
