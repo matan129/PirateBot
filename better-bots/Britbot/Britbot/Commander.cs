@@ -360,16 +360,21 @@ namespace Britbot
             //TODO this is not close to be finished + we need some smarter constants here 
             double score = 0;
             double timeAvg = 0;
-            double value = 0;
+            double numOfOwnedIslands = 0;
             double enemyShips = 0;
+            double maxIslandOwnership = 0;
+            double totalProjectedPoints = 0;
 
             foreach (Score s in scoreArr)
             {
                 //Throwing an exception if cancellation was requested.
                 cancellationToken.ThrowIfCancellationRequested();
 
+                //Calculates the Island that will be held onto the longest
+                if (maxIslandOwnership < s.MinTurnsToEnemyCapture)
+                    maxIslandOwnership = s.MinTurnsToEnemyCapture;
 
-                value += s.Value;
+                numOfOwnedIslands += s.Value; //Number of owned islands in this option
                 enemyShips += s.EnemyShips;
                 /*score += Math.Pow(2, Bot.Game.MyIslands().Count + s.Value);
                 score += 0.2 * Math.Pow(3, s.EnemyShips);*/
@@ -391,8 +396,19 @@ namespace Britbot
                         score -= 1000;
                 }
             }
-
-            return score + Math.Pow(2, value) + 0.2 * Math.Pow(3, enemyShips) - timeAvg / scoreArr.Length;
+            for (int i = 0; i < maxIslandOwnership; i++)
+            {
+                foreach (Score s in scoreArr)
+                {
+                    if (s.Eta >= i)
+                        numOfOwnedIslands++;
+                    if (s.MinTurnsToEnemyCapture <= i)
+                        numOfOwnedIslands--;
+                    totalProjectedPoints = totalProjectedPoints + Math.Pow(2, numOfOwnedIslands);
+                }
+            }
+            return score + totalProjectedPoints;
+           // return score + Math.Pow(2, numOfOwnedIslands) + 0.2 * Math.Pow(3, enemyShips) - timeAvg / scoreArr.Length;
         }
 
         /// <summary>
