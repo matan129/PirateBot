@@ -71,16 +71,22 @@ namespace Britbot
         {
             return "NoTarget. Nothing interesting here";
         }
-        /// <summary>
-        /// just interface implementation, does nothing
-        /// so far
-        /// </summary>
-        public void TargetAssignmentEvent() { }
 
         /// <summary>
-        /// cana"l
+        ///     just interface implementation, does nothing
+        ///     so far
         /// </summary>
-        public void TargetDessignmentEvent() { }
+        public void TargetAssignmentEvent()
+        {
+        }
+
+        /// <summary>
+        ///     cana"l
+        /// </summary>
+        public void TargetDessignmentEvent()
+        {
+        }
+
         #endregion
     }
 }

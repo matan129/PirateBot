@@ -1,7 +1,8 @@
-﻿#region Usings
+﻿#region #Usings
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -18,8 +19,8 @@ namespace Britbot
     public static class Commander
     {
         #region Static Fields & Consts
-        //---------------#Magic_Numbers--------------------
-        public static int MaxIterator = 10000;
+
+        public static Stopwatch TurnTimer;
 
         #endregion
 
@@ -44,103 +45,201 @@ namespace Britbot
             Commander.Groups = new List<Group>();
             Commander.TurnTimer = new Stopwatch();
 
+            #region Terrible Switch-Case
+
             //TODO initial config should be better then this
             //Hookup the UltimateConfig() here
 
+
             if (Bot.Game.Islands().Count == 1)
             {
-                Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
+                Commander.AllocateGroups(AutoCorrectOptions.All ,Bot.Game.AllMyPirates().Count);
                 return;
             }
-
-            #region Terrible Switch-Case
 
             //TODO this is awfully specific for the game bots. We have to generalize this
             switch (Bot.Game.AllMyPirates().Count)
             {
                 case 3:
-                    Commander.Groups.Add(new Group(0, 2));
-                    Commander.Groups.Add(new Group(2, 1));
+                    Commander.AllocateGroups(AutoCorrectOptions.All, 2, 1);
                     break;
                 case 4:
                     if (Bot.Game.AllEnemyPirates().Count > 4)
                     {
-                        Commander.Groups.Add(new Group(0, 1));
-                        Commander.Groups.Add(new Group(1, 1));
-                        Commander.Groups.Add(new Group(2, 2));
+                        Commander.AllocateGroups(AutoCorrectOptions.All, 1, 2, 1);
                     }
                     else
                     {
-                        Commander.Groups.Add(new Group(0, 3));
-                        Commander.Groups.Add(new Group(3, 1));
+                        Commander.AllocateGroups(AutoCorrectOptions.All, 3, 1);
                     }
                     break;
                 case 5:
-                    Commander.Groups.Add(new Group(0, 2));
-                    Commander.Groups.Add(new Group(2, 2));
-                    Commander.Groups.Add(new Group(4, 1));
+                    Commander.AllocateGroups(AutoCorrectOptions.All, 2, 2, 1);
                     break;
                 case 6:
                     if (Bot.Game.EnemyIslands().Count > 0)
                     {
-                        Commander.Groups.Add(new Group(0, 5));
-                        Commander.Groups.Add(new Group(5, 1));
+                        Commander.AllocateGroups(AutoCorrectOptions.All, 5, 1);
                     }
                     else
                     {
-                        Commander.Groups.Add(new Group(2, 4));
-                        Commander.Groups.Add(new Group(0, 1));
-                        Commander.Groups.Add(new Group(1, 1));
+                        Commander.AllocateGroups(AutoCorrectOptions.All, 4, 1, 1);
                     }
                     break;
                 case 7:
-                    Commander.Groups.Add(new Group(0, 2));
-                    Commander.Groups.Add(new Group(2, 3));
-                    Commander.Groups.Add(new Group(5, 2));
+                    Commander.AllocateGroups(AutoCorrectOptions.All, 2, 3, 2);
                     break;
                 case 8:
                     if (Bot.Game.GetMyPirate(7).Loc.Row == 39)
                     {
-                        Commander.Groups.Add(new Group(0, 4));
-                        Commander.Groups.Add(new Group(4, 3));
-                        Commander.Groups.Add(new Group(7, 1));
+                        Commander.AllocateGroups(AutoCorrectOptions.All, 4, 3, 1);
                     }
                     else
                     {
-                        Commander.Groups.Add(new Group(0, 3));
-                        Commander.Groups.Add(new Group(3, 2));
-                        Commander.Groups.Add(new Group(5, 2));
-                        Commander.Groups.Add(new Group(7, 1));
+                        Commander.AllocateGroups(AutoCorrectOptions.All, 3, 2, 2, 1);
                     }
                     break;
                 case 9:
-                    Commander.Groups.Add(new Group(0, 3));
-                    Commander.Groups.Add(new Group(3, 3));
-                    Commander.Groups.Add(new Group(6, 2));
-                    Commander.Groups.Add(new Group(8, 1));
+                    Commander.AllocateGroups(AutoCorrectOptions.All, 3, 3, 2, 1);
                     break;
                 default:
-                    /*for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
-                {
-                    Commander.Groups.Add(new Group(i, 2));
-                }
+                    for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count % 2; i += 2)
+                    {
+                        Commander.Groups.Add(new Group(i, 2));
+                    }
 
-                if (Bot.Game.AllMyPirates().Count%2 == 1)
-                    Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));*/
-                    //Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
-                    for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
-                        Commander.Groups.Add(new Group(i, 1));
+                    if (Bot.Game.AllMyPirates().Count % 2 == 1)
+                        Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));
+
                     break;
             }
 
             #endregion
         }
-        
+
         #endregion
+
+        /// <summary>
+        ///     This method allocates group
+        /// </summary>
+        /// <param name="config">The configuration of the ships (i.e {2 , 2, 1})</param>
+        /// <param name="autoCorrectLevel">If to auto correct mistakes and zone splits</param>
+        private static void AllocateGroups(AutoCorrectOptions autoCorrectLevel, params int[] config)
+        {
+            config = Commander.AutoCorrectConfig(autoCorrectLevel, config);
+
+            //sort the config (bigger values first)
+            Array.Sort(config, (a,b) => a.CompareTo(b));
+
+            //auto ditribute and correct by zones
+            if (autoCorrectLevel >= AutoCorrectOptions.Zone) 
+            {
+                Bot.Game.Debug("Adjusting config according to zones...");
+
+                List<List<int>> myZones = Commander.SplitToZones();
+
+                //sort the zones by size (bigger first)
+                myZones.Sort((a, b) => a.Count.CompareTo(b.Count));
+
+                int[] assignedGroups = new int[config.Length];
+
+                foreach (List<int> piratesInZone in myZones)
+                {
+                    int zoneCap = piratesInZone.Count;
+
+                    throw new NotImplementedException();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Auto corrects a given config
+        /// </summary>
+        /// <param name="autoCorrectLevel">The autocorrect level (see AutoCorrectOptions enum)</param>
+        /// <param name="config">The possibly bad config </param>
+        /// <returns>An autocorrected config</returns>
+        private static int[] AutoCorrectConfig(AutoCorrectOptions autoCorrectLevel, int[] config)
+        {
+            int sum = config.Sum();
+            int pirateCount = Bot.Game.AllMyPirates().Count;
+
+                //Check # of pirates and alert if something is wrong
+            if (sum != pirateCount)
+                if (autoCorrectLevel == AutoCorrectOptions.None)
+                    throw new AllocationException(string.Format("ALLOCATED ERROR: Expected {0} pirates, but got {1}",
+                        pirateCount, sum));
+                else
+                {
+                    Bot.Game.Debug("ALLOCATED WARNING: Expected {0} pirates, but got {1}", pirateCount, sum);
+
+                    //Autocorrecting
+                    List<int> correctedConfig = new List<int>();
+
+                    //Sort the array by length (critical for autocrrect). Bigger values first
+                    Array.Sort(config, (a, b) => a.CompareTo(b));
+
+                    if (sum > pirateCount)
+                    {
+                        if (autoCorrectLevel < AutoCorrectOptions.Higher)
+                            throw new AllocationException(string.Format("ALLOCATED ERROR: Expected {0} pirates, but got {1}",
+                                pirateCount, sum));
+
+                        Bot.Game.Debug("Correcting config...");
+
+                        int roof = 0;
+                        int i = 0;
+                        int delta = 0;
+
+                        while (roof <= pirateCount && i < config.Length)
+                        {
+                            int currGroup = config[i];
+
+                            if (roof + currGroup <= pirateCount)
+                            {
+                                correctedConfig.Add(currGroup);
+                                roof += currGroup;
+                            }
+                            else
+                            {
+                                delta = Math.Abs(pirateCount - roof);
+                                break;
+                            }
+
+                            i++;
+                        }
+
+                        //add the delta to the
+                        correctedConfig[correctedConfig.Count - 1] += delta;
+                        config = correctedConfig.ToArray();
+                    }
+                    else //this means that the config is using less pirates than possible.
+                    {
+                        if (autoCorrectLevel < AutoCorrectOptions.Lower)
+                            throw new AllocationException(
+                                string.Format("ALLOCATED ERROR: Expected {0} pirates, but got {1}", pirateCount, sum));
+
+                        Bot.Game.Debug("Correcting config...");
+
+                        //So just add couple of pirates to the smallest group
+                        config[config.Length - 1] += pirateCount - sum;
+                    }
+                }
+            return config;
+        }
+
+
+        /// <summary>
+        ///  Does analysis to OUR pirates, useful for zone detection
+        /// </summary>
+        /// <returns></returns>
+        private static List<List<int>> SplitToZones()
+        {
+            throw new NotImplementedException();
+        }
 
         public static int CalcMaxPrioritiesNum()
         {
-            return (int) (Math.Pow(Commander.MaxIterator, 1.0 / Commander.Groups.Count));
+            return (int) (Math.Pow(Magic.MaxIterator, 1.0 / Commander.Groups.Count));
         }
 
         /// <summary>
@@ -196,7 +295,7 @@ namespace Britbot
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
             {
-               // Bot.Game.Debug("Group {0} assinged to {1} at location {2}", i, scoreArr[i].Target.GetDescription());
+                // Bot.Game.Debug("Group {0} assinged to {1} at location {2}", i, scoreArr[i].Target.GetDescription());
                 Commander.Groups[i].SetTarget(scoreArr[i].Target);
             }
         }
@@ -293,7 +392,7 @@ namespace Britbot
                 }
             }
 
-            return score + Math.Pow(2, value) + 0.2*Math.Pow(3,enemyShips) - timeAvg / scoreArr.Length;
+            return score + Math.Pow(2, value) + 0.2 * Math.Pow(3, enemyShips) - timeAvg / scoreArr.Length;
         }
 
         /// <summary>
@@ -313,9 +412,6 @@ namespace Britbot
             //else return false
             return false;
         }
-
-        public static Stopwatch TurnTimer;
-        
 
         /// <summary>
         ///     Do something!
@@ -345,8 +441,9 @@ namespace Britbot
                 //Get the moves for all the pirates and return them
                 Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
                 TheD.StopTime("GetAllMoves");
-                Bot.Game.Debug("Commander done doing calculations and drinking coffee after {0}ms", Commander.TurnTimer.ElapsedMilliseconds);
-                
+                Bot.Game.Debug("Commander done doing calculations and drinking coffee after {0}ms",
+                    Commander.TurnTimer.ElapsedMilliseconds);
+
                 //we are on time!
                 onTime = true;
 

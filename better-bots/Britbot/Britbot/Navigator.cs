@@ -1,10 +1,10 @@
-﻿#region Usings
+﻿#region #Usings
 
 using System;
+using System.Collections.Generic;
 using Britbot.PriorityQueue;
 using Pirates;
-using System.Collections.Generic;
-using System.Linq;
+
 #endregion
 
 namespace Britbot
@@ -14,8 +14,12 @@ namespace Britbot
     /// </summary>
     internal static partial class Navigator
     {
+        #region Static Fields & Consts
 
         public static List<long> time = new List<long>();
+
+        #endregion
+
         /// <summary>
         ///     Given your location, you current direction and the target's location, this method
         ///     calculates the best direction for you to move in order to simulate a straight line of
@@ -27,7 +31,8 @@ namespace Britbot
         /// <returns>optimal direction</returns>
         public static Direction CalculateDirectionToStationeryTarget(Location myLoc, HeadingVector myHeading,
             Location target)
-        {/*
+        {
+/*
 
             //get the desired direction
             HeadingVector desiredVector = HeadingVector.CalcDifference(myLoc, target);
@@ -60,11 +65,11 @@ namespace Britbot
             Direction d;
             //first check if we are already at the target
             if (myLoc.Equals(target))
-                d= Direction.NOTHING;
+                d = Direction.NOTHING;
             else
             //otherwise use the A* thing
-                
-                d= Navigator.CalculatePath(myLoc, target);
+
+                d = Navigator.CalculatePath(myLoc, target);
             TheD.StopTime("CalculateDirectionToStationeryTarget");
             return d;
         }
@@ -221,9 +226,9 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Calculates first direction in path according to the A* algorithem
-        /// explanation + the pseudo code used to write this can be found in 
-        /// http://en.wikipedia.org/wiki/A*_search_algorithm
+        ///     Calculates first direction in path according to the A* algorithem
+        ///     explanation + the pseudo code used to write this can be found in
+        ///     http://en.wikipedia.org/wiki/A*_search_algorithm
         /// </summary>
         /// <param name="start">the location you are in (meaning the group)</param>
         /// <param name="target">the desired location (meaning the target)</param>
@@ -255,15 +260,14 @@ namespace Britbot
 
                 //going over the Neighbors of the current cell
                 foreach (Node neighbor in currentNode.GetNeighbors())
-                {                  
-
+                {
                     //if we already calculated this neighbor, skip to the next
                     if (neighbor.IsEvaluated)
                         continue;
 
                     //calculate the new G score from this rout
                     double tentativeG = currentNode.G + neighbor.Weight;
-                   // double tentativeG = currentNode.G + 1;
+                    // double tentativeG = currentNode.G + 1;
 
                     //if the neighbor isn't in the open set
                     //or we just found a better score for him (tentativeG < G)
@@ -272,7 +276,7 @@ namespace Britbot
                     if ((!openset.Contains(neighbor)) || (neighbor.G == -1) || (tentativeG < neighbor.G))
                     {
                         //update G score
-                        neighbor.G = tentativeG;                        
+                        neighbor.G = tentativeG;
 
                         ////if the neighbor isn't in the open set, add him
                         if (!openset.Contains(neighbor))
@@ -296,8 +300,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// after the A* algorithm has finished, is simply finds the best neighbor of the
-        /// beginning node and returns the direction to it
+        ///     after the A* algorithm has finished, is simply finds the best neighbor of the
+        ///     beginning node and returns the direction to it
         /// </summary>
         /// <param name="beginning">location of the one calling for directions</param>
         /// <returns></returns>
@@ -333,15 +337,12 @@ namespace Britbot
                 return Direction.NOTHING;
                 //throw new Exception("Matan K is stupid as shit, please go and tell him that");
             }
-            else
-            {
-                return Bot.Game.GetDirections(beginning.Loc, bestNextNode.Loc)[0];
-            }
+            return Bot.Game.GetDirections(beginning.Loc, bestNextNode.Loc)[0];
         }
 
         /// <summary>
-        /// function to update map for specific group
-        /// simply calls the Node.updateMap function
+        ///     function to update map for specific group
+        ///     simply calls the Node.updateMap function
         /// </summary>
         /// <param name="groupStrength">Group whose path is being calculated</param>
         public static void UpdateMap(Group group)

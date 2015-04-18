@@ -1,4 +1,4 @@
-﻿#region Usings
+﻿#region #Usings
 
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace Britbot
         public readonly int Id;
 
         /// <summary>
-        /// Counter of the number of turn this groupis trying to get into structure
+        ///     Counter of the number of turn this groupis trying to get into structure
         /// </summary>
         private int _formTurnsAttempt;
 
@@ -44,19 +44,9 @@ namespace Britbot
         public ITarget Target { get; private set; }
 
         /// <summary>
-        ///     The group's role (i.e. destroyer or attacker)
-        /// </summary>
-        public GroupRole Role { get; private set; }
-
-        /// <summary>
         ///     List of priorities for this group
         /// </summary>
         public List<Score> Priorities { get; private set; }
-
-        /// <summary>
-        ///     A thread for complex calculations that can be ran in parallel to other stuff
-        /// </summary>
-        public Thread CalcThread { get; private set; }
 
         /// <summary>
         ///     static member to give each group a unique id based on its number of creation
@@ -71,49 +61,47 @@ namespace Britbot
         #endregion
 
         #region Constructors & Initializers
-
+        
         /// <summary>
-        ///     Creates a new group with set amount of ships (without thinking to much)
+        ///     Creates a new group with the given pirates
         /// </summary>
-        /// <param name="index">The stating index of the fist pirate in the group</param>
-        /// <param name="amount">How many pirates will be in the group</param>
-        public Group(int index, int amount)
+        /// <param name="piratesId">the pirates indexes to add to this group</param>
+        public Group(params int[] piratesId)
+            : this()
         {
-            this.Pirates = new List<int>();
-            this.Heading = new HeadingVector(0, 0);
-            this.Priorities = new List<Score>();
-            this.Role = new GroupRole();
-
-            //get id and update counter
-            this.Id = Group.GroupCounter++;
-
-            Bot.Game.Debug("===================GROUP {0}===================", this.Id);
-
-            //Add pirates
-            for (; amount > 0; amount--)
-            {
-                this.Pirates.Add(index + amount - 1);
-            }
+            foreach (int index in piratesId)
+                this.AddPirate(index);
 
             //generate forming (getting into structure) instructions
             this.GenerateFormationInstructions();
         }
 
+        /// <summary>
+        ///     Just a ctor to do to common stuff (called from the other ctors above by "this()" statement)
+        /// </summary>
+        private Group()
+        {
+            this.Pirates = new List<int>();
+            this.Heading = new HeadingVector(0, 0);
+            this.Priorities = new List<Score>();
+
+            //get id and update counter
+            this.Id = Group.GroupCounter++;
+
+            Bot.Game.Debug("===================GROUP {0}===================", this.Id);
+        }
+
         #endregion
 
+        /// <summary>
+        ///     You know what this does, don't you?
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return "Group - id: " + this.Id + " pirate count: " + this.Pirates.Count + "location: " +
                    this.FindCenter(true)
                    + " heading: " + this.Heading;
-        }
-
-        public void Debug()
-        {
-            Bot.Game.Debug("------------------------GROUP " + this.Id + " ----------------------------------");
-            Bot.Game.Debug(this.Pirates.Count + " Pirates: " + String.Join(", ", this.Pirates));
-            Bot.Game.Debug("Location: " + this.GetLocation().ToString() + " Heading: " + this.Heading.ToString());
-            Bot.Game.Debug("Target: " + this.Target.ToString() + " Location: " + this.Target.GetLocation());
         }
 
         /// <summary>
@@ -175,7 +163,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// counts how many fighters does an enemy group has, not including ones capturing islands
+        ///     counts how many fighters does an enemy group has, not including ones capturing islands
         /// </summary>
         /// <returns>how many fighters does an enemy group has, not including ones capturing islands</returns>
         public int FightCount()
@@ -248,7 +236,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Get the correct moves to get into structure
+        ///     Get the correct moves to get into structure
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
@@ -385,7 +373,7 @@ namespace Britbot
                 Bot.Game.Debug("Group {0} is formed", this.Id);
                 return true;
             }
-            
+
             //else, proceed to the next test
 
             //find the central pirate in the group
@@ -420,7 +408,7 @@ namespace Britbot
             //iterate over all the locations in the new structure
             for (int i = 0; i < structureFull.Length; i++)
             {
-                for(int k = 0; k < structureFull[i].Length; k++)
+                for (int k = 0; k < structureFull[i].Length; k++)
                 {
                     //try to find a pirate in the location
                     Pirate p = Bot.Game.GetPirateOn(structureFull[i][k]);
@@ -441,7 +429,7 @@ namespace Britbot
                     }
                 }
             }
-            
+
             //check if the empty cells is what it should be
             //(the structure array might be larger than the # of pirates in the group,
             //like if we have 4 pirates we need the 2nd ring (index 1) but but there will be on free spot)
@@ -451,7 +439,7 @@ namespace Britbot
                 return true;
             }
 
-        ReturnFalse:
+            ReturnFalse:
             //if we are still not formed, return the right answer
             Bot.Game.Debug("Group {0} is not formed yet", this.Id);
             TheD.StopTime("IsFormed");
@@ -556,13 +544,12 @@ namespace Britbot
         /// <returns>An array of location array per ring required</returns>
         private Location[][] GenerateGroupStructure(Location pivot, bool trim = true)
         {
-            
             //find the required ring index for this group (see proof in calculation folder in the repo)
             int maxRing = (int) Math.Ceiling((decimal) (this.Pirates.Count - 1) / 4);
 
             //list of location in all the rings. Note that we add one because ring # is 0-based
             Location[][] rings = new Location[maxRing + 1][];
-            
+
             //generate the locations for each ring
             for (int i = 0; i < rings.Length; i++)
             {
@@ -585,7 +572,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// returns the amount of rings in the formation for given amount of pirates
+        ///     returns the amount of rings in the formation for given amount of pirates
         /// </summary>
         /// <param name="pirateNum">amount of pirates in formation</param>
         /// <returns>the amount of rings in the formation</returns>
@@ -599,7 +586,10 @@ namespace Britbot
         /// </summary>
         /// <param name="pivot">The ring's center</param>
         /// <param name="ringOrdinal">the index of the ring</param>
-        /// <exception cref="InvalidLocationException">This method will throw this exception if a location it generated is not passable</exception>
+        /// <exception cref="InvalidLocationException">
+        ///     This method will throw this exception if a location it generated is not
+        ///     passable
+        /// </exception>
         /// <returns></returns>
         internal static List<Location> GenerateRingLocations(Location pivot, int ringOrdinal)
         {
@@ -735,7 +725,7 @@ namespace Britbot
             //Add all targets to the list
 
             //check if we need to chaise ships, if so add them to calculation
-            if(Enemy.ShouldWeTryToCatchEnemyShips())
+            if (Enemy.ShouldWeTryToCatchEnemyShips())
                 priorityList.AddRange(Enemy.Groups);
             priorityList.AddRange(SmartIsland.IslandList);
 
@@ -792,7 +782,7 @@ namespace Britbot
         public static int GetStructureVolume(int maxRing)
         {
             //this is basic summation of arithmetic sequence, excluding the 0th ring because it's special. then we add it back.
-            return (((2 * maxRing + 2) * maxRing ) + 1);
+            return (((2 * maxRing + 2) * maxRing) + 1);
         }
     }
 }

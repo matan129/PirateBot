@@ -20,6 +20,11 @@ namespace Britbot
         public readonly int Id;
 
         /// <summary>
+        ///     Queue of the last few amounts of enemy troops around this island
+        /// </summary>
+        private Queue<int> SurroundingForces;
+
+        /// <summary>
         ///     A static island list of all the islands in game
         /// </summary>
         public static List<SmartIsland> IslandList { get; private set; }
@@ -71,11 +76,6 @@ namespace Britbot
         {
             get { return Bot.Game.GetIsland(this.Id).Owner; }
         }
-
-        /// <summary>
-        /// Queue of the last few amounts of enemy troops around this island
-        /// </summary>
-        private Queue<int> SurroundingForces;
 
         #endregion
 
@@ -188,15 +188,20 @@ namespace Britbot
         }
 
         /// <summary>
-        /// just interface implementation, does nothing
-        /// so far
+        ///     just interface implementation, does nothing
+        ///     so far
         /// </summary>
-        public void TargetAssignmentEvent() { }
+        public void TargetAssignmentEvent()
+        {
+        }
 
         /// <summary>
-        /// cana"l
+        ///     cana"l
         /// </summary>
-        public void TargetDessignmentEvent() { }
+        public void TargetDessignmentEvent()
+        {
+        }
+
         #endregion
 
         public override int GetHashCode()
@@ -285,6 +290,7 @@ namespace Britbot
                 sIsland.Update();
             }
         }
+
         /// <summary>
         ///     Checks if 2 smart Islands are equal
         /// </summary>

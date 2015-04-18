@@ -16,6 +16,15 @@ namespace Britbot
     /// </summary>
     public static class Enemy
     {
+        #region Static Fields & Consts
+
+        /// <summary>
+        ///     counter to check if we should try to catch targets
+        /// </summary>
+        public static int EnemyIntelligenceSuspitionCounter = 0;
+
+        #endregion
+
         #region Fields & Properies
 
         /// <summary>
@@ -23,10 +32,6 @@ namespace Britbot
         /// </summary>
         public static List<EnemyGroup> Groups { get; private set; }
 
-        /// <summary>
-        /// counter to check if we should try to catch targets
-        /// </summary>
-        public static int EnemyIntelligenceSuspitionCounter = 0;
         #endregion
 
         #region Constructors & Initializers
@@ -106,7 +111,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Tells you if we need to try and chaise enemies
+        ///     Tells you if we need to try and chaise enemies
         /// </summary>
         /// <returns></returns>
         public static bool ShouldWeTryToCatchEnemyShips()
@@ -186,13 +191,13 @@ namespace Britbot
             //update heading in parallel
             Parallel.ForEach(Enemy.Groups, eGroup => eGroup.Update());
 
-            Debug();
+            Enemy.Debug();
         }
 
         public static void Debug()
         {
             Bot.Game.Debug("------------ENEMY GROUPS-----------------");
-            foreach(EnemyGroup eg in Enemy.Groups)
+            foreach (EnemyGroup eg in Enemy.Groups)
             {
                 Bot.Game.Debug(eg.ToString());
             }

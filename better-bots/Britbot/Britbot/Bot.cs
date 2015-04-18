@@ -1,4 +1,4 @@
-﻿#region Usings
+﻿#region #Usings
 
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace Britbot
         private static Dictionary<Pirate, Direction> _fallbackMoves = new Dictionary<Pirate, Direction>();
 
         /// <summary>
-        /// Array of the tasks. These are the normal commander task and the fallback task. See below.
+        ///     Array of the tasks. These are the normal commander task and the fallback task. See below.
         /// </summary>
         private static Task[] _tasks = new Task[2];
 
@@ -104,7 +104,7 @@ namespace Britbot
             //clear the last moves
             Bot._fallbackMoves.Clear();
             Bot._movesDictionary.Clear();
-            
+
             //setup time check flag
             bool onTime = false;
 
@@ -114,7 +114,7 @@ namespace Britbot
                 time = Bot.Game.TimeRemaining();
             else
                 time = 1000; //1000 ms*/
-            
+
             int safeTimeout = (int) (time * 0.65);
 
             //timeout setup
@@ -162,7 +162,6 @@ namespace Britbot
                 Bot.Game.Debug("Commander timed out, switching to fallback code");
                 Bot.Game.Debug("Time remaining: " + Bot.Game.TimeRemaining());
                 Bot.Game.Debug("=================TIMEOUT=======================");
-
             }
 
             TheD.Debug();

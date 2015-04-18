@@ -1,4 +1,4 @@
-﻿#region Usings
+﻿#region #Usings
 
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,8 @@ namespace Britbot
     /// </summary>
     public static class Extensions
     {
-
         /// <summary>
-        /// Smashes a two dimensional array to a flat one.
+        ///     Smashes a two dimensional array to a flat one.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="jaggedAray"></param>
@@ -34,7 +33,6 @@ namespace Britbot
 
             return flatList.ToArray();
         }
-    
 
         /// <summary>
         ///     Gets a SmartIsland by index, as we would do with a normal Island
@@ -74,8 +72,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// extention method calculating the square of the euclidian distance between
-        /// two locations
+        ///     extention method calculating the square of the euclidian distance between
+        ///     two locations
         /// </summary>
         /// <param name="game">For the compliler magic</param>
         /// <param name="loc1">first location</param>
@@ -87,7 +85,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// replacement for the function provided since it doesn't account for pirates capturing
+        ///     replacement for the function provided since it doesn't account for pirates capturing
         /// </summary>
         /// <param name="game">For the compliler magic</param>
         /// <param name="loc1">first location</param>
@@ -109,10 +107,11 @@ namespace Britbot
         }
 
         /// <summary>
-        /// This function checks if it is possible for a given group to be in 
-        /// certain location without pirates getting in enemy zone
+        ///     This function checks if it is possible for a given group to be in
+        ///     certain location without pirates getting in enemy zone
         /// </summary>
-        /// <param name="game">Compiler magic</param> DAMM RIGHT IT IS
+        /// <param name="game">Compiler magic</param>
+        /// DAMM RIGHT IT IS
         /// <param name="loc">the location of the 0 ring (the one we check)</param>
         /// <param name="group">the group trying to pass</param>
         /// <returns>true if it is possible to put this group in this location</returns>
@@ -124,7 +123,7 @@ namespace Britbot
             {
                 //calculate differance vector between the Group's center and the given pirate
                 HeadingVector difference = HeadingVector.CalcDifference(group.FindCenter(true)
-                                                                      , Bot.Game.GetMyPirate(pirate).Loc);
+                    , Bot.Game.GetMyPirate(pirate).Loc);
 
                 //calculate the location of this pirate if the group is placed in loc
                 Location newLocation = HeadingVector.AddvanceByVector(loc, difference);
@@ -160,7 +159,7 @@ namespace Britbot
 
             //check if outside of the map
             if (testLocation.Row >= mapRow || testLocation.Col >= mapCol ||
-                testLocation.Row < 0       || testLocation.Col < 0)
+                testLocation.Row < 0 || testLocation.Col < 0)
                 return false;
 
             return true;
@@ -180,7 +179,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Returns all the friend pirates (that is, our pirates) that are in support range of the pirate
+        ///     Returns all the friend pirates (that is, our pirates) that are in support range of the pirate
         /// </summary>
         /// <param name="pirate"></param>
         /// <returns></returns>

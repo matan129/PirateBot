@@ -50,16 +50,16 @@ namespace Britbot
         /// </summary>
         /// <returns></returns>
         string GetDescription();
-        
+
         /// <summary>
-        /// this should be called when a group is assign this targets, it will be used
-        /// so the target could tell if it causes the assignment process to get stuck
-        /// and remove itself
+        ///     this should be called when a group is assign this targets, it will be used
+        ///     so the target could tell if it causes the assignment process to get stuck
+        ///     and remove itself
         /// </summary>
         void TargetAssignmentEvent();
 
         /// <summary>
-        /// cana"l
+        ///     cana"l
         /// </summary>
         void TargetDessignmentEvent();
     }

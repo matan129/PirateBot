@@ -1,4 +1,4 @@
-﻿#region Usings
+﻿#region #Usings
 
 using System;
 using System.Collections.Generic;
@@ -17,57 +17,56 @@ namespace Britbot
         #region Fields & Properies
 
         /// <summary>
-        /// private class representing each cell of the map
+        ///     private class representing each cell of the map
         /// </summary>
         internal class Node : PriorityQueueNode
         {
             #region Static Fields & Consts
 
             /// <summary>
-            /// this weight represents an impassable cell
-            /// //---------------#Magic_Numbers--------------------
+            ///     this weight represents an impassable cell
+            ///     //---------------#Magic_Numbers--------------------
             /// </summary>
             public const double Infinity = 100;
 
             /// <summary>
-            /// A static array of nodes representing the map
-            /// ------------IMPORTANT: like with locations the access to this Map is Map[y,x]-------
+            ///     A static array of nodes representing the map
+            ///     ------------IMPORTANT: like with locations the access to this Map is Map[y,x]-------
             /// </summary>
             public static Node[,] Map = new Node[Bot.Game.GetRows(), Bot.Game.GetCols()];
 
             /// <summary>
-            /// This determines if we are using the Euclidian huristic or the Manhaten one
+            ///     This determines if we are using the Euclidian huristic or the Manhaten one
             /// </summary>
             public static bool EuclidianHuristic = true;
-
 
             #endregion
 
             #region Fields & Properies
 
             /// <summary>
-            /// the calculated G function score of the algorithm for this specific node
-            /// it will be updated during the algorithm
+            ///     the calculated G function score of the algorithm for this specific node
+            ///     it will be updated during the algorithm
             /// </summary>
             public double G;
 
             /// <summary>
-            /// The heuristic coefficient, it will simply be the euclidean distance
+            ///     The heuristic coefficient, it will simply be the euclidean distance
             /// </summary>
             public double H;
 
             /// <summary>
-            /// true if G value has been calculated
+            ///     true if G value has been calculated
             /// </summary>
             public bool IsEvaluated;
 
             /// <summary>
-            /// The X coordinate of the Node
+            ///     The X coordinate of the Node
             /// </summary>
             public Location Loc;
 
             /// <summary>
-            /// the weight of the cell, should be higher near enemies and un-passable places
+            ///     the weight of the cell, should be higher near enemies and un-passable places
             /// </summary>
             public double Weight;
 
@@ -76,7 +75,7 @@ namespace Britbot
             #region Constructors & Initializers
 
             /// <summary>
-            /// One time initializing of the Node array
+            ///     One time initializing of the Node array
             /// </summary>
             static Node()
             {
@@ -95,13 +94,13 @@ namespace Britbot
             #endregion
 
             /// <summary>
-            /// This function should be called ONCE PER GROUP in the CalculatePriorities function
-            /// it updates the map data based on the current game state
-            /// it sets what areas are passable and what are dangerous
+            ///     This function should be called ONCE PER GROUP in the CalculatePriorities function
+            ///     it updates the map data based on the current game state
+            ///     it sets what areas are passable and what are dangerous
             /// </summary>
             /// <param name="group">the group we update the map for</param>
             public static void UpdateMap(Group group)
-            {                            
+            {
                 //reading board size
                 int cols = Bot.Game.GetCols();
                 int rows = Bot.Game.GetRows();
@@ -118,13 +117,13 @@ namespace Britbot
                         if (!Bot.Game.IsPassableEnough(Node.Map[y, x].Loc, group))
                         {
                             //set the weight of the node to "infinity"
-                            Node.Map[y, x].Weight = Node.Infinity ;
+                            Node.Map[y, x].Weight = Node.Infinity;
 
                             //if so then we are finished here, move to next Node
                             continue;
                         }
 
-                       // Node.Map[y, x].Weight = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
+                        // Node.Map[y, x].Weight = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
                         Node.Map[y, x].Weight = 1;
                         //now set the wight based on enemyGroups
                         //double enemyFactor = Node.CalcEnemyFactor(Node.Map[y, x].Loc, groupStrength);
@@ -136,8 +135,8 @@ namespace Britbot
             }
 
             /// <summary>
-            /// This adds the wight of the enemies wich pose a threat to 
-            /// the specified group size
+            ///     This adds the wight of the enemies wich pose a threat to
+            ///     the specified group size
             /// </summary>
             /// <param name="strength">strength of the group</param>
             public static void CalculateEnemyWeight(int strength)
@@ -161,7 +160,7 @@ namespace Britbot
             }
 
             /// <summary>
-            /// Creates a gradiante of bad score around a specific location with a given radious
+            ///     Creates a gradiante of bad score around a specific location with a given radious
             /// </summary>
             /// <param name="loc">the location of the danger</param>
             /// <param name="radSquared">the square of the danger radious</param>
@@ -180,12 +179,12 @@ namespace Britbot
                 int maxY = Bot.Game.GetRows() - 1;
 
                 //going over a square centered at loc
-                for (int x = Math.Max(loc.Col - rad,0); x <= Math.Min(loc.Col + rad,maxX); x++)
+                for (int x = Math.Max(loc.Col - rad, 0); x <= Math.Min(loc.Col + rad, maxX); x++)
                 {
                     for (int y = Math.Max(loc.Row - rad, 0); y <= Math.Min(loc.Row + rad, maxY); y++)
                     {
                         //the current location
-                        Location currLoc = new Location(y,x);
+                        Location currLoc = new Location(y, x);
 
                         //blocking stuff according to their radious and direction
                         HeadingVector diffVector = HeadingVector.CalcDifference(loc, currLoc);
@@ -193,17 +192,18 @@ namespace Britbot
                         //calculate the distance considering the heading of the danger
                         //if the current location is straight in the direction of the danger we add by proportion to headingFactor
                         //if it is in the opposite direction we subtract according to headingFactor
-                        double distandeSquare = Bot.Game.EuclidianDistanceSquared(new Location(y, x), loc) + headingFactor * heading.Normalize() * diffVector;
-                        if(distandeSquare <= radSquared)
+                        double distandeSquare = Bot.Game.EuclidianDistanceSquared(new Location(y, x), loc) +
+                                                headingFactor * heading.Normalize() * diffVector;
+                        if (distandeSquare <= radSquared)
                             Node.Map[y, x].Weight = Node.Infinity * (radSquared - distandeSquare) / radSquared;
                     }
                 }
             }
 
             /// <summary>
-            /// This function should be called PER TARGET in the Navigator.CalculatePath method
-            /// it updates the heuristic values based on distance from the target
-            /// also sets G value to default -1
+            ///     This function should be called PER TARGET in the Navigator.CalculatePath method
+            ///     it updates the heuristic values based on distance from the target
+            ///     also sets G value to default -1
             /// </summary>
             /// <param name="target"></param>
             public static void SetUpCalculation(Location target)
@@ -219,7 +219,7 @@ namespace Britbot
 
                         //set the calculated G parameter to -1
                         Node.Map[y, x].G = -1;
-                        
+
                         Node.Map[y, x].IsEvaluated = false;
                     }
                 }
@@ -227,8 +227,8 @@ namespace Britbot
             }
 
             /// <summary>
-            /// this determines the huristic function used for the A* algorithm based on the
-            /// EuclidianHuristic constant in Node
+            ///     this determines the huristic function used for the A* algorithm based on the
+            ///     EuclidianHuristic constant in Node
             /// </summary>
             /// <param name="loc1">first location</param>
             /// <param name="loc2">second location</param>
@@ -238,14 +238,12 @@ namespace Britbot
                 //if we chose euclidian huristic
                 if (Node.EuclidianHuristic)
                     return Bot.Game.EuclidianDistanceSquared(loc1, loc2);
-                // Manhatten huristic
-                else
-                    return Bot.Game.Distance(loc1, loc2);
+                    // Manhatten huristic
+                return Bot.Game.Distance(loc1, loc2);
             }
 
-
             /// <summary>
-            /// Returns the Node in the map corresponding to the locations specified
+            ///     Returns the Node in the map corresponding to the locations specified
             /// </summary>
             /// <param name="loc">the location we want</param>
             /// <returns>The node in the map corresponding to the location</returns>
@@ -255,23 +253,22 @@ namespace Britbot
             }
 
             /// <summary>
-            /// calculates the F function (what we are minimizing)
+            ///     calculates the F function (what we are minimizing)
             /// </summary>
             /// <returns>F value</returns>
             public double F()
             {
-                return  (this.H + this.G);
+                return (this.H + this.G);
             }
 
             /// <summary>
-            /// checks if a curtain node is passible, meaning its wight isn't infinity
+            ///     checks if a curtain node is passible, meaning its wight isn't infinity
             /// </summary>
             /// <returns>True if it has a finite weight, else otherwise</returns>
             public bool IsPassable()
             {
                 return this.Weight < Node.Infinity;
             }
-
 
             public static void DebugPasses()
             {
@@ -280,7 +277,6 @@ namespace Britbot
                 {
                     for (int j = 0; j < Node.Map.GetLength(1); j++)
                     {
-
                         if (Node.Map[i, j].G == -1 && Node.Map[i, j].Weight < 3)
                             line += "*";
                         else if (Node.Map[i, j].H == 0)
@@ -289,16 +285,15 @@ namespace Britbot
                             line += "X";
                         else
                             line += "-";
-
-                            
                     }
                     Bot.Game.Debug(line);
                     line = "";
                 }
             }
+
             /// <summary>
-            /// returns the neighbors of the Node, meaning the adjacent location wich are not
-            /// impassible
+            ///     returns the neighbors of the Node, meaning the adjacent location wich are not
+            ///     impassible
             /// </summary>
             /// <returns></returns>
             public List<Node> GetNeighbors()
@@ -319,7 +314,7 @@ namespace Britbot
                 {
                     //get the iterated neighbor coordinates
                     int neighborX = X + coeff[delata];
-                    int neighborY = Y ;
+                    int neighborY = Y;
 
                     //check if out of bounderie, if so, continue to next iteration
                     if ((neighborX < 0) || (neighborX >= Bot.Game.GetCols()) ||
@@ -336,7 +331,7 @@ namespace Britbot
                 for (int delata = 0; delata < 2; delata++)
                 {
                     //get the iterated neighbor coordinates
-                    int neighborX = X ;
+                    int neighborX = X;
                     int neighborY = Y + coeff[delata];
 
                     //check if out of bounderie, if so, continue to next iteration
@@ -345,7 +340,7 @@ namespace Britbot
                         continue;
 
                     //check if impassable, if so, continue to next iteration
-                   /* if (!Node.Map[neighborY, neighborX].IsPassable())
+                    /* if (!Node.Map[neighborY, neighborX].IsPassable())
                         continue;*/
 
                     //if we are here it means that the neighbor is ok, so add him to the list
@@ -353,42 +348,6 @@ namespace Britbot
                 }
                 return neighbors;
             }
-
-            //-------------------operators----------------------
-
-            /// <summary>
-            /// Equals operator, compares the locations
-            /// </summary>
-            /// <param name="obj">the object we are comparing to</param>
-            /// <returns>true if the locations are the same, else otherwise</returns>
-           /* public override bool Equals(object obj)
-            {
-                //check if it is even a Node
-                if (obj.GetType() == this.GetType())
-                {
-                    return (this.Loc == ((Node) obj).Loc);
-                }
-                //otherwise
-                return false;
-            }*/
-            /*
-            /// <summary>
-            /// compares two nodes
-            /// first checks if null, else compares locations
-            /// </summary>
-            /// <param name="n1">first node</param>
-            /// <param name="n2">second node</param>
-            /// <returns></returns>
-            public static override bool operator ==(Node n1, Node n2)
-            {
-                //check nulls
-                if (object.ReferenceEquals(n1, null))
-                {
-                    return object.ReferenceEquals(n2, null);
-                }
-
-                return n1.Equals(n2);
-            }*/
         }
 
         #endregion

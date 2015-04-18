@@ -1,4 +1,4 @@
-﻿#region Usings
+﻿#region #Usings
 
 using System;
 using System.Collections.Generic;
@@ -16,11 +16,11 @@ namespace Britbot
     {
         #region Static Fields & Consts
 
-        public static int IdCount;
-
         //---------------#Magic_Numbers--------------------
         //numbers of turns for wich we save data
-        const int outOfDateNumber = 10;
+        private const int outOfDateNumber = 10;
+        public static int IdCount;
+
         #endregion
 
         #region Fields & Properies
@@ -29,6 +29,21 @@ namespace Britbot
         ///     unique-ish id for the enemy group
         /// </summary>
         public readonly int Id;
+
+        /// <summary>
+        ///     The last turn in which this target was assigned
+        /// </summary>
+        private int LastAssignmentTurn;
+
+        /// <summary>
+        ///     A queue of the last outOfDateNumber directions of this enemy group
+        /// </summary>
+        private Queue<Direction> LastDirections;
+
+        /// <summary>
+        ///     A queue of the last max fight power coefficients
+        /// </summary>
+        private Queue<int> LastMaxFightPower;
 
         /// <summary>
         ///     What is this?
@@ -40,21 +55,6 @@ namespace Britbot
         /// </summary>
         public List<int> EnemyPirates { get; private set; }
 
-        
-        /// <summary>
-        /// A queue of the last outOfDateNumber directions of this enemy group
-        /// </summary>
-        private Queue<Direction> LastDirections;
-
-        /// <summary>
-        /// A queue of the last max fight power coefficients
-        /// </summary>
-        private Queue<int> LastMaxFightPower;
-
-        /// <summary>
-        /// The last turn in which this target was assigned
-        /// </summary>
-        private int LastAssignmentTurn;
         #endregion
 
         #region Constructors & Initializers
@@ -102,7 +102,7 @@ namespace Britbot
 
             //check if the enemy group isn't in spawn
             //TODO: maybe we can be smarter here
-            if(!Bot.Game.IsPassable( this.GetLocation()))
+            if (!Bot.Game.IsPassable(this.GetLocation()))
                 return null;
 
             //next check if it even possible to catch the ship, otherwise disqualify
@@ -134,9 +134,10 @@ namespace Britbot
         }
 
         /// <summary>
-        ///     Returns the average location for this group 
+        ///     Returns the average location for this group
         /// </summary>
-        /// /// <param name="forcePirate">
+        /// ///
+        /// <param name="forcePirate">
         ///     if you ant the function to strictly return a location of a pirate or just the average
         ///     location
         /// </param>
@@ -144,67 +145,6 @@ namespace Britbot
         public Location GetLocation()
         {
             return GetLocation(false);
-        }
-
-        /// <summary>
-        ///     Returns the average location for this group 
-        /// </summary>
-        /// /// <param name="forcePirate">
-        ///     if you ant the function to strictly return a location of a pirate or just the average
-        ///     location
-        /// </param>
-        /// <returns>Returns the average location for this group or the pirate closest to the average</returns>
-        public Location GetLocation(bool forcePirate)
-        {
-            //Get a list of all location of the enemy pirates in this group
-            List<Location> locs = new List<Location>();
-
-            if (this.EnemyPirates == null)
-                return new Location(0, 0);
-
-            foreach (int e in this.EnemyPirates)
-            {
-                Pirate enemyPirate = Bot.Game.GetEnemyPirate(e);
-
-                if (enemyPirate != null)
-                    locs.Add(enemyPirate.Loc);
-            }
-
-            //sum all the locations!
-            int totalCol = locs.Sum(loc => loc.Col);
-            int totalRow = locs.Sum(loc => loc.Row);
-
-            Location averageLocation = new Location(0,0);
-
-            //return the average location
-            if (locs.Count != 0)
-                averageLocation =  new Location(totalRow / locs.Count, totalCol / locs.Count);
-
-            if (forcePirate)
-            {
-                int minDistance = Bot.Game.GetCols() + Bot.Game.GetCols();
-                Pirate pete = null;
-
-                //iterate over all the pirate and find the one with the minimun distance to the average location
-                foreach (Pirate pirate in this.EnemyPirates.ConvertAll(p => Bot.Game.GetEnemyPirate(p)))
-                {
-                    if (pirate.IsLost)
-                        continue;
-
-                    int currDistance = Bot.Game.Distance(averageLocation, pirate.Loc);
-                    if (currDistance < minDistance)
-                    {
-                        minDistance = currDistance;
-                        pete = pirate;
-                    }
-                }
-
-                //set the returned location to the central pirate location
-                if (pete != null)
-                    averageLocation = pete.Loc;
-            }
-
-            return averageLocation;
         }
 
         /// <summary>
@@ -259,18 +199,18 @@ namespace Britbot
         }
 
         /// <summary>
-        /// updates the last turn of assignment
+        ///     updates the last turn of assignment
         /// </summary>
-        public void TargetAssignmentEvent() 
+        public void TargetAssignmentEvent()
         {
             this.LastAssignmentTurn = Bot.Game.GetTurn();
         }
 
         /// <summary>
-        /// checks if last assignment wasn't to close
-        /// if so it adds to the enemy suspition metter
+        ///     checks if last assignment wasn't to close
+        ///     if so it adds to the enemy suspition metter
         /// </summary>
-        public void TargetDessignmentEvent() 
+        public void TargetDessignmentEvent()
         {
             //this defines what is the minimum turn number till it is legit to change target (on average)
             //---------------#Magic_Numbers--------------------
@@ -282,7 +222,70 @@ namespace Britbot
                 Enemy.EnemyIntelligenceSuspitionCounter++;
             }
         }
+
         #endregion
+
+        /// <summary>
+        ///     Returns the average location for this group
+        /// </summary>
+        /// ///
+        /// <param name="forcePirate">
+        ///     if you ant the function to strictly return a location of a pirate or just the average
+        ///     location
+        /// </param>
+        /// <returns>Returns the average location for this group or the pirate closest to the average</returns>
+        public Location GetLocation(bool forcePirate)
+        {
+            //Get a list of all location of the enemy pirates in this group
+            List<Location> locs = new List<Location>();
+
+            if (this.EnemyPirates == null)
+                return new Location(0, 0);
+
+            foreach (int e in this.EnemyPirates)
+            {
+                Pirate enemyPirate = Bot.Game.GetEnemyPirate(e);
+
+                if (enemyPirate != null)
+                    locs.Add(enemyPirate.Loc);
+            }
+
+            //sum all the locations!
+            int totalCol = locs.Sum(loc => loc.Col);
+            int totalRow = locs.Sum(loc => loc.Row);
+
+            Location averageLocation = new Location(0, 0);
+
+            //return the average location
+            if (locs.Count != 0)
+                averageLocation = new Location(totalRow / locs.Count, totalCol / locs.Count);
+
+            if (forcePirate)
+            {
+                int minDistance = Bot.Game.GetCols() + Bot.Game.GetCols();
+                Pirate pete = null;
+
+                //iterate over all the pirate and find the one with the minimun distance to the average location
+                foreach (Pirate pirate in this.EnemyPirates.ConvertAll(p => Bot.Game.GetEnemyPirate(p)))
+                {
+                    if (pirate.IsLost)
+                        continue;
+
+                    int currDistance = Bot.Game.Distance(averageLocation, pirate.Loc);
+                    if (currDistance < minDistance)
+                    {
+                        minDistance = currDistance;
+                        pete = pirate;
+                    }
+                }
+
+                //set the returned location to the central pirate location
+                if (pete != null)
+                    averageLocation = pete.Loc;
+            }
+
+            return averageLocation;
+        }
 
         /// <summary>
         ///     counts how many living pirates are in the group
@@ -294,11 +297,9 @@ namespace Britbot
             return EnemyPirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost);
         }
 
-        
-
         /// <summary>
-        /// Calculates the maximum amount of pirates supporting each other in the enemy
-        /// formation
+        ///     Calculates the maximum amount of pirates supporting each other in the enemy
+        ///     formation
         /// </summary>
         /// <returns>The maximum amount of pirates supporting each other in the enemy formation</returns>
         private int MaxFightCount()
@@ -313,7 +314,7 @@ namespace Britbot
                 Pirate pete = Bot.Game.GetEnemyPirate(pirate);
 
                 //check if this pirate counts
-                if(Bot.Game.isCapturing(pete))
+                if (Bot.Game.isCapturing(pete))
                     continue;
                 //count how many pirates are supporting him
                 int supportCount = 0;
@@ -329,7 +330,7 @@ namespace Britbot
                         continue;
 
                     //check if in range
-                    if (Bot.Game.EuclidianDistanceSquared(pete.Loc, otherPete.Loc) <= Bot.Game.GetAttackRadius()) 
+                    if (Bot.Game.EuclidianDistanceSquared(pete.Loc, otherPete.Loc) <= Bot.Game.GetAttackRadius())
                         supportCount++;
                 }
 
@@ -341,6 +342,7 @@ namespace Britbot
             //return result
             return maxFightCount;
         }
+
         /// <summary>
         ///     Determined the minimal time (or distance) between a Group and an
         ///     EnemyGroup before they will get into each others' attack radius.
@@ -463,8 +465,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// returns the average of the maximum fight power in the 
-        /// last outOfDateNumber of turns 
+        ///     returns the average of the maximum fight power in the
+        ///     last outOfDateNumber of turns
         /// </summary>
         /// <returns>returns the average of the maximum fight power</returns>
         public double GetMaxFightPower()
@@ -475,10 +477,10 @@ namespace Britbot
             //otherwise
             return this.LastMaxFightPower.Average();
         }
-        
+
         /// <summary>
-        /// This method updates the previous location, the last directions and the fighting power
-        /// of this enemy group
+        ///     This method updates the previous location, the last directions and the fighting power
+        ///     of this enemy group
         /// </summary>
         public void Update()
         {
@@ -492,7 +494,7 @@ namespace Britbot
             this.LastDirections.Enqueue(newDirection);
 
             //check if we need to throw irrelevant stuff out
-            if (this.LastDirections.Count > outOfDateNumber)
+            if (this.LastDirections.Count > EnemyGroup.outOfDateNumber)
             {
                 this.LastDirections.Dequeue();
             }
@@ -501,15 +503,15 @@ namespace Britbot
             this.LastMaxFightPower.Enqueue(this.MaxFightCount());
 
             //check if we need to throw irrelevant stuff out
-            if (this.LastMaxFightPower.Count > outOfDateNumber)
+            if (this.LastMaxFightPower.Count > EnemyGroup.outOfDateNumber)
             {
                 this.LastMaxFightPower.Dequeue();
             }
         }
 
         /// <summary>
-        /// This function calculates this enemy group direction based on its last directions
-        /// simply adds them up
+        ///     This function calculates this enemy group direction based on its last directions
+        ///     simply adds them up
         /// </summary>
         /// <returns>The heading of this enemy group</returns>
         public HeadingVector GetHeading()
@@ -530,9 +532,9 @@ namespace Britbot
         }
 
         /// <summary>
-        /// calculates a stability coefficient for this ship
-        /// 1 means high stability and 0 means low one
-        /// it becomes lower if there are many direction changes
+        ///     calculates a stability coefficient for this ship
+        ///     1 means high stability and 0 means low one
+        ///     it becomes lower if there are many direction changes
         /// </summary>
         /// <returns>Stability coefficient</returns>
         public double GetHeadingSabilityCoeff()
@@ -546,7 +548,7 @@ namespace Britbot
                 if (dir != Direction.NOTHING)
                     moveCount++;
             }
-            
+
             //if move count is 0 then target is stationary and thus very stable
             if (moveCount == 0)
                 return 1;
@@ -554,12 +556,10 @@ namespace Britbot
             return this.GetHeading().Norm1() / moveCount;
         }
 
-        
-
         public override string ToString()
         {
             return "EnemyGroup- id: " + this.Id + ", fight power: " + this.GetMaxFightPower()
-                   + ", Heading: " + this.GetHeading().ToString() + " location: " + GetLocation();
+                   + ", Heading: " + this.GetHeading() + " location: " + GetLocation();
         }
 
         /// <summary>
@@ -594,8 +594,8 @@ namespace Britbot
                 return false;
             return Equals((EnemyGroup) obj);
         }
-        
-        public bool IsFormed() 
+
+        public bool IsFormed()
         {
             Location[][] ringLocations = new Location[Group.GetRingCount(this.EnemyPirates.Count)][];
 
@@ -605,7 +605,7 @@ namespace Britbot
             //set the locations
             for (int i = 0; i < ringLocations.Length; i++)
             {
-                 ringLocations[i] = Group.GenerateRingLocations(pivot, i).ToArray();
+                ringLocations[i] = Group.GenerateRingLocations(pivot, i).ToArray();
             }
 
             //excluding the 0th ring which is special
