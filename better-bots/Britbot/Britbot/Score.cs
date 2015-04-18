@@ -57,7 +57,7 @@ namespace Britbot
             this.Value = value;
             this.Eta = eta;
             this.EnemyShips = EnemyShips;
-            this.MinTurnsToEnemyCapure = MinTurnsToEnemyCapture;
+            this.MinTurnsToEnemyCapture = MinTurnsToEnemyCapture;
         }
 
         #endregion
