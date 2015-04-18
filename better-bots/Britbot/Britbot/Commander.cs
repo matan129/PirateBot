@@ -296,14 +296,18 @@ namespace Britbot
                         score -= 1000;
                 }
             }
+            //TODO: 
+            //1. Take into account "Gold Islands" and increase numOfOwnedIslands accordingly
+            //2. Recalculate IslandOwnership when an enemy pirate dies (This will help better impliment the killing of enemy pirates in the score)
             for (int i = 0; i < maxIslandOwnership; i++)
             {
                 foreach (Score s in scoreArr)
                 {
                     if (s.Eta >= i)
-                        numOfOwnedIslands++;
+                        numOfOwnedIslands = numOfOwnedIslands + s.Value;
                     if (s.MinTurnsToEnemyCapture <= i)
-                        numOfOwnedIslands--;
+                        numOfOwnedIslands = numOfOwnedIslands - s.Value;
+
                     totalProjectedPoints = totalProjectedPoints + Math.Pow(2, numOfOwnedIslands);
                 }
             }
