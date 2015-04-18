@@ -66,7 +66,7 @@ namespace Britbot
         ///     Creates a new group with the given pirates
         /// </summary>
         /// <param name="piratesId">the pirates indexes to add to this group</param>
-        public Group(params int[] piratesId)
+        public Group(int[] piratesId)
             : this()
         {
             foreach (int index in piratesId)
@@ -90,6 +90,20 @@ namespace Britbot
 
             Bot.Game.Debug("===================GROUP {0}===================", this.Id);
         }
+
+        public Group(int index, int amount)
+            : this()
+        {
+            //Add pirates
+            for (; amount > 0; amount--)
+            {
+                this.Pirates.Add(index + amount - 1);
+            }
+
+            //generate forming (getting into structure) instructions
+            this.GenerateFormationInstructions();
+        }
+
 
         #endregion
 
