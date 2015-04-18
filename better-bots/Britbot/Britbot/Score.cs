@@ -12,7 +12,7 @@ namespace Britbot
     public class Score : IComparable, IComparable<Score>
     {
         #region Fields & Properies
-
+        public int MinTurnsToEnemyCapture;
         /// <summary>
         ///     Amount of enemy ships nearBy
         /// </summary>
@@ -50,13 +50,14 @@ namespace Britbot
         /// <param name="value">The Numerical value of the island</param>
         /// <param name="EnemyShips">amount of enemy ships nearby</param>
         /// <param name="eta">Estimated time to arrive at target</param>
-        public Score(ITarget target, TargetType type, double value, double EnemyShips, double eta)
+        public Score(ITarget target, TargetType type, double value, double EnemyShips, double eta, int MinTurnsToEnemyCapture)
         {
             this.Target = target;
             this.Type = type;
             this.Value = value;
             this.Eta = eta;
             this.EnemyShips = EnemyShips;
+            this.MinTurnsToEnemyCapure = MinTurnsToEnemyCapture;
         }
 
         #endregion
