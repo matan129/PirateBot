@@ -381,7 +381,7 @@ namespace Britbot
             //TODO: This is EXTEMELY inefficient, we dont need to go over each turn, we only need to go over turns in which things change, Ron talk to me sometime (Matan K)
             //TODO: add points also for killing pirates
             //TODO: Recalculate IslandOwnership when an enemy pirate dies (This will help better implement the killing of enemy pirates in the score)
-            for (int i = 0; i < maxIslandOwnership; i++)
+            /*for (int i = 0; i < maxIslandOwnership; i++)
             {
                 //calculate how many points we have in the i'th turn
                 double totalAditionalIslandPoints = 0;
@@ -392,11 +392,11 @@ namespace Britbot
                         totalAditionalIslandPoints += s.Value;
                 }
                 totalProjectedPoints += ScoreHelper.ComputePPT(totalAditionalIslandPoints);
-            }
+            }*/
 
             //TODO: give more points if we take an island from the enemy
 
-            return score + totalProjectedPoints;
+            return score + 100 * ScoreHelper.ComputePPT(ownedIslands) - timeAvg / scoreArr.Length;
         }
 
         /// <summary>

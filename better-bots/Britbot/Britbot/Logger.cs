@@ -100,14 +100,16 @@ namespace Britbot
         public static void Debug()
         {
 #if PROFILING
-            double avg = 0;
             Bot.Game.Debug("------------------------PROFILING-----------------------");
-            foreach (KeyValuePair<string, List<long>> kv in Logger.times)
+            foreach (KeyValuePair<string, Queue<long>> kv in Logger.times)
             {
-                avg += kv.Value.Average();
-                Bot.Game.Debug(kv.Key + " Avg: " + kv.Value.Average() + "\t Max: " + kv.Value.Max());
+                double avg = 0;
+                long[] arr = kv.Value.ToArray();
+                for (int i = 0; i < arr.Length; i++)
+                    avg += arr[i];
+
+                Bot.Game.Debug(kv.Key + " Avg: " + avg/arr.Length );
             }
-            Bot.Game.Debug("Total avg: " + avg);
 #endif
 
 #if DUMPFILE

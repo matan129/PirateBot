@@ -132,6 +132,8 @@ namespace Britbot
                 //update enemy threat
 
                 Node.CalculateEnemyWeight(group.FightCount());
+
+                //TODO: update also friendly location
             }
 
             /// <summary>
