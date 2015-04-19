@@ -265,55 +265,27 @@ namespace Britbot
         }
 
         /// <summary>
-        ///     Gets all permutations of a IEunumerable
-        ///     Complexity of O(n!)
+        ///     Finds the closest pirate to another pirate from a group of avaliable pirates
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="items"></param>
+        /// <param name="pirate"></param>
+        /// <param name="pool"></param>
         /// <returns></returns>
-        public static IEnumerable<IEnumerable<T>> Permutate<T>(this IEnumerable<T> items)
+        public static Pirate FindClosest(this Pirate pirate, List<Pirate> pool)
         {
-            foreach (T item in items)
+            int minDistance = 999999;
+            Pirate minPirate = pool.First();
+            foreach (Pirate pete in pool)
             {
-                T[] head = {item};
-                List<T> tail = items.Except(head).ToList();
-                IEnumerable<IEnumerable<T>> subLists = tail.Permutate();
-                if (subLists.Any())
-                {
-                    foreach (IEnumerable<T> subList in subLists)
-                    {
-                        yield return head.Concat(subList);
-                    }
-                }
-                else
-                {
-                    yield return head;
-                }
-            }
-        }
+                int d = Bot.Game.Distance(pirate, pete);
 
-        /// <summary>
-        ///     Get all the possible sub lists without duplicates
-        ///     Complexity of O(n * n!)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="items"></param>
-        /// <returns></returns>
-        public static List<IEnumerable<T>> PartialPermutate<T>(this IEnumerable<T> items)
-        {
-            List<IEnumerable<T>> result = new List<IEnumerable<T>>(items.Count() * Extensions.Factorial(items.Count()));
-
-            foreach (IEnumerable<T> permutation in items.Permutate())
-            {
-                for (int i = 1; i < permutation.Count(); i++)
+                if (d < minDistance)
                 {
-                    IEnumerable<T> current = items.Take(i);
-                    if (!result.Contains(current))
-                        result.Add(current);
+                    minDistance = d;
+                    minPirate = pete;
                 }
             }
 
-            return result;
+            return minPirate;
         }
     }
 }

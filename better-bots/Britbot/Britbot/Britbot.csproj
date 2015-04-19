@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoCorrectOptions.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="Commander.cs" />
     <Compile Include="Enemy.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Extentions.cs" />
     <Compile Include="Fallback\FallbackBot.cs" />
     <Compile Include="Group.cs" />
+    <Compile Include="Allocator.cs" />
     <Compile Include="HeadingVector.cs" />
     <Compile Include="ITarget.cs" />
     <Compile Include="Magic.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="ScoreHelper.cs" />
     <Compile Include="SmartIsland.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Zone.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
