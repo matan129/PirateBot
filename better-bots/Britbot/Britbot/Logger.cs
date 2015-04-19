@@ -19,7 +19,7 @@ namespace Britbot
     {
         #region Static Fields & Consts
 
-        private static Dictionary<string, List<long>> times = new Dictionary<string, List<long>>();
+        private static Dictionary<string, Queue<long>> times = new Dictionary<string, Queue<long>>();
         private static Dictionary<string, long> begins = new Dictionary<string, long>();
         private static Dictionary<string, int> count = new Dictionary<string, int>();
 
@@ -72,12 +72,16 @@ namespace Britbot
 
             if (Logger.times.ContainsKey(key))
             {
-                Logger.times[key].Add(Commander.TurnTimer.ElapsedMilliseconds - Logger.begins[key]);
+                Logger.times[key].Enqueue(Commander.TurnTimer.ElapsedMilliseconds - Logger.begins[key]);
             }
             else
             {
-                Logger.times.Add(key, new List<long>());
-                Logger.times[key].Add(Commander.TurnTimer.ElapsedMilliseconds - Logger.begins[key]);
+                Logger.times.Add(key, new Queue<long>());
+                Logger.times[key].Enqueue(Commander.TurnTimer.ElapsedMilliseconds - Logger.begins[key]);
+
+                //keep the logger small
+                if (Logger.times[key].Count > 100)
+                    Logger.times[key].Dequeue();
             }
         }
 
