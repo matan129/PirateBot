@@ -6,6 +6,6 @@
         Zone = 2,
         Higher = 4,
         Lower = 8,
-        All = 16,
+        All = 16
     }
 }

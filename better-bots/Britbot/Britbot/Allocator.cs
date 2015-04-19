@@ -1,15 +1,17 @@
-﻿using System;
+﻿#region #Usings
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace Britbot
 {
     /// <summary>
     ///     This is a utility class for doing the hard job of choosing spesific pirate for groups, etc
     /// </summary>
-    static class Allocator
+    internal static class Allocator
     {
         /// <summary>
         ///     Get spesific pirate for each group in the given config
@@ -18,29 +20,28 @@ namespace Britbot
         /// <returns></returns>
         public static List<List<int>> PhysicalSplit(params int[] config)
         {
-            var zones = Zone.IdentifyZones();
+            List<List<int>> zones = Zone.IdentifyZones();
 
-            
 
             List<List<int>> groups = new List<List<int>>(config.Length);
 
             config = Allocator.AutoCorrectConfig(config);
 
             List<Zone> zoneConfig;
-            if(zones.Count > 1)
+            if (zones.Count > 1)
                 zoneConfig = Allocator.CorrectByZones(config);
             else
-                zoneConfig = new List<Zone>() { new Zone(config.Sum()) };
-            
+                zoneConfig = new List<Zone> {new Zone(config.Sum())};
+
             //sort zones by size
-            zoneConfig.Sort((a,b) => a.Capacity.CompareTo(b.Capacity));
+            zoneConfig.Sort((a, b) => a.Capacity.CompareTo(b.Capacity));
 
             //this comes already sorted by size.
             List<int>[] physicalZones = zones.ToArray();
 
             for (int i = 0; i < zoneConfig.Count; i++)
             {
-                groups.AddRange(Zone.SplitZone(physicalZones[i],zoneConfig[i].Groups));
+                groups.AddRange(Zone.SplitZone(physicalZones[i], zoneConfig[i].Groups));
             }
 
             return groups;
@@ -147,7 +148,8 @@ namespace Britbot
         /// <param name="autoCorrectLevel"></param>
         /// <param name="config"></param>
         /// <returns></returns>
-        private static int[] AutoCorrectConfig(int[] config, AutoCorrectOptions autoCorrectLevel = AutoCorrectOptions.All)
+        private static int[] AutoCorrectConfig(int[] config,
+            AutoCorrectOptions autoCorrectLevel = AutoCorrectOptions.All)
         {
             int sum = config.Sum();
             int pirateCount = Bot.Game.AllMyPirates().Count;
@@ -170,8 +172,9 @@ namespace Britbot
                     if (sum > pirateCount)
                     {
                         if (autoCorrectLevel < AutoCorrectOptions.Higher)
-                            throw new AllocationException(string.Format("ALLOCATED ERROR: Expected {0} pirates, but got {1}",
-                                pirateCount, sum));
+                            throw new AllocationException(
+                                string.Format("ALLOCATED ERROR: Expected {0} pirates, but got {1}",
+                                    pirateCount, sum));
 
                         Bot.Game.Debug("Correcting config...");
 

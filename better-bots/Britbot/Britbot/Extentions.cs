@@ -263,7 +263,7 @@ namespace Britbot
 
             return f;
         }
-        
+
         /// <summary>
         ///     Finds the closest pirate to another pirate from a group of avaliable pirates
         /// </summary>

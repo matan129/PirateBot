@@ -11,6 +11,12 @@ namespace Britbot
 {
     internal class Zone
     {
+        #region Static Fields & Consts
+
+        private static List<List<int>> Zones;
+
+        #endregion
+
         #region Fields & Properies
 
         public readonly int Capacity;
@@ -62,8 +68,6 @@ namespace Britbot
             return false;
         }
 
-        private static List<List<int>> Zones;
-
         /// <summary>
         ///     Splits all out pirates into different zones
         /// </summary>
@@ -71,7 +75,7 @@ namespace Britbot
         internal static List<List<int>> IdentifyZones()
         {
             if (Zone.Zones != null)
-                return Zones;
+                return Zone.Zones;
 
             List<Zone> zones = new List<Zone>();
             IEnumerable<Pirate> pirates = Bot.Game.AllMyPirates();
