@@ -141,6 +141,94 @@ namespace Britbot
 
         #endregion
 
+        /// <summary>
+        ///     Do something!
+        /// </summary>
+        public static Dictionary<Pirate, Direction> Play(CancellationToken cancellationToken, out bool onTime)
+        {
+            Commander.TurnTimer.Restart();
+
+            //note that because this method is on a separate thread we need this try-catch although we have on our bot
+            try
+            {
+                Logger.BeginTime("Update");
+                //update the enemy info
+                Enemy.Update(cancellationToken);
+                Logger.StopTime("Update");
+
+                //update smartIslands
+                SmartIsland.UpdateAll();
+
+                Logger.BeginTime("CalculateAndAssignTargets");
+                //calculate targets
+                Commander.CalculateAndAssignTargets(cancellationToken);
+                Logger.StopTime("CalculateAndAssignTargets");
+
+
+                Logger.BeginTime("GetAllMoves");
+                //Get the moves for all the pirates and return them
+                Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
+                Logger.StopTime("GetAllMoves");
+                Bot.Game.Debug("Commander done doing calculations and drinking coffee after {0}ms",
+                    Commander.TurnTimer.ElapsedMilliseconds);
+
+                //we are on time!
+                onTime = true;
+
+                return moves;
+            }
+            catch (AggregateException ex)
+            {
+                Bot.Game.Debug("****** COMMANDER EXITING DUE TO AggregateException ******");
+                foreach (Exception e in ex.InnerExceptions)
+                    Bot.Game.Debug(e.ToString());
+                onTime = false;
+                Logger.Debug();
+                return new Dictionary<Pirate, Direction>();
+            }
+            catch (OperationCanceledException) //catch task cancellation
+            {
+                Bot.Game.Debug("****** COMMANDER EXITING DUE TO TASK CANCELLATION ******");
+                onTime = false;
+                Logger.Debug();
+                return new Dictionary<Pirate, Direction>();
+            }
+            catch (Exception ex) //catch everyting else
+            {
+                Bot.Game.Debug("==========COMMANDER EXCEPTION============");
+                Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
+
+                //Holy shit. This actually works!!
+                StackTrace exTrace = new StackTrace(ex, true);
+                StackFrame frame = exTrace.GetFrame(0);
+                Bot.Game.Debug("The exception was thrown from method {0} at file {1} at line #{2}", frame.GetMethod(),
+                    frame.GetFileName(), frame.GetFileLineNumber());
+
+                Bot.Game.Debug("==========COMMANDER EXCEPTION============");
+                onTime = false;
+                Logger.Debug();
+                return new Dictionary<Pirate, Direction>();
+            }
+        }
+
+        /// <summary>
+        ///     Allocates groups
+        /// </summary>
+        /// <param name="config"></param>
+        public static void Allocate(params int[] config)
+        {
+            Commander.Groups.Clear();
+
+            foreach (List<int> piratesInGroup in Allocator.PhysicalSplit(config))
+            {
+                Commander.Groups.Add(new Group(piratesInGroup.ToArray()));
+            }
+        }
+
+        /// <summary>
+        ///     Max proirities we can affort to compute and iterate over
+        /// </summary>
+        /// <returns></returns>
         public static int CalcMaxPrioritiesNum()
         {
             return (int) (Math.Pow(Magic.MaxIterator, 1.0 / Commander.Groups.Count));
@@ -301,7 +389,7 @@ namespace Britbot
                 {
                     //check if this target gives us points this turn
                     if ((s.Eta >= i) && (s.MinTurnsToEnemyCapture < i))
-                        totalAditionalIslandPoints += s.Value;  
+                        totalAditionalIslandPoints += s.Value;
                 }
                 totalProjectedPoints += ScoreHelper.ComputePPT(totalAditionalIslandPoints);
             }
@@ -309,94 +397,6 @@ namespace Britbot
             //TODO: give more points if we take an island from the enemy
 
             return score + totalProjectedPoints;
-        }
-
-        /// <summary>
-        ///     Checks if a specific pirate is already occupied in some group
-        /// </summary>
-        /// <param name="pirate">id of the target</param>
-        /// <returns>true if it is already assigned, false otherwise</returns>
-        public static bool IsEmployed(int pirate)
-        {
-            //going over all the groups searching for the specific pirate
-            foreach (Group group in Commander.Groups)
-            {
-                //if found return true
-                if (group.Pirates.Contains(pirate))
-                    return true;
-            }
-            //else return false
-            return false;
-        }
-
-        /// <summary>
-        ///     Do something!
-        /// </summary>
-        public static Dictionary<Pirate, Direction> Play(CancellationToken cancellationToken, out bool onTime)
-        {
-            Commander.TurnTimer.Restart();
-
-            //note that because this method is on a separate thread we need this try-catch although we have on our bot
-            try
-            {
-                Logger.BeginTime("Update");
-                //update the enemy info
-                Enemy.Update(cancellationToken);
-                Logger.StopTime("Update");
-
-                //update smartIslands
-                SmartIsland.UpdateAll();
-
-                Logger.BeginTime("CalculateAndAssignTargets");
-                //calculate targets
-                Commander.CalculateAndAssignTargets(cancellationToken);
-                Logger.StopTime("CalculateAndAssignTargets");
-
-
-                Logger.BeginTime("GetAllMoves");
-                //Get the moves for all the pirates and return them
-                Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
-                Logger.StopTime("GetAllMoves");
-                Bot.Game.Debug("Commander done doing calculations and drinking coffee after {0}ms",
-                    Commander.TurnTimer.ElapsedMilliseconds);
-
-                //we are on time!
-                onTime = true;
-
-                return moves;
-            }
-            catch (AggregateException ex)
-            {
-                Bot.Game.Debug("****** COMMANDER EXITING DUE TO AggregateException ******");
-                foreach (Exception e in ex.InnerExceptions)
-                    Bot.Game.Debug(e.ToString());
-                onTime = false;
-                Logger.Debug();
-                return new Dictionary<Pirate, Direction>();
-            }
-            catch (OperationCanceledException) //catch task cancellation
-            {
-                Bot.Game.Debug("****** COMMANDER EXITING DUE TO TASK CANCELLATION ******");
-                onTime = false;
-                Logger.Debug();
-                return new Dictionary<Pirate, Direction>();
-            }
-            catch (Exception ex) //catch everyting else
-            {
-                Bot.Game.Debug("==========COMMANDER EXCEPTION============");
-                Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
-
-                //Holy shit. This actually works!!
-                StackTrace exTrace = new StackTrace(ex, true);
-                StackFrame frame = exTrace.GetFrame(0);
-                Bot.Game.Debug("The exception was thrown from method {0} at file {1} at line #{2}", frame.GetMethod(),
-                    frame.GetFileName(), frame.GetFileLineNumber());
-
-                Bot.Game.Debug("==========COMMANDER EXCEPTION============");
-                onTime = false;
-                Logger.Debug();
-                return new Dictionary<Pirate, Direction>();
-            }
         }
 
         /// <summary>
