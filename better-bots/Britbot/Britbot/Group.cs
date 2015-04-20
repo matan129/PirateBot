@@ -797,5 +797,14 @@ namespace Britbot
             //this is basic summation of arithmetic sequence, excluding the 0th ring because it's special. then we add it back.
             return (((2 * maxRing + 2) * maxRing) + 1);
         }
+        /// <summary>
+        /// A most mysterious thingy
+        /// </summary>
+        /// <param name="num"></param>
+        public void Split(int num)
+        {
+            throw new NotImplementedException();
+
+        }
     }
 }
