@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Pirates;
 
 #endregion
@@ -262,30 +261,6 @@ namespace Britbot
             }
 
             return f;
-        }
-
-        /// <summary>
-        ///     Finds the closest pirate to another pirate from a group of avaliable pirates
-        /// </summary>
-        /// <param name="pirate"></param>
-        /// <param name="pool"></param>
-        /// <returns></returns>
-        public static Pirate FindClosest(this Pirate pirate, List<Pirate> pool)
-        {
-            int minDistance = 999999;
-            Pirate minPirate = pool.First();
-            foreach (Pirate pete in pool)
-            {
-                int d = Bot.Game.Distance(pirate, pete);
-
-                if (d < minDistance)
-                {
-                    minDistance = d;
-                    minPirate = pete;
-                }
-            }
-
-            return minPirate;
         }
     }
 }

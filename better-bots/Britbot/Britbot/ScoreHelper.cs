@@ -34,7 +34,7 @@ namespace Britbot
             if (Bot.Game.MyIslands().Count + totalIslandValues == 0)
                 return 0;
             //otherise we multiply with what we already get each turn
-            return Math.Floor(Math.Pow(2,Bot.Game.MyIslands().Count + totalIslandValues - 1));
+            return Math.Floor(Math.Pow(2, Bot.Game.MyIslands().Count + totalIslandValues - 1));
         }
     }
 }

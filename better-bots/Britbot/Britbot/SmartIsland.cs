@@ -247,7 +247,7 @@ namespace Britbot
                 {
                     //Calculates the sum of pirates in proximity to the island
                     //if distance is 0 then one of the pirates in on the island and we dont need to count it
-                    if(distance == 0)
+                    if (distance == 0)
                         enemyCount = enemyCount + eGroup.EnemyPirates.Count - 1;
                     else
                         enemyCount = enemyCount + eGroup.EnemyPirates.Count;

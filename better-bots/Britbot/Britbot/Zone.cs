@@ -1,6 +1,5 @@
 ﻿#region #Usings
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Pirates;
@@ -13,40 +12,66 @@ namespace Britbot
     {
         #region Static Fields & Consts
 
-        private static List<List<int>> Zones;
+        public static List<Zone> Zones;
 
         #endregion
 
         #region Fields & Properies
 
         public readonly int Capacity;
-        public List<int> PiratesInZone = new List<int>();
-        public int AvaliablePirates { get; private set; }
+        public int AvaliableSpots { get; private set; }
+        public List<int> PiratesInZone { get; private set; }
         public List<int> Groups { get; private set; }
 
         #endregion
 
         #region Constructors & Initializers
 
-        public Zone(int avaliablePirates)
+        /// <summary>
+        ///     Static ctor
+        /// </summary>
+        static Zone()
         {
-            this.Capacity = avaliablePirates;
-            this.AvaliablePirates = avaliablePirates;
+            Zone.Zones = new List<Zone>();
+            Zone.IdentifyZones();
+        }
+
+        /// <summary>
+        ///     Ctor
+        /// </summary>
+        /// <param name="avaliableSpots"></param>
+        public Zone(int avaliableSpots)
+            : this()
+        {
+            this.Capacity = avaliableSpots;
+            this.AvaliableSpots = avaliableSpots;
+        }
+
+        /// <summary>
+        ///     Private ctor
+        /// </summary>
+        private Zone()
+        {
+            this.PiratesInZone = new List<int>();
             this.Groups = new List<int>();
         }
 
         #endregion
 
+        /// <summary>
+        ///     Marks that some pirates are anout to be allocated in this zone.
+        /// </summary>
+        /// <param name="count"></param>
         public void AddGroup(int count)
         {
-            if (this.AvaliablePirates >= count)
+            if (this.AvaliableSpots >= count)
             {
-                this.AvaliablePirates -= count;
+                this.AvaliableSpots -= count;
                 this.Groups.Add(count);
             }
             else
             {
-                throw new Exception("Not enough space in the zone");
+                throw new AllocationException("Not enough space in the zone");
             }
         }
 
@@ -55,13 +80,11 @@ namespace Britbot
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        private bool IsInGroup(Pirate p)
+        private bool InZone(Pirate p)
         {
-            foreach (int i in this.PiratesInZone)
+            foreach (int pete in this.PiratesInZone)
             {
-                Pirate pete = Bot.Game.GetMyPirate(i);
-
-                if (Bot.Game.InRange(p, pete))
+                if (Bot.Game.InRange(p, Bot.Game.GetMyPirate(pete)))
                     return true;
             }
 
@@ -72,39 +95,28 @@ namespace Britbot
         ///     Splits all out pirates into different zones
         /// </summary>
         /// <returns></returns>
-        internal static List<List<int>> IdentifyZones()
+        private static void IdentifyZones()
         {
-            if (Zone.Zones != null)
-                return Zone.Zones;
-
-            List<Zone> zones = new List<Zone>();
             IEnumerable<Pirate> pirates = Bot.Game.AllMyPirates();
 
             foreach (Pirate pete in pirates)
             {
-                Zone temp = new Zone(0);
+                Zone currentZone = new Zone();
+                currentZone.PiratesInZone.Add(pete.Id);
 
-                List<Zone> conatainsPete = zones.Where(z => z.IsInGroup(pete)).ToList();
+                // the following line is a closure, so some compilers may break it if we don't re assign it
+                Pirate temp = pete;
+                IEnumerable<Zone> conatainsPete = Zone.Zones.Where(z => z.InZone(temp));
 
-                zones.RemoveAll(z => z.IsInGroup(pete));
+                Zone.Zones.RemoveAll(z => z.InZone(pete));
 
                 foreach (Zone z in conatainsPete)
                 {
-                    temp.PiratesInZone.AddRange(z.PiratesInZone);
+                    currentZone.PiratesInZone.AddRange(z.PiratesInZone);
                 }
 
-                zones.Add(temp);
+                Zone.Zones.Add(currentZone);
             }
-
-            List<List<int>> res = new List<List<int>>(zones.Count);
-
-            foreach (Zone zone in zones)
-            {
-                res.Add(zone.Groups);
-            }
-
-            Zone.Zones = res;
-            return res;
         }
 
         /// <summary>
@@ -115,17 +127,28 @@ namespace Britbot
         /// <returns></returns>
         public static IEnumerable<List<int>> SplitZone(List<int> physicalZone, List<int> config)
         {
+            Bot.Game.Debug("Physical allocation in progrees. Configuration of " + string.Join(",", config) +
+                           "at zone with " + physicalZone.Count + " pirates");
+
+            //Check if the data is correct
             if (physicalZone.Count != config.Sum())
                 throw new AllocationException(
                     string.Format("Bad zone split. Expected {0} pirates and got {1} in the config", physicalZone.Count,
                         config.Sum()));
 
+            //yield each group in the zone
             foreach (int groupInZone in config)
             {
                 yield return Zone.SelectGroup(ref physicalZone, groupInZone);
             }
         }
 
+        /// <summary>
+        ///     Selects a group from a given pool of pirates (no pun intneded)
+        /// </summary>
+        /// <param name="avaliablePirates">The IDs of the pirates avaliable to choose</param>
+        /// <param name="amount">How many pirates should this method choose from the list?</param>
+        /// <returns>List of pirate IDs for a group</returns>
         private static List<int> SelectGroup(ref List<int> avaliablePirates, int amount)
         {
             List<int> groupPiratesId = new List<int>(amount);
@@ -149,6 +172,7 @@ namespace Britbot
                 //sort the pirates so the top most ones are first
                 pirates.Sort((a, b) => b.Loc.Row.CompareTo(a.Loc.Row));
 
+                //find the left and top most pirate
                 foreach (Pirate pete in pirates)
                 {
                     if (pete.Loc.Col < leftMax)
@@ -157,18 +181,57 @@ namespace Britbot
                     }
                 }
 
+                //the left most pirate is the "anchor" for the group
+                groupPiratesId.Add(leftMost.Id);
+
                 while (groupPiratesId.Count < amount)
                 {
-                    Pirate current = leftMost.FindClosest(pirates);
+                    //find the closest pirate to the currenly selected group (greedy alg)
+                    Pirate current = Zone.AverageClosest(groupPiratesId.ConvertAll(p => Bot.Game.GetMyPirate(p)),
+                        pirates);
+
                     groupPiratesId.Add(current.Id);
-
                     avaliablePirates.Remove(current.Id);
-
-                    leftMost = current;
                 }
             }
 
             return groupPiratesId;
+        }
+
+        /// <summary>
+        ///     Finds the closest pirate to another pirate from a group of avaliable pirates
+        /// </summary>
+        /// <param name="group">The already selected pirates</param>
+        /// <param name="pool">The avaliable pirates to choose from</param>
+        /// <returns>A pirate closest on average to the give pirates</returns>
+        public static Pirate AverageClosest(IEnumerable<Pirate> group, IEnumerable<Pirate> pool)
+        {
+            int minDistance = 999999;
+
+            Location average = new Location(0, 0);
+
+            foreach (Pirate pete in group)
+            {
+                average.Col += pete.Loc.Col;
+                average.Row += pete.Loc.Row;
+            }
+
+            average.Col /= group.Count();
+            average.Row /= group.Count();
+
+            Pirate minPirate = pool.First();
+            foreach (Pirate pete in pool)
+            {
+                int d = Bot.Game.Distance(average, pete.Loc);
+
+                if (d < minDistance)
+                {
+                    minDistance = d;
+                    minPirate = pete;
+                }
+            }
+
+            return minPirate;
         }
     }
 }

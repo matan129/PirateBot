@@ -65,6 +65,9 @@ namespace Britbot
                 case 3:
                     Commander.Groups.Add(new Group(0, 2));
                     Commander.Groups.Add(new Group(2, 1));
+
+                    //Allocator dry run
+                    Allocator.PhysicalSplit(2, 1);
                     break;
                 case 4:
                     if (Bot.Game.AllEnemyPirates().Count > 4)
@@ -72,35 +75,55 @@ namespace Britbot
                         Commander.Groups.Add(new Group(0, 1));
                         Commander.Groups.Add(new Group(1, 1));
                         Commander.Groups.Add(new Group(2, 2));
+
+                        //Allocator dry run
+                        Allocator.PhysicalSplit(2, 1, 1);
                     }
                     else
                     {
                         Commander.Groups.Add(new Group(0, 3));
                         Commander.Groups.Add(new Group(3, 1));
+
+                        //Allocator dry run
+                        Allocator.PhysicalSplit(3, 1);
                     }
                     break;
                 case 5:
                     Commander.Groups.Add(new Group(0, 2));
                     Commander.Groups.Add(new Group(2, 2));
                     Commander.Groups.Add(new Group(4, 1));
+
+                    //Allocator dry run
+                    Allocator.PhysicalSplit(2, 2, 1);
                     break;
                 case 6:
                     if (Bot.Game.EnemyIslands().Count > 0)
                     {
                         Commander.Groups.Add(new Group(0, 5));
                         Commander.Groups.Add(new Group(5, 1));
+
+                        //Allocator dry run
+                        Allocator.PhysicalSplit(5, 1);
                     }
                     else
                     {
                         Commander.Groups.Add(new Group(2, 4));
                         Commander.Groups.Add(new Group(0, 1));
                         Commander.Groups.Add(new Group(1, 1));
+
+
+                        //Allocator dry run
+                        Allocator.PhysicalSplit(4, 1, 1);
                     }
                     break;
                 case 7:
                     Commander.Groups.Add(new Group(0, 2));
                     Commander.Groups.Add(new Group(2, 3));
                     Commander.Groups.Add(new Group(5, 2));
+
+
+                    //Allocator dry run
+                    Allocator.PhysicalSplit(3, 2, 2);
                     break;
                 case 8:
                     if (Bot.Game.GetMyPirate(7).Loc.Row == 39)
@@ -108,6 +131,10 @@ namespace Britbot
                         Commander.Groups.Add(new Group(0, 4));
                         Commander.Groups.Add(new Group(4, 3));
                         Commander.Groups.Add(new Group(7, 1));
+
+
+                        //Allocator dry run
+                        Allocator.PhysicalSplit(4, 3, 1);
                     }
                     else
                     {
@@ -115,6 +142,10 @@ namespace Britbot
                         Commander.Groups.Add(new Group(3, 2));
                         Commander.Groups.Add(new Group(5, 2));
                         Commander.Groups.Add(new Group(7, 1));
+
+
+                        //Allocator dry run
+                        Allocator.PhysicalSplit(2, 2, 3, 1);
                     }
                     break;
                 case 9:
@@ -122,6 +153,10 @@ namespace Britbot
                     Commander.Groups.Add(new Group(3, 3));
                     Commander.Groups.Add(new Group(6, 2));
                     Commander.Groups.Add(new Group(8, 1));
+
+
+                    //Allocator dry run
+                    Allocator.PhysicalSplit(3, 3, 2, 1);
                     break;
                 default:
                     /*for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)

@@ -12,6 +12,10 @@
         /// </summary>
         public static int MaxIterator = 10000;
 
+        #endregion
+
+        #region Fields & Properies
+
         public static int DangerZone
         {
             get { return 6 * Bot.Game.GetAttackRadius(); }

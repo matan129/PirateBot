@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 #endregion
@@ -20,28 +21,48 @@ namespace Britbot
         /// <returns></returns>
         public static List<List<int>> PhysicalSplit(params int[] config)
         {
-            List<List<int>> zones = Zone.IdentifyZones();
-
-
             List<List<int>> groups = new List<List<int>>(config.Length);
-
-            config = Allocator.AutoCorrectConfig(config);
-
-            List<Zone> zoneConfig;
-            if (zones.Count > 1)
-                zoneConfig = Allocator.CorrectByZones(config);
-            else
-                zoneConfig = new List<Zone> {new Zone(config.Sum())};
-
-            //sort zones by size
-            zoneConfig.Sort((a, b) => a.Capacity.CompareTo(b.Capacity));
-
-            //this comes already sorted by size.
-            List<int>[] physicalZones = zones.ToArray();
-
-            for (int i = 0; i < zoneConfig.Count; i++)
+            try
             {
-                groups.AddRange(Zone.SplitZone(physicalZones[i], zoneConfig[i].Groups));
+                Bot.Game.Debug("=== ALLOCATOR ===");
+                Bot.Game.Debug("Got config of " + string.Join(",", config));
+
+                List<Zone> zones = Zone.Zones;
+                List<Zone> zoneConfig;
+
+                Bot.Game.Debug("Zones: " + string.Join(",", zones.ConvertAll(z => z.PiratesInZone.Count)));
+
+                config = Allocator.AutoCorrectConfig(config);
+
+                Bot.Game.Debug("Adjusted config to " + string.Join(",", config));
+
+                zoneConfig = Allocator.CorrectByZones(config);
+
+                Bot.Game.Debug("Final Config: " +
+                               string.Join(",", zoneConfig.ConvertAll(z => z.Capacity - z.AvaliableSpots)));
+
+                //sort zones by size
+                zoneConfig.Sort((a, b) => a.Capacity.CompareTo(b.Capacity));
+
+                //this comes already sorted by size.
+                List<int>[] physicalZones = zones.ConvertAll(z => z.PiratesInZone).ToArray();
+
+                for (int i = 0; i < zoneConfig.Count; i++)
+                {
+                    groups.AddRange(Zone.SplitZone(physicalZones[i], zoneConfig[i].Groups));
+                }
+            }
+            catch (Exception ex)
+            {
+                Bot.Game.Debug("==========ALLOCATOR EXCEPTION============");
+                Bot.Game.Debug("Allocation stopped because of exception: " + ex.Message);
+
+                StackTrace exTrace = new StackTrace(ex, true);
+                StackFrame frame = exTrace.GetFrame(0);
+                Bot.Game.Debug("The exception was thrown from method {0} at file {1} at line #{2}", frame.GetMethod(),
+                    frame.GetFileName(), frame.GetFileLineNumber());
+
+                Bot.Game.Debug("==========ALLOCATOR EXCEPTION============");
             }
 
             return groups;
@@ -56,31 +77,28 @@ namespace Britbot
         {
             Bot.Game.Debug("Adjusting config according to zones...");
 
-            //split our pirates to zones.
-            List<List<int>> myZones = Zone.IdentifyZones();
-
             //sort the zones by size (bigger first)
-            myZones.Sort((a, b) => a.Count.CompareTo(b.Count));
+            Zone.Zones.Sort((a, b) => a.PiratesInZone.Count.CompareTo(b.PiratesInZone.Count));
 
             //sort the config (bigger values first)
             Array.Sort(config, (a, b) => a.CompareTo(b));
 
             //i.e. 4, {2,2} = zone of 4 pirates divided to 2 groups of two
-            List<Zone> zoneConfig = new List<Zone>(myZones.Count);
+            List<Zone> zoneConfig = new List<Zone>(Zone.Zones.Count);
 
             //init list
-            foreach (List<int> zone in myZones)
+            foreach (Zone z in Zone.Zones)
             {
-                if (zone.Count == 0)
+                if (z.PiratesInZone.Count == 0)
                     continue;
 
-                zoneConfig.Add(new Zone(zone.Count));
+                zoneConfig.Add(new Zone(z.PiratesInZone.Count));
             }
 
             //first of all, match groups which fill 100% of a zone
             foreach (Zone zone in zoneConfig)
             {
-                if (zone.AvaliablePirates == 0)
+                if (zone.AvaliableSpots == 0)
                     continue;
 
                 for (int k = 0; k < config.Length; k++)
@@ -88,7 +106,7 @@ namespace Britbot
                     if (config[k] == 0)
                         continue;
 
-                    if (config[k] == zone.AvaliablePirates)
+                    if (config[k] == zone.AvaliableSpots)
                     {
                         zone.AddGroup(config[k]);
                         config[k] = 0;
@@ -100,7 +118,7 @@ namespace Britbot
             //first matching round
             foreach (Zone zone in zoneConfig)
             {
-                if (zone.AvaliablePirates == 0)
+                if (zone.AvaliableSpots == 0)
                     continue;
 
                 for (int k = 0; k < config.Length; k++)
@@ -110,7 +128,7 @@ namespace Britbot
                     if (gConf == 0)
                         continue;
 
-                    if (zone.AvaliablePirates >= gConf)
+                    if (zone.AvaliableSpots >= gConf)
                     {
                         zone.AddGroup(gConf);
                         config[k] = 0;
@@ -122,7 +140,7 @@ namespace Britbot
             foreach (Zone zone in zoneConfig)
             {
                 //skip full zones
-                if (zone.AvaliablePirates == 0)
+                if (zone.AvaliableSpots == 0)
                     continue;
 
                 for (int i = 0; i < config.Length; i++)
@@ -131,13 +149,16 @@ namespace Britbot
                     if (config[i] == 0)
                         continue;
 
-                    config[i] -= zone.AvaliablePirates;
-                    zone.AddGroup(zone.AvaliablePirates);
+                    config[i] -= zone.AvaliableSpots;
+                    zone.AddGroup(zone.AvaliableSpots);
                 }
             }
 
-            if (zoneConfig.Any(z => z.AvaliablePirates != 0))
+            if (zoneConfig.Any(z => z.AvaliableSpots != 0))
                 goto firstRound; //kill me.
+
+            Bot.Game.Debug("Zone adjusted configuration: " +
+                           string.Join(",", zoneConfig.ConvertAll(z => z.PiratesInZone.Count)));
 
             return zoneConfig;
         }
