@@ -22,8 +22,9 @@ doxygen BotDoc
 cd html
 
 git add .
-git config user.name "${COMMIT_USER}"
-git config user.email "${COMMIT_EMAIL}"
+git config --global user.name "${COMMIT_USER}"
+git config --global user.email "${COMMIT_EMAIL}"
 git commit -m "Automated documentation build for changeset ${CHANGESET}."
-git push --force "https://${GH_TOKEN}@${GH_REF}" 
+echo commitOK
+git push origin gh-pages
 exit 0
