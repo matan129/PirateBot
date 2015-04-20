@@ -17,7 +17,7 @@ cd ${HTML_PATH}
 git rm -rf .
 cd -
 
-cd ${CONIG_PATH}
+cd ${CONFIG_PATH}
 doxygen BotDoc
 cd html
 
@@ -26,3 +26,4 @@ git config user.name "${COMMIT_USER}"
 git config user.email "${COMMIT_EMAIL}"
 git commit -m "Automated documentation build for changeset ${CHANGESET}."
 git push --force "https://${GH_TOKEN}@${GH_REF}" 
+exit 0
