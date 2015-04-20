@@ -79,7 +79,7 @@ namespace Britbot
         /// <summary>
         ///     Just a ctor to do to common stuff (called from the other ctors above by "this()" statement)
         /// </summary>
-        private Group()
+        public Group()
         {
             this.Pirates = new List<int>();
             this.Heading = new HeadingVector(0, 0);
@@ -802,6 +802,15 @@ namespace Britbot
         /// </summary>
         /// <param name="num"></param>
         public void Split(int num)
+        {
+            throw new NotImplementedException();
+
+        }
+        /// <summary>
+        /// A most mysterious thingy #2
+        /// </summary>
+        /// <param name="g"></param>
+        public void Join(Group g)
         {
             throw new NotImplementedException();
 

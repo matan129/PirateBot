@@ -12,6 +12,11 @@
         /// </summary>
         public static int MaxIterator = 10000;
 
+        /// <summary>
+        ///     Max distace two groups can be from eachother and still be joint
+        /// </summary>
+        public static int MaxDistance;
+
         #endregion
 
         #region Fields & Properies
