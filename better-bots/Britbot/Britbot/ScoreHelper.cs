@@ -24,7 +24,7 @@ namespace Britbot
 
         /// <summary>
         ///     Calculates the score for each turn
-        ///     (Points Per Turn)        ///
+        ///     (Points Per Turn)
         /// </summary>
         /// <param name="totalIslandValues">Total added island value (i.e. there are islands worth two, etc)</param>
         /// <returns></returns>
