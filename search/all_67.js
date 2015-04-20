@@ -13,7 +13,7 @@ var searchData=
   ['getscore',['GetScore',['../classBritbot_1_1EnemyGroup.html#ae8b6f5cd8c39d5b41a21319ad5434843',1,'Britbot::EnemyGroup.GetScore()'],['../interfaceBritbot_1_1ITarget.html#a635788d5d411e836bfd38cafa15208f7',1,'Britbot::ITarget.GetScore()'],['../classBritbot_1_1NoTarget.html#a96db617dd567d74532408d0661435d80',1,'Britbot::NoTarget.GetScore()'],['../classBritbot_1_1SmartIsland.html#ae7d5df5a04d56a273055d31bdfdf7615',1,'Britbot::SmartIsland.GetScore()']]],
   ['gettargettype',['GetTargetType',['../classBritbot_1_1EnemyGroup.html#a0b437df8f979eb6a5c1dbc4065853b05',1,'Britbot::EnemyGroup.GetTargetType()'],['../interfaceBritbot_1_1ITarget.html#a593c7393b540b1135d8f0d9f6f2d2ce3',1,'Britbot::ITarget.GetTargetType()'],['../classBritbot_1_1NoTarget.html#aba80eb049144e70df3432ba5aba278aa',1,'Britbot::NoTarget.GetTargetType()'],['../classBritbot_1_1SmartIsland.html#a4791e8b86a253af1a1df5944ef3b5c5d',1,'Britbot::SmartIsland.GetTargetType()']]],
   ['group',['Group',['../classBritbot_1_1Group.html',1,'Britbot']]],
-  ['group',['Group',['../classBritbot_1_1Group.html#ad9d28317eced3d3208b2630d6e4c734d',1,'Britbot::Group']]],
+  ['group',['Group',['../classBritbot_1_1Group.html#ad9d28317eced3d3208b2630d6e4c734d',1,'Britbot::Group.Group(int[] piratesId)'],['../classBritbot_1_1Group.html#a7ecd71353172abbc1011fcf8b26b0b2b',1,'Britbot::Group.Group()']]],
   ['groupcounter',['GroupCounter',['../classBritbot_1_1Group.html#ade796fcbad52b797db2b3bb8cf36f8dd',1,'Britbot::Group']]],
   ['guesstarget',['GuessTarget',['../classBritbot_1_1EnemyGroup.html#a75606f2bff5e9f4cc0d5c0451ae77475',1,'Britbot::EnemyGroup']]]
 ];
