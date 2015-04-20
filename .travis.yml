@@ -1,8 +1,7 @@
 sudo: required
 env:
 global:
-secure: C3Nakbhm9XZMKXjlTVsoU61Gvk1vtinkat7B57izLEtRDM5uXXHnn7KoVS3D3Jw+gyylJHD8OiYkIOacbmPMqWDUvUfSffLS23IXv9+cG6QApci0eRgnQTp6680pyK8ffPk2YAhrJmpeW7RStNEXiiUfkBYMspQd6o7yQZ3gmQA=
-	 
+secure: C3Nakbhm9XZMKXjlTVsoU61Gvk1vtinkat7B57izLEtRDM5uXXHnn7KoVS3D3Jw+gyylJHD8OiYkIOacbmPMqWDUvUfSffLS23IXv9+cG6QApci0eRgnQTp6680pyK8ffPk2YAhrJmpeW7RStNEXiiUfkBYMspQd6o7yQZ3gmQA= 
 language: csharp
 solution: better-bots/Britbot/Britbot.sln	
 script: xbuild xbuild /p:Configuration=Release solution-name.sln
