@@ -283,7 +283,7 @@ namespace Britbot
             //int DangerZone = 6 * Bot.Game.GetAttackRadius();
 
             //---------------#Magic_Numbers--------------------
-            const int HowLongToLookBack = 5;
+            const int HowLongToLookBack = 1;
             //add new data
             this.SurroundingForces.Enqueue(this.NearbyEnemyCount(Magic.DangerZone));
 
@@ -298,7 +298,7 @@ namespace Britbot
         {
             int max = 0;
 
-
+            
             foreach (int s in this.SurroundingForces)
             {
                 if (s > max)
