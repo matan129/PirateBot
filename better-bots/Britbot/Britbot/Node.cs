@@ -148,14 +148,14 @@ namespace Britbot
                 //Important constants of the functions
                 //the radious under wich to define locations in danget of enemy groups
                 //the higher it is, the performence are worse
-                int DangerRadious = 9 * Bot.Game.GetAttackRadius();
+                //int DangerRadious = 9 * Bot.Game.GetAttackRadius();
 
                 //going over enemy fleets and giving their location negative scores
                 foreach (EnemyGroup eGroup in Enemy.Groups)
                 {
                     if (eGroup.GetMaxFightPower() >= strength)
                     {
-                        Node.BlockLocation(eGroup.GetLocation(), DangerRadious, eGroup.GetHeading());
+                        Node.BlockLocation(eGroup.GetLocation(), Magic.DangerZone, eGroup.GetHeading());
                     }
                 }
                 Logger.StopTime("CalculateEnemyWeight");

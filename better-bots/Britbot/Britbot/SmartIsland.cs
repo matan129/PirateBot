@@ -280,12 +280,12 @@ namespace Britbot
         {
             //---------------#Magic_Numbers--------------------
             //constant defining how far to look for enemy ships 
-            int DangerZone = 6 * Bot.Game.GetAttackRadius();
+            //int DangerZone = 6 * Bot.Game.GetAttackRadius();
 
             //---------------#Magic_Numbers--------------------
             const int HowLongToLookBack = 5;
             //add new data
-            this.SurroundingForces.Enqueue(this.NearbyEnemyCount(DangerZone));
+            this.SurroundingForces.Enqueue(this.NearbyEnemyCount(Magic.DangerZone));
 
             //trim the end of the queue if needed
             if (this.SurroundingForces.Count > HowLongToLookBack)
