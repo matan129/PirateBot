@@ -1,2 +1,5 @@
 language: csharp
 solution: better-bots/Britbot/Britbot.sln
+install: apt-get install doxygen
+script: xbuild xbuild /p:Configuration=Release solution-name.sln
+after_success: ./doxybuild.sh
