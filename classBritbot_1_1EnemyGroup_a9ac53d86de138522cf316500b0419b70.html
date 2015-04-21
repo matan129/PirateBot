@@ -123,6 +123,7 @@
 
 <p>Definition at line <a class="el" href="EnemyGroup_8cs_source.html#l00475">475</a> of file <a class="el" href="EnemyGroup_8cs_source.html">EnemyGroup.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
+            
             <span class="comment">//calculate the difference vector between the enemy group and the island</span>
             HeadingVector difference = HeadingVector.CalcDifference(this.<a class="code" href="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22" title="Returns the average location for this group.">GetLocation</a>(), sIsland.Loc);
 
@@ -134,7 +135,8 @@
 
             <span class="comment">//read the distance between the trajectory of the enemy group and the island</span>
             <span class="keywordtype">double</span> distance = Navigator.CalcDistFromLine(sIsland.Loc, <span class="keyword">this</span>.GetLocation(), this.<a class="code" href="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78" title="This function calculates this enemy group direction based on its last directions simply adds them up...">GetHeading</a>());
-
+            Bot.Game.Debug(<span class="stringliteral">&quot;Loc &quot;</span> + sIsland.Loc + <span class="stringliteral">&quot; line loc: &quot;</span> + <span class="keyword">this</span>.GetLocation().ToString() + <span class="stringliteral">&quot; heading: &quot;</span> + this.<a class="code" href="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78" title="This function calculates this enemy group direction based on its last directions simply adds them up...">GetHeading</a>().<a class="code" href="classBritbot_1_1HeadingVector_a8e3ba8001c1e048aa6206f48e842244a.html#a8e3ba8001c1e048aa6206f48e842244a" title="To string function...">ToString</a>());
+            Bot.Game.Debug(<span class="stringliteral">&quot;Distance: &quot;</span> + distance);
             <span class="comment">//compare it to the constant defined in magic</span>
             <span class="keywordflow">return</span> distance &lt;= Magic.EnemyPredictionSensitivity;
         }
@@ -148,7 +150,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 21 2015 12:37:50 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 21 2015 19:22:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

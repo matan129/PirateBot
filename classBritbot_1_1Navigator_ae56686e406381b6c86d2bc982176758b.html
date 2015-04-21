@@ -125,10 +125,10 @@
             HeadingVector dif = HeadingVector.CalcDifference(point, linePoint);
 
             <span class="comment">//find the minimum t parameter</span>
-            <span class="keywordtype">double</span> tMin = dir.Normalize() * dif;
+            <span class="keywordtype">double</span> tMin = -1 * dir.Normalize() * dif;
 
             <span class="comment">//calculating actual distance (see calculation)</span>
-            <span class="keywordflow">return</span> (dif - tMin * dir).Norm1();
+            <span class="keywordflow">return</span> (dif + tMin * dir).Norm();
         }
 </pre></div>
 </div>
@@ -140,7 +140,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 21 2015 12:37:50 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 21 2015 19:22:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

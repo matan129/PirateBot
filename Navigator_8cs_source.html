@@ -185,10 +185,10 @@
 <a name="l00168"></a>00168             <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> dif = <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>.<a class="code" href="classBritbot_1_1HeadingVector_ad3b0af7cfb8aea81f5c3d4673d3376c3.html#ad3b0af7cfb8aea81f5c3d4673d3376c3" title="Calculates the direction vector between two points.">CalcDifference</a>(point, linePoint);
 <a name="l00169"></a>00169 
 <a name="l00170"></a>00170             <span class="comment">//find the minimum t parameter</span>
-<a name="l00171"></a>00171             <span class="keywordtype">double</span> tMin = dir.<a class="code" href="classBritbot_1_1HeadingVector_a9a783cd39ea13c65a26df7cfbb947da2.html#a9a783cd39ea13c65a26df7cfbb947da2" title="returns a new normalized vector">Normalize</a>() * dif;
+<a name="l00171"></a>00171             <span class="keywordtype">double</span> tMin = -1 * dir.<a class="code" href="classBritbot_1_1HeadingVector_a9a783cd39ea13c65a26df7cfbb947da2.html#a9a783cd39ea13c65a26df7cfbb947da2" title="returns a new normalized vector">Normalize</a>() * dif;
 <a name="l00172"></a>00172 
 <a name="l00173"></a>00173             <span class="comment">//calculating actual distance (see calculation)</span>
-<a name="l00174"></a>00174             <span class="keywordflow">return</span> (dif - tMin * dir).<a class="code" href="classBritbot_1_1HeadingVector_ac430069042241046a59459c3f2c7442a.html#ac430069042241046a59459c3f2c7442a" title="returns the sum of X and Y meaning the duration of time of the calculation. this can be used as a cre...">Norm1</a>();
+<a name="l00174"></a>00174             <span class="keywordflow">return</span> (dif + tMin * dir).<a class="code" href="classBritbot_1_1HeadingVector_ab9a1032df60de54330a4bac6ab1d4ed9.html#ab9a1032df60de54330a4bac6ab1d4ed9" title="returns the length of the vector (as a double) might be used to normalize vectors for some computatio...">Norm</a>();
 <a name="l00175"></a>00175         }
 <a name="l00176"></a>00176 
 <a name="l00184"></a><a class="code" href="classBritbot_1_1Navigator_a706f52323f1c94fd88e5bbaaaea0969a.html#a706f52323f1c94fd88e5bbaaaea0969a">00184</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Navigator_a706f52323f1c94fd88e5bbaaaea0969a.html#a706f52323f1c94fd88e5bbaaaea0969a" title="Given two pirates (id) it tells you who is &quot;more&quot; in a specific direction than the other...">ComparePirateByDirection</a>(<span class="keywordtype">int</span> p1, <span class="keywordtype">int</span> p2, <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> hv)
@@ -343,7 +343,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 21 2015 12:37:50 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 21 2015 19:22:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

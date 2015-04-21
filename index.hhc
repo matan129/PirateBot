@@ -337,6 +337,8 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="MaxIterator"><param name="Local" value="classBritbot_1_1Magic_a8a828e2b0fcdde4027556d64aab911c2.html#a8a828e2b0fcdde4027556d64aab911c2"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="DangerZone"><param name="Local" value="classBritbot_1_1Magic_a983e6d3ed7e14565aead00b04a4c1a96.html#a983e6d3ed7e14565aead00b04a4c1a96"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="EnemyPredictionSensitivity"><param name="Local" value="classBritbot_1_1Magic_a806fc0eea2ce4c0772d3595ae8765b3e.html#a806fc0eea2ce4c0772d3595ae8765b3e"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="ManeuverDistance"><param name="Local" value="classBritbot_1_1Magic_a5940fdae77a1f808c2fc5aa906a05f41.html#a5940fdae77a1f808c2fc5aa906a05f41"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="MaxCalculableDistance"><param name="Local" value="classBritbot_1_1Magic_ad5eb9ab943cae4be423869493fb9c203.html#ad5eb9ab943cae4be423869493fb9c203"><param name="ImageNumber" value="11"></OBJECT>
       </UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Mover"><param name="Local" value="classBritbot_1_1Mover.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
@@ -415,6 +417,8 @@
       <UL>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SmartIsland"><param name="Local" value="classBritbot_1_1SmartIsland_a00c8386e86dfec96731502bc727e9e57.html#a00c8386e86dfec96731502bc727e9e57"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SmartIsland"><param name="Local" value="classBritbot_1_1SmartIsland_a6004923ed879c4fa3e4e30e22f7e965f.html#a6004923ed879c4fa3e4e30e22f7e965f"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Debug"><param name="Local" value="classBritbot_1_1SmartIsland_a471c2f95840c9027da2597bd1a4d5226.html#a471c2f95840c9027da2597bd1a4d5226"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="DebugAll"><param name="Local" value="classBritbot_1_1SmartIsland_a98b5d146c4e1ad509e3f936704fc1790.html#a98b5d146c4e1ad509e3f936704fc1790"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="Equals"><param name="Local" value="classBritbot_1_1SmartIsland_ab583dba17639e7b9820205dc64f42c77.html#ab583dba17639e7b9820205dc64f42c77"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="Equals"><param name="Local" value="classBritbot_1_1SmartIsland_a96515907e1c39bd1ce01bea2bdaaf537.html#a96515907e1c39bd1ce01bea2bdaaf537"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="Equals"><param name="Local" value="classBritbot_1_1SmartIsland_aa9a7b30dfaacde49809734eca1808826.html#aa9a7b30dfaacde49809734eca1808826"><param name="ImageNumber" value="11"></OBJECT>
@@ -422,6 +426,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="GetDirection"><param name="Local" value="classBritbot_1_1SmartIsland_a7361dff46eb45f2dcd8076fa65e8fb4c.html#a7361dff46eb45f2dcd8076fa65e8fb4c"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="GetHashCode"><param name="Local" value="classBritbot_1_1SmartIsland_ab4ad0ddb10162828f0471a0bd94d3ad0.html#ab4ad0ddb10162828f0471a0bd94d3ad0"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="GetLocation"><param name="Local" value="classBritbot_1_1SmartIsland_a49f2fd1510be845549cd506762d757e5.html#a49f2fd1510be845549cd506762d757e5"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="GetMinimumDistanceFromEnemy"><param name="Local" value="classBritbot_1_1SmartIsland_a01b3a0aacdc567d6ec708f47dc3684b7.html#a01b3a0aacdc567d6ec708f47dc3684b7"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="GetScore"><param name="Local" value="classBritbot_1_1SmartIsland_ae7d5df5a04d56a273055d31bdfdf7615.html#ae7d5df5a04d56a273055d31bdfdf7615"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="GetTargetType"><param name="Local" value="classBritbot_1_1SmartIsland_a4791e8b86a253af1a1df5944ef3b5c5d.html#a4791e8b86a253af1a1df5944ef3b5c5d"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="IsDangerousForGroup"><param name="Local" value="classBritbot_1_1SmartIsland_a5c72e36e0b8cc2a23a24fec4110e1790.html#a5c72e36e0b8cc2a23a24fec4110e1790"><param name="ImageNumber" value="11"></OBJECT>
