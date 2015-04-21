@@ -474,6 +474,7 @@ namespace Britbot
         /// <returns>true if it is possible that the enemy is approching the island</returns>
         public bool IsApproachingIsland(SmartIsland sIsland)
         {
+            
             //calculate the difference vector between the enemy group and the island
             HeadingVector difference = HeadingVector.CalcDifference(this.GetLocation(), sIsland.Loc);
 
@@ -485,7 +486,8 @@ namespace Britbot
 
             //read the distance between the trajectory of the enemy group and the island
             double distance = Navigator.CalcDistFromLine(sIsland.Loc, this.GetLocation(), this.GetHeading());
-
+            Bot.Game.Debug("Loc " + sIsland.Loc + " line loc: " + this.GetLocation().ToString() + " heading: " + this.GetHeading().ToString());
+            Bot.Game.Debug("Distance: " + distance);
             //compare it to the constant defined in magic
             return distance <= Magic.EnemyPredictionSensitivity;
         }

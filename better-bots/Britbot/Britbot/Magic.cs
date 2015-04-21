@@ -1,4 +1,6 @@
-﻿namespace Britbot
+﻿using System;
+
+namespace Britbot
 {
     /// <summary>
     ///     This class holds the magic numbers we have and may be used for smart in game updates
@@ -35,7 +37,24 @@
         /// </summary>
         public static double EnemyPredictionSensitivity
         {
-            get { return 1.5 * Bot.Game.GetAttackRadius(); }
+            get { return Math.Sqrt(2 * Bot.Game.GetAttackRadius());}
+        }
+
+        /// <summary>
+        /// The distance where a group shpuld make a maneuver (get off the island and attack the enemy)
+        /// </summary>
+        public static double ManeuverDistance
+        {
+            get { return Math.Sqrt(1.5 * Bot.Game.GetAttackRadius()); }
+        }
+
+        /// <summary>
+        /// the maximum distance of enemy from island that we can say with any certainty that he can possibly try to capture
+        /// This actually means the maximum time period we try to predict
+        /// </summary>
+        public static double MaxCalculableDistance
+        {
+            get { return Bot.Game.GetCols() + Bot.Game.GetRows(); }
         }
         #endregion
     }

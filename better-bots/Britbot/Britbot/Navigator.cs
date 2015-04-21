@@ -168,10 +168,10 @@ namespace Britbot
             HeadingVector dif = HeadingVector.CalcDifference(point, linePoint);
 
             //find the minimum t parameter
-            double tMin = dir.Normalize() * dif;
+            double tMin = -1 * dir.Normalize() * dif;
 
             //calculating actual distance (see calculation)
-            return (dif - tMin * dir).Norm1();
+            return (dif + tMin * dir).Norm();
         }
 
         /// <summary>

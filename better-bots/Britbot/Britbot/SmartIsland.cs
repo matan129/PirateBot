@@ -313,6 +313,23 @@ namespace Britbot
                     this.EnemyDistances.Add(new KeyValuePair<EnemyGroup, double>(eGroup, distance));
                 }
             }
+            //sort the list by distance
+            this.EnemyDistances.Sort((dist1, dist2) => dist1.Value.CompareTo(dist2.Value));
+        }
+
+        /// <summary>
+        /// Returns the minimal distance to enemy group
+        /// uses the *SORTED* EnemyDistances list
+        /// </summary>
+        /// <returns>minimal distance to enemy group</returns>
+        public double GetMinimumDistanceFromEnemy()
+        {
+            //if isn't empty
+            if(this.EnemyDistances.Count > 0)
+                return this.EnemyDistances[0].Value;
+
+            //otherwise return the constant in MAGIC representing the best case scenario
+            return Magic.MaxCalculableDistance;
         }
 
         /*public int GetEnemyNum()
@@ -334,14 +351,26 @@ namespace Britbot
             {
                 sIsland.Update();
             }
+            DebugAll();
         }
 
+        public void Debug()
+        {
+            Bot.Game.Debug("Island " + this.Id + " enemies: " + string.Join(", ", this.EnemyDistances));
+        }
+
+        public static void DebugAll()
+        {
+            Bot.Game.Debug("--------ISLANDS DEBUG----------");
+            foreach (SmartIsland sIsland in SmartIsland.IslandList)
+                sIsland.Debug();
+        }
         /// <summary>
         /// This function sais if it is ok for a given group to try and capture this isalnd
         /// considers all the other
         /// </summary>
-        /// <param name="g"></param>
-        /// <returns></returns>
+        /// <param name="g">the group for which we test danger</param>
+        /// <returns>true if it is dangerous, false otherwise</returns>
         public bool IsDangerousForGroup(Group g)
         {
             //calculate distance in turns till we reach the island
@@ -377,12 +406,19 @@ namespace Britbot
 
             //the enemy who are closer are at disaddvantage since they lose one pirate capturing the island
             if (g.LiveCount() <= closeEnemyNum - 1)
-                return true;
+                return true;                       
 
             //for the enemy who are farther, we are at a disaddvantage
-            if (g.LiveCount() - 1 <= farEnemyNum)
+            if (g.LiveCount() - 1 < farEnemyNum)
                 return true;
 
+             //special case: Manuver 
+            if (g.LiveCount() - 1 == farEnemyNum)
+            {
+                //we would like to run from the island only when they are realy close so we will catch them
+                if (this.GetMinimumDistanceFromEnemy() < Magic.ManeuverDistance)
+                    return true;
+            }
             //if we are here then everything is ok
             return false;
         }
