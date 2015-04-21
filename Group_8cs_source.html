@@ -687,7 +687,7 @@
 <a name="l00740"></a>00740             <span class="comment">//check if we need to chaise ships, if so add them to calculation</span>
 <a name="l00741"></a>00741             <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Enemy.html" title="This class represent the enemy bot in the game.">Enemy</a>.<a class="code" href="classBritbot_1_1Enemy_a8f03221fd077fcf106b6d830daefed63.html#a8f03221fd077fcf106b6d830daefed63" title="Tells you if we need to try and chaise enemies.">ShouldWeTryToCatchEnemyShips</a>())
 <a name="l00742"></a>00742                 priorityList.AddRange(<a class="code" href="classBritbot_1_1Enemy.html" title="This class represent the enemy bot in the game.">Enemy</a>.<a class="code" href="classBritbot_1_1Enemy_a598923d8196e20cc9027d8ec578a23de.html#a598923d8196e20cc9027d8ec578a23de" title="A list of the enemy&#39;s groups.">Groups</a>);
-<a name="l00743"></a>00743             priorityList.AddRange(<a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.<a class="code" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300" title="A static island list of all the islands in game.">IslandList</a>);
+<a name="l00743"></a>00743             priorityList.AddRange(<a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.<a class="code" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300" title="Queue of the last few amounts of enemy troops around this island.">IslandList</a>);
 <a name="l00744"></a>00744 
 <a name="l00745"></a>00745             <span class="comment">//Add a score for each target we got</span>
 <a name="l00746"></a>00746             <span class="keywordflow">foreach</span> (<a class="code" href="interfaceBritbot_1_1ITarget.html" title="Represent a target we can, well, target.">ITarget</a> target <span class="keywordflow">in</span> priorityList)
@@ -756,7 +756,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 21 2015 07:33:19 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 21 2015 12:37:50 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

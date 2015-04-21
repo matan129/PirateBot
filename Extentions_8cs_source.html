@@ -86,7 +86,7 @@
 <a name="l00036"></a>00036 
 <a name="l00043"></a><a class="code" href="classBritbot_1_1Extensions_a815f3591befe7a14f1ac363a507642e1.html#a815f3591befe7a14f1ac363a507642e1">00043</a>         <span class="keyword">public</span> <span class="keyword">static</span> <a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a> <a class="code" href="classBritbot_1_1Extensions_a815f3591befe7a14f1ac363a507642e1.html#a815f3591befe7a14f1ac363a507642e1" title="Gets a SmartIsland by index, as we would do with a normal Island.">GetSmartIsland</a>(<span class="keyword">this</span> IPirateGame game, <span class="keywordtype">int</span> <span class="keywordtype">id</span>)
 <a name="l00044"></a>00044         {
-<a name="l00045"></a>00045             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.<a class="code" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300" title="A static island list of all the islands in game.">IslandList</a>.Find(isle =&gt; isle.Id == <span class="keywordtype">id</span>);
+<a name="l00045"></a>00045             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.<a class="code" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300" title="Queue of the last few amounts of enemy troops around this island.">IslandList</a>.Find(isle =&gt; isle.Id == <span class="keywordtype">id</span>);
 <a name="l00046"></a>00046         }
 <a name="l00047"></a>00047 
 <a name="l00048"></a><a class="code" href="classBritbot_1_1Extensions_a818925600f1c36222526e638cf06711c.html#a818925600f1c36222526e638cf06711c">00048</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Extensions_a818925600f1c36222526e638cf06711c.html#a818925600f1c36222526e638cf06711c">Distance</a>(<span class="keyword">this</span> IPirateGame game, Location loc, <a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a> isle)
@@ -127,7 +127,7 @@
 <a name="l00098"></a>00098 
 <a name="l00104"></a><a class="code" href="classBritbot_1_1Extensions_ab67fefbe216747aa3d3bb8c590a72c63.html#ab67fefbe216747aa3d3bb8c590a72c63">00104</a>         <span class="keyword">public</span> <span class="keyword">static</span> List&lt;SmartIsland&gt; <a class="code" href="classBritbot_1_1Extensions_ab67fefbe216747aa3d3bb8c590a72c63.html#ab67fefbe216747aa3d3bb8c590a72c63" title="Gets the list of SmartIsland like we would normally do with normal Islands.">SmartIslands</a>(<span class="keyword">this</span> IPirateGame game)
 <a name="l00105"></a>00105         {
-<a name="l00106"></a>00106             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.<a class="code" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300" title="A static island list of all the islands in game.">IslandList</a>;
+<a name="l00106"></a>00106             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.<a class="code" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300" title="Queue of the last few amounts of enemy troops around this island.">IslandList</a>;
 <a name="l00107"></a>00107         }
 <a name="l00108"></a>00108 
 <a name="l00118"></a><a class="code" href="classBritbot_1_1Extensions_afb79a007466bf36789cf6f49f7820929.html#afb79a007466bf36789cf6f49f7820929">00118</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1Extensions_afb79a007466bf36789cf6f49f7820929.html#afb79a007466bf36789cf6f49f7820929" title="This function checks if it is possible for a given group to be in certain location without pirates ge...">IsPassableEnough</a>(<span class="keyword">this</span> IPirateGame game, Location loc, <a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> group)
@@ -248,7 +248,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 21 2015 07:33:19 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 21 2015 12:37:50 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

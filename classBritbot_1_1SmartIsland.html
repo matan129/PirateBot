@@ -122,7 +122,11 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_a91a994a2f333301725bf4e5eafe98931.html#a91a994a2f333301725bf4e5eafe98931">TurnsToEnemyCapture</a> (<a class="el" href="classBritbot_1_1Group.html">Group</a> myGroup)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the minimum amount of turns that a island will be under our control.  <a href="#a91a994a2f333301725bf4e5eafe98931"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_ac4a3b45f88dd0fba977628d32572ce7a.html#ac4a3b45f88dd0fba977628d32572ce7a">Update</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_a222787ee63934ed689881c59e49644a2.html#a222787ee63934ed689881c59e49644a2">GetEnemyNum</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">updates the distances of all the enemies approaching the isalnds  <a href="#ac4a3b45f88dd0fba977628d32572ce7a"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_a5c72e36e0b8cc2a23a24fec4110e1790.html#a5c72e36e0b8cc2a23a24fec4110e1790">IsDangerousForGroup</a> (<a class="el" href="classBritbot_1_1Group.html">Group</a> g)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This function sais if it is ok for a given group to try and capture this isalnd considers all the other.  <a href="#a5c72e36e0b8cc2a23a24fec4110e1790"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_a7a04c90a0262540cb9826164dd2699bc.html#a7a04c90a0262540cb9826164dd2699bc">RealTimeTillCapture</a> (int conqueror)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This returns how many turns it would take for the conqueror team to capture the island considering everything? (the owner and if there was some capturing before)  <a href="#a7a04c90a0262540cb9826164dd2699bc"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">override bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_aa9a7b30dfaacde49809734eca1808826.html#aa9a7b30dfaacde49809734eca1808826">Equals</a> (object obj)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if 2 smart Islands are equal.  <a href="#aa9a7b30dfaacde49809734eca1808826"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
@@ -144,7 +148,7 @@ Protected Member Functions</h2></td></tr>
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static List&lt; <a class="el" href="classBritbot_1_1SmartIsland.html">SmartIsland</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300">IslandList</a><code> [get, set]</code></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A static island list of all the islands in game.  <a href="#ab6d4c276bc84aef43fcbeab0d6e23300"></a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue of the last few amounts of enemy troops around this island.  <a href="#ab6d4c276bc84aef43fcbeab0d6e23300"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_a6c73d7020f92bd430c6b74e4455ffcec.html#a6c73d7020f92bd430c6b74e4455ffcec">CaptureTurns</a><code> [get]</code></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns to capture the island.  <a href="#a6c73d7020f92bd430c6b74e4455ffcec"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_a08048429257178c01e69ca794bcd7fff.html#a08048429257178c01e69ca794bcd7fff">Value</a><code> [get]</code></td></tr>
@@ -167,8 +171,9 @@ Static Private Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A static constructor which initializes the static island list on the first reference to a <a class="el" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.  <a href="#a00c8386e86dfec96731502bc727e9e57"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">Queue&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_adc83c329f4faecbd3a261900d4bc2152.html#adc83c329f4faecbd3a261900d4bc2152">SurroundingForces</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue of the last few amounts of enemy troops around this island.  <a href="#adc83c329f4faecbd3a261900d4bc2152"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">List&lt; KeyValuePair&lt; <a class="el" href="classBritbot_1_1EnemyGroup.html">EnemyGroup</a>, <br class="typebreak"/>
+double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_acd50ed9303bd1eeb9ae1aed5efa40ae8.html#acd50ed9303bd1eeb9ae1aed5efa40ae8">EnemyDistances</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">list of all the enemies and their distances from the island  <a href="#acd50ed9303bd1eeb9ae1aed5efa40ae8"></a><br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>A Class that encapsulates the default Island type and adds important methods to it. </p>
@@ -181,7 +186,7 @@ Private Attributes</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 21 2015 07:33:20 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 21 2015 12:37:50 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
