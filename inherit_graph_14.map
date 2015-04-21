@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$interfaceBritbot_1_1ITarget.html" title="Represent a target we can, well, target." alt="" coords="7,59,111,88"/>
+<area shape="rect" id="node3" href="$classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group." alt="" coords="161,5,300,35"/>
+<area shape="rect" id="node5" href="$classBritbot_1_1NoTarget.html" title="This class represents a null target which does nothing this will help us prevent cases of dimensions ..." alt="" coords="172,59,289,88"/>
+<area shape="rect" id="node7" href="$classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it." alt="" coords="164,112,297,141"/>
+</map>
