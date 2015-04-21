@@ -466,6 +466,31 @@ namespace Britbot
         }
 
         /// <summary>
+        /// This method checks if this enemy group could be approaching the given island
+        /// first checks if it moves in the general direction of the island
+        /// compares difference in trajectory to a MAGIC constant
+        /// </summary>
+        /// <param name="sIsland">the island we check</param>
+        /// <returns>true if it is possible that the enemy is approching the island</returns>
+        public bool IsApproachingIsland(SmartIsland sIsland)
+        {
+            //calculate the difference vector between the enemy group and the island
+            HeadingVector difference = HeadingVector.CalcDifference(this.GetLocation(), sIsland.Loc);
+
+            //check if it isn't moving in the general direction of the island, if so return false
+            if (difference * this.GetHeading() <= 0)
+            {
+                return false;
+            }
+
+            //read the distance between the trajectory of the enemy group and the island
+            double distance = Navigator.CalcDistFromLine(sIsland.Loc, this.GetLocation(), this.GetHeading());
+
+            //compare it to the constant defined in magic
+            return distance <= Magic.EnemyPredictionSensitivity;
+        }
+
+        /// <summary>
         ///     returns the average of the maximum fight power in the
         ///     last outOfDateNumber of turns
         /// </summary>

@@ -22,7 +22,7 @@ namespace Britbot
         /// <summary>
         ///     Queue of the last few amounts of enemy troops around this island
         /// </summary>
-        private Queue<int> SurroundingForces;
+        //private Queue<int> SurroundingForces;
 
         /// <summary>
         ///     A static island list of all the islands in game
@@ -77,6 +77,11 @@ namespace Britbot
             get { return Bot.Game.GetIsland(this.Id).Owner; }
         }
 
+        /// <summary>
+        /// list of all the enemies and their distances from the island
+        /// </summary>
+        private List<KeyValuePair<EnemyGroup, double>> EnemyDistances;
+
         #endregion
 
         #region Constructors & Initializers
@@ -100,7 +105,8 @@ namespace Britbot
         private SmartIsland(int encapsulate)
         {
             this.Id = encapsulate;
-            this.SurroundingForces = new Queue<int>();
+            this.EnemyDistances = new List<KeyValuePair<EnemyGroup, double>>();
+            //this.SurroundingForces = new Queue<int>();
         }
 
         #endregion
@@ -119,14 +125,14 @@ namespace Britbot
             int CaptureZone = Bot.Game.GetAttackRadius();
 
             //check if there are more enemies than we can kill
-            if (this.GetEnemyNum() >= origin.FightCount())
+            if (this.IsDangerousForGroup(origin))
                 return null;
 
             //calculates the minimum distance between a group and said island
             int distance = Bot.Game.Distance(this.Loc, origin.FindCenter(true));
 
             //Amount of turns it takes to capture an island
-            int captureTime = this.CaptureTurns;
+            int captureTime = this.RealTimeTillCapture(Consts.ME);
 
             //TODO this is disabled in the meanwhile because it caused us to lost
             //should be taken into consideration in the score globalizing function
@@ -276,6 +282,9 @@ namespace Britbot
             return minDistance + this.CaptureTurns;
         }
 
+        /// <summary>
+        /// updates the distances of all the enemies approaching the isalnds
+        /// </summary>
         public void Update()
         {
             //---------------#Magic_Numbers--------------------
@@ -283,7 +292,7 @@ namespace Britbot
             //int DangerZone = 6 * Bot.Game.GetAttackRadius();
 
             //---------------#Magic_Numbers--------------------
-            const int HowLongToLookBack = 1;
+            /*const int HowLongToLookBack = 1;
             //add new data
             this.SurroundingForces.Enqueue(this.NearbyEnemyCount(Magic.DangerZone));
 
@@ -291,10 +300,22 @@ namespace Britbot
             if (this.SurroundingForces.Count > HowLongToLookBack)
             {
                 this.SurroundingForces.Dequeue();
+            }*/
+
+            //update enemy distances
+            this.EnemyDistances.Clear();
+            foreach(EnemyGroup eGroup in Enemy.Groups)
+            {
+                //check that the enemy is heading here
+                if (eGroup.IsApproachingIsland(this))
+                {
+                    double distance = Bot.Game.Distance(this.Loc, eGroup.GetLocation());
+                    this.EnemyDistances.Add(new KeyValuePair<EnemyGroup, double>(eGroup, distance));
+                }
             }
         }
 
-        public int GetEnemyNum()
+        /*public int GetEnemyNum()
         {
             int max = 0;
 
@@ -305,7 +326,7 @@ namespace Britbot
                     max = s;
             }
             return max;
-        }
+        }*/
 
         public static void UpdateAll()
         {
@@ -315,6 +336,91 @@ namespace Britbot
             }
         }
 
+        /// <summary>
+        /// This function sais if it is ok for a given group to try and capture this isalnd
+        /// considers all the other
+        /// </summary>
+        /// <param name="g"></param>
+        /// <returns></returns>
+        public bool IsDangerousForGroup(Group g)
+        {
+            //calculate distance in turns till we reach the island
+            int eta = Bot.Game.Distance(this.Loc, g.FindCenter(true));
+
+            //find the distance of g from the island
+            int distance = Bot.Game.Distance(this.Loc, g.FindCenter(true));
+
+            //counting variables
+            int closeEnemyNum = 0;
+            int farEnemyNum = 0;
+
+            //go over all the enemy groups and their distances
+            //TODO: maybe consider the actual firepower of the enemy
+            foreach(KeyValuePair<EnemyGroup,double> enemyDistance in this.EnemyDistances)
+            {
+                //We diffarentiate between two cases
+                if (enemyDistance.Value < distance) //case 1: Enemy is closer to the island then we are
+                {
+                    //check if we arrive before capture
+                    if (distance < this.RealTimeTillCapture(Consts.ENEMY))
+                        closeEnemyNum += enemyDistance.Key.EnemyPirates.Count;
+                }
+                else                                //case 2: Enemy is farther away to the island then we are
+                {
+                    //if the enemy reaches us before we capture
+                    if (enemyDistance.Value <this.RealTimeTillCapture(Consts.ME))
+                        farEnemyNum += enemyDistance.Key.EnemyPirates.Count;
+                }
+            }
+
+            //check if we could win both those who are close and those who are far
+
+            //the enemy who are closer are at disaddvantage since they lose one pirate capturing the island
+            if (g.LiveCount() <= closeEnemyNum - 1)
+                return true;
+
+            //for the enemy who are farther, we are at a disaddvantage
+            if (g.LiveCount() - 1 <= farEnemyNum)
+                return true;
+
+            //if we are here then everything is ok
+            return false;
+        }
+
+        /// <summary>
+        /// This returns how many turns it would take for the conqueror team to capture the island
+        /// considering everything? (the owner and if there was some capturing before)
+        /// </summary>
+        /// <param name="conqueror">the team we ask about (see Consts)</param>
+        /// <returns>how many turns it would take for the conqueror team to capture the island</returns>
+        public int RealTimeTillCapture(int conqueror)
+        {
+            //calculate total number of turns to capture (without partials)
+            int totalCaptureTime;
+            //check if conqueror is the owner
+            if (this.Owner == conqueror)
+            {
+                totalCaptureTime = 0;
+            } //if the isalnd is nutral
+            else if(this.Owner == Consts.NO_OWNER)
+            {
+                totalCaptureTime = this.CaptureTurns;
+            } //if the island is of the other team
+            else
+            {
+                totalCaptureTime = 2 * this.CaptureTurns;
+            }
+
+            //check if we already have some capture time
+            if(this.TeamCapturing == conqueror)
+            {
+                return totalCaptureTime - this.TurnsBeingCaptured;
+            }
+            else //if we have no capture time just return the total time
+            {
+                return totalCaptureTime;
+            }
+        }
         /// <summary>
         ///     Checks if 2 smart Islands are equal
         /// </summary>

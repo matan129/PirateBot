@@ -21,11 +21,22 @@
 
         #region Fields & Properies
 
-        public static int DangerZone
+
+        /// <summary>
+        /// The radious of the area around enemy ships which we avoid
+        /// </summary>
+        public static double DangerZone
         {
             get { return 6 * Bot.Game.GetAttackRadius(); }
         }
 
+        /// <summary>
+        /// The radious of the maximum difference from enemy ships trajectory to an island so we will consider it to be going to the island
+        /// </summary>
+        public static double EnemyPredictionSensitivity
+        {
+            get { return 1.5 * Bot.Game.GetAttackRadius(); }
+        }
         #endregion
     }
 }

@@ -167,7 +167,7 @@ namespace Britbot
             /// <param name="loc">the location of the danger</param>
             /// <param name="radSquared">the square of the danger radious</param>
             /// <param name="heading">the heading of the danger, to make the danger zone elipse like</param>
-            private static void BlockLocation(Location loc, int radSquared, HeadingVector heading)
+            private static void BlockLocation(Location loc, double radSquared, HeadingVector heading)
             {
                 //---------------#Magic_Numbers--------------------
                 //important constants:
