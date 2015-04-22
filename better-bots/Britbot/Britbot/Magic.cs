@@ -37,7 +37,7 @@ namespace Britbot
         /// </summary>
         public static double EnemyPredictionSensitivity
         {
-            get { return Math.Sqrt(2 * Bot.Game.GetAttackRadius());}
+            get { return 1.5 * Math.Sqrt(Bot.Game.GetAttackRadius());}
         }
 
         /// <summary>
@@ -55,6 +55,14 @@ namespace Britbot
         public static double MaxCalculableDistance
         {
             get { return Bot.Game.GetCols() + Bot.Game.GetRows(); }
+        }
+
+        /// <summary>
+        /// the distance that we consider that a stationary target are approaching an island
+        /// </summary>
+        public static double ApproachDistanceSquaredOfStationaryTarget
+        {
+            get { return Bot.Game.GetAttackRadius(); }
         }
         #endregion
     }

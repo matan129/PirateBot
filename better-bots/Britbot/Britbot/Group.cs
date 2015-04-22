@@ -767,7 +767,7 @@ namespace Britbot
             this.Priorities = this.Priorities.OrderBy(score => score.Eta).ToList();
             //throw away all but CalcMaxPrioritiesNum
             this.Priorities = this.Priorities.Take(Commander.CalcMaxPrioritiesNum()).ToList();
-
+            
             Logger.StopTime("CalcPriorities");
         }
 

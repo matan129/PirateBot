@@ -127,7 +127,7 @@ namespace Britbot
             //check if there are more enemies than we can kill
             if (this.IsDangerousForGroup(origin))
             {
-                Bot.Game.Debug("");
+                Bot.Game.Debug("Danger--- Group " + origin.Id + " island: " + this.Id);
                 return null;
             }
 
@@ -376,6 +376,7 @@ namespace Britbot
         /// <returns>true if it is dangerous, false otherwise</returns>
         public bool IsDangerousForGroup(Group g)
         {
+            //Bot.Game.Debug("IsDangerousForGroup island: " + Id + " group " + g.Id);
             //calculate distance in turns till we reach the island
             int eta = Bot.Game.Distance(this.Loc, g.FindCenter(true));
 
@@ -394,17 +395,18 @@ namespace Britbot
                 if (enemyDistance.Value < distance) //case 1: Enemy is closer to the island then we are
                 {
                     //check if we arrive before capture
-                    if (distance < this.RealTimeTillCapture(Consts.ENEMY))
+                    if (distance <this.GetMinimumDistanceFromEnemy() + this.RealTimeTillCapture(Consts.ENEMY))
                         closeEnemyNum += enemyDistance.Key.EnemyPirates.Count;
                 }
                 else                                //case 2: Enemy is farther away to the island then we are
                 {
                     //if the enemy reaches us before we capture
-                    if (enemyDistance.Value <this.RealTimeTillCapture(Consts.ME))
+                    if (enemyDistance.Value < this.RealTimeTillCapture(Consts.ME) + distance)
                         farEnemyNum += enemyDistance.Key.EnemyPirates.Count;
                 }
             }
 
+            Bot.Game.Debug("island: " + Id + " group " + g.Id + " closeEnemyNum " + closeEnemyNum + " farEnemyNum " + farEnemyNum + " live " + g.LiveCount() + " me" + this.RealTimeTillCapture(Consts.ME) + " en " + this.RealTimeTillCapture(Consts.ENEMY));
             //check if we could win both those who are close and those who are far
 
             //the enemy who are closer are at disaddvantage since they lose one pirate capturing the island
@@ -412,16 +414,16 @@ namespace Britbot
                 return true;                       
 
             //for the enemy who are farther, we are at a disaddvantage
-            if (g.LiveCount() - 1 < farEnemyNum)
+            if ((farEnemyNum != 0) &&(g.LiveCount() - 1 < farEnemyNum))
                 return true;
 
              //special case: Manuver 
-            if (g.LiveCount() - 1 == farEnemyNum)
+            if ((farEnemyNum != 0) && (g.LiveCount() - 1 == farEnemyNum))
             {
                 //we would like to run from the island only when they are realy close so we will catch them
                 if (this.GetMinimumDistanceFromEnemy() < Magic.ManeuverDistance)
                 {
-                    Bot.Game.Debug("manuever");
+                    Bot.Game.Debug("MANUVER: " + "island: " + Id + " group " + g.Id);
                     return true;
                 }
             }

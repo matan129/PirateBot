@@ -284,7 +284,6 @@ namespace Britbot
                 if (pete != null)
                     averageLocation = pete.Loc;
             }
-
             return averageLocation;
         }
 
@@ -474,7 +473,15 @@ namespace Britbot
         /// <returns>true if it is possible that the enemy is approching the island</returns>
         public bool IsApproachingIsland(SmartIsland sIsland)
         {
-            
+            //if the group is stationary just check if it is close
+            if(this.GetHeading().NormSquared() == 0)
+            {
+                return Bot.Game.EuclidianDistanceSquared(this.GetLocation(), sIsland.Loc) <= Magic.ApproachDistanceSquaredOfStationaryTarget;
+            }
+            //check if the enemy group is on the island
+            if (this.MinimalSquaredDistanceTo(sIsland.Loc) < 1)
+                return true;
+
             //calculate the difference vector between the enemy group and the island
             HeadingVector difference = HeadingVector.CalcDifference(this.GetLocation(), sIsland.Loc);
 
