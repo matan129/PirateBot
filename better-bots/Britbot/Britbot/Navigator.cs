@@ -166,12 +166,12 @@ namespace Britbot
             //TODO fix this - Matan Kom
             //Find the difference vector between the point and the line point
             HeadingVector dif = HeadingVector.CalcDifference(point, linePoint);
-
             //find the minimum t parameter
-            double tMin = -1 * dir.Normalize() * dif;
+            double tMin = (-1 / dir.NormSquared()) * dir * dif;
 
             //calculating actual distance (see calculation)
             return (dif + tMin * dir).Norm();
+;
         }
 
         /// <summary>

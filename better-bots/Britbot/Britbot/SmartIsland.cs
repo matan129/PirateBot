@@ -126,7 +126,10 @@ namespace Britbot
 
             //check if there are more enemies than we can kill
             if (this.IsDangerousForGroup(origin))
+            {
+                Bot.Game.Debug("");
                 return null;
+            }
 
             //calculates the minimum distance between a group and said island
             int distance = Bot.Game.Distance(this.Loc, origin.FindCenter(true));
@@ -417,7 +420,10 @@ namespace Britbot
             {
                 //we would like to run from the island only when they are realy close so we will catch them
                 if (this.GetMinimumDistanceFromEnemy() < Magic.ManeuverDistance)
+                {
+                    Bot.Game.Debug("manuever");
                     return true;
+                }
             }
             //if we are here then everything is ok
             return false;

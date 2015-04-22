@@ -223,11 +223,7 @@ namespace Britbot
                     Direction master = this.Target.GetDirection(this);
 
                     //sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions
-                    myPirates =
-                        myPirates.OrderBy(
-                            p =>
-                                Navigator.CalcDistFromLine(new Location(0, 0), this.GetLocation(),
-                                    (new HeadingVector(master)).Orthogonal())).ToList();
+                    
                     //return for each pirate the pirate and its direction
                     foreach (Pirate myPirate in myPirates)
                     {
