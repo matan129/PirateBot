@@ -106,14 +106,14 @@
 <a name="l00047"></a>00047 <span class="preprocessor">#endif</span>
 <a name="l00048"></a>00048 <span class="preprocessor"></span>
 <a name="l00049"></a>00049 
-<a name="l00050"></a>00050             <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a3a4561a6eeec8a33313b1e1a574d09ef.html#a3a4561a6eeec8a33313b1e1a574d09ef">begins</a>.ContainsKey(key))
-<a name="l00051"></a>00051             {
-<a name="l00052"></a>00052                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a3a4561a6eeec8a33313b1e1a574d09ef.html#a3a4561a6eeec8a33313b1e1a574d09ef">begins</a>[key] = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4">TurnTimer</a>.ElapsedMilliseconds;
-<a name="l00053"></a>00053             }
-<a name="l00054"></a>00054             <span class="keywordflow">else</span>
-<a name="l00055"></a>00055             {
-<a name="l00056"></a>00056                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a3a4561a6eeec8a33313b1e1a574d09ef.html#a3a4561a6eeec8a33313b1e1a574d09ef">begins</a>.Add(key, <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4">TurnTimer</a>.ElapsedMilliseconds);
-<a name="l00057"></a>00057             }
+<a name="l00050"></a>00050             <span class="comment">/*if (Logger.begins.ContainsKey(key))</span>
+<a name="l00051"></a>00051 <span class="comment">            {</span>
+<a name="l00052"></a>00052 <span class="comment">                Logger.begins[key] = Commander.TurnTimer.ElapsedMilliseconds;</span>
+<a name="l00053"></a>00053 <span class="comment">            }</span>
+<a name="l00054"></a>00054 <span class="comment">            else</span>
+<a name="l00055"></a>00055 <span class="comment">            {</span>
+<a name="l00056"></a>00056 <span class="comment">                Logger.begins.Add(key, Commander.TurnTimer.ElapsedMilliseconds);</span>
+<a name="l00057"></a>00057 <span class="comment">            }*/</span>
 <a name="l00058"></a>00058         }
 <a name="l00059"></a>00059 
 <a name="l00060"></a><a class="code" href="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5">00060</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5">StopTime</a>(<span class="keywordtype">string</span> key)
@@ -129,19 +129,19 @@
 <a name="l00070"></a>00070             }
 <a name="l00071"></a>00071 <span class="preprocessor">#endif</span>
 <a name="l00072"></a>00072 <span class="preprocessor"></span>
-<a name="l00073"></a>00073             <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a2b2abe61e85bf937ff82610ac3622ad5.html#a2b2abe61e85bf937ff82610ac3622ad5">times</a>.ContainsKey(key))
-<a name="l00074"></a>00074             {
-<a name="l00075"></a>00075                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a2b2abe61e85bf937ff82610ac3622ad5.html#a2b2abe61e85bf937ff82610ac3622ad5">times</a>[key].Enqueue(<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4">TurnTimer</a>.ElapsedMilliseconds - <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a3a4561a6eeec8a33313b1e1a574d09ef.html#a3a4561a6eeec8a33313b1e1a574d09ef">begins</a>[key]);
-<a name="l00076"></a>00076             }
-<a name="l00077"></a>00077             <span class="keywordflow">else</span>
-<a name="l00078"></a>00078             {
-<a name="l00079"></a>00079                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a2b2abe61e85bf937ff82610ac3622ad5.html#a2b2abe61e85bf937ff82610ac3622ad5">times</a>.Add(key, <span class="keyword">new</span> Queue&lt;long&gt;());
-<a name="l00080"></a>00080                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a2b2abe61e85bf937ff82610ac3622ad5.html#a2b2abe61e85bf937ff82610ac3622ad5">times</a>[key].Enqueue(<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4">TurnTimer</a>.ElapsedMilliseconds - <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a3a4561a6eeec8a33313b1e1a574d09ef.html#a3a4561a6eeec8a33313b1e1a574d09ef">begins</a>[key]);
-<a name="l00081"></a>00081 
-<a name="l00082"></a>00082                 <span class="comment">//keep the logger small</span>
-<a name="l00083"></a>00083                 <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a2b2abe61e85bf937ff82610ac3622ad5.html#a2b2abe61e85bf937ff82610ac3622ad5">times</a>[key].Count &gt; 100)
-<a name="l00084"></a>00084                     <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a2b2abe61e85bf937ff82610ac3622ad5.html#a2b2abe61e85bf937ff82610ac3622ad5">times</a>[key].Dequeue();
-<a name="l00085"></a>00085             }
+<a name="l00073"></a>00073             <span class="comment">/*if (Logger.times.ContainsKey(key))</span>
+<a name="l00074"></a>00074 <span class="comment">            {</span>
+<a name="l00075"></a>00075 <span class="comment">                Logger.times[key].Enqueue(Commander.TurnTimer.ElapsedMilliseconds - Logger.begins[key]);</span>
+<a name="l00076"></a>00076 <span class="comment">            }</span>
+<a name="l00077"></a>00077 <span class="comment">            else</span>
+<a name="l00078"></a>00078 <span class="comment">            {</span>
+<a name="l00079"></a>00079 <span class="comment">                Logger.times.Add(key, new Queue&lt;long&gt;());</span>
+<a name="l00080"></a>00080 <span class="comment">                Logger.times[key].Enqueue(Commander.TurnTimer.ElapsedMilliseconds - Logger.begins[key]);</span>
+<a name="l00081"></a>00081 <span class="comment"></span>
+<a name="l00082"></a>00082 <span class="comment">                //keep the logger small</span>
+<a name="l00083"></a>00083 <span class="comment">                if (Logger.times[key].Count &gt; 100)</span>
+<a name="l00084"></a>00084 <span class="comment">                    Logger.times[key].Dequeue();</span>
+<a name="l00085"></a>00085 <span class="comment">            }*/</span>
 <a name="l00086"></a>00086         }
 <a name="l00087"></a>00087 
 <a name="l00088"></a><a class="code" href="classBritbot_1_1Logger_a2c6c00235485f104350f0be2e50d8425.html#a2c6c00235485f104350f0be2e50d8425">00088</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Logger_a2c6c00235485f104350f0be2e50d8425.html#a2c6c00235485f104350f0be2e50d8425">Count</a>(<span class="keywordtype">string</span> key)
@@ -199,7 +199,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 22 2015 14:25:07 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 22 2015 16:26:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

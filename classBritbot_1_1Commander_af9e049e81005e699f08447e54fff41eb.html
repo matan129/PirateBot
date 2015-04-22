@@ -63,6 +63,7 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a5006819e24e84561e03de887c1b07d8d.html#a5006819e24e84561e03de887c1b07d8d">CalculateAndAssignTargets</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251">Commander</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a3dffa71da25b282a460a2740d492080e.html#a3dffa71da25b282a460a2740d492080e">DistributeForces</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a6436c4c8d4ea221c724075a670aaba3f.html#a6436c4c8d4ea221c724075a670aaba3f">FixGroupArrangement</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a280cca0850a1a5074e7110b129acaaa9.html#a280cca0850a1a5074e7110b129acaaa9">GetAllMoves</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_ac18431ef513376615a60f49373e67730.html#ac18431ef513376615a60f49373e67730">GetPossibleTargetMatrix</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_aa82c5ed3aa93bdb7292a4210949be873.html#aa82c5ed3aa93bdb7292a4210949be873">GetSpecificAssignmentScores</a></td></tr>
@@ -125,8 +126,13 @@
                 <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.CalculateAndAssignTargets(cancellationToken);
                 Logger.StopTime(<span class="stringliteral">&quot;CalculateAndAssignTargets&quot;</span>);
 
+                <span class="comment">//fix configuration</span>
+                <span class="comment">//FixGroupArrangement();</span>
 
                 Logger.BeginTime(<span class="stringliteral">&quot;GetAllMoves&quot;</span>);
+
+                
+
                 <span class="comment">//Get the moves for all the pirates and return them</span>
                 Dictionary&lt;Pirate, Direction&gt; moves = <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.GetAllMoves(cancellationToken);
                 Logger.StopTime(<span class="stringliteral">&quot;GetAllMoves&quot;</span>);
@@ -181,7 +187,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 22 2015 14:25:07 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 22 2015 16:26:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

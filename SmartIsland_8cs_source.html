@@ -106,7 +106,7 @@
 <a name="l00077"></a>00077             <span class="keyword">get</span> { <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetIsland(this.<a class="code" href="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8" title="The unique ID of the island.">Id</a>).Owner; }
 <a name="l00078"></a>00078         }
 <a name="l00079"></a>00079 
-<a name="l00083"></a><a class="code" href="classBritbot_1_1SmartIsland_acd50ed9303bd1eeb9ae1aed5efa40ae8.html#acd50ed9303bd1eeb9ae1aed5efa40ae8">00083</a>         <span class="keyword">private</span> List&lt;KeyValuePair&lt;EnemyGroup, double&gt;&gt; <a class="code" href="classBritbot_1_1SmartIsland_acd50ed9303bd1eeb9ae1aed5efa40ae8.html#acd50ed9303bd1eeb9ae1aed5efa40ae8" title="list of all the enemies and their distances from the island">EnemyDistances</a>;
+<a name="l00083"></a><a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff">00083</a>         <span class="keyword">private</span> List&lt;EnemyGroup&gt; <a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff" title="list of all the enemies and their distances from the island">approachingEnemies</a>;
 <a name="l00084"></a>00084 
 <a name="l00085"></a>00085 <span class="preprocessor">        #endregion</span>
 <a name="l00086"></a>00086 <span class="preprocessor"></span>
@@ -124,7 +124,7 @@
 <a name="l00105"></a><a class="code" href="classBritbot_1_1SmartIsland_a6004923ed879c4fa3e4e30e22f7e965f.html#a6004923ed879c4fa3e4e30e22f7e965f">00105</a>         <span class="keyword">private</span> <a class="code" href="classBritbot_1_1SmartIsland_a00c8386e86dfec96731502bc727e9e57.html#a00c8386e86dfec96731502bc727e9e57" title="A static constructor which initializes the static island list on the first reference to a SmartIsland...">SmartIsland</a>(<span class="keywordtype">int</span> encapsulate)
 <a name="l00106"></a>00106         {
 <a name="l00107"></a>00107             this.<a class="code" href="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8" title="The unique ID of the island.">Id</a> = encapsulate;
-<a name="l00108"></a>00108             this.<a class="code" href="classBritbot_1_1SmartIsland_acd50ed9303bd1eeb9ae1aed5efa40ae8.html#acd50ed9303bd1eeb9ae1aed5efa40ae8" title="list of all the enemies and their distances from the island">EnemyDistances</a> = <span class="keyword">new</span> List&lt;KeyValuePair&lt;EnemyGroup, double&gt;&gt;();
+<a name="l00108"></a>00108             this.<a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff" title="list of all the enemies and their distances from the island">approachingEnemies</a> = <span class="keyword">new</span> List&lt;EnemyGroup&gt;();
 <a name="l00109"></a>00109             <span class="comment">//this.SurroundingForces = new Queue&lt;int&gt;();</span>
 <a name="l00110"></a>00110         }
 <a name="l00111"></a>00111 
@@ -156,7 +156,7 @@
 <a name="l00143"></a>00143 <span class="comment">                captureTime *= 2;*/</span>
 <a name="l00144"></a>00144 
 <a name="l00145"></a>00145             <span class="comment">//check if the island isn&#39;t already ours, if so disqualify it and return null</span>
-<a name="l00146"></a>00146             <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1SmartIsland_a84bb096563976d770ddd3d81a1eb5cec.html#a84bb096563976d770ddd3d81a1eb5cec" title="Who owns the island?">Owner</a> != Consts.ME || <span class="keyword">this</span>.TeamCapturing == Consts.ENEMY)
+<a name="l00146"></a>00146             <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1SmartIsland_a84bb096563976d770ddd3d81a1eb5cec.html#a84bb096563976d770ddd3d81a1eb5cec" title="Who owns the island?">Owner</a> != Consts.ME)
 <a name="l00147"></a>00147                 <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>(<span class="keyword">this</span>, <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.Island, <span class="keyword">this</span>.Value, <span class="keyword">this</span>.NearbyEnemyCount(CaptureZone),
 <a name="l00148"></a>00148                     distance + captureTime, this.<a class="code" href="classBritbot_1_1SmartIsland_a91a994a2f333301725bf4e5eafe98931.html#a91a994a2f333301725bf4e5eafe98931" title="Calculates the minimum amount of turns that a island will be under our control.">TurnsToEnemyCapture</a>(origin));
 <a name="l00149"></a>00149             <span class="keywordflow">return</span> null;
@@ -286,116 +286,116 @@
 <a name="l00306"></a>00306 <span class="comment">            }*/</span>
 <a name="l00307"></a>00307 
 <a name="l00308"></a>00308             <span class="comment">//update enemy distances</span>
-<a name="l00309"></a>00309             this.<a class="code" href="classBritbot_1_1SmartIsland_acd50ed9303bd1eeb9ae1aed5efa40ae8.html#acd50ed9303bd1eeb9ae1aed5efa40ae8" title="list of all the enemies and their distances from the island">EnemyDistances</a>.Clear();
+<a name="l00309"></a>00309             this.<a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff" title="list of all the enemies and their distances from the island">approachingEnemies</a>.Clear();
 <a name="l00310"></a>00310             <span class="keywordflow">foreach</span>(<a class="code" href="classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group.">EnemyGroup</a> eGroup <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Enemy.html" title="This class represent the enemy bot in the game.">Enemy</a>.<a class="code" href="classBritbot_1_1Enemy_a598923d8196e20cc9027d8ec578a23de.html#a598923d8196e20cc9027d8ec578a23de" title="A list of the enemy&#39;s groups.">Groups</a>)
 <a name="l00311"></a>00311             {
 <a name="l00312"></a>00312                 <span class="comment">//check that the enemy is heading here</span>
 <a name="l00313"></a>00313                 <span class="keywordflow">if</span> (eGroup.<a class="code" href="classBritbot_1_1EnemyGroup_a9ac53d86de138522cf316500b0419b70.html#a9ac53d86de138522cf316500b0419b70" title="This method checks if this enemy group could be approaching the given island first checks if it moves...">IsApproachingIsland</a>(<span class="keyword">this</span>))
 <a name="l00314"></a>00314                 {
-<a name="l00315"></a>00315                     <span class="keywordtype">double</span> distance = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Distance(this.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>, eGroup.<a class="code" href="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22" title="Returns the average location for this group.">GetLocation</a>());
-<a name="l00316"></a>00316                     this.<a class="code" href="classBritbot_1_1SmartIsland_acd50ed9303bd1eeb9ae1aed5efa40ae8.html#acd50ed9303bd1eeb9ae1aed5efa40ae8" title="list of all the enemies and their distances from the island">EnemyDistances</a>.Add(<span class="keyword">new</span> KeyValuePair&lt;EnemyGroup, double&gt;(eGroup, distance));
-<a name="l00317"></a>00317                 }
-<a name="l00318"></a>00318             }
-<a name="l00319"></a>00319             <span class="comment">//sort the list by distance</span>
-<a name="l00320"></a>00320             this.<a class="code" href="classBritbot_1_1SmartIsland_acd50ed9303bd1eeb9ae1aed5efa40ae8.html#acd50ed9303bd1eeb9ae1aed5efa40ae8" title="list of all the enemies and their distances from the island">EnemyDistances</a>.Sort((dist1, dist2) =&gt; dist1.Value.CompareTo(dist2.Value));
-<a name="l00321"></a>00321         }
-<a name="l00322"></a>00322 
-<a name="l00328"></a><a class="code" href="classBritbot_1_1SmartIsland_a01b3a0aacdc567d6ec708f47dc3684b7.html#a01b3a0aacdc567d6ec708f47dc3684b7">00328</a>         <span class="keyword">public</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1SmartIsland_a01b3a0aacdc567d6ec708f47dc3684b7.html#a01b3a0aacdc567d6ec708f47dc3684b7" title="Returns the minimal distance to enemy group uses the *SORTED* EnemyDistances list.">GetMinimumDistanceFromEnemy</a>()
-<a name="l00329"></a>00329         {
-<a name="l00330"></a>00330             <span class="comment">//if isn&#39;t empty</span>
-<a name="l00331"></a>00331             <span class="keywordflow">if</span>(this.<a class="code" href="classBritbot_1_1SmartIsland_acd50ed9303bd1eeb9ae1aed5efa40ae8.html#acd50ed9303bd1eeb9ae1aed5efa40ae8" title="list of all the enemies and their distances from the island">EnemyDistances</a>.Count &gt; 0)
-<a name="l00332"></a>00332                 <span class="keywordflow">return</span> this.<a class="code" href="classBritbot_1_1SmartIsland_acd50ed9303bd1eeb9ae1aed5efa40ae8.html#acd50ed9303bd1eeb9ae1aed5efa40ae8" title="list of all the enemies and their distances from the island">EnemyDistances</a>[0].Value;
-<a name="l00333"></a>00333 
-<a name="l00334"></a>00334             <span class="comment">//otherwise return the constant in MAGIC representing the best case scenario</span>
-<a name="l00335"></a>00335             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_ad5eb9ab943cae4be423869493fb9c203.html#ad5eb9ab943cae4be423869493fb9c203" title="the maximum distance of enemy from island that we can say with any certainty that he can possibly try...">MaxCalculableDistance</a>;
-<a name="l00336"></a>00336         }
-<a name="l00337"></a>00337 
-<a name="l00338"></a>00338         <span class="comment">/*public int GetEnemyNum()</span>
-<a name="l00339"></a>00339 <span class="comment">        {</span>
-<a name="l00340"></a>00340 <span class="comment">            int max = 0;</span>
-<a name="l00341"></a>00341 <span class="comment"></span>
-<a name="l00342"></a>00342 <span class="comment">            </span>
-<a name="l00343"></a>00343 <span class="comment">            foreach (int s in this.SurroundingForces)</span>
-<a name="l00344"></a>00344 <span class="comment">            {</span>
-<a name="l00345"></a>00345 <span class="comment">                if (s &gt; max)</span>
-<a name="l00346"></a>00346 <span class="comment">                    max = s;</span>
-<a name="l00347"></a>00347 <span class="comment">            }</span>
-<a name="l00348"></a>00348 <span class="comment">            return max;</span>
-<a name="l00349"></a>00349 <span class="comment">        }*/</span>
-<a name="l00350"></a>00350 
-<a name="l00351"></a><a class="code" href="classBritbot_1_1SmartIsland_ab53b03ed6f51778fbdf748de2eb578ba.html#ab53b03ed6f51778fbdf748de2eb578ba">00351</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1SmartIsland_ab53b03ed6f51778fbdf748de2eb578ba.html#ab53b03ed6f51778fbdf748de2eb578ba">UpdateAll</a>()
-<a name="l00352"></a>00352         {
-<a name="l00353"></a>00353             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a> sIsland <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.<a class="code" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300" title="Queue of the last few amounts of enemy troops around this island.">IslandList</a>)
-<a name="l00354"></a>00354             {
-<a name="l00355"></a>00355                 sIsland.<a class="code" href="classBritbot_1_1SmartIsland_ac4a3b45f88dd0fba977628d32572ce7a.html#ac4a3b45f88dd0fba977628d32572ce7a" title="updates the distances of all the enemies approaching the isalnds">Update</a>();
-<a name="l00356"></a>00356             }
-<a name="l00357"></a>00357             <a class="code" href="classBritbot_1_1SmartIsland_a98b5d146c4e1ad509e3f936704fc1790.html#a98b5d146c4e1ad509e3f936704fc1790">DebugAll</a>();
-<a name="l00358"></a>00358         }
-<a name="l00359"></a>00359 
-<a name="l00360"></a><a class="code" href="classBritbot_1_1SmartIsland_a471c2f95840c9027da2597bd1a4d5226.html#a471c2f95840c9027da2597bd1a4d5226">00360</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1SmartIsland_a471c2f95840c9027da2597bd1a4d5226.html#a471c2f95840c9027da2597bd1a4d5226">Debug</a>()
-<a name="l00361"></a>00361         {
-<a name="l00362"></a>00362             <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;Island &quot;</span> + this.<a class="code" href="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8" title="The unique ID of the island.">Id</a> + <span class="stringliteral">&quot; enemies: &quot;</span> + <span class="keywordtype">string</span>.Join(<span class="stringliteral">&quot;, &quot;</span>, this.<a class="code" href="classBritbot_1_1SmartIsland_acd50ed9303bd1eeb9ae1aed5efa40ae8.html#acd50ed9303bd1eeb9ae1aed5efa40ae8" title="list of all the enemies and their distances from the island">EnemyDistances</a>));
-<a name="l00363"></a>00363         }
-<a name="l00364"></a>00364 
-<a name="l00365"></a><a class="code" href="classBritbot_1_1SmartIsland_a98b5d146c4e1ad509e3f936704fc1790.html#a98b5d146c4e1ad509e3f936704fc1790">00365</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1SmartIsland_a98b5d146c4e1ad509e3f936704fc1790.html#a98b5d146c4e1ad509e3f936704fc1790">DebugAll</a>()
-<a name="l00366"></a>00366         {
-<a name="l00367"></a>00367             <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;--------ISLANDS DEBUG----------&quot;</span>);
-<a name="l00368"></a>00368             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a> sIsland <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.<a class="code" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300" title="Queue of the last few amounts of enemy troops around this island.">IslandList</a>)
-<a name="l00369"></a>00369                 sIsland.<a class="code" href="classBritbot_1_1SmartIsland_a471c2f95840c9027da2597bd1a4d5226.html#a471c2f95840c9027da2597bd1a4d5226">Debug</a>();
-<a name="l00370"></a>00370         }
-<a name="l00377"></a><a class="code" href="classBritbot_1_1SmartIsland_a5c72e36e0b8cc2a23a24fec4110e1790.html#a5c72e36e0b8cc2a23a24fec4110e1790">00377</a>         <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1SmartIsland_a5c72e36e0b8cc2a23a24fec4110e1790.html#a5c72e36e0b8cc2a23a24fec4110e1790" title="This function sais if it is ok for a given group to try and capture this isalnd considers all the oth...">IsDangerousForGroup</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g)
-<a name="l00378"></a>00378         {
-<a name="l00379"></a>00379             <span class="comment">//Bot.Game.Debug(&quot;IsDangerousForGroup island: &quot; + Id + &quot; group &quot; + g.Id);</span>
-<a name="l00380"></a>00380             <span class="comment">//calculate distance in turns till we reach the island</span>
-<a name="l00381"></a>00381             <span class="keywordtype">int</span> eta = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Distance(this.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>, g.<a class="code" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39" title="Find the center of the group.">FindCenter</a>(<span class="keyword">true</span>));
-<a name="l00382"></a>00382 
-<a name="l00383"></a>00383             <span class="comment">//find the distance of g from the island</span>
-<a name="l00384"></a>00384             <span class="keywordtype">int</span> distance = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Distance(this.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>, g.<a class="code" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39" title="Find the center of the group.">FindCenter</a>(<span class="keyword">true</span>));
-<a name="l00385"></a>00385 
-<a name="l00386"></a>00386             <span class="comment">//counting variables</span>
-<a name="l00387"></a>00387             <span class="keywordtype">int</span> closeEnemyNum = 0;
-<a name="l00388"></a>00388             <span class="keywordtype">int</span> farEnemyNum = 0;
-<a name="l00389"></a>00389 
-<a name="l00390"></a>00390             <span class="comment">//go over all the enemy groups and their distances</span>
-<a name="l00391"></a>00391             <span class="comment">//TODO: maybe consider the actual firepower of the enemy</span>
-<a name="l00392"></a>00392             <span class="keywordflow">foreach</span>(KeyValuePair&lt;EnemyGroup,double&gt; enemyDistance <span class="keywordflow">in</span> this.<a class="code" href="classBritbot_1_1SmartIsland_acd50ed9303bd1eeb9ae1aed5efa40ae8.html#acd50ed9303bd1eeb9ae1aed5efa40ae8" title="list of all the enemies and their distances from the island">EnemyDistances</a>)
-<a name="l00393"></a>00393             {
-<a name="l00394"></a>00394                 <span class="comment">//We diffarentiate between two cases</span>
-<a name="l00395"></a>00395                 <span class="keywordflow">if</span> (enemyDistance.Value &lt; distance) <span class="comment">//case 1: Enemy is closer to the island then we are</span>
-<a name="l00396"></a>00396                 {
-<a name="l00397"></a>00397                     <span class="comment">//check if we arrive before capture</span>
-<a name="l00398"></a>00398                     <span class="keywordflow">if</span> (distance &lt;this.<a class="code" href="classBritbot_1_1SmartIsland_a01b3a0aacdc567d6ec708f47dc3684b7.html#a01b3a0aacdc567d6ec708f47dc3684b7" title="Returns the minimal distance to enemy group uses the *SORTED* EnemyDistances list.">GetMinimumDistanceFromEnemy</a>() + this.<a class="code" href="classBritbot_1_1SmartIsland_a7a04c90a0262540cb9826164dd2699bc.html#a7a04c90a0262540cb9826164dd2699bc" title="This returns how many turns it would take for the conqueror team to capture the island considering ev...">RealTimeTillCapture</a>(Consts.ENEMY))
-<a name="l00399"></a>00399                         closeEnemyNum += enemyDistance.Key.EnemyPirates.Count;
-<a name="l00400"></a>00400                 }
-<a name="l00401"></a>00401                 <span class="keywordflow">else</span>                                <span class="comment">//case 2: Enemy is farther away to the island then we are</span>
-<a name="l00402"></a>00402                 {
-<a name="l00403"></a>00403                     <span class="comment">//if the enemy reaches us before we capture</span>
-<a name="l00404"></a>00404                     <span class="keywordflow">if</span> (enemyDistance.Value &lt; <span class="keyword">this</span>.RealTimeTillCapture(Consts.ME) + distance)
-<a name="l00405"></a>00405                         farEnemyNum += enemyDistance.Key.EnemyPirates.Count;
-<a name="l00406"></a>00406                 }
-<a name="l00407"></a>00407             }
-<a name="l00408"></a>00408 
-<a name="l00409"></a>00409             <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;island: &quot;</span> + <a class="code" href="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8" title="The unique ID of the island.">Id</a> + <span class="stringliteral">&quot; group &quot;</span> + g.Id + <span class="stringliteral">&quot; closeEnemyNum &quot;</span> + closeEnemyNum + <span class="stringliteral">&quot; farEnemyNum &quot;</span> + farEnemyNum + <span class="stringliteral">&quot; live &quot;</span> + g.LiveCount() + <span class="stringliteral">&quot; me&quot;</span> + this.<a class="code" href="classBritbot_1_1SmartIsland_a7a04c90a0262540cb9826164dd2699bc.html#a7a04c90a0262540cb9826164dd2699bc" title="This returns how many turns it would take for the conqueror team to capture the island considering ev...">RealTimeTillCapture</a>(Consts.ME) + <span class="stringliteral">&quot; en &quot;</span> + this.<a class="code" href="classBritbot_1_1SmartIsland_a7a04c90a0262540cb9826164dd2699bc.html#a7a04c90a0262540cb9826164dd2699bc" title="This returns how many turns it would take for the conqueror team to capture the island considering ev...">RealTimeTillCapture</a>(Consts.ENEMY));
-<a name="l00410"></a>00410             <span class="comment">//check if we could win both those who are close and those who are far</span>
-<a name="l00411"></a>00411 
-<a name="l00412"></a>00412             <span class="comment">//the enemy who are closer are at disaddvantage since they lose one pirate capturing the island</span>
-<a name="l00413"></a>00413             <span class="keywordflow">if</span> (g.LiveCount() &lt;= closeEnemyNum - 1)
-<a name="l00414"></a>00414                 <span class="keywordflow">return</span> <span class="keyword">true</span>;                       
-<a name="l00415"></a>00415 
-<a name="l00416"></a>00416             <span class="comment">//for the enemy who are farther, we are at a disaddvantage</span>
-<a name="l00417"></a>00417             <span class="keywordflow">if</span> ((farEnemyNum != 0) &amp;&amp;(g.LiveCount() - 1 &lt; farEnemyNum))
-<a name="l00418"></a>00418                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00419"></a>00419 
-<a name="l00420"></a>00420              <span class="comment">//special case: Manuver </span>
-<a name="l00421"></a>00421             <span class="keywordflow">if</span> ((farEnemyNum != 0) &amp;&amp; (g.LiveCount() - 1 == farEnemyNum))
-<a name="l00422"></a>00422             {
-<a name="l00423"></a>00423                 <span class="comment">//we would like to run from the island only when they are realy close so we will catch them</span>
-<a name="l00424"></a>00424                 <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1SmartIsland_a01b3a0aacdc567d6ec708f47dc3684b7.html#a01b3a0aacdc567d6ec708f47dc3684b7" title="Returns the minimal distance to enemy group uses the *SORTED* EnemyDistances list.">GetMinimumDistanceFromEnemy</a>() &lt; <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a5940fdae77a1f808c2fc5aa906a05f41.html#a5940fdae77a1f808c2fc5aa906a05f41" title="The distance where a group shpuld make a maneuver (get off the island and attack the enemy)...">ManeuverDistance</a>)
-<a name="l00425"></a>00425                 {
-<a name="l00426"></a>00426                     <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;MANUVER: &quot;</span> + <span class="stringliteral">&quot;island: &quot;</span> + <a class="code" href="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8" title="The unique ID of the island.">Id</a> + <span class="stringliteral">&quot; group &quot;</span> + g.Id);
-<a name="l00427"></a>00427                     <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00428"></a>00428                 }
-<a name="l00429"></a>00429             }
+<a name="l00315"></a>00315                     this.<a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff" title="list of all the enemies and their distances from the island">approachingEnemies</a>.Add(eGroup);
+<a name="l00316"></a>00316                 }
+<a name="l00317"></a>00317             }
+<a name="l00318"></a>00318             <span class="comment">//sort the list by distance</span>
+<a name="l00319"></a>00319             this.<a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff" title="list of all the enemies and their distances from the island">approachingEnemies</a>.Sort((e1, e2) =&gt; e1.MinimalETATo(<span class="keyword">this</span>.Loc).CompareTo(e2.MinimalSquaredDistanceTo(<span class="keyword">this</span>.Loc)));
+<a name="l00320"></a>00320         }
+<a name="l00321"></a>00321 
+<a name="l00327"></a><a class="code" href="classBritbot_1_1SmartIsland_aac6a9a30b5ce108b272b67a9be60015f.html#aac6a9a30b5ce108b272b67a9be60015f">00327</a>         <span class="keyword">public</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1SmartIsland_aac6a9a30b5ce108b272b67a9be60015f.html#aac6a9a30b5ce108b272b67a9be60015f" title="Returns the minimal distance to enemy group uses the *SORTED* EnemyDistances list.">GetMinimumSquareDistanceFromEnemy</a>()
+<a name="l00328"></a>00328         {
+<a name="l00329"></a>00329             <span class="comment">//if isn&#39;t empty</span>
+<a name="l00330"></a>00330             <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff" title="list of all the enemies and their distances from the island">approachingEnemies</a>.Count &gt; 0)
+<a name="l00331"></a>00331                 <span class="keywordflow">return</span> this.<a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff" title="list of all the enemies and their distances from the island">approachingEnemies</a>[0].MinimalSquaredDistanceTo(this.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>);
+<a name="l00332"></a>00332 
+<a name="l00333"></a>00333             <span class="comment">//otherwise return the constant in MAGIC representing the best case scenario</span>
+<a name="l00334"></a>00334             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_ad5eb9ab943cae4be423869493fb9c203.html#ad5eb9ab943cae4be423869493fb9c203" title="the maximum distance of enemy from island that we can say with any certainty that he can possibly try...">MaxCalculableDistance</a>;
+<a name="l00335"></a>00335         }
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337         <span class="comment">/*public int GetEnemyNum()</span>
+<a name="l00338"></a>00338 <span class="comment">        {</span>
+<a name="l00339"></a>00339 <span class="comment">            int max = 0;</span>
+<a name="l00340"></a>00340 <span class="comment"></span>
+<a name="l00341"></a>00341 <span class="comment">            </span>
+<a name="l00342"></a>00342 <span class="comment">            foreach (int s in this.SurroundingForces)</span>
+<a name="l00343"></a>00343 <span class="comment">            {</span>
+<a name="l00344"></a>00344 <span class="comment">                if (s &gt; max)</span>
+<a name="l00345"></a>00345 <span class="comment">                    max = s;</span>
+<a name="l00346"></a>00346 <span class="comment">            }</span>
+<a name="l00347"></a>00347 <span class="comment">            return max;</span>
+<a name="l00348"></a>00348 <span class="comment">        }*/</span>
+<a name="l00349"></a>00349 
+<a name="l00350"></a><a class="code" href="classBritbot_1_1SmartIsland_ab53b03ed6f51778fbdf748de2eb578ba.html#ab53b03ed6f51778fbdf748de2eb578ba">00350</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1SmartIsland_ab53b03ed6f51778fbdf748de2eb578ba.html#ab53b03ed6f51778fbdf748de2eb578ba">UpdateAll</a>()
+<a name="l00351"></a>00351         {
+<a name="l00352"></a>00352             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a> sIsland <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.<a class="code" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300" title="Queue of the last few amounts of enemy troops around this island.">IslandList</a>)
+<a name="l00353"></a>00353             {
+<a name="l00354"></a>00354                 sIsland.<a class="code" href="classBritbot_1_1SmartIsland_ac4a3b45f88dd0fba977628d32572ce7a.html#ac4a3b45f88dd0fba977628d32572ce7a" title="updates the distances of all the enemies approaching the isalnds">Update</a>();
+<a name="l00355"></a>00355             }
+<a name="l00356"></a>00356             <a class="code" href="classBritbot_1_1SmartIsland_a98b5d146c4e1ad509e3f936704fc1790.html#a98b5d146c4e1ad509e3f936704fc1790">DebugAll</a>();
+<a name="l00357"></a>00357         }
+<a name="l00358"></a>00358 
+<a name="l00359"></a><a class="code" href="classBritbot_1_1SmartIsland_a471c2f95840c9027da2597bd1a4d5226.html#a471c2f95840c9027da2597bd1a4d5226">00359</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1SmartIsland_a471c2f95840c9027da2597bd1a4d5226.html#a471c2f95840c9027da2597bd1a4d5226">Debug</a>()
+<a name="l00360"></a>00360         {
+<a name="l00361"></a>00361             <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;Island &quot;</span> + this.<a class="code" href="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8" title="The unique ID of the island.">Id</a> + <span class="stringliteral">&quot; enemies: &quot;</span> + <span class="keywordtype">string</span>.Join(<span class="stringliteral">&quot;, &quot;</span>, this.<a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff" title="list of all the enemies and their distances from the island">approachingEnemies</a>));
+<a name="l00362"></a>00362         }
+<a name="l00363"></a>00363 
+<a name="l00364"></a><a class="code" href="classBritbot_1_1SmartIsland_a98b5d146c4e1ad509e3f936704fc1790.html#a98b5d146c4e1ad509e3f936704fc1790">00364</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1SmartIsland_a98b5d146c4e1ad509e3f936704fc1790.html#a98b5d146c4e1ad509e3f936704fc1790">DebugAll</a>()
+<a name="l00365"></a>00365         {
+<a name="l00366"></a>00366             <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;--------ISLANDS DEBUG----------&quot;</span>);
+<a name="l00367"></a>00367             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a> sIsland <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.<a class="code" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300" title="Queue of the last few amounts of enemy troops around this island.">IslandList</a>)
+<a name="l00368"></a>00368                 sIsland.<a class="code" href="classBritbot_1_1SmartIsland_a471c2f95840c9027da2597bd1a4d5226.html#a471c2f95840c9027da2597bd1a4d5226">Debug</a>();
+<a name="l00369"></a>00369         }
+<a name="l00376"></a><a class="code" href="classBritbot_1_1SmartIsland_a5c72e36e0b8cc2a23a24fec4110e1790.html#a5c72e36e0b8cc2a23a24fec4110e1790">00376</a>         <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1SmartIsland_a5c72e36e0b8cc2a23a24fec4110e1790.html#a5c72e36e0b8cc2a23a24fec4110e1790" title="This function sais if it is ok for a given group to try and capture this isalnd considers all the oth...">IsDangerousForGroup</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g)
+<a name="l00377"></a>00377         {
+<a name="l00378"></a>00378             <span class="comment">//Bot.Game.Debug(&quot;IsDangerousForGroup island: &quot; + Id + &quot; group &quot; + g.Id);</span>
+<a name="l00379"></a>00379             <span class="comment">//calculate distance in turns till we reach the island</span>
+<a name="l00380"></a>00380             <span class="keywordtype">int</span> eta = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Distance(this.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>, g.<a class="code" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39" title="Find the center of the group.">FindCenter</a>(<span class="keyword">true</span>));
+<a name="l00381"></a>00381 
+<a name="l00382"></a>00382             <span class="comment">//find the distance of g from the island</span>
+<a name="l00383"></a>00383             <span class="keywordtype">int</span> distance = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Distance(this.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>, g.<a class="code" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39" title="Find the center of the group.">FindCenter</a>(<span class="keyword">true</span>));
+<a name="l00384"></a>00384 
+<a name="l00385"></a>00385                        
+<a name="l00386"></a>00386 
+<a name="l00387"></a>00387             <span class="comment">//go over all the enemy groups approaching and their distances</span>
+<a name="l00388"></a>00388             <span class="comment">//TODO: maybe consider the actual firepower of the enemy</span>
+<a name="l00389"></a>00389             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group.">EnemyGroup</a> eGroup <span class="keywordflow">in</span> this.<a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff" title="list of all the enemies and their distances from the island">approachingEnemies</a>)
+<a name="l00390"></a>00390             {
+<a name="l00391"></a>00391                 <span class="comment">//calculate this enemy groups time of arival</span>
+<a name="l00392"></a>00392                 <span class="keywordtype">double</span> EnemyETA = eGroup.<a class="code" href="classBritbot_1_1EnemyGroup_a7d3a5739973fb4d03a810f8a58900c19.html#a7d3a5739973fb4d03a810f8a58900c19" title="Gets the minimal number of turns for the group to reach the given location.">MinimalETATo</a>(this.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>);
+<a name="l00393"></a>00393 
+<a name="l00394"></a>00394                 <span class="comment">//read enemy force</span>
+<a name="l00395"></a>00395                 <span class="keywordtype">double</span> enemyForce = eGroup.<a class="code" href="classBritbot_1_1EnemyGroup_a189f0508a74358c3c57cfafe363dabb2.html#a189f0508a74358c3c57cfafe363dabb2" title="returns the average of the maximum fight power in the last outOfDateNumber of turns">GetMaxFightPower</a>();
+<a name="l00396"></a>00396 
+<a name="l00397"></a>00397                 <span class="comment">//We diffarentiate between two cases</span>
+<a name="l00398"></a>00398                 <span class="keywordflow">if</span> (EnemyETA &lt; distance) <span class="comment">//case 1: Enemy is closer to the island then we are</span>
+<a name="l00399"></a>00399                 {
+<a name="l00400"></a>00400                     <span class="comment">//check if we arrive before capture</span>
+<a name="l00401"></a>00401                     <span class="keywordflow">if</span> (distance &lt; EnemyETA + this.<a class="code" href="classBritbot_1_1SmartIsland_a7a04c90a0262540cb9826164dd2699bc.html#a7a04c90a0262540cb9826164dd2699bc" title="This returns how many turns it would take for the conqueror team to capture the island considering ev...">RealTimeTillCapture</a>(Consts.ENEMY))
+<a name="l00402"></a>00402                     {
+<a name="l00403"></a>00403                         <span class="comment">//the enemy who are closer are at disaddvantage since they lose one pirate capturing the island</span>
+<a name="l00404"></a>00404                         <span class="keywordflow">if</span> (g.LiveCount() &lt;= enemyForce - 1)
+<a name="l00405"></a>00405                             <span class="keywordflow">return</span> <span class="keyword">true</span>;       
+<a name="l00406"></a>00406                     }
+<a name="l00407"></a>00407                 }
+<a name="l00408"></a>00408                 <span class="keywordflow">else</span>                                <span class="comment">//case 2: Enemy is farther away to the island then we are</span>
+<a name="l00409"></a>00409                 {
+<a name="l00410"></a>00410                     <span class="comment">//if the enemy reaches us before we capture</span>
+<a name="l00411"></a>00411                     <span class="keywordflow">if</span> (EnemyETA &lt; this.<a class="code" href="classBritbot_1_1SmartIsland_a7a04c90a0262540cb9826164dd2699bc.html#a7a04c90a0262540cb9826164dd2699bc" title="This returns how many turns it would take for the conqueror team to capture the island considering ev...">RealTimeTillCapture</a>(Consts.ME) + distance)
+<a name="l00412"></a>00412                     {
+<a name="l00413"></a>00413                         <span class="comment">//for the enemy who are farther, we are at a disaddvantage</span>
+<a name="l00414"></a>00414                         <span class="keywordflow">if</span> ((enemyForce != 0) &amp;&amp; (g.LiveCount() - 1 &lt; enemyForce))
+<a name="l00415"></a>00415                             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00416"></a>00416 
+<a name="l00417"></a>00417                         <span class="comment">//special case: Manuver </span>
+<a name="l00418"></a>00418                         <span class="keywordflow">if</span> ((enemyForce != 0) &amp;&amp; (g.LiveCount() - 1 == enemyForce))
+<a name="l00419"></a>00419                         {
+<a name="l00420"></a>00420                             <span class="comment">//we would like to run from the island only when they are realy close so we will catch them</span>
+<a name="l00421"></a>00421                             <span class="keywordflow">if</span> (eGroup.<a class="code" href="classBritbot_1_1EnemyGroup_afe3bf8cafa7236d75c929eeaa84ef97b.html#afe3bf8cafa7236d75c929eeaa84ef97b" title="Gets the minimal distance from this enemy group to a location.">MinimalSquaredDistanceTo</a>(<span class="keyword">this</span>.Loc) &lt; <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a5940fdae77a1f808c2fc5aa906a05f41.html#a5940fdae77a1f808c2fc5aa906a05f41" title="The distance where a group shpuld make a maneuver (get off the island and attack the enemy)...">ManeuverDistance</a>)
+<a name="l00422"></a>00422                             {
+<a name="l00423"></a>00423                                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00424"></a>00424                             }
+<a name="l00425"></a>00425                         }
+<a name="l00426"></a>00426                     }
+<a name="l00427"></a>00427                 }
+<a name="l00428"></a>00428             }
+<a name="l00429"></a>00429                                                              
 <a name="l00430"></a>00430             <span class="comment">//if we are here then everything is ok</span>
 <a name="l00431"></a>00431             <span class="keywordflow">return</span> <span class="keyword">false</span>;
 <a name="l00432"></a>00432         }
@@ -460,7 +460,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 22 2015 14:25:07 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 22 2015 16:26:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
