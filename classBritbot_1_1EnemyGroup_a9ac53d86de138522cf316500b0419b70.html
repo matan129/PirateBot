@@ -132,11 +132,10 @@
             {
                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
             }
-
             <span class="comment">//read the distance between the trajectory of the enemy group and the island</span>
             <span class="keywordtype">double</span> distance = Navigator.CalcDistFromLine(sIsland.Loc, <span class="keyword">this</span>.GetLocation(), this.<a class="code" href="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78" title="This function calculates this enemy group direction based on its last directions simply adds them up...">GetHeading</a>());
-            Bot.Game.Debug(<span class="stringliteral">&quot;Loc &quot;</span> + sIsland.Loc + <span class="stringliteral">&quot; line loc: &quot;</span> + <span class="keyword">this</span>.GetLocation().ToString() + <span class="stringliteral">&quot; heading: &quot;</span> + this.<a class="code" href="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78" title="This function calculates this enemy group direction based on its last directions simply adds them up...">GetHeading</a>().<a class="code" href="classBritbot_1_1HeadingVector_a8e3ba8001c1e048aa6206f48e842244a.html#a8e3ba8001c1e048aa6206f48e842244a" title="To string function...">ToString</a>());
-            Bot.Game.Debug(<span class="stringliteral">&quot;Distance: &quot;</span> + distance);
+            <span class="comment">/*Bot.Game.Debug(&quot;Loc &quot; + sIsland.Loc + &quot; line loc: &quot; + this.GetLocation().ToString() + &quot; heading: &quot; + this.GetHeading().ToString());</span>
+<span class="comment">            Bot.Game.Debug(&quot;Distance: &quot; + distance);*/</span>
             <span class="comment">//compare it to the constant defined in magic</span>
             <span class="keywordflow">return</span> distance &lt;= Magic.EnemyPredictionSensitivity;
         }
@@ -150,7 +149,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 21 2015 19:22:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 22 2015 11:07:51 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
