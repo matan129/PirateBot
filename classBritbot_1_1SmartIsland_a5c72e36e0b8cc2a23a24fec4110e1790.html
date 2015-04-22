@@ -122,6 +122,7 @@
 
 <p>Definition at line <a class="el" href="SmartIsland_8cs_source.html#l00377">377</a> of file <a class="el" href="SmartIsland_8cs_source.html">SmartIsland.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
+            <span class="comment">//Bot.Game.Debug(&quot;IsDangerousForGroup island: &quot; + Id + &quot; group &quot; + g.Id);</span>
             <span class="comment">//calculate distance in turns till we reach the island</span>
             <span class="keywordtype">int</span> eta = Bot.Game.Distance(this.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>, g.FindCenter(<span class="keyword">true</span>));
 
@@ -140,17 +141,18 @@
                 <span class="keywordflow">if</span> (enemyDistance.Value &lt; distance) <span class="comment">//case 1: Enemy is closer to the island then we are</span>
                 {
                     <span class="comment">//check if we arrive before capture</span>
-                    <span class="keywordflow">if</span> (distance &lt; this.<a class="code" href="classBritbot_1_1SmartIsland_a7a04c90a0262540cb9826164dd2699bc.html#a7a04c90a0262540cb9826164dd2699bc" title="This returns how many turns it would take for the conqueror team to capture the island considering ev...">RealTimeTillCapture</a>(Consts.ENEMY))
+                    <span class="keywordflow">if</span> (distance &lt;this.<a class="code" href="classBritbot_1_1SmartIsland_a01b3a0aacdc567d6ec708f47dc3684b7.html#a01b3a0aacdc567d6ec708f47dc3684b7" title="Returns the minimal distance to enemy group uses the *SORTED* EnemyDistances list.">GetMinimumDistanceFromEnemy</a>() + this.<a class="code" href="classBritbot_1_1SmartIsland_a7a04c90a0262540cb9826164dd2699bc.html#a7a04c90a0262540cb9826164dd2699bc" title="This returns how many turns it would take for the conqueror team to capture the island considering ev...">RealTimeTillCapture</a>(Consts.ENEMY))
                         closeEnemyNum += enemyDistance.Key.EnemyPirates.Count;
                 }
                 <span class="keywordflow">else</span>                                <span class="comment">//case 2: Enemy is farther away to the island then we are</span>
                 {
                     <span class="comment">//if the enemy reaches us before we capture</span>
-                    <span class="keywordflow">if</span> (enemyDistance.Value &lt;<span class="keyword">this</span>.RealTimeTillCapture(Consts.ME))
+                    <span class="keywordflow">if</span> (enemyDistance.Value &lt; <span class="keyword">this</span>.RealTimeTillCapture(Consts.ME) + distance)
                         farEnemyNum += enemyDistance.Key.EnemyPirates.Count;
                 }
             }
 
+            Bot.Game.Debug(<span class="stringliteral">&quot;island: &quot;</span> + <a class="code" href="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8" title="The unique ID of the island.">Id</a> + <span class="stringliteral">&quot; group &quot;</span> + g.Id + <span class="stringliteral">&quot; closeEnemyNum &quot;</span> + closeEnemyNum + <span class="stringliteral">&quot; farEnemyNum &quot;</span> + farEnemyNum + <span class="stringliteral">&quot; live &quot;</span> + g.LiveCount() + <span class="stringliteral">&quot; me&quot;</span> + this.<a class="code" href="classBritbot_1_1SmartIsland_a7a04c90a0262540cb9826164dd2699bc.html#a7a04c90a0262540cb9826164dd2699bc" title="This returns how many turns it would take for the conqueror team to capture the island considering ev...">RealTimeTillCapture</a>(Consts.ME) + <span class="stringliteral">&quot; en &quot;</span> + this.<a class="code" href="classBritbot_1_1SmartIsland_a7a04c90a0262540cb9826164dd2699bc.html#a7a04c90a0262540cb9826164dd2699bc" title="This returns how many turns it would take for the conqueror team to capture the island considering ev...">RealTimeTillCapture</a>(Consts.ENEMY));
             <span class="comment">//check if we could win both those who are close and those who are far</span>
 
             <span class="comment">//the enemy who are closer are at disaddvantage since they lose one pirate capturing the island</span>
@@ -158,16 +160,16 @@
                 <span class="keywordflow">return</span> <span class="keyword">true</span>;                       
 
             <span class="comment">//for the enemy who are farther, we are at a disaddvantage</span>
-            <span class="keywordflow">if</span> (g.LiveCount() - 1 &lt; farEnemyNum)
+            <span class="keywordflow">if</span> ((farEnemyNum != 0) &amp;&amp;(g.LiveCount() - 1 &lt; farEnemyNum))
                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
 
              <span class="comment">//special case: Manuver </span>
-            <span class="keywordflow">if</span> (g.LiveCount() - 1 == farEnemyNum)
+            <span class="keywordflow">if</span> ((farEnemyNum != 0) &amp;&amp; (g.LiveCount() - 1 == farEnemyNum))
             {
                 <span class="comment">//we would like to run from the island only when they are realy close so we will catch them</span>
                 <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1SmartIsland_a01b3a0aacdc567d6ec708f47dc3684b7.html#a01b3a0aacdc567d6ec708f47dc3684b7" title="Returns the minimal distance to enemy group uses the *SORTED* EnemyDistances list.">GetMinimumDistanceFromEnemy</a>() &lt; Magic.ManeuverDistance)
                 {
-                    Bot.Game.Debug(<span class="stringliteral">&quot;manuever&quot;</span>);
+                    Bot.Game.Debug(<span class="stringliteral">&quot;MANUVER: &quot;</span> + <span class="stringliteral">&quot;island: &quot;</span> + <a class="code" href="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8" title="The unique ID of the island.">Id</a> + <span class="stringliteral">&quot; group &quot;</span> + g.Id);
                     <span class="keywordflow">return</span> <span class="keyword">true</span>;
                 }
             }
@@ -184,7 +186,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 22 2015 11:07:52 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 22 2015 14:25:08 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

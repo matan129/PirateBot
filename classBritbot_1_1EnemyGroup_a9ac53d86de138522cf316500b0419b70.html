@@ -121,9 +121,17 @@
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true if it is possible that the enemy is approching the island</dd></dl>
 
-<p>Definition at line <a class="el" href="EnemyGroup_8cs_source.html#l00475">475</a> of file <a class="el" href="EnemyGroup_8cs_source.html">EnemyGroup.cs</a>.</p>
+<p>Definition at line <a class="el" href="EnemyGroup_8cs_source.html#l00474">474</a> of file <a class="el" href="EnemyGroup_8cs_source.html">EnemyGroup.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            
+            <span class="comment">//if the group is stationary just check if it is close</span>
+            <span class="keywordflow">if</span>(this.<a class="code" href="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78" title="This function calculates this enemy group direction based on its last directions simply adds them up...">GetHeading</a>().NormSquared() == 0)
+            {
+                <span class="keywordflow">return</span> Bot.Game.EuclidianDistanceSquared(this.<a class="code" href="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22" title="Returns the average location for this group.">GetLocation</a>(), sIsland.Loc) &lt;= Magic.ApproachDistanceSquaredOfStationaryTarget;
+            }
+            <span class="comment">//check if the enemy group is on the island</span>
+            <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1EnemyGroup_afe3bf8cafa7236d75c929eeaa84ef97b.html#afe3bf8cafa7236d75c929eeaa84ef97b" title="Gets the minimal distance from this enemy group to a location.">MinimalSquaredDistanceTo</a>(sIsland.Loc) &lt; 1)
+                <span class="keywordflow">return</span> <span class="keyword">true</span>;
+
             <span class="comment">//calculate the difference vector between the enemy group and the island</span>
             HeadingVector difference = HeadingVector.CalcDifference(this.<a class="code" href="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22" title="Returns the average location for this group.">GetLocation</a>(), sIsland.Loc);
 
@@ -149,7 +157,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 22 2015 11:07:51 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 22 2015 14:25:07 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

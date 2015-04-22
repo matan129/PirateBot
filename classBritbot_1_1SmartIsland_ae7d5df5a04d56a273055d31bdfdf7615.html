@@ -130,7 +130,7 @@
             <span class="comment">//check if there are more enemies than we can kill</span>
             <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1SmartIsland_a5c72e36e0b8cc2a23a24fec4110e1790.html#a5c72e36e0b8cc2a23a24fec4110e1790" title="This function sais if it is ok for a given group to try and capture this isalnd considers all the oth...">IsDangerousForGroup</a>(origin))
             {
-                Bot.Game.Debug(<span class="stringliteral">&quot;&quot;</span>);
+                Bot.Game.Debug(<span class="stringliteral">&quot;Danger--- Group &quot;</span> + origin.Id + <span class="stringliteral">&quot; island: &quot;</span> + <span class="keyword">this</span>.Id);
                 <span class="keywordflow">return</span> null;
             }
 
@@ -161,7 +161,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 22 2015 11:07:52 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 22 2015 14:25:08 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
