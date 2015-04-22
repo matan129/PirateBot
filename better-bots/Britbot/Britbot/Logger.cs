@@ -47,14 +47,14 @@ namespace Britbot
 #endif
 
 
-            if (Logger.begins.ContainsKey(key))
+            /*if (Logger.begins.ContainsKey(key))
             {
                 Logger.begins[key] = Commander.TurnTimer.ElapsedMilliseconds;
             }
             else
             {
                 Logger.begins.Add(key, Commander.TurnTimer.ElapsedMilliseconds);
-            }
+            }*/
         }
 
         public static void StopTime(string key)
@@ -70,7 +70,7 @@ namespace Britbot
             }
 #endif
 
-            if (Logger.times.ContainsKey(key))
+            /*if (Logger.times.ContainsKey(key))
             {
                 Logger.times[key].Enqueue(Commander.TurnTimer.ElapsedMilliseconds - Logger.begins[key]);
             }
@@ -82,7 +82,7 @@ namespace Britbot
                 //keep the logger small
                 if (Logger.times[key].Count > 100)
                     Logger.times[key].Dequeue();
-            }
+            }*/
         }
 
         public static void Count(string key)

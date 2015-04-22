@@ -199,8 +199,13 @@ namespace Britbot
                 Commander.CalculateAndAssignTargets(cancellationToken);
                 Logger.StopTime("CalculateAndAssignTargets");
 
+                //fix configuration
+                //FixGroupArrangement();
 
                 Logger.BeginTime("GetAllMoves");
+
+                
+
                 //Get the moves for all the pirates and return them
                 Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
                 Logger.StopTime("GetAllMoves");
@@ -525,6 +530,34 @@ namespace Britbot
             Parallel.ForEach(Commander.Groups, g => g.CalcPriorities(cancellationToken));
 
             Bot.Game.Debug("Priorities Calculated");
+        }
+
+        public static void FixGroupArrangement()
+        {
+            //going over all pair of groups
+            foreach(Group g1 in Commander.Groups)
+            {
+                foreach(Group g2 in Commander.Groups)
+                {
+                    //check if it is the same
+                    if (g1.Equals(g2))
+                        continue;
+
+                    //check if they are messed out
+                    if(Group.CheckIfGroupsIntersects(g1,g2))
+                    {
+                        //find larger group
+                        if(g1.Pirates.Count > g2.Pirates.Count)
+                        {
+                            Group.Switch(g1, g2);
+                        }
+                        else
+                        {
+                            Group.Switch(g2, g1);
+                        }
+                    }
+                }
+            }
         }
     }
 }

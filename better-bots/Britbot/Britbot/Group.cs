@@ -82,7 +82,7 @@ namespace Britbot
         public Group()
         {
             this.Pirates = new List<int>();
-            this.Heading = new HeadingVector(0, 0);
+            this.Heading = new HeadingVector(1, 0);
             this.Priorities = new List<Score>();
 
             //get id and update counter
@@ -810,6 +810,69 @@ namespace Britbot
         {
             throw new NotImplementedException();
 
+        }
+
+        /// <summary>
+        /// Given two groups it will rearange the pirates in them so that the big group
+        /// will have the pirates who are the most addvanced
+        /// </summary>
+        /// <param name="bigGroup">the big group</param>
+        /// <param name="smallGroup">the small group</param>
+        public static void Switch(Group bigGroup, Group smallGroup)
+        {
+            //define the list of pirates of both groups
+            List<int> pirateList = new List<int>();
+
+            //add pirates of the biggroup
+            foreach (int pirate in bigGroup.Pirates)
+            {
+                pirateList.Add(pirate);
+            }
+
+            //add pirates of the small group
+            foreach (int pirate in smallGroup.Pirates)
+            {
+                pirateList.Add(pirate);
+            }
+
+            //sort array by allignment with the vector specified
+            pirateList.Sort((p1, p2) => -1 * Navigator.ComparePirateByDirection(p1, p2, bigGroup.Heading));
+
+            //replace pirates
+            bigGroup.Pirates = pirateList.GetRange(0, bigGroup.Pirates.Count);
+            pirateList.RemoveRange(0, bigGroup.Pirates.Count);
+            smallGroup.Pirates = pirateList;
+        }
+
+        /// <summary>
+        /// checks if two groups are messed around in one another
+        /// TODO: make this smarter
+        /// </summary>
+        /// <param name="g1">first group</param>
+        /// <param name="g2">second group</param>
+        /// <returns>true if they are close enouth</returns>
+        public static bool CheckIfGroupsIntersects(Group g1,Group g2)
+        {
+            //going over all the pirates in G1
+            foreach(int intPirate1 in g1.Pirates)
+            {
+                //convertion
+                Pirate pirate1 = Bot.Game.GetMyPirate(intPirate1);
+
+                //going over pirates in G2
+                foreach(int intPirate2 in g2.Pirates)
+                {
+                    //conversion
+                    Pirate pirate2 = Bot.Game.GetMyPirate(intPirate2);
+
+                    //check if distance is small enough
+                    if (Bot.Game.EuclidianDistanceSquared(pirate1.Loc, pirate2.Loc) <= Magic.GroupIntersectionDistance)
+                        return true;
+                }
+            }
+
+            //otherwise return false
+            return false;
         }
     }
 }

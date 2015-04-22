@@ -109,12 +109,7 @@ namespace Britbot
             if (!Navigator.IsReachable(origin.GetLocation(), GetLocation(), this.GetHeading()))
                 return null;
 
-            //if it is very close to some island then return null since we might as well go for the island not creating
-            //double targets
-            foreach (SmartIsland sIsle in SmartIsland.IslandList)
-                if (Bot.Game.IsReallyInRange(this.GetLocation(), sIsle.Loc))
-                    return null;
-
+            
             //Reduce the score in proportion to distance
             //lower score is worse. Mind the minus sign!
             double distance = Navigator.CalcDistFromLine(origin.GetLocation(), this.GetLocation(), this.GetHeading());
@@ -434,6 +429,22 @@ namespace Britbot
             foreach (int pirate in EnemyPirates)
             {
                 if (Bot.Game.EuclidianDistanceSquared(location, this.GetLocation()) < min)
+                    min = Bot.Game.EuclidianDistanceSquared(location, this.GetLocation());
+            }
+            return min;
+        }
+
+        /// <summary>
+        /// Gets the minimal number of turns for the group to reach the given location
+        /// </summary>
+        /// <param name="location">the location tested</param>
+        /// <returns>minimal number of turns till the group gets to the location</returns>
+        public double MinimalETATo(Location location)
+        {
+            double min = Bot.Game.GetCols() + Bot.Game.GetRows();
+            foreach (int pirate in EnemyPirates)
+            {
+                if (Bot.Game.Distance(location, this.GetLocation()) < min)
                     min = Bot.Game.EuclidianDistanceSquared(location, this.GetLocation());
             }
             return min;

@@ -64,6 +64,14 @@ namespace Britbot
         {
             get { return Bot.Game.GetAttackRadius(); }
         }
+
+        /// <summary>
+        /// The distance under wich two groups will be considered intersected
+        /// </summary>
+        public static double GroupIntersectionDistance
+        {
+            get { return Bot.Game.GetAttackRadius(); }
+        }
         #endregion
     }
 }

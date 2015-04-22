@@ -80,7 +80,7 @@ namespace Britbot
         /// <summary>
         /// list of all the enemies and their distances from the island
         /// </summary>
-        private List<KeyValuePair<EnemyGroup, double>> EnemyDistances;
+        private List<EnemyGroup> approachingEnemies;
 
         #endregion
 
@@ -105,7 +105,7 @@ namespace Britbot
         private SmartIsland(int encapsulate)
         {
             this.Id = encapsulate;
-            this.EnemyDistances = new List<KeyValuePair<EnemyGroup, double>>();
+            this.approachingEnemies = new List<EnemyGroup>();
             //this.SurroundingForces = new Queue<int>();
         }
 
@@ -143,7 +143,7 @@ namespace Britbot
                 captureTime *= 2;*/
 
             //check if the island isn't already ours, if so disqualify it and return null
-            if (this.Owner != Consts.ME || this.TeamCapturing == Consts.ENEMY)
+            if (this.Owner != Consts.ME)
                 return new Score(this, TargetType.Island, this.Value, this.NearbyEnemyCount(CaptureZone),
                     distance + captureTime, this.TurnsToEnemyCapture(origin));
             return null;
@@ -306,18 +306,17 @@ namespace Britbot
             }*/
 
             //update enemy distances
-            this.EnemyDistances.Clear();
+            this.approachingEnemies.Clear();
             foreach(EnemyGroup eGroup in Enemy.Groups)
             {
                 //check that the enemy is heading here
                 if (eGroup.IsApproachingIsland(this))
                 {
-                    double distance = Bot.Game.Distance(this.Loc, eGroup.GetLocation());
-                    this.EnemyDistances.Add(new KeyValuePair<EnemyGroup, double>(eGroup, distance));
+                    this.approachingEnemies.Add(eGroup);
                 }
             }
             //sort the list by distance
-            this.EnemyDistances.Sort((dist1, dist2) => dist1.Value.CompareTo(dist2.Value));
+            this.approachingEnemies.Sort((e1, e2) => e1.MinimalETATo(this.Loc).CompareTo(e2.MinimalSquaredDistanceTo(this.Loc)));
         }
 
         /// <summary>
@@ -325,11 +324,11 @@ namespace Britbot
         /// uses the *SORTED* EnemyDistances list
         /// </summary>
         /// <returns>minimal distance to enemy group</returns>
-        public double GetMinimumDistanceFromEnemy()
+        public double GetMinimumSquareDistanceFromEnemy()
         {
             //if isn't empty
-            if(this.EnemyDistances.Count > 0)
-                return this.EnemyDistances[0].Value;
+            if (this.approachingEnemies.Count > 0)
+                return this.approachingEnemies[0].MinimalSquaredDistanceTo(this.Loc);
 
             //otherwise return the constant in MAGIC representing the best case scenario
             return Magic.MaxCalculableDistance;
@@ -359,7 +358,7 @@ namespace Britbot
 
         public void Debug()
         {
-            Bot.Game.Debug("Island " + this.Id + " enemies: " + string.Join(", ", this.EnemyDistances));
+            Bot.Game.Debug("Island " + this.Id + " enemies: " + string.Join(", ", this.approachingEnemies));
         }
 
         public static void DebugAll()
@@ -383,50 +382,51 @@ namespace Britbot
             //find the distance of g from the island
             int distance = Bot.Game.Distance(this.Loc, g.FindCenter(true));
 
-            //counting variables
-            int closeEnemyNum = 0;
-            int farEnemyNum = 0;
+                       
 
-            //go over all the enemy groups and their distances
+            //go over all the enemy groups approaching and their distances
             //TODO: maybe consider the actual firepower of the enemy
-            foreach(KeyValuePair<EnemyGroup,double> enemyDistance in this.EnemyDistances)
+            foreach (EnemyGroup eGroup in this.approachingEnemies)
             {
+                //calculate this enemy groups time of arival
+                double EnemyETA = eGroup.MinimalETATo(this.Loc);
+
+                //read enemy force
+                double enemyForce = eGroup.GetMaxFightPower();
+
                 //We diffarentiate between two cases
-                if (enemyDistance.Value < distance) //case 1: Enemy is closer to the island then we are
+                if (EnemyETA < distance) //case 1: Enemy is closer to the island then we are
                 {
                     //check if we arrive before capture
-                    if (distance <this.GetMinimumDistanceFromEnemy() + this.RealTimeTillCapture(Consts.ENEMY))
-                        closeEnemyNum += enemyDistance.Key.EnemyPirates.Count;
+                    if (distance < EnemyETA + this.RealTimeTillCapture(Consts.ENEMY))
+                    {
+                        //the enemy who are closer are at disaddvantage since they lose one pirate capturing the island
+                        if (g.LiveCount() <= enemyForce - 1)
+                            return true;       
+                    }
                 }
                 else                                //case 2: Enemy is farther away to the island then we are
                 {
                     //if the enemy reaches us before we capture
-                    if (enemyDistance.Value < this.RealTimeTillCapture(Consts.ME) + distance)
-                        farEnemyNum += enemyDistance.Key.EnemyPirates.Count;
+                    if (EnemyETA < this.RealTimeTillCapture(Consts.ME) + distance)
+                    {
+                        //for the enemy who are farther, we are at a disaddvantage
+                        if ((enemyForce != 0) && (g.LiveCount() - 1 < enemyForce))
+                            return true;
+
+                        //special case: Manuver 
+                        if ((enemyForce != 0) && (g.LiveCount() - 1 == enemyForce))
+                        {
+                            //we would like to run from the island only when they are realy close so we will catch them
+                            if (eGroup.MinimalSquaredDistanceTo(this.Loc) < Magic.ManeuverDistance)
+                            {
+                                return true;
+                            }
+                        }
+                    }
                 }
             }
-
-            Bot.Game.Debug("island: " + Id + " group " + g.Id + " closeEnemyNum " + closeEnemyNum + " farEnemyNum " + farEnemyNum + " live " + g.LiveCount() + " me" + this.RealTimeTillCapture(Consts.ME) + " en " + this.RealTimeTillCapture(Consts.ENEMY));
-            //check if we could win both those who are close and those who are far
-
-            //the enemy who are closer are at disaddvantage since they lose one pirate capturing the island
-            if (g.LiveCount() <= closeEnemyNum - 1)
-                return true;                       
-
-            //for the enemy who are farther, we are at a disaddvantage
-            if ((farEnemyNum != 0) &&(g.LiveCount() - 1 < farEnemyNum))
-                return true;
-
-             //special case: Manuver 
-            if ((farEnemyNum != 0) && (g.LiveCount() - 1 == farEnemyNum))
-            {
-                //we would like to run from the island only when they are realy close so we will catch them
-                if (this.GetMinimumDistanceFromEnemy() < Magic.ManeuverDistance)
-                {
-                    Bot.Game.Debug("MANUVER: " + "island: " + Id + " group " + g.Id);
-                    return true;
-                }
-            }
+                                                             
             //if we are here then everything is ok
             return false;
         }
