@@ -19,7 +19,6 @@ namespace Britbot
         #region Static Fields & Consts
 
         public static Stopwatch TurnTimer;
-        public static string Version = "2.0.0";
 
         #endregion
 
@@ -39,11 +38,6 @@ namespace Britbot
         /// </summary>
         static Commander()
         {
-            Bot.Game.Debug("==============>");
-            Bot.Game.Debug("Commander V{0}", Commander.Version);
-            Bot.Game.Debug("==============>");
-            Bot.Game.Debug("We have {0} pirates in our forces! \n", Bot.Game.AllMyPirates().Count);
-
             Commander.Groups = new List<Group>();
             Commander.TurnTimer = new Stopwatch();
 
@@ -152,7 +146,6 @@ namespace Britbot
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
             {
-
                 Logger.BeginTime("Update");
                 //update the enemy info
                 Enemy.Update(cancellationToken);
@@ -167,18 +160,20 @@ namespace Britbot
                 Logger.StopTime("CalculateAndAssignTargets");
 
                 //fix configuration
+                Logger.BeginTime("GroupSplitting");
                 Veteran.GroupSplitting();
+                Logger.StopTime("GroupSplitting");
+
+                Logger.BeginTime("GroupJoining");
                 Veteran.GroupJoining();
-                foreach (Group p in Commander.Groups)
-                {
-                    p.Update();
-                }
+                Logger.StopTime("GroupJoining");
+
                 //FixGroupArrangement();
+                Logger.BeginTime("FixGroupArrangement");
                 Commander.FixGroupArrangement();
+                Logger.StopTime("FixGroupArrangement");
 
                 Logger.BeginTime("GetAllMoves");
-
-
                 //Get the moves for all the pirates and return them
                 Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
                 Logger.StopTime("GetAllMoves");
@@ -419,17 +414,22 @@ namespace Britbot
         /// <returns>A dictionary that gives each pirate a direction to move to in this turn</returns>
         private static Dictionary<Pirate, Direction> GetAllMoves(CancellationToken cancellationToken)
         {
+            Commander.Groups.RemoveAll(g => g.Pirates.Count == 0);
+
             foreach (Group g in Commander.Groups)
             {
+                g.Update();
                 Bot.Game.Debug("Group {0} Pirates: {1}", g.Id, string.Join(",", g.Pirates));
             }
 
             //A list with all the moves from all groups
             List<KeyValuePair<Pirate, Direction>> allMoves =
                 new List<KeyValuePair<Pirate, Direction>>(Bot.Game.AllMyPirates().Count);
+
             //Get the moves from each group we have
             foreach (Group group in Commander.Groups)
                 allMoves.AddRange(group.GetGroupMoves(cancellationToken));
+
             //Convert the moves list to dictionary
             return allMoves.ToDictionary(pair => pair.Key, pair => pair.Value);
         }

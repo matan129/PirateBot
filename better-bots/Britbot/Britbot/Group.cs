@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using Pirates;
@@ -29,6 +30,11 @@ namespace Britbot
         private int _formTurnsAttempt;
 
         /// <summary>
+        ///     has the group changed this turn?
+        /// </summary>
+        private bool _hasChanged;
+
+        /// <summary>
         ///     Direction of the group to make navigation more precise
         /// </summary>
         public HeadingVector Heading { get; private set; }
@@ -36,7 +42,7 @@ namespace Britbot
         /// <summary>
         ///     List of the indexes of the pirates in this group
         /// </summary>
-        public List<int> Pirates { get; private set; }
+        public ObservableCollection<int> Pirates { get; private set; }
 
         /// <summary>
         ///     The target of the Group
@@ -57,11 +63,6 @@ namespace Britbot
         ///     The required location for each pirate in the group to get to attack structure
         /// </summary>
         public Dictionary<int, Location> FormOrders { get; private set; }
-
-        /// <summary>
-        /// has the group changed this turn?
-        /// </summary>
-        private bool HasChanged;
 
         #endregion
 
@@ -86,7 +87,14 @@ namespace Britbot
         /// </summary>
         private Group()
         {
-            this.Pirates = new List<int>();
+            this.Pirates = new ObservableCollection<int>();
+
+            this.Pirates.CollectionChanged += delegate
+            {
+                this._hasChanged = true;
+                Bot.Game.Debug("Update Registered at group " + this.Id);
+            };
+
             this.Heading = new HeadingVector(1, 0);
             this.Priorities = new List<Score>();
 
@@ -163,7 +171,7 @@ namespace Britbot
             int y = 0;
 
             if (this.Pirates == null)
-                this.Pirates = new List<int>();
+                this.Pirates = new ObservableCollection<int>();
 
             foreach (int pirate in this.Pirates)
             {
@@ -226,7 +234,7 @@ namespace Britbot
             else //if the group is in structure and ready to attack
             {
                 //Convert the list of pirate indexes we have into a list of pirates
-                List<Pirate> myPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
+                List<Pirate> myPirates = this.Pirates.ToList().ConvertAll(p => Bot.Game.GetMyPirate(p));
 
                 //Proceed to moving to the target unless it's a NoTarget - then we stay in place
                 if (this.Target.GetTargetType() != TargetType.NoTarget)
@@ -501,6 +509,8 @@ namespace Britbot
                 }
             }
 
+            Bot.Game.Debug("Generating group structure OK");
+
             //flag array to signal if a location in the structure is already taken 
             bool[] matchedLocations = new bool[structure.Length];
 
@@ -508,7 +518,7 @@ namespace Britbot
             Dictionary<Pirate, Location> orders = new Dictionary<Pirate, Location>();
 
             //all the pirates in the group converted from their IDs
-            List<Pirate> groupPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
+            List<Pirate> groupPirates = this.Pirates.Distinct().ToList().ConvertAll(p => Bot.Game.GetMyPirate(p));
 
             //sort the pirates by distance to the center (closer are first)
             groupPirates.Sort((b, a) => Bot.Game.Distance(a.Loc, center).CompareTo(Bot.Game.Distance(b.Loc, center)));
@@ -663,14 +673,13 @@ namespace Britbot
 
         /// <summary>
         ///     Does updates for the group when changed.
-        ///     USE IT ONLY WHEN CHANGED
         /// </summary>
         public void Update()
         {
-            if (this.HasChanged)
+            if (this._hasChanged)
             {
                 this.GenerateFormationInstructions();
-                this.HasChanged = false;
+                this._hasChanged = false;
             }
         }
 
@@ -684,8 +693,11 @@ namespace Britbot
         /// <returns>The center pirate</returns>
         public Location FindCenter(bool forcePirate)
         {
+            if (this.Pirates.Count == 0)
+                return new Location(0, 0);
+
             //convert all the pirates indexes to actual pirate list
-            List<Pirate> myPirates = this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p));
+            List<Pirate> myPirates = this.Pirates.ToList().ConvertAll(p => Bot.Game.GetMyPirate(p));
 
             //init the average location
             Location averageLocation = new Location(0, 0);
@@ -740,7 +752,7 @@ namespace Britbot
         /// <returns>how many living pirates are in the group</returns>
         public int LiveCount()
         {
-            return this.Pirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost);
+            return this.Pirates.ToList().ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost);
         }
 
         /// <summary>
@@ -831,9 +843,7 @@ namespace Britbot
                 Commander.Groups.Add(new Group(new[] {outboundPirates[i]}));
             }
 
-            this.Pirates.RemoveAll(outboundPirates.Contains);
-
-            this.HasChanged = true;
+            this.Pirates.ToList().RemoveAll(outboundPirates.Contains);
         }
 
         /// <summary>
@@ -842,10 +852,12 @@ namespace Britbot
         /// <param name="g">a group to be joind to this one</param>
         public void Join(Group g)
         {
-            this.Pirates.AddRange(g.Pirates);
-            Commander.Groups.RemoveAll(group => group.Id == g.Id);
+            foreach (int pirate in g.Pirates)
+            {
+                this.Pirates.Add(pirate);
+            }
 
-            this.HasChanged = true;
+            Commander.Groups.RemoveAll(group => group.Id == g.Id);
         }
 
         /// <summary>
@@ -877,10 +889,11 @@ namespace Britbot
             pirateList.Sort((p1, p2) => -1 * Navigator.ComparePirateByDirection(p1, p2, bigGroup.Heading));
 
             Bot.Game.Debug("pirate list: " + string.Join(", ", pirateList));
+
             //replace pirates
-            bigGroup.Pirates = pirateList.GetRange(0, bigGroup.Pirates.Count);
+            pirateList.GetRange(0, bigGroup.Pirates.Count).ForEach(p => bigGroup.Pirates.Add(p));
             pirateList.RemoveRange(0, bigGroup.Pirates.Count);
-            smallGroup.Pirates = pirateList;
+            smallGroup.Pirates = new ObservableCollection<int>(pirateList);
 
             Bot.Game.Debug("Biggroup: " + string.Join(", ", bigGroup.Pirates));
             Bot.Game.Debug("smallgroup: " + string.Join(", ", smallGroup.Pirates));

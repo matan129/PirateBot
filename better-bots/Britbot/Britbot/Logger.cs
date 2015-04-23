@@ -3,6 +3,7 @@
 #define DUMPFILE
 
 //comment the folowwing lines if you want to enable debug and profiling.
+//WARNING IF DEBUG IS ENABLED WE WILL TIME OUT. IT TAKES LOOOOOOONG TIME
 #undef DEBUG
 #undef PROFILING
 #undef DUMPFILE
