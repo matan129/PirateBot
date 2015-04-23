@@ -200,9 +200,13 @@ namespace Britbot
                 Logger.StopTime("CalculateAndAssignTargets");
 
                 //fix configuration
+<<<<<<< HEAD
                 Veteran.GroupSplitting();
                 Veteran.GroupJoining();
                 //FixGroupArrangement();
+=======
+                FixGroupArrangement();
+>>>>>>> a60e449d8a18a1211b877763aff7efcef4cafb83
 
                 Logger.BeginTime("GetAllMoves");
 

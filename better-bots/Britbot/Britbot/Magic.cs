@@ -70,7 +70,7 @@ namespace Britbot
         /// </summary>
         public static double GroupIntersectionDistance
         {
-            get { return Bot.Game.GetAttackRadius(); }
+            get { return 0.25 * Bot.Game.GetAttackRadius(); }
         }
         #endregion
     }
