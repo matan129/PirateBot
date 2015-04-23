@@ -93,22 +93,22 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00538">538</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
+<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00534">534</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//going over all pair of groups</span>
-            <span class="keywordflow">foreach</span>(Group g1 <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups)
+            <span class="keywordflow">foreach</span> (Group g1 <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups)
             {
-                <span class="keywordflow">foreach</span>(Group g2 <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups)
+                <span class="keywordflow">foreach</span> (Group g2 <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups)
                 {
                     <span class="comment">//check if it is the same</span>
                     <span class="keywordflow">if</span> (g1.Equals(g2))
                         <span class="keywordflow">continue</span>;
 
                     <span class="comment">//check if they are messed out</span>
-                    <span class="keywordflow">if</span>(Group.CheckIfGroupsIntersects(g1,g2))
+                    <span class="keywordflow">if</span> (Group.CheckIfGroupsIntersects(g1, g2))
                     {
                         <span class="comment">//find larger group</span>
-                        <span class="keywordflow">if</span>(g1.Pirates.Count &gt; g2.Pirates.Count)
+                        <span class="keywordflow">if</span> (g1.Pirates.Count &gt; g2.Pirates.Count)
                         {
                             Group.Switch(g1, g2);
                         }
@@ -130,7 +130,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 08:39:28 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 09:48:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

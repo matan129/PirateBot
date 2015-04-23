@@ -118,7 +118,7 @@
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>A list that matches each pirate in the group a location to move to</dd></dl>
 
-<p>Definition at line <a class="el" href="Group_8cs_source.html#l00198">198</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
+<p>Definition at line <a class="el" href="Group_8cs_source.html#l00199">199</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             Logger.BeginTime(<span class="stringliteral">&quot;UpdateMap&quot;</span>);
             <span class="comment">//inital path finding for this group</span>
@@ -145,10 +145,8 @@
                 <span class="comment">//Proceed to moving to the target unless it&#39;s a NoTarget - then we stay in place</span>
                 <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1Group_a80a73904f763d61e4c7330fe5ff2617e.html#a80a73904f763d61e4c7330fe5ff2617e" title="The target of the Group.">Target</a>.<a class="code" href="interfaceBritbot_1_1ITarget_a593c7393b540b1135d8f0d9f6f2d2ce3.html#a593c7393b540b1135d8f0d9f6f2d2ce3" title="Get the type of the target.">GetTargetType</a>() != <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.NoTarget)
                 {
-                    
-
                     <span class="comment">//sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions</span>
-                    
+
                     <span class="comment">//return for each pirate the pirate and its direction</span>
                     <span class="keywordflow">foreach</span> (Pirate myPirate <span class="keywordflow">in</span> myPirates)
                     {
@@ -178,7 +176,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 08:39:28 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 09:48:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

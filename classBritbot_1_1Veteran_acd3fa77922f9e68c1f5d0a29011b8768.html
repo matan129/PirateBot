@@ -80,21 +80,20 @@
 
 <p>A method that reffers to the ULTIMATE CONFIGURATION and splits the gruops as needed. </p>
 
-<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00017">17</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
+<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00019">19</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             List&lt;int&gt; Ucon = Commander.GetUltimateGameConfig();
             List&lt;Group&gt; Ccon = Commander.Groups;
-            
+
 
             Ccon.Sort((a, b) =&gt; a.Pirates.Count.CompareTo(b.Pirates.Count));
-            Ucon.Sort((a,b) =&gt; a.CompareTo(b));
+            Ucon.Sort((a, b) =&gt; a.CompareTo(b));
 
             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; Math.Min(Ucon.Count, Ccon.Count); i++)
             {
                 <span class="keywordflow">if</span> (Ccon[i].Pirates.Count &gt; Ucon[i])
                     Ccon[i].Split(Ccon[i].Pirates.Count - Ucon[i]);
             }
-
         }
 </pre></div>
 </div>
@@ -106,7 +105,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 08:39:29 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 09:48:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

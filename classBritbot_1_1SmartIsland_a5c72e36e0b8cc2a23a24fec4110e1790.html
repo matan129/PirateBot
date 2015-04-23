@@ -129,7 +129,6 @@
             <span class="comment">//find the distance of g from the island</span>
             <span class="keywordtype">int</span> distance = Bot.Game.Distance(this.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>, g.FindCenter(<span class="keyword">true</span>));
 
-                       
 
             <span class="comment">//go over all the enemy groups approaching and their distances</span>
             <span class="comment">//TODO: maybe consider the actual firepower of the enemy</span>
@@ -149,10 +148,10 @@
                     {
                         <span class="comment">//the enemy who are closer are at disaddvantage since they lose one pirate capturing the island</span>
                         <span class="keywordflow">if</span> (g.LiveCount() &lt;= enemyForce - 1)
-                            <span class="keywordflow">return</span> <span class="keyword">true</span>;       
+                            <span class="keywordflow">return</span> <span class="keyword">true</span>;
                     }
                 }
-                <span class="keywordflow">else</span>                                <span class="comment">//case 2: Enemy is farther away to the island then we are</span>
+                <span class="keywordflow">else</span> <span class="comment">//case 2: Enemy is farther away to the island then we are</span>
                 {
                     <span class="comment">//if the enemy reaches us before we capture</span>
                     <span class="keywordflow">if</span> (EnemyETA &lt; this.<a class="code" href="classBritbot_1_1SmartIsland_a7a04c90a0262540cb9826164dd2699bc.html#a7a04c90a0262540cb9826164dd2699bc" title="This returns how many turns it would take for the conqueror team to capture the island considering ev...">RealTimeTillCapture</a>(Consts.ME) + distance)
@@ -173,7 +172,7 @@
                     }
                 }
             }
-                                                             
+
             <span class="comment">//if we are here then everything is ok</span>
             <span class="keywordflow">return</span> <span class="keyword">false</span>;
         }
@@ -187,7 +186,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 08:39:29 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 09:48:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

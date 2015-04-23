@@ -116,7 +116,8 @@
 
 <p>Definition at line <a class="el" href="Navigator_8cs_source.html#l00184">184</a> of file <a class="el" href="Navigator_8cs_source.html">Navigator.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            HeadingVector originDif = <span class="keyword">new</span> HeadingVector(Bot.Game.GetMyPirate(p1).Loc.Col, Bot.Game.GetMyPirate(p1).Loc.Row);
+            HeadingVector originDif = <span class="keyword">new</span> HeadingVector(Bot.Game.GetMyPirate(p1).Loc.Col,
+                Bot.Game.GetMyPirate(p1).Loc.Row);
             <span class="keywordtype">int</span> coef;
 
             <span class="keywordflow">if</span> (originDif * hv &gt; 0)
@@ -124,8 +125,10 @@
             <span class="keywordflow">else</span>
                 coef = -1;
             <span class="comment">//calculate both pirates position on the line created by hv</span>
-            <span class="keywordtype">double</span> p1Dist = Navigator.CalcDistFromLine(<span class="keyword">new</span> Location(0, 0), (Bot.Game.GetMyPirate(p1)).Loc, hv.Orthogonal());
-            <span class="keywordtype">double</span> p2Dist = Navigator.CalcDistFromLine(<span class="keyword">new</span> Location(0, 0), (Bot.Game.GetMyPirate(p2)).Loc, hv.Orthogonal());
+            <span class="keywordtype">double</span> p1Dist = Navigator.CalcDistFromLine(<span class="keyword">new</span> Location(0, 0), (Bot.Game.GetMyPirate(p1)).Loc,
+                hv.Orthogonal());
+            <span class="keywordtype">double</span> p2Dist = Navigator.CalcDistFromLine(<span class="keyword">new</span> Location(0, 0), (Bot.Game.GetMyPirate(p2)).Loc,
+                hv.Orthogonal());
 
             <span class="keywordflow">return</span> coef * p1Dist.CompareTo(p2Dist);
         }
@@ -139,7 +142,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 08:39:28 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 09:48:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

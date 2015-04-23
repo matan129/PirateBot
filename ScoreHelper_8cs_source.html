@@ -67,26 +67,21 @@
 <a name="l00008"></a>00008 {
 <a name="l00012"></a><a class="code" href="classBritbot_1_1ScoreHelper.html">00012</a>     <span class="keyword">internal</span> <span class="keyword">static</span> <span class="keyword">class </span><a class="code" href="classBritbot_1_1ScoreHelper.html" title="Score calculation utilities.">ScoreHelper</a>
 <a name="l00013"></a>00013     {
-<a name="l00020"></a>00020         <span class="comment">/*internal static int ComputePPT(int totalIslandValues)</span>
-<a name="l00021"></a>00021 <span class="comment">        {</span>
-<a name="l00022"></a>00022 <span class="comment">            return (int) Math.Floor(Math.Pow(2, totalIslandValues - 1));</span>
-<a name="l00023"></a>00023 <span class="comment">        }*/</span>
-<a name="l00024"></a>00024 
-<a name="l00031"></a><a class="code" href="classBritbot_1_1ScoreHelper_a174ff46033ee4e3166154d385df7940a.html#a174ff46033ee4e3166154d385df7940a">00031</a>         <span class="keyword">internal</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1ScoreHelper_a174ff46033ee4e3166154d385df7940a.html#a174ff46033ee4e3166154d385df7940a" title="Calculates the score for each turn (Points Per Turn)">ComputePPT</a>(<span class="keywordtype">double</span> totalIslandValues)
-<a name="l00032"></a>00032         {
-<a name="l00033"></a>00033             <span class="comment">//check if we have no islands</span>
-<a name="l00034"></a>00034             <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.MyIslands().Count + totalIslandValues == 0)
-<a name="l00035"></a>00035                 <span class="keywordflow">return</span> 0;
-<a name="l00036"></a>00036             <span class="comment">//otherise we multiply with what we already get each turn</span>
-<a name="l00037"></a>00037             <span class="keywordflow">return</span> Math.Floor(Math.Pow(2, <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.MyIslands().Count + totalIslandValues - 1));
-<a name="l00038"></a>00038         }
-<a name="l00039"></a>00039     }
-<a name="l00040"></a>00040 }
+<a name="l00026"></a><a class="code" href="classBritbot_1_1ScoreHelper_a174ff46033ee4e3166154d385df7940a.html#a174ff46033ee4e3166154d385df7940a">00026</a>         <span class="keyword">internal</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1ScoreHelper_a174ff46033ee4e3166154d385df7940a.html#a174ff46033ee4e3166154d385df7940a" title="Calculates the score for each turn (Points Per Turn)">ComputePPT</a>(<span class="keywordtype">double</span> totalIslandValues)
+<a name="l00027"></a>00027         {
+<a name="l00028"></a>00028             <span class="comment">//check if we have no islands</span>
+<a name="l00029"></a>00029             <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.MyIslands().Count + totalIslandValues == 0)
+<a name="l00030"></a>00030                 <span class="keywordflow">return</span> 0;
+<a name="l00031"></a>00031             <span class="comment">//otherise we multiply with what we already get each turn</span>
+<a name="l00032"></a>00032             <span class="keywordflow">return</span> Math.Floor(Math.Pow(2, <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.MyIslands().Count + totalIslandValues - 1));
+<a name="l00033"></a>00033         }
+<a name="l00034"></a>00034     }
+<a name="l00035"></a>00035 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 08:39:28 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 09:47:59 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

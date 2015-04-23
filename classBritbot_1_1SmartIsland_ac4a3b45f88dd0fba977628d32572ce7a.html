@@ -112,7 +112,7 @@
 
 <p>updates the distances of all the enemies approaching the isalnds </p>
 
-<p>Definition at line <a class="el" href="SmartIsland_8cs_source.html#l00291">291</a> of file <a class="el" href="SmartIsland_8cs_source.html">SmartIsland.cs</a>.</p>
+<p>Definition at line <a class="el" href="SmartIsland_8cs_source.html#l00289">289</a> of file <a class="el" href="SmartIsland_8cs_source.html">SmartIsland.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//---------------#Magic_Numbers--------------------</span>
             <span class="comment">//constant defining how far to look for enemy ships </span>
@@ -131,7 +131,7 @@
 
             <span class="comment">//update enemy distances</span>
             this.<a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff" title="list of all the enemies and their distances from the island">approachingEnemies</a>.Clear();
-            <span class="keywordflow">foreach</span>(EnemyGroup eGroup <span class="keywordflow">in</span> Enemy.Groups)
+            <span class="keywordflow">foreach</span> (EnemyGroup eGroup <span class="keywordflow">in</span> Enemy.Groups)
             {
                 <span class="comment">//check that the enemy is heading here</span>
                 <span class="keywordflow">if</span> (eGroup.IsApproachingIsland(<span class="keyword">this</span>))
@@ -140,7 +140,8 @@
                 }
             }
             <span class="comment">//sort the list by distance</span>
-            this.<a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff" title="list of all the enemies and their distances from the island">approachingEnemies</a>.Sort((e1, e2) =&gt; e1.MinimalETATo(<span class="keyword">this</span>.Loc).CompareTo(e2.MinimalSquaredDistanceTo(<span class="keyword">this</span>.Loc)));
+            this.<a class="code" href="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff" title="list of all the enemies and their distances from the island">approachingEnemies</a>.Sort(
+                (e1, e2) =&gt; e1.MinimalETATo(<span class="keyword">this</span>.Loc).CompareTo(e2.MinimalSquaredDistanceTo(<span class="keyword">this</span>.Loc)));
         }
 </pre></div>
 </div>
@@ -152,7 +153,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 08:39:29 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 09:48:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

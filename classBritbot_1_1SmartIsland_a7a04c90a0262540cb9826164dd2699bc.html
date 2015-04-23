@@ -120,7 +120,7 @@
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>how many turns it would take for the conqueror team to capture the island</dd></dl>
 
-<p>Definition at line <a class="el" href="SmartIsland_8cs_source.html#l00440">440</a> of file <a class="el" href="SmartIsland_8cs_source.html">SmartIsland.cs</a>.</p>
+<p>Definition at line <a class="el" href="SmartIsland_8cs_source.html#l00439">439</a> of file <a class="el" href="SmartIsland_8cs_source.html">SmartIsland.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//calculate total number of turns to capture (without partials)</span>
             <span class="keywordtype">int</span> totalCaptureTime;
@@ -129,7 +129,7 @@
             {
                 totalCaptureTime = 0;
             } <span class="comment">//if the isalnd is nutral</span>
-            <span class="keywordflow">else</span> <span class="keywordflow">if</span>(this.<a class="code" href="classBritbot_1_1SmartIsland_a84bb096563976d770ddd3d81a1eb5cec.html#a84bb096563976d770ddd3d81a1eb5cec" title="Who owns the island?">Owner</a> == Consts.NO_OWNER)
+            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1SmartIsland_a84bb096563976d770ddd3d81a1eb5cec.html#a84bb096563976d770ddd3d81a1eb5cec" title="Who owns the island?">Owner</a> == Consts.NO_OWNER)
             {
                 totalCaptureTime = this.<a class="code" href="classBritbot_1_1SmartIsland_a6c73d7020f92bd430c6b74e4455ffcec.html#a6c73d7020f92bd430c6b74e4455ffcec" title="Turns to capture the island.">CaptureTurns</a>;
             } <span class="comment">//if the island is of the other team</span>
@@ -139,14 +139,11 @@
             }
 
             <span class="comment">//check if we already have some capture time</span>
-            <span class="keywordflow">if</span>(this.<a class="code" href="classBritbot_1_1SmartIsland_a1d137ed681f7d9f99869a69a2f9167d3.html#a1d137ed681f7d9f99869a69a2f9167d3" title="The team currently capturing the island.">TeamCapturing</a> == conqueror)
+            <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1SmartIsland_a1d137ed681f7d9f99869a69a2f9167d3.html#a1d137ed681f7d9f99869a69a2f9167d3" title="The team currently capturing the island.">TeamCapturing</a> == conqueror)
             {
                 <span class="keywordflow">return</span> totalCaptureTime - this.<a class="code" href="classBritbot_1_1SmartIsland_ab400032ba2161fc360c4ffdbbe93c1db.html#ab400032ba2161fc360c4ffdbbe93c1db" title="How many turns this island is being captured.">TurnsBeingCaptured</a>;
             }
-            <span class="keywordflow">else</span> <span class="comment">//if we have no capture time just return the total time</span>
-            {
-                <span class="keywordflow">return</span> totalCaptureTime;
-            }
+            <span class="keywordflow">return</span> totalCaptureTime;
         }
 </pre></div>
 </div>
@@ -158,7 +155,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 08:39:29 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 09:48:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

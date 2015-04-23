@@ -80,14 +80,14 @@
 
 <p>A method that reffers to the ULTIMATE CONFIGURATION and joins the gruops as needed. </p>
 
-<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00037">37</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
+<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00038">38</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             List&lt;int&gt; Ucon = Commander.GetUltimateGameConfig();
             List&lt;Group&gt; Ccon = Commander.Groups;
-            List&lt;Pirates.Pirate&gt; mp = Bot.Game.AllMyPirates();
+            List&lt;Pirate&gt; myPirates = Bot.Game.AllMyPirates();
 
-            Group temp = <span class="keyword">new</span> Group();
-            <span class="keywordtype">int</span> minD = Magic.MaxDistance+1;<span class="comment">//minimum distance</span>
+            Group temp = null;
+            <span class="keywordtype">int</span> minD = Magic.MaxDistance + 1; <span class="comment">//minimum distance</span>
 
             Ccon.Sort((a, b) =&gt; a.Pirates.Count.CompareTo(b.Pirates.Count));
             Ucon.Sort((a, b) =&gt; a.CompareTo(b));
@@ -96,23 +96,23 @@
             {
                 <span class="keywordflow">if</span> (Ccon[i].Pirates.Count &lt; Ucon[i])
                 {
-                    <span class="keywordflow">foreach</span>(Group g <span class="keywordflow">in</span> Ccon)
+                    <span class="keywordflow">foreach</span> (Group g <span class="keywordflow">in</span> Ccon)
                     {
-                        <span class="keywordflow">if</span> ((g.Pirates.Count == 1) &amp;&amp; (Bot.Game.Distance(mp[Ccon[i].Pirates[1]], mp[g.Pirates[1]]) &lt; minD) &amp;&amp; (Ccon[i].Pirates[1]!=g.Pirates[1]))
+                        <span class="keywordflow">if</span> ((g.Pirates.Count == 1) &amp;&amp;
+                            (Bot.Game.Distance(myPirates[Ccon[i].Pirates[0]], myPirates[g.Pirates[0]]) &lt; minD) &amp;&amp;
+                            (Ccon[i].Pirates[0] != g.Pirates[0]))
                         {
                             temp = g;
-                            minD = Bot.Game.Distance(mp[Ccon[i].Pirates[1]], mp[g.Pirates[1]]);
+                            minD = Bot.Game.Distance(myPirates[Ccon[i].Pirates[0]], myPirates[g.Pirates[0]]);
                         }
                     }
-                    <span class="keywordflow">if</span>(minD&lt;=Magic.MaxDistance)
+                    <span class="keywordflow">if</span> (minD &lt;= Magic.MaxDistance)
                     {
-                        Ccon[i].Join(temp);
+                        <span class="keywordflow">if</span> (temp != null)
+                            Ccon[i].Join(temp);
                     }
-
-                } 
+                }
             }
-            
-            
         }
 </pre></div>
 </div>
@@ -124,7 +124,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 08:39:29 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 09:48:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -125,9 +125,10 @@
 <p>Definition at line <a class="el" href="EnemyGroup_8cs_source.html#l00485">485</a> of file <a class="el" href="EnemyGroup_8cs_source.html">EnemyGroup.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//if the group is stationary just check if it is close</span>
-            <span class="keywordflow">if</span>(this.<a class="code" href="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78" title="This function calculates this enemy group direction based on its last directions simply adds them up...">GetHeading</a>().NormSquared() == 0)
+            <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78" title="This function calculates this enemy group direction based on its last directions simply adds them up...">GetHeading</a>().NormSquared() == 0)
             {
-                <span class="keywordflow">return</span> Bot.Game.EuclidianDistanceSquared(this.<a class="code" href="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22" title="Returns the average location for this group.">GetLocation</a>(), sIsland.Loc) &lt;= Magic.ApproachDistanceSquaredOfStationaryTarget;
+                <span class="keywordflow">return</span> Bot.Game.EuclidianDistanceSquared(this.<a class="code" href="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22" title="Returns the average location for this group.">GetLocation</a>(), sIsland.Loc) &lt;=
+                       Magic.ApproachDistanceSquaredOfStationaryTarget;
             }
             <span class="comment">//check if the enemy group is on the island</span>
             <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1EnemyGroup_afe3bf8cafa7236d75c929eeaa84ef97b.html#afe3bf8cafa7236d75c929eeaa84ef97b" title="Gets the minimal distance from this enemy group to a location.">MinimalSquaredDistanceTo</a>(sIsland.Loc) &lt; 1)
@@ -158,7 +159,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 08:39:28 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 09:48:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
