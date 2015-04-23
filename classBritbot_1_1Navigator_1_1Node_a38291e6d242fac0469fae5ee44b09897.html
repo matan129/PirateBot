@@ -123,7 +123,7 @@
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="Node_8cs_source.html#l00170">170</a> of file <a class="el" href="Node_8cs_source.html">Node.cs</a>.</p>
+<p>Definition at line <a class="el" href="Node_8cs_source.html#l00171">171</a> of file <a class="el" href="Node_8cs_source.html">Node.cs</a>.</p>
 <div class="fragment"><pre class="fragment">            {
                 <span class="comment">//---------------#Magic_Numbers--------------------</span>
                 <span class="comment">//important constants:</span>
@@ -153,7 +153,7 @@
                         <span class="keywordtype">double</span> distandeSquare = Bot.Game.EuclidianDistanceSquared(<span class="keyword">new</span> Location(y, x), loc) +
                                                 headingFactor * heading.Normalize() * diffVector;
                         <span class="keywordflow">if</span> (distandeSquare &lt;= radSquared)
-                            <a class="code" href="classBritbot_1_1Navigator_1_1Node_a3140d5183fdc64f7d4336b46d13ad0f8.html#a3140d5183fdc64f7d4336b46d13ad0f8" title="One time initializing of the Node array.">Node</a>.Map[y, x].Weight = <a class="code" href="classBritbot_1_1Navigator_1_1Node_a3140d5183fdc64f7d4336b46d13ad0f8.html#a3140d5183fdc64f7d4336b46d13ad0f8" title="One time initializing of the Node array.">Node</a>.Infinity * (radSquared - distandeSquare) / radSquared;
+                            <a class="code" href="classBritbot_1_1Navigator_1_1Node_a3140d5183fdc64f7d4336b46d13ad0f8.html#a3140d5183fdc64f7d4336b46d13ad0f8" title="One time initializing of the Node array.">Node</a>.Map[y, x].Weight += <a class="code" href="classBritbot_1_1Navigator_1_1Node_a3140d5183fdc64f7d4336b46d13ad0f8.html#a3140d5183fdc64f7d4336b46d13ad0f8" title="One time initializing of the Node array.">Node</a>.Infinity * (radSquared - distandeSquare) / radSquared;
                     }
                 }
             }
@@ -167,7 +167,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 08:15:27 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 08:27:32 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
