@@ -203,9 +203,9 @@ namespace Britbot
             Navigator.UpdateMap(this);
             Logger.StopTime("UpdateMap");
             Direction master = this.Target.GetDirection(this);
-            //Note that IEnumerable gives you the possibility of doing a yield return statement
-            //yield return returns one element each time, 
-            //So we don't have to explicitly keep a list of the moves in this function
+
+            Bot.Game.Debug("Group {0} goinng to move {1}", this.Id, string.Join(",", this.Pirates));
+
 
             //Check if the group is formed into structure. If not, get the moves to get into the structure
             if (!this.IsFormed())
@@ -213,7 +213,10 @@ namespace Britbot
                 this.Heading = new HeadingVector(master);
                 //return for each of our pirate its move
                 foreach (KeyValuePair<Pirate, Direction> keyValuePair in this.GetStructureMoves(cancellationToken))
+                {
+                    Bot.Game.Debug("Group " + this.Id + " emitting KVP " + keyValuePair);
                     yield return keyValuePair;
+                }
             }
             else //if the group is in structure and ready to attack
             {
@@ -228,6 +231,7 @@ namespace Britbot
                     //return for each pirate the pirate and its direction
                     foreach (Pirate myPirate in myPirates)
                     {
+                        Bot.Game.Debug("Group " + this.Id + " emitting KVP " + myPirate + " , " + master);
                         yield return new KeyValuePair<Pirate, Direction>(myPirate, master);
                     }
 
@@ -239,6 +243,7 @@ namespace Britbot
                     //return Direction.NOTHING for all pirates we got
                     foreach (Pirate myPirate in myPirates)
                     {
+                        Bot.Game.Debug("Group " + this.Id + " emitting KVP " + myPirate + " , " + Direction.NOTHING);
                         yield return new KeyValuePair<Pirate, Direction>(myPirate, Direction.NOTHING);
                     }
                 }
@@ -649,6 +654,15 @@ namespace Britbot
             }
             //return the list of location of the ring
             return ring;
+        }
+
+        /// <summary>
+        ///     Does updates for the group when changed.
+        ///     USE IT ONLY WHEN CHANGED
+        /// </summary>
+        public void Update()
+        {
+            this.GenerateFormationInstructions();
         }
 
         /// <summary>

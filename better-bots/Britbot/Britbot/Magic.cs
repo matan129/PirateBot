@@ -21,7 +21,7 @@ namespace Britbot
         /// <summary>
         ///     Max distace two groups can be from eachother and still be joint
         /// </summary>
-        public static int MaxDistance;
+        public static int MaxDistance = 15;
 
         #endregion
 
