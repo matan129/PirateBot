@@ -183,11 +183,18 @@ namespace Britbot
         /// <returns></returns>
         public static int ComparePirateByDirection(int p1, int p2, HeadingVector hv)
         {
+            HeadingVector originDif = new HeadingVector(Bot.Game.GetMyPirate(p1).Loc.Col, Bot.Game.GetMyPirate(p1).Loc.Row);
+            int coef;
+
+            if (originDif * hv > 0)
+                coef = 1;
+            else
+                coef = -1;
             //calculate both pirates position on the line created by hv
             double p1Dist = Navigator.CalcDistFromLine(new Location(0, 0), (Bot.Game.GetMyPirate(p1)).Loc, hv.Orthogonal());
             double p2Dist = Navigator.CalcDistFromLine(new Location(0, 0), (Bot.Game.GetMyPirate(p2)).Loc, hv.Orthogonal());
 
-            return p1Dist.CompareTo(p2Dist);
+            return coef * p1Dist.CompareTo(p2Dist);
         }
 
         /// <summary>

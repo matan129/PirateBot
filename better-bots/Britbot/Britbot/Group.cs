@@ -197,6 +197,11 @@ namespace Britbot
         /// <returns>A list that matches each pirate in the group a location to move to</returns>
         public IEnumerable<KeyValuePair<Pirate, Direction>> GetGroupMoves(CancellationToken cancellationToken)
         {
+            Logger.BeginTime("UpdateMap");
+            //inital path finding for this group
+            Navigator.UpdateMap(this);
+            Logger.StopTime("UpdateMap");
+            Direction master = this.Target.GetDirection(this);
             //Note that IEnumerable gives you the possibility of doing a yield return statement
             //yield return returns one element each time, 
             //So we don't have to explicitly keep a list of the moves in this function
@@ -204,6 +209,7 @@ namespace Britbot
             //Check if the group is formed into structure. If not, get the moves to get into the structure
             if (!this.IsFormed())
             {
+                this.Heading = new HeadingVector(master);
                 //return for each of our pirate its move
                 foreach (KeyValuePair<Pirate, Direction> keyValuePair in this.GetStructureMoves(cancellationToken))
                     yield return keyValuePair;
@@ -216,11 +222,7 @@ namespace Britbot
                 //Proceed to moving to the target unless it's a NoTarget - then we stay in place
                 if (this.Target.GetTargetType() != TargetType.NoTarget)
                 {
-                    Logger.BeginTime("UpdateMap");
-                    //inital path finding for this group
-                    Navigator.UpdateMap(this);
-                    Logger.StopTime("UpdateMap");
-                    Direction master = this.Target.GetDirection(this);
+                    
 
                     //sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions
                     
@@ -820,28 +822,36 @@ namespace Britbot
         /// <param name="smallGroup">the small group</param>
         public static void Switch(Group bigGroup, Group smallGroup)
         {
+            //if we have no heading to work with
+            if (bigGroup.Heading.Norm() == 0)
+                return;
+
             //define the list of pirates of both groups
             List<int> pirateList = new List<int>();
 
             //add pirates of the biggroup
-            foreach (int pirate in bigGroup.Pirates)
-            {
-                pirateList.Add(pirate);
-            }
+            pirateList.AddRange(bigGroup.Pirates);
+            pirateList.AddRange(smallGroup.Pirates);
+            Bot.Game.Debug("-------------------------------------Switch");
+            Bot.Game.Debug("Biggroup: " + string.Join(", ", bigGroup.Pirates));
+            Bot.Game.Debug("smallgroup: " + string.Join(", ", smallGroup.Pirates));
+            Bot.Game.Debug("pirate list: " + string.Join(", ", pirateList));
+            Bot.Game.Debug("heading: " + bigGroup.Heading);
 
-            //add pirates of the small group
-            foreach (int pirate in smallGroup.Pirates)
-            {
-                pirateList.Add(pirate);
-            }
-
+            
+            
             //sort array by allignment with the vector specified
             pirateList.Sort((p1, p2) => -1 * Navigator.ComparePirateByDirection(p1, p2, bigGroup.Heading));
 
+            Bot.Game.Debug("pirate list: " + string.Join(", ", pirateList));
             //replace pirates
             bigGroup.Pirates = pirateList.GetRange(0, bigGroup.Pirates.Count);
             pirateList.RemoveRange(0, bigGroup.Pirates.Count);
             smallGroup.Pirates = pirateList;
+
+            Bot.Game.Debug("Biggroup: " + string.Join(", ", bigGroup.Pirates));
+            Bot.Game.Debug("smallgroup: " + string.Join(", ", smallGroup.Pirates));
+            
         }
 
         /// <summary>

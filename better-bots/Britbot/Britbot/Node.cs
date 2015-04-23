@@ -155,7 +155,8 @@ namespace Britbot
                 {
                     if (eGroup.GetMaxFightPower() >= strength)
                     {
-                        Node.BlockLocation(eGroup.GetLocation(), Magic.DangerZone, eGroup.GetHeading());
+                        foreach(int p in eGroup.EnemyPirates)
+                            Node.BlockLocation(Bot.Game.GetEnemyPirate(p).Loc, Magic.DangerZone, eGroup.GetHeading());
                     }
                 }
                 Logger.StopTime("CalculateEnemyWeight");
@@ -197,7 +198,7 @@ namespace Britbot
                         double distandeSquare = Bot.Game.EuclidianDistanceSquared(new Location(y, x), loc) +
                                                 headingFactor * heading.Normalize() * diffVector;
                         if (distandeSquare <= radSquared)
-                            Node.Map[y, x].Weight = Node.Infinity * (radSquared - distandeSquare) / radSquared;
+                            Node.Map[y, x].Weight += Node.Infinity * (radSquared - distandeSquare) / radSquared;
                     }
                 }
             }
