@@ -96,7 +96,7 @@ Public Member Functions</h2></td></tr>
 &lt; Pirate, Direction &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a4d298dadd6b1aaf74cefe6b0771781c8.html#a4d298dadd6b1aaf74cefe6b0771781c8">GetGroupMoves</a> (CancellationToken cancellationToken)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Decides where to move each pirate in the group.  <a href="#a4d298dadd6b1aaf74cefe6b0771781c8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_afe791ee322130539d429a8a3d1ee2d2d.html#afe791ee322130539d429a8a3d1ee2d2d">Update</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Does updates for the group when changed. USE IT ONLY WHEN CHANGED.  <a href="#afe791ee322130539d429a8a3d1ee2d2d"></a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Does updates for the group when changed.  <a href="#afe791ee322130539d429a8a3d1ee2d2d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Location&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39">FindCenter</a> (bool forcePirate)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the center of the group.  <a href="#af6100b51d701e1d45dce2827770aae39"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a252b8f1d11f52800fad4ff2f95cb43fd.html#a252b8f1d11f52800fad4ff2f95cb43fd">LiveCount</a> ()</td></tr>
@@ -126,8 +126,8 @@ Public Attributes</h2></td></tr>
 Properties</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBritbot_1_1HeadingVector.html">HeadingVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01">Heading</a><code> [get, set]</code></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Direction of the group to make navigation more precise.  <a href="#ac74f086371dd35beabf0dfba05520f01"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">List&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a059e67ba5999e6b7e5d4d6db3d235610.html#a059e67ba5999e6b7e5d4d6db3d235610">Pirates</a><code> [get, set]</code></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">List of the indexes of the pirates in this group.  <a href="#a059e67ba5999e6b7e5d4d6db3d235610"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">ObservableCollection&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48">Pirates</a><code> [get, set]</code></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">List of the indexes of the pirates in this group.  <a href="#a664758cdcc27b87c04eaf9538faa2a48"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="interfaceBritbot_1_1ITarget.html">ITarget</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a80a73904f763d61e4c7330fe5ff2617e.html#a80a73904f763d61e4c7330fe5ff2617e">Target</a><code> [get, set]</code></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The target of the <a class="el" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a>.  <a href="#a80a73904f763d61e4c7330fe5ff2617e"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classBritbot_1_1Score.html">Score</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_aad34aa3042140ff0352d9d756cab803a.html#aad34aa3042140ff0352d9d756cab803a">Priorities</a><code> [get, set]</code></td></tr>
@@ -159,13 +159,13 @@ Static Private Member Functions</h2></td></tr>
 Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a75da03ffed9b2e359cdda9f9bdb62ec5.html#a75da03ffed9b2e359cdda9f9bdb62ec5">_formTurnsAttempt</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Counter of the number of turn this groupis trying to get into structure.  <a href="#a75da03ffed9b2e359cdda9f9bdb62ec5"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_aeb8b0201bc9965d0138dbb2a3a2997f4.html#aeb8b0201bc9965d0138dbb2a3a2997f4">HasChanged</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">has the group changed this turn?  <a href="#aeb8b0201bc9965d0138dbb2a3a2997f4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_ad59de9260c957c95bb1654c20d237ac6.html#ad59de9260c957c95bb1654c20d237ac6">_hasChanged</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">has the group changed this turn?  <a href="#ad59de9260c957c95bb1654c20d237ac6"></a><br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Represents a structure of few of our pirates that have a common goal. </p>
 
-<p>Definition at line <a class="el" href="Group_8cs_source.html#l00016">16</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
+<p>Definition at line <a class="el" href="Group_8cs_source.html#l00017">17</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="Group_8cs_source.html">Group.cs</a></li>
 </ul>
@@ -173,7 +173,7 @@ Private Attributes</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 11:25:31 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 12:37:24 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

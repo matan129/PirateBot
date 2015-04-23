@@ -74,7 +74,6 @@
           <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb">Play</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a6f6d8ab39bcd4acb9873900c4de58ab2.html#a6f6d8ab39bcd4acb9873900c4de58ab2">StartCalcPriorities</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4">TurnTimer</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_ac4fb187f726574b2b954cb9f5e9cddb9.html#ac4fb187f726574b2b954cb9f5e9cddb9">Version</a></td></tr>
         </table>
       </div>
    </td>
@@ -106,14 +105,13 @@
 
 <p>Do something! </p>
 
-<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00148">148</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
+<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00142">142</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.TurnTimer.Restart();
 
             <span class="comment">//note that because this method is on a separate thread we need this try-catch although we have on our bot</span>
             <span class="keywordflow">try</span>
             {
-
                 Logger.BeginTime(<span class="stringliteral">&quot;Update&quot;</span>);
                 <span class="comment">//update the enemy info</span>
                 Enemy.Update(cancellationToken);
@@ -128,18 +126,20 @@
                 Logger.StopTime(<span class="stringliteral">&quot;CalculateAndAssignTargets&quot;</span>);
 
                 <span class="comment">//fix configuration</span>
+                Logger.BeginTime(<span class="stringliteral">&quot;GroupSplitting&quot;</span>);
                 Veteran.GroupSplitting();
+                Logger.StopTime(<span class="stringliteral">&quot;GroupSplitting&quot;</span>);
+
+                Logger.BeginTime(<span class="stringliteral">&quot;GroupJoining&quot;</span>);
                 Veteran.GroupJoining();
-                <span class="keywordflow">foreach</span> (Group p <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups)
-                {
-                    p.Update();
-                }
+                Logger.StopTime(<span class="stringliteral">&quot;GroupJoining&quot;</span>);
+
                 <span class="comment">//FixGroupArrangement();</span>
+                Logger.BeginTime(<span class="stringliteral">&quot;FixGroupArrangement&quot;</span>);
                 <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.FixGroupArrangement();
+                Logger.StopTime(<span class="stringliteral">&quot;FixGroupArrangement&quot;</span>);
 
                 Logger.BeginTime(<span class="stringliteral">&quot;GetAllMoves&quot;</span>);
-
-
                 <span class="comment">//Get the moves for all the pirates and return them</span>
                 Dictionary&lt;Pirate, Direction&gt; moves = <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.GetAllMoves(cancellationToken);
                 Logger.StopTime(<span class="stringliteral">&quot;GetAllMoves&quot;</span>);
@@ -194,7 +194,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 11:25:31 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 12:37:24 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

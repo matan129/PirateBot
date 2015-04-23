@@ -144,72 +144,67 @@
 <a name="l00108"></a>00108 
 <a name="l00109"></a>00109             <span class="comment">//setup time remaining</span>
 <a name="l00110"></a>00110             <span class="keywordtype">int</span> time = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.TimeRemaining();
-<a name="l00111"></a>00111             <span class="comment">/*if (Bot.Game.GetTurn() &gt; 1)</span>
-<a name="l00112"></a>00112 <span class="comment">                time = Bot.Game.TimeRemaining();</span>
-<a name="l00113"></a>00113 <span class="comment">            else</span>
-<a name="l00114"></a>00114 <span class="comment">                time = 1000; //1000 ms*/</span>
+<a name="l00111"></a>00111             <span class="keywordtype">int</span> safeTimeout = (int) (time * 0.85);
+<a name="l00112"></a>00112 
+<a name="l00113"></a>00113             <span class="comment">//timeout setup</span>
+<a name="l00114"></a>00114             CancellationTokenSource commanderCancellationSource = <span class="keyword">new</span> CancellationTokenSource(safeTimeout);
 <a name="l00115"></a>00115 
-<a name="l00116"></a>00116             <span class="keywordtype">int</span> safeTimeout = (int) (time * 0.65);
-<a name="l00117"></a>00117 
-<a name="l00118"></a>00118             <span class="comment">//timeout setup</span>
-<a name="l00119"></a>00119             CancellationTokenSource commanderCancellationSource = <span class="keyword">new</span> CancellationTokenSource(safeTimeout);
-<a name="l00120"></a>00120 
-<a name="l00121"></a>00121             <span class="comment">//Commander task setup and start</span>
-<a name="l00122"></a>00122             <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_ad191000656bf29e4e3f08a3bd5a2c7d8.html#ad191000656bf29e4e3f08a3bd5a2c7d8" title="Array of the tasks. These are the normal commander task and the fallback task. See below...">_tasks</a>[0] =
-<a name="l00123"></a>00123                 Task.Factory.StartNew(() =&gt;
-<a name="l00124"></a>00124                 {
-<a name="l00125"></a>00125                     <span class="keywordflow">try</span>
-<a name="l00126"></a>00126                     {
-<a name="l00127"></a>00127                         <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_a887c2a4383bb88aa0c6c4ced183cb446.html#a887c2a4383bb88aa0c6c4ced183cb446" title="The moves the commander decided on.">_movesDictionary</a> = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb" title="Do something!">Play</a>(commanderCancellationSource.Token, out onTime);
-<a name="l00128"></a>00128                     }
-<a name="l00129"></a>00129                     <span class="keywordflow">catch</span> (Exception ex)
-<a name="l00130"></a>00130                     {
-<a name="l00131"></a>00131                         <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN &quot;</span> +
-<a name="l00132"></a>00132                                        <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetTurn());
-<a name="l00133"></a>00133                         <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(ex.ToString());
-<a name="l00134"></a>00134                     }
-<a name="l00135"></a>00135                 });
-<a name="l00136"></a>00136 
-<a name="l00137"></a>00137             <span class="comment">//Fallback task setup and start</span>
-<a name="l00138"></a>00138             <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_ad191000656bf29e4e3f08a3bd5a2c7d8.html#ad191000656bf29e4e3f08a3bd5a2c7d8" title="Array of the tasks. These are the normal commander task and the fallback task. See below...">_tasks</a>[1] =
-<a name="l00139"></a>00139                 Task.Factory.StartNew(() =&gt;
-<a name="l00140"></a>00140                 {
-<a name="l00141"></a>00141                     <span class="keywordflow">try</span>
-<a name="l00142"></a>00142                     {
-<a name="l00143"></a>00143                         <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_a1c811a068397815f292eb6c35090db33.html#a1c811a068397815f292eb6c35090db33" title="The fallback moves the fallback bot generated.">_fallbackMoves</a> = <a class="code" href="classBritbot_1_1Fallback_1_1FallbackBot.html" title="This is the fallback bot its execution time must be low.">FallbackBot</a>.<a class="code" href="classBritbot_1_1Fallback_1_1FallbackBot_a585455f39b63406e73d7bf5db27927ac.html#a585455f39b63406e73d7bf5db27927ac" title="Generates the fallback moves This is basically the weaker sister of Commander.Play()">GetFallbackTurns</a>();
-<a name="l00144"></a>00144                     }
-<a name="l00145"></a>00145                     <span class="keywordflow">catch</span> (Exception ex)
-<a name="l00146"></a>00146                     {
-<a name="l00147"></a>00147                         <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN &quot;</span> +
-<a name="l00148"></a>00148                                        <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetTurn());
-<a name="l00149"></a>00149                         <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(ex.ToString());
-<a name="l00150"></a>00150                     }
-<a name="l00151"></a>00151                 });
-<a name="l00152"></a>00152 
-<a name="l00153"></a>00153             <span class="comment">//Wait for the tasks until the same timeout is over.</span>
-<a name="l00154"></a>00154             Task.WaitAll(<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_ad191000656bf29e4e3f08a3bd5a2c7d8.html#ad191000656bf29e4e3f08a3bd5a2c7d8" title="Array of the tasks. These are the normal commander task and the fallback task. See below...">_tasks</a>, safeTimeout);
-<a name="l00155"></a>00155 
-<a name="l00156"></a>00156             <span class="comment">//if it&#39;s stuck...</span>
-<a name="l00157"></a>00157             <span class="keywordflow">if</span> (!onTime)
-<a name="l00158"></a>00158             {
-<a name="l00159"></a>00159                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;=================TIMEOUT=======================&quot;</span>);
-<a name="l00160"></a>00160                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;Commander timed out, switching to fallback code&quot;</span>);
-<a name="l00161"></a>00161                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;Time remaining: &quot;</span> + <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.TimeRemaining());
-<a name="l00162"></a>00162                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;=================TIMEOUT=======================&quot;</span>);
-<a name="l00163"></a>00163             }
-<a name="l00164"></a>00164 
-<a name="l00165"></a>00165             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a87425696f864cbf0bcbbe47c3e8aca83.html#a87425696f864cbf0bcbbe47c3e8aca83">Debug</a>();
-<a name="l00166"></a>00166 
-<a name="l00167"></a>00167             <span class="comment">//return if the commander is on time</span>
-<a name="l00168"></a>00168             <span class="keywordflow">return</span> onTime;
-<a name="l00169"></a>00169         }
-<a name="l00170"></a>00170     }
-<a name="l00171"></a>00171 }
+<a name="l00116"></a>00116             <span class="comment">//Commander task setup and start</span>
+<a name="l00117"></a>00117             <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_ad191000656bf29e4e3f08a3bd5a2c7d8.html#ad191000656bf29e4e3f08a3bd5a2c7d8" title="Array of the tasks. These are the normal commander task and the fallback task. See below...">_tasks</a>[0] =
+<a name="l00118"></a>00118                 Task.Factory.StartNew(() =&gt;
+<a name="l00119"></a>00119                 {
+<a name="l00120"></a>00120                     <span class="keywordflow">try</span>
+<a name="l00121"></a>00121                     {
+<a name="l00122"></a>00122                         <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_a887c2a4383bb88aa0c6c4ced183cb446.html#a887c2a4383bb88aa0c6c4ced183cb446" title="The moves the commander decided on.">_movesDictionary</a> = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb" title="Do something!">Play</a>(commanderCancellationSource.Token, out onTime);
+<a name="l00123"></a>00123                     }
+<a name="l00124"></a>00124                     <span class="keywordflow">catch</span> (Exception ex)
+<a name="l00125"></a>00125                     {
+<a name="l00126"></a>00126                         <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN &quot;</span> +
+<a name="l00127"></a>00127                                        <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetTurn());
+<a name="l00128"></a>00128                         <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(ex.ToString());
+<a name="l00129"></a>00129                     }
+<a name="l00130"></a>00130                 });
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132             <span class="comment">//Fallback task setup and start</span>
+<a name="l00133"></a>00133             <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_ad191000656bf29e4e3f08a3bd5a2c7d8.html#ad191000656bf29e4e3f08a3bd5a2c7d8" title="Array of the tasks. These are the normal commander task and the fallback task. See below...">_tasks</a>[1] =
+<a name="l00134"></a>00134                 Task.Factory.StartNew(() =&gt;
+<a name="l00135"></a>00135                 {
+<a name="l00136"></a>00136                     <span class="keywordflow">try</span>
+<a name="l00137"></a>00137                     {
+<a name="l00138"></a>00138                         <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_a1c811a068397815f292eb6c35090db33.html#a1c811a068397815f292eb6c35090db33" title="The fallback moves the fallback bot generated.">_fallbackMoves</a> = <a class="code" href="classBritbot_1_1Fallback_1_1FallbackBot.html" title="This is the fallback bot its execution time must be low.">FallbackBot</a>.<a class="code" href="classBritbot_1_1Fallback_1_1FallbackBot_a585455f39b63406e73d7bf5db27927ac.html#a585455f39b63406e73d7bf5db27927ac" title="Generates the fallback moves This is basically the weaker sister of Commander.Play()">GetFallbackTurns</a>();
+<a name="l00139"></a>00139                     }
+<a name="l00140"></a>00140                     <span class="keywordflow">catch</span> (Exception ex)
+<a name="l00141"></a>00141                     {
+<a name="l00142"></a>00142                         <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN &quot;</span> +
+<a name="l00143"></a>00143                                        <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetTurn());
+<a name="l00144"></a>00144                         <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(ex.ToString());
+<a name="l00145"></a>00145                     }
+<a name="l00146"></a>00146                 });
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148             <span class="comment">//Wait for the tasks until the same timeout is over.</span>
+<a name="l00149"></a>00149             Task.WaitAll(<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_ad191000656bf29e4e3f08a3bd5a2c7d8.html#ad191000656bf29e4e3f08a3bd5a2c7d8" title="Array of the tasks. These are the normal commander task and the fallback task. See below...">_tasks</a>, safeTimeout);
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151             <span class="comment">//if it&#39;s stuck...</span>
+<a name="l00152"></a>00152             <span class="keywordflow">if</span> (!onTime)
+<a name="l00153"></a>00153             {
+<a name="l00154"></a>00154                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;=================TIMEOUT=======================&quot;</span>);
+<a name="l00155"></a>00155                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;Commander timed out, switching to fallback code&quot;</span>);
+<a name="l00156"></a>00156                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;Time remaining: &quot;</span> + <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.TimeRemaining());
+<a name="l00157"></a>00157                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;=================TIMEOUT=======================&quot;</span>);
+<a name="l00158"></a>00158             }
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a87425696f864cbf0bcbbe47c3e8aca83.html#a87425696f864cbf0bcbbe47c3e8aca83">Debug</a>();
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162             <span class="comment">//return if the commander is on time</span>
+<a name="l00163"></a>00163             <span class="keywordflow">return</span> onTime;
+<a name="l00164"></a>00164         }
+<a name="l00165"></a>00165     }
+<a name="l00166"></a>00166 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 11:25:31 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 12:37:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

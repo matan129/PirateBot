@@ -59,6 +59,7 @@
       <div class="navtab">
         <table>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a75da03ffed9b2e359cdda9f9bdb62ec5.html#a75da03ffed9b2e359cdda9f9bdb62ec5">_formTurnsAttempt</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ad59de9260c957c95bb1654c20d237ac6.html#ad59de9260c957c95bb1654c20d237ac6">_hasChanged</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a69923812f5df8ebcb82bd98368c04bc0.html#a69923812f5df8ebcb82bd98368c04bc0">AddPirate</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a19caac2b7322b09be35be51d089bb045.html#a19caac2b7322b09be35be51d089bb045">CalcPriorities</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_af4be9720339a3b868a42f120b0b97afd.html#af4be9720339a3b868a42f120b0b97afd">CasualtiesPercent</a></td></tr>
@@ -78,13 +79,12 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a7ecd71353172abbc1011fcf8b26b0b2b.html#a7ecd71353172abbc1011fcf8b26b0b2b">Group</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_adf5774587a8c6809dd6c3286963412ed.html#adf5774587a8c6809dd6c3286963412ed">Group</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ade796fcbad52b797db2b3bb8cf36f8dd.html#ade796fcbad52b797db2b3bb8cf36f8dd">GroupCounter</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_aeb8b0201bc9965d0138dbb2a3a2997f4.html#aeb8b0201bc9965d0138dbb2a3a2997f4">HasChanged</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01">Heading</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd">Id</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ac98ebc3311b494306620aeed9e0725ca.html#ac98ebc3311b494306620aeed9e0725ca">IsFormed</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20">Join</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a252b8f1d11f52800fad4ff2f95cb43fd.html#a252b8f1d11f52800fad4ff2f95cb43fd">LiveCount</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a059e67ba5999e6b7e5d4d6db3d235610.html#a059e67ba5999e6b7e5d4d6db3d235610">Pirates</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48">Pirates</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_aad34aa3042140ff0352d9d756cab803a.html#aad34aa3042140ff0352d9d756cab803a">Priorities</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a2cc4cc795affbfd5485aea150b24d91d.html#a2cc4cc795affbfd5485aea150b24d91d">SetTarget</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a6badda07e80afa86ee047ee872abf49f.html#a6badda07e80afa86ee047ee872abf49f">Split</a></td></tr>
@@ -113,9 +113,9 @@
 <p>You know what this does, don't you? </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd></dd></dl>
 
-<p>Definition at line <a class="el" href="Group_8cs_source.html#l00119">119</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
+<p>Definition at line <a class="el" href="Group_8cs_source.html#l00127">127</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Group - id: &quot;</span> + this.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a> + <span class="stringliteral">&quot; pirate count: &quot;</span> + this.<a class="code" href="classBritbot_1_1Group_a059e67ba5999e6b7e5d4d6db3d235610.html#a059e67ba5999e6b7e5d4d6db3d235610" title="List of the indexes of the pirates in this group.">Pirates</a>.Count + <span class="stringliteral">&quot;location: &quot;</span> +
+            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Group - id: &quot;</span> + this.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a> + <span class="stringliteral">&quot; pirate count: &quot;</span> + this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Count + <span class="stringliteral">&quot;location: &quot;</span> +
                    this.<a class="code" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39" title="Find the center of the group.">FindCenter</a>(<span class="keyword">true</span>)
                    + <span class="stringliteral">&quot; heading: &quot;</span> + this.<a class="code" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01" title="Direction of the group to make navigation more precise.">Heading</a>;
         }
@@ -129,7 +129,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 11:25:31 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 12:37:24 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
