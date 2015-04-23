@@ -117,10 +117,13 @@
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="Group_8cs_source.html#l00802">802</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
+<p>Definition at line <a class="el" href="Group_8cs_source.html#l00803">803</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            <span class="keywordflow">throw</span> <span class="keyword">new</span> NotImplementedException();
-
+            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; num; i++)
+            {
+                Commander.Groups.Add(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Group_a7ecd71353172abbc1011fcf8b26b0b2b.html#a7ecd71353172abbc1011fcf8b26b0b2b" title="Just a ctor to do to common stuff (called from the other ctors above by &quot;this()&quot; statement)">Group</a>(<span class="keyword">new</span> <span class="keywordtype">int</span>[1] { this.<a class="code" href="classBritbot_1_1Group_a059e67ba5999e6b7e5d4d6db3d235610.html#a059e67ba5999e6b7e5d4d6db3d235610" title="List of the indexes of the pirates in this group.">Pirates</a>[this.<a class="code" href="classBritbot_1_1Group_a059e67ba5999e6b7e5d4d6db3d235610.html#a059e67ba5999e6b7e5d4d6db3d235610" title="List of the indexes of the pirates in this group.">Pirates</a>.Count()-1] }));
+                this.<a class="code" href="classBritbot_1_1Group_a059e67ba5999e6b7e5d4d6db3d235610.html#a059e67ba5999e6b7e5d4d6db3d235610" title="List of the indexes of the pirates in this group.">Pirates</a>.RemoveAt(this.<a class="code" href="classBritbot_1_1Group_a059e67ba5999e6b7e5d4d6db3d235610.html#a059e67ba5999e6b7e5d4d6db3d235610" title="List of the indexes of the pirates in this group.">Pirates</a>.Count() - 1);
+            }
         }
 </pre></div>
 </div>
@@ -132,7 +135,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 08:27:32 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 08:39:28 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
