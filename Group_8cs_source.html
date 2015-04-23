@@ -824,34 +824,41 @@
 <a name="l00901"></a>00901 
 <a name="l00909"></a><a class="code" href="classBritbot_1_1Group_a5eae35655e31aece296f13d6c509ce9c.html#a5eae35655e31aece296f13d6c509ce9c">00909</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1Group_a5eae35655e31aece296f13d6c509ce9c.html#a5eae35655e31aece296f13d6c509ce9c" title="checks if two groups are messed around in one another TODO: make this smarter">CheckIfGroupsIntersects</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g1, <a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g2)
 <a name="l00910"></a>00910         {
-<a name="l00911"></a>00911             <span class="comment">//going over all the pirates in G1</span>
-<a name="l00912"></a>00912             <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> intPirate1 <span class="keywordflow">in</span> g1.Pirates)
-<a name="l00913"></a>00913             {
-<a name="l00914"></a>00914                 <span class="comment">//convertion</span>
-<a name="l00915"></a>00915                 Pirate pirate1 = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(intPirate1);
-<a name="l00916"></a>00916 
-<a name="l00917"></a>00917                 <span class="comment">//going over pirates in G2</span>
-<a name="l00918"></a>00918                 <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> intPirate2 <span class="keywordflow">in</span> g2.Pirates)
-<a name="l00919"></a>00919                 {
-<a name="l00920"></a>00920                     <span class="comment">//conversion</span>
-<a name="l00921"></a>00921                     Pirate pirate2 = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(intPirate2);
-<a name="l00922"></a>00922 
-<a name="l00923"></a>00923                     <span class="comment">//check if distance is small enough</span>
-<a name="l00924"></a>00924                     <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.EuclidianDistanceSquared(pirate1.Loc, pirate2.Loc) &lt;= <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a82eecb995047c018746acca65e0a378e.html#a82eecb995047c018746acca65e0a378e" title="The distance under wich two groups will be considered intersected.">GroupIntersectionDistance</a>)
-<a name="l00925"></a>00925                         <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00926"></a>00926                 }
-<a name="l00927"></a>00927             }
-<a name="l00928"></a>00928 
-<a name="l00929"></a>00929             <span class="comment">//otherwise return false</span>
-<a name="l00930"></a>00930             <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00931"></a>00931         }
-<a name="l00932"></a>00932     }
-<a name="l00933"></a>00933 }
+<a name="l00911"></a>00911             <span class="comment">//first check direction stuff</span>
+<a name="l00912"></a>00912             <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> diff = <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>.<a class="code" href="classBritbot_1_1HeadingVector_ad3b0af7cfb8aea81f5c3d4673d3376c3.html#ad3b0af7cfb8aea81f5c3d4673d3376c3" title="Calculates the direction vector between two points.">CalcDifference</a>(g1.<a class="code" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39" title="Find the center of the group.">FindCenter</a>(<span class="keyword">true</span>), g2.<a class="code" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39" title="Find the center of the group.">FindCenter</a>(<span class="keyword">true</span>));
+<a name="l00913"></a>00913 
+<a name="l00914"></a>00914             <span class="comment">//if they are not in the same direction or something</span>
+<a name="l00915"></a>00915             <span class="keywordflow">if</span> ((diff * g1.<a class="code" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01" title="Direction of the group to make navigation more precise.">Heading</a> &lt; 0) || (g2.<a class="code" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01" title="Direction of the group to make navigation more precise.">Heading</a> * g1.<a class="code" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01" title="Direction of the group to make navigation more precise.">Heading</a> &gt; 0))
+<a name="l00916"></a>00916                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00917"></a>00917 
+<a name="l00918"></a>00918             <span class="comment">//going over all the pirates in G1</span>
+<a name="l00919"></a>00919             <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> intPirate1 <span class="keywordflow">in</span> g1.Pirates)
+<a name="l00920"></a>00920             {
+<a name="l00921"></a>00921                 <span class="comment">//convertion</span>
+<a name="l00922"></a>00922                 Pirate pirate1 = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(intPirate1);
+<a name="l00923"></a>00923 
+<a name="l00924"></a>00924                 <span class="comment">//going over pirates in G2</span>
+<a name="l00925"></a>00925                 <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> intPirate2 <span class="keywordflow">in</span> g2.Pirates)
+<a name="l00926"></a>00926                 {
+<a name="l00927"></a>00927                     <span class="comment">//conversion</span>
+<a name="l00928"></a>00928                     Pirate pirate2 = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(intPirate2);
+<a name="l00929"></a>00929 
+<a name="l00930"></a>00930                     <span class="comment">//check if distance is small enough</span>
+<a name="l00931"></a>00931                     <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.EuclidianDistanceSquared(pirate1.Loc, pirate2.Loc) &lt;= <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a82eecb995047c018746acca65e0a378e.html#a82eecb995047c018746acca65e0a378e" title="The distance under wich two groups will be considered intersected.">GroupIntersectionDistance</a>)
+<a name="l00932"></a>00932                         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00933"></a>00933                 }
+<a name="l00934"></a>00934             }
+<a name="l00935"></a>00935 
+<a name="l00936"></a>00936             <span class="comment">//otherwise return false</span>
+<a name="l00937"></a>00937             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00938"></a>00938         }
+<a name="l00939"></a>00939     }
+<a name="l00940"></a>00940 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 12:37:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 21:12:53 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

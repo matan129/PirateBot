@@ -49,6 +49,15 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="IPriorityQueue-g"><param name="Local" value="interfaceBritbot_1_1PriorityQueue_1_1IPriorityQueue-g.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="PriorityQueueNode"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1PriorityQueueNode.html"><param name="ImageNumber" value="11"></OBJECT>
       </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator"><param name="Local" value="namespaceBritbot_1_1Simulator.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="CaptureEvent"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SimularedGroup"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SimulatedEvent"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedEvent.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SimulatedGame"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SimulatedIsland"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Simulator"><param name="Local" value="classBritbot_1_1Simulator_1_1Simulator.html"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
     </UL>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="Namespace Members"><param name="Local" value="namespacemembers.html"><param name="ImageNumber" value="11"></OBJECT>
     <UL>
@@ -81,6 +90,11 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="_movesDictionary"><param name="Local" value="classBritbot_1_1Bot_a887c2a4383bb88aa0c6c4ced183cb446.html#a887c2a4383bb88aa0c6c4ced183cb446"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="_tasks"><param name="Local" value="classBritbot_1_1Bot_ad191000656bf29e4e3f08a3bd5a2c7d8.html#ad191000656bf29e4e3f08a3bd5a2c7d8"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="Game"><param name="Local" value="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.CaptureEvent"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Capturer"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_aa32eaaaad6ee6c3f5ddd2d3883fbe99a.html#aa32eaaaad6ee6c3f5ddd2d3883fbe99a"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="island"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_aeb1fcb0ae1f5fdef5112c003617196f0.html#aeb1fcb0ae1f5fdef5112c003617196f0"><param name="ImageNumber" value="11"></OBJECT>
       </UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Commander"><param name="Local" value="classBritbot_1_1Commander.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
@@ -420,6 +434,39 @@
       <UL>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="ComputePPT"><param name="Local" value="classBritbot_1_1ScoreHelper_a174ff46033ee4e3166154d385df7940a.html#a174ff46033ee4e3166154d385df7940a"><param name="ImageNumber" value="11"></OBJECT>
       </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.SimularedGroup"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SimularedGroup"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a64854ea5e9bf5ba5f2ca97802126de7e.html#a64854ea5e9bf5ba5f2ca97802126de7e"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SimularedGroup"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a460bcc8169aba50c48f5c0cf3b84c9bb.html#a460bcc8169aba50c48f5c0cf3b84c9bb"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Kill"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a1e57330e1a0902b054a4db73446c3de2.html#a1e57330e1a0902b054a4db73446c3de2"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="FirePower"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_aadbe9c517f17fdf1a854ce6550e5782f.html#aadbe9c517f17fdf1a854ce6550e5782f"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Id"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a175aac34e1a164c58c9842f2f3dac44e.html#a175aac34e1a164c58c9842f2f3dac44e"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="IsAlive"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a883fd58c82b20e618963f783e76da2b4.html#a883fd58c82b20e618963f783e76da2b4"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Owner"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a8efecc8420bdcd0aa263b16af032c3d1.html#a8efecc8420bdcd0aa263b16af032c3d1"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="ReviveTurn"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a40a2df27bc49f1827f99855d508cb4be.html#a40a2df27bc49f1827f99855d508cb4be"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.SimulatedEvent"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedEvent.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="MakeShitHappen"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedEvent_ae7949ebf9a46e278f332ca406d058e95.html#ae7949ebf9a46e278f332ca406d058e95"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.SimulatedGame"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SimulatedGame"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a2d187ec77d86f6cd3986b1c1ebeaf879.html#a2d187ec77d86f6cd3986b1c1ebeaf879"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="AddEvent"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_adb9948d45b3324c62ab1b3df01bc6008.html#adb9948d45b3324c62ab1b3df01bc6008"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="CommingEvents"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_ad69212b6172ea520748bd69c3867e37a.html#ad69212b6172ea520748bd69c3867e37a"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="EnemyGroups"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a0374d2415a97b11ddf2358cc0c0f1dc4.html#a0374d2415a97b11ddf2358cc0c0f1dc4"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Islands"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a13d9c0436df5dd509e7f504190ed1046.html#a13d9c0436df5dd509e7f504190ed1046"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="MyGroups"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_ab3e51331f75b9d1dcb8180a4feb3f149.html#ab3e51331f75b9d1dcb8180a4feb3f149"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.SimulatedIsland"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland.html"><param name="ImageNumber" value="1"></OBJECT>
+      <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="CapturingGroup"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a6b2b7feabe232ce6a6a48c9bba284f27.html#a6b2b7feabe232ce6a6a48c9bba284f27"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Id"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_adc42e7051e9bb5b52619d9462dffe240.html#adc42e7051e9bb5b52619d9462dffe240"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Owner"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a62a1eb45b6aa948ed06f2341a0c19fe2.html#a62a1eb45b6aa948ed06f2341a0c19fe2"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="TurnsBeingCaptured"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a1616ceb9a016dc9ed913f7957718efdf.html#a1616ceb9a016dc9ed913f7957718efdf"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Value"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a184897a4ee8f044c0134c1699ea8d98d.html#a184897a4ee8f044c0134c1699ea8d98d"><param name="ImageNumber" value="11"></OBJECT>
+      </UL>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.Simulator"><param name="Local" value="classBritbot_1_1Simulator_1_1Simulator.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.SmartIsland"><param name="Local" value="classBritbot_1_1SmartIsland.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SmartIsland"><param name="Local" value="classBritbot_1_1SmartIsland_a00c8386e86dfec96731502bc727e9e57.html#a00c8386e86dfec96731502bc727e9e57"><param name="ImageNumber" value="11"></OBJECT>
@@ -521,9 +568,17 @@
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.PriorityQueue.PriorityQueueNode"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1PriorityQueueNode.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Navigator.Node"><param name="Local" value="classBritbot_1_1Navigator_1_1Node.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.SimulatedEvent"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedEvent.html"><param name="ImageNumber" value="1"></OBJECT>
+        <UL>
+        <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.CaptureEvent"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent.html"><param name="ImageNumber" value="11"></OBJECT>
+        </UL>
       </UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Score"><param name="Local" value="classBritbot_1_1Score.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.ScoreHelper"><param name="Local" value="classBritbot_1_1ScoreHelper.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.SimularedGroup"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.SimulatedGame"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.SimulatedIsland"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.Simulator"><param name="Local" value="classBritbot_1_1Simulator_1_1Simulator.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Veteran"><param name="Local" value="classBritbot_1_1Veteran.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Zone"><param name="Local" value="classBritbot_1_1Zone.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.ZoneConfigs"><param name="Local" value="classBritbot_1_1ZoneConfigs.html"><param name="ImageNumber" value="11"></OBJECT>
@@ -543,6 +598,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="h"><param name="Local" value="functions_0x68.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="i"><param name="Local" value="functions_0x69.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="j"><param name="Local" value="functions_0x6a.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="k"><param name="Local" value="functions_0x6b.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="l"><param name="Local" value="functions_0x6c.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="m"><param name="Local" value="functions_0x6d.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="n"><param name="Local" value="functions_0x6e.html"><param name="ImageNumber" value="11"></OBJECT>
@@ -571,6 +627,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="h"><param name="Local" value="functions_func_0x68.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="i"><param name="Local" value="functions_func_0x69.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="j"><param name="Local" value="functions_func_0x6a.html"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="k"><param name="Local" value="functions_func_0x6b.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="l"><param name="Local" value="functions_func_0x6c.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="m"><param name="Local" value="functions_func_0x6d.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="n"><param name="Local" value="functions_func_0x6e.html"><param name="ImageNumber" value="11"></OBJECT>
@@ -634,6 +691,12 @@
     <LI><OBJECT type="text/sitemap"><param name="Name" value="PriorityQueue/IPriorityQueue.cs"><param name="Local" value="IPriorityQueue_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="PriorityQueue/PriorityQueueNode.cs"><param name="Local" value="PriorityQueueNode_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Properties/AssemblyInfo.cs"><param name="Local" value="AssemblyInfo_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Simulator/CaptureEvent.cs"><param name="Local" value="CaptureEvent_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Simulator/SimularedGroup.cs"><param name="Local" value="SimularedGroup_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Simulator/SimulatedEvent.cs"><param name="Local" value="SimulatedEvent_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Simulator/SimulatedGame.cs"><param name="Local" value="SimulatedGame_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Simulator/SimulatedIsland.cs"><param name="Local" value="SimulatedIsland_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Name" value="Simulator/Simulator.cs"><param name="Local" value="Simulator_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
     </UL>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="File Members"><param name="Local" value="globals.html"><param name="ImageNumber" value="11"></OBJECT>
     <UL>

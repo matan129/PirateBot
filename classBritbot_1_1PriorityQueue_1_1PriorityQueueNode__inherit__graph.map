@@ -1,3 +1,5 @@
 <map id="G" name="G">
-<area shape="rect" id="node3" href="$classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map" alt="" coords="56,83,211,112"/>
+<area shape="rect" id="node3" href="$classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map" alt="" coords="5,83,160,112"/>
+<area shape="rect" id="node5" href="$classBritbot_1_1Simulator_1_1SimulatedEvent.html" title="A virtual class representing an event in the game (capture, kill, est...) Inherits from PriorityQueue..." alt="" coords="184,83,397,112"/>
+<area shape="rect" id="node7" href="$classBritbot_1_1Simulator_1_1CaptureEvent.html" title="Britbot.Simulator.CaptureEvent" alt="" coords="189,160,392,189"/>
 </map>
