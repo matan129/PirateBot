@@ -167,10 +167,6 @@ namespace Britbot
                 Logger.StopTime("CalculateAndAssignTargets");
 
                 //fix configuration
-                foreach (Group p in Commander.Groups)
-                {
-                    p.HasChanged = false;
-                }
                 Veteran.GroupSplitting();
                 Veteran.GroupJoining();
                 foreach (Group p in Commander.Groups)

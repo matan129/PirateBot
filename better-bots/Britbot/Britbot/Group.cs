@@ -61,7 +61,7 @@ namespace Britbot
         /// <summary>
         /// has the group changed this turn?
         /// </summary>
-        public bool HasChanged;
+        private bool HasChanged;
 
         #endregion
 
@@ -668,7 +668,10 @@ namespace Britbot
         public void Update()
         {
             if (this.HasChanged)
+            {
                 this.GenerateFormationInstructions();
+                this.HasChanged = false;
+            }
         }
 
         /// <summary>
