@@ -11,6 +11,9 @@ namespace Britbot
     /// </summary>
     class Veteran
     {
+        /// <summary>
+        /// A method that reffers to the ULTIMATE CONFIGURATION and splits the gruops as needed
+        /// </summary>
         public static void GroupSplitting()
         {
             List<int> Ucon = Commander.GetUltimateGameConfig();
@@ -28,7 +31,9 @@ namespace Britbot
 
         }
 
-
+        /// <summary>
+        /// A method that reffers to the ULTIMATE CONFIGURATION and joins the gruops as needed
+        /// </summary>
         public static void GroupJoining()
         {
             List<int> Ucon = Commander.GetUltimateGameConfig();
@@ -47,7 +52,7 @@ namespace Britbot
                 {
                     foreach(Group g in Ccon)
                     {
-                        if ((g.Pirates.Count == 1) && (Bot.Game.Distance(mp[Ccon[i].Pirates[1]], mp[g.Pirates[1]]) < minD))
+                        if ((g.Pirates.Count == 1) && (Bot.Game.Distance(mp[Ccon[i].Pirates[1]], mp[g.Pirates[1]]) < minD) && (Ccon[i].Pirates[1]!=g.Pirates[1]))
                         {
                             temp = g;
                             minD = Bot.Game.Distance(mp[Ccon[i].Pirates[1]], mp[g.Pirates[1]]);
