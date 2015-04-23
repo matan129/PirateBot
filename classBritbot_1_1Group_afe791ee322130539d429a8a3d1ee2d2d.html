@@ -115,7 +115,10 @@
 <p>Definition at line <a class="el" href="Group_8cs_source.html#l00668">668</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1Group_aeb8b0201bc9965d0138dbb2a3a2997f4.html#aeb8b0201bc9965d0138dbb2a3a2997f4" title="has the group changed this turn?">HasChanged</a>)
+            {
                 this.<a class="code" href="classBritbot_1_1Group_a10ad49476a4a2356ce7d24c96a9c2778.html#a10ad49476a4a2356ce7d24c96a9c2778" title="Generates instructions to form into optimal structure.">GenerateFormationInstructions</a>();
+                this.<a class="code" href="classBritbot_1_1Group_aeb8b0201bc9965d0138dbb2a3a2997f4.html#aeb8b0201bc9965d0138dbb2a3a2997f4" title="has the group changed this turn?">HasChanged</a> = <span class="keyword">false</span>;
+            }
         }
 </pre></div>
 </div>
@@ -127,7 +130,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 11:21:28 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 11:25:31 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
