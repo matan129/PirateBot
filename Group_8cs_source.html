@@ -736,73 +736,75 @@
 <a name="l00793"></a>00793             <span class="comment">//this is basic summation of arithmetic sequence, excluding the 0th ring because it&#39;s special. then we add it back.</span>
 <a name="l00794"></a>00794             <span class="keywordflow">return</span> (((2 * maxRing + 2) * maxRing) + 1);
 <a name="l00795"></a>00795         }
-<a name="l00800"></a><a class="code" href="classBritbot_1_1Group_a6badda07e80afa86ee047ee872abf49f.html#a6badda07e80afa86ee047ee872abf49f">00800</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Group_a6badda07e80afa86ee047ee872abf49f.html#a6badda07e80afa86ee047ee872abf49f" title="A most mysterious thingy.">Split</a>(<span class="keywordtype">int</span> num)
+<a name="l00800"></a><a class="code" href="classBritbot_1_1Group_a6badda07e80afa86ee047ee872abf49f.html#a6badda07e80afa86ee047ee872abf49f">00800</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Group_a6badda07e80afa86ee047ee872abf49f.html#a6badda07e80afa86ee047ee872abf49f" title="Splits &#39;num&#39; pirates from the group.">Split</a>(<span class="keywordtype">int</span> num)
 <a name="l00801"></a>00801         {
 <a name="l00802"></a>00802             <span class="keywordflow">throw</span> <span class="keyword">new</span> NotImplementedException();
 <a name="l00803"></a>00803 
 <a name="l00804"></a>00804         }
-<a name="l00809"></a><a class="code" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20">00809</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20" title="A most mysterious thingy #2.">Join</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g)
+<a name="l00809"></a><a class="code" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20">00809</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20" title="Joins a group to this group.">Join</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g)
 <a name="l00810"></a>00810         {
-<a name="l00811"></a>00811             <span class="keywordflow">throw</span> <span class="keyword">new</span> NotImplementedException();
-<a name="l00812"></a>00812 
-<a name="l00813"></a>00813         }
+<a name="l00811"></a>00811             <span class="keywordflow">foreach</span>(<span class="keywordtype">int</span> p <span class="keywordflow">in</span> g.<a class="code" href="classBritbot_1_1Group_a059e67ba5999e6b7e5d4d6db3d235610.html#a059e67ba5999e6b7e5d4d6db3d235610" title="List of the indexes of the pirates in this group.">Pirates</a>)
+<a name="l00812"></a>00812                 this.<a class="code" href="classBritbot_1_1Group_a059e67ba5999e6b7e5d4d6db3d235610.html#a059e67ba5999e6b7e5d4d6db3d235610" title="List of the indexes of the pirates in this group.">Pirates</a>.Add(p);
+<a name="l00813"></a>00813             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Remove(g);
 <a name="l00814"></a>00814 
-<a name="l00821"></a><a class="code" href="classBritbot_1_1Group_a672acc1e7cc049b71f44af1a21b370d3.html#a672acc1e7cc049b71f44af1a21b370d3">00821</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Group_a672acc1e7cc049b71f44af1a21b370d3.html#a672acc1e7cc049b71f44af1a21b370d3" title="Given two groups it will rearange the pirates in them so that the big group will have the pirates who...">Switch</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> bigGroup, <a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> smallGroup)
-<a name="l00822"></a>00822         {
-<a name="l00823"></a>00823             <span class="comment">//define the list of pirates of both groups</span>
-<a name="l00824"></a>00824             List&lt;int&gt; pirateList = <span class="keyword">new</span> List&lt;int&gt;();
-<a name="l00825"></a>00825 
-<a name="l00826"></a>00826             <span class="comment">//add pirates of the biggroup</span>
-<a name="l00827"></a>00827             <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pirate <span class="keywordflow">in</span> bigGroup.Pirates)
-<a name="l00828"></a>00828             {
-<a name="l00829"></a>00829                 pirateList.Add(pirate);
-<a name="l00830"></a>00830             }
-<a name="l00831"></a>00831 
-<a name="l00832"></a>00832             <span class="comment">//add pirates of the small group</span>
-<a name="l00833"></a>00833             <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pirate <span class="keywordflow">in</span> smallGroup.Pirates)
-<a name="l00834"></a>00834             {
-<a name="l00835"></a>00835                 pirateList.Add(pirate);
-<a name="l00836"></a>00836             }
-<a name="l00837"></a>00837 
-<a name="l00838"></a>00838             <span class="comment">//sort array by allignment with the vector specified</span>
-<a name="l00839"></a>00839             pirateList.Sort((p1, p2) =&gt; -1 * <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a706f52323f1c94fd88e5bbaaaea0969a.html#a706f52323f1c94fd88e5bbaaaea0969a" title="Given two pirates (id) it tells you who is &quot;more&quot; in a specific direction than the other...">ComparePirateByDirection</a>(p1, p2, bigGroup.Heading));
-<a name="l00840"></a>00840 
-<a name="l00841"></a>00841             <span class="comment">//replace pirates</span>
-<a name="l00842"></a>00842             bigGroup.Pirates = pirateList.GetRange(0, bigGroup.Pirates.Count);
-<a name="l00843"></a>00843             pirateList.RemoveRange(0, bigGroup.Pirates.Count);
-<a name="l00844"></a>00844             smallGroup.Pirates = pirateList;
-<a name="l00845"></a>00845         }
-<a name="l00846"></a>00846 
-<a name="l00854"></a><a class="code" href="classBritbot_1_1Group_a5eae35655e31aece296f13d6c509ce9c.html#a5eae35655e31aece296f13d6c509ce9c">00854</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1Group_a5eae35655e31aece296f13d6c509ce9c.html#a5eae35655e31aece296f13d6c509ce9c" title="checks if two groups are messed around in one another TODO: make this smarter">CheckIfGroupsIntersects</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g1,<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g2)
-<a name="l00855"></a>00855         {
-<a name="l00856"></a>00856             <span class="comment">//going over all the pirates in G1</span>
-<a name="l00857"></a>00857             <span class="keywordflow">foreach</span>(<span class="keywordtype">int</span> intPirate1 <span class="keywordflow">in</span> g1.Pirates)
-<a name="l00858"></a>00858             {
-<a name="l00859"></a>00859                 <span class="comment">//convertion</span>
-<a name="l00860"></a>00860                 Pirate pirate1 = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(intPirate1);
-<a name="l00861"></a>00861 
-<a name="l00862"></a>00862                 <span class="comment">//going over pirates in G2</span>
-<a name="l00863"></a>00863                 <span class="keywordflow">foreach</span>(<span class="keywordtype">int</span> intPirate2 <span class="keywordflow">in</span> g2.Pirates)
-<a name="l00864"></a>00864                 {
-<a name="l00865"></a>00865                     <span class="comment">//conversion</span>
-<a name="l00866"></a>00866                     Pirate pirate2 = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(intPirate2);
-<a name="l00867"></a>00867 
-<a name="l00868"></a>00868                     <span class="comment">//check if distance is small enough</span>
-<a name="l00869"></a>00869                     <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.EuclidianDistanceSquared(pirate1.Loc, pirate2.Loc) &lt;= <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a82eecb995047c018746acca65e0a378e.html#a82eecb995047c018746acca65e0a378e" title="The distance under wich two groups will be considered intersected.">GroupIntersectionDistance</a>)
-<a name="l00870"></a>00870                         <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00871"></a>00871                 }
-<a name="l00872"></a>00872             }
-<a name="l00873"></a>00873 
-<a name="l00874"></a>00874             <span class="comment">//otherwise return false</span>
-<a name="l00875"></a>00875             <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00876"></a>00876         }
-<a name="l00877"></a>00877     }
-<a name="l00878"></a>00878 }
+<a name="l00815"></a>00815         }
+<a name="l00816"></a>00816 
+<a name="l00823"></a><a class="code" href="classBritbot_1_1Group_a672acc1e7cc049b71f44af1a21b370d3.html#a672acc1e7cc049b71f44af1a21b370d3">00823</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Group_a672acc1e7cc049b71f44af1a21b370d3.html#a672acc1e7cc049b71f44af1a21b370d3" title="Given two groups it will rearange the pirates in them so that the big group will have the pirates who...">Switch</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> bigGroup, <a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> smallGroup)
+<a name="l00824"></a>00824         {
+<a name="l00825"></a>00825             <span class="comment">//define the list of pirates of both groups</span>
+<a name="l00826"></a>00826             List&lt;int&gt; pirateList = <span class="keyword">new</span> List&lt;int&gt;();
+<a name="l00827"></a>00827 
+<a name="l00828"></a>00828             <span class="comment">//add pirates of the biggroup</span>
+<a name="l00829"></a>00829             <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pirate <span class="keywordflow">in</span> bigGroup.Pirates)
+<a name="l00830"></a>00830             {
+<a name="l00831"></a>00831                 pirateList.Add(pirate);
+<a name="l00832"></a>00832             }
+<a name="l00833"></a>00833 
+<a name="l00834"></a>00834             <span class="comment">//add pirates of the small group</span>
+<a name="l00835"></a>00835             <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pirate <span class="keywordflow">in</span> smallGroup.Pirates)
+<a name="l00836"></a>00836             {
+<a name="l00837"></a>00837                 pirateList.Add(pirate);
+<a name="l00838"></a>00838             }
+<a name="l00839"></a>00839 
+<a name="l00840"></a>00840             <span class="comment">//sort array by allignment with the vector specified</span>
+<a name="l00841"></a>00841             pirateList.Sort((p1, p2) =&gt; -1 * <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a706f52323f1c94fd88e5bbaaaea0969a.html#a706f52323f1c94fd88e5bbaaaea0969a" title="Given two pirates (id) it tells you who is &quot;more&quot; in a specific direction than the other...">ComparePirateByDirection</a>(p1, p2, bigGroup.Heading));
+<a name="l00842"></a>00842 
+<a name="l00843"></a>00843             <span class="comment">//replace pirates</span>
+<a name="l00844"></a>00844             bigGroup.Pirates = pirateList.GetRange(0, bigGroup.Pirates.Count);
+<a name="l00845"></a>00845             pirateList.RemoveRange(0, bigGroup.Pirates.Count);
+<a name="l00846"></a>00846             smallGroup.Pirates = pirateList;
+<a name="l00847"></a>00847         }
+<a name="l00848"></a>00848 
+<a name="l00856"></a><a class="code" href="classBritbot_1_1Group_a5eae35655e31aece296f13d6c509ce9c.html#a5eae35655e31aece296f13d6c509ce9c">00856</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1Group_a5eae35655e31aece296f13d6c509ce9c.html#a5eae35655e31aece296f13d6c509ce9c" title="checks if two groups are messed around in one another TODO: make this smarter">CheckIfGroupsIntersects</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g1,<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g2)
+<a name="l00857"></a>00857         {
+<a name="l00858"></a>00858             <span class="comment">//going over all the pirates in G1</span>
+<a name="l00859"></a>00859             <span class="keywordflow">foreach</span>(<span class="keywordtype">int</span> intPirate1 <span class="keywordflow">in</span> g1.Pirates)
+<a name="l00860"></a>00860             {
+<a name="l00861"></a>00861                 <span class="comment">//convertion</span>
+<a name="l00862"></a>00862                 Pirate pirate1 = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(intPirate1);
+<a name="l00863"></a>00863 
+<a name="l00864"></a>00864                 <span class="comment">//going over pirates in G2</span>
+<a name="l00865"></a>00865                 <span class="keywordflow">foreach</span>(<span class="keywordtype">int</span> intPirate2 <span class="keywordflow">in</span> g2.Pirates)
+<a name="l00866"></a>00866                 {
+<a name="l00867"></a>00867                     <span class="comment">//conversion</span>
+<a name="l00868"></a>00868                     Pirate pirate2 = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(intPirate2);
+<a name="l00869"></a>00869 
+<a name="l00870"></a>00870                     <span class="comment">//check if distance is small enough</span>
+<a name="l00871"></a>00871                     <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.EuclidianDistanceSquared(pirate1.Loc, pirate2.Loc) &lt;= <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a82eecb995047c018746acca65e0a378e.html#a82eecb995047c018746acca65e0a378e" title="The distance under wich two groups will be considered intersected.">GroupIntersectionDistance</a>)
+<a name="l00872"></a>00872                         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00873"></a>00873                 }
+<a name="l00874"></a>00874             }
+<a name="l00875"></a>00875 
+<a name="l00876"></a>00876             <span class="comment">//otherwise return false</span>
+<a name="l00877"></a>00877             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00878"></a>00878         }
+<a name="l00879"></a>00879     }
+<a name="l00880"></a>00880 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 22 2015 16:26:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 08:15:26 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
