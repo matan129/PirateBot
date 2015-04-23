@@ -908,6 +908,13 @@ namespace Britbot
         /// <returns>true if they are close enouth</returns>
         public static bool CheckIfGroupsIntersects(Group g1, Group g2)
         {
+            //first check direction stuff
+            HeadingVector diff = HeadingVector.CalcDifference(g1.FindCenter(true), g2.FindCenter(true));
+
+            //if they are not in the same direction or something
+            if ((diff * g1.Heading < 0) || (g2.Heading * g1.Heading > 0))
+                return false;
+
             //going over all the pirates in G1
             foreach (int intPirate1 in g1.Pirates)
             {

@@ -170,7 +170,7 @@ namespace Britbot
 
                 //FixGroupArrangement();
                 Logger.BeginTime("FixGroupArrangement");
-                Commander.FixGroupArrangement();
+                //Commander.FixGroupArrangement();
                 Logger.StopTime("FixGroupArrangement");
 
                 Logger.BeginTime("GetAllMoves");

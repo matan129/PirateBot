@@ -82,6 +82,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="ScoreHelper.cs" />
+    <Compile Include="Simulator\CaptureEvent.cs" />
+    <Compile Include="Simulator\SimularedGroup.cs" />
+    <Compile Include="Simulator\SimulatedEvent.cs" />
+    <Compile Include="Simulator\SimulatedGame.cs" />
+    <Compile Include="Simulator\SimulatedIsland.cs" />
+    <Compile Include="Simulator\Simulator.cs" />
     <Compile Include="SmartIsland.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Veteran.cs" />
