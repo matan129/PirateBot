@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Britbot: Britbot::Group::Split</title>
+<title>Britbot: Britbot::Group::Update</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
@@ -86,48 +86,34 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a059e67ba5999e6b7e5d4d6db3d235610.html#a059e67ba5999e6b7e5d4d6db3d235610">Pirates</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_aad34aa3042140ff0352d9d756cab803a.html#aad34aa3042140ff0352d9d756cab803a">Priorities</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a2cc4cc795affbfd5485aea150b24d91d.html#a2cc4cc795affbfd5485aea150b24d91d">SetTarget</a></td></tr>
-          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Group_a6badda07e80afa86ee047ee872abf49f.html#a6badda07e80afa86ee047ee872abf49f">Split</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a6badda07e80afa86ee047ee872abf49f.html#a6badda07e80afa86ee047ee872abf49f">Split</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a672acc1e7cc049b71f44af1a21b370d3.html#a672acc1e7cc049b71f44af1a21b370d3">Switch</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a80a73904f763d61e4c7330fe5ff2617e.html#a80a73904f763d61e4c7330fe5ff2617e">Target</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_af947a3402a9ec6d9f3d13dde5a50bc5f.html#af947a3402a9ec6d9f3d13dde5a50bc5f">ToString</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_afe791ee322130539d429a8a3d1ee2d2d.html#afe791ee322130539d429a8a3d1ee2d2d">Update</a></td></tr>
+          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Group_afe791ee322130539d429a8a3d1ee2d2d.html#afe791ee322130539d429a8a3d1ee2d2d">Update</a></td></tr>
         </table>
       </div>
    </td>
    <td valign="top" class="mempage">
-<a class="anchor" id="a6badda07e80afa86ee047ee872abf49f"></a><!-- doxytag: member="Britbot::Group::Split" ref="a6badda07e80afa86ee047ee872abf49f" args="(int num)" -->
+<a class="anchor" id="afe791ee322130539d429a8a3d1ee2d2d"></a><!-- doxytag: member="Britbot::Group::Update" ref="afe791ee322130539d429a8a3d1ee2d2d" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classBritbot_1_1Group_a6badda07e80afa86ee047ee872abf49f.html#a6badda07e80afa86ee047ee872abf49f">Britbot.Group.Split</a> </td>
+          <td class="memname">void <a class="el" href="classBritbot_1_1Group_afe791ee322130539d429a8a3d1ee2d2d.html#afe791ee322130539d429a8a3d1ee2d2d">Britbot.Group.Update</a> </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>num</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td><code> [inline]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
-<p>Splits 'num' pirates from the group. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">num</td><td>number of pirates to split</td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Does updates for the group when changed. USE IT ONLY WHEN CHANGED. </p>
 
-<p>Definition at line <a class="el" href="Group_8cs_source.html#l00816">816</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
+<p>Definition at line <a class="el" href="Group_8cs_source.html#l00663">663</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            <span class="keywordtype">int</span>[] outboundPirates = this.<a class="code" href="classBritbot_1_1Group_a059e67ba5999e6b7e5d4d6db3d235610.html#a059e67ba5999e6b7e5d4d6db3d235610" title="List of the indexes of the pirates in this group.">Pirates</a>.Take(num).ToArray();
-
-            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; num; i++)
-            {
-                Commander.Groups.Add(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Group_a7ecd71353172abbc1011fcf8b26b0b2b.html#a7ecd71353172abbc1011fcf8b26b0b2b" title="Just a ctor to do to common stuff (called from the other ctors above by &quot;this()&quot; statement)">Group</a>(<span class="keyword">new</span>[] {outboundPirates[i]}));
-            }
-
-            this.<a class="code" href="classBritbot_1_1Group_a059e67ba5999e6b7e5d4d6db3d235610.html#a059e67ba5999e6b7e5d4d6db3d235610" title="List of the indexes of the pirates in this group.">Pirates</a>.RemoveAll(outboundPirates.Contains);
+            this.<a class="code" href="classBritbot_1_1Group_a10ad49476a4a2356ce7d24c96a9c2778.html#a10ad49476a4a2356ce7d24c96a9c2778" title="Generates instructions to form into optimal structure.">GenerateFormationInstructions</a>();
         }
 </pre></div>
 </div>

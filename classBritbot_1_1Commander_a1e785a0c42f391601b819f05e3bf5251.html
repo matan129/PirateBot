@@ -122,9 +122,6 @@
                 <span class="keywordflow">case</span> 3:
                     <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(0, 2));
                     <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(2, 1));
-
-                    <span class="comment">//Allocator dry run</span>
-                    Allocator.PhysicalSplit(2, 1);
                     <span class="keywordflow">break</span>;
                 <span class="keywordflow">case</span> 4:
                     <span class="keywordflow">if</span> (Bot.Game.AllEnemyPirates().Count &gt; 4)
@@ -132,45 +129,30 @@
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(0, 1));
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(1, 1));
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(2, 2));
-
-                        <span class="comment">//Allocator dry run</span>
-                        Allocator.PhysicalSplit(2, 1, 1);
                     }
                     <span class="keywordflow">else</span>
                     {
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(0, 3));
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(3, 1));
-
-                        <span class="comment">//Allocator dry run</span>
-                        Allocator.PhysicalSplit(3, 1);
+                        ;
                     }
                     <span class="keywordflow">break</span>;
                 <span class="keywordflow">case</span> 5:
                     <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(0, 2));
                     <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(2, 2));
                     <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(4, 1));
-
-                    <span class="comment">//Allocator dry run</span>
-                    Allocator.PhysicalSplit(2, 2, 1);
                     <span class="keywordflow">break</span>;
                 <span class="keywordflow">case</span> 6:
                     <span class="keywordflow">if</span> (Bot.Game.EnemyIslands().Count &gt; 0)
                     {
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(0, 5));
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(5, 1));
-
-                        <span class="comment">//Allocator dry run</span>
-                        Allocator.PhysicalSplit(5, 1);
                     }
                     <span class="keywordflow">else</span>
                     {
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(2, 4));
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(0, 1));
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(1, 1));
-
-
-                        <span class="comment">//Allocator dry run</span>
-                        Allocator.PhysicalSplit(4, 1, 1);
                     }
                     <span class="keywordflow">break</span>;
                 <span class="keywordflow">case</span> 7:
@@ -178,9 +160,6 @@
                     <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(2, 3));
                     <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(5, 2));
 
-
-                    <span class="comment">//Allocator dry run</span>
-                    Allocator.PhysicalSplit(3, 2, 2);
                     <span class="keywordflow">break</span>;
                 <span class="keywordflow">case</span> 8:
                     <span class="keywordflow">if</span> (Bot.Game.GetMyPirate(7).Loc.Row == 39)
@@ -188,10 +167,6 @@
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(0, 4));
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(4, 3));
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(7, 1));
-
-
-                        <span class="comment">//Allocator dry run</span>
-                        Allocator.PhysicalSplit(4, 3, 1);
                     }
                     <span class="keywordflow">else</span>
                     {
@@ -199,10 +174,6 @@
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(3, 2));
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(5, 2));
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(7, 1));
-
-
-                        <span class="comment">//Allocator dry run</span>
-                        Allocator.PhysicalSplit(2, 2, 3, 1);
                     }
                     <span class="keywordflow">break</span>;
                 <span class="keywordflow">case</span> 9:
@@ -210,10 +181,6 @@
                     <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(3, 3));
                     <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(6, 2));
                     <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(8, 1));
-
-
-                    <span class="comment">//Allocator dry run</span>
-                    Allocator.PhysicalSplit(3, 3, 2, 1);
                     <span class="keywordflow">break</span>;
                 <span class="keywordflow">default</span>:
                     <span class="comment">/*for (int i = 0; i &lt; Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)</span>
@@ -240,7 +207,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 09:48:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 11:05:27 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
