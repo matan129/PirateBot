@@ -20,10 +20,13 @@ namespace Britbot
         public readonly int Id;
 
         /// <summary>
+        ///     list of all the enemies and their distances from the island
+        /// </summary>
+        private List<EnemyGroup> approachingEnemies;
+
+        /// <summary>
         ///     Queue of the last few amounts of enemy troops around this island
         /// </summary>
-        //private Queue<int> SurroundingForces;
-
         /// <summary>
         ///     A static island list of all the islands in game
         /// </summary>
@@ -76,11 +79,6 @@ namespace Britbot
         {
             get { return Bot.Game.GetIsland(this.Id).Owner; }
         }
-
-        /// <summary>
-        /// list of all the enemies and their distances from the island
-        /// </summary>
-        private List<EnemyGroup> approachingEnemies;
 
         #endregion
 
@@ -286,7 +284,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// updates the distances of all the enemies approaching the isalnds
+        ///     updates the distances of all the enemies approaching the isalnds
         /// </summary>
         public void Update()
         {
@@ -307,7 +305,7 @@ namespace Britbot
 
             //update enemy distances
             this.approachingEnemies.Clear();
-            foreach(EnemyGroup eGroup in Enemy.Groups)
+            foreach (EnemyGroup eGroup in Enemy.Groups)
             {
                 //check that the enemy is heading here
                 if (eGroup.IsApproachingIsland(this))
@@ -316,12 +314,13 @@ namespace Britbot
                 }
             }
             //sort the list by distance
-            this.approachingEnemies.Sort((e1, e2) => e1.MinimalETATo(this.Loc).CompareTo(e2.MinimalSquaredDistanceTo(this.Loc)));
+            this.approachingEnemies.Sort(
+                (e1, e2) => e1.MinimalETATo(this.Loc).CompareTo(e2.MinimalSquaredDistanceTo(this.Loc)));
         }
 
         /// <summary>
-        /// Returns the minimal distance to enemy group
-        /// uses the *SORTED* EnemyDistances list
+        ///     Returns the minimal distance to enemy group
+        ///     uses the *SORTED* EnemyDistances list
         /// </summary>
         /// <returns>minimal distance to enemy group</returns>
         public double GetMinimumSquareDistanceFromEnemy()
@@ -353,7 +352,7 @@ namespace Britbot
             {
                 sIsland.Update();
             }
-            DebugAll();
+            SmartIsland.DebugAll();
         }
 
         public void Debug()
@@ -367,9 +366,10 @@ namespace Britbot
             foreach (SmartIsland sIsland in SmartIsland.IslandList)
                 sIsland.Debug();
         }
+
         /// <summary>
-        /// This function sais if it is ok for a given group to try and capture this isalnd
-        /// considers all the other
+        ///     This function sais if it is ok for a given group to try and capture this isalnd
+        ///     considers all the other
         /// </summary>
         /// <param name="g">the group for which we test danger</param>
         /// <returns>true if it is dangerous, false otherwise</returns>
@@ -382,7 +382,6 @@ namespace Britbot
             //find the distance of g from the island
             int distance = Bot.Game.Distance(this.Loc, g.FindCenter(true));
 
-                       
 
             //go over all the enemy groups approaching and their distances
             //TODO: maybe consider the actual firepower of the enemy
@@ -402,10 +401,10 @@ namespace Britbot
                     {
                         //the enemy who are closer are at disaddvantage since they lose one pirate capturing the island
                         if (g.LiveCount() <= enemyForce - 1)
-                            return true;       
+                            return true;
                     }
                 }
-                else                                //case 2: Enemy is farther away to the island then we are
+                else //case 2: Enemy is farther away to the island then we are
                 {
                     //if the enemy reaches us before we capture
                     if (EnemyETA < this.RealTimeTillCapture(Consts.ME) + distance)
@@ -426,14 +425,14 @@ namespace Britbot
                     }
                 }
             }
-                                                             
+
             //if we are here then everything is ok
             return false;
         }
 
         /// <summary>
-        /// This returns how many turns it would take for the conqueror team to capture the island
-        /// considering everything? (the owner and if there was some capturing before)
+        ///     This returns how many turns it would take for the conqueror team to capture the island
+        ///     considering everything? (the owner and if there was some capturing before)
         /// </summary>
         /// <param name="conqueror">the team we ask about (see Consts)</param>
         /// <returns>how many turns it would take for the conqueror team to capture the island</returns>
@@ -446,7 +445,7 @@ namespace Britbot
             {
                 totalCaptureTime = 0;
             } //if the isalnd is nutral
-            else if(this.Owner == Consts.NO_OWNER)
+            else if (this.Owner == Consts.NO_OWNER)
             {
                 totalCaptureTime = this.CaptureTurns;
             } //if the island is of the other team
@@ -456,15 +455,13 @@ namespace Britbot
             }
 
             //check if we already have some capture time
-            if(this.TeamCapturing == conqueror)
+            if (this.TeamCapturing == conqueror)
             {
                 return totalCaptureTime - this.TurnsBeingCaptured;
             }
-            else //if we have no capture time just return the total time
-            {
-                return totalCaptureTime;
-            }
+            return totalCaptureTime;
         }
+
         /// <summary>
         ///     Checks if 2 smart Islands are equal
         /// </summary>

@@ -17,11 +17,6 @@ namespace Britbot
         /// </summary>
         /// <param name="totalIslandValues">Totals island value (i.e. there are islands worth two, etc)</param>
         /// <returns></returns>
-        /*internal static int ComputePPT(int totalIslandValues)
-        {
-            return (int) Math.Floor(Math.Pow(2, totalIslandValues - 1));
-        }*/
-
         /// <summary>
         ///     Calculates the score for each turn
         ///     (Points Per Turn)

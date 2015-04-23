@@ -79,7 +79,7 @@ namespace Britbot
         /// <summary>
         ///     Just a ctor to do to common stuff (called from the other ctors above by "this()" statement)
         /// </summary>
-        public Group()
+        private Group()
         {
             this.Pirates = new List<int>();
             this.Heading = new HeadingVector(1, 0);
@@ -91,6 +91,7 @@ namespace Britbot
             Bot.Game.Debug("===================GROUP {0}===================", this.Id);
         }
 
+        [Obsolete("Please use the constructor that takes spesific pirates")]
         public Group(int index, int amount)
             : this()
         {
@@ -222,10 +223,8 @@ namespace Britbot
                 //Proceed to moving to the target unless it's a NoTarget - then we stay in place
                 if (this.Target.GetTargetType() != TargetType.NoTarget)
                 {
-                    
-
                     //sort the pirates in a way the closest ones to the target will travel first in order to avoid collisions
-                    
+
                     //return for each pirate the pirate and its direction
                     foreach (Pirate myPirate in myPirates)
                     {
@@ -769,7 +768,7 @@ namespace Britbot
             this.Priorities = this.Priorities.OrderBy(score => score.Eta).ToList();
             //throw away all but CalcMaxPrioritiesNum
             this.Priorities = this.Priorities.Take(Commander.CalcMaxPrioritiesNum()).ToList();
-            
+
             Logger.StopTime("CalcPriorities");
         }
 
@@ -797,33 +796,34 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Splits 'num' pirates from the group
+        ///     Splits 'num' pirates from the group
         /// </summary>
         /// <param name="num">number of pirates to split</param>
         public void Split(int num)
         {
+            int[] outboundPirates = this.Pirates.Take(num).ToArray();
+
             for (int i = 0; i < num; i++)
             {
-                Commander.Groups.Add(new Group(new int[1] { this.Pirates[this.Pirates.Count()-1] }));
-                this.Pirates.RemoveAt(this.Pirates.Count() - 1);
+                Commander.Groups.Add(new Group(new[] {outboundPirates[i]}));
             }
+
+            this.Pirates.RemoveAll(outboundPirates.Contains);
         }
 
         /// <summary>
-        /// Joins a group to this group
+        ///     Joins a group to this group
         /// </summary>
         /// <param name="g">a group to be joind to this one</param>
         public void Join(Group g)
         {
-            foreach(int p in g.Pirates)
-                this.Pirates.Add(p);
-            Commander.Groups.Remove(g);
-
+            this.Pirates.AddRange(g.Pirates);
+            Commander.Groups.RemoveAll(group => group.Id == g.Id);
         }
 
         /// <summary>
-        /// Given two groups it will rearange the pirates in them so that the big group
-        /// will have the pirates who are the most addvanced
+        ///     Given two groups it will rearange the pirates in them so that the big group
+        ///     will have the pirates who are the most addvanced
         /// </summary>
         /// <param name="bigGroup">the big group</param>
         /// <param name="smallGroup">the small group</param>
@@ -845,8 +845,7 @@ namespace Britbot
             Bot.Game.Debug("pirate list: " + string.Join(", ", pirateList));
             Bot.Game.Debug("heading: " + bigGroup.Heading);
 
-            
-            
+
             //sort array by allignment with the vector specified
             pirateList.Sort((p1, p2) => -1 * Navigator.ComparePirateByDirection(p1, p2, bigGroup.Heading));
 
@@ -858,26 +857,25 @@ namespace Britbot
 
             Bot.Game.Debug("Biggroup: " + string.Join(", ", bigGroup.Pirates));
             Bot.Game.Debug("smallgroup: " + string.Join(", ", smallGroup.Pirates));
-            
         }
 
         /// <summary>
-        /// checks if two groups are messed around in one another
-        /// TODO: make this smarter
+        ///     checks if two groups are messed around in one another
+        ///     TODO: make this smarter
         /// </summary>
         /// <param name="g1">first group</param>
         /// <param name="g2">second group</param>
         /// <returns>true if they are close enouth</returns>
-        public static bool CheckIfGroupsIntersects(Group g1,Group g2)
+        public static bool CheckIfGroupsIntersects(Group g1, Group g2)
         {
             //going over all the pirates in G1
-            foreach(int intPirate1 in g1.Pirates)
+            foreach (int intPirate1 in g1.Pirates)
             {
                 //convertion
                 Pirate pirate1 = Bot.Game.GetMyPirate(intPirate1);
 
                 //going over pirates in G2
-                foreach(int intPirate2 in g2.Pirates)
+                foreach (int intPirate2 in g2.Pirates)
                 {
                     //conversion
                     Pirate pirate2 = Bot.Game.GetMyPirate(intPirate2);

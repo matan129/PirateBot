@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region #Usings
+
+using System;
+
+#endregion
 
 namespace Britbot
 {
@@ -23,9 +27,8 @@ namespace Britbot
 
         #region Fields & Properies
 
-
         /// <summary>
-        /// The radious of the area around enemy ships which we avoid
+        ///     The radious of the area around enemy ships which we avoid
         /// </summary>
         public static double DangerZone
         {
@@ -33,15 +36,16 @@ namespace Britbot
         }
 
         /// <summary>
-        /// The radious of the maximum difference from enemy ships trajectory to an island so we will consider it to be going to the island
+        ///     The radious of the maximum difference from enemy ships trajectory to an island so we will consider it to be going
+        ///     to the island
         /// </summary>
         public static double EnemyPredictionSensitivity
         {
-            get { return 1.5 * Math.Sqrt(Bot.Game.GetAttackRadius());}
+            get { return 1.5 * Math.Sqrt(Bot.Game.GetAttackRadius()); }
         }
 
         /// <summary>
-        /// The distance where a group shpuld make a maneuver (get off the island and attack the enemy)
+        ///     The distance where a group shpuld make a maneuver (get off the island and attack the enemy)
         /// </summary>
         public static double ManeuverDistance
         {
@@ -49,8 +53,8 @@ namespace Britbot
         }
 
         /// <summary>
-        /// the maximum distance of enemy from island that we can say with any certainty that he can possibly try to capture
-        /// This actually means the maximum time period we try to predict
+        ///     the maximum distance of enemy from island that we can say with any certainty that he can possibly try to capture
+        ///     This actually means the maximum time period we try to predict
         /// </summary>
         public static double MaxCalculableDistance
         {
@@ -58,7 +62,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// the distance that we consider that a stationary target are approaching an island
+        ///     the distance that we consider that a stationary target are approaching an island
         /// </summary>
         public static double ApproachDistanceSquaredOfStationaryTarget
         {
@@ -66,12 +70,13 @@ namespace Britbot
         }
 
         /// <summary>
-        /// The distance under wich two groups will be considered intersected
+        ///     The distance under wich two groups will be considered intersected
         /// </summary>
         public static double GroupIntersectionDistance
         {
             get { return 0.25 * Bot.Game.GetAttackRadius(); }
         }
+
         #endregion
     }
 }

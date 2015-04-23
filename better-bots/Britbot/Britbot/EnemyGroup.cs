@@ -109,7 +109,7 @@ namespace Britbot
             if (!Navigator.IsReachable(origin.GetLocation(), GetLocation(), this.GetHeading()))
                 return null;
 
-            
+
             //Reduce the score in proportion to distance
             //lower score is worse. Mind the minus sign!
             double distance = Navigator.CalcDistFromLine(origin.GetLocation(), this.GetLocation(), this.GetHeading());
@@ -435,7 +435,7 @@ namespace Britbot
         }
 
         /// <summary>
-        /// Gets the minimal number of turns for the group to reach the given location
+        ///     Gets the minimal number of turns for the group to reach the given location
         /// </summary>
         /// <param name="location">the location tested</param>
         /// <returns>minimal number of turns till the group gets to the location</returns>
@@ -476,18 +476,19 @@ namespace Britbot
         }
 
         /// <summary>
-        /// This method checks if this enemy group could be approaching the given island
-        /// first checks if it moves in the general direction of the island
-        /// compares difference in trajectory to a MAGIC constant
+        ///     This method checks if this enemy group could be approaching the given island
+        ///     first checks if it moves in the general direction of the island
+        ///     compares difference in trajectory to a MAGIC constant
         /// </summary>
         /// <param name="sIsland">the island we check</param>
         /// <returns>true if it is possible that the enemy is approching the island</returns>
         public bool IsApproachingIsland(SmartIsland sIsland)
         {
             //if the group is stationary just check if it is close
-            if(this.GetHeading().NormSquared() == 0)
+            if (this.GetHeading().NormSquared() == 0)
             {
-                return Bot.Game.EuclidianDistanceSquared(this.GetLocation(), sIsland.Loc) <= Magic.ApproachDistanceSquaredOfStationaryTarget;
+                return Bot.Game.EuclidianDistanceSquared(this.GetLocation(), sIsland.Loc) <=
+                       Magic.ApproachDistanceSquaredOfStationaryTarget;
             }
             //check if the enemy group is on the island
             if (this.MinimalSquaredDistanceTo(sIsland.Loc) < 1)

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Pirates;
 
 #endregion
@@ -203,11 +202,10 @@ namespace Britbot
                 Veteran.GroupSplitting();
                 Veteran.GroupJoining();
                 //FixGroupArrangement();
-                FixGroupArrangement();
+                Commander.FixGroupArrangement();
 
                 Logger.BeginTime("GetAllMoves");
 
-                
 
                 //Get the moves for all the pirates and return them
                 Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
@@ -529,28 +527,26 @@ namespace Britbot
         /// <param name="cancellationToken"></param>
         private static void StartCalcPriorities(CancellationToken cancellationToken)
         {
-            //this may calculate some of the stuff in parallel and therefore faster 
-            Parallel.ForEach(Commander.Groups, g => g.CalcPriorities(cancellationToken));
-
+            Commander.Groups.ForEach(g => g.CalcPriorities(cancellationToken));
             Bot.Game.Debug("Priorities Calculated");
         }
 
         public static void FixGroupArrangement()
         {
             //going over all pair of groups
-            foreach(Group g1 in Commander.Groups)
+            foreach (Group g1 in Commander.Groups)
             {
-                foreach(Group g2 in Commander.Groups)
+                foreach (Group g2 in Commander.Groups)
                 {
                     //check if it is the same
                     if (g1.Equals(g2))
                         continue;
 
                     //check if they are messed out
-                    if(Group.CheckIfGroupsIntersects(g1,g2))
+                    if (Group.CheckIfGroupsIntersects(g1, g2))
                     {
                         //find larger group
-                        if(g1.Pirates.Count > g2.Pirates.Count)
+                        if (g1.Pirates.Count > g2.Pirates.Count)
                         {
                             Group.Switch(g1, g2);
                         }

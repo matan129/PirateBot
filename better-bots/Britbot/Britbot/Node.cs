@@ -155,7 +155,7 @@ namespace Britbot
                 {
                     if (eGroup.GetMaxFightPower() >= strength)
                     {
-                        foreach(int p in eGroup.EnemyPirates)
+                        foreach (int p in eGroup.EnemyPirates)
                             Node.BlockLocation(Bot.Game.GetEnemyPirate(p).Loc, Magic.DangerZone, eGroup.GetHeading());
                     }
                 }
