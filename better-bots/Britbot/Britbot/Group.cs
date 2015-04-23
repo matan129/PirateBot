@@ -794,21 +794,23 @@ namespace Britbot
             return (((2 * maxRing + 2) * maxRing) + 1);
         }
         /// <summary>
-        /// A most mysterious thingy
+        /// Splits 'num' pirates from the group
         /// </summary>
-        /// <param name="num"></param>
+        /// <param name="num">number of pirates to split</param>
         public void Split(int num)
         {
             throw new NotImplementedException();
 
         }
         /// <summary>
-        /// A most mysterious thingy #2
+        /// Joins a group to this group
         /// </summary>
-        /// <param name="g"></param>
+        /// <param name="g">a group to be joind to this one</param>
         public void Join(Group g)
         {
-            throw new NotImplementedException();
+            foreach(int p in g.Pirates)
+                this.Pirates.Add(p);
+            Commander.Groups.Remove(g);
 
         }
 
