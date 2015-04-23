@@ -113,6 +113,7 @@
             <span class="comment">//note that because this method is on a separate thread we need this try-catch although we have on our bot</span>
             <span class="keywordflow">try</span>
             {
+
                 Logger.BeginTime(<span class="stringliteral">&quot;Update&quot;</span>);
                 <span class="comment">//update the enemy info</span>
                 Enemy.Update(cancellationToken);
@@ -127,8 +128,16 @@
                 Logger.StopTime(<span class="stringliteral">&quot;CalculateAndAssignTargets&quot;</span>);
 
                 <span class="comment">//fix configuration</span>
+                <span class="keywordflow">foreach</span> (Group p <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups)
+                {
+                    p.HasChanged = <span class="keyword">false</span>;
+                }
                 Veteran.GroupSplitting();
                 Veteran.GroupJoining();
+                <span class="keywordflow">foreach</span> (Group p <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups)
+                {
+                    p.Update();
+                }
                 <span class="comment">//FixGroupArrangement();</span>
                 <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.FixGroupArrangement();
 
@@ -189,7 +198,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 11:05:27 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 11:21:28 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
