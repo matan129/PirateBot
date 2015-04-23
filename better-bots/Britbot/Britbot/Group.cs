@@ -58,6 +58,11 @@ namespace Britbot
         /// </summary>
         public Dictionary<int, Location> FormOrders { get; private set; }
 
+        /// <summary>
+        /// has the group changed this turn?
+        /// </summary>
+        public bool HasChanged;
+
         #endregion
 
         #region Constructors & Initializers
@@ -662,7 +667,8 @@ namespace Britbot
         /// </summary>
         public void Update()
         {
-            this.GenerateFormationInstructions();
+            if (this.HasChanged)
+                this.GenerateFormationInstructions();
         }
 
         /// <summary>
@@ -823,6 +829,8 @@ namespace Britbot
             }
 
             this.Pirates.RemoveAll(outboundPirates.Contains);
+
+            this.HasChanged = true;
         }
 
         /// <summary>
@@ -833,6 +841,8 @@ namespace Britbot
         {
             this.Pirates.AddRange(g.Pirates);
             Commander.Groups.RemoveAll(group => group.Id == g.Id);
+
+            this.HasChanged = true;
         }
 
         /// <summary>

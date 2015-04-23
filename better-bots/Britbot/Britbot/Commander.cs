@@ -152,6 +152,7 @@ namespace Britbot
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
             {
+
                 Logger.BeginTime("Update");
                 //update the enemy info
                 Enemy.Update(cancellationToken);
@@ -166,8 +167,16 @@ namespace Britbot
                 Logger.StopTime("CalculateAndAssignTargets");
 
                 //fix configuration
+                foreach (Group p in Commander.Groups)
+                {
+                    p.HasChanged = false;
+                }
                 Veteran.GroupSplitting();
                 Veteran.GroupJoining();
+                foreach (Group p in Commander.Groups)
+                {
+                    p.Update();
+                }
                 //FixGroupArrangement();
                 Commander.FixGroupArrangement();
 
