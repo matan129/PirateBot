@@ -793,15 +793,20 @@ namespace Britbot
             //this is basic summation of arithmetic sequence, excluding the 0th ring because it's special. then we add it back.
             return (((2 * maxRing + 2) * maxRing) + 1);
         }
+
         /// <summary>
         /// Splits 'num' pirates from the group
         /// </summary>
         /// <param name="num">number of pirates to split</param>
         public void Split(int num)
         {
-            throw new NotImplementedException();
-
+            for (int i = 0; i < num; i++)
+            {
+                Commander.Groups.Add(new Group(new int[1] { this.Pirates[this.Pirates.Count()-1] }));
+                this.Pirates.RemoveAt(this.Pirates.Count() - 1);
+            }
         }
+
         /// <summary>
         /// Joins a group to this group
         /// </summary>

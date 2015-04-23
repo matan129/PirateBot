@@ -84,6 +84,7 @@
     <Compile Include="ScoreHelper.cs" />
     <Compile Include="SmartIsland.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Veteran.cs" />
     <Compile Include="Zone.cs" />
   </ItemGroup>
   <ItemGroup>
