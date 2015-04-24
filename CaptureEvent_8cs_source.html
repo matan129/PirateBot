@@ -71,7 +71,7 @@
 <a name="l00021"></a>00021 <span class="preprocessor"></span>
 <a name="l00022"></a>00022 <span class="preprocessor">        #region Constructors &amp; Initializers</span>
 <a name="l00023"></a>00023 <span class="preprocessor"></span>
-<a name="l00029"></a><a class="code" href="classBritbot_1_1Simulator_1_1CaptureEvent_a0bbee610bfe20b0f6dd5a8dfa8362a54.html#a0bbee610bfe20b0f6dd5a8dfa8362a54">00029</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Simulator_1_1CaptureEvent.html" title="this Event is called when an island is being captured">CaptureEvent</a>(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland.html">SimulatedIsland</a> island, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> capturer)
+<a name="l00029"></a><a class="code" href="classBritbot_1_1Simulator_1_1CaptureEvent_a9abac9691038a771f0f55593ff85e60b.html#a9abac9691038a771f0f55593ff85e60b">00029</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Simulator_1_1CaptureEvent.html" title="this Event is called when an island is being captured">CaptureEvent</a>(<span class="keywordtype">int</span> turn, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland.html">SimulatedIsland</a> island, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> capturer) : base(turn)
 <a name="l00030"></a>00030         {
 <a name="l00031"></a>00031             this.Island = island;
 <a name="l00032"></a>00032             this.Capturer = capturer;
@@ -79,25 +79,27 @@
 <a name="l00034"></a>00034 
 <a name="l00035"></a>00035 <span class="preprocessor">        #endregion</span>
 <a name="l00036"></a>00036 <span class="preprocessor"></span>
-<a name="l00041"></a><a class="code" href="classBritbot_1_1Simulator_1_1CaptureEvent_a098557d65d29e0fe5a452f5bf2da40e0.html#a098557d65d29e0fe5a452f5bf2da40e0">00041</a>         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">void</span> Activate(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg)
+<a name="l00041"></a><a class="code" href="classBritbot_1_1Simulator_1_1CaptureEvent_acb91e6c1a982b8b8b5d4082b74aaffb8.html#acb91e6c1a982b8b8b5d4082b74aaffb8">00041</a>         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">bool</span> Activate(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg)
 <a name="l00042"></a>00042         {
 <a name="l00043"></a>00043             <span class="comment">//check if this event is still actuall</span>
 <a name="l00044"></a>00044             <span class="keywordflow">if</span> (!Capturer.IsAlive)
-<a name="l00045"></a>00045                 <span class="keywordflow">return</span>;
+<a name="l00045"></a>00045                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
 <a name="l00046"></a>00046 
 <a name="l00047"></a>00047             <span class="keywordflow">if</span> (this.Island.CapturingGroup != <span class="keyword">this</span>.Capturer)
-<a name="l00048"></a>00048                 <span class="keywordflow">return</span>;
+<a name="l00048"></a>00048                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
 <a name="l00049"></a>00049 
 <a name="l00050"></a>00050             <span class="comment">//if everything checks out update island</span>
 <a name="l00051"></a>00051             this.Island.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_ae0effec32bfe2f42a65e7f03aef60cba.html#ae0effec32bfe2f42a65e7f03aef60cba" title="The owner of this group (Me or Enemy)">Owner</a> = this.Capturer.Owner;
-<a name="l00052"></a>00052         }
-<a name="l00053"></a>00053     }
-<a name="l00054"></a>00054 }
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00054"></a>00054         }
+<a name="l00055"></a>00055     }
+<a name="l00056"></a>00056 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 14:20:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 14:43:16 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

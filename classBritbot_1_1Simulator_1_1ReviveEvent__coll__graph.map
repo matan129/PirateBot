@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$classBritbot_1_1Simulator_1_1SimulatedEvent.html" title="A virtual class representing an event in the game (capture, kill, est...) Inherits from PriorityQueue..." alt="" coords="13,85,128,115"/>
+<area shape="rect" id="node4" href="$classBritbot_1_1PriorityQueue_1_1PriorityQueueNode.html" title="PriorityQueueNode" alt="" coords="5,5,136,35"/>
+<area shape="rect" id="node6" href="$classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)" alt="" coords="152,85,368,115"/>
+</map>

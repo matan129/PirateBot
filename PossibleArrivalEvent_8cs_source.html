@@ -71,7 +71,7 @@
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
 <a name="l00023"></a>00023 <span class="preprocessor">        #region Constructors &amp; Initializers</span>
 <a name="l00024"></a>00024 <span class="preprocessor"></span>
-<a name="l00030"></a><a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_a681d0e87a5ce14833d69acc42d9a950f.html#a681d0e87a5ce14833d69acc42d9a950f">00030</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent.html" title="This represents an arrivale depending on something for example: an enemy group might only come to the...">PossibleArrivalEvent</a>(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland.html">SimulatedIsland</a> island, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> group)
+<a name="l00030"></a><a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_a21272ad4561686a12afe8af82d5c97e6.html#a21272ad4561686a12afe8af82d5c97e6">00030</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent.html" title="This represents an arrivale depending on something for example: an enemy group might only come to the...">PossibleArrivalEvent</a>(<span class="keywordtype">int</span> turn, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland.html">SimulatedIsland</a> island, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> group) : base(turn)
 <a name="l00031"></a>00031         {
 <a name="l00032"></a>00032             this.Island = island;
 <a name="l00033"></a>00033             this.ArrivingGroup = group;
@@ -79,7 +79,7 @@
 <a name="l00035"></a>00035 
 <a name="l00036"></a>00036 <span class="preprocessor">        #endregion</span>
 <a name="l00037"></a>00037 <span class="preprocessor"></span>
-<a name="l00042"></a><a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_acc97c69061649a356a966cd61338ce34.html#acc97c69061649a356a966cd61338ce34">00042</a>         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">void</span> Activate(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg)
+<a name="l00042"></a><a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_a67d1b2597a633abbbf143758b7d8ea50.html#a67d1b2597a633abbbf143758b7d8ea50">00042</a>         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">bool</span> Activate(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg)
 <a name="l00043"></a>00043         {
 <a name="l00044"></a>00044             <span class="comment">//check if the arriving group is alive</span>
 <a name="l00045"></a>00045             <span class="keywordflow">if</span> (this.ArrivingGroup.IsAlive)
@@ -87,35 +87,38 @@
 <a name="l00047"></a>00047                 <span class="comment">//check if the arriving group really should have arrived</span>
 <a name="l00048"></a>00048 
 <a name="l00049"></a>00049                 <span class="comment">//it would come only if there are enemy forces in the island and they are fewer then them</span>
-<a name="l00050"></a>00050                 <span class="comment">//also if they already are on the island they wont come</span>
+<a name="l00050"></a>00050                 <span class="comment">//also if they already are on the island they wont come                </span>
 <a name="l00051"></a>00051                 <span class="keywordflow">if</span> ((this.Island.CapturingGroup == null) ||
-<a name="l00052"></a>00052                     (<span class="keyword">this</span>.Island.CapturingGroup.ActualFirePower(sg) &gt;= this.ArrivingGroup.FirePower)
-<a name="l00053"></a>00053                     || (this.Island.CapturingGroup.Owner == <span class="keyword">this</span>.ArrivingGroup.Owner))
-<a name="l00054"></a>00054                 {
-<a name="l00055"></a>00055                     <span class="keywordflow">return</span>;
-<a name="l00056"></a>00056                 }
-<a name="l00057"></a>00057 
+<a name="l00052"></a>00052                     (<span class="keyword">this</span>.Island.CapturingGroup.Owner == <span class="keyword">this</span>.ArrivingGroup.Owner) ||
+<a name="l00053"></a>00053                     (<span class="keyword">this</span>.Island.CapturingGroup.ActualFirePower(sg) &gt;= this.ArrivingGroup.FirePower))
+<a name="l00054"></a>00054                     
+<a name="l00055"></a>00055                 {
+<a name="l00056"></a>00056                     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00057"></a>00057                 }
 <a name="l00058"></a>00058 
-<a name="l00059"></a>00059                 <span class="comment">//the arriving group has enought force to take over the island and it might do it</span>
-<a name="l00060"></a>00060                 <span class="comment">//first, kill locals</span>
-<a name="l00061"></a>00061                 this.Island.KillLocals(sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453" title="the current turn of the simulation">CurrentTurn</a>);
-<a name="l00062"></a>00062 
-<a name="l00063"></a>00063                 <span class="comment">//then take over</span>
-<a name="l00064"></a>00064                 this.Island.CapturingGroup = this.ArrivingGroup;
-<a name="l00065"></a>00065 
-<a name="l00066"></a>00066                 <span class="keywordtype">int</span> captureTurn = sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453" title="the current turn of the simulation">CurrentTurn</a> + this.Island.TurnsTillDecapture(this.ArrivingGroup.Owner);
-<a name="l00067"></a>00067 
-<a name="l00068"></a>00068                 <span class="comment">//then set a capture and decapture event</span>
-<a name="l00069"></a>00069                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_adb9948d45b3324c62ab1b3df01bc6008.html#adb9948d45b3324c62ab1b3df01bc6008" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent.html" title="This event is called when an island is switching side to nutral.">DeCaptureEvent</a>(this.Island, this.ArrivingGroup), captureTurn);
-<a name="l00070"></a>00070             }
-<a name="l00071"></a>00071         }
-<a name="l00072"></a>00072     }
-<a name="l00073"></a>00073 }
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060                 <span class="comment">//the arriving group has enought force to take over the island and it might do it</span>
+<a name="l00061"></a>00061                 <span class="comment">//first, kill locals</span>
+<a name="l00062"></a>00062                 this.Island.KillLocals(sg);
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064                 <span class="comment">//then take over</span>
+<a name="l00065"></a>00065                 this.Island.CapturingGroup = this.ArrivingGroup;
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067                 <span class="keywordtype">int</span> captureTurn = sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453" title="the current turn of the simulation">CurrentTurn</a> + this.Island.TurnsTillDecapture(this.ArrivingGroup.Owner);
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069                 <span class="comment">//then set a capture and decapture event</span>
+<a name="l00070"></a>00070                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent.html" title="This event is called when an island is switching side to nutral.">DeCaptureEvent</a>(captureTurn, this.Island, this.ArrivingGroup));
+<a name="l00071"></a>00071             }
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00074"></a>00074         }
+<a name="l00075"></a>00075     }
+<a name="l00076"></a>00076 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 14:20:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 14:43:16 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

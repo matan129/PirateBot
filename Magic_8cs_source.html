@@ -76,48 +76,50 @@
 <a name="l00023"></a>00023 
 <a name="l00027"></a><a class="code" href="classBritbot_1_1Magic_a44ecb595cf7d07166a6fbfbf55fc7589.html#a44ecb595cf7d07166a6fbfbf55fc7589">00027</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Magic_a44ecb595cf7d07166a6fbfbf55fc7589.html#a44ecb595cf7d07166a6fbfbf55fc7589" title="Max distace two groups can be from eachother and still be joint.">MaxDistance</a> = 15;
 <a name="l00028"></a>00028 
-<a name="l00029"></a>00029 <span class="preprocessor">        #endregion</span>
-<a name="l00030"></a>00030 <span class="preprocessor"></span>
-<a name="l00031"></a>00031 <span class="preprocessor">        #region Fields &amp; Properies</span>
-<a name="l00032"></a>00032 <span class="preprocessor"></span>
-<a name="l00036"></a>00036         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a983e6d3ed7e14565aead00b04a4c1a96.html#a983e6d3ed7e14565aead00b04a4c1a96" title="The radious of the area around enemy ships which we avoid.">DangerZone</a>
-<a name="l00037"></a><a class="code" href="classBritbot_1_1Magic_a983e6d3ed7e14565aead00b04a4c1a96.html#a983e6d3ed7e14565aead00b04a4c1a96">00037</a>         {
-<a name="l00038"></a>00038             <span class="keyword">get</span> { <span class="keywordflow">return</span> 6 * <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius(); }
-<a name="l00039"></a>00039         }
-<a name="l00040"></a>00040 
-<a name="l00045"></a>00045         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a806fc0eea2ce4c0772d3595ae8765b3e.html#a806fc0eea2ce4c0772d3595ae8765b3e" title="The radious of the maximum difference from enemy ships trajectory to an island so we will consider it...">EnemyPredictionSensitivity</a>
-<a name="l00046"></a><a class="code" href="classBritbot_1_1Magic_a806fc0eea2ce4c0772d3595ae8765b3e.html#a806fc0eea2ce4c0772d3595ae8765b3e">00046</a>         {
-<a name="l00047"></a>00047             <span class="keyword">get</span> { <span class="keywordflow">return</span> 1.5 * Math.Sqrt(<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius()); }
-<a name="l00048"></a>00048         }
-<a name="l00049"></a>00049 
-<a name="l00053"></a>00053         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a5940fdae77a1f808c2fc5aa906a05f41.html#a5940fdae77a1f808c2fc5aa906a05f41" title="The distance where a group shpuld make a maneuver (get off the island and attack the enemy)...">ManeuverDistance</a>
-<a name="l00054"></a><a class="code" href="classBritbot_1_1Magic_a5940fdae77a1f808c2fc5aa906a05f41.html#a5940fdae77a1f808c2fc5aa906a05f41">00054</a>         {
-<a name="l00055"></a>00055             <span class="keyword">get</span> { <span class="keywordflow">return</span> Math.Sqrt(1.5 * <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius()); }
-<a name="l00056"></a>00056         }
-<a name="l00057"></a>00057 
-<a name="l00062"></a>00062         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_ad5eb9ab943cae4be423869493fb9c203.html#ad5eb9ab943cae4be423869493fb9c203" title="the maximum distance of enemy from island that we can say with any certainty that he can possibly try...">MaxCalculableDistance</a>
-<a name="l00063"></a><a class="code" href="classBritbot_1_1Magic_ad5eb9ab943cae4be423869493fb9c203.html#ad5eb9ab943cae4be423869493fb9c203">00063</a>         {
-<a name="l00064"></a>00064             <span class="keyword">get</span> { <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetCols() + <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetRows(); }
-<a name="l00065"></a>00065         }
-<a name="l00066"></a>00066 
-<a name="l00070"></a>00070         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_ad07658e3a6c54ea4ca4e5b212e0ac29e.html#ad07658e3a6c54ea4ca4e5b212e0ac29e" title="the distance that we consider that a stationary target are approaching an island">ApproachDistanceSquaredOfStationaryTarget</a>
-<a name="l00071"></a><a class="code" href="classBritbot_1_1Magic_ad07658e3a6c54ea4ca4e5b212e0ac29e.html#ad07658e3a6c54ea4ca4e5b212e0ac29e">00071</a>         {
-<a name="l00072"></a>00072             <span class="keyword">get</span> { <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius(); }
-<a name="l00073"></a>00073         }
-<a name="l00074"></a>00074 
-<a name="l00078"></a>00078         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a82eecb995047c018746acca65e0a378e.html#a82eecb995047c018746acca65e0a378e" title="The distance under wich two groups will be considered intersected.">GroupIntersectionDistance</a>
-<a name="l00079"></a><a class="code" href="classBritbot_1_1Magic_a82eecb995047c018746acca65e0a378e.html#a82eecb995047c018746acca65e0a378e">00079</a>         {
-<a name="l00080"></a>00080             <span class="keyword">get</span> { <span class="keywordflow">return</span> 0.25 * <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius(); }
-<a name="l00081"></a>00081         }
-<a name="l00082"></a>00082 
-<a name="l00083"></a>00083 <span class="preprocessor">        #endregion</span>
-<a name="l00084"></a>00084 <span class="preprocessor"></span>    }
-<a name="l00085"></a>00085 }
+<a name="l00032"></a><a class="code" href="classBritbot_1_1Magic_a2b5c522091f6aa7208196b89416d908f.html#a2b5c522091f6aa7208196b89416d908f">00032</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Magic_a2b5c522091f6aa7208196b89416d908f.html#a2b5c522091f6aa7208196b89416d908f" title="Length of global score&#39;s simulation.">simulationLength</a> = 100;
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034 <span class="preprocessor">        #endregion</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span>
+<a name="l00036"></a>00036 <span class="preprocessor">        #region Fields &amp; Properies</span>
+<a name="l00037"></a>00037 <span class="preprocessor"></span>
+<a name="l00041"></a>00041         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a983e6d3ed7e14565aead00b04a4c1a96.html#a983e6d3ed7e14565aead00b04a4c1a96" title="The radious of the area around enemy ships which we avoid.">DangerZone</a>
+<a name="l00042"></a><a class="code" href="classBritbot_1_1Magic_a983e6d3ed7e14565aead00b04a4c1a96.html#a983e6d3ed7e14565aead00b04a4c1a96">00042</a>         {
+<a name="l00043"></a>00043             <span class="keyword">get</span> { <span class="keywordflow">return</span> 6 * <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius(); }
+<a name="l00044"></a>00044         }
+<a name="l00045"></a>00045 
+<a name="l00050"></a>00050         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a806fc0eea2ce4c0772d3595ae8765b3e.html#a806fc0eea2ce4c0772d3595ae8765b3e" title="The radious of the maximum difference from enemy ships trajectory to an island so we will consider it...">EnemyPredictionSensitivity</a>
+<a name="l00051"></a><a class="code" href="classBritbot_1_1Magic_a806fc0eea2ce4c0772d3595ae8765b3e.html#a806fc0eea2ce4c0772d3595ae8765b3e">00051</a>         {
+<a name="l00052"></a>00052             <span class="keyword">get</span> { <span class="keywordflow">return</span> 1.5 * Math.Sqrt(<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius()); }
+<a name="l00053"></a>00053         }
+<a name="l00054"></a>00054 
+<a name="l00058"></a>00058         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a5940fdae77a1f808c2fc5aa906a05f41.html#a5940fdae77a1f808c2fc5aa906a05f41" title="The distance where a group shpuld make a maneuver (get off the island and attack the enemy)...">ManeuverDistance</a>
+<a name="l00059"></a><a class="code" href="classBritbot_1_1Magic_a5940fdae77a1f808c2fc5aa906a05f41.html#a5940fdae77a1f808c2fc5aa906a05f41">00059</a>         {
+<a name="l00060"></a>00060             <span class="keyword">get</span> { <span class="keywordflow">return</span> Math.Sqrt(1.5 * <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius()); }
+<a name="l00061"></a>00061         }
+<a name="l00062"></a>00062 
+<a name="l00067"></a>00067         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_ad5eb9ab943cae4be423869493fb9c203.html#ad5eb9ab943cae4be423869493fb9c203" title="the maximum distance of enemy from island that we can say with any certainty that he can possibly try...">MaxCalculableDistance</a>
+<a name="l00068"></a><a class="code" href="classBritbot_1_1Magic_ad5eb9ab943cae4be423869493fb9c203.html#ad5eb9ab943cae4be423869493fb9c203">00068</a>         {
+<a name="l00069"></a>00069             <span class="keyword">get</span> { <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetCols() + <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetRows(); }
+<a name="l00070"></a>00070         }
+<a name="l00071"></a>00071 
+<a name="l00075"></a>00075         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_ad07658e3a6c54ea4ca4e5b212e0ac29e.html#ad07658e3a6c54ea4ca4e5b212e0ac29e" title="the distance that we consider that a stationary target are approaching an island">ApproachDistanceSquaredOfStationaryTarget</a>
+<a name="l00076"></a><a class="code" href="classBritbot_1_1Magic_ad07658e3a6c54ea4ca4e5b212e0ac29e.html#ad07658e3a6c54ea4ca4e5b212e0ac29e">00076</a>         {
+<a name="l00077"></a>00077             <span class="keyword">get</span> { <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius(); }
+<a name="l00078"></a>00078         }
+<a name="l00079"></a>00079 
+<a name="l00083"></a>00083         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a82eecb995047c018746acca65e0a378e.html#a82eecb995047c018746acca65e0a378e" title="The distance under wich two groups will be considered intersected.">GroupIntersectionDistance</a>
+<a name="l00084"></a><a class="code" href="classBritbot_1_1Magic_a82eecb995047c018746acca65e0a378e.html#a82eecb995047c018746acca65e0a378e">00084</a>         {
+<a name="l00085"></a>00085             <span class="keyword">get</span> { <span class="keywordflow">return</span> 0.25 * <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius(); }
+<a name="l00086"></a>00086         }
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088 <span class="preprocessor">        #endregion</span>
+<a name="l00089"></a>00089 <span class="preprocessor"></span>    }
+<a name="l00090"></a>00090 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 14:20:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 14:43:16 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
