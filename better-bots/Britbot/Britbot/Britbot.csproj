@@ -87,10 +87,12 @@
     <Compile Include="Simulator\DeCaptureEvent.cs" />
     <Compile Include="Simulator\GroupArrivalEvent.cs" />
     <Compile Include="Simulator\PossibleArrivalEvent.cs" />
+    <Compile Include="Simulator\ReviveEvent.cs" />
     <Compile Include="Simulator\SimulatedGroup.cs" />
     <Compile Include="Simulator\SimulatedEvent.cs" />
     <Compile Include="Simulator\SimulatedGame.cs" />
     <Compile Include="Simulator\SimulatedIsland.cs" />
+    <Compile Include="Simulator\SimulationEndEvent.cs" />
     <Compile Include="Simulator\Simulator.cs" />
     <Compile Include="SmartIsland.cs" />
     <Compile Include="Logger.cs" />

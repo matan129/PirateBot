@@ -26,7 +26,7 @@
         /// </summary>
         /// <param name="island"></param>
         /// <param name="capturer"></param>
-        public CaptureEvent(SimulatedIsland island, SimulatedGroup capturer)
+        public CaptureEvent(int turn, SimulatedIsland island, SimulatedGroup capturer) : base(turn)
         {
             this.Island = island;
             this.Capturer = capturer;
@@ -38,17 +38,19 @@
         ///     updates the island if event is actual
         /// </summary>
         /// <param name="sg"></param>
-        public override void Activate(SimulatedGame sg)
+        public override bool Activate(SimulatedGame sg)
         {
             //check if this event is still actuall
             if (!Capturer.IsAlive)
-                return;
+                return false;
 
             if (this.Island.CapturingGroup != this.Capturer)
-                return;
+                return false;
 
             //if everything checks out update island
             this.Island.Owner = this.Capturer.Owner;
+
+            return false;
         }
     }
 }

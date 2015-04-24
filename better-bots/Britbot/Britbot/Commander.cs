@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Pirates;
-
+using Britbot.Simulator;
 #endregion
 
 namespace Britbot
@@ -356,7 +356,7 @@ namespace Britbot
         /// <returns></returns>
         private static double GlobalizeScore(Score[] scoreArr, CancellationToken cancellationToken)
         {
-            double score = 0;
+            /*double score = 0;
             double timeAvg = 0;
             double enemyShips = 0;
             double ownedIslands = 0;
@@ -404,7 +404,45 @@ namespace Britbot
 
             //TODO: give more points if we take an island from the enemy
 
-            return score + totalProjectedPoints;
+            return score + totalProjectedPoints;*/
+            SimulatedGame sg = new SimulatedGame(new List<SimulatedEvent>());
+            Commander.SetEventList(sg);
+
+            for (int i = 0; i < scoreArr.Length; i++)
+            {
+                if (scoreArr[i].Type == TargetType.Island)
+                    sg.AddEvent(new GroupArrivalEvent((int)scoreArr[i].Eta, sg.Islands[((SmartIsland)(scoreArr[i].Target)).Id], sg.MyGroups[Groups[i].Id]));
+                if(scoreArr[i].Type == TargetType.EnemyGroup)
+                    sg.AddEvent(new BattleEvent((int)scoreArr[i].Eta, sg.EnemyGroups[((EnemyGroup)(scoreArr[i].Target)).Id], sg.MyGroups[Groups[i].Id]) );
+            }
+
+            return sg.SimulateGame();
+        }
+
+        internal static void SetEventList(SimulatedGame sg)
+        {
+            List<SimulatedEvent> eventList = new List<SimulatedEvent>();
+            //going over all the islands
+            foreach(SmartIsland sIsland in SmartIsland.IslandList)
+            {
+                //go over the enemy list of each island
+                foreach(KeyValuePair<EnemyGroup,bool> enemy in sIsland.approachingEnemies)
+                {
+                    //if it is likely that he will come to the island
+                    if(enemy.Value)
+                    {
+                        eventList.Add(new GroupArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
+                                      sg.Islands[sIsland.Id],
+                                      sg.EnemyGroups[enemy.Key.Id]));
+                    }
+                    else
+                    {
+                        eventList.Add(new PossibleArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
+                                      sg.Islands[sIsland.Id],
+                                      sg.EnemyGroups[enemy.Key.Id]));
+                    }
+                }
+            }
         }
 
         /// <summary>

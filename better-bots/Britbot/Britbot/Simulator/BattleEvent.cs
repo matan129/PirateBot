@@ -16,7 +16,7 @@
 
         #region Constructors & Initializers
 
-        public BattleEvent(SimulatedGroup g1, SimulatedGroup g2)
+        public BattleEvent(int turn, SimulatedGroup g1, SimulatedGroup g2) : base(turn)
         {
             this.GroupA = g1;
             this.GroupB = g2;
@@ -24,22 +24,28 @@
 
         #endregion
 
-        public override void Activate(SimulatedGame sg)
-        {
-            //check fire power
-            if (this.GroupA.ActualFirePower(sg) < this.GroupB.ActualFirePower(sg))
+        public override bool Activate(SimulatedGame sg)
+        {            
+            //check if the groups are oposing
+            if (this.GroupA.Owner != this.GroupB.Owner)
             {
-                this.GroupA.Kill(sg.CurrentTurn);
+                //check fire power
+                if (this.GroupA.ActualFirePower(sg) < this.GroupB.ActualFirePower(sg))
+                {
+                    this.GroupA.Kill(sg);
+                }
+                else if (this.GroupA.ActualFirePower(sg) == this.GroupB.ActualFirePower(sg))
+                {
+                    this.GroupA.Kill(sg);
+                    this.GroupB.Kill(sg);
+                }
+                else
+                {
+                    this.GroupB.Kill(sg);
+                }
             }
-            else if (this.GroupA.ActualFirePower(sg) == this.GroupB.ActualFirePower(sg))
-            {
-                this.GroupA.Kill(sg.CurrentTurn);
-                this.GroupB.Kill(sg.CurrentTurn);
-            }
-            else
-            {
-                this.GroupB.Kill(sg.CurrentTurn);
-            }
+
+            return false;
         }
     }
 }

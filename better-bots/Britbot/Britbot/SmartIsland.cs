@@ -22,7 +22,7 @@ namespace Britbot
         /// <summary>
         ///     list of all the enemies and their distances from the island
         /// </summary>
-        private List<EnemyGroup> approachingEnemies;
+        public List<KeyValuePair<EnemyGroup,bool>> approachingEnemies;
 
         /// <summary>
         ///     Queue of the last few amounts of enemy troops around this island
@@ -103,7 +103,7 @@ namespace Britbot
         private SmartIsland(int encapsulate)
         {
             this.Id = encapsulate;
-            this.approachingEnemies = new List<EnemyGroup>();
+            this.approachingEnemies = new List<KeyValuePair<EnemyGroup, bool>>();
             //this.SurroundingForces = new Queue<int>();
         }
 
@@ -307,15 +307,11 @@ namespace Britbot
             this.approachingEnemies.Clear();
             foreach (EnemyGroup eGroup in Enemy.Groups)
             {
-                //check that the enemy is heading here
-                if (eGroup.IsApproachingIsland(this))
-                {
-                    this.approachingEnemies.Add(eGroup);
-                }
+                this.approachingEnemies.Add(new KeyValuePair<EnemyGroup, bool>(eGroup, eGroup.IsApproachingIsland(this)));
             }
             //sort the list by distance
             this.approachingEnemies.Sort(
-                (e1, e2) => e1.MinimalETATo(this.Loc).CompareTo(e2.MinimalSquaredDistanceTo(this.Loc)));
+                (e1, e2) => e1.Key.MinimalETATo(this.Loc).CompareTo(e2.Key.MinimalSquaredDistanceTo(this.Loc)));
         }
 
         /// <summary>
@@ -327,7 +323,7 @@ namespace Britbot
         {
             //if isn't empty
             if (this.approachingEnemies.Count > 0)
-                return this.approachingEnemies[0].MinimalSquaredDistanceTo(this.Loc);
+                return this.approachingEnemies[0].Key.MinimalSquaredDistanceTo(this.Loc);
 
             //otherwise return the constant in MAGIC representing the best case scenario
             return Magic.MaxCalculableDistance;
@@ -374,7 +370,7 @@ namespace Britbot
         /// <param name="g">the group for which we test danger</param>
         /// <returns>true if it is dangerous, false otherwise</returns>
         public bool IsDangerousForGroup(Group g)
-        {
+        {/*
             //Bot.Game.Debug("IsDangerousForGroup island: " + Id + " group " + g.Id);
             //calculate distance in turns till we reach the island
             int eta = Bot.Game.Distance(this.Loc, g.FindCenter(true));
@@ -424,7 +420,7 @@ namespace Britbot
                         }
                     }
                 }
-            }
+            }*/
 
             //if we are here then everything is ok
             return false;

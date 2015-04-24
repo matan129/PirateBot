@@ -1,4 +1,7 @@
-﻿namespace Britbot.Simulator
+﻿using System;
+using System.Collections.Generic;
+
+namespace Britbot.Simulator
 {
     /// <summary>
     ///     this represents a group of pirates (either friendly or enemy)
@@ -71,9 +74,9 @@
         private bool IsCapturing(SimulatedGame sg)
         {
             //going over all the islands to check if we are capturing them
-            for (int i = 0; i < sg.Islands.Length; i++)
+            foreach (KeyValuePair<int, SimulatedIsland> sIsland in sg.Islands)
             {
-                if (this == sg.Islands[i].CapturingGroup)
+                if (this == sIsland.Value.CapturingGroup)
                     return true;
             }
             return true;
@@ -90,12 +93,12 @@
         ///     kills the group
         /// </summary>
         /// <param name="currTurn"></param>
-        public void Kill(int currTurn)
+        public void Kill(SimulatedGame sg)
         {
             this.IsAlive = false;
-            this.ReviveTurn = currTurn + Bot.Game.GetSpawnTurns();
+            this.ReviveTurn = sg.CurrentTurn + Bot.Game.GetSpawnTurns();
 
-            //TODO: make a revive event
+            sg.AddEvent(new ReviveEvent(sg.CurrentTurn + Bot.Game.GetSpawnTurns(), this));
         }
 
         public static bool operator ==(SimulatedGroup sg1, SimulatedGroup sg2)

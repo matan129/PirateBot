@@ -26,6 +26,11 @@ namespace Britbot
         /// </summary>
         public static int MaxDistance = 15;
 
+        /// <summary>
+        /// Length of global score's simulation
+        /// </summary>
+        public static int simulationLength = 100;
+
         #endregion
 
         #region Fields & Properies

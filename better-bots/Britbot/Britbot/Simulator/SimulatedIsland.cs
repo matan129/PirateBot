@@ -19,6 +19,23 @@ namespace Britbot.Simulator
         #endregion
 
         /// <summary>
+        /// C'tor
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="turnsBeingCaptured"></param>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <param name="capturingGroup"></param>
+        public SimulatedIsland(int owner, int turnsBeingCaptured,int id,int value, SimulatedGroup capturingGroup = null)
+        {
+            this.Owner = owner;
+            this.TurnsBeingCaptured = turnsBeingCaptured;
+            this.Id = id;
+            this.Value = value;
+            this.CapturingGroup = capturingGroup;
+        }
+
+        /// <summary>
         /// calculates how much time it would take for the given side to capture the island
         /// </summary>
         /// <param name="capturer">The side (me or Enemy)</param>
@@ -84,14 +101,15 @@ namespace Britbot.Simulator
         /// This safely kills the local group and updates the turns count
         /// </summary>
         /// <param name="currTurn">the current turn</param>
-        public void KillLocals(int currTurn)
+        public void KillLocals(SimulatedGame sg)
         {
             if (this.CapturingGroup != null)
             {
-                this.CapturingGroup.Kill(currTurn);
+                this.CapturingGroup.Kill(sg);
+
+                //update turn counter
+                this.TurnsBeingCaptured = 0;
             }
-            //update turn counter
-            this.TurnsBeingCaptured = 0;
         }
 
         /// <summary>

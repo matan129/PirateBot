@@ -32,7 +32,7 @@ namespace Britbot.Simulator
         /// </summary>
         /// <param name="island"></param>
         /// <param name="capturer"></param>
-        public DeCaptureEvent(SimulatedIsland island, SimulatedGroup capturer)
+        public DeCaptureEvent(int turn, SimulatedIsland island, SimulatedGroup capturer) : base(turn)
         {
             this.Island = island;
             this.Capturer = capturer;
@@ -44,18 +44,18 @@ namespace Britbot.Simulator
         ///     updates the island if event is actual
         /// </summary>
         /// <param name="sg"></param>
-        public override void Activate(SimulatedGame sg)
+        public override bool Activate(SimulatedGame sg)
         {
             //check if this event is still actuall
             if (!Capturer.IsAlive)
-                return;
+                return false;
 
             if (this.Island.CapturingGroup != this.Capturer)
-                return;
+                return false;
 
             //check that the island realy of the enemy
             if (this.Island.Owner == this.Capturer.Owner)
-                return;
+                return false;
 
             //if everything checks out update island
             this.Island.Owner = Consts.NO_OWNER;
@@ -63,7 +63,9 @@ namespace Britbot.Simulator
 
             //set out a capture event
             int captureTurn = sg.CurrentTurn + this.Island.TurnsTillCapture(this.Capturer.Owner);
-            sg.AddEvent(new CaptureEvent(this.Island, this.Capturer), captureTurn);
+            sg.AddEvent(new CaptureEvent(captureTurn, this.Island, this.Capturer));
+
+            return false;
         }
     }
 }

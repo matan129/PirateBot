@@ -11,11 +11,22 @@ namespace Britbot.Simulator
     ///     A virtual class representing an event in the game (capture, kill, est...)
     ///     Inherits from PriorityQueueNode because the events are ordered by their time of execution
     /// </summary>
-    internal abstract class SimulatedEvent : PriorityQueueNode
+    abstract class SimulatedEvent : PriorityQueueNode
     {
         /// <summary>
-        ///     This virtual method should activate the event
+        /// The turn where the event should activate
         /// </summary>
-        public abstract void Activate(SimulatedGame sg);
+        public int Turn;
+
+        /// <summary>
+        ///     This virtual method should activate the event
+        ///     returns true only if simulation is finished
+        /// </summary>
+        public abstract bool Activate(SimulatedGame sg);
+
+        public SimulatedEvent(int turn)
+        {
+            this.Turn = turn;
+        }
     }
 }
