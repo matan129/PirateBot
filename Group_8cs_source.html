@@ -125,7 +125,7 @@
 <a name="l00104"></a>00104             <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;===================GROUP {0}===================&quot;</span>, this.Id);
 <a name="l00105"></a>00105         }
 <a name="l00106"></a>00106 
-<a name="l00107"></a>00107         [Obsolete(<span class="stringliteral">&quot;Please use the constructor that takes spesific pirates&quot;</span>)]
+<a name="l00107"></a>00107         <span class="comment">//[Obsolete(&quot;Please use the constructor that takes spesific pirates&quot;)]</span>
 <a name="l00108"></a><a class="code" href="classBritbot_1_1Group_adf5774587a8c6809dd6c3286963412ed.html#adf5774587a8c6809dd6c3286963412ed">00108</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Group_a7ecd71353172abbc1011fcf8b26b0b2b.html#a7ecd71353172abbc1011fcf8b26b0b2b" title="Just a ctor to do to common stuff (called from the other ctors above by &quot;this()&quot; statement)">Group</a>(<span class="keywordtype">int</span> index, <span class="keywordtype">int</span> amount)
 <a name="l00109"></a>00109             : this()
 <a name="l00110"></a>00110         {
@@ -482,7 +482,7 @@
 <a name="l00500"></a>00500                         structure = this.<a class="code" href="classBritbot_1_1Group_a34c7c3e9ed68c013fcb6658c1089e4a1.html#a34c7c3e9ed68c013fcb6658c1089e4a1" title="Get the structure for the group.">GenerateGroupStructure</a>(center).Flatten();
 <a name="l00501"></a>00501                         <span class="keywordflow">break</span>;
 <a name="l00502"></a>00502                     }
-<a name="l00503"></a>00503                     <span class="keywordflow">catch</span> (<a class="code" href="classBritbot_1_1InvalidLocationException.html">InvalidLocationException</a> ex)
+<a name="l00503"></a>00503                     <span class="keywordflow">catch</span> (<a class="code" href="classBritbot_1_1InvalidLocationException.html">InvalidLocationException</a>)
 <a name="l00504"></a>00504                     {
 <a name="l00505"></a>00505                         <span class="comment">//if the location is invalid (i.e. the current center requires a location outside the map)</span>
 <a name="l00506"></a>00506                         <span class="comment">//advance the location towards the center of the map</span>
@@ -858,7 +858,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 21:12:53 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 09:13:42 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

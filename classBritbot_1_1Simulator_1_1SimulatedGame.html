@@ -64,6 +64,8 @@
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="#pri-attribs">Private Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">Britbot.Simulator.SimulatedGame Class Reference</div>  </div>
@@ -72,6 +74,15 @@
 <!-- doxytag: class="Britbot::Simulator::SimulatedGame" -->
 <p>This class represents a possibility of a game based on an assignment.  
  <a href="classBritbot_1_1Simulator_1_1SimulatedGame.html#details">More...</a></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Collaboration diagram for Britbot.Simulator.SimulatedGame:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classBritbot_1_1Simulator_1_1SimulatedGame__coll__graph.png" border="0" usemap="#Britbot_8Simulator_8SimulatedGame_coll__map" alt="Collaboration graph"/></div>
+<map name="Britbot_8Simulator_8SimulatedGame_coll__map" id="Britbot_8Simulator_8SimulatedGame_coll__map">
+<area shape="rect" id="node2" href="classBritbot_1_1Simulator_1_1SimulatedIsland.html" title="Britbot.Simulator.SimulatedIsland" alt="" coords="5,101,221,131"/><area shape="rect" id="node4" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)" alt="" coords="5,5,221,35"/></map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 
 <p><a href="classBritbot_1_1Simulator_1_1SimulatedGame-members.html">List of all members.</a></p>
 <table class="memberdecls">
@@ -80,16 +91,24 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_a2d187ec77d86f6cd3986b1c1ebeaf879.html#a2d187ec77d86f6cd3986b1c1ebeaf879">SimulatedGame</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_adb9948d45b3324c62ab1b3df01bc6008.html#adb9948d45b3324c62ab1b3df01bc6008">AddEvent</a> (<a class="el" href="classBritbot_1_1Simulator_1_1SimulatedEvent.html">SimulatedEvent</a> newEvent, int turn)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This enqueues a new event to the pending events.  <a href="#adb9948d45b3324c62ab1b3df01bc6008"></a><br/></td></tr>
+<tr><td colspan="2"><h2><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedIsland.html">SimulatedIsland</a>[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_a20da983e55d5577aafbf0691dea1264b.html#a20da983e55d5577aafbf0691dea1264b">Islands</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">List of the islands in the game.  <a href="#a20da983e55d5577aafbf0691dea1264b"></a><br/></td></tr>
+<tr><td colspan="2"><h2><a name="properties"></a>
+Properties</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_aa7788204d73ad2616c45cf702ab4f169.html#aa7788204d73ad2616c45cf702ab4f169">Score</a><code> [get, set]</code></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">the score  <a href="#aa7788204d73ad2616c45cf702ab4f169"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453">CurrentTurn</a><code> [get, set]</code></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">the current turn of the simulation  <a href="#a7475ad76fc8839788f04cedee35aa453"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">HeapPriorityQueue&lt; <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedEvent.html">SimulatedEvent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_ad69212b6172ea520748bd69c3867e37a.html#ad69212b6172ea520748bd69c3867e37a">CommingEvents</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A priority queue representing the events to come in this scenario Events are prioratized in a cronological order.  <a href="#ad69212b6172ea520748bd69c3867e37a"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedIsland.html">SimulatedIsland</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_a13d9c0436df5dd509e7f504190ed1046.html#a13d9c0436df5dd509e7f504190ed1046">Islands</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">List of the islands in the game.  <a href="#a13d9c0436df5dd509e7f504190ed1046"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classBritbot_1_1Simulator_1_1SimularedGroup.html">SimularedGroup</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_ab3e51331f75b9d1dcb8180a4feb3f149.html#ab3e51331f75b9d1dcb8180a4feb3f149">MyGroups</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">List of all friendly groups.  <a href="#ab3e51331f75b9d1dcb8180a4feb3f149"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classBritbot_1_1Simulator_1_1SimularedGroup.html">SimularedGroup</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_a0374d2415a97b11ddf2358cc0c0f1dc4.html#a0374d2415a97b11ddf2358cc0c0f1dc4">EnemyGroups</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">List of all enemy groups.  <a href="#a0374d2415a97b11ddf2358cc0c0f1dc4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">Dictionary&lt; int, <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html">SimulatedGroup</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_ab51aec14aecba6c2e3b117fdfd640511.html#ab51aec14aecba6c2e3b117fdfd640511">MyGroups</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">List of all friendly groups.  <a href="#ab51aec14aecba6c2e3b117fdfd640511"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">Dictionary&lt; int, <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html">SimulatedGroup</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_aee4009f345d3770496b80d3a4c5d7a45.html#aee4009f345d3770496b80d3a4c5d7a45">EnemyGroups</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">List of all enemy groups.  <a href="#aee4009f345d3770496b80d3a4c5d7a45"></a><br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>This class represents a possibility of a game based on an assignment. </p>
@@ -102,7 +121,7 @@ Private Attributes</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2015 21:12:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 09:13:43 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

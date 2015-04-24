@@ -12,6 +12,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_aee558b16021adeb9baf8a425d951c8f6.html#aee558b16021adeb9baf8a425d951c8f6"><param name="Name" value="_nodes"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_a96965d242bcf858914da0fcedf2700d0.html#a96965d242bcf858914da0fcedf2700d0"><param name="Name" value="_numNodesEverEnqueued"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Bot_ad191000656bf29e4e3f08a3bd5a2c7d8.html#ad191000656bf29e4e3f08a3bd5a2c7d8"><param name="Name" value="_tasks"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a4bf62541893ea2f16be6f8c98971f7bb.html#a4bf62541893ea2f16be6f8c98971f7bb"><param name="Name" value="ActualFirePower"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_afe6ef022a3f2190174a21c279f3297cd.html#afe6ef022a3f2190174a21c279f3297cd"><param name="Name" value="Add"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_adb9948d45b3324c62ab1b3df01bc6008.html#adb9948d45b3324c62ab1b3df01bc6008"><param name="Name" value="AddEvent"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Zone_a210b01aea8fd9ae65b339e8a3be10cab.html#a210b01aea8fd9ae65b339e8a3be10cab"><param name="Name" value="AddGroup"></OBJECT>
@@ -30,9 +31,15 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Enemy_a8881b50aeb16b6075d75e758304437b9.html#a8881b50aeb16b6075d75e758304437b9"><param name="Name" value="AnalyzeFull"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Magic_ad07658e3a6c54ea4ca4e5b212e0ac29e.html#ad07658e3a6c54ea4ca4e5b212e0ac29e"><param name="Name" value="ApproachDistanceSquaredOfStationaryTarget"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_a6970bde22f86dde4d7551a1893ee87ff.html#a6970bde22f86dde4d7551a1893ee87ff"><param name="Name" value="approachingEnemies"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1GroupArrivalEvent_a74a3b32cf27f73df33f891c197260d2d.html#a74a3b32cf27f73df33f891c197260d2d"><param name="Name" value="ArrivingGroup"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1GroupArrivalEvent_a74a3b32cf27f73df33f891c197260d2d.html#a74a3b32cf27f73df33f891c197260d2d"><param name="Name" value="Britbot::Simulator::GroupArrivalEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17"><param name="Name" value="Britbot::Simulator::PossibleArrivalEvent"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Allocator_a2a884b394da02c5feabf19000de0f081.html#a2a884b394da02c5feabf19000de0f081"><param name="Name" value="AutoCorrectConfig"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Zone_acf3f1b84c25dd4140ff710c94e15028b.html#acf3f1b84c25dd4140ff710c94e15028b"><param name="Name" value="AvaliableSpots"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Zone_a80f35e8316f3e5d17e0e9e54d5fd7f56.html#a80f35e8316f3e5d17e0e9e54d5fd7f56"><param name="Name" value="AverageClosest"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1BattleEvent_a1ba9149dd282576c0887bbd800328275.html#a1ba9149dd282576c0887bbd800328275"><param name="Name" value="BattleEvent"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Logger_a3a4561a6eeec8a33313b1e1a574d09ef.html#a3a4561a6eeec8a33313b1e1a574d09ef"><param name="Name" value="begins"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Logger_a94593529e316f18fde5ca9ebc28f2ae1.html#a94593529e316f18fde5ca9ebc28f2ae1"><param name="Name" value="BeginTime"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Navigator_1_1Node_a38291e6d242fac0469fae5ee44b09897.html#a38291e6d242fac0469fae5ee44b09897"><param name="Name" value="BlockLocation"></OBJECT>
@@ -97,6 +104,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_ab80fb709b81af9cf030746074389a5e8.html#ab80fb709b81af9cf030746074389a5e8"><param name="Name" value="Equals"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_acb803d30366e523570fafc139913f6cc.html#acb803d30366e523570fafc139913f6cc"><param name="Name" value="GetDescription"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_aadac9cf9173ccb7afe8daa76b33fa2ff.html#aadac9cf9173ccb7afe8daa76b33fa2ff"><param name="Name" value="GetDirection"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_ac52783c53ff43c1553d8e1d294a754a0.html#ac52783c53ff43c1553d8e1d294a754a0"><param name="Name" value="GetHashCode"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78"><param name="Name" value="GetHeading"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a3040eae1f0f3326971e8265fef2647c0.html#a3040eae1f0f3326971e8265fef2647c0"><param name="Name" value="GetHeadingSabilityCoeff"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22"><param name="Name" value="GetLocation"></OBJECT>
@@ -198,6 +206,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_a7fd717fbeb6e0106d3422c92e4ce1202.html#a7fd717fbeb6e0106d3422c92e4ce1202"><param name="Name" value="adjustHeading"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_ad3b0af7cfb8aea81f5c3d4673d3376c3.html#ad3b0af7cfb8aea81f5c3d4673d3376c3"><param name="Name" value="CalcDifference"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_abdcb06da41186570a5dfb7943be5bd46.html#abdcb06da41186570a5dfb7943be5bd46"><param name="Name" value="Equals"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_aeb1b68af60c8084f2767dd64e071cc0d.html#aeb1b68af60c8084f2767dd64e071cc0d"><param name="Name" value="GetHashCode"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_a1de2b7e3e9d87a3c7a221c1115b6cd2a.html#a1de2b7e3e9d87a3c7a221c1115b6cd2a"><param name="Name" value="HeadingVector"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_ab9a1032df60de54330a4bac6ab1d4ed9.html#ab9a1032df60de54330a4bac6ab1d4ed9"><param name="Name" value="Norm"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_ac430069042241046a59459c3f2c7442a.html#ac430069042241046a59459c3f2c7442a"><param name="Name" value="Norm1"></OBJECT>
@@ -369,20 +378,40 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1ScoreHelper_a174ff46033ee4e3166154d385df7940a.html#a174ff46033ee4e3166154d385df7940a"><param name="Name" value="ComputePPT"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespaceBritbot_1_1Simulator.html"><param name="Name" value="Britbot::Simulator"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1BattleEvent.html"><param name="Name" value="Britbot::Simulator::BattleEvent"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1BattleEvent_a1ba9149dd282576c0887bbd800328275.html#a1ba9149dd282576c0887bbd800328275"><param name="Name" value="BattleEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1BattleEvent_a6676441a95732b71d34f4f51c87a0b07.html#a6676441a95732b71d34f4f51c87a0b07"><param name="Name" value="Group1"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1BattleEvent_a4d7dbc7e282b1327dccb582ed5497930.html#a4d7dbc7e282b1327dccb582ed5497930"><param name="Name" value="Group2"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1BattleEvent_aa8ef0e9acf177b97aabd4aae2c3a4d72.html#aa8ef0e9acf177b97aabd4aae2c3a4d72"><param name="Name" value="MakeShitHappen"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent.html"><param name="Name" value="Britbot::Simulator::CaptureEvent"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_aa32eaaaad6ee6c3f5ddd2d3883fbe99a.html#aa32eaaaad6ee6c3f5ddd2d3883fbe99a"><param name="Name" value="Capturer"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_aeb1fcb0ae1f5fdef5112c003617196f0.html#aeb1fcb0ae1f5fdef5112c003617196f0"><param name="Name" value="island"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_a0bbee610bfe20b0f6dd5a8dfa8362a54.html#a0bbee610bfe20b0f6dd5a8dfa8362a54"><param name="Name" value="CaptureEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_ae57444d0559e358c36a2e380022f56c6.html#ae57444d0559e358c36a2e380022f56c6"><param name="Name" value="Capturer"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_a3d29ef15c4ed3da6a31d846a460438eb.html#a3d29ef15c4ed3da6a31d846a460438eb"><param name="Name" value="Island"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_a8d286d532f63c3dbfb5ee007f92955ce.html#a8d286d532f63c3dbfb5ee007f92955ce"><param name="Name" value="MakeShitHappen"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup.html"><param name="Name" value="Britbot::Simulator::SimularedGroup"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1DeCaptureEvent.html"><param name="Name" value="Britbot::Simulator::DeCaptureEvent"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_aadbe9c517f17fdf1a854ce6550e5782f.html#aadbe9c517f17fdf1a854ce6550e5782f"><param name="Name" value="FirePower"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a175aac34e1a164c58c9842f2f3dac44e.html#a175aac34e1a164c58c9842f2f3dac44e"><param name="Name" value="Id"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a883fd58c82b20e618963f783e76da2b4.html#a883fd58c82b20e618963f783e76da2b4"><param name="Name" value="IsAlive"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a1e57330e1a0902b054a4db73446c3de2.html#a1e57330e1a0902b054a4db73446c3de2"><param name="Name" value="Kill"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a8efecc8420bdcd0aa263b16af032c3d1.html#a8efecc8420bdcd0aa263b16af032c3d1"><param name="Name" value="Owner"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a40a2df27bc49f1827f99855d508cb4be.html#a40a2df27bc49f1827f99855d508cb4be"><param name="Name" value="ReviveTurn"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a64854ea5e9bf5ba5f2ca97802126de7e.html#a64854ea5e9bf5ba5f2ca97802126de7e"><param name="Name" value="SimularedGroup"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1DeCaptureEvent_a117d75efc705b7c4398786893c408549.html#a117d75efc705b7c4398786893c408549"><param name="Name" value="Capturer"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1DeCaptureEvent_a6812bc8f115952cb2cd48808cc89fb96.html#a6812bc8f115952cb2cd48808cc89fb96"><param name="Name" value="DeCaptureEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f"><param name="Name" value="Island"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1DeCaptureEvent_a0f39644a71cb590b82f00ebad3ccbf49.html#a0f39644a71cb590b82f00ebad3ccbf49"><param name="Name" value="MakeShitHappen"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1GroupArrivalEvent.html"><param name="Name" value="Britbot::Simulator::GroupArrivalEvent"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1GroupArrivalEvent_a74a3b32cf27f73df33f891c197260d2d.html#a74a3b32cf27f73df33f891c197260d2d"><param name="Name" value="ArrivingGroup"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1GroupArrivalEvent_a244c4972ae92dea9b58195d34d883c9e.html#a244c4972ae92dea9b58195d34d883c9e"><param name="Name" value="GroupArrivalEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1GroupArrivalEvent_a9dd9d3e694f639d2265815ee67a2feb9.html#a9dd9d3e694f639d2265815ee67a2feb9"><param name="Name" value="Island"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1GroupArrivalEvent_a7ca97a750b81e070b420b9d2d5e0dcb3.html#a7ca97a750b81e070b420b9d2d5e0dcb3"><param name="Name" value="MakeShitHappen"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1PossibleArrivalEvent.html"><param name="Name" value="Britbot::Simulator::PossibleArrivalEvent"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17"><param name="Name" value="ArrivingGroup"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11"><param name="Name" value="Island"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_a2c3c8419cafc02efcffde441ff167b12.html#a2c3c8419cafc02efcffde441ff167b12"><param name="Name" value="MakeShitHappen"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_a681d0e87a5ce14833d69acc42d9a950f.html#a681d0e87a5ce14833d69acc42d9a950f"><param name="Name" value="PossibleArrivalEvent"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedEvent.html"><param name="Name" value="Britbot::Simulator::SimulatedEvent"></OBJECT>
   <UL>
@@ -392,17 +421,39 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_adb9948d45b3324c62ab1b3df01bc6008.html#adb9948d45b3324c62ab1b3df01bc6008"><param name="Name" value="AddEvent"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_ad69212b6172ea520748bd69c3867e37a.html#ad69212b6172ea520748bd69c3867e37a"><param name="Name" value="CommingEvents"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a0374d2415a97b11ddf2358cc0c0f1dc4.html#a0374d2415a97b11ddf2358cc0c0f1dc4"><param name="Name" value="EnemyGroups"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a13d9c0436df5dd509e7f504190ed1046.html#a13d9c0436df5dd509e7f504190ed1046"><param name="Name" value="Islands"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_ab3e51331f75b9d1dcb8180a4feb3f149.html#ab3e51331f75b9d1dcb8180a4feb3f149"><param name="Name" value="MyGroups"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453"><param name="Name" value="CurrentTurn"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_aee4009f345d3770496b80d3a4c5d7a45.html#aee4009f345d3770496b80d3a4c5d7a45"><param name="Name" value="EnemyGroups"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a20da983e55d5577aafbf0691dea1264b.html#a20da983e55d5577aafbf0691dea1264b"><param name="Name" value="Islands"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_ab51aec14aecba6c2e3b117fdfd640511.html#ab51aec14aecba6c2e3b117fdfd640511"><param name="Name" value="MyGroups"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_aa7788204d73ad2616c45cf702ab4f169.html#aa7788204d73ad2616c45cf702ab4f169"><param name="Name" value="Score"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a2d187ec77d86f6cd3986b1c1ebeaf879.html#a2d187ec77d86f6cd3986b1c1ebeaf879"><param name="Name" value="SimulatedGame"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup.html"><param name="Name" value="Britbot::Simulator::SimulatedGroup"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a4bf62541893ea2f16be6f8c98971f7bb.html#a4bf62541893ea2f16be6f8c98971f7bb"><param name="Name" value="ActualFirePower"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a966f75593240603799b4f43eaae0c333.html#a966f75593240603799b4f43eaae0c333"><param name="Name" value="Equals"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a6dc776966862a94c9e49ccdcf1c2358b.html#a6dc776966862a94c9e49ccdcf1c2358b"><param name="Name" value="FirePower"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a92d79c455d676aa798fc6bc2adbae080.html#a92d79c455d676aa798fc6bc2adbae080"><param name="Name" value="GetHashCode"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a37cb9c2ab7a6967fbe654dd4934a8cb3.html#a37cb9c2ab7a6967fbe654dd4934a8cb3"><param name="Name" value="Id"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a53540e7ae95cae812758e0d9143dba8c.html#a53540e7ae95cae812758e0d9143dba8c"><param name="Name" value="IsAlive"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a3a6f3fddf767dc587fee1d7c441748a0.html#a3a6f3fddf767dc587fee1d7c441748a0"><param name="Name" value="IsCapturing"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_ae7c3f7eb9242d2cb08e64ea0cc77ce96.html#ae7c3f7eb9242d2cb08e64ea0cc77ce96"><param name="Name" value="Kill"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_ae843d2606204824215aedf2f90cc879c.html#ae843d2606204824215aedf2f90cc879c"><param name="Name" value="operator!="></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a73dfdb399ecab6d4a10a3cd9443679a0.html#a73dfdb399ecab6d4a10a3cd9443679a0"><param name="Name" value="operator=="></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_ae0effec32bfe2f42a65e7f03aef60cba.html#ae0effec32bfe2f42a65e7f03aef60cba"><param name="Name" value="Owner"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a6515146ec68acf2e69676ff2cd79d319.html#a6515146ec68acf2e69676ff2cd79d319"><param name="Name" value="ReviveTurn"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a8aed368ba7a8696fa56f503ce0d48d53.html#a8aed368ba7a8696fa56f503ce0d48d53"><param name="Name" value="SimulatedGroup"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland.html"><param name="Name" value="Britbot::Simulator::SimulatedIsland"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a6b2b7feabe232ce6a6a48c9bba284f27.html#a6b2b7feabe232ce6a6a48c9bba284f27"><param name="Name" value="CapturingGroup"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_ace2b7efe72d515389642462f936cba10.html#ace2b7efe72d515389642462f936cba10"><param name="Name" value="CapturingGroup"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_adc42e7051e9bb5b52619d9462dffe240.html#adc42e7051e9bb5b52619d9462dffe240"><param name="Name" value="Id"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_af6bf69ba1a67d9187fb89b469f78ea54.html#af6bf69ba1a67d9187fb89b469f78ea54"><param name="Name" value="KillLocals"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a62a1eb45b6aa948ed06f2341a0c19fe2.html#a62a1eb45b6aa948ed06f2341a0c19fe2"><param name="Name" value="Owner"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a1616ceb9a016dc9ed913f7957718efdf.html#a1616ceb9a016dc9ed913f7957718efdf"><param name="Name" value="TurnsBeingCaptured"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_ace876a3ee34a60f572da2ecb75d10d6b.html#ace876a3ee34a60f572da2ecb75d10d6b"><param name="Name" value="TurnsTillCapture"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a30c5c84c26153a18e9e132f3e5595f23.html#a30c5c84c26153a18e9e132f3e5595f23"><param name="Name" value="TurnsTillDecapture"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a359a60ab7ecb22908b5ec2dfeb3f81f5.html#a359a60ab7ecb22908b5ec2dfeb3f81f5"><param name="Name" value="Update"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a184897a4ee8f044c0134c1699ea8d98d.html#a184897a4ee8f044c0134c1699ea8d98d"><param name="Name" value="Value"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1Simulator.html"><param name="Name" value="Britbot::Simulator::Simulator"></OBJECT>
@@ -492,9 +543,14 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Zone_a08e8ab164ae382cbf31b3eb2b640e48b.html#a08e8ab164ae382cbf31b3eb2b640e48b"><param name="Name" value="Britbot::Zone"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1ZoneConfigs_a446eef81c41064a97b4d68ae310f4b73.html#a446eef81c41064a97b4d68ae310f4b73"><param name="Name" value="Britbot::ZoneConfigs"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_aa32eaaaad6ee6c3f5ddd2d3883fbe99a.html#aa32eaaaad6ee6c3f5ddd2d3883fbe99a"><param name="Name" value="Capturer"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_a0bbee610bfe20b0f6dd5a8dfa8362a54.html#a0bbee610bfe20b0f6dd5a8dfa8362a54"><param name="Name" value="CaptureEvent"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_ae57444d0559e358c36a2e380022f56c6.html#ae57444d0559e358c36a2e380022f56c6"><param name="Name" value="Capturer"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_ae57444d0559e358c36a2e380022f56c6.html#ae57444d0559e358c36a2e380022f56c6"><param name="Name" value="Britbot::Simulator::CaptureEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1DeCaptureEvent_a117d75efc705b7c4398786893c408549.html#a117d75efc705b7c4398786893c408549"><param name="Name" value="Britbot::Simulator::DeCaptureEvent"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_a6c73d7020f92bd430c6b74e4455ffcec.html#a6c73d7020f92bd430c6b74e4455ffcec"><param name="Name" value="CaptureTurns"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a6b2b7feabe232ce6a6a48c9bba284f27.html#a6b2b7feabe232ce6a6a48c9bba284f27"><param name="Name" value="CapturingGroup"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_ace2b7efe72d515389642462f936cba10.html#ace2b7efe72d515389642462f936cba10"><param name="Name" value="CapturingGroup"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_af0b732cae4a7f7bfd390b9cab1805ca7.html#af0b732cae4a7f7bfd390b9cab1805ca7"><param name="Name" value="CascadeDown"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_a2f50370b1f60087eef4ccbd56e1c84c1.html#a2f50370b1f60087eef4ccbd56e1c84c1"><param name="Name" value="CascadeUp"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_af4be9720339a3b868a42f120b0b97afd.html#af4be9720339a3b868a42f120b0b97afd"><param name="Name" value="CasualtiesPercent"></OBJECT>
@@ -516,13 +572,14 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="interfaceBritbot_1_1PriorityQueue_1_1IPriorityQueue-g_a8808dd302846190f022aed6a602131a9.html#a8808dd302846190f022aed6a602131a9"><param name="Name" value="Britbot::PriorityQueue::IPriorityQueue-g"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Allocator_ac6da24b42d22f1ac542124989c7d1b0d.html#ac6da24b42d22f1ac542124989c7d1b0d"><param name="Name" value="CorrectByZones"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Logger_a2c6c00235485f104350f0be2e50d8425.html#a2c6c00235485f104350f0be2e50d8425"><param name="Name" value="Count"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Logger_a3a7acf77bf0fd5ef4ab7c91d83e6d0d1.html#a3a7acf77bf0fd5ef4ab7c91d83e6d0d1"><param name="Name" value="count"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_acf7011a3c323f54ea6e2e7520f8b860c.html#acf7011a3c323f54ea6e2e7520f8b860c"><param name="Name" value="Count"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Logger_a2c6c00235485f104350f0be2e50d8425.html#a2c6c00235485f104350f0be2e50d8425"><param name="Name" value="Count"></OBJECT>
   <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Logger_a2c6c00235485f104350f0be2e50d8425.html#a2c6c00235485f104350f0be2e50d8425"><param name="Name" value="Britbot::Logger"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_acf7011a3c323f54ea6e2e7520f8b860c.html#acf7011a3c323f54ea6e2e7520f8b860c"><param name="Name" value="Britbot::PriorityQueue::HeapPriorityQueue-g"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="interfaceBritbot_1_1PriorityQueue_1_1IPriorityQueue-g_afb1257163587d81d7766ffb3697bed4a.html#afb1257163587d81d7766ffb3697bed4a"><param name="Name" value="Britbot::PriorityQueue::IPriorityQueue-g"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453"><param name="Name" value="CurrentTurn"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Magic_a983e6d3ed7e14565aead00b04a4c1a96.html#a983e6d3ed7e14565aead00b04a4c1a96"><param name="Name" value="DangerZone"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Enemy_ad37aa5fc015413527468cc3d449ef60e.html#ad37aa5fc015413527468cc3d449ef60e"><param name="Name" value="Debug"></OBJECT>
   <UL>
@@ -533,6 +590,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="Logger_8cs_ad72dbcf6d0153db1b8d8a58001feed83.html#ad72dbcf6d0153db1b8d8a58001feed83"><param name="Name" value="DEBUG"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_a98b5d146c4e1ad509e3f936704fc1790.html#a98b5d146c4e1ad509e3f936704fc1790"><param name="Name" value="DebugAll"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Navigator_1_1Node_a555141c69db40690c6f62864e30c5c92.html#a555141c69db40690c6f62864e30c5c92"><param name="Name" value="DebugPasses"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1DeCaptureEvent_a6812bc8f115952cb2cd48808cc89fb96.html#a6812bc8f115952cb2cd48808cc89fb96"><param name="Name" value="DeCaptureEvent"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_a2559b10ee4cb859a1037042dea183bd3.html#a2559b10ee4cb859a1037042dea183bd3"><param name="Name" value="Dequeue"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_a2559b10ee4cb859a1037042dea183bd3.html#a2559b10ee4cb859a1037042dea183bd3"><param name="Name" value="Britbot::PriorityQueue::HeapPriorityQueue-g"></OBJECT>
@@ -550,7 +608,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b"><param name="Name" value="Britbot"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_ac5131f2c9499df1404018ddef4699c1d.html#ac5131f2c9499df1404018ddef4699c1d"><param name="Name" value="Britbot::EnemyGroup"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a0374d2415a97b11ddf2358cc0c0f1dc4.html#a0374d2415a97b11ddf2358cc0c0f1dc4"><param name="Name" value="EnemyGroups"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_aee4009f345d3770496b80d3a4c5d7a45.html#aee4009f345d3770496b80d3a4c5d7a45"><param name="Name" value="EnemyGroups"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Enemy_a4b31fc6d495692194ccba8d7654cc323.html#a4b31fc6d495692194ccba8d7654cc323"><param name="Name" value="EnemyIntelligenceSuspicionCounter"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_ad01e24db17287f94d4c680d1fd1e70e7.html#ad01e24db17287f94d4c680d1fd1e70e7"><param name="Name" value="EnemyPirates"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Magic_a806fc0eea2ce4c0772d3595ae8765b3e.html#a806fc0eea2ce4c0772d3595ae8765b3e"><param name="Name" value="EnemyPredictionSensitivity"></OBJECT>
@@ -566,6 +624,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_abdcb06da41186570a5dfb7943be5bd46.html#abdcb06da41186570a5dfb7943be5bd46"><param name="Name" value="Britbot::HeadingVector"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="interfaceBritbot_1_1ITarget_a2932f02d4815b5477a3af1cd127685a6.html#a2932f02d4815b5477a3af1cd127685a6"><param name="Name" value="Britbot::ITarget"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1NoTarget_afef05c796b0a3791f6936d723d905706.html#afef05c796b0a3791f6936d723d905706"><param name="Name" value="Britbot::NoTarget"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a966f75593240603799b4f43eaae0c333.html#a966f75593240603799b4f43eaae0c333"><param name="Name" value="Britbot::Simulator::SimulatedGroup"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_ab583dba17639e7b9820205dc64f42c77.html#ab583dba17639e7b9820205dc64f42c77"><param name="Name" value="Britbot::SmartIsland"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9"><param name="Name" value="Eta"></OBJECT>
@@ -578,7 +637,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_ab7f3acda43a7f7ac58ffe363a6f6d567.html#ab7f3acda43a7f7ac58ffe363a6f6d567"><param name="Name" value="FightCount"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Navigator_a35d8e97792a6353116cff6102bb1e831.html#a35d8e97792a6353116cff6102bb1e831"><param name="Name" value="FindBestDirectionOutOfMap"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39"><param name="Name" value="FindCenter"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_aadbe9c517f17fdf1a854ce6550e5782f.html#aadbe9c517f17fdf1a854ce6550e5782f"><param name="Name" value="FirePower"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a6dc776966862a94c9e49ccdcf1c2358b.html#a6dc776966862a94c9e49ccdcf1c2358b"><param name="Name" value="FirePower"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_a546fa324a85755ca31f3861c14ab72a2.html#a546fa324a85755ca31f3861c14ab72a2"><param name="Name" value="First"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_a546fa324a85755ca31f3861c14ab72a2.html#a546fa324a85755ca31f3861c14ab72a2"><param name="Name" value="Britbot::PriorityQueue::HeapPriorityQueue-g"></OBJECT>
@@ -611,7 +670,13 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_afbe8ee05c72c5b940d5c596fbb43d3ef.html#afbe8ee05c72c5b940d5c596fbb43d3ef"><param name="Name" value="GetEnumerator"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a585455f39b63406e73d7bf5db27927ac.html#a585455f39b63406e73d7bf5db27927ac"><param name="Name" value="GetFallbackTurns"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_a4d298dadd6b1aaf74cefe6b0771781c8.html#a4d298dadd6b1aaf74cefe6b0771781c8"><param name="Name" value="GetGroupMoves"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_ab4ad0ddb10162828f0471a0bd94d3ad0.html#ab4ad0ddb10162828f0471a0bd94d3ad0"><param name="Name" value="GetHashCode"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_ac52783c53ff43c1553d8e1d294a754a0.html#ac52783c53ff43c1553d8e1d294a754a0"><param name="Name" value="GetHashCode"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_ac52783c53ff43c1553d8e1d294a754a0.html#ac52783c53ff43c1553d8e1d294a754a0"><param name="Name" value="Britbot::EnemyGroup"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_aeb1b68af60c8084f2767dd64e071cc0d.html#aeb1b68af60c8084f2767dd64e071cc0d"><param name="Name" value="Britbot::HeadingVector"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a92d79c455d676aa798fc6bc2adbae080.html#a92d79c455d676aa798fc6bc2adbae080"><param name="Name" value="Britbot::Simulator::SimulatedGroup"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_ab4ad0ddb10162828f0471a0bd94d3ad0.html#ab4ad0ddb10162828f0471a0bd94d3ad0"><param name="Name" value="Britbot::SmartIsland"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78"><param name="Name" value="GetHeading"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a3040eae1f0f3326971e8265fef2647c0.html#a3040eae1f0f3326971e8265fef2647c0"><param name="Name" value="GetHeadingSabilityCoeff"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22"><param name="Name" value="GetLocation"></OBJECT>
@@ -649,7 +714,10 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Commander_aaafbe6948d6be8c73febb9df67fe095d.html#aaafbe6948d6be8c73febb9df67fe095d"><param name="Name" value="GetUltimateGameConfig"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Commander_a9277137230cab7a0f5720a8d7b6cc495.html#a9277137230cab7a0f5720a8d7b6cc495"><param name="Name" value="GlobalizeScore"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1BattleEvent_a6676441a95732b71d34f4f51c87a0b07.html#a6676441a95732b71d34f4f51c87a0b07"><param name="Name" value="Group1"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1BattleEvent_a4d7dbc7e282b1327dccb582ed5497930.html#a4d7dbc7e282b1327dccb582ed5497930"><param name="Name" value="Group2"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_ad9d28317eced3d3208b2630d6e4c734d.html#ad9d28317eced3d3208b2630d6e4c734d"><param name="Name" value="Group"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1GroupArrivalEvent_a244c4972ae92dea9b58195d34d883c9e.html#a244c4972ae92dea9b58195d34d883c9e"><param name="Name" value="GroupArrivalEvent"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_ade796fcbad52b797db2b3bb8cf36f8dd.html#ade796fcbad52b797db2b3bb8cf36f8dd"><param name="Name" value="GroupCounter"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Magic_a82eecb995047c018746acca65e0a378e.html#a82eecb995047c018746acca65e0a378e"><param name="Name" value="GroupIntersectionDistance"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Veteran_ad19ccbc001446d159e17ee423530bbe9.html#ad19ccbc001446d159e17ee423530bbe9"><param name="Name" value="GroupJoining"></OBJECT>
@@ -673,7 +741,7 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a87509a1b9d61c776d2e1b923795f2a42.html#a87509a1b9d61c776d2e1b923795f2a42"><param name="Name" value="Britbot::EnemyGroup"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd"><param name="Name" value="Britbot::Group"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a175aac34e1a164c58c9842f2f3dac44e.html#a175aac34e1a164c58c9842f2f3dac44e"><param name="Name" value="Britbot::Simulator::SimularedGroup"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a37cb9c2ab7a6967fbe654dd4934a8cb3.html#a37cb9c2ab7a6967fbe654dd4934a8cb3"><param name="Name" value="Britbot::Simulator::SimulatedGroup"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_adc42e7051e9bb5b52619d9462dffe240.html#adc42e7051e9bb5b52619d9462dffe240"><param name="Name" value="Britbot::Simulator::SimulatedIsland"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8"><param name="Name" value="Britbot::SmartIsland"></OBJECT>
   </UL>
@@ -688,8 +756,9 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1InvalidRingException_a0d6b659106be5c31fb96c55322a703f4.html#a0d6b659106be5c31fb96c55322a703f4"><param name="Name" value="InvalidRingException"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Zone_a73190827afc2656099582b2a26ced444.html#a73190827afc2656099582b2a26ced444"><param name="Name" value="InZone"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_a25b45d15318a7dca936678afae553827.html#a25b45d15318a7dca936678afae553827"><param name="Name" value="IsActuallyPassable"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a883fd58c82b20e618963f783e76da2b4.html#a883fd58c82b20e618963f783e76da2b4"><param name="Name" value="IsAlive"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a53540e7ae95cae812758e0d9143dba8c.html#a53540e7ae95cae812758e0d9143dba8c"><param name="Name" value="IsAlive"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a9ac53d86de138522cf316500b0419b70.html#a9ac53d86de138522cf316500b0419b70"><param name="Name" value="IsApproachingIsland"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a3a6f3fddf767dc587fee1d7c441748a0.html#a3a6f3fddf767dc587fee1d7c441748a0"><param name="Name" value="IsCapturing"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_a5c72e36e0b8cc2a23a24fec4110e1790.html#a5c72e36e0b8cc2a23a24fec4110e1790"><param name="Name" value="IsDangerousForGroup"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Navigator_1_1Node_a39f7612cac07f1f44a61eb94a2ceaee0.html#a39f7612cac07f1f44a61eb94a2ceaee0"><param name="Name" value="IsEvaluated"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a9ec478898988956fa9533cb7c8c40792.html#a9ec478898988956fa9533cb7c8c40792"><param name="Name" value="IsFormed"></OBJECT>
@@ -700,9 +769,15 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a5f42c10b6652ad38da04530e0970c5f0.html#a5f42c10b6652ad38da04530e0970c5f0"><param name="Name" value="IsInGroup"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_a378cd64e4b2878604034864b41dff338.html#a378cd64e4b2878604034864b41dff338"><param name="Name" value="IsInMap"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b"><param name="Name" value="Island"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_aeb1fcb0ae1f5fdef5112c003617196f0.html#aeb1fcb0ae1f5fdef5112c003617196f0"><param name="Name" value="island"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b"><param name="Name" value="Britbot"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_a3d29ef15c4ed3da6a31d846a460438eb.html#a3d29ef15c4ed3da6a31d846a460438eb"><param name="Name" value="Britbot::Simulator::CaptureEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f"><param name="Name" value="Britbot::Simulator::DeCaptureEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1GroupArrivalEvent_a9dd9d3e694f639d2265815ee67a2feb9.html#a9dd9d3e694f639d2265815ee67a2feb9"><param name="Name" value="Britbot::Simulator::GroupArrivalEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11"><param name="Name" value="Britbot::Simulator::PossibleArrivalEvent"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300"><param name="Name" value="IslandList"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a13d9c0436df5dd509e7f504190ed1046.html#a13d9c0436df5dd509e7f504190ed1046"><param name="Name" value="Islands"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a20da983e55d5577aafbf0691dea1264b.html#a20da983e55d5577aafbf0691dea1264b"><param name="Name" value="Islands"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_a9330094af5a43ec51ec3ff1b7773f997.html#a9330094af5a43ec51ec3ff1b7773f997"><param name="Name" value="IsNearNonOurIsland"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Navigator_1_1Node_ab9ab6bee7ccde0f4904af8b78153423e.html#ab9ab6bee7ccde0f4904af8b78153423e"><param name="Name" value="IsPassable"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_afb79a007466bf36789cf6f49f7820929.html#afb79a007466bf36789cf6f49f7820929"><param name="Name" value="IsPassableEnough"></OBJECT>
@@ -711,7 +786,8 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_afeb5bc38c42fadb0eb8e8cb0a6547e09.html#afeb5bc38c42fadb0eb8e8cb0a6547e09"><param name="Name" value="IsValidQueue"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1ExpIterator_a5aa880df3ca34d8554825d0546903fe9.html#a5aa880df3ca34d8554825d0546903fe9"><param name="Name" value="IsZero"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20"><param name="Name" value="Join"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a1e57330e1a0902b054a4db73446c3de2.html#a1e57330e1a0902b054a4db73446c3de2"><param name="Name" value="Kill"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_ae7c3f7eb9242d2cb08e64ea0cc77ce96.html#ae7c3f7eb9242d2cb08e64ea0cc77ce96"><param name="Name" value="Kill"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_af6bf69ba1a67d9187fb89b469f78ea54.html#af6bf69ba1a67d9187fb89b469f78ea54"><param name="Name" value="KillLocals"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_af74c9a00d42c4d500676af92d3e1c553.html#af74c9a00d42c4d500676af92d3e1c553"><param name="Name" value="LastAssignmentTurn"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a1e7fb7b2c84f00669d27ff6504fdcaf6.html#a1e7fb7b2c84f00669d27ff6504fdcaf6"><param name="Name" value="LastDirections"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a9aacca8be447f902d5cff75c6610ba64.html#a9aacca8be447f902d5cff75c6610ba64"><param name="Name" value="LastMaxFightPower"></OBJECT>
@@ -732,7 +808,15 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="Logger_8cs_a8c097a59d344c89887c5f4cbdbcf493e.html#a8c097a59d344c89887c5f4cbdbcf493e"><param name="Name" value="PROFILING"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespaceBritbot_a48fd838f3c0332910ab7ade7f3aa1be4.html#a48fd838f3c0332910ab7ade7f3aa1be4"><param name="Name" value="Lower"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedEvent_ae7949ebf9a46e278f332ca406d058e95.html#ae7949ebf9a46e278f332ca406d058e95"><param name="Name" value="MakeShitHappen"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1BattleEvent_aa8ef0e9acf177b97aabd4aae2c3a4d72.html#aa8ef0e9acf177b97aabd4aae2c3a4d72"><param name="Name" value="MakeShitHappen"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1BattleEvent_aa8ef0e9acf177b97aabd4aae2c3a4d72.html#aa8ef0e9acf177b97aabd4aae2c3a4d72"><param name="Name" value="Britbot::Simulator::BattleEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1CaptureEvent_a8d286d532f63c3dbfb5ee007f92955ce.html#a8d286d532f63c3dbfb5ee007f92955ce"><param name="Name" value="Britbot::Simulator::CaptureEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1DeCaptureEvent_a0f39644a71cb590b82f00ebad3ccbf49.html#a0f39644a71cb590b82f00ebad3ccbf49"><param name="Name" value="Britbot::Simulator::DeCaptureEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1GroupArrivalEvent_a7ca97a750b81e070b420b9d2d5e0dcb3.html#a7ca97a750b81e070b420b9d2d5e0dcb3"><param name="Name" value="Britbot::Simulator::GroupArrivalEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_a2c3c8419cafc02efcffde441ff167b12.html#a2c3c8419cafc02efcffde441ff167b12"><param name="Name" value="Britbot::Simulator::PossibleArrivalEvent"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedEvent_ae7949ebf9a46e278f332ca406d058e95.html#ae7949ebf9a46e278f332ca406d058e95"><param name="Name" value="Britbot::Simulator::SimulatedEvent"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Magic_a5940fdae77a1f808c2fc5aa906a05f41.html#a5940fdae77a1f808c2fc5aa906a05f41"><param name="Name" value="ManeuverDistance"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Navigator_1_1Node_a08a816480feeed6005d6e32cccb38e3f.html#a08a816480feeed6005d6e32cccb38e3f"><param name="Name" value="Map"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="Navigator_8cs_a1c1a7bee9e72c1c8c6b88396cedf844d.html#a1c1a7bee9e72c1c8c6b88396cedf844d"><param name="Name" value="MAP_DEBUG"></OBJECT>
@@ -749,7 +833,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_afe3bf8cafa7236d75c929eeaa84ef97b.html#afe3bf8cafa7236d75c929eeaa84ef97b"><param name="Name" value="MinimalSquaredDistanceTo"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d"><param name="Name" value="MinTurnsToEnemyCapture"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Mover_a923d0980c21313b38f67e2f154787e14.html#a923d0980c21313b38f67e2f154787e14"><param name="Name" value="MoveAll"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_ab3e51331f75b9d1dcb8180a4feb3f149.html#ab3e51331f75b9d1dcb8180a4feb3f149"><param name="Name" value="MyGroups"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_ab51aec14aecba6c2e3b117fdfd640511.html#ab51aec14aecba6c2e3b117fdfd640511"><param name="Name" value="MyGroups"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="Navigator_8cs_a1c1a7bee9e72c1c8c6b88396cedf844d.html"><param name="Name" value="Navigator.cs"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_aa4f3f10d8d35669bccfa5252b41b6787.html#aa4f3f10d8d35669bccfa5252b41b6787"><param name="Name" value="NearbyEnemyCount"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1ExpIterator_a59feca36fd1af3a08bf369510d4aefdd.html#a59feca36fd1af3a08bf369510d4aefdd"><param name="Name" value="NextIteration"></OBJECT>
@@ -764,6 +848,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_a585adf8e7609247d999d5a4552c29372.html#a585adf8e7609247d999d5a4552c29372"><param name="Name" value="operator!="></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_a585adf8e7609247d999d5a4552c29372.html#a585adf8e7609247d999d5a4552c29372"><param name="Name" value="Britbot::HeadingVector"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_ae843d2606204824215aedf2f90cc879c.html#ae843d2606204824215aedf2f90cc879c"><param name="Name" value="Britbot::Simulator::SimulatedGroup"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_aa077b474f8f4d2ae44fe6603920abd90.html#aa077b474f8f4d2ae44fe6603920abd90"><param name="Name" value="Britbot::SmartIsland"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_ae5d9d56437512240f74c8f8058cd5cb8.html#ae5d9d56437512240f74c8f8058cd5cb8"><param name="Name" value="operator*"></OBJECT>
@@ -772,14 +857,15 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_af6b9b7a1eaef9d2b5b0647fd8d3cd682.html#af6b9b7a1eaef9d2b5b0647fd8d3cd682"><param name="Name" value="operator=="></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_af6b9b7a1eaef9d2b5b0647fd8d3cd682.html#af6b9b7a1eaef9d2b5b0647fd8d3cd682"><param name="Name" value="Britbot::HeadingVector"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a73dfdb399ecab6d4a10a3cd9443679a0.html#a73dfdb399ecab6d4a10a3cd9443679a0"><param name="Name" value="Britbot::Simulator::SimulatedGroup"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_af7d646a932145af4b8e782c5112e335c.html#af7d646a932145af4b8e782c5112e335c"><param name="Name" value="Britbot::SmartIsland"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_a7895be9e7e2924c4897fb7aff5faf8ea.html#a7895be9e7e2924c4897fb7aff5faf8ea"><param name="Name" value="Oppsite"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_a95945a35fa2dd64c2166df71a651df75.html#a95945a35fa2dd64c2166df71a651df75"><param name="Name" value="Orthogonal"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_ac19e5d2cebda0281928eae4080989c3d.html#ac19e5d2cebda0281928eae4080989c3d"><param name="Name" value="outOfDateNumber"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a8efecc8420bdcd0aa263b16af032c3d1.html#a8efecc8420bdcd0aa263b16af032c3d1"><param name="Name" value="Owner"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_ae0effec32bfe2f42a65e7f03aef60cba.html#ae0effec32bfe2f42a65e7f03aef60cba"><param name="Name" value="Owner"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a8efecc8420bdcd0aa263b16af032c3d1.html#a8efecc8420bdcd0aa263b16af032c3d1"><param name="Name" value="Britbot::Simulator::SimularedGroup"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_ae0effec32bfe2f42a65e7f03aef60cba.html#ae0effec32bfe2f42a65e7f03aef60cba"><param name="Name" value="Britbot::Simulator::SimulatedGroup"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a62a1eb45b6aa948ed06f2341a0c19fe2.html#a62a1eb45b6aa948ed06f2341a0c19fe2"><param name="Name" value="Britbot::Simulator::SimulatedIsland"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_a84bb096563976d770ddd3d81a1eb5cec.html#a84bb096563976d770ddd3d81a1eb5cec"><param name="Name" value="Britbot::SmartIsland"></OBJECT>
   </UL>
@@ -787,6 +873,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48"><param name="Name" value="Pirates"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Zone_a37c8f6add266600a85fb1567ec7378f4.html#a37c8f6add266600a85fb1567ec7378f4"><param name="Name" value="PiratesInZone"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb"><param name="Name" value="Play"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_a681d0e87a5ce14833d69acc42d9a950f.html#a681d0e87a5ce14833d69acc42d9a950f"><param name="Name" value="PossibleArrivalEvent"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_af52299143832784c8d30968364be469c.html#af52299143832784c8d30968364be469c"><param name="Name" value="PrevLoc"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_aad34aa3042140ff0352d9d756cab803a.html#aad34aa3042140ff0352d9d756cab803a"><param name="Name" value="Priorities"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1PriorityQueueNode_ab71d49a610af33b65357b6ee80566622.html#ab71d49a610af33b65357b6ee80566622"><param name="Name" value="Priority"></OBJECT>
@@ -798,15 +885,19 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_ace56f04b88da7f1129d0e7f77a9a9610.html#ace56f04b88da7f1129d0e7f77a9a9610"><param name="Name" value="Britbot::PriorityQueue::HeapPriorityQueue-g"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="interfaceBritbot_1_1PriorityQueue_1_1IPriorityQueue-g_aa290f78a5412180b728d7be0c48c9329.html#aa290f78a5412180b728d7be0c48c9329"><param name="Name" value="Britbot::PriorityQueue::IPriorityQueue-g"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a40a2df27bc49f1827f99855d508cb4be.html#a40a2df27bc49f1827f99855d508cb4be"><param name="Name" value="ReviveTurn"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a6515146ec68acf2e69676ff2cd79d319.html#a6515146ec68acf2e69676ff2cd79d319"><param name="Name" value="ReviveTurn"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Score_a22c95727a872802742ab520471969540.html#a22c95727a872802742ab520471969540"><param name="Name" value="Score"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Score_a22c95727a872802742ab520471969540.html#a22c95727a872802742ab520471969540"><param name="Name" value="Britbot::Score"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_aa7788204d73ad2616c45cf702ab4f169.html#aa7788204d73ad2616c45cf702ab4f169"><param name="Name" value="Britbot::Simulator::SimulatedGame"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Zone_a1827374488a3917f7f71f3b5a7639f3a.html#a1827374488a3917f7f71f3b5a7639f3a"><param name="Name" value="SelectGroup"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_aca36b9e4ce5251be33b102ae114e7813.html#aca36b9e4ce5251be33b102ae114e7813"><param name="Name" value="SetCoordinates"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_a2cc4cc795affbfd5485aea150b24d91d.html#a2cc4cc795affbfd5485aea150b24d91d"><param name="Name" value="SetTarget"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Navigator_1_1Node_a2ce38f6f4726794bd65e03144dda567a.html#a2ce38f6f4726794bd65e03144dda567a"><param name="Name" value="SetUpCalculation"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Enemy_a8f03221fd077fcf106b6d830daefed63.html#a8f03221fd077fcf106b6d830daefed63"><param name="Name" value="ShouldWeTryToCatchEnemyShips"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimularedGroup_a64854ea5e9bf5ba5f2ca97802126de7e.html#a64854ea5e9bf5ba5f2ca97802126de7e"><param name="Name" value="SimularedGroup"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a2d187ec77d86f6cd3986b1c1ebeaf879.html#a2d187ec77d86f6cd3986b1c1ebeaf879"><param name="Name" value="SimulatedGame"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a8aed368ba7a8696fa56f503ce0d48d53.html#a8aed368ba7a8696fa56f503ce0d48d53"><param name="Name" value="SimulatedGroup"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_a6004923ed879c4fa3e4e30e22f7e965f.html#a6004923ed879c4fa3e4e30e22f7e965f"><param name="Name" value="SmartIsland"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_ab67fefbe216747aa3d3bb8c590a72c63.html#ab67fefbe216747aa3d3bb8c590a72c63"><param name="Name" value="SmartIslands"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Navigator_a578c25eb10826baec8f9cee6031750af.html#a578c25eb10826baec8f9cee6031750af"><param name="Name" value="SolveStupidEquation"></OBJECT>
@@ -852,6 +943,8 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a1616ceb9a016dc9ed913f7957718efdf.html#a1616ceb9a016dc9ed913f7957718efdf"><param name="Name" value="Britbot::Simulator::SimulatedIsland"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_ab400032ba2161fc360c4ffdbbe93c1db.html#ab400032ba2161fc360c4ffdbbe93c1db"><param name="Name" value="Britbot::SmartIsland"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_ace876a3ee34a60f572da2ecb75d10d6b.html#ace876a3ee34a60f572da2ecb75d10d6b"><param name="Name" value="TurnsTillCapture"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a30c5c84c26153a18e9e132f3e5595f23.html#a30c5c84c26153a18e9e132f3e5595f23"><param name="Name" value="TurnsTillDecapture"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_a91a994a2f333301725bf4e5eafe98931.html#a91a994a2f333301725bf4e5eafe98931"><param name="Name" value="TurnsToEnemyCapture"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4"><param name="Name" value="TurnTimer"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Score_abb35b31e367875d7908ee361df75c41d.html#abb35b31e367875d7908ee361df75c41d"><param name="Name" value="Type"></OBJECT>
@@ -860,6 +953,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Enemy_a8e99a1aca7ad79bbc7428d05cfb6bcae.html#a8e99a1aca7ad79bbc7428d05cfb6bcae"><param name="Name" value="Britbot::Enemy"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_a5beb7d76d2d5e70a6db3c6fde40c9b43.html#a5beb7d76d2d5e70a6db3c6fde40c9b43"><param name="Name" value="Britbot::EnemyGroup"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_afe791ee322130539d429a8a3d1ee2d2d.html#afe791ee322130539d429a8a3d1ee2d2d"><param name="Name" value="Britbot::Group"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland_a359a60ab7ecb22908b5ec2dfeb3f81f5.html#a359a60ab7ecb22908b5ec2dfeb3f81f5"><param name="Name" value="Britbot::Simulator::SimulatedIsland"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_ac4a3b45f88dd0fba977628d32572ce7a.html#ac4a3b45f88dd0fba977628d32572ce7a"><param name="Name" value="Britbot::SmartIsland"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_ab53b03ed6f51778fbdf748de2eb578ba.html#ab53b03ed6f51778fbdf748de2eb578ba"><param name="Name" value="UpdateAll"></OBJECT>
