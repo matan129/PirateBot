@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Pirates;
 
 #endregion
@@ -141,6 +142,7 @@ namespace Britbot
         /// </summary>
         public static Dictionary<Pirate, Direction> Play(CancellationToken cancellationToken, out bool onTime)
         {
+            // Restart the timer
             Commander._turnTimer.Restart();
 
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
@@ -151,8 +153,11 @@ namespace Britbot
                 Enemy.Update(cancellationToken);
                 Logger.StopTime("Update");
 
+
+                Logger.BeginTime("UpdateAll");
                 //update smartIslands
                 SmartIsland.UpdateAll();
+                Logger.StopTime("UpdateAll");
 
                 Logger.BeginTime("CalculateAndAssignTargets");
                 //calculate targets
@@ -168,17 +173,19 @@ namespace Britbot
                 Veteran.GroupJoining();
                 Logger.StopTime("GroupJoining");
 
-                //FixGroupArrangement();
-                Logger.BeginTime("FixGroupArrangement");
-                //Commander.FixGroupArrangement();
-                Logger.StopTime("FixGroupArrangement");
+                /*Logger.BeginTime("FixGroupArrangement");
+                Commander.FixGroupArrangement();
+                Logger.StopTime("FixGroupArrangement");*/
 
                 Logger.BeginTime("GetAllMoves");
                 //Get the moves for all the pirates and return them
                 Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
                 Logger.StopTime("GetAllMoves");
-                Bot.Game.Debug("Commander done doing calculations and drinking coffee after {0}ms",
-                    Commander._turnTimer.ElapsedMilliseconds);
+
+
+                Logger.Write(
+                    string.Format("Commander done doing calculations and drinking coffee after {0}ms",
+                        Commander._turnTimer.ElapsedMilliseconds), true);
 
                 //we are on time!
                 onTime = true;
@@ -187,49 +194,36 @@ namespace Britbot
             }
             catch (AggregateException ex)
             {
-                Bot.Game.Debug("****** COMMANDER EXITING DUE TO AggregateException ******");
+                Logger.Write("****** COMMANDER EXITING DUE TO AggregateException ******", true);
                 foreach (Exception e in ex.InnerExceptions)
-                    Bot.Game.Debug(e.ToString());
+                    Logger.Write(e.ToString(), true);
                 onTime = false;
-                Logger.Debug();
+                Logger.Profile();
                 return new Dictionary<Pirate, Direction>();
             }
             catch (OperationCanceledException) //catch task cancellation
             {
-                Bot.Game.Debug("****** COMMANDER EXITING DUE TO TASK CANCELLATION ******");
+                Logger.Write("****** COMMANDER EXITING DUE TO TASK CANCELLATION ******", true);
                 onTime = false;
-                Logger.Debug();
+                Logger.Profile();
                 return new Dictionary<Pirate, Direction>();
             }
             catch (Exception ex) //catch everyting else
             {
-                Bot.Game.Debug("==========COMMANDER EXCEPTION============");
-                Bot.Game.Debug("Commander almost crashed because of exception: " + ex.Message);
+                Logger.Write("==========COMMANDER EXCEPTION============", true);
+                Logger.Write("Commander almost crashed because of exception: " + ex.Message, true);
 
                 //Holy shit. This actually works!!
                 StackTrace exTrace = new StackTrace(ex, true);
                 StackFrame frame = exTrace.GetFrame(0);
-                Bot.Game.Debug("The exception was thrown from method {0} at file {1} at line #{2}", frame.GetMethod(),
-                    frame.GetFileName(), frame.GetFileLineNumber());
+                Logger.Write(
+                    string.Format("The exception was thrown from method {0} at file {1} at line #{2}", frame.GetMethod(),
+                        frame.GetFileName(), frame.GetFileLineNumber()), true);
 
-                Bot.Game.Debug("==========COMMANDER EXCEPTION============");
+                Logger.Write("==========COMMANDER EXCEPTION============", true);
                 onTime = false;
-                Logger.Debug();
+                Logger.Profile();
                 return new Dictionary<Pirate, Direction>();
-            }
-        }
-
-        /// <summary>
-        ///     Allocates groups
-        /// </summary>
-        /// <param name="config"></param>
-        public static void Allocate(params int[] config)
-        {
-            Commander.Groups.Clear();
-
-            foreach (List<int> piratesInGroup in Allocator.PhysicalSplit(config))
-            {
-                Commander.Groups.Add(new Group(piratesInGroup.ToArray()));
             }
         }
 
@@ -295,7 +289,7 @@ namespace Britbot
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
             {
-                Bot.Game.Debug("Group {0} assinged to {1}", i, scoreArr[i].Target.GetDescription());
+                Logger.Write(string.Format("Group {0} assinged to {1}", i, scoreArr[i].Target.GetDescription()), true);
                 Commander.Groups[i].SetTarget(scoreArr[i].Target);
             }
         }
@@ -416,11 +410,8 @@ namespace Britbot
         {
             Commander.Groups.RemoveAll(g => g.Pirates.Count == 0);
 
-            foreach (Group g in Commander.Groups)
-            {
-                g.Update();
-                Bot.Game.Debug("Group {0} Pirates: {1}", g.Id, string.Join(",", g.Pirates));
-            }
+            // Update all groups
+            Parallel.ForEach(Commander.Groups, g => g.Update());
 
             //A list with all the moves from all groups
             List<KeyValuePair<Pirate, Direction>> allMoves =
@@ -428,7 +419,9 @@ namespace Britbot
 
             //Get the moves from each group we have
             foreach (Group group in Commander.Groups)
+            {
                 allMoves.AddRange(group.GetGroupMoves(cancellationToken));
+            }
 
             //Convert the moves list to dictionary
             return allMoves.ToDictionary(pair => pair.Key, pair => pair.Value);
@@ -505,9 +498,12 @@ namespace Britbot
         private static void StartCalcPriorities(CancellationToken cancellationToken)
         {
             Commander.Groups.ForEach(g => g.CalcPriorities(cancellationToken));
-            Bot.Game.Debug("Priorities Calculated");
+            Logger.Write("Priorities Calculated", true);
         }
 
+        /// <summary>
+        ///     Moves priates between group if needed (physically)
+        /// </summary>
         public static void FixGroupArrangement()
         {
             //going over all pair of groups

@@ -1,12 +1,18 @@
 ﻿#define DEBUG
 #define PROFILING
 #define DUMPFILE
+#define WRITE
+#define NOSHUTUP
+#define FORCE_BEGIN_STOP
 
 //comment the folowwing lines if you want to enable debug and profiling.
 //WARNING IF DEBUG IS ENABLED WE WILL TIME OUT. IT TAKES LOOOOOOONG TIME
 #undef DEBUG
 #undef PROFILING
 #undef DUMPFILE
+#undef WRITE
+//#undef FORCE_BEGIN_STOP
+//#undef NOSHTUP
 
 #region #Usings
 
@@ -20,6 +26,7 @@ namespace Britbot
     {
         #region Static Fields & Consts
 
+#if DEBUG
         private static Dictionary<string, Queue<long>> times = new Dictionary<string, Queue<long>>();
         private static Dictionary<string, long> begins = new Dictionary<string, long>();
         private static Dictionary<string, int> count = new Dictionary<string, int>();
@@ -28,19 +35,23 @@ namespace Britbot
         private static FileStream _logFileStream =
             new FileStream(string.Format("C:\\log_{0}_{1}.txt", DateTime.Now, Commander.Version), FileMode.Create, FileAccess.ReadWrite);
 #endif
+#endif
 
         #endregion
 
         public static void BeginTime(string key)
         {
-#if DEBUG
-            Bot.Game.Debug("==> Debug Begining " + key + " time: " + Bot.Game.TimeRemaining());
+#if FORCE_BEGIN_STOP
+            Logger.Write("==> Debug Begining " + key, true);
+#else
+            Logger.Write("==> Debug Begining " + key, false);
 #endif
 
+#if DEBUG
+            Logger.Write("==> Debug Begining " + key + " time: " + Bot.Game.TimeRemaining());
+
+
 #if DUMPFILE
-
-            Bot.Game.Debug("=================================" +Logger._logFileStream);
-
             using (StreamWriter logWriter = new StreamWriter(Logger._logFileStream))
             {
                 logWriter.WriteLine("==> Debug Begining " + key + " time: " + Bot.Game.TimeRemaining());
@@ -56,13 +67,20 @@ namespace Britbot
             {
                 Logger.begins.Add(key, Commander.TurnTimer.ElapsedMilliseconds);
             }*/
+#endif
         }
 
         public static void StopTime(string key)
         {
+#if FORCE_BEGIN_STOP
+            Logger.Write("==> Debug Stopping " + key, true);
+#else
+            Logger.Write("==> Debug Stopping " + key);
+#endif
+
 #if DEBUG
             Bot.Game.Debug("==> Debug Stopping " + key + " time: " + Bot.Game.TimeRemaining());
-#endif
+
 
 #if DUMPFILE
             using (StreamWriter logWriter = new StreamWriter(Logger._logFileStream))
@@ -84,10 +102,13 @@ namespace Britbot
                 if (Logger.times[key].Count > 100)
                     Logger.times[key].Dequeue();
             }*/
+#endif
         }
+
 
         public static void Count(string key)
         {
+#if DEBUG
             if (Logger.count.ContainsKey(key))
             {
                 Logger.count[key]++;
@@ -96,9 +117,10 @@ namespace Britbot
             {
                 Logger.count.Add(key, 1);
             }
+#endif
         }
 
-        public static void Debug()
+        public static void Profile()
         {
 #if PROFILING
             Bot.Game.Debug("------------------------PROFILING-----------------------");
@@ -133,7 +155,22 @@ namespace Britbot
 
         public static void DumpDebug()
         {
+#if DEBUG
             Bot.Game.Debug(Logger.times.ToString());
+#endif
+        }
+
+        public static void Write(string str, bool force = false)
+        {
+#if WRITE
+            Bot.Game.Debug(str);
+#else
+#if NOSHUTUP
+            if(force)
+                Bot.Game.Debug(str);
+#endif
+#endif
+
         }
     }
 }

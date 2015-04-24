@@ -29,7 +29,7 @@ namespace Britbot.Fallback
                     fallback.Add(pirate, Direction.SOUTH);
             }
 
-            Bot.Game.Debug("===============FALLBACK READY=================");
+            Logger.Write("===============FALLBACK READY=================");
 
             return fallback;
         }

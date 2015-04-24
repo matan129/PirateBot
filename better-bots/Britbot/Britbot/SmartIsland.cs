@@ -125,7 +125,7 @@ namespace Britbot
             //check if there are more enemies than we can kill
             if (this.IsDangerousForGroup(origin))
             {
-                Bot.Game.Debug("Danger--- Group " + origin.Id + " island: " + this.Id);
+                Logger.Write("Danger--- Group " + origin.Id + " island: " + this.Id);
                 return null;
             }
 
@@ -357,12 +357,12 @@ namespace Britbot
 
         public void Debug()
         {
-            Bot.Game.Debug("Island " + this.Id + " enemies: " + string.Join(", ", this.approachingEnemies));
+            Logger.Write("Island " + this.Id + " enemies: " + string.Join(", ", this.approachingEnemies));
         }
 
         public static void DebugAll()
         {
-            Bot.Game.Debug("--------ISLANDS DEBUG----------");
+            Logger.Write("--------ISLANDS DEBUG----------");
             foreach (SmartIsland sIsland in SmartIsland.IslandList)
                 sIsland.Debug();
         }
@@ -375,7 +375,7 @@ namespace Britbot
         /// <returns>true if it is dangerous, false otherwise</returns>
         public bool IsDangerousForGroup(Group g)
         {
-            //Bot.Game.Debug("IsDangerousForGroup island: " + Id + " group " + g.Id);
+            //Logger.Write("IsDangerousForGroup island: " + Id + " group " + g.Id);
             //calculate distance in turns till we reach the island
             int eta = Bot.Game.Distance(this.Loc, g.FindCenter(true));
 
@@ -492,7 +492,7 @@ namespace Britbot
         protected bool Equals(SmartIsland other)
         {
             bool eq = this.Id == other.Id;
-            //Bot.Game.Debug("Ack identical targets: " + eq);
+            //Logger.Write("Ack identical targets: " + eq);
             return eq;
         }
 

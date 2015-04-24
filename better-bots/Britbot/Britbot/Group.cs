@@ -92,7 +92,7 @@ namespace Britbot
             this.Pirates.CollectionChanged += delegate
             {
                 this._hasChanged = true;
-                Bot.Game.Debug("Update Registered at group " + this.Id);
+                Logger.Write("Update Registered at group " + this.Id);
             };
 
             this.Heading = new HeadingVector(1, 0);
@@ -101,7 +101,7 @@ namespace Britbot
             //get id and update counter
             this.Id = Group.GroupCounter++;
 
-            Bot.Game.Debug("===================GROUP {0}===================", this.Id);
+            Logger.Write(string.Format("===================GROUP {0}===================", this.Id));
         }
 
         //[Obsolete("Please use the constructor that takes spesific pirates")]
@@ -183,7 +183,7 @@ namespace Britbot
             {
                 return new Location(y / this.Pirates.Count, x / this.Pirates.Count);
             }
-            catch (Exception) //TODO WHY THERE IS A CATCH HERE?
+            catch (DivideByZeroException) // altough pirates count shouldn't be 0, just in case
             {
                 return new Location(0, 0);
             }
@@ -211,28 +211,27 @@ namespace Britbot
         /// <returns>A list that matches each pirate in the group a location to move to</returns>
         public IEnumerable<KeyValuePair<Pirate, Direction>> GetGroupMoves(CancellationToken cancellationToken)
         {
-            Logger.BeginTime("UpdateMap");
+            Logger.BeginTime("GetGroupMoves at group " + this.Id);
             //inital path finding for this group
+            Logger.BeginTime("UpdateMap");
             Navigator.UpdateMap(this);
             Logger.StopTime("UpdateMap");
-            Direction master = this.Target.GetDirection(this);
-
-            Bot.Game.Debug("Group {0} goinng to move {1}", this.Id, string.Join(",", this.Pirates));
-
 
             //Check if the group is formed into structure. If not, get the moves to get into the structure
             if (!this.IsFormed())
             {
-                this.Heading = new HeadingVector(master);
+                this.Heading = new HeadingVector();
                 //return for each of our pirate its move
                 foreach (KeyValuePair<Pirate, Direction> keyValuePair in this.GetStructureMoves(cancellationToken))
-                {
-                    Bot.Game.Debug("Group " + this.Id + " emitting KVP " + keyValuePair);
                     yield return keyValuePair;
-                }
             }
             else //if the group is in structure and ready to attack
             {
+                if (this.Target == null)
+                    this.Target = new NoTarget();
+
+                Direction master = this.Target.GetDirection(this);
+
                 //Convert the list of pirate indexes we have into a list of pirates
                 List<Pirate> myPirates = this.Pirates.ToList().ConvertAll(p => Bot.Game.GetMyPirate(p));
 
@@ -243,10 +242,7 @@ namespace Britbot
 
                     //return for each pirate the pirate and its direction
                     foreach (Pirate myPirate in myPirates)
-                    {
-                        Bot.Game.Debug("Group " + this.Id + " emitting KVP " + myPirate + " , " + master);
                         yield return new KeyValuePair<Pirate, Direction>(myPirate, master);
-                    }
 
                     //update heading
                     this.Heading.adjustHeading(master);
@@ -255,12 +251,10 @@ namespace Britbot
                 {
                     //return Direction.NOTHING for all pirates we got
                     foreach (Pirate myPirate in myPirates)
-                    {
-                        Bot.Game.Debug("Group " + this.Id + " emitting KVP " + myPirate + " , " + Direction.NOTHING);
                         yield return new KeyValuePair<Pirate, Direction>(myPirate, Direction.NOTHING);
-                    }
                 }
             }
+            Logger.StopTime("GetGroupMoves at group " + this.Id);
         }
 
         /// <summary>
@@ -345,11 +339,14 @@ namespace Britbot
         /// <returns></returns>
         private bool IsFormed(bool checkCasualties = true, int casualtiesThresholdPercent = 20)
         {
-            Logger.BeginTime("IsFormed");
+            Logger.BeginTime("IsFormed at group " + this.Id);
 
             if (checkCasualties)
                 if (this.CasualtiesPercent() > casualtiesThresholdPercent) //if there are many casualties
+                {
+                    Logger.StopTime("IsFormed at group " + this.Id);
                     return false;
+                }
 
             //the offsets from the original location.
             //this test assumes that the group has moves but *relatively* everyone is in place.
@@ -398,7 +395,8 @@ namespace Britbot
             //if the group passed the previous test, return true (meaning that the group is formed)
             if (!confirmUnstructured)
             {
-                Bot.Game.Debug("Group {0} is formed", this.Id);
+                Logger.Write(string.Format("Group {0} is formed", this.Id), true);
+                Logger.StopTime("IsFormed at group " + this.Id);
                 return true;
             }
 
@@ -417,7 +415,8 @@ namespace Britbot
             }
             catch //if there's an exception (such as InvalidLocationException) return false
             {
-                Bot.Game.Debug("Group {0} is not formed yet", this.Id);
+                Logger.Write(String.Format("Group {0} is not formed yet", this.Id), true);
+                Logger.StopTime("IsFormed at group " + this.Id);
                 return false;
             }
 
@@ -425,7 +424,8 @@ namespace Britbot
             if (structureFull == null)
             {
                 //...return false
-                Bot.Game.Debug("Group {0} is not formed yet", this.Id);
+                Logger.Write(String.Format("Group {0} is not formed yet", this.Id), true);
+                Logger.StopTime("IsFormed at group " + this.Id);
                 return false;
             }
 
@@ -463,14 +463,16 @@ namespace Britbot
             //like if we have 4 pirates we need the 2nd ring (index 1) but but there will be on free spot)
             if (emptyCells == structureFull.Length - this.Pirates.Count)
             {
-                Bot.Game.Debug("Group {0} is formed", this.Id);
+                Logger.Write(String.Format("Group {0} is formed", this.Id), true);
+                Logger.StopTime("IsFormed at group " + this.Id);
                 return true;
             }
 
             ReturnFalse:
             //if we are still not formed, return the right answer
-            Bot.Game.Debug("Group {0} is not formed yet", this.Id);
-            Logger.StopTime("IsFormed");
+            Logger.Write(String.Format("Group {0} is not formed yet", this.Id), true);
+
+            Logger.StopTime("IsFormed at group " + this.Id);
             return false;
         }
 
@@ -489,7 +491,7 @@ namespace Britbot
             //if we didn't get a pre calculated structure, calculate it below
             if (structure == null)
             {
-                Bot.Game.Debug("Generating group structure");
+                Logger.Write("Generating group structure");
 
                 //Generate location array (structure) for the group
                 while (true)
@@ -509,7 +511,7 @@ namespace Britbot
                 }
             }
 
-            Bot.Game.Debug("Generating group structure OK");
+            Logger.Write("Generating group structure OK");
 
             //flag array to signal if a location in the structure is already taken 
             bool[] matchedLocations = new bool[structure.Length];
@@ -558,12 +560,12 @@ namespace Britbot
                 .ToDictionary(pair => pair.Key.Id, pair => pair.Value);
 
             //debug prints
-            Bot.Game.Debug("====FORMING TO====");
+            Logger.Write("====FORMING TO====");
             foreach (KeyValuePair<int, Location> formOrder in this.FormOrders)
             {
-                Bot.Game.Debug(Bot.Game.GetMyPirate(formOrder.Key) + "," + formOrder.Value);
+                Logger.Write(Bot.Game.GetMyPirate(formOrder.Key) + "," + formOrder.Value);
             }
-            Bot.Game.Debug("==================");
+            Logger.Write("==================");
         }
 
         /// <summary>
@@ -878,25 +880,25 @@ namespace Britbot
             //add pirates of the biggroup
             pirateList.AddRange(bigGroup.Pirates);
             pirateList.AddRange(smallGroup.Pirates);
-            Bot.Game.Debug("-------------------------------------Switch");
-            Bot.Game.Debug("Biggroup: " + string.Join(", ", bigGroup.Pirates));
-            Bot.Game.Debug("smallgroup: " + string.Join(", ", smallGroup.Pirates));
-            Bot.Game.Debug("pirate list: " + string.Join(", ", pirateList));
-            Bot.Game.Debug("heading: " + bigGroup.Heading);
+            Logger.Write("-------------------------------------Switch");
+            Logger.Write("Biggroup: " + string.Join(", ", bigGroup.Pirates));
+            Logger.Write("smallgroup: " + string.Join(", ", smallGroup.Pirates));
+            Logger.Write("pirate list: " + string.Join(", ", pirateList));
+            Logger.Write("heading: " + bigGroup.Heading);
 
 
             //sort array by allignment with the vector specified
             pirateList.Sort((p1, p2) => -1 * Navigator.ComparePirateByDirection(p1, p2, bigGroup.Heading));
 
-            Bot.Game.Debug("pirate list: " + string.Join(", ", pirateList));
+            Logger.Write("pirate list: " + string.Join(", ", pirateList));
 
             //replace pirates
             pirateList.GetRange(0, bigGroup.Pirates.Count).ForEach(p => bigGroup.Pirates.Add(p));
             pirateList.RemoveRange(0, bigGroup.Pirates.Count);
             smallGroup.Pirates = new ObservableCollection<int>(pirateList);
 
-            Bot.Game.Debug("Biggroup: " + string.Join(", ", bigGroup.Pirates));
-            Bot.Game.Debug("smallgroup: " + string.Join(", ", smallGroup.Pirates));
+            Logger.Write("Biggroup: " + string.Join(", ", bigGroup.Pirates));
+            Logger.Write("smallgroup: " + string.Join(", ", smallGroup.Pirates));
         }
 
         /// <summary>
