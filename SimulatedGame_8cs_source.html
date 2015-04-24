@@ -57,67 +57,75 @@
 <div class="title">Simulator/SimulatedGame.cs</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="SimulatedGame_8cs.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 ﻿using System;
-<a name="l00002"></a>00002 <span class="keyword">using</span> System.Collections.Generic;
-<a name="l00003"></a>00003 <span class="keyword">using</span> System.Linq;
-<a name="l00004"></a>00004 <span class="keyword">using</span> System.Text;
-<a name="l00005"></a>00005 <span class="keyword">using</span> System.Threading.Tasks;
-<a name="l00006"></a>00006 <span class="keyword">using</span> Britbot.PriorityQueue;
-<a name="l00007"></a>00007 <span class="keyword">using</span> Pirates;
-<a name="l00008"></a>00008 <span class="keyword">namespace </span>Britbot.Simulator
-<a name="l00009"></a>00009 {
-<a name="l00013"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html">00013</a>     <span class="keyword">class </span><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a>
-<a name="l00014"></a>00014     {
-<a name="l00019"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_ad69212b6172ea520748bd69c3867e37a.html#ad69212b6172ea520748bd69c3867e37a">00019</a>         <span class="keyword">private</span> HeapPriorityQueue&lt;SimulatedEvent&gt; <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_ad69212b6172ea520748bd69c3867e37a.html#ad69212b6172ea520748bd69c3867e37a" title="A priority queue representing the events to come in this scenario Events are prioratized in a cronolo...">CommingEvents</a>;
-<a name="l00020"></a>00020 
-<a name="l00024"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a20da983e55d5577aafbf0691dea1264b.html#a20da983e55d5577aafbf0691dea1264b">00024</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland.html">SimulatedIsland</a> [] <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a20da983e55d5577aafbf0691dea1264b.html#a20da983e55d5577aafbf0691dea1264b" title="List of the islands in the game.">Islands</a>;
-<a name="l00025"></a>00025 
-<a name="l00029"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_ab51aec14aecba6c2e3b117fdfd640511.html#ab51aec14aecba6c2e3b117fdfd640511">00029</a>         <span class="keyword">private</span> Dictionary&lt;int,SimulatedGroup&gt; <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_ab51aec14aecba6c2e3b117fdfd640511.html#ab51aec14aecba6c2e3b117fdfd640511" title="List of all friendly groups.">MyGroups</a>;
-<a name="l00030"></a>00030 
-<a name="l00034"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_aee4009f345d3770496b80d3a4c5d7a45.html#aee4009f345d3770496b80d3a4c5d7a45">00034</a>         <span class="keyword">private</span> Dictionary&lt;int, SimulatedGroup&gt; <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_aee4009f345d3770496b80d3a4c5d7a45.html#aee4009f345d3770496b80d3a4c5d7a45" title="List of all enemy groups.">EnemyGroups</a>;
-<a name="l00035"></a>00035 
-<a name="l00039"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_aa7788204d73ad2616c45cf702ab4f169.html#aa7788204d73ad2616c45cf702ab4f169">00039</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a> { <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }
-<a name="l00040"></a>00040 
-<a name="l00044"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453">00044</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> CurrentTurn { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-<a name="l00045"></a>00045 
-<a name="l00046"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a2d187ec77d86f6cd3986b1c1ebeaf879.html#a2d187ec77d86f6cd3986b1c1ebeaf879">00046</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a>()
-<a name="l00047"></a>00047         {
-<a name="l00048"></a>00048             <span class="comment">//initialize stuff</span>
-<a name="l00049"></a>00049             this.CommingEvents = <span class="keyword">new</span> HeapPriorityQueue&lt;SimulatedEvent&gt;((int)(2 * <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_ad5eb9ab943cae4be423869493fb9c203.html#ad5eb9ab943cae4be423869493fb9c203" title="the maximum distance of enemy from island that we can say with any certainty that he can possibly try...">MaxCalculableDistance</a>));
-<a name="l00050"></a>00050             this.Islands = <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland.html">SimulatedIsland</a>[<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Islands().Count];
-<a name="l00051"></a>00051             this.MyGroups = <span class="keyword">new</span> Dictionary&lt;int, SimulatedGroup&gt;();
-<a name="l00052"></a>00052             this.EnemyGroups = <span class="keyword">new</span> Dictionary&lt;int, SimulatedGroup&gt;();
-<a name="l00053"></a>00053 
-<a name="l00054"></a>00054             <span class="comment">//add the ending Event</span>
-<a name="l00055"></a>00055             this.CommingEvents.Enqueue(null, <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_ad5eb9ab943cae4be423869493fb9c203.html#ad5eb9ab943cae4be423869493fb9c203" title="the maximum distance of enemy from island that we can say with any certainty that he can possibly try...">MaxCalculableDistance</a>);
-<a name="l00056"></a>00056 
-<a name="l00057"></a>00057             this.CurrentTurn = 0;
-<a name="l00058"></a>00058             this.<a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a> = 0;
-<a name="l00059"></a>00059             <span class="comment">//set my groups</span>
-<a name="l00060"></a>00060             <span class="keywordflow">foreach</span>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> group <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>)
-<a name="l00061"></a>00061             {
-<a name="l00062"></a>00062                 this.MyGroups.Add(group.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>,<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a>(group.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>, Consts.ME, group.<a class="code" href="classBritbot_1_1Group_a252b8f1d11f52800fad4ff2f95cb43fd.html#a252b8f1d11f52800fad4ff2f95cb43fd" title="counts how many living pirates are in the group">LiveCount</a>()));
-<a name="l00063"></a>00063             }
-<a name="l00064"></a>00064 
-<a name="l00065"></a>00065             <span class="comment">//set enemy group</span>
-<a name="l00066"></a>00066             <span class="keywordflow">foreach</span>(<a class="code" href="classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group.">EnemyGroup</a> eGroup <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Enemy.html" title="This class represent the enemy bot in the game.">Enemy</a>.<a class="code" href="classBritbot_1_1Enemy_a598923d8196e20cc9027d8ec578a23de.html#a598923d8196e20cc9027d8ec578a23de" title="A list of the enemy&#39;s groups.">Groups</a>)
-<a name="l00067"></a>00067             {
-<a name="l00068"></a>00068                 this.EnemyGroups.Add(eGroup.<a class="code" href="classBritbot_1_1EnemyGroup_a87509a1b9d61c776d2e1b923795f2a42.html#a87509a1b9d61c776d2e1b923795f2a42" title="unique-ish id for the enemy group">Id</a>, <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a>(eGroup.<a class="code" href="classBritbot_1_1EnemyGroup_a87509a1b9d61c776d2e1b923795f2a42.html#a87509a1b9d61c776d2e1b923795f2a42" title="unique-ish id for the enemy group">Id</a>, Consts.ENEMY, eGroup.<a class="code" href="classBritbot_1_1EnemyGroup_a189f0508a74358c3c57cfafe363dabb2.html#a189f0508a74358c3c57cfafe363dabb2" title="returns the average of the maximum fight power in the last outOfDateNumber of turns">GetMaxFightPower</a>()));
-<a name="l00069"></a>00069             }
-<a name="l00070"></a>00070 
-<a name="l00071"></a>00071         }
-<a name="l00072"></a>00072 
-<a name="l00078"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_adb9948d45b3324c62ab1b3df01bc6008.html#adb9948d45b3324c62ab1b3df01bc6008">00078</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> AddEvent(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent.html" title="A virtual class representing an event in the game (capture, kill, est...) Inherits from PriorityQueue...">SimulatedEvent</a> newEvent, <span class="keywordtype">int</span> turn)
-<a name="l00079"></a>00079         {
-<a name="l00080"></a>00080             this.CommingEvents.Enqueue(newEvent, turn);
-<a name="l00081"></a>00081         }
-<a name="l00082"></a>00082     }
-<a name="l00083"></a>00083 }
+<a href="SimulatedGame_8cs.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 ﻿#region #Usings
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">using</span> System.Collections.Generic;
+<a name="l00004"></a>00004 <span class="keyword">using</span> Britbot.PriorityQueue;
+<a name="l00005"></a>00005 <span class="keyword">using</span> Pirates;
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="preprocessor">#endregion</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="keyword">namespace </span>Britbot.Simulator
+<a name="l00010"></a>00010 {
+<a name="l00014"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html">00014</a>     <span class="keyword">internal</span> <span class="keyword">class </span><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a>
+<a name="l00015"></a>00015     {
+<a name="l00016"></a>00016 <span class="preprocessor">        #region Fields &amp; Properies</span>
+<a name="l00017"></a>00017 <span class="preprocessor"></span>
+<a name="l00022"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_ad69212b6172ea520748bd69c3867e37a.html#ad69212b6172ea520748bd69c3867e37a">00022</a>         <span class="keyword">private</span> HeapPriorityQueue&lt;SimulatedEvent&gt; <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_ad69212b6172ea520748bd69c3867e37a.html#ad69212b6172ea520748bd69c3867e37a" title="A priority queue representing the events to come in this scenario Events are prioratized in a cronolo...">CommingEvents</a>;
+<a name="l00023"></a>00023 
+<a name="l00027"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_aee4009f345d3770496b80d3a4c5d7a45.html#aee4009f345d3770496b80d3a4c5d7a45">00027</a>         <span class="keyword">private</span> Dictionary&lt;int, SimulatedGroup&gt; <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_aee4009f345d3770496b80d3a4c5d7a45.html#aee4009f345d3770496b80d3a4c5d7a45" title="List of all enemy groups.">EnemyGroups</a>;
+<a name="l00028"></a>00028 
+<a name="l00032"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a20da983e55d5577aafbf0691dea1264b.html#a20da983e55d5577aafbf0691dea1264b">00032</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland.html">SimulatedIsland</a>[] <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a20da983e55d5577aafbf0691dea1264b.html#a20da983e55d5577aafbf0691dea1264b" title="List of the islands in the game.">Islands</a>;
+<a name="l00033"></a>00033 
+<a name="l00037"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2">00037</a>         <span class="keyword">private</span> Dictionary&lt;int, SimulatedGroup&gt; <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2" title="List of all friendly groups.">MyGroups</a>;
+<a name="l00038"></a>00038 
+<a name="l00042"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_aa7788204d73ad2616c45cf702ab4f169.html#aa7788204d73ad2616c45cf702ab4f169">00042</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a> { <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }
+<a name="l00043"></a>00043 
+<a name="l00047"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453">00047</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> CurrentTurn { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049 <span class="preprocessor">        #endregion</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>
+<a name="l00051"></a>00051 <span class="preprocessor">        #region Constructors &amp; Initializers</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span>
+<a name="l00053"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a2d187ec77d86f6cd3986b1c1ebeaf879.html#a2d187ec77d86f6cd3986b1c1ebeaf879">00053</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a>()
+<a name="l00054"></a>00054         {
+<a name="l00055"></a>00055             <span class="comment">//initialize stuff</span>
+<a name="l00056"></a>00056             this.CommingEvents = <span class="keyword">new</span> HeapPriorityQueue&lt;SimulatedEvent&gt;((int) (2 * <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_ad5eb9ab943cae4be423869493fb9c203.html#ad5eb9ab943cae4be423869493fb9c203" title="the maximum distance of enemy from island that we can say with any certainty that he can possibly try...">MaxCalculableDistance</a>));
+<a name="l00057"></a>00057             this.Islands = <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland.html">SimulatedIsland</a>[<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Islands().Count];
+<a name="l00058"></a>00058             this.MyGroups = <span class="keyword">new</span> Dictionary&lt;int, SimulatedGroup&gt;();
+<a name="l00059"></a>00059             this.EnemyGroups = <span class="keyword">new</span> Dictionary&lt;int, SimulatedGroup&gt;();
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061             <span class="comment">//add the ending Event</span>
+<a name="l00062"></a>00062             this.CommingEvents.Enqueue(null, <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_ad5eb9ab943cae4be423869493fb9c203.html#ad5eb9ab943cae4be423869493fb9c203" title="the maximum distance of enemy from island that we can say with any certainty that he can possibly try...">MaxCalculableDistance</a>);
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064             this.CurrentTurn = 0;
+<a name="l00065"></a>00065             this.<a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a> = 0;
+<a name="l00066"></a>00066             <span class="comment">//set my groups</span>
+<a name="l00067"></a>00067             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> group <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>)
+<a name="l00068"></a>00068             {
+<a name="l00069"></a>00069                 this.MyGroups.Add(group.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>, <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a>(group.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>, Consts.ME, group.<a class="code" href="classBritbot_1_1Group_a252b8f1d11f52800fad4ff2f95cb43fd.html#a252b8f1d11f52800fad4ff2f95cb43fd" title="counts how many living pirates are in the group">LiveCount</a>()));
+<a name="l00070"></a>00070             }
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072             <span class="comment">//set enemy group</span>
+<a name="l00073"></a>00073             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group.">EnemyGroup</a> eGroup <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Enemy.html" title="This class represent the enemy bot in the game.">Enemy</a>.<a class="code" href="classBritbot_1_1Enemy_a598923d8196e20cc9027d8ec578a23de.html#a598923d8196e20cc9027d8ec578a23de" title="A list of the enemy&#39;s groups.">Groups</a>)
+<a name="l00074"></a>00074             {
+<a name="l00075"></a>00075                 this.EnemyGroups.Add(eGroup.<a class="code" href="classBritbot_1_1EnemyGroup_a87509a1b9d61c776d2e1b923795f2a42.html#a87509a1b9d61c776d2e1b923795f2a42" title="unique-ish id for the enemy group">Id</a>, <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a>(eGroup.<a class="code" href="classBritbot_1_1EnemyGroup_a87509a1b9d61c776d2e1b923795f2a42.html#a87509a1b9d61c776d2e1b923795f2a42" title="unique-ish id for the enemy group">Id</a>, Consts.ENEMY, eGroup.<a class="code" href="classBritbot_1_1EnemyGroup_a189f0508a74358c3c57cfafe363dabb2.html#a189f0508a74358c3c57cfafe363dabb2" title="returns the average of the maximum fight power in the last outOfDateNumber of turns">GetMaxFightPower</a>()));
+<a name="l00076"></a>00076             }
+<a name="l00077"></a>00077         }
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 <span class="preprocessor">        #endregion</span>
+<a name="l00080"></a>00080 <span class="preprocessor"></span>
+<a name="l00086"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_adb9948d45b3324c62ab1b3df01bc6008.html#adb9948d45b3324c62ab1b3df01bc6008">00086</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> AddEvent(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent.html" title="A virtual class representing an event in the game (capture, kill, est...) Inherits from PriorityQueue...">SimulatedEvent</a> newEvent, <span class="keywordtype">int</span> turn)
+<a name="l00087"></a>00087         {
+<a name="l00088"></a>00088             this.CommingEvents.Enqueue(newEvent, turn);
+<a name="l00089"></a>00089         }
+<a name="l00090"></a>00090     }
+<a name="l00091"></a>00091 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:13:42 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 09:39:17 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -65,11 +65,11 @@
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a>  </div>
+<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">Britbot.EnemyGroup Class Reference</div>  </div>
 </div><!--header-->
@@ -100,7 +100,6 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">override int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_ac52783c53ff43c1553d8e1d294a754a0.html#ac52783c53ff43c1553d8e1d294a754a0">GetHashCode</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_ac5131f2c9499df1404018ddef4699c1d.html#ac5131f2c9499df1404018ddef4699c1d">EnemyGroup</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new instance of the <a class="el" href="classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group.">EnemyGroup</a> class.  <a href="#ac5131f2c9499df1404018ddef4699c1d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_a165565876ef3e484d00ebbf5cd99ad9d.html#a165565876ef3e484d00ebbf5cd99ad9d">EnemyGroup</a> (Location prevLoc, List&lt; int &gt; enemyPirates)</td></tr>
@@ -121,6 +120,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">updates the last turn of assignment  <a href="#a8a75dd81383af6976a9c57ef9212fa5e"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_ae4efe74c9d83babba47370a97ff28fad.html#ae4efe74c9d83babba47370a97ff28fad">TargetDessignmentEvent</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if last assignment wasn't to close if so it adds to the enemy suspition metter  <a href="#ae4efe74c9d83babba47370a97ff28fad"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">override int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_ac52783c53ff43c1553d8e1d294a754a0.html#ac52783c53ff43c1553d8e1d294a754a0">GetHashCode</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a unique-ish hash code for the object.  <a href="#ac52783c53ff43c1553d8e1d294a754a0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Location&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_a1292a5464d02d32a78529cfcb2561a41.html#a1292a5464d02d32a78529cfcb2561a41">GetLocation</a> (bool forcePirate)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the average location for this group.  <a href="#a1292a5464d02d32a78529cfcb2561a41"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_a24df17fe59d1fa5b79c03e64f31eb48d.html#a24df17fe59d1fa5b79c03e64f31eb48d">LiveCount</a> ()</td></tr>
@@ -155,9 +156,6 @@ Static Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">readonly int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_a87509a1b9d61c776d2e1b923795f2a42.html#a87509a1b9d61c776d2e1b923795f2a42">Id</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">unique-ish id for the enemy group  <a href="#a87509a1b9d61c776d2e1b923795f2a42"></a><br/></td></tr>
-<tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_a62b14d19d1e447c21ae56c7ce214bd4c.html#a62b14d19d1e447c21ae56c7ce214bd4c">IdCount</a></td></tr>
 <tr><td colspan="2"><h2><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_a78130298dc5ecdbaca730ba3d49388ca.html#a78130298dc5ecdbaca730ba3d49388ca">Equals</a> (<a class="el" href="classBritbot_1_1EnemyGroup.html">EnemyGroup</a> other)</td></tr>
@@ -176,13 +174,15 @@ Private Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Determined the minimal time (or distance) between a <a class="el" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> and an <a class="el" href="classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group.">EnemyGroup</a> before they will get into each others' attack radius.  <a href="#af60694d2f6b9e9eca3c12df5e8526faa"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_ac19e5d2cebda0281928eae4080989c3d.html#ac19e5d2cebda0281928eae4080989c3d">outOfDateNumber</a> = 10</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_af74c9a00d42c4d500676af92d3e1c553.html#af74c9a00d42c4d500676af92d3e1c553">LastAssignmentTurn</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The last turn in which this target was assigned.  <a href="#af74c9a00d42c4d500676af92d3e1c553"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">Queue&lt; Direction &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_a1e7fb7b2c84f00669d27ff6504fdcaf6.html#a1e7fb7b2c84f00669d27ff6504fdcaf6">LastDirections</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A queue of the last outOfDateNumber directions of this enemy group.  <a href="#a1e7fb7b2c84f00669d27ff6504fdcaf6"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">Queue&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_a9aacca8be447f902d5cff75c6610ba64.html#a9aacca8be447f902d5cff75c6610ba64">LastMaxFightPower</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A queue of the last max fight power coefficients.  <a href="#a9aacca8be447f902d5cff75c6610ba64"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_a4b0cdbc6cd1acd7cb4168c6369a971d7.html#a4b0cdbc6cd1acd7cb4168c6369a971d7">_lastAssignmentTurn</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The last turn in which this target was assigned.  <a href="#a4b0cdbc6cd1acd7cb4168c6369a971d7"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">Queue&lt; Direction &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_a8fcbc50988703903fe59341d8f09522f.html#a8fcbc50988703903fe59341d8f09522f">_lastDirections</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A queue of the last outOfDateNumber directions of this enemy group.  <a href="#a8fcbc50988703903fe59341d8f09522f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">Queue&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_a79b14474e4fa09754e14daed98352ed8.html#a79b14474e4fa09754e14daed98352ed8">_lastMaxFightPower</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A queue of the last max fight power coefficients.  <a href="#a79b14474e4fa09754e14daed98352ed8"></a><br/></td></tr>
+<tr><td colspan="2"><h2><a name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1EnemyGroup_a1965a9c68064ca406b9db277704446c0.html#a1965a9c68064ca406b9db277704446c0">_idCount</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>A class which represents an enemy group. </p>
@@ -195,7 +195,7 @@ Private Attributes</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:13:42 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 09:39:18 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

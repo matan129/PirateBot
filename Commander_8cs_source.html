@@ -74,7 +74,7 @@
 <a name="l00018"></a>00018     {
 <a name="l00019"></a>00019 <span class="preprocessor">        #region Static Fields &amp; Consts</span>
 <a name="l00020"></a>00020 <span class="preprocessor"></span>
-<a name="l00021"></a><a class="code" href="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4">00021</a>         <span class="keyword">public</span> <span class="keyword">static</span> Stopwatch <a class="code" href="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4">TurnTimer</a>;
+<a name="l00021"></a><a class="code" href="classBritbot_1_1Commander_aa0737b75f52f2c9de0d60cb52434fae8.html#aa0737b75f52f2c9de0d60cb52434fae8">00021</a>         <span class="keyword">private</span> <span class="keyword">static</span> Stopwatch <a class="code" href="classBritbot_1_1Commander_aa0737b75f52f2c9de0d60cb52434fae8.html#aa0737b75f52f2c9de0d60cb52434fae8">_turnTimer</a>;
 <a name="l00022"></a>00022 
 <a name="l00023"></a>00023 <span class="preprocessor">        #endregion</span>
 <a name="l00024"></a>00024 <span class="preprocessor"></span>
@@ -89,7 +89,7 @@
 <a name="l00039"></a><a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251">00039</a>         <span class="keyword">static</span> <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>()
 <a name="l00040"></a>00040         {
 <a name="l00041"></a>00041             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a> = <span class="keyword">new</span> List&lt;Group&gt;();
-<a name="l00042"></a>00042             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4">TurnTimer</a> = <span class="keyword">new</span> Stopwatch();
+<a name="l00042"></a>00042             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_aa0737b75f52f2c9de0d60cb52434fae8.html#aa0737b75f52f2c9de0d60cb52434fae8">_turnTimer</a> = <span class="keyword">new</span> Stopwatch();
 <a name="l00043"></a>00043 
 <a name="l00044"></a>00044 <span class="preprocessor">            #region Terrible Switch-Case</span>
 <a name="l00045"></a>00045 <span class="preprocessor"></span>
@@ -188,7 +188,7 @@
 <a name="l00138"></a>00138 <span class="preprocessor"></span>
 <a name="l00142"></a><a class="code" href="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb">00142</a>         <span class="keyword">public</span> <span class="keyword">static</span> Dictionary&lt;Pirate, Direction&gt; <a class="code" href="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb" title="Do something!">Play</a>(CancellationToken cancellationToken, out <span class="keywordtype">bool</span> onTime)
 <a name="l00143"></a>00143         {
-<a name="l00144"></a>00144             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4">TurnTimer</a>.Restart();
+<a name="l00144"></a>00144             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_aa0737b75f52f2c9de0d60cb52434fae8.html#aa0737b75f52f2c9de0d60cb52434fae8">_turnTimer</a>.Restart();
 <a name="l00145"></a>00145 
 <a name="l00146"></a>00146             <span class="comment">//note that because this method is on a separate thread we need this try-catch although we have on our bot</span>
 <a name="l00147"></a>00147             <span class="keywordflow">try</span>
@@ -225,7 +225,7 @@
 <a name="l00178"></a>00178                 Dictionary&lt;Pirate, Direction&gt; moves = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a280cca0850a1a5074e7110b129acaaa9.html#a280cca0850a1a5074e7110b129acaaa9" title="Gets all th moves for each pirate in each group.">GetAllMoves</a>(cancellationToken);
 <a name="l00179"></a>00179                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5">StopTime</a>(<span class="stringliteral">&quot;GetAllMoves&quot;</span>);
 <a name="l00180"></a>00180                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;Commander done doing calculations and drinking coffee after {0}ms&quot;</span>,
-<a name="l00181"></a>00181                     <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4">TurnTimer</a>.ElapsedMilliseconds);
+<a name="l00181"></a>00181                     <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_aa0737b75f52f2c9de0d60cb52434fae8.html#aa0737b75f52f2c9de0d60cb52434fae8">_turnTimer</a>.ElapsedMilliseconds);
 <a name="l00182"></a>00182 
 <a name="l00183"></a>00183                 <span class="comment">//we are on time!</span>
 <a name="l00184"></a>00184                 onTime = <span class="keyword">true</span>;
@@ -530,7 +530,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:13:42 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 09:39:17 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -63,9 +63,9 @@
 <div class="header">
   <div class="summary">
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#properties">Properties</a> &#124;
-<a href="#pri-static-methods">Static Private Member Functions</a>  </div>
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">Britbot.Commander Class Reference</div>  </div>
 </div><!--header-->
@@ -92,9 +92,6 @@ Direction &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <tr><td class="memItemLeft" align="right" valign="top">static List&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Commander_aaafbe6948d6be8c73febb9df67fe095d.html#aaafbe6948d6be8c73febb9df67fe095d">GetUltimateGameConfig</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of integers that describes the current wanted configuration.  <a href="#aaafbe6948d6be8c73febb9df67fe095d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Commander_a6436c4c8d4ea221c724075a670aaba3f.html#a6436c4c8d4ea221c724075a670aaba3f">FixGroupArrangement</a> ()</td></tr>
-<tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static Stopwatch&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4">TurnTimer</a></td></tr>
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static List&lt; <a class="el" href="classBritbot_1_1Group.html">Group</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f">Groups</a><code> [get, set]</code></td></tr>
@@ -116,6 +113,9 @@ Direction &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the dimension vector which later will be used to create the iteration over all possible Group-Target assignments.  <a href="#a2e4d046e04c0a6456c7abee64de8f096"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Commander_a6f6d8ab39bcd4acb9873900c4de58ab2.html#a6f6d8ab39bcd4acb9873900c4de58ab2">StartCalcPriorities</a> (CancellationToken cancellationToken)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">this method forces all groups to calculate their priorities  <a href="#a6f6d8ab39bcd4acb9873900c4de58ab2"></a><br/></td></tr>
+<tr><td colspan="2"><h2><a name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static Stopwatch&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Commander_aa0737b75f52f2c9de0d60cb52434fae8.html#aa0737b75f52f2c9de0d60cb52434fae8">_turnTimer</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Just stuff that makes the hard decisions. </p>
@@ -128,7 +128,7 @@ Direction &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:13:42 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 09:39:17 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

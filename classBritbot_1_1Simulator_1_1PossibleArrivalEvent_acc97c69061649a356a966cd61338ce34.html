@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Britbot: Britbot::Simulator::PossibleArrivalEvent::MakeShitHappen</title>
+<title>Britbot: Britbot::Simulator::PossibleArrivalEvent::Activate</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
@@ -59,20 +59,20 @@
    <td valign="top">
       <div class="navtab">
         <table>
+          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_acc97c69061649a356a966cd61338ce34.html#acc97c69061649a356a966cd61338ce34">Activate</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17">ArrivingGroup</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11">Island</a></td></tr>
-          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_a2c3c8419cafc02efcffde441ff167b12.html#a2c3c8419cafc02efcffde441ff167b12">MakeShitHappen</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_a681d0e87a5ce14833d69acc42d9a950f.html#a681d0e87a5ce14833d69acc42d9a950f">PossibleArrivalEvent</a></td></tr>
         </table>
       </div>
    </td>
    <td valign="top" class="mempage">
-<a class="anchor" id="a2c3c8419cafc02efcffde441ff167b12"></a><!-- doxytag: member="Britbot::Simulator::PossibleArrivalEvent::MakeShitHappen" ref="a2c3c8419cafc02efcffde441ff167b12" args="(SimulatedGame sg)" -->
+<a class="anchor" id="acc97c69061649a356a966cd61338ce34"></a><!-- doxytag: member="Britbot::Simulator::PossibleArrivalEvent::Activate" ref="acc97c69061649a356a966cd61338ce34" args="(SimulatedGame sg)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">override void <a class="el" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_a2c3c8419cafc02efcffde441ff167b12.html#a2c3c8419cafc02efcffde441ff167b12">Britbot.Simulator.PossibleArrivalEvent.MakeShitHappen</a> </td>
+          <td class="memname">override void <a class="el" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_acc97c69061649a356a966cd61338ce34.html#acc97c69061649a356a966cd61338ce34">Britbot.Simulator.PossibleArrivalEvent.Activate</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame.html">SimulatedGame</a>&#160;</td>
           <td class="paramname"><em>sg</em></td><td>)</td>
@@ -90,9 +90,9 @@
   </dd>
 </dl>
 
-<p>Reimplemented from <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedEvent_ae7949ebf9a46e278f332ca406d058e95.html#ae7949ebf9a46e278f332ca406d058e95">Britbot.Simulator.SimulatedEvent</a>.</p>
+<p>Implements <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedEvent_a59c6fc2f30a79ee5c97029a9fafef342.html#a59c6fc2f30a79ee5c97029a9fafef342">Britbot.Simulator.SimulatedEvent</a>.</p>
 
-<p>Definition at line <a class="el" href="PossibleArrivalEvent_8cs_source.html#l00040">40</a> of file <a class="el" href="PossibleArrivalEvent_8cs_source.html">PossibleArrivalEvent.cs</a>.</p>
+<p>Definition at line <a class="el" href="PossibleArrivalEvent_8cs_source.html#l00042">42</a> of file <a class="el" href="PossibleArrivalEvent_8cs_source.html">PossibleArrivalEvent.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//check if the arriving group is alive</span>
             <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a53540e7ae95cae812758e0d9143dba8c.html#a53540e7ae95cae812758e0d9143dba8c" title="True if the enemy group is alive.">IsAlive</a>)
@@ -101,8 +101,9 @@
 
                 <span class="comment">//it would come only if there are enemy forces in the island and they are fewer then them</span>
                 <span class="comment">//also if they already are on the island they wont come</span>
-                <span class="keywordflow">if</span> ((this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_ace2b7efe72d515389642462f936cba10.html#ace2b7efe72d515389642462f936cba10">CapturingGroup</a> == null) || (<span class="keyword">this</span>.Island.CapturingGroup.ActualFirePower(sg) &gt;= this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a6dc776966862a94c9e49ccdcf1c2358b.html#a6dc776966862a94c9e49ccdcf1c2358b" title="The actual firepower of the group.">FirePower</a>)
-                                                         || (this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_ace2b7efe72d515389642462f936cba10.html#ace2b7efe72d515389642462f936cba10">CapturingGroup</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_ae0effec32bfe2f42a65e7f03aef60cba.html#ae0effec32bfe2f42a65e7f03aef60cba" title="The owner of this group (Me or Enemy)">Owner</a> == <span class="keyword">this</span>.ArrivingGroup.Owner))
+                <span class="keywordflow">if</span> ((this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_ace2b7efe72d515389642462f936cba10.html#ace2b7efe72d515389642462f936cba10">CapturingGroup</a> == null) ||
+                    (<span class="keyword">this</span>.Island.CapturingGroup.ActualFirePower(sg) &gt;= this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a6dc776966862a94c9e49ccdcf1c2358b.html#a6dc776966862a94c9e49ccdcf1c2358b" title="The actual firepower of the group.">FirePower</a>)
+                    || (this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_ace2b7efe72d515389642462f936cba10.html#ace2b7efe72d515389642462f936cba10">CapturingGroup</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_ae0effec32bfe2f42a65e7f03aef60cba.html#ae0effec32bfe2f42a65e7f03aef60cba" title="The owner of this group (Me or Enemy)">Owner</a> == <span class="keyword">this</span>.ArrivingGroup.Owner))
                 {
                     <span class="keywordflow">return</span>;
                 }
@@ -131,7 +132,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:13:43 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 09:39:18 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

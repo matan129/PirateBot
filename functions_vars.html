@@ -77,6 +77,7 @@
       <li><a href="#index_o"><span>o</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
       <li><a href="#index_t"><span>t</span></a></li>
+      <li><a href="#index_v"><span>v</span></a></li>
       <li><a href="#index_w"><span>w</span></a></li>
       <li><a href="#index_z"><span>z</span></a></li>
     </ul>
@@ -95,6 +96,18 @@
 <li>_hasChanged
 : <a class="el" href="classBritbot_1_1Group_ad59de9260c957c95bb1654c20d237ac6.html#ad59de9260c957c95bb1654c20d237ac6">Britbot.Group</a>
 </li>
+<li>_idCount
+: <a class="el" href="classBritbot_1_1EnemyGroup_a1965a9c68064ca406b9db277704446c0.html#a1965a9c68064ca406b9db277704446c0">Britbot.EnemyGroup</a>
+</li>
+<li>_lastAssignmentTurn
+: <a class="el" href="classBritbot_1_1EnemyGroup_a4b0cdbc6cd1acd7cb4168c6369a971d7.html#a4b0cdbc6cd1acd7cb4168c6369a971d7">Britbot.EnemyGroup</a>
+</li>
+<li>_lastDirections
+: <a class="el" href="classBritbot_1_1EnemyGroup_a8fcbc50988703903fe59341d8f09522f.html#a8fcbc50988703903fe59341d8f09522f">Britbot.EnemyGroup</a>
+</li>
+<li>_lastMaxFightPower
+: <a class="el" href="classBritbot_1_1EnemyGroup_a79b14474e4fa09754e14daed98352ed8.html#a79b14474e4fa09754e14daed98352ed8">Britbot.EnemyGroup</a>
+</li>
 <li>_logFileStream
 : <a class="el" href="classBritbot_1_1Logger_a7e8fccf0da6fb54c129e6f0ebad4e4fc.html#a7e8fccf0da6fb54c129e6f0ebad4e4fc">Britbot.Logger</a>
 </li>
@@ -109,6 +122,9 @@
 </li>
 <li>_tasks
 : <a class="el" href="classBritbot_1_1Bot_ad191000656bf29e4e3f08a3bd5a2c7d8.html#ad191000656bf29e4e3f08a3bd5a2c7d8">Britbot.Bot</a>
+</li>
+<li>_turnTimer
+: <a class="el" href="classBritbot_1_1Commander_aa0737b75f52f2c9de0d60cb52434fae8.html#aa0737b75f52f2c9de0d60cb52434fae8">Britbot.Commander</a>
 </li>
 </ul>
 
@@ -181,11 +197,11 @@
 <li>G
 : <a class="el" href="classBritbot_1_1Navigator_1_1Node_ac9c4f2b09a3123ede2c9132427764800.html#ac9c4f2b09a3123ede2c9132427764800">Britbot.Navigator.Node</a>
 </li>
-<li>Group1
-: <a class="el" href="classBritbot_1_1Simulator_1_1BattleEvent_a6676441a95732b71d34f4f51c87a0b07.html#a6676441a95732b71d34f4f51c87a0b07">Britbot.Simulator.BattleEvent</a>
+<li>GroupA
+: <a class="el" href="classBritbot_1_1Simulator_1_1BattleEvent_ab6fe28a652994ff17250147406e9bedf.html#ab6fe28a652994ff17250147406e9bedf">Britbot.Simulator.BattleEvent</a>
 </li>
-<li>Group2
-: <a class="el" href="classBritbot_1_1Simulator_1_1BattleEvent_a4d7dbc7e282b1327dccb582ed5497930.html#a4d7dbc7e282b1327dccb582ed5497930">Britbot.Simulator.BattleEvent</a>
+<li>GroupB
+: <a class="el" href="classBritbot_1_1Simulator_1_1BattleEvent_a8df0bf013905c9bd5c53d8dd5519569d.html#a8df0bf013905c9bd5c53d8dd5519569d">Britbot.Simulator.BattleEvent</a>
 </li>
 </ul>
 
@@ -204,9 +220,6 @@
 , <a class="el" href="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8">Britbot.SmartIsland</a>
 , <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a37cb9c2ab7a6967fbe654dd4934a8cb3.html#a37cb9c2ab7a6967fbe654dd4934a8cb3">Britbot.Simulator.SimulatedGroup</a>
 </li>
-<li>IdCount
-: <a class="el" href="classBritbot_1_1EnemyGroup_a62b14d19d1e447c21ae56c7ce214bd4c.html#a62b14d19d1e447c21ae56c7ce214bd4c">Britbot.EnemyGroup</a>
-</li>
 <li>Infinity
 : <a class="el" href="classBritbot_1_1Navigator_1_1Node_a3f767c6bb79fea187ed65edb21ea4117.html#a3f767c6bb79fea187ed65edb21ea4117">Britbot.Navigator.Node</a>
 </li>
@@ -217,9 +230,9 @@
 : <a class="el" href="classBritbot_1_1Navigator_1_1Node_a39f7612cac07f1f44a61eb94a2ceaee0.html#a39f7612cac07f1f44a61eb94a2ceaee0">Britbot.Navigator.Node</a>
 </li>
 <li>Island
-: <a class="el" href="classBritbot_1_1Simulator_1_1CaptureEvent_a3d29ef15c4ed3da6a31d846a460438eb.html#a3d29ef15c4ed3da6a31d846a460438eb">Britbot.Simulator.CaptureEvent</a>
+: <a class="el" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f">Britbot.Simulator.DeCaptureEvent</a>
 , <a class="el" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11">Britbot.Simulator.PossibleArrivalEvent</a>
-, <a class="el" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f">Britbot.Simulator.DeCaptureEvent</a>
+, <a class="el" href="classBritbot_1_1Simulator_1_1CaptureEvent_a3d29ef15c4ed3da6a31d846a460438eb.html#a3d29ef15c4ed3da6a31d846a460438eb">Britbot.Simulator.CaptureEvent</a>
 , <a class="el" href="classBritbot_1_1Simulator_1_1GroupArrivalEvent_a9dd9d3e694f639d2265815ee67a2feb9.html#a9dd9d3e694f639d2265815ee67a2feb9">Britbot.Simulator.GroupArrivalEvent</a>
 </li>
 <li>Islands
@@ -229,15 +242,6 @@
 
 
 <h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
-<li>LastAssignmentTurn
-: <a class="el" href="classBritbot_1_1EnemyGroup_af74c9a00d42c4d500676af92d3e1c553.html#af74c9a00d42c4d500676af92d3e1c553">Britbot.EnemyGroup</a>
-</li>
-<li>LastDirections
-: <a class="el" href="classBritbot_1_1EnemyGroup_a1e7fb7b2c84f00669d27ff6504fdcaf6.html#a1e7fb7b2c84f00669d27ff6504fdcaf6">Britbot.EnemyGroup</a>
-</li>
-<li>LastMaxFightPower
-: <a class="el" href="classBritbot_1_1EnemyGroup_a9aacca8be447f902d5cff75c6610ba64.html#a9aacca8be447f902d5cff75c6610ba64">Britbot.EnemyGroup</a>
-</li>
 <li>Loc
 : <a class="el" href="classBritbot_1_1Navigator_1_1Node_aa2b86c3db35f398b37cf0fac5e17335e.html#aa2b86c3db35f398b37cf0fac5e17335e">Britbot.Navigator.Node</a>
 </li>
@@ -258,14 +262,14 @@
 : <a class="el" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d">Britbot.Score</a>
 </li>
 <li>MyGroups
-: <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_ab51aec14aecba6c2e3b117fdfd640511.html#ab51aec14aecba6c2e3b117fdfd640511">Britbot.Simulator.SimulatedGame</a>
+: <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2">Britbot.Simulator.SimulatedGame</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
-<li>outOfDateNumber
-: <a class="el" href="classBritbot_1_1EnemyGroup_ac19e5d2cebda0281928eae4080989c3d.html#ac19e5d2cebda0281928eae4080989c3d">Britbot.EnemyGroup</a>
+<li>OutOfDateNumber
+: <a class="el" href="classBritbot_1_1Magic_a4ff24690cbd89c556744daf7d3e367eb.html#a4ff24690cbd89c556744daf7d3e367eb">Britbot.Magic</a>
 </li>
 <li>Owner
 : <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a62a1eb45b6aa948ed06f2341a0c19fe2.html#a62a1eb45b6aa948ed06f2341a0c19fe2">Britbot.Simulator.SimulatedIsland</a>
@@ -294,11 +298,15 @@
 <li>TurnsBeingCaptured
 : <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a1616ceb9a016dc9ed913f7957718efdf.html#a1616ceb9a016dc9ed913f7957718efdf">Britbot.Simulator.SimulatedIsland</a>
 </li>
-<li>TurnTimer
-: <a class="el" href="classBritbot_1_1Commander_ae7b4d739a759cf76f837fbb1cb6afed4.html#ae7b4d739a759cf76f837fbb1cb6afed4">Britbot.Commander</a>
-</li>
 <li>Type
 : <a class="el" href="classBritbot_1_1Score_abb35b31e367875d7908ee361df75c41d.html#abb35b31e367875d7908ee361df75c41d">Britbot.Score</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
+<li>VectorTolerance
+: <a class="el" href="classBritbot_1_1Magic_a48a8eff48a145c0a256cd115c0d3f917.html#a48a8eff48a145c0a256cd115c0d3f917">Britbot.Magic</a>
 </li>
 </ul>
 
@@ -319,7 +327,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:13:43 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 09:39:18 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
