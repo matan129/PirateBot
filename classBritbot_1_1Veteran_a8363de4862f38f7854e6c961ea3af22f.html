@@ -82,9 +82,10 @@
 
 <p>A method that refers to the ULTIMATE CONFIGURATION and splits the gruops as needed. </p>
 
-<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00029">29</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
+<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00030">30</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             List&lt;Group&gt; currentConfig = Commander.Groups;
+            List&lt;Group&gt; newGroups = <span class="keyword">new</span> List&lt;Group&gt;();
 
             ultimateConfig.Sort((a, b) =&gt; a.CompareTo(b));
             currentConfig.Sort((a, b) =&gt; a.Pirates.Count.CompareTo(b.Pirates.Count));
@@ -92,8 +93,10 @@
             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; Math.Min(ultimateConfig.Count, currentConfig.Count); i++)
             {
                 <span class="keywordflow">if</span> (currentConfig[i].Pirates.Count &gt; ultimateConfig[i])
-                    currentConfig[i].Split(currentConfig[i].Pirates.Count - ultimateConfig[i]);
+                    newGroups.AddRange(currentConfig[i].Split(currentConfig[i].Pirates.Count - ultimateConfig[i]));
             }
+
+            Commander.Groups.AddRange(newGroups);
         }
 </pre></div>
 </div>
@@ -105,7 +108,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 17:18:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 17:54:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

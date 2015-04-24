@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Britbot: Britbot::Group::GenerateFormationInstructions</title>
+<title>Britbot: Britbot::Group::MinDistance</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
@@ -67,7 +67,7 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ab7f3acda43a7f7ac58ffe363a6f6d567.html#ab7f3acda43a7f7ac58ffe363a6f6d567">FightCount</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39">FindCenter</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a70962df44d8df8d131fac4fab7a97047.html#a70962df44d8df8d131fac4fab7a97047">FormOrders</a></td></tr>
-          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Group_a10ad49476a4a2356ce7d24c96a9c2778.html#a10ad49476a4a2356ce7d24c96a9c2778">GenerateFormationInstructions</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a10ad49476a4a2356ce7d24c96a9c2778.html#a10ad49476a4a2356ce7d24c96a9c2778">GenerateFormationInstructions</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a34c7c3e9ed68c013fcb6658c1089e4a1.html#a34c7c3e9ed68c013fcb6658c1089e4a1">GenerateGroupStructure</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a750082f055b2968c07bef48d47b620d3.html#a750082f055b2968c07bef48d47b620d3">GenerateRingLocations</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a4d298dadd6b1aaf74cefe6b0771781c8.html#a4d298dadd6b1aaf74cefe6b0771781c8">GetGroupMoves</a></td></tr>
@@ -84,7 +84,7 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ac98ebc3311b494306620aeed9e0725ca.html#ac98ebc3311b494306620aeed9e0725ca">IsFormed</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20">Join</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a252b8f1d11f52800fad4ff2f95cb43fd.html#a252b8f1d11f52800fad4ff2f95cb43fd">LiveCount</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ae89cf02aa138a3b3c1168f6c7f68a998.html#ae89cf02aa138a3b3c1168f6c7f68a998">MinDistance</a></td></tr>
+          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Group_ae89cf02aa138a3b3c1168f6c7f68a998.html#ae89cf02aa138a3b3c1168f6c7f68a998">MinDistance</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48">Pirates</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_aad34aa3042140ff0352d9d756cab803a.html#aad34aa3042140ff0352d9d756cab803a">Priorities</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a2cc4cc795affbfd5485aea150b24d91d.html#a2cc4cc795affbfd5485aea150b24d91d">SetTarget</a></td></tr>
@@ -97,115 +97,50 @@
       </div>
    </td>
    <td valign="top" class="mempage">
-<a class="anchor" id="a10ad49476a4a2356ce7d24c96a9c2778"></a><!-- doxytag: member="Britbot::Group::GenerateFormationInstructions" ref="a10ad49476a4a2356ce7d24c96a9c2778" args="(Location[] structure=null)" -->
+<a class="anchor" id="ae89cf02aa138a3b3c1168f6c7f68a998"></a><!-- doxytag: member="Britbot::Group::MinDistance" ref="ae89cf02aa138a3b3c1168f6c7f68a998" args="(Group b)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classBritbot_1_1Group_a10ad49476a4a2356ce7d24c96a9c2778.html#a10ad49476a4a2356ce7d24c96a9c2778">Britbot.Group.GenerateFormationInstructions</a> </td>
+          <td class="memname">int <a class="el" href="classBritbot_1_1Group_ae89cf02aa138a3b3c1168f6c7f68a998.html#ae89cf02aa138a3b3c1168f6c7f68a998">Britbot.Group.MinDistance</a> </td>
           <td>(</td>
-          <td class="paramtype">Location[]&#160;</td>
-          <td class="paramname"><em>structure</em> = <code>null</code></td><td>)</td>
-          <td><code> [inline, private]</code></td>
+          <td class="paramtype"><a class="el" href="classBritbot_1_1Group.html">Group</a>&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
+          <td><code> [inline]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
-<p>Generates instructions to form into optimal structure. </p>
+<p>Minimal distance between groups. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">structure</td><td>Optional pre-calculated structure to generate instructions to</td></tr>
+    <tr><td class="paramname">b</td><td></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd></dd></dl>
 
-<p>Definition at line <a class="el" href="Group_8cs_source.html#l00483">483</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
+<p>Definition at line <a class="el" href="Group_8cs_source.html#l00948">948</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            <span class="comment">//reset the forming attempts counter</span>
-            this.<a class="code" href="classBritbot_1_1Group_a75da03ffed9b2e359cdda9f9bdb62ec5.html#a75da03ffed9b2e359cdda9f9bdb62ec5" title="Counter of the number of turn this groupis trying to get into structure.">_formTurnsAttempt</a> = 0;
+            <span class="keywordtype">int</span> minD = 9999999;
 
-            <span class="comment">//find the average location of the group (not the center pirate!)</span>
-            Location center = this.<a class="code" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39" title="Find the center of the group.">FindCenter</a>(<span class="keyword">false</span>);
-
-            <span class="comment">//if we didn&#39;t get a pre calculated structure, calculate it below</span>
-            <span class="keywordflow">if</span> (structure == null)
+            <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pA <span class="keywordflow">in</span> this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>)
             {
-                Logger.Write(<span class="stringliteral">&quot;Generating group structure&quot;</span>);
+                Pirate pat = Bot.Game.GetMyPirate(pA);
 
-                <span class="comment">//Generate location array (structure) for the group</span>
-                <span class="keywordflow">while</span> (<span class="keyword">true</span>)
+                <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pB <span class="keywordflow">in</span> b.Pirates)
                 {
-                    <span class="keywordflow">try</span>
-                    {
-                        <span class="comment">//generate the structure</span>
-                        structure = this.<a class="code" href="classBritbot_1_1Group_a34c7c3e9ed68c013fcb6658c1089e4a1.html#a34c7c3e9ed68c013fcb6658c1089e4a1" title="Get the structure for the group.">GenerateGroupStructure</a>(center).Flatten();
-                        <span class="keywordflow">break</span>;
-                    }
-                    <span class="keywordflow">catch</span> (InvalidLocationException)
-                    {
-                        <span class="comment">//if the location is invalid (i.e. the current center requires a location outside the map)</span>
-                        <span class="comment">//advance the location towards the center of the map</span>
-                        center = center.AdvancePivot();
-                    }
+                    Pirate pete = Bot.Game.GetMyPirate(pB);
+
+                    <span class="keywordtype">int</span> d = Bot.Game.Distance(pat, pete);
+
+                    <span class="keywordflow">if</span> (d &lt; minD)
+                        minD = d;
                 }
             }
 
-            Logger.Write(<span class="stringliteral">&quot;Generating group structure OK&quot;</span>);
-
-            <span class="comment">//flag array to signal if a location in the structure is already taken </span>
-            <span class="keywordtype">bool</span>[] matchedLocations = <span class="keyword">new</span> <span class="keywordtype">bool</span>[structure.Length];
-
-            <span class="comment">//the orders to form to</span>
-            Dictionary&lt;Pirate, Location&gt; orders = <span class="keyword">new</span> Dictionary&lt;Pirate, Location&gt;();
-
-            <span class="comment">//all the pirates in the group converted from their IDs</span>
-            List&lt;Pirate&gt; groupPirates = this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Distinct().ToList().ConvertAll(p =&gt; Bot.Game.GetMyPirate(p));
-
-            <span class="comment">//sort the pirates by distance to the center (closer are first)</span>
-            groupPirates.Sort((b, a) =&gt; Bot.Game.Distance(a.Loc, center).CompareTo(Bot.Game.Distance(b.Loc, center)));
-
-            <span class="comment">//Match a pirate for each location in the structure</span>
-            <span class="keywordflow">foreach</span> (Pirate pirate <span class="keywordflow">in</span> groupPirates)
-            {
-                Location closestLocation = null;
-                <span class="keywordtype">int</span> minDistance = Bot.Game.GetCols() + Bot.Game.GetRows();
-                <span class="keywordtype">int</span> matchIndex = 0;
-
-                <span class="comment">//iterate over all the location in the structure</span>
-                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; structure.Length; i++)
-                {
-                    <span class="comment">//Skip over taken spots</span>
-                    <span class="keywordflow">if</span> (matchedLocations[i])
-                        <span class="keywordflow">continue</span>;
-
-                    <span class="comment">//find the best location in the structure, which is the closest one</span>
-                    <span class="keywordflow">if</span> (Bot.Game.Distance(pirate.Loc, structure[i]) &lt; minDistance)
-                    {
-                        minDistance = Bot.Game.Distance(pirate.Loc, structure[i]);
-                        closestLocation = structure[i];
-                        matchIndex = i;
-                    }
-                }
-
-                <span class="comment">//flag that this location is taken</span>
-                matchedLocations[matchIndex] = <span class="keyword">true</span>;
-
-                <span class="comment">//add the instruction</span>
-                orders.Add(pirate, closestLocation);
-            }
-
-            <span class="comment">//sort the orders so the closest pirates are first to avoid collisions and set them to the right class property</span>
-            this.<a class="code" href="classBritbot_1_1Group_a70962df44d8df8d131fac4fab7a97047.html#a70962df44d8df8d131fac4fab7a97047" title="The required location for each pirate in the group to get to attack structure.">FormOrders</a> = orders.OrderBy(pair =&gt; Bot.Game.Distance(pair.Key.Loc, pair.Value))
-                .ToDictionary(pair =&gt; pair.Key.Id, pair =&gt; pair.Value);
-
-            <span class="comment">//debug prints</span>
-            Logger.Write(<span class="stringliteral">&quot;====FORMING TO====&quot;</span>);
-            <span class="keywordflow">foreach</span> (KeyValuePair&lt;int, Location&gt; formOrder <span class="keywordflow">in</span> this.<a class="code" href="classBritbot_1_1Group_a70962df44d8df8d131fac4fab7a97047.html#a70962df44d8df8d131fac4fab7a97047" title="The required location for each pirate in the group to get to attack structure.">FormOrders</a>)
-            {
-                Logger.Write(Bot.Game.GetMyPirate(formOrder.Key) + <span class="stringliteral">&quot;,&quot;</span> + formOrder.Value);
-            }
-            Logger.Write(<span class="stringliteral">&quot;==================&quot;</span>);
+            <span class="keywordflow">return</span> minD;
         }
 </pre></div>
 </div>

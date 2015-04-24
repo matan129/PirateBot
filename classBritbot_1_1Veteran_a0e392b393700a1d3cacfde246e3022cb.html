@@ -82,35 +82,44 @@
 
 <p>A method that reffers to the ULTIMATE CONFIGURATION and joins the group as needed. </p>
 
-<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00046">46</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
+<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00050">50</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
+            Group tempGroup = null;
             List&lt;Group&gt; currentConfig = Commander.Groups;
-            List&lt;Pirate&gt; myPirates = Bot.Game.AllMyPirates();
+            <span class="keywordtype">int</span> minDistance = Magic.MaxDistance + 1; <span class="comment">//maximun joining distance</span>
 
-            Group temp = null;
-            <span class="keywordtype">int</span> minD = Magic.MaxDistance + 1; <span class="comment">//minimum distance</span>
-
+            <span class="comment">//sort configs by size</span>
             currentConfig.Sort((a, b) =&gt; a.Pirates.Count.CompareTo(b.Pirates.Count));
             ultimateConfig.Sort((a, b) =&gt; a.CompareTo(b));
 
+            List&lt;int&gt; joinedGroups = <span class="keyword">new</span> List&lt;int&gt;();
+
+            <span class="comment">//go over the config and correct it</span>
             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; Math.Min(ultimateConfig.Count, currentConfig.Count); i++)
             {
                 <span class="keywordflow">if</span> (currentConfig[i].Pirates.Count &lt; ultimateConfig[i])
                 {
-                    <span class="keywordflow">foreach</span> (Group g <span class="keywordflow">in</span> currentConfig)
+                    <span class="comment">//find the best group to join to the current group</span>
+                    <span class="keywordflow">foreach</span> (Group g <span class="keywordflow">in</span> currentConfig.Where(g =&gt; g.Pirates.Count == 1 &amp;&amp; joinedGroups.Contains(g.Id)))
                     {
-                        <span class="keywordflow">if</span> ((g.Pirates.Count == 1) &amp;&amp;
-                            (Bot.Game.Distance(myPirates[currentConfig[i].Pirates[0]], myPirates[g.Pirates[0]]) &lt; minD) &amp;&amp;
-                            (currentConfig[i].Pirates[0] != g.Pirates[0]))
+                        <span class="comment">//minimal distance between the two groups</span>
+                        <span class="keywordtype">int</span> tempDistance = currentConfig[i].MinDistance(g);
+
+                        <span class="comment">//if the current minimun is better than the last minimun and the group do not cintain the same pirates..</span>
+                        <span class="keywordflow">if</span>((tempDistance &lt; minDistance) &amp;&amp; (!currentConfig[i].Pirates.Intersect(g.Pirates).Any()))
                         {
-                            temp = g;
-                            minD = Bot.Game.Distance(myPirates[currentConfig[i].Pirates[0]], myPirates[g.Pirates[0]]);
+                            tempGroup = g;
+                            minDistance = tempDistance;
                         }
                     }
-                    <span class="keywordflow">if</span> (minD &lt;= Magic.MaxDistance)
+                    <span class="comment">//join the groups if they are close enough</span>
+                    <span class="keywordflow">if</span> (minDistance &lt;= Magic.MaxDistance)
                     {
-                        <span class="keywordflow">if</span> (temp != null)
-                            currentConfig[i].Join(temp);
+                        <span class="keywordflow">if</span> (tempGroup != null)
+                        {
+                            currentConfig[i].Join(tempGroup);
+                            joinedGroups.Add(tempGroup.Id);
+                        }
                     }
                 }
             }
@@ -125,7 +134,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 17:18:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 17:54:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
