@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Pirates;
 namespace Britbot.Simulator
 {
     /// <summary>
-    /// this Event is called when an island is being captured
+    /// This event is called when an island is switching side to nutral
     /// </summary>
-    class CaptureEvent : SimulatedEvent
+    class DeCaptureEvent : SimulatedEvent
     {
         /// <summary>
         /// The island being captured
@@ -27,7 +27,7 @@ namespace Britbot.Simulator
         /// </summary>
         /// <param name="island"></param>
         /// <param name="capturer"></param>
-        public CaptureEvent(SimulatedIsland island, SimularedGroup capturer)
+        public DeCaptureEvent(SimulatedIsland island, SimularedGroup capturer)
         {
             this.Island = island;
             this.Capturer = capturer;
@@ -47,8 +47,17 @@ namespace Britbot.Simulator
             if (this.Island.CapturingGroup != this.Capturer)
                 return;
 
+            //check that the island realy of the enemy
+            if (this.Island.Owner == this.Capturer.Owner)
+                return;
+
             //if everything checks out update island
-            this.Island.Owner = this.Capturer.Owner;
+            this.Island.Owner = Consts.NO_OWNER;
+            this.Island.TurnsBeingCaptured = 0;
+
+            //set out a capture event
+            int captureTurn = sg.CurrTurn + this.Island.TurnsTillCapture(this.Capturer.Owner);
+            sg.AddEvent(new CaptureEvent(this.Island, this.Capturer), captureTurn);
         }
     }
 }

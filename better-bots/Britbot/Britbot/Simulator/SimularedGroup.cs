@@ -14,27 +14,27 @@ namespace Britbot.Simulator
         /// <summary>
         /// The id of the group
         /// </summary>
-        private int Id;
+        public int Id;
 
         /// <summary>
         /// The owner of this group (Me or Enemy)
         /// </summary>
-        int Owner;
+        public int Owner;
 
         /// <summary>
         /// The actual firepower of the group
         /// </summary>
-        int FirePower;
+        public double FirePower;
 
         /// <summary>
         /// True if the enemy group is alive
         /// </summary>
-        bool IsAlive;
+        public bool IsAlive;
 
         /// <summary>
         /// The turn when the group revives
         /// </summary>
-        int ReviveTurn;
+        public int ReviveTurn;
 
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Britbot.Simulator
         /// <param name="id"></param>
         /// <param name="owner"></param>
         /// <param name="firePower"></param>
-        public SimularedGroup(int id, int owner, int firePower )
+        public SimularedGroup(int id, int owner, double firePower )
         {
             //just set stuff
             this.Id = id;
@@ -68,6 +68,24 @@ namespace Britbot.Simulator
             this.ReviveTurn = sg.ReviveTurn;
         }
 
+        public bool IsCapturing(SimulatedGame sg)
+        {
+            //going over all the islands to check if we are capturing them
+            for(int i = 0;i < sg.Islands.Length;i++)
+            {
+                if (this == sg.Islands[i].CapturingGroup)
+                    return true;
+            }
+            return true;
+        }
+
+        public int ActualFirePower(SimulatedGame sg)
+        {
+            if (this.IsCapturing())
+                return this.FirePower - 1;
+            return this.FirePower;
+        }
+
         /// <summary>
         /// kills the group
         /// </summary>
@@ -80,5 +98,10 @@ namespace Britbot.Simulator
             //TODO: make a revive event
         }
 
+
+        public static override bool operator ==(SimularedGroup sg1, SimularedGroup sg2)
+        {
+            return sg1.Id == sg2.Id;
+        }
     }
 }

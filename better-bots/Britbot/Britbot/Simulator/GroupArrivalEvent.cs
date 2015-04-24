@@ -1,0 +1,80 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Britbot.Simulator
+{
+    /// <summary>
+    /// this event is called when a group (surely) arrives to an island
+    /// </summary>
+    class GroupArrivalEvent : SimulatedEvent
+    {
+        /// <summary>
+        /// The island the groups arrives at
+        /// </summary>
+        SimulatedIsland Island;
+
+        /// <summary>
+        /// the Group arriving to the island
+        /// </summary>
+        SimularedGroup ArrivingGroup;
+
+        /// <summary>
+        /// C'tor...
+        /// </summary>
+        /// <param name="island"></param>
+        /// <param name="group"></param>
+        public GroupArrivalEvent(SimulatedIsland island, SimularedGroup group)
+        {
+            this.Island = island;
+            this.ArrivingGroup = group;
+        }
+
+        /// <summary>
+        /// this updates the game as if ArrivingGroup arrived (considering forces and stuff)
+        /// </summary>
+        /// <param name="sg"></param>
+        public override void MakeShitHappen(SimulatedGame sg)
+        {
+            //check if the arriving group is alive
+            if (this.ArrivingGroup.IsAlive)
+            {
+                //check if the island has any forces
+                if (this.Island.CapturingGroup != null)
+                {
+                    //check if the local gorup is the enemy and they are alive
+                    if ((this.Island.CapturingGroup.Owner != this.ArrivingGroup.Owner) && this.Island.CapturingGroup.IsAlive)
+                    {
+                        //confront with local forces
+                        if (this.Island.CapturingGroup.ActualFirePower(sg) > this.ArrivingGroup.FirePower)
+                        {
+                            //if the local force is stronger then the arriving group dies
+                            this.ArrivingGroup.Kill(sg.CurrTurn);
+                            return;
+                        }
+                        if (this.Island.CapturingGroup.ActualFirePower(sg) == this.ArrivingGroup.FirePower)
+                        {
+                            //if the forces are equal, kill them both
+                            this.ArrivingGroup.Kill(sg.CurrTurn);
+                            this.Island.CapturingGroup.Kill(sg.CurrTurn);
+                            return;
+                        }
+                    }
+                }
+
+                //the arriving group has enought force to take over the island
+                //first, kill locals, if there are any
+                this.Island.KillLocals(sg.CurrTurn);
+                //then take over
+                this.Island.CapturingGroup = this.ArrivingGroup;
+
+                int captureTurn = sg.CurrTurn + this.Island.TurnsTillDecapture(this.ArrivingGroup.Owner);
+
+                //then set a decapture event
+                sg.AddEvent(new DeCaptureEvent(this.Island, this.ArrivingGroup), captureTurn);
+            }
+        }
+    }
+}
