@@ -22,9 +22,9 @@ namespace Britbot
         public static int MaxIterator = 10000;
 
         /// <summary>
-        ///     Max distace two groups can be from eachother and still be joint
+        ///     Max distace two groups can be from eachother and still be joind
         /// </summary>
-        public static int MaxDistance = 15;
+        public static int MaxDistance = 20;
 
         /// <summary>
         /// Length of global score's simulation

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Pirates;
 
 #endregion
@@ -29,6 +30,7 @@ namespace Britbot
         private static void GroupSplitting(List<int> ultimateConfig)
         {
             List<Group> currentConfig = Commander.Groups;
+            List<Group> newGroups = new List<Group>();
 
             ultimateConfig.Sort((a, b) => a.CompareTo(b));
             currentConfig.Sort((a, b) => a.Pirates.Count.CompareTo(b.Pirates.Count));
@@ -36,8 +38,10 @@ namespace Britbot
             for (int i = 0; i < Math.Min(ultimateConfig.Count, currentConfig.Count); i++)
             {
                 if (currentConfig[i].Pirates.Count > ultimateConfig[i])
-                    currentConfig[i].Split(currentConfig[i].Pirates.Count - ultimateConfig[i]);
+                    newGroups.AddRange(currentConfig[i].Split(currentConfig[i].Pirates.Count - ultimateConfig[i]));
             }
+
+            Commander.Groups.AddRange(newGroups);
         }
  
         /// <summary>
@@ -45,33 +49,42 @@ namespace Britbot
         /// </summary>
         private static void GroupJoining(List<int> ultimateConfig)
         {
+            Group tempGroup = null;
             List<Group> currentConfig = Commander.Groups;
-            List<Pirate> myPirates = Bot.Game.AllMyPirates();
+            int minDistance = Magic.MaxDistance + 1; //maximun joining distance
 
-            Group temp = null;
-            int minD = Magic.MaxDistance + 1; //minimum distance
-
+            //sort configs by size
             currentConfig.Sort((a, b) => a.Pirates.Count.CompareTo(b.Pirates.Count));
             ultimateConfig.Sort((a, b) => a.CompareTo(b));
 
+            List<int> joinedGroups = new List<int>();
+
+            //go over the config and correct it
             for (int i = 0; i < Math.Min(ultimateConfig.Count, currentConfig.Count); i++)
             {
                 if (currentConfig[i].Pirates.Count < ultimateConfig[i])
                 {
-                    foreach (Group g in currentConfig)
+                    //find the best group to join to the current group
+                    foreach (Group g in currentConfig.Where(g => g.Pirates.Count == 1 && joinedGroups.Contains(g.Id)))
                     {
-                        if ((g.Pirates.Count == 1) &&
-                            (Bot.Game.Distance(myPirates[currentConfig[i].Pirates[0]], myPirates[g.Pirates[0]]) < minD) &&
-                            (currentConfig[i].Pirates[0] != g.Pirates[0]))
+                        //minimal distance between the two groups
+                        int tempDistance = currentConfig[i].MinDistance(g);
+
+                        //if the current minimun is better than the last minimun and the group do not cintain the same pirates..
+                        if((tempDistance < minDistance) && (!currentConfig[i].Pirates.Intersect(g.Pirates).Any()))
                         {
-                            temp = g;
-                            minD = Bot.Game.Distance(myPirates[currentConfig[i].Pirates[0]], myPirates[g.Pirates[0]]);
+                            tempGroup = g;
+                            minDistance = tempDistance;
                         }
                     }
-                    if (minD <= Magic.MaxDistance)
+                    //join the groups if they are close enough
+                    if (minDistance <= Magic.MaxDistance)
                     {
-                        if (temp != null)
-                            currentConfig[i].Join(temp);
+                        if (tempGroup != null)
+                        {
+                            currentConfig[i].Join(tempGroup);
+                            joinedGroups.Add(tempGroup.Id);
+                        }
                     }
                 }
             }

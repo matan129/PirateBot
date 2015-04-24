@@ -838,16 +838,15 @@ namespace Britbot
         ///     Splits 'num' pirates from the group
         /// </summary>
         /// <param name="num">number of pirates to split</param>
-        public void Split(int num)
+        public IEnumerable<Group> Split(int num)
         {
             int[] outboundPirates = this.Pirates.Take(num).ToArray();
+            this.Pirates.ToList().RemoveAll(outboundPirates.Contains);
 
             for (int i = 0; i < num; i++)
             {
-                Commander.Groups.Add(new Group(new[] {outboundPirates[i]}));
+                yield return new Group(new[] {outboundPirates[i]});
             }
-
-            this.Pirates.ToList().RemoveAll(outboundPirates.Contains);
         }
 
         /// <summary>
@@ -939,6 +938,33 @@ namespace Britbot
 
             //otherwise return false
             return false;
+        }
+
+        /// <summary>
+        ///     Minimal distance between groups
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public int MinDistance(Group b)
+        {
+            int minD = 9999999;
+
+            foreach (int pA in this.Pirates)
+            {
+                Pirate pat = Bot.Game.GetMyPirate(pA);
+
+                foreach (int pB in b.Pirates)
+                {
+                    Pirate pete = Bot.Game.GetMyPirate(pB);
+
+                    int d = Bot.Game.Distance(pat, pete);
+
+                    if (d < minD)
+                        minD = d;
+                }
+            }
+
+            return minD;
         }
     }
 }
