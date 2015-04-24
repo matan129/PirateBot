@@ -1,29 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Britbot.Simulator
+﻿namespace Britbot.Simulator
 {
     /// <summary>
-    /// This represents an arrivale depending on something
-    /// for example: an enemy group might only come to their island if we begin to capture it
+    ///     This represents an arrivale depending on something
+    ///     for example: an enemy group might only come to their island if we begin to capture it
     /// </summary>
-    class PossibleArrivalEvent : SimulatedEvent
+    internal class PossibleArrivalEvent : SimulatedEvent
     {
-        /// <summary>
-        /// The island the groups arrives at
-        /// </summary>
-        SimulatedIsland Island;
+        #region Fields & Properies
 
         /// <summary>
-        /// the Group arriving to the island
+        ///     the Group arriving to the island
         /// </summary>
-        SimulatedGroup ArrivingGroup;
+        private SimulatedGroup ArrivingGroup;
 
         /// <summary>
-        /// C'tor...
+        ///     The island the groups arrives at
+        /// </summary>
+        private SimulatedIsland Island;
+
+        #endregion
+
+        #region Constructors & Initializers
+
+        /// <summary>
+        ///     C'tor...
         /// </summary>
         /// <param name="island"></param>
         /// <param name="group"></param>
@@ -33,11 +33,13 @@ namespace Britbot.Simulator
             this.ArrivingGroup = group;
         }
 
+        #endregion
+
         /// <summary>
-        /// this checks if the arriving group should have arrived, only then updates stuff
+        ///     this checks if the arriving group should have arrived, only then updates stuff
         /// </summary>
         /// <param name="sg"></param>
-        public override void MakeShitHappen(SimulatedGame sg)
+        public override void Activate(SimulatedGame sg)
         {
             //check if the arriving group is alive
             if (this.ArrivingGroup.IsAlive)
@@ -46,8 +48,9 @@ namespace Britbot.Simulator
 
                 //it would come only if there are enemy forces in the island and they are fewer then them
                 //also if they already are on the island they wont come
-                if ((this.Island.CapturingGroup == null) || (this.Island.CapturingGroup.ActualFirePower(sg) >= this.ArrivingGroup.FirePower)
-                                                         || (this.Island.CapturingGroup.Owner == this.ArrivingGroup.Owner))
+                if ((this.Island.CapturingGroup == null) ||
+                    (this.Island.CapturingGroup.ActualFirePower(sg) >= this.ArrivingGroup.FirePower)
+                    || (this.Island.CapturingGroup.Owner == this.ArrivingGroup.Owner))
                 {
                     return;
                 }

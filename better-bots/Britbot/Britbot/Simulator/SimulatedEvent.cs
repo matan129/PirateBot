@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region #Usings
+
+using System;
 using Britbot.PriorityQueue;
 
-namespace Britbot.Simulator 
+#endregion
+
+namespace Britbot.Simulator
 {
     /// <summary>
-    /// A virtual class representing an event in the game (capture, kill, est...)
-    /// Inherits from PriorityQueueNode because the events are ordered by their time of execution
+    ///     A virtual class representing an event in the game (capture, kill, est...)
+    ///     Inherits from PriorityQueueNode because the events are ordered by their time of execution
     /// </summary>
-    class SimulatedEvent : PriorityQueueNode
+    internal abstract class SimulatedEvent : PriorityQueueNode
     {
         /// <summary>
-        /// This virtual method should activate the event
+        ///     This virtual method should activate the event
         /// </summary>
-        public virtual void MakeShitHappen(SimulatedGame sg)
-        {
-            throw new NotImplementedException();
-        }
-
+        public abstract void Activate(SimulatedGame sg);
     }
 }

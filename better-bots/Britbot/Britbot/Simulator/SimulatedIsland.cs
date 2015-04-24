@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region Usings
+
 using Pirates;
+
+#endregion
+
 namespace Britbot.Simulator
 {
     class SimulatedIsland
     {
-        public int Id { get; set; }
-
-        public int Value { get; set; }
-
-        public int Owner;
-
-        public int TurnsBeingCaptured;
+        #region Fields & Properies
 
         public SimulatedGroup CapturingGroup;
+        public int Owner;
+        public int TurnsBeingCaptured;
+        public int Id { get; set; }
+        public int Value { get; set; }
+
+        #endregion
 
         /// <summary>
         /// calculates how much time it would take for the given side to capture the island

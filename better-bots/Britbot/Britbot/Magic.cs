@@ -13,6 +13,9 @@ namespace Britbot
     {
         #region Static Fields & Consts
 
+        public const double VectorTolerance = 0.001;
+        internal const int OutOfDateNumber = 10;
+
         /// <summary>
         ///     Max safe iterator iterations per turn
         /// </summary>

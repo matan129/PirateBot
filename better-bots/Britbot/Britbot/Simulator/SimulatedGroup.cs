@@ -1,30 +1,128 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Britbot.Simulator
+﻿namespace Britbot.Simulator
 {
     /// <summary>
-    /// this represents a group of pirates (either friendly or enemy)
+    ///     this represents a group of pirates (either friendly or enemy)
     /// </summary>
-    class SimulatedGroup
+    internal class SimulatedGroup
     {
+        #region Fields & Properies
+
+        /// <summary>
+        ///     The actual firepower of the group
+        /// </summary>
+        public double FirePower;
+
+        /// <summary>
+        ///     The id of the group
+        /// </summary>
+        public int Id;
+
+        /// <summary>
+        ///     True if the enemy group is alive
+        /// </summary>
+        public bool IsAlive;
+
+        /// <summary>
+        ///     The owner of this group (Me or Enemy)
+        /// </summary>
+        public int Owner;
+
+        /// <summary>
+        ///     The turn when the group revives
+        /// </summary>
+        public int ReviveTurn;
+
+        #endregion
+
+        #region Constructors & Initializers
+
+        /// <summary>
+        ///     just a constructor
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="owner"></param>
+        /// <param name="firePower"></param>
+        public SimulatedGroup(int id, int owner, double firePower)
+        {
+            //just set stuff
+            this.Id = id;
+            this.Owner = owner;
+            this.FirePower = firePower;
+
+            this.IsAlive = true;
+            this.ReviveTurn = -1;
+        }
+
+        /// <summary>
+        ///     copy C'tor
+        /// </summary>
+        /// <param name="sg"></param>
+        public SimulatedGroup(SimulatedGroup sg)
+        {
+            this.Id = sg.Id;
+            this.Owner = sg.Owner;
+            this.FirePower = sg.FirePower;
+            this.IsAlive = sg.IsAlive;
+            this.ReviveTurn = sg.ReviveTurn;
+        }
+
+        #endregion
+
+        private bool IsCapturing(SimulatedGame sg)
+        {
+            //going over all the islands to check if we are capturing them
+            for (int i = 0; i < sg.Islands.Length; i++)
+            {
+                if (this == sg.Islands[i].CapturingGroup)
+                    return true;
+            }
+            return true;
+        }
+
+        public int ActualFirePower(SimulatedGame simGame)
+        {
+            if (this.IsCapturing(simGame))
+                return (int) this.FirePower - 1;
+            return (int) this.FirePower;
+        }
+
+        /// <summary>
+        ///     kills the group
+        /// </summary>
+        /// <param name="currTurn"></param>
+        public void Kill(int currTurn)
+        {
+            this.IsAlive = false;
+            this.ReviveTurn = currTurn + Bot.Game.GetSpawnTurns();
+
+            //TODO: make a revive event
+        }
+
+        public static bool operator ==(SimulatedGroup sg1, SimulatedGroup sg2)
+        {
+            return sg1 != null && sg2 != null && sg1.Id == sg2.Id;
+        }
+
+        public static bool operator !=(SimulatedGroup sg1, SimulatedGroup sg2)
+        {
+            return !(sg1 == sg2);
+        }
+
         protected bool Equals(SimulatedGroup other)
         {
-            return this.Id == other.Id && this.Owner == other.Owner && this.FirePower.Equals(other.FirePower) && this.IsAlive == other.IsAlive && this.ReviveTurn == other.ReviveTurn;
+            return this.Id == other.Id && this.Owner == other.Owner && this.FirePower.Equals(other.FirePower) &&
+                   this.IsAlive == other.IsAlive && this.ReviveTurn == other.ReviveTurn;
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
+            if (object.ReferenceEquals(null, obj))
                 return false;
-            if (ReferenceEquals(this, obj))
+            if (object.ReferenceEquals(this, obj))
                 return true;
             if (obj.GetType() != this.GetType())
                 return false;
-            return Equals((SimulatedGroup) obj);
+            return Equals((SimulatedGroup)obj);
         }
 
         public override int GetHashCode()
@@ -38,104 +136,6 @@ namespace Britbot.Simulator
                 hashCode = (hashCode * 397) ^ this.ReviveTurn;
                 return hashCode;
             }
-        }
-
-        /// <summary>
-        /// The id of the group
-        /// </summary>
-        public int Id;
-
-        /// <summary>
-        /// The owner of this group (Me or Enemy)
-        /// </summary>
-        public int Owner;
-
-        /// <summary>
-        /// The actual firepower of the group
-        /// </summary>
-        public double FirePower;
-
-        /// <summary>
-        /// True if the enemy group is alive
-        /// </summary>
-        public bool IsAlive;
-
-        /// <summary>
-        /// The turn when the group revives
-        /// </summary>
-        public int ReviveTurn;
-
-
-        /// <summary>
-        /// just a constructor
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="owner"></param>
-        /// <param name="firePower"></param>
-        public SimulatedGroup(int id, int owner, double firePower )
-        {
-            //just set stuff
-            this.Id = id;
-            this.Owner = owner;
-            this.FirePower = firePower;
-
-            this.IsAlive = true;
-            this.ReviveTurn = -1;
-
-        }
-
-        /// <summary>
-        /// copy C'tor
-        /// </summary>
-        /// <param name="sg"></param>
-        public SimulatedGroup(SimulatedGroup sg)
-        {
-            this.Id = sg.Id;
-            this.Owner = sg.Owner;
-            this.FirePower = sg.FirePower;
-            this.IsAlive = sg.IsAlive;
-            this.ReviveTurn = sg.ReviveTurn;
-        }
-
-        private bool IsCapturing(SimulatedGame sg)
-        {
-            //going over all the islands to check if we are capturing them
-            for(int i = 0;i < sg.Islands.Length;i++)
-            {
-                if (this == sg.Islands[i].CapturingGroup)
-                    return true;
-            }
-            return true;
-        }
-
-        public int ActualFirePower(SimulatedGame simGame)
-        {
-            if (this.IsCapturing(simGame))
-                return (int)this.FirePower - 1;
-            return (int)this.FirePower;
-        }
-
-        /// <summary>
-        /// kills the group
-        /// </summary>
-        /// <param name="currTurn"></param>
-        public void Kill(int currTurn)
-        {
-            this.IsAlive = false;
-            this.ReviveTurn = currTurn + Bot.Game.GetSpawnTurns();
-
-            //TODO: make a revive event
-        }
-
-
-        public static bool operator ==(SimulatedGroup sg1, SimulatedGroup sg2)
-        {
-            return sg1 != null &&  sg2 != null && sg1.Id == sg2.Id;
-        }
-
-        public static bool operator !=(SimulatedGroup sg1, SimulatedGroup sg2)
-        {
-            return !(sg1 == sg2);
         }
     }
 }

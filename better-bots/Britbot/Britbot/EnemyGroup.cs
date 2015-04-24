@@ -1,4 +1,4 @@
-﻿#region #Usings
+﻿#region Usings
 
 using System;
 using System.Collections.Generic;
@@ -14,26 +14,10 @@ namespace Britbot
     /// </summary>
     public class EnemyGroup : ITarget
     {
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hashCode = this.Id;
-                hashCode = (hashCode * 397) ^ this.LastAssignmentTurn;
-                hashCode = (hashCode * 397) ^ (this.LastDirections != null ? this.LastDirections.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (this.LastMaxFightPower != null ? this.LastMaxFightPower.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (this.PrevLoc != null ? this.PrevLoc.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (this.EnemyPirates != null ? this.EnemyPirates.GetHashCode() : 0);
-                return hashCode;
-            }
-        }
-
         #region Static Fields & Consts
 
-        //---------------#Magic_Numbers--------------------
         //numbers of turns for wich we save data
-        private const int outOfDateNumber = 10;
-        public static int IdCount;
+        private static int _idCount;
 
         #endregion
 
@@ -47,17 +31,17 @@ namespace Britbot
         /// <summary>
         ///     The last turn in which this target was assigned
         /// </summary>
-        private int LastAssignmentTurn;
+        private int _lastAssignmentTurn;
 
         /// <summary>
         ///     A queue of the last outOfDateNumber directions of this enemy group
         /// </summary>
-        private Queue<Direction> LastDirections;
+        private Queue<Direction> _lastDirections;
 
         /// <summary>
         ///     A queue of the last max fight power coefficients
         /// </summary>
-        private Queue<int> LastMaxFightPower;
+        private Queue<int> _lastMaxFightPower;
 
         /// <summary>
         ///     What is this?
@@ -78,11 +62,11 @@ namespace Britbot
         /// </summary>
         public EnemyGroup()
         {
-            this.Id = EnemyGroup.IdCount++;
+            this.Id = EnemyGroup._idCount++;
             this.EnemyPirates = new List<int>();
             this.PrevLoc = new Location(0, 0);
-            this.LastDirections = new Queue<Direction>();
-            this.LastMaxFightPower = new Queue<int>();
+            this._lastDirections = new Queue<Direction>();
+            this._lastMaxFightPower = new Queue<int>();
         }
 
         /// <summary>
@@ -90,11 +74,11 @@ namespace Britbot
         /// </summary>
         public EnemyGroup(Location prevLoc, List<int> enemyPirates)
         {
-            this.Id = EnemyGroup.IdCount++;
+            this.Id = EnemyGroup._idCount++;
             PrevLoc = prevLoc;
             EnemyPirates = enemyPirates;
-            this.LastDirections = new Queue<Direction>();
-            this.LastMaxFightPower = new Queue<int>();
+            this._lastDirections = new Queue<Direction>();
+            this._lastMaxFightPower = new Queue<int>();
         }
 
         #endregion
@@ -146,11 +130,6 @@ namespace Britbot
         /// <summary>
         ///     Returns the average location for this group
         /// </summary>
-        /// ///
-        /// <param name="forcePirate">
-        ///     if you ant the function to strictly return a location of a pirate or just the average
-        ///     location
-        /// </param>
         /// <returns>Returns the average location for this group or the pirate closest to the average</returns>
         public Location GetLocation()
         {
@@ -169,9 +148,10 @@ namespace Britbot
         {
             //calculates the direction based on the geographical data from the game
             //first check if stationary
-            if (this.GetHeading().Norm() == 0)
+            if (Math.Abs(this.GetHeading().Norm()) < Magic.VectorTolerance)
                 return Navigator.CalculateDirectionToStationeryTarget(group.FindCenter(true), group.Heading,
                     this.GetLocation());
+            
             //otherwise
             return Navigator.CalculateDirectionToMovingTarget(group.FindCenter(true), group.Heading, GetLocation(),
                 this.GetHeading());
@@ -213,7 +193,7 @@ namespace Britbot
         /// </summary>
         public void TargetAssignmentEvent()
         {
-            this.LastAssignmentTurn = Bot.Game.GetTurn();
+            this._lastAssignmentTurn = Bot.Game.GetTurn();
         }
 
         /// <summary>
@@ -227,13 +207,32 @@ namespace Britbot
             const int minimumTillItIsOkToDropTarget = 5;
 
             //check if time from the last assignment raises suspition of inteligence in the enemy
-            if (Bot.Game.GetTurn() - this.LastAssignmentTurn < minimumTillItIsOkToDropTarget)
+            if (Bot.Game.GetTurn() - this._lastAssignmentTurn < minimumTillItIsOkToDropTarget)
             {
                 Enemy.EnemyIntelligenceSuspicionCounter++;
             }
         }
 
         #endregion
+
+        /// <summary>
+        ///     Gets a unique-ish hash code for the object
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = this.Id;
+                hashCode = (hashCode * 397) ^ this._lastAssignmentTurn;
+                hashCode = (hashCode * 397) ^ (this._lastDirections != null ? this._lastDirections.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^
+                           (this._lastMaxFightPower != null ? this._lastMaxFightPower.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (this.PrevLoc != null ? this.PrevLoc.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (this.EnemyPirates != null ? this.EnemyPirates.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
 
         /// <summary>
         ///     Returns the average location for this group
@@ -532,10 +531,10 @@ namespace Britbot
         public double GetMaxFightPower()
         {
             //check if LastMaxFightPower isnt empty
-            if (this.LastMaxFightPower.Count == 0)
+            if (this._lastMaxFightPower.Count == 0)
                 return 0;
             //otherwise
-            return this.LastMaxFightPower.Average();
+            return this._lastMaxFightPower.Average();
         }
 
         /// <summary>
@@ -551,21 +550,21 @@ namespace Britbot
             PrevLoc = GetLocation();
 
             //update directions
-            this.LastDirections.Enqueue(newDirection);
+            this._lastDirections.Enqueue(newDirection);
 
             //check if we need to throw irrelevant stuff out
-            if (this.LastDirections.Count > EnemyGroup.outOfDateNumber)
+            if (this._lastDirections.Count > Magic.OutOfDateNumber)
             {
-                this.LastDirections.Dequeue();
+                this._lastDirections.Dequeue();
             }
 
             //update maximum fire power
-            this.LastMaxFightPower.Enqueue(this.MaxFightCount());
+            this._lastMaxFightPower.Enqueue(this.MaxFightCount());
 
             //check if we need to throw irrelevant stuff out
-            if (this.LastMaxFightPower.Count > EnemyGroup.outOfDateNumber)
+            if (this._lastMaxFightPower.Count > Magic.OutOfDateNumber)
             {
-                this.LastMaxFightPower.Dequeue();
+                this._lastMaxFightPower.Dequeue();
             }
         }
 
@@ -580,7 +579,7 @@ namespace Britbot
             HeadingVector hv = new HeadingVector();
 
             //going over the last directions of this group and adding them up
-            foreach (Direction dir in this.LastDirections)
+            foreach (Direction dir in this._lastDirections)
             {
                 //temporal variable for conversion
                 HeadingVector currHeading = new HeadingVector(dir);
@@ -603,7 +602,7 @@ namespace Britbot
             int moveCount = 0;
 
             //go over all the direction and compare to Direction.Nothing
-            foreach (Direction dir in this.LastDirections)
+            foreach (Direction dir in this._lastDirections)
             {
                 if (dir != Direction.NOTHING)
                     moveCount++;

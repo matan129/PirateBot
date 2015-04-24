@@ -1,29 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region #Usings
+
 using Pirates;
+
+#endregion
+
 namespace Britbot.Simulator
 {
     /// <summary>
-    /// This event is called when an island is switching side to nutral
+    ///     This event is called when an island is switching side to nutral
     /// </summary>
-    class DeCaptureEvent : SimulatedEvent
+    internal class DeCaptureEvent : SimulatedEvent
     {
+        #region Fields & Properies
+
         /// <summary>
-        /// The island being captured
+        ///     The group Capturing
         /// </summary>
-        SimulatedIsland Island;
+        private SimulatedGroup Capturer;
 
         /// <summary>
-        /// The group Capturing
+        ///     The island being captured
         /// </summary>
-        SimulatedGroup Capturer;
+        private SimulatedIsland Island;
 
+        #endregion
+
+        #region Constructors & Initializers
 
         /// <summary>
-        /// simple C'tor
+        ///     simple C'tor
         /// </summary>
         /// <param name="island"></param>
         /// <param name="capturer"></param>
@@ -33,12 +38,13 @@ namespace Britbot.Simulator
             this.Capturer = capturer;
         }
 
+        #endregion
 
         /// <summary>
-        /// updates the island if event is actual
+        ///     updates the island if event is actual
         /// </summary>
         /// <param name="sg"></param>
-        public override void MakeShitHappen(SimulatedGame sg)
+        public override void Activate(SimulatedGame sg)
         {
             //check if this event is still actuall
             if (!Capturer.IsAlive)

@@ -1,28 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Britbot.Simulator
+﻿namespace Britbot.Simulator
 {
     /// <summary>
-    /// this event is called when a group (surely) arrives to an island
+    ///     this event is called when a group (surely) arrives to an island
     /// </summary>
-    class GroupArrivalEvent : SimulatedEvent
+    internal class GroupArrivalEvent : SimulatedEvent
     {
-        /// <summary>
-        /// The island the groups arrives at
-        /// </summary>
-        SimulatedIsland Island;
+        #region Fields & Properies
 
         /// <summary>
-        /// the Group arriving to the island
+        ///     the Group arriving to the island
         /// </summary>
-        SimulatedGroup ArrivingGroup;
+        private SimulatedGroup ArrivingGroup;
 
         /// <summary>
-        /// C'tor...
+        ///     The island the groups arrives at
+        /// </summary>
+        private SimulatedIsland Island;
+
+        #endregion
+
+        #region Constructors & Initializers
+
+        /// <summary>
+        ///     C'tor...
         /// </summary>
         /// <param name="island"></param>
         /// <param name="group"></param>
@@ -32,11 +32,13 @@ namespace Britbot.Simulator
             this.ArrivingGroup = group;
         }
 
+        #endregion
+
         /// <summary>
-        /// this updates the game as if ArrivingGroup arrived (considering forces and stuff)
+        ///     this updates the game as if ArrivingGroup arrived (considering forces and stuff)
         /// </summary>
         /// <param name="sg"></param>
-        public override void MakeShitHappen(SimulatedGame sg)
+        public override void Activate(SimulatedGame sg)
         {
             //check if the arriving group is alive
             if (this.ArrivingGroup.IsAlive)
@@ -45,7 +47,8 @@ namespace Britbot.Simulator
                 if (this.Island.CapturingGroup != null)
                 {
                     //check if the local gorup is the enemy and they are alive
-                    if ((this.Island.CapturingGroup.Owner != this.ArrivingGroup.Owner) && this.Island.CapturingGroup.IsAlive)
+                    if ((this.Island.CapturingGroup.Owner != this.ArrivingGroup.Owner) &&
+                        this.Island.CapturingGroup.IsAlive)
                     {
                         //confront with local forces
                         if (this.Island.CapturingGroup.ActualFirePower(sg) > this.ArrivingGroup.FirePower)

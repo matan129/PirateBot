@@ -1,43 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Britbot.Simulator
+﻿namespace Britbot.Simulator
 {
     /// <summary>
-    /// this represents a battle between two ships
+    ///     this represents a battle between two ships
     /// </summary>
-    class BattleEvent : SimulatedEvent
+    internal class BattleEvent : SimulatedEvent
     {
+        #region Fields & Properies
+
         //first group
-        SimulatedGroup Group1;
-
+        private SimulatedGroup GroupA;
         //second group
-        SimulatedGroup Group2;
+        private SimulatedGroup GroupB;
 
-        public BattleEvent(SimulatedGroup g1,SimulatedGroup g2)
+        #endregion
+
+        #region Constructors & Initializers
+
+        public BattleEvent(SimulatedGroup g1, SimulatedGroup g2)
         {
-            this.Group1 = g1;
-            this.Group2 = g2;
+            this.GroupA = g1;
+            this.GroupB = g2;
         }
 
-        public override void MakeShitHappen(SimulatedGame sg)
+        #endregion
+
+        public override void Activate(SimulatedGame sg)
         {
             //check fire power
-            if(this.Group1.ActualFirePower(sg) < this.Group2.ActualFirePower(sg))
+            if (this.GroupA.ActualFirePower(sg) < this.GroupB.ActualFirePower(sg))
             {
-                this.Group1.Kill(sg.CurrentTurn);
+                this.GroupA.Kill(sg.CurrentTurn);
             }
-            else if(this.Group1.ActualFirePower(sg) == this.Group2.ActualFirePower(sg))
+            else if (this.GroupA.ActualFirePower(sg) == this.GroupB.ActualFirePower(sg))
             {
-                this.Group1.Kill(sg.CurrentTurn);
-                this.Group2.Kill(sg.CurrentTurn);
+                this.GroupA.Kill(sg.CurrentTurn);
+                this.GroupB.Kill(sg.CurrentTurn);
             }
             else
             {
-                this.Group2.Kill(sg.CurrentTurn);
+                this.GroupB.Kill(sg.CurrentTurn);
             }
         }
     }

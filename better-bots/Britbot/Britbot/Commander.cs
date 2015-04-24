@@ -18,7 +18,7 @@ namespace Britbot
     {
         #region Static Fields & Consts
 
-        public static Stopwatch TurnTimer;
+        private static Stopwatch _turnTimer;
 
         #endregion
 
@@ -39,7 +39,7 @@ namespace Britbot
         static Commander()
         {
             Commander.Groups = new List<Group>();
-            Commander.TurnTimer = new Stopwatch();
+            Commander._turnTimer = new Stopwatch();
 
             #region Terrible Switch-Case
 
@@ -141,7 +141,7 @@ namespace Britbot
         /// </summary>
         public static Dictionary<Pirate, Direction> Play(CancellationToken cancellationToken, out bool onTime)
         {
-            Commander.TurnTimer.Restart();
+            Commander._turnTimer.Restart();
 
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
@@ -178,7 +178,7 @@ namespace Britbot
                 Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
                 Logger.StopTime("GetAllMoves");
                 Bot.Game.Debug("Commander done doing calculations and drinking coffee after {0}ms",
-                    Commander.TurnTimer.ElapsedMilliseconds);
+                    Commander._turnTimer.ElapsedMilliseconds);
 
                 //we are on time!
                 onTime = true;
