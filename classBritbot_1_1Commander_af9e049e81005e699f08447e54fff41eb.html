@@ -59,7 +59,6 @@
       <div class="navtab">
         <table>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_aa0737b75f52f2c9de0d60cb52434fae8.html#aa0737b75f52f2c9de0d60cb52434fae8">_turnTimer</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a46e8ca1bb4a1fcfcd241c20065a49570.html#a46e8ca1bb4a1fcfcd241c20065a49570">Allocate</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a8de7386f2dd47bd9f413e9d5bd98b48d.html#a8de7386f2dd47bd9f413e9d5bd98b48d">CalcMaxPrioritiesNum</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a5006819e24e84561e03de887c1b07d8d.html#a5006819e24e84561e03de887c1b07d8d">CalculateAndAssignTargets</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251">Commander</a></td></tr>
@@ -105,8 +104,9 @@
 
 <p>Do something! </p>
 
-<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00142">142</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
+<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00143">143</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
+            <span class="comment">// Restart the timer</span>
             <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>._turnTimer.Restart();
 
             <span class="comment">//note that because this method is on a separate thread we need this try-catch although we have on our bot</span>
@@ -117,8 +117,11 @@
                 Enemy.Update(cancellationToken);
                 Logger.StopTime(<span class="stringliteral">&quot;Update&quot;</span>);
 
+
+                Logger.BeginTime(<span class="stringliteral">&quot;UpdateAll&quot;</span>);
                 <span class="comment">//update smartIslands</span>
                 SmartIsland.UpdateAll();
+                Logger.StopTime(<span class="stringliteral">&quot;UpdateAll&quot;</span>);
 
                 Logger.BeginTime(<span class="stringliteral">&quot;CalculateAndAssignTargets&quot;</span>);
                 <span class="comment">//calculate targets</span>
@@ -134,17 +137,19 @@
                 Veteran.GroupJoining();
                 Logger.StopTime(<span class="stringliteral">&quot;GroupJoining&quot;</span>);
 
-                <span class="comment">//FixGroupArrangement();</span>
-                Logger.BeginTime(<span class="stringliteral">&quot;FixGroupArrangement&quot;</span>);
-                <span class="comment">//Commander.FixGroupArrangement();</span>
-                Logger.StopTime(<span class="stringliteral">&quot;FixGroupArrangement&quot;</span>);
+                <span class="comment">/*Logger.BeginTime(&quot;FixGroupArrangement&quot;);</span>
+<span class="comment">                Commander.FixGroupArrangement();</span>
+<span class="comment">                Logger.StopTime(&quot;FixGroupArrangement&quot;);*/</span>
 
                 Logger.BeginTime(<span class="stringliteral">&quot;GetAllMoves&quot;</span>);
                 <span class="comment">//Get the moves for all the pirates and return them</span>
                 Dictionary&lt;Pirate, Direction&gt; moves = <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.GetAllMoves(cancellationToken);
                 Logger.StopTime(<span class="stringliteral">&quot;GetAllMoves&quot;</span>);
-                Bot.Game.Debug(<span class="stringliteral">&quot;Commander done doing calculations and drinking coffee after {0}ms&quot;</span>,
-                    <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>._turnTimer.ElapsedMilliseconds);
+
+
+                Logger.Write(
+                    <span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;Commander done doing calculations and drinking coffee after {0}ms&quot;</span>,
+                        <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>._turnTimer.ElapsedMilliseconds), <span class="keyword">true</span>);
 
                 <span class="comment">//we are on time!</span>
                 onTime = <span class="keyword">true</span>;
@@ -153,34 +158,35 @@
             }
             <span class="keywordflow">catch</span> (AggregateException ex)
             {
-                Bot.Game.Debug(<span class="stringliteral">&quot;****** COMMANDER EXITING DUE TO AggregateException ******&quot;</span>);
+                Logger.Write(<span class="stringliteral">&quot;****** COMMANDER EXITING DUE TO AggregateException ******&quot;</span>, <span class="keyword">true</span>);
                 <span class="keywordflow">foreach</span> (Exception e <span class="keywordflow">in</span> ex.InnerExceptions)
-                    Bot.Game.Debug(e.ToString());
+                    Logger.Write(e.ToString(), <span class="keyword">true</span>);
                 onTime = <span class="keyword">false</span>;
-                Logger.Debug();
+                Logger.Profile();
                 <span class="keywordflow">return</span> <span class="keyword">new</span> Dictionary&lt;Pirate, Direction&gt;();
             }
             <span class="keywordflow">catch</span> (OperationCanceledException) <span class="comment">//catch task cancellation</span>
             {
-                Bot.Game.Debug(<span class="stringliteral">&quot;****** COMMANDER EXITING DUE TO TASK CANCELLATION ******&quot;</span>);
+                Logger.Write(<span class="stringliteral">&quot;****** COMMANDER EXITING DUE TO TASK CANCELLATION ******&quot;</span>, <span class="keyword">true</span>);
                 onTime = <span class="keyword">false</span>;
-                Logger.Debug();
+                Logger.Profile();
                 <span class="keywordflow">return</span> <span class="keyword">new</span> Dictionary&lt;Pirate, Direction&gt;();
             }
             <span class="keywordflow">catch</span> (Exception ex) <span class="comment">//catch everyting else</span>
             {
-                Bot.Game.Debug(<span class="stringliteral">&quot;==========COMMANDER EXCEPTION============&quot;</span>);
-                Bot.Game.Debug(<span class="stringliteral">&quot;Commander almost crashed because of exception: &quot;</span> + ex.Message);
+                Logger.Write(<span class="stringliteral">&quot;==========COMMANDER EXCEPTION============&quot;</span>, <span class="keyword">true</span>);
+                Logger.Write(<span class="stringliteral">&quot;Commander almost crashed because of exception: &quot;</span> + ex.Message, <span class="keyword">true</span>);
 
                 <span class="comment">//Holy shit. This actually works!!</span>
                 StackTrace exTrace = <span class="keyword">new</span> StackTrace(ex, <span class="keyword">true</span>);
                 StackFrame frame = exTrace.GetFrame(0);
-                Bot.Game.Debug(<span class="stringliteral">&quot;The exception was thrown from method {0} at file {1} at line #{2}&quot;</span>, frame.GetMethod(),
-                    frame.GetFileName(), frame.GetFileLineNumber());
+                Logger.Write(
+                    <span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;The exception was thrown from method {0} at file {1} at line #{2}&quot;</span>, frame.GetMethod(),
+                        frame.GetFileName(), frame.GetFileLineNumber()), <span class="keyword">true</span>);
 
-                Bot.Game.Debug(<span class="stringliteral">&quot;==========COMMANDER EXCEPTION============&quot;</span>);
+                Logger.Write(<span class="stringliteral">&quot;==========COMMANDER EXCEPTION============&quot;</span>, <span class="keyword">true</span>);
                 onTime = <span class="keyword">false</span>;
-                Logger.Debug();
+                Logger.Profile();
                 <span class="keywordflow">return</span> <span class="keyword">new</span> Dictionary&lt;Pirate, Direction&gt;();
             }
         }
@@ -194,7 +200,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:39:17 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 14:20:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

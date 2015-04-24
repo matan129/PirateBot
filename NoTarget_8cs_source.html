@@ -81,42 +81,43 @@
 <a name="l00036"></a>00036 
 <a name="l00042"></a><a class="code" href="classBritbot_1_1NoTarget_aef89b9932d3c0d0cbf2ba0e89a87ec3f.html#aef89b9932d3c0d0cbf2ba0e89a87ec3f">00042</a>         <span class="keyword">public</span> Direction <a class="code" href="classBritbot_1_1NoTarget_aef89b9932d3c0d0cbf2ba0e89a87ec3f.html#aef89b9932d3c0d0cbf2ba0e89a87ec3f" title="just returns no direction">GetDirection</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> origin)
 <a name="l00043"></a>00043         {
-<a name="l00044"></a>00044             <span class="keywordflow">return</span> Direction.NOTHING;
-<a name="l00045"></a>00045         }
-<a name="l00046"></a>00046 
-<a name="l00054"></a><a class="code" href="classBritbot_1_1NoTarget_afef05c796b0a3791f6936d723d905706.html#afef05c796b0a3791f6936d723d905706">00054</a>         <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1NoTarget_afef05c796b0a3791f6936d723d905706.html#afef05c796b0a3791f6936d723d905706" title="Tests if two targets are the same returns true if the other target is a no target false otherwise...">Equals</a>(<a class="code" href="interfaceBritbot_1_1ITarget.html" title="Represent a target we can, well, target.">ITarget</a> operandB)
-<a name="l00055"></a>00055         {
-<a name="l00056"></a>00056             <span class="keywordflow">if</span> (operandB is <a class="code" href="classBritbot_1_1NoTarget.html" title="This class represents a null target which does nothing this will help us prevent cases of dimensions ...">NoTarget</a>)
-<a name="l00057"></a>00057                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00058"></a>00058             <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00059"></a>00059         }
-<a name="l00060"></a>00060 
-<a name="l00061"></a><a class="code" href="classBritbot_1_1NoTarget_aba80eb049144e70df3432ba5aba278aa.html#aba80eb049144e70df3432ba5aba278aa">00061</a>         <span class="keyword">public</span> <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a> <a class="code" href="classBritbot_1_1NoTarget_aba80eb049144e70df3432ba5aba278aa.html#aba80eb049144e70df3432ba5aba278aa" title="Get the type of the target.">GetTargetType</a>()
-<a name="l00062"></a>00062         {
-<a name="l00063"></a>00063             <span class="keywordflow">return</span> <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.NoTarget;
-<a name="l00064"></a>00064         }
-<a name="l00065"></a>00065 
-<a name="l00070"></a><a class="code" href="classBritbot_1_1NoTarget_a2afea85ccd794597e3568ca4439d7c9c.html#a2afea85ccd794597e3568ca4439d7c9c">00070</a>         <span class="keyword">public</span> <span class="keywordtype">string</span> <a class="code" href="classBritbot_1_1NoTarget_a2afea85ccd794597e3568ca4439d7c9c.html#a2afea85ccd794597e3568ca4439d7c9c" title="Gets a string description forthis Target for log purposes.">GetDescription</a>()
-<a name="l00071"></a>00071         {
-<a name="l00072"></a>00072             <span class="keywordflow">return</span> <span class="stringliteral">&quot;NoTarget&quot;</span>;
-<a name="l00073"></a>00073         }
-<a name="l00074"></a>00074 
-<a name="l00079"></a><a class="code" href="classBritbot_1_1NoTarget_a0a140fb2cacadc4568a4980fb9572ea3.html#a0a140fb2cacadc4568a4980fb9572ea3">00079</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1NoTarget_a0a140fb2cacadc4568a4980fb9572ea3.html#a0a140fb2cacadc4568a4980fb9572ea3" title="just interface implementation, does nothing so far">TargetAssignmentEvent</a>()
-<a name="l00080"></a>00080         {
-<a name="l00081"></a>00081         }
-<a name="l00082"></a>00082 
-<a name="l00086"></a><a class="code" href="classBritbot_1_1NoTarget_a6a6630abd08b473304f76840aab40636.html#a6a6630abd08b473304f76840aab40636">00086</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1NoTarget_a6a6630abd08b473304f76840aab40636.html#a6a6630abd08b473304f76840aab40636" title="cana"l">TargetDessignmentEvent</a>()
-<a name="l00087"></a>00087         {
-<a name="l00088"></a>00088         }
-<a name="l00089"></a>00089 
-<a name="l00090"></a>00090 <span class="preprocessor">        #endregion</span>
-<a name="l00091"></a>00091 <span class="preprocessor"></span>    }
-<a name="l00092"></a>00092 }
+<a name="l00044"></a>00044             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;GDNTR NT&quot;</span>);
+<a name="l00045"></a>00045             <span class="keywordflow">return</span> Direction.NOTHING;
+<a name="l00046"></a>00046         }
+<a name="l00047"></a>00047 
+<a name="l00055"></a><a class="code" href="classBritbot_1_1NoTarget_afef05c796b0a3791f6936d723d905706.html#afef05c796b0a3791f6936d723d905706">00055</a>         <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1NoTarget_afef05c796b0a3791f6936d723d905706.html#afef05c796b0a3791f6936d723d905706" title="Tests if two targets are the same returns true if the other target is a no target false otherwise...">Equals</a>(<a class="code" href="interfaceBritbot_1_1ITarget.html" title="Represent a target we can, well, target.">ITarget</a> operandB)
+<a name="l00056"></a>00056         {
+<a name="l00057"></a>00057             <span class="keywordflow">if</span> (operandB is <a class="code" href="classBritbot_1_1NoTarget.html" title="This class represents a null target which does nothing this will help us prevent cases of dimensions ...">NoTarget</a>)
+<a name="l00058"></a>00058                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00059"></a>00059             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00060"></a>00060         }
+<a name="l00061"></a>00061 
+<a name="l00062"></a><a class="code" href="classBritbot_1_1NoTarget_aba80eb049144e70df3432ba5aba278aa.html#aba80eb049144e70df3432ba5aba278aa">00062</a>         <span class="keyword">public</span> <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a> <a class="code" href="classBritbot_1_1NoTarget_aba80eb049144e70df3432ba5aba278aa.html#aba80eb049144e70df3432ba5aba278aa" title="Get the type of the target.">GetTargetType</a>()
+<a name="l00063"></a>00063         {
+<a name="l00064"></a>00064             <span class="keywordflow">return</span> <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.NoTarget;
+<a name="l00065"></a>00065         }
+<a name="l00066"></a>00066 
+<a name="l00071"></a><a class="code" href="classBritbot_1_1NoTarget_a2afea85ccd794597e3568ca4439d7c9c.html#a2afea85ccd794597e3568ca4439d7c9c">00071</a>         <span class="keyword">public</span> <span class="keywordtype">string</span> <a class="code" href="classBritbot_1_1NoTarget_a2afea85ccd794597e3568ca4439d7c9c.html#a2afea85ccd794597e3568ca4439d7c9c" title="Gets a string description forthis Target for log purposes.">GetDescription</a>()
+<a name="l00072"></a>00072         {
+<a name="l00073"></a>00073             <span class="keywordflow">return</span> <span class="stringliteral">&quot;NoTarget&quot;</span>;
+<a name="l00074"></a>00074         }
+<a name="l00075"></a>00075 
+<a name="l00080"></a><a class="code" href="classBritbot_1_1NoTarget_a0a140fb2cacadc4568a4980fb9572ea3.html#a0a140fb2cacadc4568a4980fb9572ea3">00080</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1NoTarget_a0a140fb2cacadc4568a4980fb9572ea3.html#a0a140fb2cacadc4568a4980fb9572ea3" title="just interface implementation, does nothing so far">TargetAssignmentEvent</a>()
+<a name="l00081"></a>00081         {
+<a name="l00082"></a>00082         }
+<a name="l00083"></a>00083 
+<a name="l00087"></a><a class="code" href="classBritbot_1_1NoTarget_a6a6630abd08b473304f76840aab40636.html#a6a6630abd08b473304f76840aab40636">00087</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1NoTarget_a6a6630abd08b473304f76840aab40636.html#a6a6630abd08b473304f76840aab40636" title="cana"l">TargetDessignmentEvent</a>()
+<a name="l00088"></a>00088         {
+<a name="l00089"></a>00089         }
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091 <span class="preprocessor">        #endregion</span>
+<a name="l00092"></a>00092 <span class="preprocessor"></span>    }
+<a name="l00093"></a>00093 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:39:17 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 14:20:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

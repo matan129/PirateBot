@@ -111,9 +111,9 @@
                     }
                     <span class="keywordflow">catch</span> (Exception ex)
                     {
-                        Bot.Game.Debug(<span class="stringliteral">&quot;TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN &quot;</span> +
-                                       Bot.Game.GetTurn());
-                        Bot.Game.Debug(ex.ToString());
+                        Logger.Write(<span class="stringliteral">&quot;TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN &quot;</span> +
+                                       Bot.Game.GetTurn(),<span class="keyword">true</span>);
+                        Logger.Write(ex.ToString(), <span class="keyword">true</span>);
                     }
                 });
 
@@ -127,9 +127,9 @@
                     }
                     <span class="keywordflow">catch</span> (Exception ex)
                     {
-                        Bot.Game.Debug(<span class="stringliteral">&quot;TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN &quot;</span> +
-                                       Bot.Game.GetTurn());
-                        Bot.Game.Debug(ex.ToString());
+                        Logger.Write(<span class="stringliteral">&quot;TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN &quot;</span> +
+                                     Bot.Game.GetTurn(), <span class="keyword">true</span>);
+                        Logger.Write(ex.ToString(), <span class="keyword">true</span>);
                     }
                 });
 
@@ -139,13 +139,13 @@
             <span class="comment">//if it&#39;s stuck...</span>
             <span class="keywordflow">if</span> (!onTime)
             {
-                Bot.Game.Debug(<span class="stringliteral">&quot;=================TIMEOUT=======================&quot;</span>);
-                Bot.Game.Debug(<span class="stringliteral">&quot;Commander timed out, switching to fallback code&quot;</span>);
-                Bot.Game.Debug(<span class="stringliteral">&quot;Time remaining: &quot;</span> + Bot.Game.TimeRemaining());
-                Bot.Game.Debug(<span class="stringliteral">&quot;=================TIMEOUT=======================&quot;</span>);
+                Logger.Write(<span class="stringliteral">&quot;=================TIMEOUT=======================&quot;</span>);
+                Logger.Write(<span class="stringliteral">&quot;Commander timed out, switching to fallback code&quot;</span>);
+                Logger.Write(<span class="stringliteral">&quot;Time remaining: &quot;</span> + Bot.Game.TimeRemaining());
+                Logger.Write(<span class="stringliteral">&quot;=================TIMEOUT=======================&quot;</span>);
             }
 
-            Logger.Debug();
+            Logger.Profile();
 
             <span class="comment">//return if the commander is on time</span>
             <span class="keywordflow">return</span> onTime;
@@ -160,7 +160,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:39:17 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 14:20:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

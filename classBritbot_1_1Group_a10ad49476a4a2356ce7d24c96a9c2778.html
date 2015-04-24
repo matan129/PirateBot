@@ -119,7 +119,7 @@
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="Group_8cs_source.html#l00481">481</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
+<p>Definition at line <a class="el" href="Group_8cs_source.html#l00483">483</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//reset the forming attempts counter</span>
             this.<a class="code" href="classBritbot_1_1Group_a75da03ffed9b2e359cdda9f9bdb62ec5.html#a75da03ffed9b2e359cdda9f9bdb62ec5" title="Counter of the number of turn this groupis trying to get into structure.">_formTurnsAttempt</a> = 0;
@@ -130,7 +130,7 @@
             <span class="comment">//if we didn&#39;t get a pre calculated structure, calculate it below</span>
             <span class="keywordflow">if</span> (structure == null)
             {
-                Bot.Game.Debug(<span class="stringliteral">&quot;Generating group structure&quot;</span>);
+                Logger.Write(<span class="stringliteral">&quot;Generating group structure&quot;</span>);
 
                 <span class="comment">//Generate location array (structure) for the group</span>
                 <span class="keywordflow">while</span> (<span class="keyword">true</span>)
@@ -150,7 +150,7 @@
                 }
             }
 
-            Bot.Game.Debug(<span class="stringliteral">&quot;Generating group structure OK&quot;</span>);
+            Logger.Write(<span class="stringliteral">&quot;Generating group structure OK&quot;</span>);
 
             <span class="comment">//flag array to signal if a location in the structure is already taken </span>
             <span class="keywordtype">bool</span>[] matchedLocations = <span class="keyword">new</span> <span class="keywordtype">bool</span>[structure.Length];
@@ -199,12 +199,12 @@
                 .ToDictionary(pair =&gt; pair.Key.Id, pair =&gt; pair.Value);
 
             <span class="comment">//debug prints</span>
-            Bot.Game.Debug(<span class="stringliteral">&quot;====FORMING TO====&quot;</span>);
+            Logger.Write(<span class="stringliteral">&quot;====FORMING TO====&quot;</span>);
             <span class="keywordflow">foreach</span> (KeyValuePair&lt;int, Location&gt; formOrder <span class="keywordflow">in</span> this.<a class="code" href="classBritbot_1_1Group_a70962df44d8df8d131fac4fab7a97047.html#a70962df44d8df8d131fac4fab7a97047" title="The required location for each pirate in the group to get to attack structure.">FormOrders</a>)
             {
-                Bot.Game.Debug(Bot.Game.GetMyPirate(formOrder.Key) + <span class="stringliteral">&quot;,&quot;</span> + formOrder.Value);
+                Logger.Write(Bot.Game.GetMyPirate(formOrder.Key) + <span class="stringliteral">&quot;,&quot;</span> + formOrder.Value);
             }
-            Bot.Game.Debug(<span class="stringliteral">&quot;==================&quot;</span>);
+            Logger.Write(<span class="stringliteral">&quot;==================&quot;</span>);
         }
 </pre></div>
 </div>
@@ -216,7 +216,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:39:18 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 14:20:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

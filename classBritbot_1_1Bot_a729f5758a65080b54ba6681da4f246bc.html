@@ -96,8 +96,8 @@
             <span class="comment">//update the game so other classes will get updated data</span>
             Bot.Game = state;
 
-            Bot.Game.Debug(<span class="stringliteral">&quot;---------------------------------------------------------&quot;</span>);
-            Bot.Game.Debug(<span class="stringliteral">&quot;number of runaways: &quot;</span> + Enemy.EnemyIntelligenceSuspicionCounter);
+            Logger.Write(<span class="stringliteral">&quot;---------------------------------------------------------&quot;</span>);
+            Logger.Write(<span class="stringliteral">&quot;number of runaways: &quot;</span> + Enemy.EnemyIntelligenceSuspicionCounter);
             <span class="keywordtype">bool</span> commanderOk = <span class="keyword">false</span>;
 
             <span class="keywordflow">try</span>
@@ -111,15 +111,15 @@
             }
             <span class="keywordflow">catch</span> (Exception ex)
             {
-                Bot.Game.Debug(<span class="stringliteral">&quot;=================BOT ERROR=====================&quot;</span>);
-                Bot.Game.Debug(<span class="stringliteral">&quot;Bot almost crashed because of exception: &quot;</span> + ex.Message);
+                Logger.Write(<span class="stringliteral">&quot;=================BOT ERROR=====================&quot;</span>, <span class="keyword">true</span>);
+                Logger.Write(<span class="stringliteral">&quot;Bot almost crashed because of exception: &quot;</span> + ex.Message, <span class="keyword">true</span>);
 
                 StackTrace exTrace = <span class="keyword">new</span> StackTrace(ex, <span class="keyword">true</span>);
                 StackFrame frame = exTrace.GetFrame(0);
-                Bot.Game.Debug(<span class="stringliteral">&quot;The exception was thrown from method {0} at file {1} at line #{2}&quot;</span>, frame.GetMethod(),
-                    frame.GetFileName(), frame.GetFileLineNumber());
+                Logger.Write(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;The exception was thrown from method {0} at file {1} at line #{2}&quot;</span>, frame.GetMethod(),
+                    frame.GetFileName(), frame.GetFileLineNumber()), <span class="keyword">true</span>);
 
-                Bot.Game.Debug(<span class="stringliteral">&quot;=================BOT ERROR=====================&quot;</span>);
+                Logger.Write(<span class="stringliteral">&quot;=================BOT ERROR=====================&quot;</span>, <span class="keyword">true</span>);
             }
             <span class="keywordflow">finally</span>
             {
@@ -140,7 +140,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:39:17 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 14:20:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

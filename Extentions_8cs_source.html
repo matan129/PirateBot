@@ -128,7 +128,7 @@
 <a name="l00104"></a>00104 
 <a name="l00114"></a><a class="code" href="classBritbot_1_1Extensions_afb79a007466bf36789cf6f49f7820929.html#afb79a007466bf36789cf6f49f7820929">00114</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1Extensions_afb79a007466bf36789cf6f49f7820929.html#afb79a007466bf36789cf6f49f7820929" title="This function checks if it is possible for a given group to be in certain location without pirates ge...">IsPassableEnough</a>(<span class="keyword">this</span> IPirateGame game, Location loc, <a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> group)
 <a name="l00115"></a>00115         {
-<a name="l00116"></a>00116             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a94593529e316f18fde5ca9ebc28f2ae1.html#a94593529e316f18fde5ca9ebc28f2ae1">BeginTime</a>(<span class="stringliteral">&quot;IsPassableEnough&quot;</span>);
+<a name="l00116"></a>00116             <span class="comment">//Logger.BeginTime(&quot;IsPassableEnough&quot;);</span>
 <a name="l00117"></a>00117             <span class="comment">//going over all the pirates in the group</span>
 <a name="l00118"></a>00118             <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pirate <span class="keywordflow">in</span> group.Pirates)
 <a name="l00119"></a>00119             {
@@ -143,7 +143,7 @@
 <a name="l00128"></a>00128                 <span class="keywordflow">if</span> (!game.IsInMap(newLocation) || !game.IsPassable(newLocation))
 <a name="l00129"></a>00129                     <span class="keywordflow">return</span> <span class="keyword">false</span>;
 <a name="l00130"></a>00130             }
-<a name="l00131"></a>00131             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5">StopTime</a>(<span class="stringliteral">&quot;IsPassableEnough&quot;</span>);
+<a name="l00131"></a>00131             <span class="comment">//Logger.StopTime(&quot;IsPassableEnough&quot;);</span>
 <a name="l00132"></a>00132             <span class="comment">//otherwise return true since all the pirates can fit here</span>
 <a name="l00133"></a>00133             <span class="keywordflow">return</span> <span class="keyword">true</span>;
 <a name="l00134"></a>00134             <span class="comment">/*</span>
@@ -244,7 +244,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:39:17 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 14:20:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

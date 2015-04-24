@@ -128,7 +128,7 @@
 
 <p>Definition at line <a class="el" href="Extentions_8cs_source.html#l00114">114</a> of file <a class="el" href="Extentions_8cs_source.html">Extentions.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            Logger.BeginTime(<span class="stringliteral">&quot;IsPassableEnough&quot;</span>);
+            <span class="comment">//Logger.BeginTime(&quot;IsPassableEnough&quot;);</span>
             <span class="comment">//going over all the pirates in the group</span>
             <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pirate <span class="keywordflow">in</span> group.Pirates)
             {
@@ -143,7 +143,7 @@
                 <span class="keywordflow">if</span> (!game.IsInMap(newLocation) || !game.IsPassable(newLocation))
                     <span class="keywordflow">return</span> <span class="keyword">false</span>;
             }
-            Logger.StopTime(<span class="stringliteral">&quot;IsPassableEnough&quot;</span>);
+            <span class="comment">//Logger.StopTime(&quot;IsPassableEnough&quot;);</span>
             <span class="comment">//otherwise return true since all the pirates can fit here</span>
             <span class="keywordflow">return</span> <span class="keyword">true</span>;
             <span class="comment">/*</span>
@@ -172,7 +172,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 09:39:18 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 14:20:55 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
