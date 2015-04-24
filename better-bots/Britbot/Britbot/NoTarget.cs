@@ -41,6 +41,7 @@ namespace Britbot
         /// <returns>nothing</returns>
         public Direction GetDirection(Group origin)
         {
+            Logger.Write("GDNTR NT");
             return Direction.NOTHING;
         }
 

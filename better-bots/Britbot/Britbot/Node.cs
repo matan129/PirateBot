@@ -289,7 +289,7 @@ namespace Britbot
                         else
                             line += "-";
                     }
-                    Bot.Game.Debug(line);
+                    Logger.Write(line);
                     line = "";
                 }
             }

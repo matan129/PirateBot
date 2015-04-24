@@ -196,10 +196,10 @@ namespace Britbot
 
         public static void Debug()
         {
-            Bot.Game.Debug("------------ENEMY GROUPS-----------------");
+            Logger.Write("------------ENEMY GROUPS-----------------");
             foreach (EnemyGroup eg in Enemy.Groups)
             {
-                Bot.Game.Debug(eg.ToString());
+                Logger.Write(eg.ToString());
             }
         }
     }

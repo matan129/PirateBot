@@ -56,8 +56,8 @@ namespace Britbot
             //update the game so other classes will get updated data
             Bot.Game = state;
 
-            Bot.Game.Debug("---------------------------------------------------------");
-            Bot.Game.Debug("number of runaways: " + Enemy.EnemyIntelligenceSuspicionCounter);
+            Logger.Write("---------------------------------------------------------");
+            Logger.Write("number of runaways: " + Enemy.EnemyIntelligenceSuspicionCounter);
             bool commanderOk = false;
 
             try
@@ -71,15 +71,15 @@ namespace Britbot
             }
             catch (Exception ex)
             {
-                Bot.Game.Debug("=================BOT ERROR=====================");
-                Bot.Game.Debug("Bot almost crashed because of exception: " + ex.Message);
+                Logger.Write("=================BOT ERROR=====================", true);
+                Logger.Write("Bot almost crashed because of exception: " + ex.Message, true);
 
                 StackTrace exTrace = new StackTrace(ex, true);
                 StackFrame frame = exTrace.GetFrame(0);
-                Bot.Game.Debug("The exception was thrown from method {0} at file {1} at line #{2}", frame.GetMethod(),
-                    frame.GetFileName(), frame.GetFileLineNumber());
+                Logger.Write(string.Format("The exception was thrown from method {0} at file {1} at line #{2}", frame.GetMethod(),
+                    frame.GetFileName(), frame.GetFileLineNumber()), true);
 
-                Bot.Game.Debug("=================BOT ERROR=====================");
+                Logger.Write("=================BOT ERROR=====================", true);
             }
             finally
             {
@@ -123,9 +123,9 @@ namespace Britbot
                     }
                     catch (Exception ex)
                     {
-                        Bot.Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
-                                       Bot.Game.GetTurn());
-                        Bot.Game.Debug(ex.ToString());
+                        Logger.Write("TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN " +
+                                       Bot.Game.GetTurn(),true);
+                        Logger.Write(ex.ToString(), true);
                     }
                 });
 
@@ -139,9 +139,9 @@ namespace Britbot
                     }
                     catch (Exception ex)
                     {
-                        Bot.Game.Debug("TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN " +
-                                       Bot.Game.GetTurn());
-                        Bot.Game.Debug(ex.ToString());
+                        Logger.Write("TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN " +
+                                     Bot.Game.GetTurn(), true);
+                        Logger.Write(ex.ToString(), true);
                     }
                 });
 
@@ -151,13 +151,13 @@ namespace Britbot
             //if it's stuck...
             if (!onTime)
             {
-                Bot.Game.Debug("=================TIMEOUT=======================");
-                Bot.Game.Debug("Commander timed out, switching to fallback code");
-                Bot.Game.Debug("Time remaining: " + Bot.Game.TimeRemaining());
-                Bot.Game.Debug("=================TIMEOUT=======================");
+                Logger.Write("=================TIMEOUT=======================");
+                Logger.Write("Commander timed out, switching to fallback code");
+                Logger.Write("Time remaining: " + Bot.Game.TimeRemaining());
+                Logger.Write("=================TIMEOUT=======================");
             }
 
-            Logger.Debug();
+            Logger.Profile();
 
             //return if the commander is on time
             return onTime;

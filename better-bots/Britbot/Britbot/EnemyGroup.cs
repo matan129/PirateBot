@@ -146,6 +146,7 @@ namespace Britbot
         /// <returns></returns>
         public Direction GetDirection(Group group)
         {
+            Logger.Write("GDNTR EG");
             //calculates the direction based on the geographical data from the game
             //first check if stationary
             if (Math.Abs(this.GetHeading().Norm()) < Magic.VectorTolerance)
@@ -517,8 +518,8 @@ namespace Britbot
             }
             //read the distance between the trajectory of the enemy group and the island
             double distance = Navigator.CalcDistFromLine(sIsland.Loc, this.GetLocation(), this.GetHeading());
-            /*Bot.Game.Debug("Loc " + sIsland.Loc + " line loc: " + this.GetLocation().ToString() + " heading: " + this.GetHeading().ToString());
-            Bot.Game.Debug("Distance: " + distance);*/
+            /*Logger.Write("Loc " + sIsland.Loc + " line loc: " + this.GetLocation().ToString() + " heading: " + this.GetHeading().ToString());
+            Logger.Write("Distance: " + distance);*/
             //compare it to the constant defined in magic
             return distance <= Magic.EnemyPredictionSensitivity;
         }
