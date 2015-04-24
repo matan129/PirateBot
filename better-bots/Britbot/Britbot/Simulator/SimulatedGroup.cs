@@ -9,8 +9,37 @@ namespace Britbot.Simulator
     /// <summary>
     /// this represents a group of pirates (either friendly or enemy)
     /// </summary>
-    class SimularedGroup
+    class SimulatedGroup
     {
+        protected bool Equals(SimulatedGroup other)
+        {
+            return this.Id == other.Id && this.Owner == other.Owner && this.FirePower.Equals(other.FirePower) && this.IsAlive == other.IsAlive && this.ReviveTurn == other.ReviveTurn;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            if (obj.GetType() != this.GetType())
+                return false;
+            return Equals((SimulatedGroup) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = this.Id;
+                hashCode = (hashCode * 397) ^ this.Owner;
+                hashCode = (hashCode * 397) ^ this.FirePower.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.IsAlive.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.ReviveTurn;
+                return hashCode;
+            }
+        }
+
         /// <summary>
         /// The id of the group
         /// </summary>
@@ -43,7 +72,7 @@ namespace Britbot.Simulator
         /// <param name="id"></param>
         /// <param name="owner"></param>
         /// <param name="firePower"></param>
-        public SimularedGroup(int id, int owner, double firePower )
+        public SimulatedGroup(int id, int owner, double firePower )
         {
             //just set stuff
             this.Id = id;
@@ -59,7 +88,7 @@ namespace Britbot.Simulator
         /// copy C'tor
         /// </summary>
         /// <param name="sg"></param>
-        public SimularedGroup(SimularedGroup sg)
+        public SimulatedGroup(SimulatedGroup sg)
         {
             this.Id = sg.Id;
             this.Owner = sg.Owner;
@@ -68,7 +97,7 @@ namespace Britbot.Simulator
             this.ReviveTurn = sg.ReviveTurn;
         }
 
-        public bool IsCapturing(SimulatedGame sg)
+        private bool IsCapturing(SimulatedGame sg)
         {
             //going over all the islands to check if we are capturing them
             for(int i = 0;i < sg.Islands.Length;i++)
@@ -79,11 +108,11 @@ namespace Britbot.Simulator
             return true;
         }
 
-        public int ActualFirePower(SimulatedGame sg)
+        public int ActualFirePower(SimulatedGame simGame)
         {
-            if (this.IsCapturing())
-                return this.FirePower - 1;
-            return this.FirePower;
+            if (this.IsCapturing(simGame))
+                return (int)this.FirePower - 1;
+            return (int)this.FirePower;
         }
 
         /// <summary>
@@ -99,9 +128,14 @@ namespace Britbot.Simulator
         }
 
 
-        public static override bool operator ==(SimularedGroup sg1, SimularedGroup sg2)
+        public static bool operator ==(SimulatedGroup sg1, SimulatedGroup sg2)
         {
-            return sg1.Id == sg2.Id;
+            return sg1 != null &&  sg2 != null && sg1.Id == sg2.Id;
+        }
+
+        public static bool operator !=(SimulatedGroup sg1, SimulatedGroup sg2)
+        {
+            return !(sg1 == sg2);
         }
     }
 }

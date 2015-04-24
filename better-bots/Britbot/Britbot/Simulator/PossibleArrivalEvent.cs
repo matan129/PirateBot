@@ -20,14 +20,14 @@ namespace Britbot.Simulator
         /// <summary>
         /// the Group arriving to the island
         /// </summary>
-        SimularedGroup ArrivingGroup;
+        SimulatedGroup ArrivingGroup;
 
         /// <summary>
         /// C'tor...
         /// </summary>
         /// <param name="island"></param>
         /// <param name="group"></param>
-        public PossibleArrivalEvent(SimulatedIsland island, SimularedGroup group)
+        public PossibleArrivalEvent(SimulatedIsland island, SimulatedGroup group)
         {
             this.Island = island;
             this.ArrivingGroup = group;
@@ -55,12 +55,12 @@ namespace Britbot.Simulator
 
                 //the arriving group has enought force to take over the island and it might do it
                 //first, kill locals
-                this.Island.KillLocals(sg.CurrTurn);
+                this.Island.KillLocals(sg.CurrentTurn);
 
                 //then take over
                 this.Island.CapturingGroup = this.ArrivingGroup;
 
-                int captureTurn = sg.CurrTurn + this.Island.TurnsTillDecapture(this.ArrivingGroup.Owner);
+                int captureTurn = sg.CurrentTurn + this.Island.TurnsTillDecapture(this.ArrivingGroup.Owner);
 
                 //then set a capture and decapture event
                 sg.AddEvent(new DeCaptureEvent(this.Island, this.ArrivingGroup), captureTurn);

@@ -19,7 +19,7 @@ namespace Britbot.Simulator
         /// <summary>
         /// The group Capturing
         /// </summary>
-        SimularedGroup Capturer;
+        SimulatedGroup Capturer;
 
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Britbot.Simulator
         /// </summary>
         /// <param name="island"></param>
         /// <param name="capturer"></param>
-        public DeCaptureEvent(SimulatedIsland island, SimularedGroup capturer)
+        public DeCaptureEvent(SimulatedIsland island, SimulatedGroup capturer)
         {
             this.Island = island;
             this.Capturer = capturer;
@@ -56,7 +56,7 @@ namespace Britbot.Simulator
             this.Island.TurnsBeingCaptured = 0;
 
             //set out a capture event
-            int captureTurn = sg.CurrTurn + this.Island.TurnsTillCapture(this.Capturer.Owner);
+            int captureTurn = sg.CurrentTurn + this.Island.TurnsTillCapture(this.Capturer.Owner);
             sg.AddEvent(new CaptureEvent(this.Island, this.Capturer), captureTurn);
         }
     }

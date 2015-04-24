@@ -26,46 +26,46 @@ namespace Britbot.Simulator
         /// <summary>
         /// List of all friendly groups
         /// </summary>
-        private Dictionary<int,SimularedGroup> MyGroups;
+        private Dictionary<int,SimulatedGroup> MyGroups;
 
         /// <summary>
         /// List of all enemy groups
         /// </summary>
-        private Dictionary<int, SimularedGroup> EnemyGroups;
+        private Dictionary<int, SimulatedGroup> EnemyGroups;
 
         /// <summary>
         /// the score
         /// </summary>
-        private int Score;
+        public int Score { get; private set; }
 
         /// <summary>
         /// the current turn of the simulation
         /// </summary>
-        public int CurrTurn;
+        public int CurrentTurn { get; set; }
 
         public SimulatedGame()
         {
             //initialize stuff
             this.CommingEvents = new HeapPriorityQueue<SimulatedEvent>((int)(2 * Magic.MaxCalculableDistance));
             this.Islands = new SimulatedIsland[Bot.Game.Islands().Count];
-            this.MyGroups = new Dictionary<int, SimularedGroup>();
-            this.EnemyGroups = new Dictionary<int, SimularedGroup>();
+            this.MyGroups = new Dictionary<int, SimulatedGroup>();
+            this.EnemyGroups = new Dictionary<int, SimulatedGroup>();
 
             //add the ending Event
             this.CommingEvents.Enqueue(null, Magic.MaxCalculableDistance);
 
-            this.CurrTurn = 0;
+            this.CurrentTurn = 0;
             this.Score = 0;
             //set my groups
             foreach(Group group in Commander.Groups)
             {
-                this.MyGroups.Add(group.Id,new SimularedGroup(group.Id, Consts.ME, group.LiveCount()));
+                this.MyGroups.Add(group.Id,new SimulatedGroup(group.Id, Consts.ME, group.LiveCount()));
             }
 
             //set enemy group
             foreach(EnemyGroup eGroup in Enemy.Groups)
             {
-                this.EnemyGroups.Add(eGroup.Id, new SimularedGroup(eGroup.Id, Consts.ENEMY, eGroup.GetMaxFightPower()));
+                this.EnemyGroups.Add(eGroup.Id, new SimulatedGroup(eGroup.Id, Consts.ENEMY, eGroup.GetMaxFightPower()));
             }
 
         }

@@ -19,14 +19,14 @@ namespace Britbot.Simulator
         /// <summary>
         /// the Group arriving to the island
         /// </summary>
-        SimularedGroup ArrivingGroup;
+        SimulatedGroup ArrivingGroup;
 
         /// <summary>
         /// C'tor...
         /// </summary>
         /// <param name="island"></param>
         /// <param name="group"></param>
-        public GroupArrivalEvent(SimulatedIsland island, SimularedGroup group)
+        public GroupArrivalEvent(SimulatedIsland island, SimulatedGroup group)
         {
             this.Island = island;
             this.ArrivingGroup = group;
@@ -51,14 +51,14 @@ namespace Britbot.Simulator
                         if (this.Island.CapturingGroup.ActualFirePower(sg) > this.ArrivingGroup.FirePower)
                         {
                             //if the local force is stronger then the arriving group dies
-                            this.ArrivingGroup.Kill(sg.CurrTurn);
+                            this.ArrivingGroup.Kill(sg.CurrentTurn);
                             return;
                         }
                         if (this.Island.CapturingGroup.ActualFirePower(sg) == this.ArrivingGroup.FirePower)
                         {
                             //if the forces are equal, kill them both
-                            this.ArrivingGroup.Kill(sg.CurrTurn);
-                            this.Island.CapturingGroup.Kill(sg.CurrTurn);
+                            this.ArrivingGroup.Kill(sg.CurrentTurn);
+                            this.Island.CapturingGroup.Kill(sg.CurrentTurn);
                             return;
                         }
                     }
@@ -66,11 +66,11 @@ namespace Britbot.Simulator
 
                 //the arriving group has enought force to take over the island
                 //first, kill locals, if there are any
-                this.Island.KillLocals(sg.CurrTurn);
+                this.Island.KillLocals(sg.CurrentTurn);
                 //then take over
                 this.Island.CapturingGroup = this.ArrivingGroup;
 
-                int captureTurn = sg.CurrTurn + this.Island.TurnsTillDecapture(this.ArrivingGroup.Owner);
+                int captureTurn = sg.CurrentTurn + this.Island.TurnsTillDecapture(this.ArrivingGroup.Owner);
 
                 //then set a decapture event
                 sg.AddEvent(new DeCaptureEvent(this.Island, this.ArrivingGroup), captureTurn);

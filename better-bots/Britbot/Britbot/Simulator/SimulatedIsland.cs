@@ -8,15 +8,15 @@ namespace Britbot.Simulator
 {
     class SimulatedIsland
     {
-        public int Id;
+        public int Id { get; set; }
 
-        public int Value;
+        public int Value { get; set; }
 
         public int Owner;
 
         public int TurnsBeingCaptured;
 
-        public SimularedGroup CapturingGroup;
+        public SimulatedGroup CapturingGroup;
 
         /// <summary>
         /// calculates how much time it would take for the given side to capture the island

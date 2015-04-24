@@ -87,7 +87,7 @@
     <Compile Include="Simulator\DeCaptureEvent.cs" />
     <Compile Include="Simulator\GroupArrivalEvent.cs" />
     <Compile Include="Simulator\PossibleArrivalEvent.cs" />
-    <Compile Include="Simulator\SimularedGroup.cs" />
+    <Compile Include="Simulator\SimulatedGroup.cs" />
     <Compile Include="Simulator\SimulatedEvent.cs" />
     <Compile Include="Simulator\SimulatedGame.cs" />
     <Compile Include="Simulator\SimulatedIsland.cs" />

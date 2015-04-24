@@ -19,7 +19,7 @@ namespace Britbot.Simulator
         /// <summary>
         /// The group Capturing
         /// </summary>
-        SimularedGroup Capturer;
+        SimulatedGroup Capturer;
 
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Britbot.Simulator
         /// </summary>
         /// <param name="island"></param>
         /// <param name="capturer"></param>
-        public CaptureEvent(SimulatedIsland island, SimularedGroup capturer)
+        public CaptureEvent(SimulatedIsland island, SimulatedGroup capturer)
         {
             this.Island = island;
             this.Capturer = capturer;

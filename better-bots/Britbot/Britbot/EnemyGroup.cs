@@ -14,6 +14,20 @@ namespace Britbot
     /// </summary>
     public class EnemyGroup : ITarget
     {
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = this.Id;
+                hashCode = (hashCode * 397) ^ this.LastAssignmentTurn;
+                hashCode = (hashCode * 397) ^ (this.LastDirections != null ? this.LastDirections.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (this.LastMaxFightPower != null ? this.LastMaxFightPower.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (this.PrevLoc != null ? this.PrevLoc.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (this.EnemyPirates != null ? this.EnemyPirates.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
         #region Static Fields & Consts
 
         //---------------#Magic_Numbers--------------------

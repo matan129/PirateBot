@@ -104,7 +104,7 @@ namespace Britbot
             Bot.Game.Debug("===================GROUP {0}===================", this.Id);
         }
 
-        [Obsolete("Please use the constructor that takes spesific pirates")]
+        //[Obsolete("Please use the constructor that takes spesific pirates")]
         public Group(int index, int amount)
             : this()
         {
@@ -500,7 +500,7 @@ namespace Britbot
                         structure = this.GenerateGroupStructure(center).Flatten();
                         break;
                     }
-                    catch (InvalidLocationException ex)
+                    catch (InvalidLocationException)
                     {
                         //if the location is invalid (i.e. the current center requires a location outside the map)
                         //advance the location towards the center of the map

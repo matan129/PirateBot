@@ -13,6 +13,14 @@ namespace Britbot
     /// </summary>
     public class HeadingVector
     {
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (this.X.GetHashCode() * 397) ^ this.Y.GetHashCode();
+            }
+        }
+
         #region Fields & Properies
 
         /// <summary>

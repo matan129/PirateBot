@@ -12,12 +12,12 @@ namespace Britbot.Simulator
     class BattleEvent : SimulatedEvent
     {
         //first group
-        SimularedGroup Group1;
+        SimulatedGroup Group1;
 
         //second group
-        SimularedGroup Group2;
+        SimulatedGroup Group2;
 
-        public BattleEvent(SimularedGroup g1,SimularedGroup g2)
+        public BattleEvent(SimulatedGroup g1,SimulatedGroup g2)
         {
             this.Group1 = g1;
             this.Group2 = g2;
@@ -28,16 +28,16 @@ namespace Britbot.Simulator
             //check fire power
             if(this.Group1.ActualFirePower(sg) < this.Group2.ActualFirePower(sg))
             {
-                this.Group1.Kill(sg.CurrTurn);
+                this.Group1.Kill(sg.CurrentTurn);
             }
             else if(this.Group1.ActualFirePower(sg) == this.Group2.ActualFirePower(sg))
             {
-                this.Group1.Kill(sg.CurrTurn);
-                this.Group2.Kill(sg.CurrTurn);
+                this.Group1.Kill(sg.CurrentTurn);
+                this.Group2.Kill(sg.CurrentTurn);
             }
             else
             {
-                this.Group2.Kill(sg.CurrTurn);
+                this.Group2.Kill(sg.CurrentTurn);
             }
         }
     }
