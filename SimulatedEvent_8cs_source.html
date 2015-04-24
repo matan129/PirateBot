@@ -59,30 +59,37 @@
 <div class="contents">
 <a href="SimulatedEvent_8cs.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 ﻿#region #Usings
 <a name="l00002"></a>00002 
-<a name="l00003"></a>00003 <span class="keyword">using</span> System;
-<a name="l00004"></a>00004 <span class="keyword">using</span> Britbot.PriorityQueue;
-<a name="l00005"></a>00005 
-<a name="l00006"></a>00006 <span class="preprocessor">#endregion</span>
-<a name="l00007"></a>00007 <span class="preprocessor"></span>
-<a name="l00008"></a>00008 <span class="keyword">namespace </span>Britbot.Simulator
-<a name="l00009"></a>00009 {
-<a name="l00014"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent.html">00014</a>     <span class="keyword">abstract</span> <span class="keyword">class </span><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent.html" title="A virtual class representing an event in the game (capture, kill, est...) Inherits from PriorityQueue...">SimulatedEvent</a> : <a class="code" href="classBritbot_1_1PriorityQueue_1_1PriorityQueueNode.html">PriorityQueueNode</a>
-<a name="l00015"></a>00015     {
-<a name="l00019"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent_aaed98adeef43d61b07ac0a7e4957510a.html#aaed98adeef43d61b07ac0a7e4957510a">00019</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent_aaed98adeef43d61b07ac0a7e4957510a.html#aaed98adeef43d61b07ac0a7e4957510a" title="The turn where the event should activate.">Turn</a>;
-<a name="l00020"></a>00020 
-<a name="l00025"></a>00025         <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keywordtype">bool</span> Activate(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg);
-<a name="l00026"></a>00026 
-<a name="l00027"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent_a3c4307fba34dfc8f2f3e2eb91efec99a.html#a3c4307fba34dfc8f2f3e2eb91efec99a">00027</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent.html" title="A virtual class representing an event in the game (capture, kill, est...) Inherits from PriorityQueue...">SimulatedEvent</a>(<span class="keywordtype">int</span> turn)
-<a name="l00028"></a>00028         {
-<a name="l00029"></a>00029             this.Turn = turn;
-<a name="l00030"></a>00030         }
-<a name="l00031"></a>00031     }
-<a name="l00032"></a>00032 }
+<a name="l00003"></a>00003 <span class="keyword">using</span> Britbot.PriorityQueue;
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="preprocessor">#endregion</span>
+<a name="l00006"></a>00006 <span class="preprocessor"></span>
+<a name="l00007"></a>00007 <span class="keyword">namespace </span>Britbot.Simulator
+<a name="l00008"></a>00008 {
+<a name="l00013"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent.html">00013</a>     <span class="keyword">internal</span> <span class="keyword">abstract</span> <span class="keyword">class </span><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent.html" title="A virtual class representing an event in the game (capture, kill, est...) Inherits from PriorityQueue...">SimulatedEvent</a> : <a class="code" href="classBritbot_1_1PriorityQueue_1_1PriorityQueueNode.html">PriorityQueueNode</a>
+<a name="l00014"></a>00014     {
+<a name="l00015"></a>00015 <span class="preprocessor">        #region Fields &amp; Properies</span>
+<a name="l00016"></a>00016 <span class="preprocessor"></span>
+<a name="l00020"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent_aaed98adeef43d61b07ac0a7e4957510a.html#aaed98adeef43d61b07ac0a7e4957510a">00020</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent_aaed98adeef43d61b07ac0a7e4957510a.html#aaed98adeef43d61b07ac0a7e4957510a" title="The turn where the event should activate.">Turn</a>;
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="preprocessor">        #endregion</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span>
+<a name="l00024"></a>00024 <span class="preprocessor">        #region Constructors &amp; Initializers</span>
+<a name="l00025"></a>00025 <span class="preprocessor"></span>
+<a name="l00030"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent_a3c4307fba34dfc8f2f3e2eb91efec99a.html#a3c4307fba34dfc8f2f3e2eb91efec99a">00030</a>         <span class="keyword">protected</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedEvent.html" title="A virtual class representing an event in the game (capture, kill, est...) Inherits from PriorityQueue...">SimulatedEvent</a>(<span class="keywordtype">int</span> turn)
+<a name="l00031"></a>00031         {
+<a name="l00032"></a>00032             this.Turn = turn;
+<a name="l00033"></a>00033         }
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 <span class="preprocessor">        #endregion</span>
+<a name="l00036"></a>00036 <span class="preprocessor"></span>
+<a name="l00041"></a>00041         <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keywordtype">bool</span> Activate(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg);
+<a name="l00042"></a>00042     }
+<a name="l00043"></a>00043 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 14:43:16 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 17:18:45 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

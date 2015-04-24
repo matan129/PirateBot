@@ -115,7 +115,9 @@
 
 <p>Definition at line <a class="el" href="Group_8cs_source.html#l00755">755</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            <span class="keywordflow">return</span> this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.ToList().ConvertAll(p =&gt; Bot.Game.GetMyPirate(p)).Count(p =&gt; !p.IsLost);
+            <span class="keywordflow">if</span>(this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a> != null)
+                <span class="keywordflow">return</span> this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.ToList().ConvertAll(p =&gt; Bot.Game.GetMyPirate(p)).Count(p =&gt; !p.IsLost);
+            <span class="keywordflow">return</span> 0;
         }
 </pre></div>
 </div>
@@ -127,7 +129,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 14:43:17 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 17:18:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

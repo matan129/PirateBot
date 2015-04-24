@@ -128,52 +128,55 @@
 <a name="l00101"></a>00101             sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1ReviveEvent.html">ReviveEvent</a>(sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453" title="the current turn of the simulation">CurrentTurn</a> + <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetSpawnTurns(), <span class="keyword">this</span>));
 <a name="l00102"></a>00102         }
 <a name="l00103"></a>00103 
-<a name="l00104"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a73dfdb399ecab6d4a10a3cd9443679a0.html#a73dfdb399ecab6d4a10a3cd9443679a0">00104</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> operator ==(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> sg1, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> sg2)
-<a name="l00105"></a>00105         {
-<a name="l00106"></a>00106             <span class="keywordflow">return</span> sg1 != null &amp;&amp; sg2 != null &amp;&amp; sg1.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a37cb9c2ab7a6967fbe654dd4934a8cb3.html#a37cb9c2ab7a6967fbe654dd4934a8cb3" title="The id of the group.">Id</a> == sg2.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a37cb9c2ab7a6967fbe654dd4934a8cb3.html#a37cb9c2ab7a6967fbe654dd4934a8cb3" title="The id of the group.">Id</a>;
-<a name="l00107"></a>00107         }
-<a name="l00108"></a>00108 
-<a name="l00109"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_ae843d2606204824215aedf2f90cc879c.html#ae843d2606204824215aedf2f90cc879c">00109</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> operator !=(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> sg1, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> sg2)
-<a name="l00110"></a>00110         {
-<a name="l00111"></a>00111             <span class="keywordflow">return</span> !(sg1 == sg2);
-<a name="l00112"></a>00112         }
-<a name="l00113"></a>00113 
-<a name="l00114"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a8ec6123ff4ade301369b50d8e7e17ac0.html#a8ec6123ff4ade301369b50d8e7e17ac0">00114</a>         <span class="keyword">protected</span> <span class="keywordtype">bool</span> Equals(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> other)
-<a name="l00115"></a>00115         {
-<a name="l00116"></a>00116             <span class="keywordflow">return</span> this.Id == other.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a37cb9c2ab7a6967fbe654dd4934a8cb3.html#a37cb9c2ab7a6967fbe654dd4934a8cb3" title="The id of the group.">Id</a> &amp;&amp; this.Owner == other.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_ae0effec32bfe2f42a65e7f03aef60cba.html#ae0effec32bfe2f42a65e7f03aef60cba" title="The owner of this group (Me or Enemy)">Owner</a> &amp;&amp; this.FirePower.Equals(other.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a6dc776966862a94c9e49ccdcf1c2358b.html#a6dc776966862a94c9e49ccdcf1c2358b" title="The actual firepower of the group.">FirePower</a>) &amp;&amp;
-<a name="l00117"></a>00117                    this.IsAlive == other.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a53540e7ae95cae812758e0d9143dba8c.html#a53540e7ae95cae812758e0d9143dba8c" title="True if the enemy group is alive.">IsAlive</a> &amp;&amp; this.ReviveTurn == other.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a6515146ec68acf2e69676ff2cd79d319.html#a6515146ec68acf2e69676ff2cd79d319" title="The turn when the group revives.">ReviveTurn</a>;
-<a name="l00118"></a>00118         }
-<a name="l00119"></a>00119 
-<a name="l00120"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a966f75593240603799b4f43eaae0c333.html#a966f75593240603799b4f43eaae0c333">00120</a>         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">bool</span> Equals(<span class="keywordtype">object</span> obj)
-<a name="l00121"></a>00121         {
-<a name="l00122"></a>00122             <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.ReferenceEquals(null, obj))
-<a name="l00123"></a>00123                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00124"></a>00124             <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.ReferenceEquals(<span class="keyword">this</span>, obj))
-<a name="l00125"></a>00125                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00126"></a>00126             <span class="keywordflow">if</span> (obj.GetType() != this.GetType())
-<a name="l00127"></a>00127                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00128"></a>00128             <span class="keywordflow">return</span> Equals((<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a>)obj);
-<a name="l00129"></a>00129         }
-<a name="l00130"></a>00130 
-<a name="l00131"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a92d79c455d676aa798fc6bc2adbae080.html#a92d79c455d676aa798fc6bc2adbae080">00131</a>         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">int</span> GetHashCode()
-<a name="l00132"></a>00132         {
-<a name="l00133"></a>00133             unchecked
-<a name="l00134"></a>00134             {
-<a name="l00135"></a>00135                 <span class="keywordtype">int</span> hashCode = this.Id;
-<a name="l00136"></a>00136                 hashCode = (hashCode * 397) ^ this.Owner;
-<a name="l00137"></a>00137                 hashCode = (hashCode * 397) ^ this.FirePower.GetHashCode();
-<a name="l00138"></a>00138                 hashCode = (hashCode * 397) ^ this.IsAlive.GetHashCode();
-<a name="l00139"></a>00139                 hashCode = (hashCode * 397) ^ this.ReviveTurn;
-<a name="l00140"></a>00140                 <span class="keywordflow">return</span> hashCode;
-<a name="l00141"></a>00141             }
-<a name="l00142"></a>00142         }
-<a name="l00143"></a>00143     }
-<a name="l00144"></a>00144 }
+<a name="l00110"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a73dfdb399ecab6d4a10a3cd9443679a0.html#a73dfdb399ecab6d4a10a3cd9443679a0">00110</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> operator ==(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> sg1, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> sg2)
+<a name="l00111"></a>00111         {
+<a name="l00112"></a>00112             <span class="keywordflow">if</span> (ReferenceEquals(sg1, null) &amp;&amp; ReferenceEquals(sg2, null))
+<a name="l00113"></a>00113                 <span class="keywordflow">return</span> <span class="keyword">true</span>; <span class="comment">//both null</span>
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115             <span class="keywordflow">return</span> !ReferenceEquals(sg1,null) &amp;&amp; !ReferenceEquals(sg2,null) &amp;&amp; sg1.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a37cb9c2ab7a6967fbe654dd4934a8cb3.html#a37cb9c2ab7a6967fbe654dd4934a8cb3" title="The id of the group.">Id</a> == sg2.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a37cb9c2ab7a6967fbe654dd4934a8cb3.html#a37cb9c2ab7a6967fbe654dd4934a8cb3" title="The id of the group.">Id</a>;
+<a name="l00116"></a>00116         }
+<a name="l00117"></a>00117 
+<a name="l00124"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_ae843d2606204824215aedf2f90cc879c.html#ae843d2606204824215aedf2f90cc879c">00124</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> operator !=(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> sg1, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> sg2)
+<a name="l00125"></a>00125         {
+<a name="l00126"></a>00126             <span class="keywordflow">return</span> !(sg1 == sg2);
+<a name="l00127"></a>00127         }
+<a name="l00128"></a>00128 
+<a name="l00129"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a8ec6123ff4ade301369b50d8e7e17ac0.html#a8ec6123ff4ade301369b50d8e7e17ac0">00129</a>         <span class="keyword">protected</span> <span class="keywordtype">bool</span> Equals(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> other)
+<a name="l00130"></a>00130         {
+<a name="l00131"></a>00131             <span class="keywordflow">return</span> this.Id == other.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a37cb9c2ab7a6967fbe654dd4934a8cb3.html#a37cb9c2ab7a6967fbe654dd4934a8cb3" title="The id of the group.">Id</a> &amp;&amp; this.Owner == other.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_ae0effec32bfe2f42a65e7f03aef60cba.html#ae0effec32bfe2f42a65e7f03aef60cba" title="The owner of this group (Me or Enemy)">Owner</a> &amp;&amp; this.FirePower.Equals(other.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a6dc776966862a94c9e49ccdcf1c2358b.html#a6dc776966862a94c9e49ccdcf1c2358b" title="The actual firepower of the group.">FirePower</a>) &amp;&amp;
+<a name="l00132"></a>00132                    this.IsAlive == other.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a53540e7ae95cae812758e0d9143dba8c.html#a53540e7ae95cae812758e0d9143dba8c" title="True if the enemy group is alive.">IsAlive</a> &amp;&amp; this.ReviveTurn == other.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a6515146ec68acf2e69676ff2cd79d319.html#a6515146ec68acf2e69676ff2cd79d319" title="The turn when the group revives.">ReviveTurn</a>;
+<a name="l00133"></a>00133         }
+<a name="l00134"></a>00134 
+<a name="l00135"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a966f75593240603799b4f43eaae0c333.html#a966f75593240603799b4f43eaae0c333">00135</a>         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">bool</span> Equals(<span class="keywordtype">object</span> obj)
+<a name="l00136"></a>00136         {
+<a name="l00137"></a>00137             <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.ReferenceEquals(null, obj))
+<a name="l00138"></a>00138                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00139"></a>00139             <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.ReferenceEquals(<span class="keyword">this</span>, obj))
+<a name="l00140"></a>00140                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00141"></a>00141             <span class="keywordflow">if</span> (obj.GetType() != this.GetType())
+<a name="l00142"></a>00142                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00143"></a>00143             <span class="keywordflow">return</span> Equals((<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a>)obj);
+<a name="l00144"></a>00144         }
+<a name="l00145"></a>00145 
+<a name="l00146"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a92d79c455d676aa798fc6bc2adbae080.html#a92d79c455d676aa798fc6bc2adbae080">00146</a>         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">int</span> GetHashCode()
+<a name="l00147"></a>00147         {
+<a name="l00148"></a>00148             unchecked
+<a name="l00149"></a>00149             {
+<a name="l00150"></a>00150                 <span class="keywordtype">int</span> hashCode = this.Id;
+<a name="l00151"></a>00151                 hashCode = (hashCode * 397) ^ this.Owner;
+<a name="l00152"></a>00152                 hashCode = (hashCode * 397) ^ this.FirePower.GetHashCode();
+<a name="l00153"></a>00153                 hashCode = (hashCode * 397) ^ this.IsAlive.GetHashCode();
+<a name="l00154"></a>00154                 hashCode = (hashCode * 397) ^ this.ReviveTurn;
+<a name="l00155"></a>00155                 <span class="keywordflow">return</span> hashCode;
+<a name="l00156"></a>00156             }
+<a name="l00157"></a>00157         }
+<a name="l00158"></a>00158     }
+<a name="l00159"></a>00159 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 14:43:16 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 17:18:45 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

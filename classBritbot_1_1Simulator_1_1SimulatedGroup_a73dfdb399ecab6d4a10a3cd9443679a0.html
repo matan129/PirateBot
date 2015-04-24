@@ -103,9 +103,22 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="SimulatedGroup_8cs_source.html#l00104">104</a> of file <a class="el" href="SimulatedGroup_8cs_source.html">SimulatedGroup.cs</a>.</p>
+<p>Checks if two groups are identical. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sg1</td><td>first group</td></tr>
+    <tr><td class="paramname">sg2</td><td>second group</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>true if the two groups are identical and false if not</dd></dl>
+
+<p>Definition at line <a class="el" href="SimulatedGroup_8cs_source.html#l00110">110</a> of file <a class="el" href="SimulatedGroup_8cs_source.html">SimulatedGroup.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            <span class="keywordflow">return</span> sg1 != null &amp;&amp; sg2 != null &amp;&amp; sg1.Id == sg2.Id;
+            <span class="keywordflow">if</span> (ReferenceEquals(sg1, null) &amp;&amp; ReferenceEquals(sg2, null))
+                <span class="keywordflow">return</span> <span class="keyword">true</span>; <span class="comment">//both null</span>
+
+            <span class="keywordflow">return</span> !ReferenceEquals(sg1,null) &amp;&amp; !ReferenceEquals(sg2,null) &amp;&amp; sg1.Id == sg2.Id;
         }
 </pre></div>
 </div>
@@ -117,7 +130,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 14:43:17 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 17:18:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

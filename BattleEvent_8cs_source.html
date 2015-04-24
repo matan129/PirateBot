@@ -64,52 +64,53 @@
 <a name="l00008"></a>00008 <span class="preprocessor">        #region Fields &amp; Properies</span>
 <a name="l00009"></a>00009 <span class="preprocessor"></span>
 <a name="l00010"></a>00010         <span class="comment">//first group</span>
-<a name="l00011"></a><a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent_ab6fe28a652994ff17250147406e9bedf.html#ab6fe28a652994ff17250147406e9bedf">00011</a>         <span class="keyword">private</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> <a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent_ab6fe28a652994ff17250147406e9bedf.html#ab6fe28a652994ff17250147406e9bedf">GroupA</a>;
+<a name="l00011"></a><a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent_a78da087ad248b2627d329c1c128f75f1.html#a78da087ad248b2627d329c1c128f75f1">00011</a>         <span class="keyword">private</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> <a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent_a78da087ad248b2627d329c1c128f75f1.html#a78da087ad248b2627d329c1c128f75f1">_groupA</a>;
 <a name="l00012"></a>00012         <span class="comment">//second group</span>
-<a name="l00013"></a><a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent_a8df0bf013905c9bd5c53d8dd5519569d.html#a8df0bf013905c9bd5c53d8dd5519569d">00013</a>         <span class="keyword">private</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> <a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent_a8df0bf013905c9bd5c53d8dd5519569d.html#a8df0bf013905c9bd5c53d8dd5519569d">GroupB</a>;
+<a name="l00013"></a><a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent_a3b307c018cab2113855aefa594927de1.html#a3b307c018cab2113855aefa594927de1">00013</a>         <span class="keyword">private</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> <a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent_a3b307c018cab2113855aefa594927de1.html#a3b307c018cab2113855aefa594927de1">_groupB</a>;
 <a name="l00014"></a>00014 
 <a name="l00015"></a>00015 <span class="preprocessor">        #endregion</span>
 <a name="l00016"></a>00016 <span class="preprocessor"></span>
 <a name="l00017"></a>00017 <span class="preprocessor">        #region Constructors &amp; Initializers</span>
 <a name="l00018"></a>00018 <span class="preprocessor"></span>
-<a name="l00019"></a><a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent_a9078fcc2c911a03fc9c0e041299febc8.html#a9078fcc2c911a03fc9c0e041299febc8">00019</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent.html" title="this represents a battle between two ships">BattleEvent</a>(<span class="keywordtype">int</span> turn, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> g1, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> g2) : base(turn)
-<a name="l00020"></a>00020         {
-<a name="l00021"></a>00021             this.GroupA = g1;
-<a name="l00022"></a>00022             this.GroupB = g2;
-<a name="l00023"></a>00023         }
-<a name="l00024"></a>00024 
-<a name="l00025"></a>00025 <span class="preprocessor">        #endregion</span>
-<a name="l00026"></a>00026 <span class="preprocessor"></span>
-<a name="l00027"></a><a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent_a9dc40efc36f5ff1e6dd70aa38f2fef72.html#a9dc40efc36f5ff1e6dd70aa38f2fef72">00027</a>         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">bool</span> Activate(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg)
-<a name="l00028"></a>00028         {            
-<a name="l00029"></a>00029             <span class="comment">//check if the groups are oposing</span>
-<a name="l00030"></a>00030             <span class="keywordflow">if</span> (this.GroupA.Owner != <span class="keyword">this</span>.GroupB.Owner)
-<a name="l00031"></a>00031             {
-<a name="l00032"></a>00032                 <span class="comment">//check fire power</span>
-<a name="l00033"></a>00033                 <span class="keywordflow">if</span> (this.GroupA.ActualFirePower(sg) &lt; this.GroupB.ActualFirePower(sg))
-<a name="l00034"></a>00034                 {
-<a name="l00035"></a>00035                     this.GroupA.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a701acb4ce15550f991e74392e4b2bb5d.html#a701acb4ce15550f991e74392e4b2bb5d" title="kills the group">Kill</a>(sg);
-<a name="l00036"></a>00036                 }
-<a name="l00037"></a>00037                 <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this.GroupA.ActualFirePower(sg) == this.GroupB.ActualFirePower(sg))
-<a name="l00038"></a>00038                 {
-<a name="l00039"></a>00039                     this.GroupA.Kill(sg);
-<a name="l00040"></a>00040                     this.GroupB.Kill(sg);
-<a name="l00041"></a>00041                 }
-<a name="l00042"></a>00042                 <span class="keywordflow">else</span>
-<a name="l00043"></a>00043                 {
-<a name="l00044"></a>00044                     this.GroupB.Kill(sg);
-<a name="l00045"></a>00045                 }
-<a name="l00046"></a>00046             }
-<a name="l00047"></a>00047 
-<a name="l00048"></a>00048             <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00049"></a>00049         }
-<a name="l00050"></a>00050     }
-<a name="l00051"></a>00051 }
+<a name="l00025"></a><a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent_a9078fcc2c911a03fc9c0e041299febc8.html#a9078fcc2c911a03fc9c0e041299febc8">00025</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent.html" title="this represents a battle between two ships">BattleEvent</a>(<span class="keywordtype">int</span> turn, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> g1, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup.html" title="this represents a group of pirates (either friendly or enemy)">SimulatedGroup</a> g2) 
+<a name="l00026"></a>00026             : base(turn)
+<a name="l00027"></a>00027         {
+<a name="l00028"></a>00028             this._groupA = g1;
+<a name="l00029"></a>00029             this._groupB = g2;
+<a name="l00030"></a>00030         }
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="preprocessor">        #endregion</span>
+<a name="l00033"></a>00033 <span class="preprocessor"></span>
+<a name="l00039"></a><a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent_a9dc40efc36f5ff1e6dd70aa38f2fef72.html#a9dc40efc36f5ff1e6dd70aa38f2fef72">00039</a>         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">bool</span> Activate(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg)
+<a name="l00040"></a>00040         {
+<a name="l00041"></a>00041             <span class="comment">//check if the groups are oposing</span>
+<a name="l00042"></a>00042             <span class="keywordflow">if</span> (this._groupA.Owner != <span class="keyword">this</span>._groupB.Owner)
+<a name="l00043"></a>00043             {
+<a name="l00044"></a>00044                 <span class="comment">//check fire power</span>
+<a name="l00045"></a>00045                 <span class="keywordflow">if</span> (this._groupA.ActualFirePower(sg) &lt; this._groupB.ActualFirePower(sg))
+<a name="l00046"></a>00046                 {
+<a name="l00047"></a>00047                     this._groupA.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a701acb4ce15550f991e74392e4b2bb5d.html#a701acb4ce15550f991e74392e4b2bb5d" title="kills the group">Kill</a>(sg);
+<a name="l00048"></a>00048                 }
+<a name="l00049"></a>00049                 <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this._groupA.ActualFirePower(sg) == this._groupB.ActualFirePower(sg))
+<a name="l00050"></a>00050                 {
+<a name="l00051"></a>00051                     this._groupA.Kill(sg);
+<a name="l00052"></a>00052                     this._groupB.Kill(sg);
+<a name="l00053"></a>00053                 }
+<a name="l00054"></a>00054                 <span class="keywordflow">else</span>
+<a name="l00055"></a>00055                 {
+<a name="l00056"></a>00056                     this._groupB.Kill(sg);
+<a name="l00057"></a>00057                 }
+<a name="l00058"></a>00058             }
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00061"></a>00061         }
+<a name="l00062"></a>00062     }
+<a name="l00063"></a>00063 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 14:43:16 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 24 2015 17:18:45 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
