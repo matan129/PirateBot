@@ -754,7 +754,9 @@ namespace Britbot
         /// <returns>how many living pirates are in the group</returns>
         public int LiveCount()
         {
-            return this.Pirates.ToList().ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost);
+            if(this.Pirates != null)
+                return this.Pirates.ToList().ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost);
+            return 0;
         }
 
         /// <summary>

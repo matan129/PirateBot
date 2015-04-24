@@ -295,17 +295,7 @@ namespace Britbot
             }
             return averageLocation;
         }
-
-        /// <summary>
-        ///     counts how many living pirates are in the group
-        /// </summary>
-        /// <returns>how many living pirates are in the group</returns>
-        public int LiveCount()
-        {
-            //TODO Check this
-            return EnemyPirates.ConvertAll(p => Bot.Game.GetMyPirate(p)).Count(p => !p.IsLost);
-        }
-
+        
         /// <summary>
         ///     Calculates the maximum amount of pirates supporting each other in the enemy
         ///     formation

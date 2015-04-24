@@ -14,57 +14,64 @@ namespace Britbot
     internal class Veteran
     {
         /// <summary>
-        ///     A method that reffers to the ULTIMATE CONFIGURATION and splits the gruops as needed
+        ///     Splits and joins the current groups to match the ultimate configuration
         /// </summary>
-        public static void GroupSplitting()
+        public static void ReConfigure()
         {
-            List<int> Ucon = Commander.GetUltimateGameConfig();
-            List<Group> Ccon = Commander.Groups;
+            List<int> ultimateGameConfig = Commander.GetUltimateGameConfig();
+            Veteran.GroupSplitting(ultimateGameConfig);
+            Veteran.GroupJoining(ultimateGameConfig);
+        }
+        
+        /// <summary>
+        ///     A method that refers to the ULTIMATE CONFIGURATION and splits the gruops as needed
+        /// </summary>
+        private static void GroupSplitting(List<int> ultimateConfig)
+        {
+            List<Group> currentConfig = Commander.Groups;
 
+            ultimateConfig.Sort((a, b) => a.CompareTo(b));
+            currentConfig.Sort((a, b) => a.Pirates.Count.CompareTo(b.Pirates.Count));
 
-            Ccon.Sort((a, b) => a.Pirates.Count.CompareTo(b.Pirates.Count));
-            Ucon.Sort((a, b) => a.CompareTo(b));
-
-            for (int i = 0; i < Math.Min(Ucon.Count, Ccon.Count); i++)
+            for (int i = 0; i < Math.Min(ultimateConfig.Count, currentConfig.Count); i++)
             {
-                if (Ccon[i].Pirates.Count > Ucon[i])
-                    Ccon[i].Split(Ccon[i].Pirates.Count - Ucon[i]);
+                if (currentConfig[i].Pirates.Count > ultimateConfig[i])
+                    currentConfig[i].Split(currentConfig[i].Pirates.Count - ultimateConfig[i]);
             }
         }
-
+ 
         /// <summary>
-        ///     A method that reffers to the ULTIMATE CONFIGURATION and joins the gruops as needed
+        ///     A method that reffers to the ULTIMATE CONFIGURATION and joins the group as needed
         /// </summary>
-        public static void GroupJoining()
+        private static void GroupJoining(List<int> ultimateConfig)
         {
-            List<int> Ucon = Commander.GetUltimateGameConfig();
-            List<Group> Ccon = Commander.Groups;
+            List<Group> currentConfig = Commander.Groups;
             List<Pirate> myPirates = Bot.Game.AllMyPirates();
 
             Group temp = null;
             int minD = Magic.MaxDistance + 1; //minimum distance
 
-            Ccon.Sort((a, b) => a.Pirates.Count.CompareTo(b.Pirates.Count));
-            Ucon.Sort((a, b) => a.CompareTo(b));
+            currentConfig.Sort((a, b) => a.Pirates.Count.CompareTo(b.Pirates.Count));
+            ultimateConfig.Sort((a, b) => a.CompareTo(b));
 
-            for (int i = 0; i < Math.Min(Ucon.Count, Ccon.Count); i++)
+            for (int i = 0; i < Math.Min(ultimateConfig.Count, currentConfig.Count); i++)
             {
-                if (Ccon[i].Pirates.Count < Ucon[i])
+                if (currentConfig[i].Pirates.Count < ultimateConfig[i])
                 {
-                    foreach (Group g in Ccon)
+                    foreach (Group g in currentConfig)
                     {
                         if ((g.Pirates.Count == 1) &&
-                            (Bot.Game.Distance(myPirates[Ccon[i].Pirates[0]], myPirates[g.Pirates[0]]) < minD) &&
-                            (Ccon[i].Pirates[0] != g.Pirates[0]))
+                            (Bot.Game.Distance(myPirates[currentConfig[i].Pirates[0]], myPirates[g.Pirates[0]]) < minD) &&
+                            (currentConfig[i].Pirates[0] != g.Pirates[0]))
                         {
                             temp = g;
-                            minD = Bot.Game.Distance(myPirates[Ccon[i].Pirates[0]], myPirates[g.Pirates[0]]);
+                            minD = Bot.Game.Distance(myPirates[currentConfig[i].Pirates[0]], myPirates[g.Pirates[0]]);
                         }
                     }
                     if (minD <= Magic.MaxDistance)
                     {
                         if (temp != null)
-                            Ccon[i].Join(temp);
+                            currentConfig[i].Join(temp);
                     }
                 }
             }

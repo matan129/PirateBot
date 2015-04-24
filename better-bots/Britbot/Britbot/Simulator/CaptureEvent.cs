@@ -41,7 +41,7 @@
         public override bool Activate(SimulatedGame sg)
         {
             //check if this event is still actuall
-            if (!Capturer.IsAlive)
+            if (!this.Capturer.IsAlive)
                 return false;
 
             if (this.Island.CapturingGroup != this.Capturer)

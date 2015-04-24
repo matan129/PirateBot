@@ -8,40 +8,52 @@
         #region Fields & Properies
 
         //first group
-        private SimulatedGroup GroupA;
+        private SimulatedGroup _groupA;
         //second group
-        private SimulatedGroup GroupB;
+        private SimulatedGroup _groupB;
 
         #endregion
 
         #region Constructors & Initializers
 
-        public BattleEvent(int turn, SimulatedGroup g1, SimulatedGroup g2) : base(turn)
+        /// <summary>
+        ///     Creates a new instance of BattleEvent
+        /// </summary>
+        /// <param name="turn"></param>
+        /// <param name="g1"></param>
+        /// <param name="g2"></param>
+        public BattleEvent(int turn, SimulatedGroup g1, SimulatedGroup g2) 
+            : base(turn)
         {
-            this.GroupA = g1;
-            this.GroupB = g2;
+            this._groupA = g1;
+            this._groupB = g2;
         }
 
         #endregion
 
+        /// <summary>
+        ///     Activates the event?
+        /// </summary>
+        /// <param name="sg"></param>
+        /// <returns></returns>
         public override bool Activate(SimulatedGame sg)
-        {            
+        {
             //check if the groups are oposing
-            if (this.GroupA.Owner != this.GroupB.Owner)
+            if (this._groupA.Owner != this._groupB.Owner)
             {
                 //check fire power
-                if (this.GroupA.ActualFirePower(sg) < this.GroupB.ActualFirePower(sg))
+                if (this._groupA.ActualFirePower(sg) < this._groupB.ActualFirePower(sg))
                 {
-                    this.GroupA.Kill(sg);
+                    this._groupA.Kill(sg);
                 }
-                else if (this.GroupA.ActualFirePower(sg) == this.GroupB.ActualFirePower(sg))
+                else if (this._groupA.ActualFirePower(sg) == this._groupB.ActualFirePower(sg))
                 {
-                    this.GroupA.Kill(sg);
-                    this.GroupB.Kill(sg);
+                    this._groupA.Kill(sg);
+                    this._groupB.Kill(sg);
                 }
                 else
                 {
-                    this.GroupB.Kill(sg);
+                    this._groupB.Kill(sg);
                 }
             }
 

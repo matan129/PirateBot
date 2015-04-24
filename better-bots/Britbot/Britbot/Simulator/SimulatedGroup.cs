@@ -101,11 +101,26 @@ namespace Britbot.Simulator
             sg.AddEvent(new ReviveEvent(sg.CurrentTurn + Bot.Game.GetSpawnTurns(), this));
         }
 
+        /// <summary>
+        ///     Checks if two groups are identical
+        /// </summary>
+        /// <param name="sg1">first group</param>
+        /// <param name="sg2">second group</param>
+        /// <returns>true if the two groups are identical and false if not</returns>
         public static bool operator ==(SimulatedGroup sg1, SimulatedGroup sg2)
         {
-            return sg1 != null && sg2 != null && sg1.Id == sg2.Id;
+            if (ReferenceEquals(sg1, null) && ReferenceEquals(sg2, null))
+                return true; //both null
+
+            return !ReferenceEquals(sg1,null) && !ReferenceEquals(sg2,null) && sg1.Id == sg2.Id;
         }
 
+        /// <summary>
+        ///     Determines if two group are not the same
+        /// </summary>
+        /// <param name="sg1">first group</param>
+        /// <param name="sg2">scond group</param>
+        /// <returns>true if the two groups are not identical and false if they are</returns>
         public static bool operator !=(SimulatedGroup sg1, SimulatedGroup sg2)
         {
             return !(sg1 == sg2);
