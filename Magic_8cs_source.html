@@ -72,9 +72,9 @@
 <a name="l00016"></a><a class="code" href="classBritbot_1_1Magic_a48a8eff48a145c0a256cd115c0d3f917.html#a48a8eff48a145c0a256cd115c0d3f917">00016</a>         <span class="keyword">public</span> <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a48a8eff48a145c0a256cd115c0d3f917.html#a48a8eff48a145c0a256cd115c0d3f917">VectorTolerance</a> = 0.001;
 <a name="l00017"></a><a class="code" href="classBritbot_1_1Magic_a4ff24690cbd89c556744daf7d3e367eb.html#a4ff24690cbd89c556744daf7d3e367eb">00017</a>         <span class="keyword">internal</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Magic_a4ff24690cbd89c556744daf7d3e367eb.html#a4ff24690cbd89c556744daf7d3e367eb">OutOfDateNumber</a> = 10;
 <a name="l00018"></a><a class="code" href="classBritbot_1_1Magic_ae6608dc931cdb04ba28ba714f2a7a9a9.html#ae6608dc931cdb04ba28ba714f2a7a9a9">00018</a>         <span class="keyword">public</span> <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_ae6608dc931cdb04ba28ba714f2a7a9a9.html#ae6608dc931cdb04ba28ba714f2a7a9a9">EnemyBaseFactor</a> = 1;
-<a name="l00019"></a><a class="code" href="classBritbot_1_1Magic_a8fd356c0da193228af657e7e7e63db3f.html#a8fd356c0da193228af657e7e7e63db3f">00019</a>         <span class="keyword">public</span> <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a8fd356c0da193228af657e7e7e63db3f.html#a8fd356c0da193228af657e7e7e63db3f">FriendlyBaseFactor</a> = 2;
+<a name="l00019"></a><a class="code" href="classBritbot_1_1Magic_a8fd356c0da193228af657e7e7e63db3f.html#a8fd356c0da193228af657e7e7e63db3f">00019</a>         <span class="keyword">public</span> <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a8fd356c0da193228af657e7e7e63db3f.html#a8fd356c0da193228af657e7e7e63db3f">FriendlyBaseFactor</a> = 5;
 <a name="l00020"></a>00020 
-<a name="l00024"></a><a class="code" href="classBritbot_1_1Magic_a8a828e2b0fcdde4027556d64aab911c2.html#a8a828e2b0fcdde4027556d64aab911c2">00024</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Magic_a8a828e2b0fcdde4027556d64aab911c2.html#a8a828e2b0fcdde4027556d64aab911c2" title="Max safe iterator iterations per turn.">MaxIterator</a> = 3000;
+<a name="l00024"></a><a class="code" href="classBritbot_1_1Magic_a8a828e2b0fcdde4027556d64aab911c2.html#a8a828e2b0fcdde4027556d64aab911c2">00024</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Magic_a8a828e2b0fcdde4027556d64aab911c2.html#a8a828e2b0fcdde4027556d64aab911c2" title="Max safe iterator iterations per turn.">MaxIterator</a> = 100;
 <a name="l00025"></a>00025 
 <a name="l00029"></a><a class="code" href="classBritbot_1_1Magic_a44ecb595cf7d07166a6fbfbf55fc7589.html#a44ecb595cf7d07166a6fbfbf55fc7589">00029</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Magic_a44ecb595cf7d07166a6fbfbf55fc7589.html#a44ecb595cf7d07166a6fbfbf55fc7589" title="Max distace two groups can be from eachother and still be joind.">MaxDistance</a> = 30;
 <a name="l00030"></a>00030 
@@ -113,7 +113,7 @@
 <a name="l00086"></a>00086 
 <a name="l00090"></a>00090         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a82eecb995047c018746acca65e0a378e.html#a82eecb995047c018746acca65e0a378e" title="The distance under wich two groups will be considered intersected.">GroupIntersectionDistance</a>
 <a name="l00091"></a><a class="code" href="classBritbot_1_1Magic_a82eecb995047c018746acca65e0a378e.html#a82eecb995047c018746acca65e0a378e">00091</a>         {
-<a name="l00092"></a>00092             <span class="keyword">get</span> { <span class="keywordflow">return</span> 0.25 * <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius(); }
+<a name="l00092"></a>00092             <span class="keyword">get</span> { <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius(); }
 <a name="l00093"></a>00093         }
 <a name="l00094"></a>00094 
 <a name="l00095"></a>00095 <span class="preprocessor">        #endregion</span>
@@ -123,7 +123,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 18:16:33 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:20:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

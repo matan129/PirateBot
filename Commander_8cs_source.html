@@ -339,7 +339,7 @@
 <a name="l00301"></a>00301             <span class="comment">//no we got the perfect assignment, just set it up</span>
 <a name="l00302"></a>00302             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; dimensions.Length; i++)
 <a name="l00303"></a>00303             {
-<a name="l00304"></a>00304                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;Group {0} assinged to {1}&quot;</span>, i, scoreArr[i].Target.GetDescription()), <span class="keyword">true</span>);
+<a name="l00304"></a>00304                 <span class="comment">//Logger.Write(string.Format(&quot;Group {0} assinged to {1}&quot;, i, scoreArr[i].Target.GetDescription()), true);</span>
 <a name="l00305"></a>00305                 <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].SetTarget(scoreArr[i].Target);
 <a name="l00306"></a>00306             }
 <a name="l00307"></a>00307         }
@@ -363,7 +363,7 @@
 <a name="l00333"></a>00333             <span class="comment">//count of all of our pirates</span>
 <a name="l00334"></a>00334             <span class="keywordtype">int</span> myPirates = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.AllMyPirates().Count;
 <a name="l00335"></a>00335 
-<a name="l00336"></a>00336             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;Ultimateconfig says we have {0} pirates&quot;</span>, myPirates), <span class="keyword">true</span>);
+<a name="l00336"></a>00336             <span class="comment">//Logger.Write(string.Format(&quot;Ultimateconfig says we have {0} pirates&quot;, myPirates), true);</span>
 <a name="l00337"></a>00337 
 <a name="l00338"></a>00338 
 <a name="l00339"></a>00339             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; eConfig.Length &amp;&amp; myPirates &gt; 0; i++)
@@ -372,7 +372,7 @@
 <a name="l00342"></a>00342                 {
 <a name="l00343"></a>00343                     ret.Add(eConfig[i] + 1);
 <a name="l00344"></a>00344                     myPirates -= eConfig[i] + 1;
-<a name="l00345"></a>00345                     <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;added a {0} group to the configuration&quot;</span>, eConfig[i]+1), <span class="keyword">true</span>);
+<a name="l00345"></a>00345                     <span class="comment">//Logger.Write(string.Format(&quot;added a {0} group to the configuration&quot;, eConfig[i]+1), true);</span>
 <a name="l00346"></a>00346                 }
 <a name="l00347"></a>00347                 
 <a name="l00348"></a>00348             }
@@ -381,7 +381,7 @@
 <a name="l00351"></a>00351             {
 <a name="l00352"></a>00352                 ret.Add(1);
 <a name="l00353"></a>00353                 myPirates--;
-<a name="l00354"></a>00354                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;added a {0} group to the configuration&quot;</span>, 1), <span class="keyword">true</span>);
+<a name="l00354"></a>00354                 <span class="comment">//Logger.Write(string.Format(&quot;added a {0} group to the configuration&quot;, 1), true);</span>
 <a name="l00355"></a>00355             }
 <a name="l00356"></a>00356 
 <a name="l00357"></a>00357             <span class="keywordflow">while</span> (ret.Count &gt; <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Islands().Count)
@@ -462,7 +462,7 @@
 <a name="l00439"></a>00439             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
 <a name="l00440"></a>00440             {
 <a name="l00441"></a>00441                 <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Equals(scoreArr[i].Target))
-<a name="l00442"></a>00442                     score *= 1.2;
+<a name="l00442"></a>00442                     score += 20;
 <a name="l00443"></a>00443             }
 <a name="l00444"></a>00444             <span class="keywordflow">return</span> score;
 <a name="l00445"></a>00445         }
@@ -576,7 +576,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 18:16:33 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:20:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -116,7 +116,7 @@
             this.<a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f" title="The island being captured.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a1616ceb9a016dc9ed913f7957718efdf.html#a1616ceb9a016dc9ed913f7957718efdf">TurnsBeingCaptured</a> = 0;
 
             <span class="comment">//set out a capture event</span>
-            <span class="keywordtype">int</span> captureTurn = sg.CurrentTurn + this.<a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f" title="The island being captured.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_ace876a3ee34a60f572da2ecb75d10d6b.html#ace876a3ee34a60f572da2ecb75d10d6b" title="calculates how much time it would take for the given side to capture the island">TurnsTillCapture</a>(this.<a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a117d75efc705b7c4398786893c408549.html#a117d75efc705b7c4398786893c408549" title="The group Capturing.">Capturer</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_ae0effec32bfe2f42a65e7f03aef60cba.html#ae0effec32bfe2f42a65e7f03aef60cba" title="The owner of this group (Me or Enemy)">Owner</a>);
+            <span class="keywordtype">int</span> captureTurn = sg.CurrentTurn + Bot.Game.Islands()[0].CaptureTurns;
             sg.AddEvent(<span class="keyword">new</span> CaptureEvent(captureTurn, this.<a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f" title="The island being captured.">Island</a>, this.<a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a117d75efc705b7c4398786893c408549.html#a117d75efc705b7c4398786893c408549" title="The group Capturing.">Capturer</a>));
 
             <span class="keywordflow">return</span> <span class="keyword">false</span>;
@@ -131,7 +131,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 18:16:34 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:20:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

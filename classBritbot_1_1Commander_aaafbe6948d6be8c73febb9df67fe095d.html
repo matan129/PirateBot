@@ -108,7 +108,7 @@
             <span class="comment">//count of all of our pirates</span>
             <span class="keywordtype">int</span> myPirates = Bot.Game.AllMyPirates().Count;
 
-            Logger.Write(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;Ultimateconfig says we have {0} pirates&quot;</span>, myPirates), <span class="keyword">true</span>);
+            <span class="comment">//Logger.Write(string.Format(&quot;Ultimateconfig says we have {0} pirates&quot;, myPirates), true);</span>
 
 
             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; eConfig.Length &amp;&amp; myPirates &gt; 0; i++)
@@ -117,7 +117,7 @@
                 {
                     ret.Add(eConfig[i] + 1);
                     myPirates -= eConfig[i] + 1;
-                    Logger.Write(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;added a {0} group to the configuration&quot;</span>, eConfig[i]+1), <span class="keyword">true</span>);
+                    <span class="comment">//Logger.Write(string.Format(&quot;added a {0} group to the configuration&quot;, eConfig[i]+1), true);</span>
                 }
                 
             }
@@ -126,7 +126,7 @@
             {
                 ret.Add(1);
                 myPirates--;
-                Logger.Write(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;added a {0} group to the configuration&quot;</span>, 1), <span class="keyword">true</span>);
+                <span class="comment">//Logger.Write(string.Format(&quot;added a {0} group to the configuration&quot;, 1), true);</span>
             }
 
             <span class="keywordflow">while</span> (ret.Count &gt; Bot.Game.Islands().Count)
@@ -147,7 +147,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 18:16:34 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:20:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

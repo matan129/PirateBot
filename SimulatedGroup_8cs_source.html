@@ -129,9 +129,9 @@
 <a name="l00102"></a>00102             this.ReviveTurn = sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453" title="the current turn of the simulation">CurrentTurn</a> + <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetSpawnTurns();
 <a name="l00103"></a>00103 
 <a name="l00104"></a>00104             <span class="keywordflow">if</span> (this.Owner == Consts.ME)
-<a name="l00105"></a>00105                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_aa0a2553b04a11e424090b94768cb6256.html#aa0a2553b04a11e424090b94768cb6256">MyDeadPirates</a> += (int) this.FirePower;
+<a name="l00105"></a>00105                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a45f5a9306f240025b71d8cae63ae7976.html#a45f5a9306f240025b71d8cae63ae7976">MyDeadPirates</a> += (int) this.FirePower;
 <a name="l00106"></a>00106             <span class="keywordflow">else</span>
-<a name="l00107"></a>00107                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7a20a46abd20d64056e4c04bb1fd720d.html#a7a20a46abd20d64056e4c04bb1fd720d">EnemyDeadPirates</a> += (int) this.FirePower;
+<a name="l00107"></a>00107                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a5c43b9885c6a55eff468462c9cac1a49.html#a5c43b9885c6a55eff468462c9cac1a49">EnemyDeadPirates</a> += (int) this.FirePower;
 <a name="l00108"></a>00108 
 <a name="l00109"></a>00109             sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1ReviveEvent.html">ReviveEvent</a>(sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453" title="the current turn of the simulation">CurrentTurn</a> + <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetSpawnTurns(), <span class="keyword">this</span>));
 <a name="l00110"></a>00110         }
@@ -184,7 +184,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 18:16:33 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:20:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

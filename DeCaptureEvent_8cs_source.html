@@ -101,15 +101,15 @@
 <a name="l00060"></a>00060             <span class="comment">//if everything checks out update island</span>
 <a name="l00061"></a>00061             
 <a name="l00062"></a>00062             <span class="keywordflow">if</span> (this.Island.Owner == Consts.ME)
-<a name="l00063"></a>00063                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_acf1ccec776bb63986b57355cb810a1fd.html#acf1ccec776bb63986b57355cb810a1fd">MyIslandCount</a> -= this.Island.Value;
+<a name="l00063"></a>00063                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_aaccb5054b3b3f5eb8b1d60499a5a7546.html#aaccb5054b3b3f5eb8b1d60499a5a7546">MyIslandCount</a> -= this.Island.Value;
 <a name="l00064"></a>00064             <span class="keywordflow">if</span> (this.Island.Owner == Consts.ENEMY)
-<a name="l00065"></a>00065                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_afa075f48508c1409806829134a1bcd24.html#afa075f48508c1409806829134a1bcd24">EnemyIslandCount</a> -= this.Island.Value;
+<a name="l00065"></a>00065                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_ad4de98f0001d5389fe21fc541f29d498.html#ad4de98f0001d5389fe21fc541f29d498">EnemyIslandCount</a> -= this.Island.Value;
 <a name="l00066"></a>00066                         
 <a name="l00067"></a>00067             this.Island.Owner = Consts.NO_OWNER;
 <a name="l00068"></a>00068             this.Island.TurnsBeingCaptured = 0;
 <a name="l00069"></a>00069 
 <a name="l00070"></a>00070             <span class="comment">//set out a capture event</span>
-<a name="l00071"></a>00071             <span class="keywordtype">int</span> captureTurn = sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453" title="the current turn of the simulation">CurrentTurn</a> + this.Island.TurnsTillCapture(this.Capturer.Owner);
+<a name="l00071"></a>00071             <span class="keywordtype">int</span> captureTurn = sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453" title="the current turn of the simulation">CurrentTurn</a> + <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Islands()[0].CaptureTurns;
 <a name="l00072"></a>00072             sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1CaptureEvent.html" title="this Event is called when an island is being captured">CaptureEvent</a>(captureTurn, this.Island, this.Capturer));
 <a name="l00073"></a>00073 
 <a name="l00074"></a>00074             <span class="keywordflow">return</span> <span class="keyword">false</span>;
@@ -120,7 +120,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 18:16:33 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:20:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

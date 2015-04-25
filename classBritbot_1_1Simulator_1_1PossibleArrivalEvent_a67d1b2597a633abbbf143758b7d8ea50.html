@@ -92,7 +92,7 @@
 
 <p>Implements <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedEvent_a28e782c589b52ac3b215345b11d325a2.html#a28e782c589b52ac3b215345b11d325a2">Britbot.Simulator.SimulatedEvent</a>.</p>
 
-<p>Definition at line <a class="el" href="PossibleArrivalEvent_8cs_source.html#l00042">42</a> of file <a class="el" href="PossibleArrivalEvent_8cs_source.html">PossibleArrivalEvent.cs</a>.</p>
+<p>Definition at line <a class="el" href="PossibleArrivalEvent_8cs_source.html#l00043">43</a> of file <a class="el" href="PossibleArrivalEvent_8cs_source.html">PossibleArrivalEvent.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//check if the arriving group is alive</span>
             <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a53540e7ae95cae812758e0d9143dba8c.html#a53540e7ae95cae812758e0d9143dba8c" title="True if the enemy group is alive.">IsAlive</a>)
@@ -124,7 +124,20 @@
 
 
                 <span class="comment">//then set a capture and decapture event</span>
-                sg.AddEvent(<span class="keyword">new</span> DeCaptureEvent(captureTurn, this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>, this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>));
+                <span class="comment">//check if we need to set events</span>
+                <span class="comment">//if only capture is needed</span>
+                <span class="keywordflow">if</span>(this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a62a1eb45b6aa948ed06f2341a0c19fe2.html#a62a1eb45b6aa948ed06f2341a0c19fe2">Owner</a> == <span class="keyword">this</span>.ArrivingGroup.Owner)
+                {
+                    <span class="comment">//nothing to be done</span>
+                }
+                <span class="keywordflow">else</span> <span class="keywordflow">if</span>(this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a62a1eb45b6aa948ed06f2341a0c19fe2.html#a62a1eb45b6aa948ed06f2341a0c19fe2">Owner</a> == Consts.NO_OWNER)
+                {
+                    sg.AddEvent(<span class="keyword">new</span> CaptureEvent(sg.CurrentTurn + Bot.Game.Islands()[0].CaptureTurns, this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>, this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>));
+                }
+                <span class="keywordflow">else</span>
+                {
+                    sg.AddEvent(<span class="keyword">new</span> DeCaptureEvent(sg.CurrentTurn + Bot.Game.Islands()[0].CaptureTurns, this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>, this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>));
+                }                
             }
 
             <span class="keywordflow">return</span> <span class="keyword">false</span>;
@@ -139,7 +152,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 18:16:34 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:20:24 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

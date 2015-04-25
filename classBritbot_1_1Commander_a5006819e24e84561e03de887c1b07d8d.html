@@ -155,7 +155,7 @@
             <span class="comment">//no we got the perfect assignment, just set it up</span>
             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; dimensions.Length; i++)
             {
-                Logger.Write(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;Group {0} assinged to {1}&quot;</span>, i, scoreArr[i].Target.GetDescription()), <span class="keyword">true</span>);
+                <span class="comment">//Logger.Write(string.Format(&quot;Group {0} assinged to {1}&quot;, i, scoreArr[i].Target.GetDescription()), true);</span>
                 <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups[i].SetTarget(scoreArr[i].Target);
             }
         }
@@ -169,7 +169,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 18:16:34 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:20:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
