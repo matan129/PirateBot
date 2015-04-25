@@ -105,14 +105,65 @@ namespace Britbot
             }
         }
 
-
+        /// <summary>
+        ///     Reveals cloaked pirates when needed and cloaks uncloaked ones when needed
+        /// </summary>
         public static void Cloaking()
         {
-            if (Bot.Game.GetMyCloaked() != null)
-            {
-                
+            
+            Group g = Veteran.GetCloackedGroup();//the group that contains the cloaked pirate if one exists
 
+            // if a pirate is cloaked and close enough to it's target, reveal it
+            if ((g != null) && (g.DistanceFromTarget <= Magic.CloakRange))
+            {
+                Bot.Game.Reveal(Bot.Game.GetMyCloaked());
             }
+            // if no pirate is cloaked and you can cloak one
+            else if ((g==null)&&(Bot.Game.CanCloak()))
+            {
+                IEnumerable<Group> ones = Commander.Groups.Where(p => p.Pirates.Count == 1); //All the 1 pirate groups that can be cloaked
+                //if there are any 1 pirate groups
+                if (ones.Count()!=0)
+                {
+                    int minDistance = ones.Min(group => group.DistanceFromTarget);//the minimum distance from a target of one of the groups
+
+                    //finds the group that the minimal distance belongs to and cloaks it
+                    foreach (Group tc in ones)
+                    {
+                        if (tc.DistanceFromTarget == minDistance)
+                        {
+                            Bot.Game.Cloak(Bot.Game.AllMyPirates()[tc.Pirates[0]]);
+                        }
+                    }
+                    
+                }
+            }
+
+        }
+
+        /// <summary>
+        ///     Finds the group that contains the cloaked pirate
+        /// </summary>
+        /// <returns>The wanted group or null if no pirate is cloaked </returns>
+        public static Group GetCloackedGroup()
+        {
+            int pirate = -1;
+            for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
+            {
+                if (Bot.Game.AllMyPirates()[i] == Bot.Game.GetMyCloaked())
+                {
+                    pirate = i;
+                    break;
+                }                
+            }
+
+            foreach(Group g in Commander.Groups)
+            {
+                if (g.Pirates.Contains(pirate))
+                    return g;
+            }
+
+            return null;
 
         }
     }
