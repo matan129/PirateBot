@@ -841,7 +841,7 @@ namespace Britbot
         public IEnumerable<Group> Split(int num)
         {
             int[] outboundPirates = this.Pirates.Take(num).ToArray();
-            this.Pirates.ToList().RemoveAll(outboundPirates.Contains);
+            this.Pirates.RemoveAll(outboundPirates.Contains);
 
             for (int i = 0; i < num; i++)
             {
@@ -853,6 +853,7 @@ namespace Britbot
         ///     Joins a group to this group
         /// </summary>
         /// <param name="g">a group to be joind to this one</param>
+        /// <param name="remove"></param>
         public void Join(Group g, bool remove = true)
         {
             foreach (int pirate in g.Pirates)

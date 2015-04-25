@@ -12,25 +12,20 @@ namespace Britbot
     /// <summary>
     ///     An experienced ally to the commander who does bugger all
     /// </summary>
-    internal class Veteran
+    internal static class Veteran
     {
         /// <summary>
         ///     Splits and joins the current groups to match the ultimate configuration
         /// </summary>
         public static void ReConfigure()
         {
-            Logger.Write("Commander Groups 1:", true);
-            foreach (Group g in Commander.Groups)
-            {
-                Logger.Write(g.Pirates.Count.ToString(), true);
-            }
+            List<int> ultimatConfig = Commander.GetUltimateGameConfig();
+         
+            Logger.Write("Ultimate Config:", true);
+            Logger.Write(string.Join(",", ultimatConfig), true);
 
-            List<int> ultimateGameConfig = Commander.GetUltimateGameConfig();
-            Logger.Write("Ultimate Condig:", true);
-            Logger.Write(string.Join(",", ultimateGameConfig), true);
-
-            Veteran.GroupSplitting(ultimateGameConfig);
-            Veteran.GroupJoining(ultimateGameConfig);
+            Veteran.GroupSplitting(ultimatConfig);
+            Veteran.GroupJoining(ultimatConfig);
         }
         
         /// <summary>
@@ -38,19 +33,19 @@ namespace Britbot
         /// </summary>
         private static void GroupSplitting(List<int> ultimateConfig)
         {
-            List<Group> currentConfig = Commander.Groups;
             List<Group> newGroups = new List<Group>();
 
-            ultimateConfig.Sort((a, b) => a.CompareTo(b));
-            currentConfig.Sort((a, b) => a.Pirates.Count.CompareTo(b.Pirates.Count));
+            ultimateConfig.Sort((b, a) => a.CompareTo(b));
+            Commander.Groups.Sort((b, a) => a.Pirates.Count.CompareTo(b.Pirates.Count));
 
-            for (int i = 0; i < Math.Min(ultimateConfig.Count, currentConfig.Count); i++)
+            for (int i = 0; i < Math.Min(ultimateConfig.Count, Commander.Groups.Count); i++)
             {
-                if (currentConfig[i].Pirates.Count > ultimateConfig[i])
-                    newGroups.AddRange(currentConfig[i].Split(currentConfig[i].Pirates.Count - ultimateConfig[i]));
+                if (Commander.Groups[i].Pirates.Count > ultimateConfig[i])
+                    newGroups.AddRange(Commander.Groups[i].Split(Commander.Groups[i].Pirates.Count - ultimateConfig[i]));
             }
 
             Commander.Groups.AddRange(newGroups);
+            Commander.Groups.RemoveAll(g => g.Pirates.Count == 0);
         }
  
         /// <summary>
@@ -100,7 +95,7 @@ namespace Britbot
             //remove all joined group from the commander list
             Commander.Groups.RemoveAll(g => joinedGroups.Contains(g.Id));
 
-            Logger.Write("Commander Groups 2:",true);
+            Logger.Write("Commander Groups After Reconfiguration:",true);
             foreach (Group g in Commander.Groups)
             {
                 Logger.Write(g.Pirates.Count.ToString(),true);

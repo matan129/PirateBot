@@ -108,7 +108,7 @@ namespace Britbot
 
             //setup time remaining
             int time = Bot.Game.TimeRemaining();
-            int safeTimeout = (int) (time * 0.85);
+            int safeTimeout = (int) (time * 0.65);
 
             //timeout setup
             CancellationTokenSource commanderCancellationSource = new CancellationTokenSource(safeTimeout);

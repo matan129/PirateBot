@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -79,7 +80,7 @@ namespace Britbot
                      * Note that Equals() does a deep comparison 
                      * (I overrided it to check if the pirates in each enemy group are the same)                    
                      */
-                    if (object.Equals(veteran, enemyGroup))
+                    if (Equals(veteran, enemyGroup))
                     {
                         /* 
                          * note that we are adding the group already in the old Groups list
@@ -137,7 +138,7 @@ namespace Britbot
             IEnumerable<Pirate> enemyAlivePirates = Bot.Game.AllEnemyPirates().Where(p => !p.IsLost);
 
             //iterate over all the alive pirate of the enemy
-            foreach (Pirate pete in  enemyAlivePirates)
+            foreach (Pirate pete in enemyAlivePirates)
             {
                 //Throwing an exception if cancellation was requested.
                 cancellationToken.ThrowIfCancellationRequested();
@@ -181,25 +182,25 @@ namespace Britbot
         /// <param name="cancellationToken"></param>
         public static void Update(CancellationToken cancellationToken)
         {
-            //update the enemy data
-            List<EnemyGroup> updated = Enemy.AnalyzeEnemyGroups(cancellationToken);
+                //update the enemy data
+                List<EnemyGroup> updated = Enemy.AnalyzeEnemyGroups(cancellationToken);
 
-            //update the enemyGroups by logical stuff
-            Enemy.Groups = Enemy.Groups.Intersect(updated).ToList();
-            Enemy.Groups = Enemy.Groups.Union(updated).ToList();
+                //update the enemyGroups by logical stuff
+                Enemy.Groups = Enemy.Groups.Intersect(updated).ToList();
+                Enemy.Groups = Enemy.Groups.Union(updated).ToList();
 
-            //update heading in all groups
-            Enemy.Groups.ForEach(eGroup => eGroup.Update());
+                //update heading in all groups
+                Enemy.Groups.ForEach(eGroup => eGroup.Update());
 
-            Enemy.Debug();
+                Enemy.Debug();
         }
 
         public static void Debug()
         {
-            Logger.Write("------------ENEMY GROUPS-----------------");
+            Logger.Write("------------ENEMY GROUPS-----------------",true);
             foreach (EnemyGroup eg in Enemy.Groups)
             {
-                Logger.Write(eg.ToString());
+                Logger.Write(eg.ToString(),true);
             }
         }
     }

@@ -11,7 +11,7 @@
 #undef PROFILING
 #undef DUMPFILE
 #undef WRITE
-//#undef FORCE_BEGIN_STOP
+#undef FORCE_BEGIN_STOP
 //#undef NOSHTUP
 
 #region #Usings

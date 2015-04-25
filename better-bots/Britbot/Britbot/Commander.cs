@@ -305,12 +305,16 @@ namespace Britbot
         /// <returns>ULTIMATE group configuration</returns>
         public static List<int> GetUltimateGameConfig()
         {
+            //Enemy configuration
             int[] eConfig = Enemy.Groups.ConvertAll(group => group.EnemyPirates.Count).ToArray();
 
+            //sort the enemy configuration by size
             Array.Sort(eConfig, (a, b) => a.CompareTo(b));
 
+            //prepare return value
             List<int> ret = new List<int>();
 
+            //count of all of our pirates
             int myPirates = Bot.Game.AllMyPirates().Count;
 
 
@@ -409,7 +413,7 @@ namespace Britbot
             return sg.SimulateGame();
         }
 
-        internal static void SetEventList(SimulatedGame sg)
+        private static void SetEventList(SimulatedGame sg)
         {
             List<SimulatedEvent> eventList = new List<SimulatedEvent>();
             //going over all the islands
