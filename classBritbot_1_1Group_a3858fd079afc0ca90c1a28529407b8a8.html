@@ -123,7 +123,7 @@
 <p>Definition at line <a class="el" href="Group_8cs_source.html#l00841">841</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="keywordtype">int</span>[] outboundPirates = this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Take(num).ToArray();
-            this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.ToList().RemoveAll(outboundPirates.Contains);
+            this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.RemoveAll(outboundPirates.Contains);
 
             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; num; i++)
             {
@@ -140,7 +140,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 00:21:57 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 08:44:22 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

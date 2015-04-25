@@ -94,13 +94,13 @@
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>A list of enemy groups</dd></dl>
 
-<p>Definition at line <a class="el" href="Enemy_8cs_source.html#l00134">134</a> of file <a class="el" href="Enemy_8cs_source.html">Enemy.cs</a>.</p>
+<p>Definition at line <a class="el" href="Enemy_8cs_source.html#l00135">135</a> of file <a class="el" href="Enemy_8cs_source.html">Enemy.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             List&lt;EnemyGroup&gt; updatedGroups = <span class="keyword">new</span> List&lt;EnemyGroup&gt;();
             IEnumerable&lt;Pirate&gt; enemyAlivePirates = Bot.Game.AllEnemyPirates().Where(p =&gt; !p.IsLost);
 
             <span class="comment">//iterate over all the alive pirate of the enemy</span>
-            <span class="keywordflow">foreach</span> (Pirate pete <span class="keywordflow">in</span>  enemyAlivePirates)
+            <span class="keywordflow">foreach</span> (Pirate pete <span class="keywordflow">in</span> enemyAlivePirates)
             {
                 <span class="comment">//Throwing an exception if cancellation was requested.</span>
                 cancellationToken.ThrowIfCancellationRequested();
@@ -146,7 +146,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 00:21:57 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 08:44:21 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -83,18 +83,13 @@
 
 <p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00020">20</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            Logger.Write(<span class="stringliteral">&quot;Commander Groups 1:&quot;</span>, <span class="keyword">true</span>);
-            <span class="keywordflow">foreach</span> (Group g <span class="keywordflow">in</span> Commander.Groups)
-            {
-                Logger.Write(g.Pirates.Count.ToString(), <span class="keyword">true</span>);
-            }
+            List&lt;int&gt; ultimatConfig = Commander.GetUltimateGameConfig();
+         
+            Logger.Write(<span class="stringliteral">&quot;Ultimate Config:&quot;</span>, <span class="keyword">true</span>);
+            Logger.Write(<span class="keywordtype">string</span>.Join(<span class="stringliteral">&quot;,&quot;</span>, ultimatConfig), <span class="keyword">true</span>);
 
-            List&lt;int&gt; ultimateGameConfig = Commander.GetUltimateGameConfig();
-            Logger.Write(<span class="stringliteral">&quot;Ultimate Condig:&quot;</span>, <span class="keyword">true</span>);
-            Logger.Write(<span class="keywordtype">string</span>.Join(<span class="stringliteral">&quot;,&quot;</span>, ultimateGameConfig), <span class="keyword">true</span>);
-
-            Veteran.GroupSplitting(ultimateGameConfig);
-            Veteran.GroupJoining(ultimateGameConfig);
+            Veteran.GroupSplitting(ultimatConfig);
+            Veteran.GroupJoining(ultimatConfig);
         }
 </pre></div>
 </div>
@@ -106,7 +101,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 00:21:58 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 08:44:22 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

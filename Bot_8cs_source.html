@@ -144,7 +144,7 @@
 <a name="l00108"></a>00108 
 <a name="l00109"></a>00109             <span class="comment">//setup time remaining</span>
 <a name="l00110"></a>00110             <span class="keywordtype">int</span> time = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.TimeRemaining();
-<a name="l00111"></a>00111             <span class="keywordtype">int</span> safeTimeout = (int) (time * 0.85);
+<a name="l00111"></a>00111             <span class="keywordtype">int</span> safeTimeout = (int) (time * 0.65);
 <a name="l00112"></a>00112 
 <a name="l00113"></a>00113             <span class="comment">//timeout setup</span>
 <a name="l00114"></a>00114             CancellationTokenSource commanderCancellationSource = <span class="keyword">new</span> CancellationTokenSource(safeTimeout);
@@ -204,7 +204,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 00:21:57 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 08:44:21 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

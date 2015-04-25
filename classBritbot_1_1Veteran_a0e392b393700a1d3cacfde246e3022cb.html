@@ -82,7 +82,7 @@
 
 <p>A method that reffers to the ULTIMATE CONFIGURATION and joins the group as needed. </p>
 
-<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00059">59</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
+<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00054">54</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             Group tempGroup = null;
             <span class="keywordtype">int</span> minDistance = Magic.MaxDistance + 1; <span class="comment">//maximun joining distance</span>
@@ -126,7 +126,7 @@
             <span class="comment">//remove all joined group from the commander list</span>
             Commander.Groups.RemoveAll(g =&gt; joinedGroups.Contains(g.Id));
 
-            Logger.Write(<span class="stringliteral">&quot;Commander Groups 2:&quot;</span>,<span class="keyword">true</span>);
+            Logger.Write(<span class="stringliteral">&quot;Commander Groups After Reconfiguration:&quot;</span>,<span class="keyword">true</span>);
             <span class="keywordflow">foreach</span> (Group g <span class="keywordflow">in</span> Commander.Groups)
             {
                 Logger.Write(g.Pirates.Count.ToString(),<span class="keyword">true</span>);
@@ -142,7 +142,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 00:21:58 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 08:44:22 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
