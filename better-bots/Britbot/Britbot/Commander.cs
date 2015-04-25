@@ -421,11 +421,18 @@ namespace Britbot
             {
                 if (scoreArr[i].Type == TargetType.Island)
                     sg.AddEvent(new GroupArrivalEvent((int)scoreArr[i].Eta, sg.Islands[((SmartIsland)(scoreArr[i].Target)).Id], sg.MyGroups[Groups[i].Id]));
-                if(scoreArr[i].Type == TargetType.EnemyGroup)
-                    sg.AddEvent(new BattleEvent((int)scoreArr[i].Eta, sg.EnemyGroups[((EnemyGroup)(scoreArr[i].Target)).Id], sg.MyGroups[Groups[i].Id]) );
+                if (scoreArr[i].Type == TargetType.EnemyGroup)
+                    sg.AddEvent(new BattleEvent((int)scoreArr[i].Eta, sg.EnemyGroups[((EnemyGroup)(scoreArr[i].Target)).Id], sg.MyGroups[Groups[i].Id]));
             }
 
-            return sg.SimulateGame();
+            double score = sg.SimulateGame();
+
+            for (int i = 0; i < scoreArr.Length; i++)
+            {
+                if (Groups[i].Equals(scoreArr[i].Target))
+                    score *= 1.2;
+            }
+            return score;
         }
 
         
