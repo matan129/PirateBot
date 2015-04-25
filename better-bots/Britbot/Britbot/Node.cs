@@ -195,8 +195,8 @@ namespace Britbot
                         //calculate the distance considering the heading of the danger
                         //if the current location is straight in the direction of the danger we add by proportion to headingFactor
                         //if it is in the opposite direction we subtract according to headingFactor
-                        double distandeSquare = Bot.Game.EuclidianDistanceSquared(new Location(y, x), loc) +
-                                                headingFactor * heading.Normalize() * diffVector;
+                        double distandeSquare = Bot.Game.EuclidianDistanceSquared(new Location(y, x), loc) /*+
+                                                headingFactor * heading.Normalize() * diffVector*/;
                         if (distandeSquare <= radSquared)
                             Node.Map[y, x].Weight += Node.Infinity * (radSquared - distandeSquare) / radSquared;
                     }

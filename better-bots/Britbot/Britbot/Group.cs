@@ -359,7 +359,9 @@ namespace Britbot
         /// <returns></returns>
         private double CasualtiesPercent()
         {
-            return 100 * (this.Pirates.Count(p => Bot.Game.GetMyPirate(p).IsLost) / this.Pirates.Count);
+            if(this.Pirates.Count > 0)
+                return 100 * (this.Pirates.Count(p => Bot.Game.GetMyPirate(p).IsLost) / this.Pirates.Count);
+            return 0;
         }
 
         /// <summary>

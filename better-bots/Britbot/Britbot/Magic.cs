@@ -43,7 +43,7 @@ namespace Britbot
         /// </summary>
         public static int MaxGroups = 400;
 
-        public static double ScoreConssitencyFactor = 1.0;
+        public static double ScoreConssitencyFactor = 0.0;
 
         #endregion
 
