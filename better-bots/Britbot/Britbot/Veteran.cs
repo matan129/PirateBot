@@ -104,5 +104,16 @@ namespace Britbot
                 Logger.Write(g.Pirates.Count.ToString(),true);
             }
         }
+
+
+        public static void Cloaking()
+        {
+            if (Bot.Game.GetMyCloaked() != null)
+            {
+                
+
+            }
+
+        }
     }
 }
