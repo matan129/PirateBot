@@ -58,6 +58,12 @@ namespace Britbot.Simulator
                 return false;
 
             //if everything checks out update island
+            
+            if (this.Island.Owner == Consts.ME)
+                sg.MyIslandCount -= this.Island.Value;
+            if (this.Island.Owner == Consts.ENEMY)
+                sg.EnemyIslandCount -= this.Island.Value;
+                        
             this.Island.Owner = Consts.NO_OWNER;
             this.Island.TurnsBeingCaptured = 0;
 

@@ -46,6 +46,17 @@ namespace Britbot.Simulator
         /// </summary>
         public int CurrentTurn { get; set; }
 
+
+        public int MyIslandCount;
+        public int EnemyIslandCount;
+        public int MyDeadPirates;
+        public int EnemyDeadPirates;
+
+        public int OriginalMyIslandCount;
+        public int OriginalEnemyIslandCount;
+        public int OriginalMyDeadPirates;
+        public int OriginalEnemyDeadPirates;
+
         /// <summary>
         /// a queue representing the constant events
         /// those that will happen in all possible assignments
@@ -72,7 +83,11 @@ namespace Britbot.Simulator
             //add the ending Event
             this.CommingEvents.Enqueue(new SimulationEndEvent(Magic.simulationLength), Magic.simulationLength);
 
-            
+            this.OriginalEnemyDeadPirates = 0;
+            this.OriginalMyDeadPirates = 0;
+            this.OriginalMyIslandCount = 0;
+            this.OriginalEnemyIslandCount = 0;
+
             //set my groups
             foreach (Group group in Commander.Groups)
             {
@@ -116,6 +131,11 @@ namespace Britbot.Simulator
                 //we set capturing teams through events
 
                 this.Islands.Add(newIsland.Id, newIsland);
+
+                if (sIsland.Owner == Consts.ME)
+                    OriginalMyIslandCount+= sIsland.Value;
+                if (sIsland.Owner == Consts.ENEMY)
+                    OriginalEnemyIslandCount += sIsland.Value;
             }
 
             //set constant events
@@ -154,6 +174,10 @@ namespace Britbot.Simulator
             //reset general stuff
             this.CurrentTurn = 0;
             this.Score = 0;
+            this.EnemyDeadPirates = this.OriginalEnemyDeadPirates;
+            this.MyDeadPirates = this.OriginalMyDeadPirates;
+            this.EnemyIslandCount = this.OriginalEnemyIslandCount;
+            this.MyIslandCount = this.OriginalMyIslandCount;
 
             //reset islands
             foreach(KeyValuePair<int, SimulatedIsland> sIsland in this.Islands)
@@ -244,51 +268,29 @@ namespace Britbot.Simulator
             //helper variables
             double friendlyPPT, enemyPPT;
 
-            int friendlyIslandCounter = 0;
-            int enemyIslandCounter = 0;
             
-            //going over the islands
-            foreach(KeyValuePair<int,SimulatedIsland> sIsland in this.Islands)
-            {
-                if(sIsland.Value.Owner == Consts.ME)
-                {
-                    friendlyIslandCounter += sIsland.Value.Value;
-                }
-                if(sIsland.Value.Owner == Consts.ENEMY)
-                {
-                    enemyIslandCounter += sIsland.Value.Value;
-                }
-            }
 
             //check special case of zero islands
-            if(friendlyIslandCounter == 0)
+            if(this.MyIslandCount == 0)
             {
                 friendlyPPT = 0;
             }
             else
             {
-                friendlyPPT = Math.Pow(2, friendlyIslandCounter - 1);
+                friendlyPPT = Math.Pow(2, MyIslandCount - 1);
             }
 
-            if(enemyIslandCounter == 0)
+            if(this.EnemyIslandCount == 0)
             {
                 enemyPPT = 0;
             }
             else
             {
-                enemyPPT = Math.Pow(2, enemyIslandCounter - 1);
-            }
-
-            double deadShips = 0;
-            //consider our dead ships
-            foreach(KeyValuePair<int, SimulatedGroup> sGroup in this.MyGroups)
-            {
-                if (!sGroup.Value.IsAlive)
-                    deadShips += sGroup.Value.FirePower;
+                enemyPPT = Math.Pow(2, EnemyIslandCount - 1);
             }
 
             //account for dead ships
-            friendlyPPT -= Math.Pow(5, deadShips);
+            friendlyPPT -= Math.Pow(5, this.MyDeadPirates);
 
             return friendlyPPT - enemyPPT;
         }
