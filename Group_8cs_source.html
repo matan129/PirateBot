@@ -776,7 +776,7 @@
 <a name="l00843"></a>00843             <span class="keywordtype">int</span>[] outboundPirates = this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Take(num).ToArray();
 <a name="l00844"></a>00844             this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.RemoveAll(outboundPirates.Contains);
 <a name="l00845"></a>00845 
-<a name="l00846"></a>00846             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; num; i++)
+<a name="l00846"></a>00846             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; outboundPirates.Length; i++)
 <a name="l00847"></a>00847             {
 <a name="l00848"></a>00848                 yield <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Group_a7ecd71353172abbc1011fcf8b26b0b2b.html#a7ecd71353172abbc1011fcf8b26b0b2b" title="Just a ctor to do to common stuff (called from the other ctors above by &quot;this()&quot; statement)">Group</a>(<span class="keyword">new</span>[] {outboundPirates[i]});
 <a name="l00849"></a>00849             }
@@ -884,7 +884,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 09:10:10 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 09:45:05 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

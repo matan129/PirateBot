@@ -82,7 +82,7 @@
 
 <p>A method that refers to the ULTIMATE CONFIGURATION and splits the gruops as needed. </p>
 
-<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00034">34</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
+<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00036">36</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             List&lt;Group&gt; newGroups = <span class="keyword">new</span> List&lt;Group&gt;();
 
@@ -94,6 +94,7 @@
                 <span class="keywordflow">if</span> (Commander.Groups[i].Pirates.Count &gt; ultimateConfig[i])
                     newGroups.AddRange(Commander.Groups[i].Split(Commander.Groups[i].Pirates.Count - ultimateConfig[i]));
             }
+
 
             Commander.Groups.AddRange(newGroups);
             Commander.Groups.RemoveAll(g =&gt; g.Pirates.Count == 0);
@@ -108,7 +109,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 09:10:11 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 09:45:06 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -90,6 +90,8 @@
 
             Veteran.GroupSplitting(ultimatConfig);
             Veteran.GroupJoining(ultimatConfig);
+            Logger.Write(<span class="stringliteral">&quot;New config Config:&quot;</span>, <span class="keyword">true</span>);
+            Logger.Write(<span class="keywordtype">string</span>.Join(<span class="stringliteral">&quot;,&quot;</span>, Commander.Groups.ConvertAll(group =&gt; group.Pirates.Count).ToArray()), <span class="keyword">true</span>);
         }
 </pre></div>
 </div>
@@ -101,7 +103,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 09:10:11 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 09:45:06 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

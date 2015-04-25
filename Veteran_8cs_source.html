@@ -79,82 +79,85 @@
 <a name="l00026"></a>00026 
 <a name="l00027"></a>00027             <a class="code" href="classBritbot_1_1Veteran.html" title="An experienced ally to the commander who does bugger all.">Veteran</a>.<a class="code" href="classBritbot_1_1Veteran_a8363de4862f38f7854e6c961ea3af22f.html#a8363de4862f38f7854e6c961ea3af22f" title="A method that refers to the ULTIMATE CONFIGURATION and splits the gruops as needed.">GroupSplitting</a>(ultimatConfig);
 <a name="l00028"></a>00028             <a class="code" href="classBritbot_1_1Veteran.html" title="An experienced ally to the commander who does bugger all.">Veteran</a>.<a class="code" href="classBritbot_1_1Veteran_a0e392b393700a1d3cacfde246e3022cb.html#a0e392b393700a1d3cacfde246e3022cb" title="A method that reffers to the ULTIMATE CONFIGURATION and joins the group as needed.">GroupJoining</a>(ultimatConfig);
-<a name="l00029"></a>00029         }
-<a name="l00030"></a>00030         
-<a name="l00034"></a><a class="code" href="classBritbot_1_1Veteran_a8363de4862f38f7854e6c961ea3af22f.html#a8363de4862f38f7854e6c961ea3af22f">00034</a>         <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Veteran_a8363de4862f38f7854e6c961ea3af22f.html#a8363de4862f38f7854e6c961ea3af22f" title="A method that refers to the ULTIMATE CONFIGURATION and splits the gruops as needed.">GroupSplitting</a>(List&lt;int&gt; ultimateConfig)
-<a name="l00035"></a>00035         {
-<a name="l00036"></a>00036             List&lt;Group&gt; newGroups = <span class="keyword">new</span> List&lt;Group&gt;();
-<a name="l00037"></a>00037 
-<a name="l00038"></a>00038             ultimateConfig.Sort((b, a) =&gt; a.CompareTo(b));
-<a name="l00039"></a>00039             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Sort((b, a) =&gt; a.Pirates.Count.CompareTo(b.Pirates.Count));
-<a name="l00040"></a>00040 
-<a name="l00041"></a>00041             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; Math.Min(ultimateConfig.Count, <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Count); i++)
-<a name="l00042"></a>00042             {
-<a name="l00043"></a>00043                 <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Pirates.Count &gt; ultimateConfig[i])
-<a name="l00044"></a>00044                     newGroups.AddRange(<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Split(<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Pirates.Count - ultimateConfig[i]));
-<a name="l00045"></a>00045             }
-<a name="l00046"></a>00046 
-<a name="l00047"></a>00047             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.AddRange(newGroups);
-<a name="l00048"></a>00048             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.RemoveAll(g =&gt; g.Pirates.Count == 0);
-<a name="l00049"></a>00049         }
-<a name="l00050"></a>00050  
-<a name="l00054"></a><a class="code" href="classBritbot_1_1Veteran_a0e392b393700a1d3cacfde246e3022cb.html#a0e392b393700a1d3cacfde246e3022cb">00054</a>         <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Veteran_a0e392b393700a1d3cacfde246e3022cb.html#a0e392b393700a1d3cacfde246e3022cb" title="A method that reffers to the ULTIMATE CONFIGURATION and joins the group as needed.">GroupJoining</a>(List&lt;int&gt; ultimateConfig)
-<a name="l00055"></a>00055         {
-<a name="l00056"></a>00056             <a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> tempGroup = null;
-<a name="l00057"></a>00057             <span class="keywordtype">int</span> minDistance = <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a44ecb595cf7d07166a6fbfbf55fc7589.html#a44ecb595cf7d07166a6fbfbf55fc7589" title="Max distace two groups can be from eachother and still be joind.">MaxDistance</a> + 1; <span class="comment">//maximun joining distance</span>
-<a name="l00058"></a>00058 
-<a name="l00059"></a>00059             <span class="comment">//sort configs by size</span>
-<a name="l00060"></a>00060             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Sort((a, b) =&gt; a.Pirates.Count.CompareTo(b.Pirates.Count));
-<a name="l00061"></a>00061             ultimateConfig.Sort((a, b) =&gt; a.CompareTo(b));
-<a name="l00062"></a>00062 
-<a name="l00063"></a>00063             List&lt;int&gt; joinedGroups = <span class="keyword">new</span> List&lt;int&gt;();
-<a name="l00064"></a>00064 
-<a name="l00065"></a>00065             <span class="comment">//go over the config and correct it</span>
-<a name="l00066"></a>00066             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; Math.Min(ultimateConfig.Count, <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Count); i++)
-<a name="l00067"></a>00067             {
-<a name="l00068"></a>00068                 <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Pirates.Count &lt; ultimateConfig[i])
-<a name="l00069"></a>00069                 {
-<a name="l00070"></a>00070                     <span class="comment">//find the best group to join to the current group</span>
-<a name="l00071"></a>00071                     <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Where(g =&gt; g.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Count == 1 &amp;&amp; joinedGroups.Contains(g.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>)))
-<a name="l00072"></a>00072                     {
-<a name="l00073"></a>00073                         <span class="comment">//minimal distance between the two groups</span>
-<a name="l00074"></a>00074                         <span class="keywordtype">int</span> tempDistance = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].MinDistance(g);
-<a name="l00075"></a>00075 
-<a name="l00076"></a>00076                         <span class="comment">//if the current minimun is better than the last minimun and the group do not cintain the same pirates..</span>
-<a name="l00077"></a>00077                         <span class="keywordflow">if</span>((tempDistance &lt; minDistance) &amp;&amp; (!<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Pirates.Intersect(g.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>).Any()))
-<a name="l00078"></a>00078                         {
-<a name="l00079"></a>00079                             tempGroup = g;
-<a name="l00080"></a>00080                             minDistance = tempDistance;
-<a name="l00081"></a>00081                         }
-<a name="l00082"></a>00082                     }
-<a name="l00083"></a>00083                     <span class="comment">//join the groups if they are close enough</span>
-<a name="l00084"></a>00084                     <span class="keywordflow">if</span> (minDistance &lt;= <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a44ecb595cf7d07166a6fbfbf55fc7589.html#a44ecb595cf7d07166a6fbfbf55fc7589" title="Max distace two groups can be from eachother and still be joind.">MaxDistance</a>)
-<a name="l00085"></a>00085                     {
-<a name="l00086"></a>00086                         <span class="keywordflow">if</span> (tempGroup != null)
-<a name="l00087"></a>00087                         {
-<a name="l00088"></a>00088                             joinedGroups.Add(tempGroup.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>);
-<a name="l00089"></a>00089                             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Join(tempGroup,<span class="keyword">false</span>);
-<a name="l00090"></a>00090                         }
-<a name="l00091"></a>00091                     }
-<a name="l00092"></a>00092                 }
-<a name="l00093"></a>00093             }
-<a name="l00094"></a>00094 
-<a name="l00095"></a>00095             <span class="comment">//remove all joined group from the commander list</span>
-<a name="l00096"></a>00096             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.RemoveAll(g =&gt; joinedGroups.Contains(g.Id));
+<a name="l00029"></a>00029             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;New config Config:&quot;</span>, <span class="keyword">true</span>);
+<a name="l00030"></a>00030             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="keywordtype">string</span>.Join(<span class="stringliteral">&quot;,&quot;</span>, <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.ConvertAll(group =&gt; group.Pirates.Count).ToArray()), <span class="keyword">true</span>);
+<a name="l00031"></a>00031         }
+<a name="l00032"></a>00032         
+<a name="l00036"></a><a class="code" href="classBritbot_1_1Veteran_a8363de4862f38f7854e6c961ea3af22f.html#a8363de4862f38f7854e6c961ea3af22f">00036</a>         <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Veteran_a8363de4862f38f7854e6c961ea3af22f.html#a8363de4862f38f7854e6c961ea3af22f" title="A method that refers to the ULTIMATE CONFIGURATION and splits the gruops as needed.">GroupSplitting</a>(List&lt;int&gt; ultimateConfig)
+<a name="l00037"></a>00037         {
+<a name="l00038"></a>00038             List&lt;Group&gt; newGroups = <span class="keyword">new</span> List&lt;Group&gt;();
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040             ultimateConfig.Sort((b, a) =&gt; a.CompareTo(b));
+<a name="l00041"></a>00041             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Sort((b, a) =&gt; a.Pirates.Count.CompareTo(b.Pirates.Count));
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; Math.Min(ultimateConfig.Count, <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Count); i++)
+<a name="l00044"></a>00044             {
+<a name="l00045"></a>00045                 <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Pirates.Count &gt; ultimateConfig[i])
+<a name="l00046"></a>00046                     newGroups.AddRange(<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Split(<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Pirates.Count - ultimateConfig[i]));
+<a name="l00047"></a>00047             }
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.AddRange(newGroups);
+<a name="l00051"></a>00051             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.RemoveAll(g =&gt; g.Pirates.Count == 0);
+<a name="l00052"></a>00052         }
+<a name="l00053"></a>00053  
+<a name="l00057"></a><a class="code" href="classBritbot_1_1Veteran_a0e392b393700a1d3cacfde246e3022cb.html#a0e392b393700a1d3cacfde246e3022cb">00057</a>         <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Veteran_a0e392b393700a1d3cacfde246e3022cb.html#a0e392b393700a1d3cacfde246e3022cb" title="A method that reffers to the ULTIMATE CONFIGURATION and joins the group as needed.">GroupJoining</a>(List&lt;int&gt; ultimateConfig)
+<a name="l00058"></a>00058         {
+<a name="l00059"></a>00059             <a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> tempGroup = null;
+<a name="l00060"></a>00060             <span class="keywordtype">int</span> minDistance = <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a44ecb595cf7d07166a6fbfbf55fc7589.html#a44ecb595cf7d07166a6fbfbf55fc7589" title="Max distace two groups can be from eachother and still be joind.">MaxDistance</a> + 1; <span class="comment">//maximun joining distance</span>
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062             <span class="comment">//sort configs by size</span>
+<a name="l00063"></a>00063             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Sort((a, b) =&gt; a.Pirates.Count.CompareTo(b.Pirates.Count));
+<a name="l00064"></a>00064             ultimateConfig.Sort((a, b) =&gt; a.CompareTo(b));
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066             List&lt;int&gt; joinedGroups = <span class="keyword">new</span> List&lt;int&gt;();
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068             <span class="comment">//go over the config and correct it</span>
+<a name="l00069"></a>00069             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; Math.Min(ultimateConfig.Count, <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Count); i++)
+<a name="l00070"></a>00070             {
+<a name="l00071"></a>00071                 <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Pirates.Count &lt; ultimateConfig[i])
+<a name="l00072"></a>00072                 {
+<a name="l00073"></a>00073                     <span class="comment">//find the best group to join to the current group</span>
+<a name="l00074"></a>00074                     <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Where(g =&gt; g.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Count == 1 &amp;&amp; joinedGroups.Contains(g.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>)))
+<a name="l00075"></a>00075                     {
+<a name="l00076"></a>00076                         <span class="comment">//minimal distance between the two groups</span>
+<a name="l00077"></a>00077                         <span class="keywordtype">int</span> tempDistance = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].MinDistance(g);
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079                         <span class="comment">//if the current minimun is better than the last minimun and the group do not cintain the same pirates..</span>
+<a name="l00080"></a>00080                         <span class="keywordflow">if</span>((tempDistance &lt; minDistance) &amp;&amp; (!<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Pirates.Intersect(g.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>).Any()))
+<a name="l00081"></a>00081                         {
+<a name="l00082"></a>00082                             tempGroup = g;
+<a name="l00083"></a>00083                             minDistance = tempDistance;
+<a name="l00084"></a>00084                         }
+<a name="l00085"></a>00085                     }
+<a name="l00086"></a>00086                     <span class="comment">//join the groups if they are close enough</span>
+<a name="l00087"></a>00087                     <span class="keywordflow">if</span> (minDistance &lt;= <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a44ecb595cf7d07166a6fbfbf55fc7589.html#a44ecb595cf7d07166a6fbfbf55fc7589" title="Max distace two groups can be from eachother and still be joind.">MaxDistance</a>)
+<a name="l00088"></a>00088                     {
+<a name="l00089"></a>00089                         <span class="keywordflow">if</span> (tempGroup != null)
+<a name="l00090"></a>00090                         {
+<a name="l00091"></a>00091                             joinedGroups.Add(tempGroup.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>);
+<a name="l00092"></a>00092                             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Join(tempGroup,<span class="keyword">false</span>);
+<a name="l00093"></a>00093                         }
+<a name="l00094"></a>00094                     }
+<a name="l00095"></a>00095                 }
+<a name="l00096"></a>00096             }
 <a name="l00097"></a>00097 
-<a name="l00098"></a>00098             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;Commander Groups After Reconfiguration:&quot;</span>,<span class="keyword">true</span>);
-<a name="l00099"></a>00099             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>)
-<a name="l00100"></a>00100             {
-<a name="l00101"></a>00101                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(g.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Count.ToString(),<span class="keyword">true</span>);
-<a name="l00102"></a>00102             }
-<a name="l00103"></a>00103         }
-<a name="l00104"></a>00104     }
-<a name="l00105"></a>00105 }
+<a name="l00098"></a>00098             <span class="comment">//remove all joined group from the commander list</span>
+<a name="l00099"></a>00099             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.RemoveAll(g =&gt; joinedGroups.Contains(g.Id));
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;Commander Groups After Reconfiguration:&quot;</span>,<span class="keyword">true</span>);
+<a name="l00102"></a>00102             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>)
+<a name="l00103"></a>00103             {
+<a name="l00104"></a>00104                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(g.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Count.ToString(),<span class="keyword">true</span>);
+<a name="l00105"></a>00105             }
+<a name="l00106"></a>00106         }
+<a name="l00107"></a>00107     }
+<a name="l00108"></a>00108 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 09:10:11 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 09:45:05 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
