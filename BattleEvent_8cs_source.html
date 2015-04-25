@@ -87,11 +87,11 @@
 <a name="l00042"></a>00042             <span class="keywordflow">if</span> (this._groupA.Owner != <span class="keyword">this</span>._groupB.Owner)
 <a name="l00043"></a>00043             {
 <a name="l00044"></a>00044                 <span class="comment">//check fire power</span>
-<a name="l00045"></a>00045                 <span class="keywordflow">if</span> (this._groupA.ActualFirePower(sg) &lt; this._groupB.ActualFirePower(sg))
+<a name="l00045"></a>00045                 <span class="keywordflow">if</span> (this._groupA.ActualFirePower() &lt; this._groupB.ActualFirePower())
 <a name="l00046"></a>00046                 {
 <a name="l00047"></a>00047                     this._groupA.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a701acb4ce15550f991e74392e4b2bb5d.html#a701acb4ce15550f991e74392e4b2bb5d" title="kills the group">Kill</a>(sg);
 <a name="l00048"></a>00048                 }
-<a name="l00049"></a>00049                 <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this._groupA.ActualFirePower(sg) == this._groupB.ActualFirePower(sg))
+<a name="l00049"></a>00049                 <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this._groupA.ActualFirePower() == this._groupB.ActualFirePower())
 <a name="l00050"></a>00050                 {
 <a name="l00051"></a>00051                     this._groupA.Kill(sg);
 <a name="l00052"></a>00052                     this._groupB.Kill(sg);
@@ -110,7 +110,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 12:28:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 13:20:38 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

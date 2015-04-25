@@ -90,7 +90,7 @@
 <a name="l00050"></a>00050                 <span class="comment">//also if they already are on the island they wont come                </span>
 <a name="l00051"></a>00051                 <span class="keywordflow">if</span> ((this.Island.CapturingGroup == null) ||
 <a name="l00052"></a>00052                     (<span class="keyword">this</span>.Island.CapturingGroup.Owner == <span class="keyword">this</span>.ArrivingGroup.Owner) ||
-<a name="l00053"></a>00053                     (<span class="keyword">this</span>.Island.CapturingGroup.ActualFirePower(sg) &gt;= this.ArrivingGroup.FirePower))
+<a name="l00053"></a>00053                     (<span class="keyword">this</span>.Island.CapturingGroup.ActualFirePower() &gt;= this.ArrivingGroup.FirePower))
 <a name="l00054"></a>00054                     
 <a name="l00055"></a>00055                 {
 <a name="l00056"></a>00056                     <span class="keywordflow">return</span> <span class="keyword">false</span>;
@@ -106,19 +106,23 @@
 <a name="l00066"></a>00066 
 <a name="l00067"></a>00067                 <span class="keywordtype">int</span> captureTurn = sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453" title="the current turn of the simulation">CurrentTurn</a> + this.Island.TurnsTillDecapture(this.ArrivingGroup.Owner);
 <a name="l00068"></a>00068 
-<a name="l00069"></a>00069                 <span class="comment">//then set a capture and decapture event</span>
-<a name="l00070"></a>00070                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent.html" title="This event is called when an island is switching side to nutral.">DeCaptureEvent</a>(captureTurn, this.Island, this.ArrivingGroup));
-<a name="l00071"></a>00071             }
+<a name="l00069"></a>00069                 <span class="comment">//update capturing status</span>
+<a name="l00070"></a>00070                 this.ArrivingGroup.IsCapturing = <span class="keyword">true</span>;
+<a name="l00071"></a>00071 
 <a name="l00072"></a>00072 
-<a name="l00073"></a>00073             <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00074"></a>00074         }
-<a name="l00075"></a>00075     }
-<a name="l00076"></a>00076 }
+<a name="l00073"></a>00073                 <span class="comment">//then set a capture and decapture event</span>
+<a name="l00074"></a>00074                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent.html" title="This event is called when an island is switching side to nutral.">DeCaptureEvent</a>(captureTurn, this.Island, this.ArrivingGroup));
+<a name="l00075"></a>00075             }
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00078"></a>00078         }
+<a name="l00079"></a>00079     }
+<a name="l00080"></a>00080 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 12:28:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 13:20:38 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

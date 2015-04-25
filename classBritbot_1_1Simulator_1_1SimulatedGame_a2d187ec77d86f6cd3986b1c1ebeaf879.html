@@ -62,7 +62,7 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2">AddEvent</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d6c4815a8403ffa03f0bb159d23c1c4.html#a1d6c4815a8403ffa03f0bb159d23c1c4">CalculatePPT</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_ad69212b6172ea520748bd69c3867e37a.html#ad69212b6172ea520748bd69c3867e37a">CommingEvents</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1616c4a1209b7cf785039e21582b9c02.html#a1616c4a1209b7cf785039e21582b9c02">ConstantEvents</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_ac3f48deccfb61f2b99d54ad321050478.html#ac3f48deccfb61f2b99d54ad321050478">ConstantEvents</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453">CurrentTurn</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a5a9e889b75aa612e63359ffe8350bd85.html#a5a9e889b75aa612e63359ffe8350bd85">EnemyGroups</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d7fea4cdd27f968ed951a56b013cf45.html#a1d7fea4cdd27f968ed951a56b013cf45">Islands</a></td></tr>
@@ -94,9 +94,8 @@
 <p>Definition at line <a class="el" href="SimulatedGame_8cs_source.html#l00063">63</a> of file <a class="el" href="SimulatedGame_8cs_source.html">SimulatedGame.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//initialize stuff</span>
-            <span class="comment">//VEEEERRY IMPORTANT: THE SIZES MUST BE THE SAME!!!!!!!!!!!!!!!!!!</span>
             this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_ad69212b6172ea520748bd69c3867e37a.html#ad69212b6172ea520748bd69c3867e37a" title="A priority queue representing the events to come in this scenario Events are prioratized in a cronolo...">CommingEvents</a> = <span class="keyword">new</span> HeapPriorityQueue&lt;SimulatedEvent&gt;((int) (2 * Magic.MaxCalculableDistance));
-            this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1616c4a1209b7cf785039e21582b9c02.html#a1616c4a1209b7cf785039e21582b9c02" title="a queue representing the constant events those that will happen in all possible assignments">ConstantEvents</a> = <span class="keyword">new</span> HeapPriorityQueue&lt;SimulatedEvent&gt;((int)(2 * Magic.MaxCalculableDistance));
+            this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_ac3f48deccfb61f2b99d54ad321050478.html#ac3f48deccfb61f2b99d54ad321050478" title="a queue representing the constant events those that will happen in all possible assignments">ConstantEvents</a> = <span class="keyword">new</span> List&lt;SimulatedEvent&gt;();
             this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d7fea4cdd27f968ed951a56b013cf45.html#a1d7fea4cdd27f968ed951a56b013cf45" title="List of the islands in the game.">Islands</a> = <span class="keyword">new</span> Dictionary&lt;int,SimulatedIsland&gt;();
             this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2" title="List of all friendly groups.">MyGroups</a> = <span class="keyword">new</span> Dictionary&lt;int, SimulatedGroup&gt;();
             this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a5a9e889b75aa612e63359ffe8350bd85.html#a5a9e889b75aa612e63359ffe8350bd85" title="List of all enemy groups.">EnemyGroups</a> = <span class="keyword">new</span> Dictionary&lt;int, SimulatedGroup&gt;();
@@ -108,13 +107,33 @@
             <span class="comment">//set my groups</span>
             <span class="keywordflow">foreach</span> (Group group <span class="keywordflow">in</span> Commander.Groups)
             {
-                this.MyGroups.Add(group.Id,<span class="keyword">new</span> SimulatedGroup(group.Id, Consts.ME, group.LiveCount()));
+                <span class="comment">//check if capturing</span>
+                <span class="keywordtype">bool</span> isCapturing = <span class="keyword">false</span>;
+                <span class="keywordflow">foreach</span>(SmartIsland sIsland <span class="keywordflow">in</span> SmartIsland.IslandList)
+                {
+                    <span class="keywordflow">if</span>(group.MinimalETATo(sIsland.Loc) == 0)
+                    {
+                        isCapturing = <span class="keyword">true</span>;
+                        <span class="keywordflow">break</span>;
+                    }
+                }
+                this.MyGroups.Add(group.Id, <span class="keyword">new</span> SimulatedGroup(group.Id, Consts.ME, group.LiveCount(), isCapturing));
             }
 
             <span class="comment">//set enemy group</span>
             <span class="keywordflow">foreach</span> (EnemyGroup eGroup <span class="keywordflow">in</span> Enemy.Groups)
             {
-                this.EnemyGroups.Add(eGroup.Id, <span class="keyword">new</span> SimulatedGroup(eGroup.Id, Consts.ENEMY, eGroup.GetMaxFightPower()));
+                <span class="comment">//check if capturing</span>
+                <span class="keywordtype">bool</span> isCapturing = <span class="keyword">false</span>;
+                <span class="keywordflow">foreach</span> (SmartIsland sIsland <span class="keywordflow">in</span> SmartIsland.IslandList)
+                {
+                    <span class="keywordflow">if</span> (eGroup.MinimalETATo(sIsland.Loc) == 0)
+                    {
+                        isCapturing = <span class="keyword">true</span>;
+                        <span class="keywordflow">break</span>;
+                    }
+                }
+                this.EnemyGroups.Add(eGroup.Id, <span class="keyword">new</span> SimulatedGroup(eGroup.Id, Consts.ENEMY, eGroup.GetMaxFightPower(), isCapturing));
             }
 
             <span class="comment">//set up islands</span>
@@ -152,7 +171,7 @@
                     }
 
                     <span class="comment">//add the event</span>
-                    this.ConstantEvents.Enqueue(newEvent,newEvent.Turn);
+                    this.ConstantEvents.Add(newEvent);
                 }
             }
 
@@ -167,7 +186,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 12:28:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 13:20:39 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

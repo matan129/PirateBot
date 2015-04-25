@@ -103,7 +103,7 @@
                 <span class="comment">//also if they already are on the island they wont come                </span>
                 <span class="keywordflow">if</span> ((this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_ace2b7efe72d515389642462f936cba10.html#ace2b7efe72d515389642462f936cba10">CapturingGroup</a> == null) ||
                     (<span class="keyword">this</span>.Island.CapturingGroup.Owner == <span class="keyword">this</span>.ArrivingGroup.Owner) ||
-                    (<span class="keyword">this</span>.Island.CapturingGroup.ActualFirePower(sg) &gt;= this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a6dc776966862a94c9e49ccdcf1c2358b.html#a6dc776966862a94c9e49ccdcf1c2358b" title="The actual firepower of the group.">FirePower</a>))
+                    (<span class="keyword">this</span>.Island.CapturingGroup.ActualFirePower() &gt;= this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a6dc776966862a94c9e49ccdcf1c2358b.html#a6dc776966862a94c9e49ccdcf1c2358b" title="The actual firepower of the group.">FirePower</a>))
                     
                 {
                     <span class="keywordflow">return</span> <span class="keyword">false</span>;
@@ -118,6 +118,10 @@
                 this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_ace2b7efe72d515389642462f936cba10.html#ace2b7efe72d515389642462f936cba10">CapturingGroup</a> = this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>;
 
                 <span class="keywordtype">int</span> captureTurn = sg.CurrentTurn + this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a30c5c84c26153a18e9e132f3e5595f23.html#a30c5c84c26153a18e9e132f3e5595f23" title="Turns till the island becomes nutral.">TurnsTillDecapture</a>(this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_ae0effec32bfe2f42a65e7f03aef60cba.html#ae0effec32bfe2f42a65e7f03aef60cba" title="The owner of this group (Me or Enemy)">Owner</a>);
+
+                <span class="comment">//update capturing status</span>
+                this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_a18484c7039e9b49680d532f266b80c85.html#a18484c7039e9b49680d532f266b80c85">IsCapturing</a> = <span class="keyword">true</span>;
+
 
                 <span class="comment">//then set a capture and decapture event</span>
                 sg.AddEvent(<span class="keyword">new</span> DeCaptureEvent(captureTurn, this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aa0cdfefb1d0abea4e9f2db129535cf11.html#aa0cdfefb1d0abea4e9f2db129535cf11" title="The island the groups arrives at.">Island</a>, this.<a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent_aac057eeb71e61b3c0762d80ee7522b17.html#aac057eeb71e61b3c0762d80ee7522b17" title="the Group arriving to the island">ArrivingGroup</a>));
@@ -135,7 +139,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 12:28:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 13:20:38 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

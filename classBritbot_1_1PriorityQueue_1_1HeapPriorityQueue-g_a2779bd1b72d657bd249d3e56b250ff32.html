@@ -115,7 +115,7 @@ template&lt;T &gt; </div>
             <span class="comment">//this._nodes = new T[queue._nodes.Length];</span>
             this.<a class="code" href="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_a96965d242bcf858914da0fcedf2700d0.html#a96965d242bcf858914da0fcedf2700d0">_numNodesEverEnqueued</a> = queue._numNodesEverEnqueued;
             <span class="comment">//copy array</span>
-            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; queue._nodes.Length;i++)
+            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; queue._numNodesEverEnqueued;i++)
             {
                 this.<a class="code" href="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_a05b5601c0d0381fe38dcf538044d7bc9.html#a05b5601c0d0381fe38dcf538044d7bc9">_nodes</a>[i] = queue._nodes[i];
             }
@@ -130,7 +130,7 @@ template&lt;T &gt; </div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 12:28:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 13:20:38 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

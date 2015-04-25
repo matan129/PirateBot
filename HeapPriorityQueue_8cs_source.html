@@ -86,7 +86,7 @@
 <a name="l00040"></a>00040             <span class="comment">//this._nodes = new T[queue._nodes.Length];</span>
 <a name="l00041"></a>00041             this._numNodesEverEnqueued = queue._numNodesEverEnqueued;
 <a name="l00042"></a>00042             <span class="comment">//copy array</span>
-<a name="l00043"></a>00043             <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; queue._nodes.Length;i++)
+<a name="l00043"></a>00043             <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; queue._numNodesEverEnqueued;i++)
 <a name="l00044"></a>00044             {
 <a name="l00045"></a>00045                 this._nodes[i] = queue._nodes[i];
 <a name="l00046"></a>00046             }
@@ -341,7 +341,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 12:28:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 13:20:38 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
