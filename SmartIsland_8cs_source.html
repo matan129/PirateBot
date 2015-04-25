@@ -333,9 +333,9 @@
 <a name="l00358"></a>00358 
 <a name="l00359"></a><a class="code" href="classBritbot_1_1SmartIsland_a98b5d146c4e1ad509e3f936704fc1790.html#a98b5d146c4e1ad509e3f936704fc1790">00359</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1SmartIsland_a98b5d146c4e1ad509e3f936704fc1790.html#a98b5d146c4e1ad509e3f936704fc1790">DebugAll</a>()
 <a name="l00360"></a>00360         {
-<a name="l00361"></a>00361             <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;--------ISLANDS DEBUG----------&quot;</span>);
-<a name="l00362"></a>00362             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a> sIsland <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.<a class="code" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300" title="Queue of the last few amounts of enemy troops around this island.">IslandList</a>)
-<a name="l00363"></a>00363                 sIsland.<a class="code" href="classBritbot_1_1SmartIsland_a471c2f95840c9027da2597bd1a4d5226.html#a471c2f95840c9027da2597bd1a4d5226">Debug</a>();
+<a name="l00361"></a>00361             <span class="comment">/*Bot.Game.Debug(&quot;--------ISLANDS DEBUG----------&quot;);</span>
+<a name="l00362"></a>00362 <span class="comment">            foreach (SmartIsland sIsland in SmartIsland.IslandList)</span>
+<a name="l00363"></a>00363 <span class="comment">                sIsland.Debug();*/</span>
 <a name="l00364"></a>00364         }
 <a name="l00365"></a>00365 
 <a name="l00372"></a><a class="code" href="classBritbot_1_1SmartIsland_a5c72e36e0b8cc2a23a24fec4110e1790.html#a5c72e36e0b8cc2a23a24fec4110e1790">00372</a>         <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1SmartIsland_a5c72e36e0b8cc2a23a24fec4110e1790.html#a5c72e36e0b8cc2a23a24fec4110e1790" title="This function sais if it is ok for a given group to try and capture this isalnd considers all the oth...">IsDangerousForGroup</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g)
@@ -453,7 +453,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 09:49:15 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 10:14:19 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

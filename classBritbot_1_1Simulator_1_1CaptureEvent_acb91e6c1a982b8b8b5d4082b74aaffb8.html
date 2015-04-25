@@ -101,6 +101,10 @@
             <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1Simulator_1_1CaptureEvent_a3d29ef15c4ed3da6a31d846a460438eb.html#a3d29ef15c4ed3da6a31d846a460438eb" title="The island being captured.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_ace2b7efe72d515389642462f936cba10.html#ace2b7efe72d515389642462f936cba10">CapturingGroup</a> != <span class="keyword">this</span>.Capturer)
                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
 
+            <span class="comment">//check that the island realy of the enemy</span>
+            <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1Simulator_1_1CaptureEvent_a3d29ef15c4ed3da6a31d846a460438eb.html#a3d29ef15c4ed3da6a31d846a460438eb" title="The island being captured.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a62a1eb45b6aa948ed06f2341a0c19fe2.html#a62a1eb45b6aa948ed06f2341a0c19fe2">Owner</a> == <span class="keyword">this</span>.Capturer.Owner)
+                <span class="keywordflow">return</span> <span class="keyword">false</span>;
+
             <span class="comment">//if everything checks out update island</span>
             this.<a class="code" href="classBritbot_1_1Simulator_1_1CaptureEvent_a3d29ef15c4ed3da6a31d846a460438eb.html#a3d29ef15c4ed3da6a31d846a460438eb" title="The island being captured.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a62a1eb45b6aa948ed06f2341a0c19fe2.html#a62a1eb45b6aa948ed06f2341a0c19fe2">Owner</a> = this.<a class="code" href="classBritbot_1_1Simulator_1_1CaptureEvent_ae57444d0559e358c36a2e380022f56c6.html#ae57444d0559e358c36a2e380022f56c6" title="The group Capturing.">Capturer</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGroup_ae0effec32bfe2f42a65e7f03aef60cba.html#ae0effec32bfe2f42a65e7f03aef60cba" title="The owner of this group (Me or Enemy)">Owner</a>;
 
@@ -116,7 +120,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 09:49:16 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 10:14:19 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
