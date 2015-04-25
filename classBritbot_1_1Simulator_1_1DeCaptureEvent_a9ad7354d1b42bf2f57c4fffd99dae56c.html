@@ -106,6 +106,12 @@
                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
 
             <span class="comment">//if everything checks out update island</span>
+            
+            <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f" title="The island being captured.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a62a1eb45b6aa948ed06f2341a0c19fe2.html#a62a1eb45b6aa948ed06f2341a0c19fe2">Owner</a> == Consts.ME)
+                sg.MyIslandCount -= this.<a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f" title="The island being captured.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a184897a4ee8f044c0134c1699ea8d98d.html#a184897a4ee8f044c0134c1699ea8d98d">Value</a>;
+            <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f" title="The island being captured.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a62a1eb45b6aa948ed06f2341a0c19fe2.html#a62a1eb45b6aa948ed06f2341a0c19fe2">Owner</a> == Consts.ENEMY)
+                sg.EnemyIslandCount -= this.<a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f" title="The island being captured.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a184897a4ee8f044c0134c1699ea8d98d.html#a184897a4ee8f044c0134c1699ea8d98d">Value</a>;
+                        
             this.<a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f" title="The island being captured.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a62a1eb45b6aa948ed06f2341a0c19fe2.html#a62a1eb45b6aa948ed06f2341a0c19fe2">Owner</a> = Consts.NO_OWNER;
             this.<a class="code" href="classBritbot_1_1Simulator_1_1DeCaptureEvent_a3ea2948fa975b3a69848a84879dbfb2f.html#a3ea2948fa975b3a69848a84879dbfb2f" title="The island being captured.">Island</a>.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedIsland_a1616ceb9a016dc9ed913f7957718efdf.html#a1616ceb9a016dc9ed913f7957718efdf">TurnsBeingCaptured</a> = 0;
 
@@ -125,7 +131,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 13:20:38 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 14:06:35 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

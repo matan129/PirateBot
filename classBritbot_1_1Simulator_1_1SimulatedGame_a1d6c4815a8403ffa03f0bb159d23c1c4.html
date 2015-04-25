@@ -64,9 +64,17 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_ad69212b6172ea520748bd69c3867e37a.html#ad69212b6172ea520748bd69c3867e37a">CommingEvents</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_ac3f48deccfb61f2b99d54ad321050478.html#ac3f48deccfb61f2b99d54ad321050478">ConstantEvents</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453">CurrentTurn</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7a20a46abd20d64056e4c04bb1fd720d.html#a7a20a46abd20d64056e4c04bb1fd720d">EnemyDeadPirates</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a5a9e889b75aa612e63359ffe8350bd85.html#a5a9e889b75aa612e63359ffe8350bd85">EnemyGroups</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_afa075f48508c1409806829134a1bcd24.html#afa075f48508c1409806829134a1bcd24">EnemyIslandCount</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d7fea4cdd27f968ed951a56b013cf45.html#a1d7fea4cdd27f968ed951a56b013cf45">Islands</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_aa0a2553b04a11e424090b94768cb6256.html#aa0a2553b04a11e424090b94768cb6256">MyDeadPirates</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2">MyGroups</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_acf1ccec776bb63986b57355cb810a1fd.html#acf1ccec776bb63986b57355cb810a1fd">MyIslandCount</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a56f4f126f7e514b02d3e451db92e3c91.html#a56f4f126f7e514b02d3e451db92e3c91">OriginalEnemyDeadPirates</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a6b5e72093c25231df8715e085f902f65.html#a6b5e72093c25231df8715e085f902f65">OriginalEnemyIslandCount</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a06532c31333f669a33a995ea9db39d80.html#a06532c31333f669a33a995ea9db39d80">OriginalMyDeadPirates</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a913e14fe1cad56f53e7cc9a81cce0017.html#a913e14fe1cad56f53e7cc9a81cce0017">OriginalMyIslandCount</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a62686418b03c7dd30f65919ca5f5f183.html#a62686418b03c7dd30f65919ca5f5f183">ResetSimulation</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7c6a3ab6ec6b52814e55afdc6dd85ebf.html#a7c6a3ab6ec6b52814e55afdc6dd85ebf">Score</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a2d187ec77d86f6cd3986b1c1ebeaf879.html#a2d187ec77d86f6cd3986b1c1ebeaf879">SimulatedGame</a></td></tr>
@@ -98,56 +106,34 @@
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="SimulatedGame_8cs_source.html#l00242">242</a> of file <a class="el" href="SimulatedGame_8cs_source.html">SimulatedGame.cs</a>.</p>
+<p>Definition at line <a class="el" href="SimulatedGame_8cs_source.html#l00266">266</a> of file <a class="el" href="SimulatedGame_8cs_source.html">SimulatedGame.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//helper variables</span>
             <span class="keywordtype">double</span> friendlyPPT, enemyPPT;
 
-            <span class="keywordtype">int</span> friendlyIslandCounter = 0;
-            <span class="keywordtype">int</span> enemyIslandCounter = 0;
             
-            <span class="comment">//going over the islands</span>
-            <span class="keywordflow">foreach</span>(KeyValuePair&lt;int,SimulatedIsland&gt; sIsland <span class="keywordflow">in</span> this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d7fea4cdd27f968ed951a56b013cf45.html#a1d7fea4cdd27f968ed951a56b013cf45" title="List of the islands in the game.">Islands</a>)
-            {
-                <span class="keywordflow">if</span>(sIsland.Value.Owner == Consts.ME)
-                {
-                    friendlyIslandCounter += sIsland.Value.Value;
-                }
-                <span class="keywordflow">if</span>(sIsland.Value.Owner == Consts.ENEMY)
-                {
-                    enemyIslandCounter += sIsland.Value.Value;
-                }
-            }
 
             <span class="comment">//check special case of zero islands</span>
-            <span class="keywordflow">if</span>(friendlyIslandCounter == 0)
+            <span class="keywordflow">if</span>(this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_acf1ccec776bb63986b57355cb810a1fd.html#acf1ccec776bb63986b57355cb810a1fd">MyIslandCount</a> == 0)
             {
                 friendlyPPT = 0;
             }
             <span class="keywordflow">else</span>
             {
-                friendlyPPT = Math.Pow(2, friendlyIslandCounter - 1);
+                friendlyPPT = Math.Pow(2, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_acf1ccec776bb63986b57355cb810a1fd.html#acf1ccec776bb63986b57355cb810a1fd">MyIslandCount</a> - 1);
             }
 
-            <span class="keywordflow">if</span>(enemyIslandCounter == 0)
+            <span class="keywordflow">if</span>(this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_afa075f48508c1409806829134a1bcd24.html#afa075f48508c1409806829134a1bcd24">EnemyIslandCount</a> == 0)
             {
                 enemyPPT = 0;
             }
             <span class="keywordflow">else</span>
             {
-                enemyPPT = Math.Pow(2, enemyIslandCounter - 1);
-            }
-
-            <span class="keywordtype">double</span> deadShips = 0;
-            <span class="comment">//consider our dead ships</span>
-            <span class="keywordflow">foreach</span>(KeyValuePair&lt;int, SimulatedGroup&gt; sGroup <span class="keywordflow">in</span> this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2" title="List of all friendly groups.">MyGroups</a>)
-            {
-                <span class="keywordflow">if</span> (!sGroup.Value.IsAlive)
-                    deadShips += sGroup.Value.FirePower;
+                enemyPPT = Math.Pow(2, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_afa075f48508c1409806829134a1bcd24.html#afa075f48508c1409806829134a1bcd24">EnemyIslandCount</a> - 1);
             }
 
             <span class="comment">//account for dead ships</span>
-            friendlyPPT -= Math.Pow(5, deadShips);
+            friendlyPPT -= Math.Pow(5, this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_aa0a2553b04a11e424090b94768cb6256.html#aa0a2553b04a11e424090b94768cb6256">MyDeadPirates</a>);
 
             <span class="keywordflow">return</span> friendlyPPT - enemyPPT;
         }
@@ -161,7 +147,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 13:20:39 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 14:06:35 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
