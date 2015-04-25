@@ -86,8 +86,8 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Score_a22c95727a872802742ab520471969540.html#a22c95727a872802742ab520471969540">Score</a> (<a class="el" href="interfaceBritbot_1_1ITarget.html">ITarget</a> target, <a class="el" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b">TargetType</a> type, double value, double <a class="el" href="classBritbot_1_1Score_a893aa3698e329d0e069fd75cd7a723e4.html#a893aa3698e329d0e069fd75cd7a723e4">EnemyShips</a>, double eta, int <a class="el" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d">MinTurnsToEnemyCapture</a>)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the target score relative to the attacker.  <a href="#a22c95727a872802742ab520471969540"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Score_ab62a8d15df79d74afdfd64915f1ea4be.html#ab62a8d15df79d74afdfd64915f1ea4be">Score</a> (<a class="el" href="interfaceBritbot_1_1ITarget.html">ITarget</a> target, <a class="el" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b">TargetType</a> type, double value, double <a class="el" href="classBritbot_1_1Score_a893aa3698e329d0e069fd75cd7a723e4.html#a893aa3698e329d0e069fd75cd7a723e4">EnemyShips</a>, double eta, int <a class="el" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d">MinTurnsToEnemyCapture</a>, int <a class="el" href="classBritbot_1_1Score_a2c142b265fdc9a4974f23da9c5531ab7.html#a2c142b265fdc9a4974f23da9c5531ab7">Density</a>)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the target score relative to the attacker.  <a href="#ab62a8d15df79d74afdfd64915f1ea4be"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Score_a80e2fdb27062355b230373186d2abc72.html#a80e2fdb27062355b230373186d2abc72">CompareTo</a> (object obj)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to compare two score elements.  <a href="#a80e2fdb27062355b230373186d2abc72"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Score_a6dfb2d2977983f3d19b30bc81e3028bd.html#a6dfb2d2977983f3d19b30bc81e3028bd">CompareTo</a> (<a class="el" href="classBritbot_1_1Score.html">Score</a> other)</td></tr>
@@ -100,6 +100,9 @@ Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9">Eta</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Time until completion.  <a href="#a266a31ced25763b7cb9420637de732f9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d">MinTurnsToEnemyCapture</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum number of turns we will own an Island.  <a href="#a90a38e5ee3017c32582e58c1c1c2e90d"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Score_a2c142b265fdc9a4974f23da9c5531ab7.html#a2c142b265fdc9a4974f23da9c5531ab7">Density</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The density of nearby islands (calculated by summing the distance between a target and all the nearby islands)  <a href="#a2c142b265fdc9a4974f23da9c5531ab7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="interfaceBritbot_1_1ITarget.html">ITarget</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283">Target</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The target being scored.  <a href="#a130442b4c16d9b608bdeafe227dc9283"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b">TargetType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Score_abb35b31e367875d7908ee361df75c41d.html#abb35b31e367875d7908ee361df75c41d">Type</a></td></tr>
@@ -120,7 +123,7 @@ Properties</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 20:23:22 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 22:06:05 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

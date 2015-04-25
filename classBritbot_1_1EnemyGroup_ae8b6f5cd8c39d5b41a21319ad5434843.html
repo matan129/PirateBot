@@ -154,7 +154,7 @@
             <span class="keywordflow">if</span> (origin.FightCount() &gt; this.<a class="code" href="classBritbot_1_1EnemyGroup_a189f0508a74358c3c57cfafe363dabb2.html#a189f0508a74358c3c57cfafe363dabb2" title="returns the average of the maximum fight power in the last outOfDateNumber of turns">GetMaxFightPower</a>())
             {
                 <span class="keywordflow">return</span> <span class="keyword">new</span> Score(<span class="keyword">this</span>, <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.EnemyGroup, 0, <span class="keyword">this</span>.EnemyPirates.Count, distance,
-                    Bot.Game.GetSpawnTurns());
+                    Bot.Game.GetSpawnTurns(), 0);
             }
 
             <span class="keywordflow">return</span> null;
@@ -169,7 +169,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 20:23:22 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 22:06:04 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -148,7 +148,7 @@
 <a name="l00121"></a>00121             <span class="keywordflow">if</span> (origin.<a class="code" href="classBritbot_1_1Group_ab7f3acda43a7f7ac58ffe363a6f6d567.html#ab7f3acda43a7f7ac58ffe363a6f6d567" title="counts how many fighters does an enemy group has, not including ones capturing islands">FightCount</a>() &gt; this.<a class="code" href="classBritbot_1_1EnemyGroup_a189f0508a74358c3c57cfafe363dabb2.html#a189f0508a74358c3c57cfafe363dabb2" title="returns the average of the maximum fight power in the last outOfDateNumber of turns">GetMaxFightPower</a>())
 <a name="l00122"></a>00122             {
 <a name="l00123"></a>00123                 <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>(<span class="keyword">this</span>, <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.EnemyGroup, 0, <span class="keyword">this</span>.EnemyPirates.Count, distance,
-<a name="l00124"></a>00124                     <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetSpawnTurns());
+<a name="l00124"></a>00124                     <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetSpawnTurns(), 0);
 <a name="l00125"></a>00125             }
 <a name="l00126"></a>00126 
 <a name="l00127"></a>00127             <span class="keywordflow">return</span> null;
@@ -606,7 +606,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 20:23:21 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 22:06:04 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

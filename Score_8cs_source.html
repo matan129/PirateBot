@@ -73,69 +73,72 @@
 <a name="l00020"></a>00020 
 <a name="l00024"></a><a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9">00024</a>         <span class="keyword">public</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9" title="Time until completion.">Eta</a>;
 <a name="l00025"></a>00025 
-<a name="l00026"></a><a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d">00026</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d">MinTurnsToEnemyCapture</a>;
-<a name="l00027"></a>00027 
-<a name="l00031"></a><a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283">00031</a>         <span class="keyword">public</span> <a class="code" href="interfaceBritbot_1_1ITarget.html" title="Represent a target we can, well, target.">ITarget</a> <a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283" title="The target being scored.">Target</a>;
-<a name="l00032"></a>00032 
-<a name="l00036"></a><a class="code" href="classBritbot_1_1Score_abb35b31e367875d7908ee361df75c41d.html#abb35b31e367875d7908ee361df75c41d">00036</a>         <span class="keyword">public</span> <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a> <a class="code" href="classBritbot_1_1Score_abb35b31e367875d7908ee361df75c41d.html#abb35b31e367875d7908ee361df75c41d" title="target&#39;s type">Type</a>;
-<a name="l00037"></a>00037 
-<a name="l00041"></a><a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826">00041</a>         <span class="keyword">public</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a> { <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }
-<a name="l00042"></a>00042 
-<a name="l00043"></a>00043 <span class="preprocessor">        #endregion</span>
-<a name="l00044"></a>00044 <span class="preprocessor"></span>
-<a name="l00045"></a>00045 <span class="preprocessor">        #region Constructors &amp; Initializers</span>
-<a name="l00046"></a>00046 <span class="preprocessor"></span>
-<a name="l00055"></a><a class="code" href="classBritbot_1_1Score_a22c95727a872802742ab520471969540.html#a22c95727a872802742ab520471969540">00055</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Score_a22c95727a872802742ab520471969540.html#a22c95727a872802742ab520471969540" title="Holds the target score relative to the attacker.">Score</a>(<a class="code" href="interfaceBritbot_1_1ITarget.html" title="Represent a target we can, well, target.">ITarget</a> target, <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a> type, <span class="keywordtype">double</span> value, <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Score_a893aa3698e329d0e069fd75cd7a723e4.html#a893aa3698e329d0e069fd75cd7a723e4" title="Amount of enemy ships nearBy.">EnemyShips</a>, <span class="keywordtype">double</span> eta,
-<a name="l00056"></a>00056             <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d">MinTurnsToEnemyCapture</a>)
-<a name="l00057"></a>00057         {
-<a name="l00058"></a>00058             this.<a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283" title="The target being scored.">Target</a> = target;
-<a name="l00059"></a>00059             this.<a class="code" href="classBritbot_1_1Score_abb35b31e367875d7908ee361df75c41d.html#abb35b31e367875d7908ee361df75c41d" title="target&#39;s type">Type</a> = type;
-<a name="l00060"></a>00060             this.<a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a> = value;
-<a name="l00061"></a>00061             this.<a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9" title="Time until completion.">Eta</a> = eta;
-<a name="l00062"></a>00062             this.EnemyShips = <a class="code" href="classBritbot_1_1Score_a893aa3698e329d0e069fd75cd7a723e4.html#a893aa3698e329d0e069fd75cd7a723e4" title="Amount of enemy ships nearBy.">EnemyShips</a>;
-<a name="l00063"></a>00063             this.MinTurnsToEnemyCapture = <a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d">MinTurnsToEnemyCapture</a>;
-<a name="l00064"></a>00064         }
-<a name="l00065"></a>00065 
-<a name="l00066"></a>00066 <span class="preprocessor">        #endregion</span>
-<a name="l00067"></a>00067 <span class="preprocessor"></span>
-<a name="l00068"></a>00068 <span class="preprocessor">        #region Interface Implementations</span>
-<a name="l00069"></a>00069 <span class="preprocessor"></span>
-<a name="l00075"></a><a class="code" href="classBritbot_1_1Score_a80e2fdb27062355b230373186d2abc72.html#a80e2fdb27062355b230373186d2abc72">00075</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Score_a80e2fdb27062355b230373186d2abc72.html#a80e2fdb27062355b230373186d2abc72" title="Used to compare two score elements.">CompareTo</a>(<span class="keywordtype">object</span> obj)
-<a name="l00076"></a>00076         {
-<a name="l00077"></a>00077             <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a> score = obj as <a class="code" href="classBritbot_1_1Score_a22c95727a872802742ab520471969540.html#a22c95727a872802742ab520471969540" title="Holds the target score relative to the attacker.">Score</a>;
-<a name="l00078"></a>00078             <span class="keywordflow">if</span> (score != null)
-<a name="l00079"></a>00079             {
-<a name="l00080"></a>00080                 <span class="keywordflow">return</span> this.<a class="code" href="classBritbot_1_1Score_a80e2fdb27062355b230373186d2abc72.html#a80e2fdb27062355b230373186d2abc72" title="Used to compare two score elements.">CompareTo</a>(score);
-<a name="l00081"></a>00081             }
-<a name="l00082"></a>00082 
-<a name="l00083"></a>00083             <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;Object must a a Score in order to compare it with another score object&quot;</span>);
-<a name="l00084"></a>00084         }
-<a name="l00085"></a>00085 
-<a name="l00091"></a><a class="code" href="classBritbot_1_1Score_a6dfb2d2977983f3d19b30bc81e3028bd.html#a6dfb2d2977983f3d19b30bc81e3028bd">00091</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Score_a80e2fdb27062355b230373186d2abc72.html#a80e2fdb27062355b230373186d2abc72" title="Used to compare two score elements.">CompareTo</a>(<a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a> other)
-<a name="l00092"></a>00092         {
-<a name="l00093"></a>00093             <span class="keywordflow">return</span> (this.<a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a> * 10 - this.<a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9" title="Time until completion.">Eta</a>).CompareTo((other.<a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a> * 10 - other.<a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9" title="Time until completion.">Eta</a>));
+<a name="l00029"></a><a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d">00029</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d" title="Minimum number of turns we will own an Island.">MinTurnsToEnemyCapture</a>;
+<a name="l00030"></a>00030 
+<a name="l00035"></a><a class="code" href="classBritbot_1_1Score_a2c142b265fdc9a4974f23da9c5531ab7.html#a2c142b265fdc9a4974f23da9c5531ab7">00035</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Score_a2c142b265fdc9a4974f23da9c5531ab7.html#a2c142b265fdc9a4974f23da9c5531ab7" title="The density of nearby islands (calculated by summing the distance between a target and all the nearby...">Density</a>;
+<a name="l00036"></a>00036 
+<a name="l00040"></a><a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283">00040</a>         <span class="keyword">public</span> <a class="code" href="interfaceBritbot_1_1ITarget.html" title="Represent a target we can, well, target.">ITarget</a> <a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283" title="The target being scored.">Target</a>;
+<a name="l00041"></a>00041 
+<a name="l00045"></a><a class="code" href="classBritbot_1_1Score_abb35b31e367875d7908ee361df75c41d.html#abb35b31e367875d7908ee361df75c41d">00045</a>         <span class="keyword">public</span> <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a> <a class="code" href="classBritbot_1_1Score_abb35b31e367875d7908ee361df75c41d.html#abb35b31e367875d7908ee361df75c41d" title="target&#39;s type">Type</a>;
+<a name="l00046"></a>00046 
+<a name="l00050"></a><a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826">00050</a>         <span class="keyword">public</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a> { <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; }
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052 <span class="preprocessor">        #endregion</span>
+<a name="l00053"></a>00053 <span class="preprocessor"></span>
+<a name="l00054"></a>00054 <span class="preprocessor">        #region Constructors &amp; Initializers</span>
+<a name="l00055"></a>00055 <span class="preprocessor"></span>
+<a name="l00064"></a><a class="code" href="classBritbot_1_1Score_ab62a8d15df79d74afdfd64915f1ea4be.html#ab62a8d15df79d74afdfd64915f1ea4be">00064</a>         <span class="keyword">public</span> <a class="code" href="classBritbot_1_1Score_ab62a8d15df79d74afdfd64915f1ea4be.html#ab62a8d15df79d74afdfd64915f1ea4be" title="Holds the target score relative to the attacker.">Score</a>(<a class="code" href="interfaceBritbot_1_1ITarget.html" title="Represent a target we can, well, target.">ITarget</a> target, <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a> type, <span class="keywordtype">double</span> value, <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Score_a893aa3698e329d0e069fd75cd7a723e4.html#a893aa3698e329d0e069fd75cd7a723e4" title="Amount of enemy ships nearBy.">EnemyShips</a>, <span class="keywordtype">double</span> eta,
+<a name="l00065"></a>00065             <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d" title="Minimum number of turns we will own an Island.">MinTurnsToEnemyCapture</a>, <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Score_a2c142b265fdc9a4974f23da9c5531ab7.html#a2c142b265fdc9a4974f23da9c5531ab7" title="The density of nearby islands (calculated by summing the distance between a target and all the nearby...">Density</a>)
+<a name="l00066"></a>00066         {
+<a name="l00067"></a>00067             this.<a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283" title="The target being scored.">Target</a> = target;
+<a name="l00068"></a>00068             this.<a class="code" href="classBritbot_1_1Score_abb35b31e367875d7908ee361df75c41d.html#abb35b31e367875d7908ee361df75c41d" title="target&#39;s type">Type</a> = type;
+<a name="l00069"></a>00069             this.<a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a> = value;
+<a name="l00070"></a>00070             this.<a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9" title="Time until completion.">Eta</a> = eta;
+<a name="l00071"></a>00071             this.EnemyShips = <a class="code" href="classBritbot_1_1Score_a893aa3698e329d0e069fd75cd7a723e4.html#a893aa3698e329d0e069fd75cd7a723e4" title="Amount of enemy ships nearBy.">EnemyShips</a>;
+<a name="l00072"></a>00072             this.MinTurnsToEnemyCapture = <a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d" title="Minimum number of turns we will own an Island.">MinTurnsToEnemyCapture</a>;
+<a name="l00073"></a>00073             this.Density = <a class="code" href="classBritbot_1_1Score_a2c142b265fdc9a4974f23da9c5531ab7.html#a2c142b265fdc9a4974f23da9c5531ab7" title="The density of nearby islands (calculated by summing the distance between a target and all the nearby...">Density</a>;
+<a name="l00074"></a>00074         }
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076 <span class="preprocessor">        #endregion</span>
+<a name="l00077"></a>00077 <span class="preprocessor"></span>
+<a name="l00078"></a>00078 <span class="preprocessor">        #region Interface Implementations</span>
+<a name="l00079"></a>00079 <span class="preprocessor"></span>
+<a name="l00085"></a><a class="code" href="classBritbot_1_1Score_a80e2fdb27062355b230373186d2abc72.html#a80e2fdb27062355b230373186d2abc72">00085</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Score_a80e2fdb27062355b230373186d2abc72.html#a80e2fdb27062355b230373186d2abc72" title="Used to compare two score elements.">CompareTo</a>(<span class="keywordtype">object</span> obj)
+<a name="l00086"></a>00086         {
+<a name="l00087"></a>00087             <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a> score = obj as <a class="code" href="classBritbot_1_1Score_ab62a8d15df79d74afdfd64915f1ea4be.html#ab62a8d15df79d74afdfd64915f1ea4be" title="Holds the target score relative to the attacker.">Score</a>;
+<a name="l00088"></a>00088             <span class="keywordflow">if</span> (score != null)
+<a name="l00089"></a>00089             {
+<a name="l00090"></a>00090                 <span class="keywordflow">return</span> this.<a class="code" href="classBritbot_1_1Score_a80e2fdb27062355b230373186d2abc72.html#a80e2fdb27062355b230373186d2abc72" title="Used to compare two score elements.">CompareTo</a>(score);
+<a name="l00091"></a>00091             }
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093             <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;Object must a a Score in order to compare it with another score object&quot;</span>);
 <a name="l00094"></a>00094         }
 <a name="l00095"></a>00095 
-<a name="l00096"></a>00096 <span class="preprocessor">        #endregion</span>
-<a name="l00097"></a>00097 <span class="preprocessor"></span>
-<a name="l00098"></a><a class="code" href="classBritbot_1_1Score_a5de2552758d0cdd00fdf3c0e7eca3d20.html#a5de2552758d0cdd00fdf3c0e7eca3d20">00098</a>         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">string</span> <a class="code" href="classBritbot_1_1Score_a5de2552758d0cdd00fdf3c0e7eca3d20.html#a5de2552758d0cdd00fdf3c0e7eca3d20">ToString</a>()
-<a name="l00099"></a>00099         {
-<a name="l00100"></a>00100             <span class="keywordflow">return</span> <span class="stringliteral">&quot;Target: &quot;</span> + this.<a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283" title="The target being scored.">Target</a> + <span class="stringliteral">&quot; value: &quot;</span> + <a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a> + <span class="stringliteral">&quot; Enemy: &quot;</span> + <a class="code" href="classBritbot_1_1Score_a893aa3698e329d0e069fd75cd7a723e4.html#a893aa3698e329d0e069fd75cd7a723e4" title="Amount of enemy ships nearBy.">EnemyShips</a> + <span class="stringliteral">&quot; ETA: &quot;</span> + <a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9" title="Time until completion.">Eta</a>;
-<a name="l00101"></a>00101         }
-<a name="l00102"></a>00102     }
-<a name="l00103"></a>00103 
-<a name="l00107"></a><a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b">00107</a>     <span class="keyword">public</span> <span class="keyword">enum</span> <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>
-<a name="l00108"></a>00108     {
-<a name="l00109"></a>00109         Island,
-<a name="l00110"></a>00110         <a class="code" href="classBritbot_1_1NoTarget.html" title="This class represents a null target which does nothing this will help us prevent cases of dimensions ...">NoTarget</a>,
-<a name="l00111"></a>00111         <a class="code" href="classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group.">EnemyGroup</a>
+<a name="l00101"></a><a class="code" href="classBritbot_1_1Score_a6dfb2d2977983f3d19b30bc81e3028bd.html#a6dfb2d2977983f3d19b30bc81e3028bd">00101</a>         <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Score_a80e2fdb27062355b230373186d2abc72.html#a80e2fdb27062355b230373186d2abc72" title="Used to compare two score elements.">CompareTo</a>(<a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a> other)
+<a name="l00102"></a>00102         {
+<a name="l00103"></a>00103             <span class="keywordflow">return</span> (this.<a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a> * 10 - this.<a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9" title="Time until completion.">Eta</a>).CompareTo((other.<a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a> * 10 - other.<a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9" title="Time until completion.">Eta</a>));
+<a name="l00104"></a>00104         }
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106 <span class="preprocessor">        #endregion</span>
+<a name="l00107"></a>00107 <span class="preprocessor"></span>
+<a name="l00108"></a><a class="code" href="classBritbot_1_1Score_a5de2552758d0cdd00fdf3c0e7eca3d20.html#a5de2552758d0cdd00fdf3c0e7eca3d20">00108</a>         <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">string</span> <a class="code" href="classBritbot_1_1Score_a5de2552758d0cdd00fdf3c0e7eca3d20.html#a5de2552758d0cdd00fdf3c0e7eca3d20">ToString</a>()
+<a name="l00109"></a>00109         {
+<a name="l00110"></a>00110             <span class="keywordflow">return</span> <span class="stringliteral">&quot;Target: &quot;</span> + this.<a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283" title="The target being scored.">Target</a> + <span class="stringliteral">&quot; value: &quot;</span> + <a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a> + <span class="stringliteral">&quot; Enemy: &quot;</span> + <a class="code" href="classBritbot_1_1Score_a893aa3698e329d0e069fd75cd7a723e4.html#a893aa3698e329d0e069fd75cd7a723e4" title="Amount of enemy ships nearBy.">EnemyShips</a> + <span class="stringliteral">&quot; ETA: &quot;</span> + <a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9" title="Time until completion.">Eta</a>;
+<a name="l00111"></a>00111         }
 <a name="l00112"></a>00112     }
-<a name="l00113"></a>00113 }
+<a name="l00113"></a>00113 
+<a name="l00117"></a><a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b">00117</a>     <span class="keyword">public</span> <span class="keyword">enum</span> <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>
+<a name="l00118"></a>00118     {
+<a name="l00119"></a>00119         Island,
+<a name="l00120"></a>00120         <a class="code" href="classBritbot_1_1NoTarget.html" title="This class represents a null target which does nothing this will help us prevent cases of dimensions ...">NoTarget</a>,
+<a name="l00121"></a>00121         <a class="code" href="classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group.">EnemyGroup</a>
+<a name="l00122"></a>00122     }
+<a name="l00123"></a>00123 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 20:23:21 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 22:06:04 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

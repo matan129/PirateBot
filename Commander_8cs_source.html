@@ -410,8 +410,8 @@
 <a name="l00387"></a>00387                     cancellationToken.ThrowIfCancellationRequested();
 <a name="l00388"></a>00388 
 <a name="l00389"></a>00389                     <span class="comment">//Calculates the Island that will be held onto the longest</span>
-<a name="l00390"></a>00390                     <span class="keywordflow">if</span> (maxIslandOwnership &lt; s.<a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d">MinTurnsToEnemyCapture</a>)
-<a name="l00391"></a>00391                         maxIslandOwnership = s.<a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d">MinTurnsToEnemyCapture</a>;
+<a name="l00390"></a>00390                     <span class="keywordflow">if</span> (maxIslandOwnership &lt; s.<a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d" title="Minimum number of turns we will own an Island.">MinTurnsToEnemyCapture</a>)
+<a name="l00391"></a>00391                         maxIslandOwnership = s.<a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d" title="Minimum number of turns we will own an Island.">MinTurnsToEnemyCapture</a>;
 <a name="l00392"></a>00392 
 <a name="l00393"></a>00393                     ownedIslands += s.<a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a>; <span class="comment">//Number of owned islands in this option</span>
 <a name="l00394"></a>00394                     enemyShips += s.<a class="code" href="classBritbot_1_1Score_a893aa3698e329d0e069fd75cd7a723e4.html#a893aa3698e329d0e069fd75cd7a723e4" title="Amount of enemy ships nearBy.">EnemyShips</a>; <span class="comment">//enemy ships destroyed in this option</span>
@@ -437,7 +437,7 @@
 <a name="l00414"></a>00414                     <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a> s <span class="keywordflow">in</span> scoreArr)
 <a name="l00415"></a>00415                     {
 <a name="l00416"></a>00416                         <span class="comment">//check if this target gives us points this turn</span>
-<a name="l00417"></a>00417                         <span class="keywordflow">if</span> ((s.<a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9" title="Time until completion.">Eta</a> &lt;= i) &amp;&amp; (s.<a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d">MinTurnsToEnemyCapture</a> &gt; i))
+<a name="l00417"></a>00417                         <span class="keywordflow">if</span> ((s.<a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9" title="Time until completion.">Eta</a> &lt;= i) &amp;&amp; (s.<a class="code" href="classBritbot_1_1Score_a90a38e5ee3017c32582e58c1c1c2e90d.html#a90a38e5ee3017c32582e58c1c1c2e90d" title="Minimum number of turns we will own an Island.">MinTurnsToEnemyCapture</a> &gt; i))
 <a name="l00418"></a>00418                             totalAditionalIslandPoints += s.<a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a>;
 <a name="l00419"></a>00419                     }
 <a name="l00420"></a>00420                     totalProjectedPoints += <a class="code" href="classBritbot_1_1ScoreHelper.html" title="Score calculation utilities.">ScoreHelper</a>.<a class="code" href="classBritbot_1_1ScoreHelper_a174ff46033ee4e3166154d385df7940a.html#a174ff46033ee4e3166154d385df7940a" title="Calculates the score for each turn (Points Per Turn)">ComputePPT</a>(totalAditionalIslandPoints);
@@ -590,7 +590,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 20:23:21 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 22:06:04 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
