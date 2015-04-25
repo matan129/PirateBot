@@ -107,7 +107,7 @@
             <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.RemoveAll(g =&gt; g.Pirates.Count == 0);
 
             <span class="comment">// Update all groups</span>
-            Parallel.ForEach(<a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups, g =&gt; g.Update());
+            <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.ForEach(g =&gt; g.Update());
 
             <span class="comment">//A list with all the moves from all groups</span>
             List&lt;KeyValuePair&lt;Pirate, Direction&gt;&gt; allMoves =
@@ -132,7 +132,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 17:54:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 00:21:57 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

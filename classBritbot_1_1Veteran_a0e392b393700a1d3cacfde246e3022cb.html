@@ -82,31 +82,30 @@
 
 <p>A method that reffers to the ULTIMATE CONFIGURATION and joins the group as needed. </p>
 
-<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00050">50</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
+<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00059">59</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             Group tempGroup = null;
-            List&lt;Group&gt; currentConfig = Commander.Groups;
             <span class="keywordtype">int</span> minDistance = Magic.MaxDistance + 1; <span class="comment">//maximun joining distance</span>
 
             <span class="comment">//sort configs by size</span>
-            currentConfig.Sort((a, b) =&gt; a.Pirates.Count.CompareTo(b.Pirates.Count));
+            Commander.Groups.Sort((a, b) =&gt; a.Pirates.Count.CompareTo(b.Pirates.Count));
             ultimateConfig.Sort((a, b) =&gt; a.CompareTo(b));
 
             List&lt;int&gt; joinedGroups = <span class="keyword">new</span> List&lt;int&gt;();
 
             <span class="comment">//go over the config and correct it</span>
-            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; Math.Min(ultimateConfig.Count, currentConfig.Count); i++)
+            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; Math.Min(ultimateConfig.Count, Commander.Groups.Count); i++)
             {
-                <span class="keywordflow">if</span> (currentConfig[i].Pirates.Count &lt; ultimateConfig[i])
+                <span class="keywordflow">if</span> (Commander.Groups[i].Pirates.Count &lt; ultimateConfig[i])
                 {
                     <span class="comment">//find the best group to join to the current group</span>
-                    <span class="keywordflow">foreach</span> (Group g <span class="keywordflow">in</span> currentConfig.Where(g =&gt; g.Pirates.Count == 1 &amp;&amp; joinedGroups.Contains(g.Id)))
+                    <span class="keywordflow">foreach</span> (Group g <span class="keywordflow">in</span> Commander.Groups.Where(g =&gt; g.Pirates.Count == 1 &amp;&amp; joinedGroups.Contains(g.Id)))
                     {
                         <span class="comment">//minimal distance between the two groups</span>
-                        <span class="keywordtype">int</span> tempDistance = currentConfig[i].MinDistance(g);
+                        <span class="keywordtype">int</span> tempDistance = Commander.Groups[i].MinDistance(g);
 
                         <span class="comment">//if the current minimun is better than the last minimun and the group do not cintain the same pirates..</span>
-                        <span class="keywordflow">if</span>((tempDistance &lt; minDistance) &amp;&amp; (!currentConfig[i].Pirates.Intersect(g.Pirates).Any()))
+                        <span class="keywordflow">if</span>((tempDistance &lt; minDistance) &amp;&amp; (!Commander.Groups[i].Pirates.Intersect(g.Pirates).Any()))
                         {
                             tempGroup = g;
                             minDistance = tempDistance;
@@ -117,11 +116,20 @@
                     {
                         <span class="keywordflow">if</span> (tempGroup != null)
                         {
-                            currentConfig[i].Join(tempGroup);
                             joinedGroups.Add(tempGroup.Id);
+                            Commander.Groups[i].Join(tempGroup,<span class="keyword">false</span>);
                         }
                     }
                 }
+            }
+
+            <span class="comment">//remove all joined group from the commander list</span>
+            Commander.Groups.RemoveAll(g =&gt; joinedGroups.Contains(g.Id));
+
+            Logger.Write(<span class="stringliteral">&quot;Commander Groups 2:&quot;</span>,<span class="keyword">true</span>);
+            <span class="keywordflow">foreach</span> (Group g <span class="keywordflow">in</span> Commander.Groups)
+            {
+                Logger.Write(g.Pirates.Count.ToString(),<span class="keyword">true</span>);
             }
         }
 </pre></div>
@@ -134,7 +142,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 17:54:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 00:21:58 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -82,7 +82,7 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01">Heading</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd">Id</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ac98ebc3311b494306620aeed9e0725ca.html#ac98ebc3311b494306620aeed9e0725ca">IsFormed</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20">Join</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a432444ef2d298f314390e5791a9934d7.html#a432444ef2d298f314390e5791a9934d7">Join</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a252b8f1d11f52800fad4ff2f95cb43fd.html#a252b8f1d11f52800fad4ff2f95cb43fd">LiveCount</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ae89cf02aa138a3b3c1168f6c7f68a998.html#ae89cf02aa138a3b3c1168f6c7f68a998">MinDistance</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48">Pirates</a></td></tr>
@@ -131,7 +131,7 @@
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="Group_8cs_source.html#l00872">872</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
+<p>Definition at line <a class="el" href="Group_8cs_source.html#l00873">873</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//if we have no heading to work with</span>
             <span class="keywordflow">if</span> (bigGroup.Heading.Norm() == 0)
@@ -144,24 +144,24 @@
             pirateList.AddRange(bigGroup.Pirates);
             pirateList.AddRange(smallGroup.Pirates);
             Logger.Write(<span class="stringliteral">&quot;-------------------------------------Switch&quot;</span>);
-            Logger.Write(<span class="stringliteral">&quot;Biggroup: &quot;</span> + <span class="keywordtype">string</span>.<a class="code" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20" title="Joins a group to this group.">Join</a>(<span class="stringliteral">&quot;, &quot;</span>, bigGroup.Pirates));
-            Logger.Write(<span class="stringliteral">&quot;smallgroup: &quot;</span> + <span class="keywordtype">string</span>.<a class="code" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20" title="Joins a group to this group.">Join</a>(<span class="stringliteral">&quot;, &quot;</span>, smallGroup.Pirates));
-            Logger.Write(<span class="stringliteral">&quot;pirate list: &quot;</span> + <span class="keywordtype">string</span>.<a class="code" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20" title="Joins a group to this group.">Join</a>(<span class="stringliteral">&quot;, &quot;</span>, pirateList));
+            Logger.Write(<span class="stringliteral">&quot;Biggroup: &quot;</span> + <span class="keywordtype">string</span>.<a class="code" href="classBritbot_1_1Group_a432444ef2d298f314390e5791a9934d7.html#a432444ef2d298f314390e5791a9934d7" title="Joins a group to this group.">Join</a>(<span class="stringliteral">&quot;, &quot;</span>, bigGroup.Pirates));
+            Logger.Write(<span class="stringliteral">&quot;smallgroup: &quot;</span> + <span class="keywordtype">string</span>.<a class="code" href="classBritbot_1_1Group_a432444ef2d298f314390e5791a9934d7.html#a432444ef2d298f314390e5791a9934d7" title="Joins a group to this group.">Join</a>(<span class="stringliteral">&quot;, &quot;</span>, smallGroup.Pirates));
+            Logger.Write(<span class="stringliteral">&quot;pirate list: &quot;</span> + <span class="keywordtype">string</span>.<a class="code" href="classBritbot_1_1Group_a432444ef2d298f314390e5791a9934d7.html#a432444ef2d298f314390e5791a9934d7" title="Joins a group to this group.">Join</a>(<span class="stringliteral">&quot;, &quot;</span>, pirateList));
             Logger.Write(<span class="stringliteral">&quot;heading: &quot;</span> + bigGroup.Heading);
 
 
             <span class="comment">//sort array by allignment with the vector specified</span>
             pirateList.Sort((p1, p2) =&gt; -1 * Navigator.ComparePirateByDirection(p1, p2, bigGroup.Heading));
 
-            Logger.Write(<span class="stringliteral">&quot;pirate list: &quot;</span> + <span class="keywordtype">string</span>.<a class="code" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20" title="Joins a group to this group.">Join</a>(<span class="stringliteral">&quot;, &quot;</span>, pirateList));
+            Logger.Write(<span class="stringliteral">&quot;pirate list: &quot;</span> + <span class="keywordtype">string</span>.<a class="code" href="classBritbot_1_1Group_a432444ef2d298f314390e5791a9934d7.html#a432444ef2d298f314390e5791a9934d7" title="Joins a group to this group.">Join</a>(<span class="stringliteral">&quot;, &quot;</span>, pirateList));
 
             <span class="comment">//replace pirates</span>
             pirateList.GetRange(0, bigGroup.Pirates.Count).ForEach(p =&gt; bigGroup.Pirates.Add(p));
             pirateList.RemoveRange(0, bigGroup.Pirates.Count);
             smallGroup.Pirates = <span class="keyword">new</span> ObservableCollection&lt;int&gt;(pirateList);
 
-            Logger.Write(<span class="stringliteral">&quot;Biggroup: &quot;</span> + <span class="keywordtype">string</span>.<a class="code" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20" title="Joins a group to this group.">Join</a>(<span class="stringliteral">&quot;, &quot;</span>, bigGroup.Pirates));
-            Logger.Write(<span class="stringliteral">&quot;smallgroup: &quot;</span> + <span class="keywordtype">string</span>.<a class="code" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20" title="Joins a group to this group.">Join</a>(<span class="stringliteral">&quot;, &quot;</span>, smallGroup.Pirates));
+            Logger.Write(<span class="stringliteral">&quot;Biggroup: &quot;</span> + <span class="keywordtype">string</span>.<a class="code" href="classBritbot_1_1Group_a432444ef2d298f314390e5791a9934d7.html#a432444ef2d298f314390e5791a9934d7" title="Joins a group to this group.">Join</a>(<span class="stringliteral">&quot;, &quot;</span>, bigGroup.Pirates));
+            Logger.Write(<span class="stringliteral">&quot;smallgroup: &quot;</span> + <span class="keywordtype">string</span>.<a class="code" href="classBritbot_1_1Group_a432444ef2d298f314390e5791a9934d7.html#a432444ef2d298f314390e5791a9934d7" title="Joins a group to this group.">Join</a>(<span class="stringliteral">&quot;, &quot;</span>, smallGroup.Pirates));
         }
 </pre></div>
 </div>
@@ -173,7 +173,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 17:54:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 00:21:57 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

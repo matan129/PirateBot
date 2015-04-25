@@ -213,8 +213,8 @@
 <a name="l00188"></a>00188             <a class="code" href="classBritbot_1_1Enemy.html" title="This class represent the enemy bot in the game.">Enemy</a>.<a class="code" href="classBritbot_1_1Enemy_a598923d8196e20cc9027d8ec578a23de.html#a598923d8196e20cc9027d8ec578a23de" title="A list of the enemy&#39;s groups.">Groups</a> = <a class="code" href="classBritbot_1_1Enemy.html" title="This class represent the enemy bot in the game.">Enemy</a>.<a class="code" href="classBritbot_1_1Enemy_a598923d8196e20cc9027d8ec578a23de.html#a598923d8196e20cc9027d8ec578a23de" title="A list of the enemy&#39;s groups.">Groups</a>.Intersect(updated).ToList();
 <a name="l00189"></a>00189             <a class="code" href="classBritbot_1_1Enemy.html" title="This class represent the enemy bot in the game.">Enemy</a>.<a class="code" href="classBritbot_1_1Enemy_a598923d8196e20cc9027d8ec578a23de.html#a598923d8196e20cc9027d8ec578a23de" title="A list of the enemy&#39;s groups.">Groups</a> = <a class="code" href="classBritbot_1_1Enemy.html" title="This class represent the enemy bot in the game.">Enemy</a>.<a class="code" href="classBritbot_1_1Enemy_a598923d8196e20cc9027d8ec578a23de.html#a598923d8196e20cc9027d8ec578a23de" title="A list of the enemy&#39;s groups.">Groups</a>.Union(updated).ToList();
 <a name="l00190"></a>00190 
-<a name="l00191"></a>00191             <span class="comment">//update heading in parallel</span>
-<a name="l00192"></a>00192             Parallel.ForEach(<a class="code" href="classBritbot_1_1Enemy.html" title="This class represent the enemy bot in the game.">Enemy</a>.<a class="code" href="classBritbot_1_1Enemy_a598923d8196e20cc9027d8ec578a23de.html#a598923d8196e20cc9027d8ec578a23de" title="A list of the enemy&#39;s groups.">Groups</a>, eGroup =&gt; eGroup.Update());
+<a name="l00191"></a>00191             <span class="comment">//update heading in all groups</span>
+<a name="l00192"></a>00192             <a class="code" href="classBritbot_1_1Enemy.html" title="This class represent the enemy bot in the game.">Enemy</a>.<a class="code" href="classBritbot_1_1Enemy_a598923d8196e20cc9027d8ec578a23de.html#a598923d8196e20cc9027d8ec578a23de" title="A list of the enemy&#39;s groups.">Groups</a>.ForEach(eGroup =&gt; eGroup.Update());
 <a name="l00193"></a>00193 
 <a name="l00194"></a>00194             <a class="code" href="classBritbot_1_1Enemy.html" title="This class represent the enemy bot in the game.">Enemy</a>.<a class="code" href="classBritbot_1_1Enemy_ad37aa5fc015413527468cc3d449ef60e.html#ad37aa5fc015413527468cc3d449ef60e">Debug</a>();
 <a name="l00195"></a>00195         }
@@ -233,7 +233,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 17:54:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 00:21:57 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

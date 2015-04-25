@@ -463,7 +463,7 @@
 <a name="l00445"></a>00445             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.RemoveAll(g =&gt; g.Pirates.Count == 0);
 <a name="l00446"></a>00446 
 <a name="l00447"></a>00447             <span class="comment">// Update all groups</span>
-<a name="l00448"></a>00448             Parallel.ForEach(<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>, g =&gt; g.Update());
+<a name="l00448"></a>00448             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.ForEach(g =&gt; g.Update());
 <a name="l00449"></a>00449 
 <a name="l00450"></a>00450             <span class="comment">//A list with all the moves from all groups</span>
 <a name="l00451"></a>00451             List&lt;KeyValuePair&lt;Pirate, Direction&gt;&gt; allMoves =
@@ -561,7 +561,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 17:54:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 00:21:57 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

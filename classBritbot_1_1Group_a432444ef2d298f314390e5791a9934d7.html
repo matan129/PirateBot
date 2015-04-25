@@ -82,7 +82,7 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01">Heading</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd">Id</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ac98ebc3311b494306620aeed9e0725ca.html#ac98ebc3311b494306620aeed9e0725ca">IsFormed</a></td></tr>
-          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20">Join</a></td></tr>
+          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Group_a432444ef2d298f314390e5791a9934d7.html#a432444ef2d298f314390e5791a9934d7">Join</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a252b8f1d11f52800fad4ff2f95cb43fd.html#a252b8f1d11f52800fad4ff2f95cb43fd">LiveCount</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ae89cf02aa138a3b3c1168f6c7f68a998.html#ae89cf02aa138a3b3c1168f6c7f68a998">MinDistance</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48">Pirates</a></td></tr>
@@ -97,16 +97,26 @@
       </div>
    </td>
    <td valign="top" class="mempage">
-<a class="anchor" id="a905c6825fc1b75856699644f36cebb20"></a><!-- doxytag: member="Britbot::Group::Join" ref="a905c6825fc1b75856699644f36cebb20" args="(Group g)" -->
+<a class="anchor" id="a432444ef2d298f314390e5791a9934d7"></a><!-- doxytag: member="Britbot::Group::Join" ref="a432444ef2d298f314390e5791a9934d7" args="(Group g, bool remove=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classBritbot_1_1Group_a905c6825fc1b75856699644f36cebb20.html#a905c6825fc1b75856699644f36cebb20">Britbot.Group.Join</a> </td>
+          <td class="memname">void <a class="el" href="classBritbot_1_1Group_a432444ef2d298f314390e5791a9934d7.html#a432444ef2d298f314390e5791a9934d7">Britbot.Group.Join</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classBritbot_1_1Group.html">Group</a>&#160;</td>
-          <td class="paramname"><em>g</em></td><td>)</td>
-          <td><code> [inline]</code></td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>remove</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [inline]</code></td>
         </tr>
       </table>
 </div>
@@ -127,7 +137,8 @@
                 this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Add(pirate);
             }
 
-            Commander.Groups.RemoveAll(group =&gt; group.Id == g.Id);
+            <span class="keywordflow">if</span>(<span class="keyword">remove</span>)
+                Commander.Groups.RemoveAll(group =&gt; group.Id == g.Id);
         }
 </pre></div>
 </div>
@@ -139,7 +150,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 24 2015 17:54:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 00:21:57 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
