@@ -99,10 +99,10 @@ namespace Britbot
             //remove all joined group from the commander list
             Commander.Groups.RemoveAll(g => joinedGroups.Contains(g.Id));
 
-            Logger.Write("Commander Groups After Reconfiguration:",true);
+            Logger.Write("Commander Groups After Reconfiguration:");
             foreach (Group g in Commander.Groups)
             {
-                Logger.Write(g.Pirates.Count.ToString(),true);
+                Logger.Write(g.Pirates.Count.ToString());
             }
         }
 

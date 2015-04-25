@@ -707,8 +707,9 @@ namespace Britbot
         /// </summary>
         public void Update()
         {
-            if (this._hasChanged)
+            if (this._hasChanged || this.Pirates.Any(p => Bot.Game.GetMyPirate(p).IsLost))
             {
+                this.Pirates.RemoveAll(p => Bot.Game.GetMyPirate(p).IsLost);
                 this.GenerateFormationInstructions();
                 this._hasChanged = false;
             }
