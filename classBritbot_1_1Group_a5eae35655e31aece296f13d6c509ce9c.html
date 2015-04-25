@@ -141,7 +141,10 @@
 
             <span class="comment">//if they are not in the same direction or something</span>
             <span class="keywordflow">if</span> ((diff * g1.Heading &lt; 0) || (g2.Heading * g1.Heading &gt; 0))
-                <span class="keywordflow">return</span> <span class="keyword">false</span>;
+            {
+                <span class="keywordflow">if</span>((g1.IsFormed()) &amp;&amp; (g2.IsFormed()))
+                    <span class="keywordflow">return</span> <span class="keyword">false</span>;
+            }
 
             <span class="comment">//going over all the pirates in G1</span>
             <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> intPirate1 <span class="keywordflow">in</span> g1.Pirates)
@@ -174,7 +177,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 17:05:07 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 17:12:39 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
