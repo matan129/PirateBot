@@ -290,7 +290,9 @@ namespace Britbot
             {
                 distFromAllIslands += Bot.Game.Distance(Islands.Loc, this.Loc);                          
             }
-            return distFromAllIslands;
+            //Note that a high score in this case is bad and therefor it is multiplied by -1
+            //When used, the use of a coefficient will most likely be imperative
+            return distFromAllIslands *-1 ;
         }
 
         /// <summary>
