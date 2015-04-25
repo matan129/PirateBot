@@ -358,9 +358,9 @@ namespace Britbot
 
         public static void DebugAll()
         {
-            Bot.Game.Debug("--------ISLANDS DEBUG----------");
+            /*Bot.Game.Debug("--------ISLANDS DEBUG----------");
             foreach (SmartIsland sIsland in SmartIsland.IslandList)
-                sIsland.Debug();
+                sIsland.Debug();*/
         }
 
         /// <summary>

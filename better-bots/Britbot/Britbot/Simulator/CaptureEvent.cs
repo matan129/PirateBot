@@ -47,6 +47,10 @@
             if (this.Island.CapturingGroup != this.Capturer)
                 return false;
 
+            //check that the island realy of the enemy
+            if (this.Island.Owner == this.Capturer.Owner)
+                return false;
+
             //if everything checks out update island
             this.Island.Owner = this.Capturer.Owner;
 

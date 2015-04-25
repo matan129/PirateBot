@@ -169,9 +169,9 @@ namespace Britbot
                 Veteran.ReConfigure();
                 Logger.StopTime("ReConfigure");*/
 
-                /*Logger.BeginTime("FixGroupArrangement");
+                Logger.BeginTime("FixGroupArrangement");
                 Commander.FixGroupArrangement();
-                Logger.StopTime("FixGroupArrangement");*/
+                Logger.StopTime("FixGroupArrangement");
 
                 Logger.BeginTime("GetAllMoves");
                 //Get the moves for all the pirates and return them

@@ -495,7 +495,7 @@ namespace Britbot
                        Magic.ApproachDistanceSquaredOfStationaryTarget;
             }
             //check if the enemy group is on the island
-            if (this.MinimalSquaredDistanceTo(sIsland.Loc) < 1)
+            if (this.MinimalSquaredDistanceTo(sIsland.Loc) < 4)
                 return true;
 
             //calculate the difference vector between the enemy group and the island

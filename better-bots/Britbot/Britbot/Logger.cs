@@ -10,7 +10,7 @@
 #undef DEBUG
 #undef PROFILING
 #undef DUMPFILE
-#undef WRITE
+//#undef WRITE
 #undef FORCE_BEGIN_STOP
 //#undef NOSHTUP
 
