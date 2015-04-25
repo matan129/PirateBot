@@ -843,7 +843,7 @@ namespace Britbot
             int[] outboundPirates = this.Pirates.Take(num).ToArray();
             this.Pirates.RemoveAll(outboundPirates.Contains);
 
-            for (int i = 0; i < num; i++)
+            for (int i = 0; i < outboundPirates.Length; i++)
             {
                 yield return new Group(new[] {outboundPirates[i]});
             }
