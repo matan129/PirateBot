@@ -309,7 +309,7 @@ namespace Britbot
             int[] eConfig = Enemy.Groups.ConvertAll(group => group.EnemyPirates.Count).ToArray();
 
             //sort the enemy configuration by size
-            Array.Sort(eConfig, (a, b) => a.CompareTo(b));
+            Array.Sort(eConfig, (a, b) => b.CompareTo(a));
 
             //prepare return value
             List<int> ret = new List<int>();
@@ -317,19 +317,25 @@ namespace Britbot
             //count of all of our pirates
             int myPirates = Bot.Game.AllMyPirates().Count;
 
+            Logger.Write(string.Format("Ultimateconfig says we have {0} pirates", myPirates), true);
+
 
             for (int i = 0; i < eConfig.Length && myPirates > 0; i++)
             {
-                if (eConfig[i] + 1 > myPirates)
-                    break;
-                ret.Add(eConfig[i] + 1);
-                myPirates -= eConfig[i] + 1;
+                if ((eConfig[i] + 1) < myPirates)
+                {
+                    ret.Add(eConfig[i] + 1);
+                    myPirates -= eConfig[i] + 1;
+                    Logger.Write(string.Format("added a {0} group to the configuration", eConfig[i]+1), true);
+                }
+                
             }
 
             while (myPirates > 0)
             {
                 ret.Add(1);
                 myPirates--;
+                Logger.Write(string.Format("added a {0} group to the configuration", 1), true);
             }
 
             while (ret.Count > Bot.Game.Islands().Count)
