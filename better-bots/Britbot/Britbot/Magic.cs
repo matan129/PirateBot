@@ -29,7 +29,7 @@ namespace Britbot
         /// <summary>
         /// Length of global score's simulation
         /// </summary>
-        public static int simulationLength = 100;
+        public static int simulationLength = 50;
 
         #endregion
 

@@ -35,6 +35,12 @@ namespace Britbot.Simulator
         /// </summary>
         public int ReviveTurn;
 
+        public bool IsCapturing;
+
+        //originals
+        public bool OriginalIsAlive;
+        public int OriginalReviveTurn;
+        public bool OriginalIsCapturing;
         #endregion
 
         #region Constructors & Initializers
@@ -45,15 +51,21 @@ namespace Britbot.Simulator
         /// <param name="id"></param>
         /// <param name="owner"></param>
         /// <param name="firePower"></param>
-        public SimulatedGroup(int id, int owner, double firePower)
+        public SimulatedGroup(int id, int owner, double firePower,bool isCapturing)
         {
             //just set stuff
             this.Id = id;
             this.Owner = owner;
             this.FirePower = firePower;
+            this.IsCapturing = isCapturing;
 
             this.IsAlive = true;
             this.ReviveTurn = -1;
+
+            //set originals
+            this.OriginalIsAlive = IsAlive;
+            this.OriginalIsCapturing = isCapturing;
+            this.OriginalReviveTurn = -1;
         }
 
         /// <summary>
@@ -71,20 +83,10 @@ namespace Britbot.Simulator
 
         #endregion
 
-        private bool IsCapturing(SimulatedGame sg)
+        
+        public int ActualFirePower()
         {
-            //going over all the islands to check if we are capturing them
-            foreach (KeyValuePair<int, SimulatedIsland> sIsland in sg.Islands)
-            {
-                if (this == sIsland.Value.CapturingGroup)
-                    return true;
-            }
-            return true;
-        }
-
-        public int ActualFirePower(SimulatedGame simGame)
-        {
-            if (this.IsCapturing(simGame))
+            if (this.IsCapturing)
                 return (int) this.FirePower - 1;
             return (int) this.FirePower;
         }

@@ -258,6 +258,22 @@ namespace Britbot
         }
 
         /// <summary>
+        ///     Gets the minimal number of turns for the group to reach the given location
+        /// </summary>
+        /// <param name="location">the location tested</param>
+        /// <returns>minimal number of turns till the group gets to the location</returns>
+        public double MinimalETATo(Location location)
+        {
+            double min = Bot.Game.GetCols() + Bot.Game.GetRows();
+            foreach (int pirate in this.Pirates)
+            {
+                if (Bot.Game.Distance(location, this.GetLocation()) < min)
+                    min = Bot.Game.EuclidianDistanceSquared(location, this.GetLocation());
+            }
+            return min;
+        }
+
+        /// <summary>
         ///     Get the correct moves to get into structure
         /// </summary>
         /// <param name="cancellationToken"></param>

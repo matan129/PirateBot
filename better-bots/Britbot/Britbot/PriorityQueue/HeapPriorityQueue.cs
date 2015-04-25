@@ -40,7 +40,7 @@ namespace Britbot.PriorityQueue
             //this._nodes = new T[queue._nodes.Length];
             this._numNodesEverEnqueued = queue._numNodesEverEnqueued;
             //copy array
-            for(int i = 0; i < queue._nodes.Length;i++)
+            for(int i = 0; i < queue._numNodesEverEnqueued;i++)
             {
                 this._nodes[i] = queue._nodes[i];
             }

@@ -16,6 +16,11 @@ namespace Britbot.Simulator
         public int Id { get; set; }
         public int Value { get; set; }
 
+        //original data
+        public int OriginalOwner;
+        public int OriginalTrunsBeingCaptured;
+        public SimulatedGroup OriginalCapturingGroup;
+
         #endregion
 
         /// <summary>
@@ -33,6 +38,12 @@ namespace Britbot.Simulator
             this.Id = id;
             this.Value = value;
             this.CapturingGroup = capturingGroup;
+
+            //set original
+
+            this.OriginalCapturingGroup = capturingGroup;
+            this.OriginalOwner = owner;
+            this.OriginalTrunsBeingCaptured = turnsBeingCaptured;
         }
 
         /// <summary>

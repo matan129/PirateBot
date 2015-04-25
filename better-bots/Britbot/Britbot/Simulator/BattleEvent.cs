@@ -42,11 +42,11 @@
             if (this._groupA.Owner != this._groupB.Owner)
             {
                 //check fire power
-                if (this._groupA.ActualFirePower(sg) < this._groupB.ActualFirePower(sg))
+                if (this._groupA.ActualFirePower() < this._groupB.ActualFirePower())
                 {
                     this._groupA.Kill(sg);
                 }
-                else if (this._groupA.ActualFirePower(sg) == this._groupB.ActualFirePower(sg))
+                else if (this._groupA.ActualFirePower() == this._groupB.ActualFirePower())
                 {
                     this._groupA.Kill(sg);
                     this._groupB.Kill(sg);

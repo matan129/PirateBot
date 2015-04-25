@@ -50,7 +50,7 @@
                 //also if they already are on the island they wont come                
                 if ((this.Island.CapturingGroup == null) ||
                     (this.Island.CapturingGroup.Owner == this.ArrivingGroup.Owner) ||
-                    (this.Island.CapturingGroup.ActualFirePower(sg) >= this.ArrivingGroup.FirePower))
+                    (this.Island.CapturingGroup.ActualFirePower() >= this.ArrivingGroup.FirePower))
                     
                 {
                     return false;
@@ -65,6 +65,10 @@
                 this.Island.CapturingGroup = this.ArrivingGroup;
 
                 int captureTurn = sg.CurrentTurn + this.Island.TurnsTillDecapture(this.ArrivingGroup.Owner);
+
+                //update capturing status
+                this.ArrivingGroup.IsCapturing = true;
+
 
                 //then set a capture and decapture event
                 sg.AddEvent(new DeCaptureEvent(captureTurn, this.Island, this.ArrivingGroup));

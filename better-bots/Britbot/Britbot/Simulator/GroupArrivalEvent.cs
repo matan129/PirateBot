@@ -50,13 +50,13 @@
                     if (this.Island.CapturingGroup.Owner != this.ArrivingGroup.Owner)
                     {
                         //confront with local forces
-                        if (this.Island.CapturingGroup.ActualFirePower(sg) > this.ArrivingGroup.FirePower)
+                        if (this.Island.CapturingGroup.ActualFirePower() > this.ArrivingGroup.FirePower)
                         {
                             //if the local force is stronger then the arriving group dies
                             this.ArrivingGroup.Kill(sg);
                             return false;
                         }
-                        if (this.Island.CapturingGroup.ActualFirePower(sg) == this.ArrivingGroup.FirePower)
+                        if (this.Island.CapturingGroup.ActualFirePower() == this.ArrivingGroup.FirePower)
                         {
                             //if the forces are equal, kill them both
                             this.ArrivingGroup.Kill(sg);
@@ -76,6 +76,8 @@
                 this.Island.KillLocals(sg);
                 //then take over
                 this.Island.CapturingGroup = this.ArrivingGroup;
+                //update capturing status
+                this.ArrivingGroup.IsCapturing = true;
 
                 int captureTurn = sg.CurrentTurn + this.Island.TurnsTillDecapture(this.ArrivingGroup.Owner);
 

@@ -50,7 +50,7 @@ namespace Britbot.Simulator
         /// a queue representing the constant events
         /// those that will happen in all possible assignments
         /// </summary>
-        public HeapPriorityQueue<SimulatedEvent> ConstantEvents;
+        public List<SimulatedEvent> ConstantEvents;
 
         #endregion
 
@@ -63,9 +63,8 @@ namespace Britbot.Simulator
         public SimulatedGame()
         {
             //initialize stuff
-            //VEEEERRY IMPORTANT: THE SIZES MUST BE THE SAME!!!!!!!!!!!!!!!!!!
             this.CommingEvents = new HeapPriorityQueue<SimulatedEvent>((int) (2 * Magic.MaxCalculableDistance));
-            this.ConstantEvents = new HeapPriorityQueue<SimulatedEvent>((int)(2 * Magic.MaxCalculableDistance));
+            this.ConstantEvents = new List<SimulatedEvent>();
             this.Islands = new Dictionary<int,SimulatedIsland>();
             this.MyGroups = new Dictionary<int, SimulatedGroup>();
             this.EnemyGroups = new Dictionary<int, SimulatedGroup>();
@@ -77,13 +76,33 @@ namespace Britbot.Simulator
             //set my groups
             foreach (Group group in Commander.Groups)
             {
-                this.MyGroups.Add(group.Id,new SimulatedGroup(group.Id, Consts.ME, group.LiveCount()));
+                //check if capturing
+                bool isCapturing = false;
+                foreach(SmartIsland sIsland in SmartIsland.IslandList)
+                {
+                    if(group.MinimalETATo(sIsland.Loc) == 0)
+                    {
+                        isCapturing = true;
+                        break;
+                    }
+                }
+                this.MyGroups.Add(group.Id, new SimulatedGroup(group.Id, Consts.ME, group.LiveCount(), isCapturing));
             }
 
             //set enemy group
             foreach (EnemyGroup eGroup in Enemy.Groups)
             {
-                this.EnemyGroups.Add(eGroup.Id, new SimulatedGroup(eGroup.Id, Consts.ENEMY, eGroup.GetMaxFightPower()));
+                //check if capturing
+                bool isCapturing = false;
+                foreach (SmartIsland sIsland in SmartIsland.IslandList)
+                {
+                    if (eGroup.MinimalETATo(sIsland.Loc) == 0)
+                    {
+                        isCapturing = true;
+                        break;
+                    }
+                }
+                this.EnemyGroups.Add(eGroup.Id, new SimulatedGroup(eGroup.Id, Consts.ENEMY, eGroup.GetMaxFightPower(), isCapturing));
             }
 
             //set up islands
@@ -121,7 +140,7 @@ namespace Britbot.Simulator
                     }
 
                     //add the event
-                    this.ConstantEvents.Enqueue(newEvent,newEvent.Turn);
+                    this.ConstantEvents.Add(newEvent);
                 }
             }
 
@@ -137,29 +156,35 @@ namespace Britbot.Simulator
             this.Score = 0;
 
             //reset islands
-            foreach (SmartIsland sIsland in SmartIsland.IslandList)
+            foreach(KeyValuePair<int, SimulatedIsland> sIsland in this.Islands)
             {
-                //get current isalnd
-                SimulatedIsland currIsland = this.Islands[sIsland.Id];
-                currIsland.CapturingGroup = null;
-                currIsland.Owner = sIsland.Owner;
-                currIsland.TurnsBeingCaptured = sIsland.TurnsBeingCaptured;
+                sIsland.Value.Owner = sIsland.Value.OriginalOwner;
+                sIsland.Value.TurnsBeingCaptured = sIsland.Value.OriginalTrunsBeingCaptured;
+                sIsland.Value.CapturingGroup = sIsland.Value.OriginalCapturingGroup;
             }
 
             //reset my groups
             foreach(KeyValuePair<int,SimulatedGroup> sGroup in this.MyGroups)
             {
-                sGroup.Value.IsAlive = true;
+                sGroup.Value.IsAlive = sGroup.Value.OriginalIsAlive;
+                sGroup.Value.IsCapturing = sGroup.Value.OriginalIsCapturing;
+                sGroup.Value.ReviveTurn = sGroup.Value.OriginalReviveTurn;
             }
 
             //reset enemy groups
             foreach (KeyValuePair<int, SimulatedGroup> sGroup in this.EnemyGroups)
             {
-                sGroup.Value.IsAlive = true;
+                sGroup.Value.IsAlive = sGroup.Value.OriginalIsAlive;
+                sGroup.Value.IsCapturing = sGroup.Value.OriginalIsCapturing;
+                sGroup.Value.ReviveTurn = sGroup.Value.OriginalReviveTurn;
             }
 
             //reset events
-            this.CommingEvents.Set(this.ConstantEvents);
+            this.CommingEvents.Clear();
+            foreach(SimulatedEvent sEvent in this.ConstantEvents)
+            {
+                this.CommingEvents.Enqueue(sEvent, sEvent.Turn);
+            }
         }
         #endregion
 
