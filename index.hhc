@@ -242,6 +242,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="_formTurnsAttempt"><param name="Local" value="classBritbot_1_1Group_a75da03ffed9b2e359cdda9f9bdb62ec5.html#a75da03ffed9b2e359cdda9f9bdb62ec5"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="_hasChanged"><param name="Local" value="classBritbot_1_1Group_ad59de9260c957c95bb1654c20d237ac6.html#ad59de9260c957c95bb1654c20d237ac6"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="Id"><param name="Local" value="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="DistanceFromTarget"><param name="Local" value="classBritbot_1_1Group_a7ad8d1afbcad0a288efe1f3050a360c6.html#a7ad8d1afbcad0a288efe1f3050a360c6"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="FormOrders"><param name="Local" value="classBritbot_1_1Group_a70962df44d8df8d131fac4fab7a97047.html#a70962df44d8df8d131fac4fab7a97047"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="GroupCounter"><param name="Local" value="classBritbot_1_1Group_ade796fcbad52b797db2b3bb8cf36f8dd.html#ade796fcbad52b797db2b3bb8cf36f8dd"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="Heading"><param name="Local" value="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01"><param name="ImageNumber" value="11"></OBJECT>
@@ -579,6 +580,7 @@
       </UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Veteran"><param name="Local" value="classBritbot_1_1Veteran.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="Cloaking"><param name="Local" value="classBritbot_1_1Veteran_a495014abf54c85304a2199c07f5610ed.html#a495014abf54c85304a2199c07f5610ed"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="GroupJoining"><param name="Local" value="classBritbot_1_1Veteran_a0e392b393700a1d3cacfde246e3022cb.html#a0e392b393700a1d3cacfde246e3022cb"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="GroupSplitting"><param name="Local" value="classBritbot_1_1Veteran_a8363de4862f38f7854e6c961ea3af22f.html#a8363de4862f38f7854e6c961ea3af22f"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="ReConfigure"><param name="Local" value="classBritbot_1_1Veteran_a9ca19c3ee52fede95ab88c1a4e665b1e.html#a9ca19c3ee52fede95ab88c1a4e665b1e"><param name="ImageNumber" value="11"></OBJECT>
