@@ -16,7 +16,7 @@ namespace Britbot.PriorityQueue
     public sealed class HeapPriorityQueue<T> : IPriorityQueue<T>
         where T : PriorityQueueNode
     {
-        private readonly T[] _nodes;
+        private T[] _nodes;
         private long _numNodesEverEnqueued;
 
         /// <summary>
@@ -30,6 +30,21 @@ namespace Britbot.PriorityQueue
             this._numNodesEverEnqueued = 0;
         }
 
+        /// <summary>
+        /// Copy c'tor
+        /// </summary>
+        /// <param name="?"></param>
+        public void Set(HeapPriorityQueue<T> queue)
+        {
+            this.Count = queue.Count;
+            //this._nodes = new T[queue._nodes.Length];
+            this._numNodesEverEnqueued = queue._numNodesEverEnqueued;
+            //copy array
+            for(int i = 0; i < queue._nodes.Length;i++)
+            {
+                this._nodes[i] = queue._nodes[i];
+            }
+        }
         /// <summary>
         ///     Returns the number of nodes in the queue.  O(1)
         /// </summary>

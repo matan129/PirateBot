@@ -19,7 +19,7 @@ namespace Britbot
         /// <summary>
         ///     Max safe iterator iterations per turn
         /// </summary>
-        public static int MaxIterator = 500;
+        public static int MaxIterator = 100;
 
         /// <summary>
         ///     Max distace two groups can be from eachother and still be joind

@@ -46,14 +46,26 @@ namespace Britbot.Simulator
         /// </summary>
         public int CurrentTurn { get; set; }
 
+        /// <summary>
+        /// a queue representing the constant events
+        /// those that will happen in all possible assignments
+        /// </summary>
+        public HeapPriorityQueue<SimulatedEvent> ConstantEvents;
+
         #endregion
 
         #region Constructors & Initializers
 
-        public SimulatedGame(List<SimulatedEvent> eventList)
+        /// <summary>
+        /// A c'tor, this should allocate memory
+        /// This should be called ONCE PER TURN
+        /// </summary>
+        public SimulatedGame()
         {
             //initialize stuff
+            //VEEEERRY IMPORTANT: THE SIZES MUST BE THE SAME!!!!!!!!!!!!!!!!!!
             this.CommingEvents = new HeapPriorityQueue<SimulatedEvent>((int) (2 * Magic.MaxCalculableDistance));
+            this.ConstantEvents = new HeapPriorityQueue<SimulatedEvent>((int)(2 * Magic.MaxCalculableDistance));
             this.Islands = new Dictionary<int,SimulatedIsland>();
             this.MyGroups = new Dictionary<int, SimulatedGroup>();
             this.EnemyGroups = new Dictionary<int, SimulatedGroup>();
@@ -61,8 +73,7 @@ namespace Britbot.Simulator
             //add the ending Event
             this.CommingEvents.Enqueue(new SimulationEndEvent(Magic.simulationLength), Magic.simulationLength);
 
-            this.CurrentTurn = 0;
-            this.Score = 0;
+            
             //set my groups
             foreach (Group group in Commander.Groups)
             {
@@ -88,13 +99,68 @@ namespace Britbot.Simulator
                 this.Islands.Add(newIsland.Id, newIsland);
             }
 
-            //set up events
-            /*foreach(SimulatedEvent sEvent in eventList)
+            //set constant events
+            foreach (SmartIsland sIsland in SmartIsland.IslandList)
             {
-                this.AddEvent(sEvent);
-            }*/
+                //go over the enemy list of each island
+                foreach (KeyValuePair<EnemyGroup, bool> enemy in sIsland.approachingEnemies)
+                {
+                    SimulatedEvent newEvent;
+                    //if it is likely that he will come to the island
+                    if (enemy.Value)
+                    {
+                        newEvent = new GroupArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
+                                      this.Islands[sIsland.Id],
+                                      this.EnemyGroups[enemy.Key.Id]);
+                    }
+                    else
+                    {
+                        newEvent = new PossibleArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
+                                      this.Islands[sIsland.Id],
+                                      this.EnemyGroups[enemy.Key.Id]);
+                    }
+
+                    //add the event
+                    this.ConstantEvents.Enqueue(newEvent,newEvent.Turn);
+                }
+            }
+
         }
 
+        /// <summary>
+        /// This resets the simulation to begining, it should be used for every assignment
+        /// </summary>
+        public void ResetSimulation()
+        {
+            //reset general stuff
+            this.CurrentTurn = 0;
+            this.Score = 0;
+
+            //reset islands
+            foreach (SmartIsland sIsland in SmartIsland.IslandList)
+            {
+                //get current isalnd
+                SimulatedIsland currIsland = this.Islands[sIsland.Id];
+                currIsland.CapturingGroup = null;
+                currIsland.Owner = sIsland.Owner;
+                currIsland.TurnsBeingCaptured = sIsland.TurnsBeingCaptured;
+            }
+
+            //reset my groups
+            foreach(KeyValuePair<int,SimulatedGroup> sGroup in this.MyGroups)
+            {
+                sGroup.Value.IsAlive = true;
+            }
+
+            //reset enemy groups
+            foreach (KeyValuePair<int, SimulatedGroup> sGroup in this.EnemyGroups)
+            {
+                sGroup.Value.IsAlive = true;
+            }
+
+            //reset events
+            this.CommingEvents.Set(this.ConstantEvents);
+        }
         #endregion
 
         /// <summary>
@@ -118,9 +184,12 @@ namespace Britbot.Simulator
             //variables for PPT
             double PPT;
 
+            int count = 0;
+
             //start going over events
             while(this.CommingEvents.Count > 0)
             {
+                count++;
                 //calculate PPT
                 PPT = this.CalculatePPT();
 
@@ -136,7 +205,7 @@ namespace Britbot.Simulator
                 if (this.CommingEvents.Dequeue().Activate(this))
                     break;
             }
-
+            Logger.Write("COUNT: " + count);
             return Score;
         }
 
@@ -198,5 +267,6 @@ namespace Britbot.Simulator
 
             return friendlyPPT - enemyPPT;
         }
+
     }
 }

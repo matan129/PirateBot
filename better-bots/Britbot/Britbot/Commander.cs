@@ -258,6 +258,9 @@ namespace Britbot
             //Score array for calculations in each iteration
             Score[] scoreArr = new Score[dimensions.Length];
 
+            //create new simulated game
+            SimulatedGame sg = new SimulatedGame();
+            
             Bot.Game.Debug("AA");
 
             //iterating over all possible target assignments
@@ -270,7 +273,7 @@ namespace Britbot
                 scoreArr = Commander.GetSpecificAssignmentScores(possibleAssignments, iterator.Values);
 
                 //calculate new score
-                double newScore = Commander.GlobalizeScore(scoreArr, cancellationToken);
+                double newScore = Commander.GlobalizeScore(sg, scoreArr, cancellationToken);
 
                 //check if the score is better
                 if (newScore > maxScore)
@@ -358,7 +361,7 @@ namespace Britbot
         /// <param name="scoreArr">array of local scores</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        private static double GlobalizeScore(Score[] scoreArr, CancellationToken cancellationToken)
+        private static double GlobalizeScore(SimulatedGame sg, Score[] scoreArr, CancellationToken cancellationToken)
         {
             /*double score = 0;
             double timeAvg = 0;
@@ -409,8 +412,10 @@ namespace Britbot
             //TODO: give more points if we take an island from the enemy
 
             return score + totalProjectedPoints;*/
-            SimulatedGame sg = new SimulatedGame(new List<SimulatedEvent>());
-            Commander.SetEventList(sg);
+
+            //reset simulation
+            sg.ResetSimulation();
+
 
             for (int i = 0; i < scoreArr.Length; i++)
             {
@@ -421,33 +426,9 @@ namespace Britbot
             }
 
             return sg.SimulateGame();
-            return 0;
         }
 
-        private static void SetEventList(SimulatedGame sg)
-        {
-            //going over all the islands
-            foreach(SmartIsland sIsland in SmartIsland.IslandList)
-            {
-                //go over the enemy list of each island
-                foreach(KeyValuePair<EnemyGroup,bool> enemy in sIsland.approachingEnemies)
-                {
-                    //if it is likely that he will come to the island
-                    if(enemy.Value)
-                    {
-                        sg.AddEvent(new GroupArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
-                                      sg.Islands[sIsland.Id],
-                                      sg.EnemyGroups[enemy.Key.Id]));
-                    }
-                    else
-                    {
-                        sg.AddEvent(new PossibleArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
-                                      sg.Islands[sIsland.Id],
-                                      sg.EnemyGroups[enemy.Key.Id]));
-                    }
-                }
-            }
-        }
+        
 
         /// <summary>
         ///     Gets all th moves for each pirate in each group
