@@ -93,9 +93,8 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00416">416</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
+<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00417">417</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            List&lt;SimulatedEvent&gt; eventList = <span class="keyword">new</span> List&lt;SimulatedEvent&gt;();
             <span class="comment">//going over all the islands</span>
             <span class="keywordflow">foreach</span>(SmartIsland sIsland <span class="keywordflow">in</span> SmartIsland.IslandList)
             {
@@ -105,13 +104,13 @@
                     <span class="comment">//if it is likely that he will come to the island</span>
                     <span class="keywordflow">if</span>(enemy.Value)
                     {
-                        eventList.Add(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1GroupArrivalEvent.html" title="this event is called when a group (surely) arrives to an island">GroupArrivalEvent</a>((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.Loc),
+                        sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1GroupArrivalEvent.html" title="this event is called when a group (surely) arrives to an island">GroupArrivalEvent</a>((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.Loc),
                                       sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d7fea4cdd27f968ed951a56b013cf45.html#a1d7fea4cdd27f968ed951a56b013cf45" title="List of the islands in the game.">Islands</a>[sIsland.Id],
                                       sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a5a9e889b75aa612e63359ffe8350bd85.html#a5a9e889b75aa612e63359ffe8350bd85" title="List of all enemy groups.">EnemyGroups</a>[enemy.Key.Id]));
                     }
                     <span class="keywordflow">else</span>
                     {
-                        eventList.Add(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent.html" title="This represents an arrivale depending on something for example: an enemy group might only come to the...">PossibleArrivalEvent</a>((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.Loc),
+                        sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent.html" title="This represents an arrivale depending on something for example: an enemy group might only come to the...">PossibleArrivalEvent</a>((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.Loc),
                                       sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d7fea4cdd27f968ed951a56b013cf45.html#a1d7fea4cdd27f968ed951a56b013cf45" title="List of the islands in the game.">Islands</a>[sIsland.Id],
                                       sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a5a9e889b75aa612e63359ffe8350bd85.html#a5a9e889b75aa612e63359ffe8350bd85" title="List of all enemy groups.">EnemyGroups</a>[enemy.Key.Id]));
                     }
@@ -128,7 +127,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 08:44:21 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 08:57:30 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

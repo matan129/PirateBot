@@ -212,9 +212,9 @@
 <a name="l00165"></a>00165                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5">StopTime</a>(<span class="stringliteral">&quot;CalculateAndAssignTargets&quot;</span>);
 <a name="l00166"></a>00166 
 <a name="l00167"></a>00167                 <span class="comment">//fix configuration</span>
-<a name="l00168"></a>00168                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a94593529e316f18fde5ca9ebc28f2ae1.html#a94593529e316f18fde5ca9ebc28f2ae1">BeginTime</a>(<span class="stringliteral">&quot;ReConfigure&quot;</span>);
-<a name="l00169"></a>00169                 <a class="code" href="classBritbot_1_1Veteran.html" title="An experienced ally to the commander who does bugger all.">Veteran</a>.<a class="code" href="classBritbot_1_1Veteran_a9ca19c3ee52fede95ab88c1a4e665b1e.html#a9ca19c3ee52fede95ab88c1a4e665b1e" title="Splits and joins the current groups to match the ultimate configuration.">ReConfigure</a>();
-<a name="l00170"></a>00170                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5">StopTime</a>(<span class="stringliteral">&quot;ReConfigure&quot;</span>);
+<a name="l00168"></a>00168                <span class="comment">/* Logger.BeginTime(&quot;ReConfigure&quot;);</span>
+<a name="l00169"></a>00169 <span class="comment">                Veteran.ReConfigure();</span>
+<a name="l00170"></a>00170 <span class="comment">                Logger.StopTime(&quot;ReConfigure&quot;);*/</span>
 <a name="l00171"></a>00171 
 <a name="l00172"></a>00172                 <span class="comment">/*Logger.BeginTime(&quot;FixGroupArrangement&quot;);</span>
 <a name="l00173"></a>00173 <span class="comment">                Commander.FixGroupArrangement();</span>
@@ -434,11 +434,11 @@
 <a name="l00411"></a>00411             }
 <a name="l00412"></a>00412 
 <a name="l00413"></a>00413             <span class="keywordflow">return</span> sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a47fed85074ba33bdab8ee52db477f721.html#a47fed85074ba33bdab8ee52db477f721" title="Simulates the game and calculates the score.">SimulateGame</a>();
-<a name="l00414"></a>00414         }
-<a name="l00415"></a>00415 
-<a name="l00416"></a><a class="code" href="classBritbot_1_1Commander_a0e8aec5ae732f215c711ff973be48208.html#a0e8aec5ae732f215c711ff973be48208">00416</a>         <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Commander_a0e8aec5ae732f215c711ff973be48208.html#a0e8aec5ae732f215c711ff973be48208">SetEventList</a>(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg)
-<a name="l00417"></a>00417         {
-<a name="l00418"></a>00418             List&lt;SimulatedEvent&gt; eventList = <span class="keyword">new</span> List&lt;SimulatedEvent&gt;();
+<a name="l00414"></a>00414             <span class="keywordflow">return</span> 0;
+<a name="l00415"></a>00415         }
+<a name="l00416"></a>00416 
+<a name="l00417"></a><a class="code" href="classBritbot_1_1Commander_a0e8aec5ae732f215c711ff973be48208.html#a0e8aec5ae732f215c711ff973be48208">00417</a>         <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Commander_a0e8aec5ae732f215c711ff973be48208.html#a0e8aec5ae732f215c711ff973be48208">SetEventList</a>(<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg)
+<a name="l00418"></a>00418         {
 <a name="l00419"></a>00419             <span class="comment">//going over all the islands</span>
 <a name="l00420"></a>00420             <span class="keywordflow">foreach</span>(<a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a> sIsland <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.<a class="code" href="classBritbot_1_1SmartIsland_ab6d4c276bc84aef43fcbeab0d6e23300.html#ab6d4c276bc84aef43fcbeab0d6e23300" title="Queue of the last few amounts of enemy troops around this island.">IslandList</a>)
 <a name="l00421"></a>00421             {
@@ -448,13 +448,13 @@
 <a name="l00425"></a>00425                     <span class="comment">//if it is likely that he will come to the island</span>
 <a name="l00426"></a>00426                     <span class="keywordflow">if</span>(enemy.Value)
 <a name="l00427"></a>00427                     {
-<a name="l00428"></a>00428                         eventList.Add(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1GroupArrivalEvent.html" title="this event is called when a group (surely) arrives to an island">GroupArrivalEvent</a>((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>),
+<a name="l00428"></a>00428                         sg.AddEvent(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1GroupArrivalEvent.html" title="this event is called when a group (surely) arrives to an island">GroupArrivalEvent</a>((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>),
 <a name="l00429"></a>00429                                       sg.Islands[sIsland.<a class="code" href="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8" title="The unique ID of the island.">Id</a>],
 <a name="l00430"></a>00430                                       sg.EnemyGroups[enemy.Key.Id]));
 <a name="l00431"></a>00431                     }
 <a name="l00432"></a>00432                     <span class="keywordflow">else</span>
 <a name="l00433"></a>00433                     {
-<a name="l00434"></a>00434                         eventList.Add(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent.html" title="This represents an arrivale depending on something for example: an enemy group might only come to the...">PossibleArrivalEvent</a>((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>),
+<a name="l00434"></a>00434                         sg.AddEvent(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1PossibleArrivalEvent.html" title="This represents an arrivale depending on something for example: an enemy group might only come to the...">PossibleArrivalEvent</a>((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.<a class="code" href="classBritbot_1_1SmartIsland_a602053a277689cf08df9fcb073d930b0.html#a602053a277689cf08df9fcb073d930b0" title="THe location of the island.">Loc</a>),
 <a name="l00435"></a>00435                                       sg.Islands[sIsland.<a class="code" href="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8" title="The unique ID of the island.">Id</a>],
 <a name="l00436"></a>00436                                       sg.EnemyGroups[enemy.Key.Id]));
 <a name="l00437"></a>00437                     }
@@ -565,7 +565,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 08:44:21 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 08:57:30 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
