@@ -203,8 +203,8 @@
 <a name="l00197"></a>00197                         <span class="comment">//calculate the distance considering the heading of the danger</span>
 <a name="l00198"></a>00198                         <span class="comment">//if the current location is straight in the direction of the danger we add by proportion to headingFactor</span>
 <a name="l00199"></a>00199                         <span class="comment">//if it is in the opposite direction we subtract according to headingFactor</span>
-<a name="l00200"></a>00200                         <span class="keywordtype">double</span> distandeSquare = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.EuclidianDistanceSquared(<span class="keyword">new</span> Location(y, x), loc) +
-<a name="l00201"></a>00201                                                 headingFactor * heading.<a class="code" href="classBritbot_1_1HeadingVector_a9a783cd39ea13c65a26df7cfbb947da2.html#a9a783cd39ea13c65a26df7cfbb947da2" title="returns a new normalized vector">Normalize</a>() * diffVector;
+<a name="l00200"></a>00200                         <span class="keywordtype">double</span> distandeSquare = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.EuclidianDistanceSquared(<span class="keyword">new</span> Location(y, x), loc) <span class="comment">/*+</span>
+<a name="l00201"></a>00201 <span class="comment">                                                headingFactor * heading.Normalize() * diffVector*/</span>;
 <a name="l00202"></a>00202                         <span class="keywordflow">if</span> (distandeSquare &lt;= radSquared)
 <a name="l00203"></a>00203                             <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a08a816480feeed6005d6e32cccb38e3f.html#a08a816480feeed6005d6e32cccb38e3f" title="A static array of nodes representing the map.">Map</a>[y, x].<a class="code" href="classBritbot_1_1Navigator_1_1Node_a7f8a316ec76290c5e838255d57da9254.html#a7f8a316ec76290c5e838255d57da9254" title="the weight of the cell, should be higher near enemies and un-passable places">Weight</a> += <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a3f767c6bb79fea187ed65edb21ea4117.html#a3f767c6bb79fea187ed65edb21ea4117" title="this weight represents an impassable cell">Infinity</a> * (radSquared - distandeSquare) / radSquared;
 <a name="l00204"></a>00204                     }
@@ -339,7 +339,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 20:19:20 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 20:23:21 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

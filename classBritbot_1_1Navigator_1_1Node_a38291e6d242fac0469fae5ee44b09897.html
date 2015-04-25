@@ -151,8 +151,8 @@
                         <span class="comment">//calculate the distance considering the heading of the danger</span>
                         <span class="comment">//if the current location is straight in the direction of the danger we add by proportion to headingFactor</span>
                         <span class="comment">//if it is in the opposite direction we subtract according to headingFactor</span>
-                        <span class="keywordtype">double</span> distandeSquare = Bot.Game.EuclidianDistanceSquared(<span class="keyword">new</span> Location(y, x), loc) +
-                                                headingFactor * heading.Normalize() * diffVector;
+                        <span class="keywordtype">double</span> distandeSquare = Bot.Game.EuclidianDistanceSquared(<span class="keyword">new</span> Location(y, x), loc) <span class="comment">/*+</span>
+<span class="comment">                                                headingFactor * heading.Normalize() * diffVector*/</span>;
                         <span class="keywordflow">if</span> (distandeSquare &lt;= radSquared)
                             <a class="code" href="classBritbot_1_1Navigator_1_1Node_a3140d5183fdc64f7d4336b46d13ad0f8.html#a3140d5183fdc64f7d4336b46d13ad0f8" title="One time initializing of the Node array.">Node</a>.Map[y, x].Weight += <a class="code" href="classBritbot_1_1Navigator_1_1Node_a3140d5183fdc64f7d4336b46d13ad0f8.html#a3140d5183fdc64f7d4336b46d13ad0f8" title="One time initializing of the Node array.">Node</a>.Infinity * (radSquared - distandeSquare) / radSquared;
                     }
@@ -168,7 +168,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 20:19:20 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 20:23:22 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
