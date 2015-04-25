@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Britbot: Britbot::Veteran::Cloaking</title>
+<title>Britbot: Britbot::Veteran::DoCloak</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
@@ -58,8 +58,7 @@
    <td valign="top">
       <div class="navtab">
         <table>
-          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Veteran_a495014abf54c85304a2199c07f5610ed.html#a495014abf54c85304a2199c07f5610ed">Cloaking</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Veteran_a382d0c4a867f581a60d8b107dc66117f.html#a382d0c4a867f581a60d8b107dc66117f">GetCloackedGroup</a></td></tr>
+          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Veteran_a5ac6ff8d86213b6e525493ab3d8d5578.html#a5ac6ff8d86213b6e525493ab3d8d5578">DoCloak</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Veteran_a0e392b393700a1d3cacfde246e3022cb.html#a0e392b393700a1d3cacfde246e3022cb">GroupJoining</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Veteran_a8363de4862f38f7854e6c961ea3af22f.html#a8363de4862f38f7854e6c961ea3af22f">GroupSplitting</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Veteran_a9ca19c3ee52fede95ab88c1a4e665b1e.html#a9ca19c3ee52fede95ab88c1a4e665b1e">ReConfigure</a></td></tr>
@@ -67,12 +66,12 @@
       </div>
    </td>
    <td valign="top" class="mempage">
-<a class="anchor" id="a495014abf54c85304a2199c07f5610ed"></a><!-- doxytag: member="Britbot::Veteran::Cloaking" ref="a495014abf54c85304a2199c07f5610ed" args="()" -->
+<a class="anchor" id="a5ac6ff8d86213b6e525493ab3d8d5578"></a><!-- doxytag: member="Britbot::Veteran::DoCloak" ref="a5ac6ff8d86213b6e525493ab3d8d5578" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static void <a class="el" href="classBritbot_1_1Veteran_a495014abf54c85304a2199c07f5610ed.html#a495014abf54c85304a2199c07f5610ed">Britbot.Veteran.Cloaking</a> </td>
+          <td class="memname">static KeyValuePair&lt;Pirate, Direction&gt; <a class="el" href="classBritbot_1_1Veteran_a5ac6ff8d86213b6e525493ab3d8d5578.html#a5ac6ff8d86213b6e525493ab3d8d5578">Britbot.Veteran.DoCloak</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [inline, static]</code></td>
@@ -83,37 +82,53 @@
 
 <p>Reveals cloaked pirates when needed and cloaks uncloaked ones when needed. </p>
 
-<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00111">111</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
+<p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00112">112</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            
-            Group g = Veteran.GetCloackedGroup();<span class="comment">//the group that contains the cloaked pirate if one exists</span>
+            Bot.Game.Debug(<span class="stringliteral">&quot;OK0&quot;</span>);
 
-            <span class="comment">// if a pirate is cloaked and close enough to it&#39;s target, reveal it</span>
+            Group g = null;
+
+            <span class="keywordflow">if</span>(Bot.Game.GetMyCloaked() != null)
+            <span class="comment">//the group that contains the cloaked pirate if one exists</span>
+                g = Commander.Groups.First(commGroup =&gt; commGroup.Pirates.ToList()
+                    .ConvertAll(p =&gt; Bot.Game.GetMyPirate(p))
+                    .Any(pirate =&gt; Bot.Game.GetMyCloaked().Id == pirate.Id));
+
+            Bot.Game.Debug(<span class="stringliteral">&quot;OK1&quot;</span>);
+
+            <span class="comment">// if a pirate is cloaked and close enough to its target, reveal it</span>
             <span class="keywordflow">if</span> ((g != null) &amp;&amp; (g.DistanceFromTarget &lt;= Magic.CloakRange))
             {
-                Bot.Game.Reveal(Bot.Game.GetMyCloaked());
+                <span class="keywordflow">return</span> <span class="keyword">new</span> KeyValuePair&lt;Pirate, Direction&gt;(Bot.Game.GetMyCloaked(), Direction.REVEAL);
             }
+            
+            Bot.Game.Debug(<span class="stringliteral">&quot;OK2&quot;</span>);
+
             <span class="comment">// if no pirate is cloaked and you can cloak one</span>
-            <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((g==null)&amp;&amp;(Bot.Game.CanCloak()))
+            <span class="keywordflow">if</span> (Bot.Game.CanCloak())
             {
-                IEnumerable&lt;Group&gt; ones = Commander.Groups.Where(p =&gt; p.Pirates.Count == 1); <span class="comment">//All the 1 pirate groups that can be cloaked</span>
+                <span class="comment">//All the 1 pirate groups that can be cloaked</span>
+                IEnumerable&lt;Group&gt; ones = Commander.Groups.Where(p =&gt; p.Pirates.Count == 1);
+
+                Bot.Game.Debug(<span class="stringliteral">&quot;OK3&quot;</span>);
+
                 <span class="comment">//if there are any 1 pirate groups</span>
-                <span class="keywordflow">if</span> (ones.Count()!=0)
+                <span class="keywordflow">if</span> (ones.Count() != 0)
                 {
-                    <span class="keywordtype">int</span> minDistance = ones.Min(group =&gt; group.DistanceFromTarget);<span class="comment">//the minimum distance from a target of one of the groups</span>
+                    <span class="comment">//the minimum distance from a target of one of the groups</span>
+                    <span class="keywordtype">int</span> minDistance = ones.Min(group =&gt; group.DistanceFromTarget);
 
                     <span class="comment">//finds the group that the minimal distance belongs to and cloaks it</span>
                     <span class="keywordflow">foreach</span> (Group tc <span class="keywordflow">in</span> ones)
                     {
                         <span class="keywordflow">if</span> (tc.DistanceFromTarget == minDistance)
-                        {
-                            Bot.Game.Cloak(Bot.Game.AllMyPirates()[tc.Pirates[0]]);
-                        }
+                            <span class="keywordflow">return</span> <span class="keyword">new</span> KeyValuePair&lt;Pirate, Direction&gt;(Bot.Game.GetMyPirate(tc.Pirates.First()),
+                                Direction.CLOAK);
                     }
-                    
                 }
             }
 
+            <span class="keywordflow">return</span> null;
         }
 </pre></div>
 </div>
@@ -125,7 +140,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 15:17:08 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 16:38:25 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

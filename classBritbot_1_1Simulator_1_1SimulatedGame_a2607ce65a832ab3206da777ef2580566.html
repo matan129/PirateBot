@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Britbot: Britbot::Simulator::SimulatedGame::CalculatePPT</title>
+<title>Britbot: Britbot::Simulator::SimulatedGame::CalculatePpt</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
@@ -60,7 +60,7 @@
       <div class="navtab">
         <table>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2">AddEvent</a></td></tr>
-          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d6c4815a8403ffa03f0bb159d23c1c4.html#a1d6c4815a8403ffa03f0bb159d23c1c4">CalculatePPT</a></td></tr>
+          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Simulator_1_1SimulatedGame_a2607ce65a832ab3206da777ef2580566.html#a2607ce65a832ab3206da777ef2580566">CalculatePpt</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_ad69212b6172ea520748bd69c3867e37a.html#ad69212b6172ea520748bd69c3867e37a">CommingEvents</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_ac3f48deccfb61f2b99d54ad321050478.html#ac3f48deccfb61f2b99d54ad321050478">ConstantEvents</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Simulator_1_1SimulatedGame_a7475ad76fc8839788f04cedee35aa453.html#a7475ad76fc8839788f04cedee35aa453">CurrentTurn</a></td></tr>
@@ -83,12 +83,12 @@
       </div>
    </td>
    <td valign="top" class="mempage">
-<a class="anchor" id="a1d6c4815a8403ffa03f0bb159d23c1c4"></a><!-- doxytag: member="Britbot::Simulator::SimulatedGame::CalculatePPT" ref="a1d6c4815a8403ffa03f0bb159d23c1c4" args="()" -->
+<a class="anchor" id="a2607ce65a832ab3206da777ef2580566"></a><!-- doxytag: member="Britbot::Simulator::SimulatedGame::CalculatePpt" ref="a2607ce65a832ab3206da777ef2580566" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d6c4815a8403ffa03f0bb159d23c1c4.html#a1d6c4815a8403ffa03f0bb159d23c1c4">Britbot.Simulator.SimulatedGame.CalculatePPT</a> </td>
+          <td class="memname">double <a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame_a2607ce65a832ab3206da777ef2580566.html#a2607ce65a832ab3206da777ef2580566">Britbot.Simulator.SimulatedGame.CalculatePpt</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [inline]</code></td>
@@ -111,29 +111,15 @@
             <span class="comment">//helper variables</span>
             <span class="keywordtype">double</span> friendlyPPT, enemyPPT;
 
-            
-
-            <span class="comment">//check special case of zero islands</span>
-            <span class="keywordflow">if</span>(this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_acf1ccec776bb63986b57355cb810a1fd.html#acf1ccec776bb63986b57355cb810a1fd">MyIslandCount</a> == 0)
-            {
-                friendlyPPT = 0;
-            }
-            <span class="keywordflow">else</span>
-            {
-                friendlyPPT = Math.Pow(2, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_acf1ccec776bb63986b57355cb810a1fd.html#acf1ccec776bb63986b57355cb810a1fd">MyIslandCount</a> - 1);
-            }
-
-            <span class="keywordflow">if</span>(this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_afa075f48508c1409806829134a1bcd24.html#afa075f48508c1409806829134a1bcd24">EnemyIslandCount</a> == 0)
-            {
-                enemyPPT = 0;
-            }
-            <span class="keywordflow">else</span>
-            {
-                enemyPPT = Math.Pow(2, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_afa075f48508c1409806829134a1bcd24.html#afa075f48508c1409806829134a1bcd24">EnemyIslandCount</a> - 1);
-            }
+            <span class="comment">//calc score</span>
+            friendlyPPT = Math.Floor(Math.Pow(2, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_acf1ccec776bb63986b57355cb810a1fd.html#acf1ccec776bb63986b57355cb810a1fd">MyIslandCount</a> - 1));
+            enemyPPT = Math.Floor(Math.Pow(2, <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_afa075f48508c1409806829134a1bcd24.html#afa075f48508c1409806829134a1bcd24">EnemyIslandCount</a> - 1));
 
             <span class="comment">//account for dead ships</span>
-            friendlyPPT -= Math.Pow(5, this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_aa0a2553b04a11e424090b94768cb6256.html#aa0a2553b04a11e424090b94768cb6256">MyDeadPirates</a>);
+            friendlyPPT -= Math.Pow(Magic.FriendlyBaseFactor, <span class="keyword">this</span>.MyDeadPirates);
+
+            <span class="comment">//account for dead enemy ships</span>
+            enemyPPT -= Math.Pow(Magic.EnemyBaseFactor, <span class="keyword">this</span>.EnemyDeadPirates);
 
             <span class="keywordflow">return</span> friendlyPPT - enemyPPT;
         }
@@ -147,7 +133,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 15:17:08 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 16:38:25 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

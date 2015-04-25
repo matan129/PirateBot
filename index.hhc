@@ -372,6 +372,8 @@
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Magic"><param name="Local" value="classBritbot_1_1Magic.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="CloakRange"><param name="Local" value="classBritbot_1_1Magic_aefaf4adfa8a415671963b510c009d443.html#aefaf4adfa8a415671963b510c009d443"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="EnemyBaseFactor"><param name="Local" value="classBritbot_1_1Magic_ae6608dc931cdb04ba28ba714f2a7a9a9.html#ae6608dc931cdb04ba28ba714f2a7a9a9"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="FriendlyBaseFactor"><param name="Local" value="classBritbot_1_1Magic_a8fd356c0da193228af657e7e7e63db3f.html#a8fd356c0da193228af657e7e7e63db3f"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="MaxDistance"><param name="Local" value="classBritbot_1_1Magic_a44ecb595cf7d07166a6fbfbf55fc7589.html#a44ecb595cf7d07166a6fbfbf55fc7589"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="MaxIterator"><param name="Local" value="classBritbot_1_1Magic_a8a828e2b0fcdde4027556d64aab911c2.html#a8a828e2b0fcdde4027556d64aab911c2"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="OutOfDateNumber"><param name="Local" value="classBritbot_1_1Magic_a4ff24690cbd89c556744daf7d3e367eb.html#a4ff24690cbd89c556744daf7d3e367eb"><param name="ImageNumber" value="11"></OBJECT>
@@ -480,7 +482,7 @@
       <UL>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SimulatedGame"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a2d187ec77d86f6cd3986b1c1ebeaf879.html#a2d187ec77d86f6cd3986b1c1ebeaf879"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="AddEvent"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="CalculatePPT"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a1d6c4815a8403ffa03f0bb159d23c1c4.html#a1d6c4815a8403ffa03f0bb159d23c1c4"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="CalculatePpt"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a2607ce65a832ab3206da777ef2580566.html#a2607ce65a832ab3206da777ef2580566"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="ResetSimulation"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a62686418b03c7dd30f65919ca5f5f183.html#a62686418b03c7dd30f65919ca5f5f183"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SimulateGame"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a47fed85074ba33bdab8ee52db477f721.html#a47fed85074ba33bdab8ee52db477f721"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="CommingEvents"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_ad69212b6172ea520748bd69c3867e37a.html#ad69212b6172ea520748bd69c3867e37a"><param name="ImageNumber" value="11"></OBJECT>
@@ -581,8 +583,7 @@
       </UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Veteran"><param name="Local" value="classBritbot_1_1Veteran.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="Cloaking"><param name="Local" value="classBritbot_1_1Veteran_a495014abf54c85304a2199c07f5610ed.html#a495014abf54c85304a2199c07f5610ed"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="GetCloackedGroup"><param name="Local" value="classBritbot_1_1Veteran_a382d0c4a867f581a60d8b107dc66117f.html#a382d0c4a867f581a60d8b107dc66117f"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="DoCloak"><param name="Local" value="classBritbot_1_1Veteran_a5ac6ff8d86213b6e525493ab3d8d5578.html#a5ac6ff8d86213b6e525493ab3d8d5578"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="GroupJoining"><param name="Local" value="classBritbot_1_1Veteran_a0e392b393700a1d3cacfde246e3022cb.html#a0e392b393700a1d3cacfde246e3022cb"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="GroupSplitting"><param name="Local" value="classBritbot_1_1Veteran_a8363de4862f38f7854e6c961ea3af22f.html#a8363de4862f38f7854e6c961ea3af22f"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="ReConfigure"><param name="Local" value="classBritbot_1_1Veteran_a9ca19c3ee52fede95ab88c1a4e665b1e.html#a9ca19c3ee52fede95ab88c1a4e665b1e"><param name="ImageNumber" value="11"></OBJECT>

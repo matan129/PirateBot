@@ -142,6 +142,15 @@
                 Dictionary&lt;Pirate, Direction&gt; moves = <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.GetAllMoves(cancellationToken);
                 Logger.StopTime(<span class="stringliteral">&quot;GetAllMoves&quot;</span>);
 
+                Logger.BeginTime(<span class="stringliteral">&quot;DoCloak&quot;</span>);
+                <span class="comment">//juggling with nullable types here. KeyValuePair cannot be null by itself</span>
+                KeyValuePair&lt;Pirate, Direction&gt;? kvp = Veteran.DoCloak();
+                <span class="keywordflow">if</span> (kvp != null)
+                {
+                    KeyValuePair&lt;Pirate, Direction&gt; cloacking = (KeyValuePair&lt;Pirate, Direction&gt;) kvp;
+                    moves[cloacking.Key] = cloacking.Value;
+                }
+                Logger.StopTime(<span class="stringliteral">&quot;DoCloak&quot;</span>);
 
                 Logger.Write(
                     <span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;Commander done doing calculations and drinking coffee after {0}ms&quot;</span>,
@@ -196,7 +205,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 15:17:08 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 16:38:24 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
