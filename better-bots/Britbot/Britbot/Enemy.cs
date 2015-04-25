@@ -122,7 +122,9 @@ namespace Britbot
             //---------------#Magic_Numbers--------------------
             const int NumberOfTimesTillWeLearn = 5;
 
-            return Enemy.EnemyIntelligenceSuspicionCounter <= NumberOfTimesTillWeLearn;
+            //TODO re enable this
+            return false;
+            //return Enemy.EnemyIntelligenceSuspicionCounter <= NumberOfTimesTillWeLearn;
         }
 
         /// <summary>

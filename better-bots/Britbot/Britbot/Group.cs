@@ -707,9 +707,9 @@ namespace Britbot
         /// </summary>
         public void Update()
         {
-            if (this._hasChanged || this.Pirates.Any(p => Bot.Game.GetMyPirate(p).IsLost))
+            if (this._hasChanged /*|| this.Pirates.Any(p => Bot.Game.GetMyPirate(p).IsLost)*/)
             {
-                this.Pirates.RemoveAll(p => Bot.Game.GetMyPirate(p).IsLost);
+                //this.Pirates.RemoveAll(p => Bot.Game.GetMyPirate(p).IsLost);
                 this.GenerateFormationInstructions();
                 this._hasChanged = false;
             }
@@ -913,7 +913,7 @@ namespace Britbot
             //add pirates of the biggroup
             pirateList.AddRange(bigGroup.Pirates);
             pirateList.AddRange(smallGroup.Pirates);
-            Logger.Write("-------------------------------------Switch");
+            Logger.Write("-------------------------------------Switch",true);
             Logger.Write("Biggroup: " + string.Join(", ", bigGroup.Pirates));
             Logger.Write("smallgroup: " + string.Join(", ", smallGroup.Pirates));
             Logger.Write("pirate list: " + string.Join(", ", pirateList));

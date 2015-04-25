@@ -188,7 +188,7 @@ namespace Britbot
             SmartIsland b = operandB as SmartIsland;
             if (b != null)
             {
-                return Equals(b);
+                return this.Equals(b);
             }
 
             return false;
@@ -307,7 +307,8 @@ namespace Britbot
             this.approachingEnemies.Clear();
             foreach (EnemyGroup eGroup in Enemy.Groups)
             {
-                this.approachingEnemies.Add(new KeyValuePair<EnemyGroup, bool>(eGroup, eGroup.IsApproachingIsland(this)));
+                if(eGroup.MinimalETATo(this.Loc) < Magic.MaxEnemyPredictionDistnace)
+                    this.approachingEnemies.Add(new KeyValuePair<EnemyGroup, bool>(eGroup, eGroup.IsApproachingIsland(this)));
             }
             //sort the list by distance
             this.approachingEnemies.Sort(
@@ -488,7 +489,6 @@ namespace Britbot
         protected bool Equals(SmartIsland other)
         {
             bool eq = this.Id == other.Id;
-            //Bot.Game.Debug("Ack identical targets: " + eq);
             return eq;
         }
 

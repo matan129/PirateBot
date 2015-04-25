@@ -146,7 +146,6 @@ namespace Britbot
         /// <returns></returns>
         public Direction GetDirection(Group group)
         {
-            Logger.Write("GDNTR EG");
             //calculates the direction based on the geographical data from the game
             //first check if stationary
             if (Math.Abs(this.GetHeading().Norm()) < Magic.VectorTolerance)
@@ -183,11 +182,12 @@ namespace Britbot
             if (enemyGroup != null)
             {
                 EnemyGroup b = enemyGroup;
-                return object.Equals(this, b);
+                return this.Id == b.Id;
             }
 
             return false;
         }
+
 
         /// <summary>
         ///     updates the last turn of assignment

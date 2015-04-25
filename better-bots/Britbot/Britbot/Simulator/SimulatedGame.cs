@@ -81,7 +81,7 @@ namespace Britbot.Simulator
             this.EnemyGroups = new Dictionary<int, SimulatedGroup>();
 
             //add the ending Event
-            this.CommingEvents.Enqueue(new SimulationEndEvent(Magic.simulationLength), Magic.simulationLength);
+            this.CommingEvents.Enqueue(new SimulationEndEvent(Magic.SimulationLength), Magic.SimulationLength);
 
             this.OriginalEnemyDeadPirates = 0;
             this.OriginalMyDeadPirates = 0;
@@ -253,7 +253,6 @@ namespace Britbot.Simulator
                 PPT = this.CalculatePpt();
 
                 nextTurn = this.CommingEvents.First.Turn;
-
                 
 
                 //update score

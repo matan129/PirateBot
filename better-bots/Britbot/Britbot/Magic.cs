@@ -15,13 +15,13 @@ namespace Britbot
 
         public const double VectorTolerance = 0.001;
         internal const int OutOfDateNumber = 10;
-        public const double EnemyBaseFactor = 1;
+        public const double EnemyBaseFactor = 0;
         public const double FriendlyBaseFactor = 5;
 
         /// <summary>
         ///     Max safe iterator iterations per turn
         /// </summary>
-        public static int MaxIterator = 100;
+        public static int MaxIterator = 2000;
 
         /// <summary>
         ///     Max distace two groups can be from eachother and still be joind
@@ -31,12 +31,19 @@ namespace Britbot
         /// <summary>
         ///     Length of global score's simulation
         /// </summary>
-        public static int simulationLength = 80;
+        public static readonly int SimulationLength = 80;
 
         /// <summary>
         ///     The range a cloaked pirate has to be from a taget to be revealed
         /// </summary>
         public static int CloakRange = 1;
+
+        /// <summary>
+        ///     Max groups to allow in the config
+        /// </summary>
+        public static int MaxGroups = 4;
+
+        public static double ScoreConssitencyFactor = 1.0;
 
         #endregion
 
@@ -90,6 +97,11 @@ namespace Britbot
         public static double GroupIntersectionDistance
         {
             get { return Bot.Game.GetAttackRadius(); }
+        }
+
+        public static double MaxEnemyPredictionDistnace
+        {
+            get { return ((Bot.Game.GetCols() + Bot.Game.GetRows()) / 2 ) * 0.5;}
         }
 
         #endregion

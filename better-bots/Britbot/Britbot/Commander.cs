@@ -354,7 +354,7 @@ namespace Britbot
                 //Logger.Write(string.Format("added a {0} group to the configuration", 1), true);
             }
 
-            while (ret.Count > Bot.Game.Islands().Count)
+            while (ret.Count > Bot.Game.Islands().Count || ret.Count > Magic.MaxGroups)
             {
                 ret[ret.Count - 2] += ret.Last();
                 ret.RemoveAt(ret.Count - 1);
@@ -372,79 +372,94 @@ namespace Britbot
         /// <returns></returns>
         private static double GlobalizeScore(SimulatedGame sg, Score[] scoreArr, CancellationToken cancellationToken)
         {
-            /*double score = 0;
-            double timeAvg = 0;
-            double enemyShips = 0;
-            double ownedIslands = 0;
-            double maxIslandOwnership = 0;
-            double totalProjectedPoints = 0;
-
-            foreach (Score s in scoreArr)
+            if (Commander.UseBasicGlobalizing())
             {
-                //Throwing an exception if cancellation was requested.
-                cancellationToken.ThrowIfCancellationRequested();
+                double score = 0;
+                double timeAvg = 0;
+                double enemyShips = 0;
+                double ownedIslands = 0;
+                double maxIslandOwnership = 0;
+                double totalProjectedPoints = 0;
 
-                //Calculates the Island that will be held onto the longest
-                if (maxIslandOwnership < s.MinTurnsToEnemyCapture)
-                    maxIslandOwnership = s.MinTurnsToEnemyCapture;
-
-                ownedIslands += s.Value; //Number of owned islands in this option
-                enemyShips += s.EnemyShips; //enemy ships destroyed in this option
-                timeAvg += s.Eta;
-            }
-
-            //check if there are two of the same target
-            for (int i = 0; i < scoreArr.Length - 1; i++)
-            {
-                for (int j = i + 1; j < scoreArr.Length; j++)
-                {
-                    if (scoreArr[i].Target.Equals(scoreArr[j].Target))
-                        score -= 1000;
-                }
-            }
-            //TODO: This is EXTEMELY inefficient, we dont need to go over each turn, we only need to go over turns in which things change, Ron talk to me sometime (Matan K)
-            //TODO: add points also for killing pirates
-            //TODO: Recalculate IslandOwnership when an enemy pirate dies (This will help better implement the killing of enemy pirates in the score)
-            for (int i = 0; i < maxIslandOwnership; i++)
-            {
-                //calculate how many points we have in the i'th turn
-                double totalAditionalIslandPoints = 0;
                 foreach (Score s in scoreArr)
                 {
-                    //check if this target gives us points this turn
-                    if ((s.Eta <= i) && (s.MinTurnsToEnemyCapture > i))
-                        totalAditionalIslandPoints += s.Value;
+                    //Throwing an exception if cancellation was requested.
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    //Calculates the Island that will be held onto the longest
+                    if (maxIslandOwnership < s.MinTurnsToEnemyCapture)
+                        maxIslandOwnership = s.MinTurnsToEnemyCapture;
+
+                    ownedIslands += s.Value; //Number of owned islands in this option
+                    enemyShips += s.EnemyShips; //enemy ships destroyed in this option
+                    timeAvg += s.Eta;
                 }
-                totalProjectedPoints += ScoreHelper.ComputePPT(totalAditionalIslandPoints);
+
+                //check if there are two of the same target
+                for (int i = 0; i < scoreArr.Length - 1; i++)
+                {
+                    for (int j = i + 1; j < scoreArr.Length; j++)
+                    {
+                        if (scoreArr[i].Target.Equals(scoreArr[j].Target))
+                            score -= 1000;
+                    }
+                }
+                //TODO: This is EXTEMELY inefficient, we dont need to go over each turn, we only need to go over turns in which things change, Ron talk to me sometime (Matan K)
+                //TODO: add points also for killing pirates
+                //TODO: Recalculate IslandOwnership when an enemy pirate dies (This will help better implement the killing of enemy pirates in the score)
+                for (int i = 0; i < maxIslandOwnership; i++)
+                {
+                    //calculate how many points we have in the i'th turn
+                    double totalAditionalIslandPoints = 0;
+                    foreach (Score s in scoreArr)
+                    {
+                        //check if this target gives us points this turn
+                        if ((s.Eta <= i) && (s.MinTurnsToEnemyCapture > i))
+                            totalAditionalIslandPoints += s.Value;
+                    }
+                    totalProjectedPoints += ScoreHelper.ComputePPT(totalAditionalIslandPoints);
+                }
+
+                //TODO: give more points if we take an island from the enemy
+
+                return score + totalProjectedPoints;
             }
-
-            //TODO: give more points if we take an island from the enemy
-
-            return score + totalProjectedPoints;*/
-
-            //reset simulation
-            sg.ResetSimulation();
-
-
-            for (int i = 0; i < scoreArr.Length; i++)
+            else
             {
-                if (scoreArr[i].Type == TargetType.Island)
-                    sg.AddEvent(new GroupArrivalEvent((int)scoreArr[i].Eta, sg.Islands[((SmartIsland)(scoreArr[i].Target)).Id], sg.MyGroups[Groups[i].Id]));
-                if (scoreArr[i].Type == TargetType.EnemyGroup)
-                    sg.AddEvent(new BattleEvent((int)scoreArr[i].Eta, sg.EnemyGroups[((EnemyGroup)(scoreArr[i].Target)).Id], sg.MyGroups[Groups[i].Id]));
-            }
+                //reset simulation
+                sg.ResetSimulation();
 
-            double score = sg.SimulateGame();
 
-            for (int i = 0; i < scoreArr.Length; i++)
-            {
-                if (Groups[i].Equals(scoreArr[i].Target))
-                    score += 20;
+                for (int i = 0; i < scoreArr.Length; i++)
+                {
+                    if (scoreArr[i].Type == TargetType.Island)
+                        sg.AddEvent(new GroupArrivalEvent((int) scoreArr[i].Eta,
+                            sg.Islands[((SmartIsland) (scoreArr[i].Target)).Id], sg.MyGroups[Groups[i].Id]));
+                    if (scoreArr[i].Type == TargetType.EnemyGroup)
+                        sg.AddEvent(new BattleEvent((int) scoreArr[i].Eta,
+                            sg.EnemyGroups[((EnemyGroup) (scoreArr[i].Target)).Id], sg.MyGroups[Groups[i].Id]));
+                }
+
+                double score = sg.SimulateGame();
+
+                for (int i = 0; i < scoreArr.Length; i++)
+                {
+                    ITarget it = Commander.Groups[i].Target;
+                    if (it != null && it.Equals(scoreArr[i].Target))
+                    {
+                        int bonus = (int) Math.Abs(score * Magic.ScoreConssitencyFactor);
+                        score += bonus;
+                    }
+                }
+                return score;
             }
-            return score;
         }
 
-        
+        private static bool UseBasicGlobalizing()
+        {
+            return true;
+        }
+
 
         /// <summary>
         ///     Gets all th moves for each pirate in each group
