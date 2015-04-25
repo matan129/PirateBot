@@ -111,17 +111,14 @@ namespace Britbot
         /// </summary>
         public static KeyValuePair<Pirate, Direction>? DoCloak()
         {
-            Bot.Game.Debug("OK0");
-
             Group g = null;
 
-            if(Bot.Game.GetMyCloaked() != null)
             //the group that contains the cloaked pirate if one exists
+            if(Bot.Game.GetMyCloaked() != null)
+                //sorry for this horrible lambda, stuff went quite complex and I didn't have the wll to restore the original function
                 g = Commander.Groups.First(commGroup => commGroup.Pirates.ToList()
                     .ConvertAll(p => Bot.Game.GetMyPirate(p))
                     .Any(pirate => Bot.Game.GetMyCloaked().Id == pirate.Id));
-
-            Bot.Game.Debug("OK1");
 
             // if a pirate is cloaked and close enough to its target, reveal it
             if ((g != null) && (g.DistanceFromTarget <= Magic.CloakRange))
@@ -129,15 +126,11 @@ namespace Britbot
                 return new KeyValuePair<Pirate, Direction>(Bot.Game.GetMyCloaked(), Direction.REVEAL);
             }
             
-            Bot.Game.Debug("OK2");
-
             // if no pirate is cloaked and you can cloak one
             if (Bot.Game.CanCloak())
             {
                 //All the 1 pirate groups that can be cloaked
                 IEnumerable<Group> ones = Commander.Groups.Where(p => p.Pirates.Count == 1);
-
-                Bot.Game.Debug("OK3");
 
                 //if there are any 1 pirate groups
                 if (ones.Count() != 0)
