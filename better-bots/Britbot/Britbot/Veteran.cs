@@ -26,6 +26,8 @@ namespace Britbot
 
             Veteran.GroupSplitting(ultimatConfig);
             Veteran.GroupJoining(ultimatConfig);
+            Logger.Write("New config Config:", true);
+            Logger.Write(string.Join(",", Commander.Groups.ConvertAll(group => group.Pirates.Count).ToArray()), true);
         }
         
         /// <summary>
@@ -43,6 +45,7 @@ namespace Britbot
                 if (Commander.Groups[i].Pirates.Count > ultimateConfig[i])
                     newGroups.AddRange(Commander.Groups[i].Split(Commander.Groups[i].Pirates.Count - ultimateConfig[i]));
             }
+
 
             Commander.Groups.AddRange(newGroups);
             Commander.Groups.RemoveAll(g => g.Pirates.Count == 0);
