@@ -184,24 +184,32 @@
 <a name="l00174"></a>00174             <span class="keywordflow">return</span> pivot;
 <a name="l00175"></a>00175         }
 <a name="l00176"></a>00176 
-<a name="l00177"></a><a class="code" href="classBritbot_1_1Extensions_a38f2f1355f7cadff4d9f7d019f15b76c.html#a38f2f1355f7cadff4d9f7d019f15b76c">00177</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Extensions_a38f2f1355f7cadff4d9f7d019f15b76c.html#a38f2f1355f7cadff4d9f7d019f15b76c">RemoveAll&lt;T&gt;</a>(<span class="keyword">this</span> ObservableCollection&lt;T&gt; collection, Func&lt;T, bool&gt; condition)
+<a name="l00177"></a><a class="code" href="classBritbot_1_1Extensions_a9a9c0ad4175e666b1aa0753051ef08b4.html#a9a9c0ad4175e666b1aa0753051ef08b4">00177</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Extensions_a9a9c0ad4175e666b1aa0753051ef08b4.html#a9a9c0ad4175e666b1aa0753051ef08b4">AddRange&lt;TSource&gt;</a>(<span class="keyword">this</span> ObservableCollection&lt;TSource&gt; source, IEnumerable&lt;TSource&gt; items)
 <a name="l00178"></a>00178         {
-<a name="l00179"></a>00179             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = collection.Count - 1; i &gt;= 0; i--)
+<a name="l00179"></a>00179             <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> items)
 <a name="l00180"></a>00180             {
-<a name="l00181"></a>00181                 <span class="keywordflow">if</span> (condition(collection[i]))
-<a name="l00182"></a>00182                 {
-<a name="l00183"></a>00183                     collection.RemoveAt(i);
-<a name="l00184"></a>00184                 }
-<a name="l00185"></a>00185             }
-<a name="l00186"></a>00186         }
-<a name="l00187"></a>00187     }
-<a name="l00188"></a>00188 
-<a name="l00189"></a>00189 }
+<a name="l00181"></a>00181                 source.Add(item);
+<a name="l00182"></a>00182             }
+<a name="l00183"></a>00183         }
+<a name="l00184"></a>00184 
+<a name="l00185"></a><a class="code" href="classBritbot_1_1Extensions_a38f2f1355f7cadff4d9f7d019f15b76c.html#a38f2f1355f7cadff4d9f7d019f15b76c">00185</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Extensions_a38f2f1355f7cadff4d9f7d019f15b76c.html#a38f2f1355f7cadff4d9f7d019f15b76c">RemoveAll&lt;T&gt;</a>(<span class="keyword">this</span> ObservableCollection&lt;T&gt; collection, Func&lt;T, bool&gt; condition)
+<a name="l00186"></a>00186         {
+<a name="l00187"></a>00187             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = collection.Count - 1; i &gt;= 0; i--)
+<a name="l00188"></a>00188             {
+<a name="l00189"></a>00189                 <span class="keywordflow">if</span> (condition(collection[i]))
+<a name="l00190"></a>00190                 {
+<a name="l00191"></a>00191                     collection.RemoveAt(i);
+<a name="l00192"></a>00192                 }
+<a name="l00193"></a>00193             }
+<a name="l00194"></a>00194         }
+<a name="l00195"></a>00195     }
+<a name="l00196"></a>00196 
+<a name="l00197"></a>00197 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 10:14:18 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 11:18:26 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -34,6 +34,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2"><param name="Name" value="AddEvent"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1ZoneConfigs_a10659487f3e6792cc23d5e2d4ed4a0ad.html#a10659487f3e6792cc23d5e2d4ed4a0ad"><param name="Name" value="AddGroup"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_a69923812f5df8ebcb82bd98368c04bc0.html#a69923812f5df8ebcb82bd98368c04bc0"><param name="Name" value="AddPirate"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_a9a9c0ad4175e666b1aa0753051ef08b4.html#a9a9c0ad4175e666b1aa0753051ef08b4"><param name="Name" value="AddRange< TSource >"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_af861a548acd4510654479191b0dd7c4e.html#af861a548acd4510654479191b0dd7c4e"><param name="Name" value="AddvanceByVector"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1HeadingVector_a7fd717fbeb6e0106d3422c92e4ce1202.html#a7fd717fbeb6e0106d3422c92e4ce1202"><param name="Name" value="adjustHeading"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_a67059a02ad5ae724f7e7d9228cf0faca.html#a67059a02ad5ae724f7e7d9228cf0faca"><param name="Name" value="AdvancePivot"></OBJECT>
@@ -143,6 +144,7 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions.html"><param name="Name" value="Britbot::Extensions"></OBJECT>
   <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_a9a9c0ad4175e666b1aa0753051ef08b4.html#a9a9c0ad4175e666b1aa0753051ef08b4"><param name="Name" value="AddRange< TSource >"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_a67059a02ad5ae724f7e7d9228cf0faca.html#a67059a02ad5ae724f7e7d9228cf0faca"><param name="Name" value="AdvancePivot"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_a818925600f1c36222526e638cf06711c.html#a818925600f1c36222526e638cf06711c"><param name="Name" value="Distance"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_af3e6fddd9123370468180eff95fb3ebb.html#af3e6fddd9123370468180eff95fb3ebb"><param name="Name" value="EuclidianDistanceSquared"></OBJECT>

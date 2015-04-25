@@ -122,6 +122,8 @@
             <span class="comment">//Score array for calculations in each iteration</span>
             Score[] scoreArr = <span class="keyword">new</span> Score[dimensions.Length];
 
+            Bot.Game.Debug(<span class="stringliteral">&quot;AA&quot;</span>);
+
             <span class="comment">//iterating over all possible target assignments</span>
             <span class="keywordflow">do</span>
             {
@@ -143,6 +145,8 @@
                 }
             } <span class="keywordflow">while</span> (iterator.NextIteration());
 
+            Bot.Game.Debug(<span class="stringliteral">&quot;BB&quot;</span>);
+            
             <span class="comment">//read the &quot;winning&quot; assignment</span>
             scoreArr = <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.GetSpecificAssignmentScores(possibleAssignments, maxAssignment);
 
@@ -163,7 +167,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 10:14:19 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 11:18:26 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
