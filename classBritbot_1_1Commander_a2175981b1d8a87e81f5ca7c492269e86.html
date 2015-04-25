@@ -69,22 +69,27 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_aa82c5ed3aa93bdb7292a4210949be873.html#aa82c5ed3aa93bdb7292a4210949be873">GetSpecificAssignmentScores</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a2e4d046e04c0a6456c7abee64de8f096.html#a2e4d046e04c0a6456c7abee64de8f096">GetTargetsDimensions</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_aaafbe6948d6be8c73febb9df67fe095d.html#aaafbe6948d6be8c73febb9df67fe095d">GetUltimateGameConfig</a></td></tr>
-          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Commander_a9277137230cab7a0f5720a8d7b6cc495.html#a9277137230cab7a0f5720a8d7b6cc495">GlobalizeScore</a></td></tr>
+          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Commander_a2175981b1d8a87e81f5ca7c492269e86.html#a2175981b1d8a87e81f5ca7c492269e86">GlobalizeScore</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f">Groups</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb">Play</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a0e8aec5ae732f215c711ff973be48208.html#a0e8aec5ae732f215c711ff973be48208">SetEventList</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a6f6d8ab39bcd4acb9873900c4de58ab2.html#a6f6d8ab39bcd4acb9873900c4de58ab2">StartCalcPriorities</a></td></tr>
         </table>
       </div>
    </td>
    <td valign="top" class="mempage">
-<a class="anchor" id="a9277137230cab7a0f5720a8d7b6cc495"></a><!-- doxytag: member="Britbot::Commander::GlobalizeScore" ref="a9277137230cab7a0f5720a8d7b6cc495" args="(Score[] scoreArr, CancellationToken cancellationToken)" -->
+<a class="anchor" id="a2175981b1d8a87e81f5ca7c492269e86"></a><!-- doxytag: member="Britbot::Commander::GlobalizeScore" ref="a2175981b1d8a87e81f5ca7c492269e86" args="(SimulatedGame sg, Score[] scoreArr, CancellationToken cancellationToken)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static double <a class="el" href="classBritbot_1_1Commander_a9277137230cab7a0f5720a8d7b6cc495.html#a9277137230cab7a0f5720a8d7b6cc495">Britbot.Commander.GlobalizeScore</a> </td>
+          <td class="memname">static double <a class="el" href="classBritbot_1_1Commander_a2175981b1d8a87e81f5ca7c492269e86.html#a2175981b1d8a87e81f5ca7c492269e86">Britbot.Commander.GlobalizeScore</a> </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame.html">SimulatedGame</a>&#160;</td>
+          <td class="paramname"><em>sg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"><a class="el" href="classBritbot_1_1Score.html">Score</a>[]&#160;</td>
           <td class="paramname"><em>scoreArr</em>, </td>
         </tr>
@@ -113,7 +118,7 @@
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd></dd></dl>
 
-<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00361">361</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
+<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00364">364</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">/*double score = 0;</span>
 <span class="comment">            double timeAvg = 0;</span>
@@ -164,8 +169,10 @@
 <span class="comment">            //TODO: give more points if we take an island from the enemy</span>
 <span class="comment"></span>
 <span class="comment">            return score + totalProjectedPoints;*/</span>
-            <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg = <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a>(<span class="keyword">new</span> List&lt;SimulatedEvent&gt;());
-            <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.SetEventList(sg);
+
+            <span class="comment">//reset simulation</span>
+            sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a62686418b03c7dd30f65919ca5f5f183.html#a62686418b03c7dd30f65919ca5f5f183" title="This resets the simulation to begining, it should be used for every assignment.">ResetSimulation</a>();
+
 
             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
             {
@@ -176,7 +183,6 @@
             }
 
             <span class="keywordflow">return</span> sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a47fed85074ba33bdab8ee52db477f721.html#a47fed85074ba33bdab8ee52db477f721" title="Simulates the game and calculates the score.">SimulateGame</a>();
-            <span class="keywordflow">return</span> 0;
         }
 </pre></div>
 </div>
@@ -188,7 +194,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 11:18:26 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 12:28:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

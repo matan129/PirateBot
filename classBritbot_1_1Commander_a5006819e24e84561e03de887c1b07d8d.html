@@ -69,10 +69,9 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_aa82c5ed3aa93bdb7292a4210949be873.html#aa82c5ed3aa93bdb7292a4210949be873">GetSpecificAssignmentScores</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a2e4d046e04c0a6456c7abee64de8f096.html#a2e4d046e04c0a6456c7abee64de8f096">GetTargetsDimensions</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_aaafbe6948d6be8c73febb9df67fe095d.html#aaafbe6948d6be8c73febb9df67fe095d">GetUltimateGameConfig</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a9277137230cab7a0f5720a8d7b6cc495.html#a9277137230cab7a0f5720a8d7b6cc495">GlobalizeScore</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a2175981b1d8a87e81f5ca7c492269e86.html#a2175981b1d8a87e81f5ca7c492269e86">GlobalizeScore</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f">Groups</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb">Play</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a0e8aec5ae732f215c711ff973be48208.html#a0e8aec5ae732f215c711ff973be48208">SetEventList</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a6f6d8ab39bcd4acb9873900c4de58ab2.html#a6f6d8ab39bcd4acb9873900c4de58ab2">StartCalcPriorities</a></td></tr>
         </table>
       </div>
@@ -122,6 +121,9 @@
             <span class="comment">//Score array for calculations in each iteration</span>
             Score[] scoreArr = <span class="keyword">new</span> Score[dimensions.Length];
 
+            <span class="comment">//create new simulated game</span>
+            <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg = <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a>();
+            
             Bot.Game.Debug(<span class="stringliteral">&quot;AA&quot;</span>);
 
             <span class="comment">//iterating over all possible target assignments</span>
@@ -134,7 +136,7 @@
                 scoreArr = <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.GetSpecificAssignmentScores(possibleAssignments, iterator.Values);
 
                 <span class="comment">//calculate new score</span>
-                <span class="keywordtype">double</span> newScore = <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.GlobalizeScore(scoreArr, cancellationToken);
+                <span class="keywordtype">double</span> newScore = <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.GlobalizeScore(sg, scoreArr, cancellationToken);
 
                 <span class="comment">//check if the score is better</span>
                 <span class="keywordflow">if</span> (newScore &gt; maxScore)
@@ -167,7 +169,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 11:18:26 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 12:28:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
