@@ -938,7 +938,10 @@ namespace Britbot
 
             //if they are not in the same direction or something
             if ((diff * g1.Heading < 0) || (g2.Heading * g1.Heading > 0))
-                return false;
+            {
+                if((g1.IsFormed()) && (g2.IsFormed()))
+                    return false;
+            }
 
             //going over all the pirates in G1
             foreach (int intPirate1 in g1.Pirates)
