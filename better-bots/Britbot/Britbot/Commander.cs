@@ -178,6 +178,15 @@ namespace Britbot
                 Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
                 Logger.StopTime("GetAllMoves");
 
+                Logger.BeginTime("DoCloak");
+                //juggling with nullable types here. KeyValuePair cannot be null by itself
+                KeyValuePair<Pirate, Direction>? kvp = Veteran.DoCloak();
+                if (kvp != null)
+                {
+                    KeyValuePair<Pirate, Direction> cloacking = (KeyValuePair<Pirate, Direction>) kvp;
+                    moves[cloacking.Key] = cloacking.Value;
+                }
+                Logger.StopTime("DoCloak");
 
                 Logger.Write(
                     string.Format("Commander done doing calculations and drinking coffee after {0}ms",

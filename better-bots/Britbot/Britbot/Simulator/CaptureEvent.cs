@@ -41,7 +41,7 @@ namespace Britbot.Simulator
         /// <param name="sg"></param>
         public override bool Activate(SimulatedGame sg)
         {
-            //check if this event is still actuall
+            //check if this event is still actual
             if (!this.Capturer.IsAlive)
                 return false;
 

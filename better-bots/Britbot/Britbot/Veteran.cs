@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Pirates;
 
@@ -103,6 +104,51 @@ namespace Britbot
             {
                 Logger.Write(g.Pirates.Count.ToString(),true);
             }
+        }
+
+        /// <summary>
+        ///     Reveals cloaked pirates when needed and cloaks uncloaked ones when needed
+        /// </summary>
+        public static KeyValuePair<Pirate, Direction>? DoCloak()
+        {
+            Group g = null;
+
+            //the group that contains the cloaked pirate if one exists
+            if(Bot.Game.GetMyCloaked() != null)
+                //sorry for this horrible lambda, stuff went quite complex and I didn't have the wll to restore the original function
+                g = Commander.Groups.First(commGroup => commGroup.Pirates.ToList()
+                    .ConvertAll(p => Bot.Game.GetMyPirate(p))
+                    .Any(pirate => Bot.Game.GetMyCloaked().Id == pirate.Id));
+
+            // if a pirate is cloaked and close enough to its target, reveal it
+            if ((g != null) && (g.DistanceFromTarget <= Magic.CloakRange))
+            {
+                return new KeyValuePair<Pirate, Direction>(Bot.Game.GetMyCloaked(), Direction.REVEAL);
+            }
+            
+            // if no pirate is cloaked and you can cloak one
+            if (Bot.Game.CanCloak())
+            {
+                //All the 1 pirate groups that can be cloaked
+                IEnumerable<Group> ones = Commander.Groups.Where(p => p.Pirates.Count == 1);
+
+                //if there are any 1 pirate groups
+                if (ones.Count() != 0)
+                {
+                    //the minimum distance from a target of one of the groups
+                    int minDistance = ones.Min(group => group.DistanceFromTarget);
+
+                    //finds the group that the minimal distance belongs to and cloaks it
+                    foreach (Group tc in ones)
+                    {
+                        if (tc.DistanceFromTarget == minDistance)
+                            return new KeyValuePair<Pirate, Direction>(Bot.Game.GetMyPirate(tc.Pirates.First()),
+                                Direction.CLOAK);
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }
