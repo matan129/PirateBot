@@ -208,7 +208,11 @@
       </UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Fallback.FallbackBot"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="GetFallbackTurns"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a585455f39b63406e73d7bf5db27927ac.html#a585455f39b63406e73d7bf5db27927ac"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="FallbackBot"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a2b83ad315107cfcf2881c014757976ff.html#a2b83ad315107cfcf2881c014757976ff"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="GetFallbackTurns"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a35d2ae601429859b928b651e524f4e63.html#a35d2ae601429859b928b651e524f4e63"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="SuperFuckedFallback"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a992e1bf680970325101a9589a74e3d47.html#a992e1bf680970325101a9589a74e3d47"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="UpdateFallbacks"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_adfc65a58b54d348ef100f25b46814a26.html#adfc65a58b54d348ef100f25b46814a26"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="FallbackGroups"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a9a9e6c79aec6caa95e625d9332d31744.html#a9a9e6c79aec6caa95e625d9332d31744"><param name="ImageNumber" value="11"></OBJECT>
       </UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Group"><param name="Local" value="classBritbot_1_1Group.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>

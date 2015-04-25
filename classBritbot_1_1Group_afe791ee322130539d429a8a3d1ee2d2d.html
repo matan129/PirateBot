@@ -117,8 +117,9 @@
 
 <p>Definition at line <a class="el" href="Group_8cs_source.html#l00708">708</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1Group_ad59de9260c957c95bb1654c20d237ac6.html#ad59de9260c957c95bb1654c20d237ac6" title="has the group changed this turn?">_hasChanged</a>)
+            <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1Group_ad59de9260c957c95bb1654c20d237ac6.html#ad59de9260c957c95bb1654c20d237ac6" title="has the group changed this turn?">_hasChanged</a> || this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Any(p =&gt; Bot.Game.GetMyPirate(p).IsLost))
             {
+                this.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.RemoveAll(p =&gt; Bot.Game.GetMyPirate(p).IsLost);
                 this.<a class="code" href="classBritbot_1_1Group_a10ad49476a4a2356ce7d24c96a9c2778.html#a10ad49476a4a2356ce7d24c96a9c2778" title="Generates instructions to form into optimal structure.">GenerateFormationInstructions</a>();
                 this.<a class="code" href="classBritbot_1_1Group_ad59de9260c957c95bb1654c20d237ac6.html#ad59de9260c957c95bb1654c20d237ac6" title="has the group changed this turn?">_hasChanged</a> = <span class="keyword">false</span>;
             }
@@ -133,7 +134,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 17:12:39 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:16:34 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

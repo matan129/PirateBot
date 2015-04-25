@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Britbot: Britbot::Fallback::FallbackBot::GetFallbackTurns</title>
+<title>Britbot: Britbot::Fallback::FallbackBot::UpdateFallbacks</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
@@ -59,17 +59,21 @@
    <td valign="top">
       <div class="navtab">
         <table>
-          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Fallback_1_1FallbackBot_a585455f39b63406e73d7bf5db27927ac.html#a585455f39b63406e73d7bf5db27927ac">GetFallbackTurns</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Fallback_1_1FallbackBot_a2b83ad315107cfcf2881c014757976ff.html#a2b83ad315107cfcf2881c014757976ff">FallbackBot</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Fallback_1_1FallbackBot_a9a9e6c79aec6caa95e625d9332d31744.html#a9a9e6c79aec6caa95e625d9332d31744">FallbackGroups</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Fallback_1_1FallbackBot_a35d2ae601429859b928b651e524f4e63.html#a35d2ae601429859b928b651e524f4e63">GetFallbackTurns</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Fallback_1_1FallbackBot_a992e1bf680970325101a9589a74e3d47.html#a992e1bf680970325101a9589a74e3d47">SuperFuckedFallback</a></td></tr>
+          <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Fallback_1_1FallbackBot_adfc65a58b54d348ef100f25b46814a26.html#adfc65a58b54d348ef100f25b46814a26">UpdateFallbacks</a></td></tr>
         </table>
       </div>
    </td>
    <td valign="top" class="mempage">
-<a class="anchor" id="a585455f39b63406e73d7bf5db27927ac"></a><!-- doxytag: member="Britbot::Fallback::FallbackBot::GetFallbackTurns" ref="a585455f39b63406e73d7bf5db27927ac" args="()" -->
+<a class="anchor" id="adfc65a58b54d348ef100f25b46814a26"></a><!-- doxytag: member="Britbot::Fallback::FallbackBot::UpdateFallbacks" ref="adfc65a58b54d348ef100f25b46814a26" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static Dictionary&lt;Pirate, Direction&gt; <a class="el" href="classBritbot_1_1Fallback_1_1FallbackBot_a585455f39b63406e73d7bf5db27927ac.html#a585455f39b63406e73d7bf5db27927ac">Britbot.Fallback.FallbackBot.GetFallbackTurns</a> </td>
+          <td class="memname">static void <a class="el" href="classBritbot_1_1Fallback_1_1FallbackBot_adfc65a58b54d348ef100f25b46814a26.html#adfc65a58b54d348ef100f25b46814a26">Britbot.Fallback.FallbackBot.UpdateFallbacks</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [inline, static]</code></td>
@@ -78,23 +82,17 @@
 </div>
 <div class="memdoc">
 
-<p>Generates the fallback moves This is basically the weaker sister of <a class="el" href="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb" title="Do something!">Commander.Play()</a> </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd></dd></dl>
+<p>Updates the fallback group accordinf to the commander groups. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="FallbackBot_8cs_source.html#l00021">21</a> of file <a class="el" href="FallbackBot_8cs_source.html">FallbackBot.cs</a>.</p>
+<p>Definition at line <a class="el" href="FallbackBot_8cs_source.html#l00037">37</a> of file <a class="el" href="FallbackBot_8cs_source.html">FallbackBot.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            Dictionary&lt;Pirate, Direction&gt; fallback = <span class="keyword">new</span> Dictionary&lt;Pirate, Direction&gt;();
-            <span class="keywordflow">foreach</span> (Pirate pirate <span class="keywordflow">in</span> Bot.Game.AllMyPirates())
-            {
-                <span class="keywordflow">if</span> (Bot.Game.GetTurn() % 2 == 0)
-                    fallback.Add(pirate, Direction.NORTH);
-                <span class="keywordflow">else</span>
-                    fallback.Add(pirate, Direction.SOUTH);
-            }
-
-            Logger.Write(<span class="stringliteral">&quot;===============FALLBACK READY=================&quot;</span>);
-
-            <span class="keywordflow">return</span> fallback;
+            <span class="comment">//TODO clone the groups inside Commander.Groups</span>
         }
 </pre></div>
 </div>
@@ -106,7 +104,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 17:12:40 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:16:34 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

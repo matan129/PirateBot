@@ -63,7 +63,9 @@
 </div>
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a>  </div>
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">Britbot.Fallback.FallbackBot Class Reference</div>  </div>
 </div><!--header-->
@@ -76,14 +78,27 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Fallback_1_1FallbackBot_adfc65a58b54d348ef100f25b46814a26.html#adfc65a58b54d348ef100f25b46814a26">UpdateFallbacks</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the fallback group accordinf to the commander groups.  <a href="#adfc65a58b54d348ef100f25b46814a26"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static Dictionary&lt; Pirate, <br class="typebreak"/>
-Direction &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Fallback_1_1FallbackBot_a585455f39b63406e73d7bf5db27927ac.html#a585455f39b63406e73d7bf5db27927ac">GetFallbackTurns</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates the fallback moves This is basically the weaker sister of <a class="el" href="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb" title="Do something!">Commander.Play()</a>  <a href="#a585455f39b63406e73d7bf5db27927ac"></a><br/></td></tr>
+Direction &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Fallback_1_1FallbackBot_a35d2ae601429859b928b651e524f4e63.html#a35d2ae601429859b928b651e524f4e63">GetFallbackTurns</a> (CancellationToken cToken)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates the fallback moves This is basically the weaker sister of <a class="el" href="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb" title="Do something!">Commander.Play()</a>  <a href="#a35d2ae601429859b928b651e524f4e63"></a><br/></td></tr>
+<tr><td colspan="2"><h2><a name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Fallback_1_1FallbackBot_a2b83ad315107cfcf2881c014757976ff.html#a2b83ad315107cfcf2881c014757976ff">FallbackBot</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">static constructor  <a href="#a2b83ad315107cfcf2881c014757976ff"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static Dictionary&lt; Pirate, <br class="typebreak"/>
+Direction &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Fallback_1_1FallbackBot_a992e1bf680970325101a9589a74e3d47.html#a992e1bf680970325101a9589a74e3d47">SuperFuckedFallback</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A really really bad super last resort that we use if we crash super hard.  <a href="#a992e1bf680970325101a9589a74e3d47"></a><br/></td></tr>
+<tr><td colspan="2"><h2><a name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static List&lt; <a class="el" href="classBritbot_1_1Group.html">Group</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Fallback_1_1FallbackBot_a9a9e6c79aec6caa95e625d9332d31744.html#a9a9e6c79aec6caa95e625d9332d31744">FallbackGroups</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the group that the previous commander had.  <a href="#a9a9e6c79aec6caa95e625d9332d31744"></a><br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>This is the fallback bot its execution time must be low. </p>
 
-<p>Definition at line <a class="el" href="FallbackBot_8cs_source.html#l00014">14</a> of file <a class="el" href="FallbackBot_8cs_source.html">FallbackBot.cs</a>.</p>
+<p>Definition at line <a class="el" href="FallbackBot_8cs_source.html#l00018">18</a> of file <a class="el" href="FallbackBot_8cs_source.html">FallbackBot.cs</a>.</p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>Fallback/<a class="el" href="FallbackBot_8cs_source.html">FallbackBot.cs</a></li>
 </ul>
@@ -91,7 +106,7 @@ Direction &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 17:12:40 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:16:34 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

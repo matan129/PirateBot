@@ -94,7 +94,7 @@
 <p>Definition at line <a class="el" href="Bot_8cs_source.html#l00054">54</a> of file <a class="el" href="Bot_8cs_source.html">Bot.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//update the game so other classes will get updated data</span>
-            Bot.Game = state;
+            <a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a> = state;
 
             Logger.Write(<span class="stringliteral">&quot;---------------------------------------------------------&quot;</span>);
             Logger.Write(<span class="stringliteral">&quot;number of runaways: &quot;</span> + Enemy.EnemyIntelligenceSuspicionCounter);
@@ -107,7 +107,7 @@
 <span class="comment">                 * moving instructions in the form of a Dictionary&lt;Pirate,Direction&gt;. This is because we do not want to abort the commander </span>
 <span class="comment">                 * after it moved couple of pirates but not all of them                            </span>
 <span class="comment">                 */</span>
-                commanderOk = Bot.ExecuteBot();
+                commanderOk = <a class="code" href="classBritbot_1_1Bot_a73db797b5036e5a7ba7d1ff5b6f45977.html#a73db797b5036e5a7ba7d1ff5b6f45977" title="Executes the commander with specified timeout, and the fallback in parallel.">ExecuteBot</a>();
             }
             <span class="keywordflow">catch</span> (Exception ex)
             {
@@ -116,8 +116,9 @@
 
                 StackTrace exTrace = <span class="keyword">new</span> StackTrace(ex, <span class="keyword">true</span>);
                 StackFrame frame = exTrace.GetFrame(0);
-                Logger.Write(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;The exception was thrown from method {0} at file {1} at line #{2}&quot;</span>, frame.GetMethod(),
-                    frame.GetFileName(), frame.GetFileLineNumber()), <span class="keyword">true</span>);
+                Logger.Write(
+                    <span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;The exception was thrown from method {0} at file {1} at line #{2}&quot;</span>, frame.GetMethod(),
+                        frame.GetFileName(), frame.GetFileLineNumber()), <span class="keyword">true</span>);
 
                 Logger.Write(<span class="stringliteral">&quot;=================BOT ERROR=====================&quot;</span>, <span class="keyword">true</span>);
             }
@@ -125,9 +126,9 @@
             {
                 <span class="comment">//Actually move stuff</span>
                 <span class="keywordflow">if</span> (commanderOk)
-                    Mover.MoveAll(Bot._movesDictionary);
+                    Mover.MoveAll(<a class="code" href="classBritbot_1_1Bot_a887c2a4383bb88aa0c6c4ced183cb446.html#a887c2a4383bb88aa0c6c4ced183cb446" title="The moves the commander decided on.">_movesDictionary</a>);
                 <span class="keywordflow">else</span>
-                    Mover.MoveAll(Bot._fallbackMoves);
+                    Mover.MoveAll(<a class="code" href="classBritbot_1_1Bot_a1c811a068397815f292eb6c35090db33.html#a1c811a068397815f292eb6c35090db33" title="The fallback moves the fallback bot generated.">_fallbackMoves</a>);
             }
         }
 </pre></div>
@@ -140,7 +141,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 17:12:39 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:16:34 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -158,7 +158,11 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="namespaceBritbot_1_1Fallback.html"><param name="Name" value="Britbot::Fallback"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot.html"><param name="Name" value="Britbot::Fallback::FallbackBot"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a585455f39b63406e73d7bf5db27927ac.html#a585455f39b63406e73d7bf5db27927ac"><param name="Name" value="GetFallbackTurns"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a2b83ad315107cfcf2881c014757976ff.html#a2b83ad315107cfcf2881c014757976ff"><param name="Name" value="FallbackBot"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a9a9e6c79aec6caa95e625d9332d31744.html#a9a9e6c79aec6caa95e625d9332d31744"><param name="Name" value="FallbackGroups"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a35d2ae601429859b928b651e524f4e63.html#a35d2ae601429859b928b651e524f4e63"><param name="Name" value="GetFallbackTurns"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a992e1bf680970325101a9589a74e3d47.html#a992e1bf680970325101a9589a74e3d47"><param name="Name" value="SuperFuckedFallback"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_adfc65a58b54d348ef100f25b46814a26.html#adfc65a58b54d348ef100f25b46814a26"><param name="Name" value="UpdateFallbacks"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group.html"><param name="Name" value="Britbot::Group"></OBJECT>
   <UL>
@@ -655,6 +659,8 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Bot_a73db797b5036e5a7ba7d1ff5b6f45977.html#a73db797b5036e5a7ba7d1ff5b6f45977"><param name="Name" value="ExecuteBot"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1ExpIterator_ada03a2e7256a4e36da445f14a340cabe.html#ada03a2e7256a4e36da445f14a340cabe"><param name="Name" value="ExpIterator"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Navigator_1_1Node_a67a3768d7cd360df39c00c079f4b5b99.html#a67a3768d7cd360df39c00c079f4b5b99"><param name="Name" value="F"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a2b83ad315107cfcf2881c014757976ff.html#a2b83ad315107cfcf2881c014757976ff"><param name="Name" value="FallbackBot"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a9a9e6c79aec6caa95e625d9332d31744.html#a9a9e6c79aec6caa95e625d9332d31744"><param name="Name" value="FallbackGroups"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_ab7f3acda43a7f7ac58ffe363a6f6d567.html#ab7f3acda43a7f7ac58ffe363a6f6d567"><param name="Name" value="FightCount"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Navigator_a35d8e97792a6353116cff6102bb1e831.html#a35d8e97792a6353116cff6102bb1e831"><param name="Name" value="FindBestDirectionOutOfMap"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39"><param name="Name" value="FindCenter"></OBJECT>
@@ -690,7 +696,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_a7361dff46eb45f2dcd8076fa65e8fb4c.html#a7361dff46eb45f2dcd8076fa65e8fb4c"><param name="Name" value="Britbot::SmartIsland"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_afbe8ee05c72c5b940d5c596fbb43d3ef.html#afbe8ee05c72c5b940d5c596fbb43d3ef"><param name="Name" value="GetEnumerator"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a585455f39b63406e73d7bf5db27927ac.html#a585455f39b63406e73d7bf5db27927ac"><param name="Name" value="GetFallbackTurns"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a35d2ae601429859b928b651e524f4e63.html#a35d2ae601429859b928b651e524f4e63"><param name="Name" value="GetFallbackTurns"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_a4d298dadd6b1aaf74cefe6b0771781c8.html#a4d298dadd6b1aaf74cefe6b0771781c8"><param name="Name" value="GetGroupMoves"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1EnemyGroup_ac52783c53ff43c1553d8e1d294a754a0.html#ac52783c53ff43c1553d8e1d294a754a0"><param name="Name" value="GetHashCode"></OBJECT>
   <UL>
@@ -928,6 +934,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Commander_a6f6d8ab39bcd4acb9873900c4de58ab2.html#a6f6d8ab39bcd4acb9873900c4de58ab2"><param name="Name" value="StartCalcPriorities"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5"><param name="Name" value="StopTime"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Extensions_a1f7520451ce8c83b5e788d0ed7e92f9c.html#a1f7520451ce8c83b5e788d0ed7e92f9c"><param name="Name" value="Subtract"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_a992e1bf680970325101a9589a74e3d47.html#a992e1bf680970325101a9589a74e3d47"><param name="Name" value="SuperFuckedFallback"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_a4adbcfdb337ca5b6cbd21b56fb07d655.html#a4adbcfdb337ca5b6cbd21b56fb07d655"><param name="Name" value="Swap"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_a672acc1e7cc049b71f44af1a21b370d3.html#a672acc1e7cc049b71f44af1a21b370d3"><param name="Name" value="Switch"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Group_a80a73904f763d61e4c7330fe5ff2617e.html#a80a73904f763d61e4c7330fe5ff2617e"><param name="Name" value="Target"></OBJECT>
@@ -979,6 +986,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_ac4a3b45f88dd0fba977628d32572ce7a.html#ac4a3b45f88dd0fba977628d32572ce7a"><param name="Name" value="Britbot::SmartIsland"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1SmartIsland_ab53b03ed6f51778fbdf748de2eb578ba.html#ab53b03ed6f51778fbdf748de2eb578ba"><param name="Name" value="UpdateAll"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Fallback_1_1FallbackBot_adfc65a58b54d348ef100f25b46814a26.html#adfc65a58b54d348ef100f25b46814a26"><param name="Name" value="UpdateFallbacks"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Navigator_ae1fd7deabedfc6361fe076c1b391167c.html#ae1fd7deabedfc6361fe076c1b391167c"><param name="Name" value="UpdateMap"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classBritbot_1_1Navigator_ae1fd7deabedfc6361fe076c1b391167c.html#ae1fd7deabedfc6361fe076c1b391167c"><param name="Name" value="Britbot::Navigator"></OBJECT>

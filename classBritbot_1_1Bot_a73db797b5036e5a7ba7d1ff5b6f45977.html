@@ -85,64 +85,64 @@
 <p>Executes the commander with specified timeout, and the fallback in parallel. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>if the commander is on time or not</dd></dl>
 
-<p>Definition at line <a class="el" href="Bot_8cs_source.html#l00100">100</a> of file <a class="el" href="Bot_8cs_source.html">Bot.cs</a>.</p>
+<p>Definition at line <a class="el" href="Bot_8cs_source.html#l00101">101</a> of file <a class="el" href="Bot_8cs_source.html">Bot.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//clear the last moves</span>
-            Bot._fallbackMoves.Clear();
-            Bot._movesDictionary.Clear();
+            <a class="code" href="classBritbot_1_1Bot_a1c811a068397815f292eb6c35090db33.html#a1c811a068397815f292eb6c35090db33" title="The fallback moves the fallback bot generated.">_fallbackMoves</a>.Clear();
+            <a class="code" href="classBritbot_1_1Bot_a887c2a4383bb88aa0c6c4ced183cb446.html#a887c2a4383bb88aa0c6c4ced183cb446" title="The moves the commander decided on.">_movesDictionary</a>.Clear();
 
             <span class="comment">//setup time check flag</span>
             <span class="keywordtype">bool</span> onTime = <span class="keyword">false</span>;
 
             <span class="comment">//setup time remaining</span>
-            <span class="keywordtype">int</span> time = Bot.Game.TimeRemaining();
+            <span class="keywordtype">int</span> time = <a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.TimeRemaining();
             <span class="keywordtype">int</span> safeTimeout = (int) (time * 0.65);
 
             <span class="comment">//timeout setup</span>
-            CancellationTokenSource commanderCancellationSource = <span class="keyword">new</span> CancellationTokenSource(safeTimeout);
+            CancellationTokenSource cancellationSource = <span class="keyword">new</span> CancellationTokenSource(safeTimeout);
 
             <span class="comment">//Commander task setup and start</span>
-            Bot._tasks[0] =
+            <a class="code" href="classBritbot_1_1Bot_ad191000656bf29e4e3f08a3bd5a2c7d8.html#ad191000656bf29e4e3f08a3bd5a2c7d8" title="Array of the tasks. These are the normal commander task and the fallback task. See below...">_tasks</a>[0] =
                 Task.Factory.StartNew(() =&gt;
                 {
                     <span class="keywordflow">try</span>
                     {
-                        Bot._movesDictionary = Commander.Play(commanderCancellationSource.Token, out onTime);
+                        <a class="code" href="classBritbot_1_1Bot_a887c2a4383bb88aa0c6c4ced183cb446.html#a887c2a4383bb88aa0c6c4ced183cb446" title="The moves the commander decided on.">_movesDictionary</a> = Commander.Play(cancellationSource.Token, out onTime);
                     }
                     <span class="keywordflow">catch</span> (Exception ex)
                     {
                         Logger.Write(<span class="stringliteral">&quot;TOP LEVEL EXCEPTION WAS CAUGHT ON THE COMMANDER TASK ON TURN &quot;</span> +
-                                       Bot.Game.GetTurn(),<span class="keyword">true</span>);
+                                     <a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetTurn(), <span class="keyword">true</span>);
                         Logger.Write(ex.ToString(), <span class="keyword">true</span>);
                     }
                 });
 
             <span class="comment">//Fallback task setup and start</span>
-            Bot._tasks[1] =
+            <a class="code" href="classBritbot_1_1Bot_ad191000656bf29e4e3f08a3bd5a2c7d8.html#ad191000656bf29e4e3f08a3bd5a2c7d8" title="Array of the tasks. These are the normal commander task and the fallback task. See below...">_tasks</a>[1] =
                 Task.Factory.StartNew(() =&gt;
                 {
                     <span class="keywordflow">try</span>
                     {
-                        Bot._fallbackMoves = <a class="code" href="classBritbot_1_1Fallback_1_1FallbackBot.html" title="This is the fallback bot its execution time must be low.">FallbackBot</a>.<a class="code" href="classBritbot_1_1Fallback_1_1FallbackBot_a585455f39b63406e73d7bf5db27927ac.html#a585455f39b63406e73d7bf5db27927ac" title="Generates the fallback moves This is basically the weaker sister of Commander.Play()">GetFallbackTurns</a>();
+                        <a class="code" href="classBritbot_1_1Bot_a1c811a068397815f292eb6c35090db33.html#a1c811a068397815f292eb6c35090db33" title="The fallback moves the fallback bot generated.">_fallbackMoves</a> = <a class="code" href="classBritbot_1_1Fallback_1_1FallbackBot.html" title="This is the fallback bot its execution time must be low.">FallbackBot</a>.<a class="code" href="classBritbot_1_1Fallback_1_1FallbackBot_a35d2ae601429859b928b651e524f4e63.html#a35d2ae601429859b928b651e524f4e63" title="Generates the fallback moves This is basically the weaker sister of Commander.Play()">GetFallbackTurns</a>(cancellationSource.Token);
                     }
                     <span class="keywordflow">catch</span> (Exception ex)
                     {
                         Logger.Write(<span class="stringliteral">&quot;TOP LEVEL EXCEPTION WAS CAUGHT ON THE FALLBACK TASK ON TURN &quot;</span> +
-                                     Bot.Game.GetTurn(), <span class="keyword">true</span>);
+                                     <a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetTurn(), <span class="keyword">true</span>);
                         Logger.Write(ex.ToString(), <span class="keyword">true</span>);
                     }
                 });
 
             <span class="comment">//Wait for the tasks until the same timeout is over.</span>
-            Task.WaitAll(Bot._tasks, safeTimeout);
+            Task.WaitAll(<a class="code" href="classBritbot_1_1Bot_ad191000656bf29e4e3f08a3bd5a2c7d8.html#ad191000656bf29e4e3f08a3bd5a2c7d8" title="Array of the tasks. These are the normal commander task and the fallback task. See below...">_tasks</a>, safeTimeout);
 
             <span class="comment">//if it&#39;s stuck...</span>
             <span class="keywordflow">if</span> (!onTime)
             {
-                Logger.Write(<span class="stringliteral">&quot;=================TIMEOUT=======================&quot;</span>);
-                Logger.Write(<span class="stringliteral">&quot;Commander timed out, switching to fallback code&quot;</span>);
-                Logger.Write(<span class="stringliteral">&quot;Time remaining: &quot;</span> + Bot.Game.TimeRemaining());
-                Logger.Write(<span class="stringliteral">&quot;=================TIMEOUT=======================&quot;</span>);
+                Logger.Write(<span class="stringliteral">&quot;=================TIMEOUT=======================&quot;</span>, <span class="keyword">true</span>);
+                Logger.Write(<span class="stringliteral">&quot;Commander timed out, switching to fallback code&quot;</span>, <span class="keyword">true</span>);
+                Logger.Write(<span class="stringliteral">&quot;Time remaining: &quot;</span> + <a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.TimeRemaining());
+                Logger.Write(<span class="stringliteral">&quot;=================TIMEOUT=======================&quot;</span>, <span class="keyword">true</span>);
             }
 
             Logger.Profile();
@@ -160,7 +160,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 17:12:39 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 18:16:34 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
