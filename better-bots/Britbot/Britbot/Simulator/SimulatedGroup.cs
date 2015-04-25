@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Pirates;
 
 namespace Britbot.Simulator
 {
@@ -99,6 +100,11 @@ namespace Britbot.Simulator
         {
             this.IsAlive = false;
             this.ReviveTurn = sg.CurrentTurn + Bot.Game.GetSpawnTurns();
+
+            if (this.Owner == Consts.ME)
+                sg.MyDeadPirates += (int) this.FirePower;
+            else
+                sg.EnemyDeadPirates += (int) this.FirePower;
 
             sg.AddEvent(new ReviveEvent(sg.CurrentTurn + Bot.Game.GetSpawnTurns(), this));
         }

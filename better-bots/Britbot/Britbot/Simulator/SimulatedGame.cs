@@ -240,7 +240,7 @@ namespace Britbot.Simulator
             {
                 count++;
                 //calculate PPT
-                PPT = this.CalculatePPT();
+                PPT = this.CalculatePpt();
 
                 nextTurn = this.CommingEvents.First.Turn;
 
@@ -263,34 +263,20 @@ namespace Britbot.Simulator
         /// </summary>
         /// <param name="friendlyPPT"></param>
         /// <param name="enemyPPT"></param>
-        public double CalculatePPT()
+        public double CalculatePpt()
         {
             //helper variables
             double friendlyPPT, enemyPPT;
 
-            
-
-            //check special case of zero islands
-            if(this.MyIslandCount == 0)
-            {
-                friendlyPPT = 0;
-            }
-            else
-            {
-                friendlyPPT = Math.Pow(2, MyIslandCount - 1);
-            }
-
-            if(this.EnemyIslandCount == 0)
-            {
-                enemyPPT = 0;
-            }
-            else
-            {
-                enemyPPT = Math.Pow(2, EnemyIslandCount - 1);
-            }
+            //calc score
+            friendlyPPT = Math.Floor(Math.Pow(2, MyIslandCount - 1));
+            enemyPPT = Math.Floor(Math.Pow(2, EnemyIslandCount - 1));
 
             //account for dead ships
-            friendlyPPT -= Math.Pow(5, this.MyDeadPirates);
+            friendlyPPT -= Math.Pow(Magic.FriendlyBaseFactor, this.MyDeadPirates);
+
+            //account for dead enemy ships
+            enemyPPT -= Math.Pow(Magic.EnemyBaseFactor, this.EnemyDeadPirates);
 
             return friendlyPPT - enemyPPT;
         }
