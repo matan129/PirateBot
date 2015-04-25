@@ -68,7 +68,7 @@ namespace Britbot.Simulator
             this.Island.TurnsBeingCaptured = 0;
 
             //set out a capture event
-            int captureTurn = sg.CurrentTurn + this.Island.TurnsTillCapture(this.Capturer.Owner);
+            int captureTurn = sg.CurrentTurn + Bot.Game.Islands()[0].CaptureTurns;
             sg.AddEvent(new CaptureEvent(captureTurn, this.Island, this.Capturer));
 
             return false;

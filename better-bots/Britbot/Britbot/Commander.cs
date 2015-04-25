@@ -301,7 +301,7 @@ namespace Britbot
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
             {
-                Logger.Write(string.Format("Group {0} assinged to {1}", i, scoreArr[i].Target.GetDescription()), true);
+                //Logger.Write(string.Format("Group {0} assinged to {1}", i, scoreArr[i].Target.GetDescription()), true);
                 Commander.Groups[i].SetTarget(scoreArr[i].Target);
             }
         }
@@ -333,7 +333,7 @@ namespace Britbot
             //count of all of our pirates
             int myPirates = Bot.Game.AllMyPirates().Count;
 
-            Logger.Write(string.Format("Ultimateconfig says we have {0} pirates", myPirates), true);
+            //Logger.Write(string.Format("Ultimateconfig says we have {0} pirates", myPirates), true);
 
 
             for (int i = 0; i < eConfig.Length && myPirates > 0; i++)
@@ -342,7 +342,7 @@ namespace Britbot
                 {
                     ret.Add(eConfig[i] + 1);
                     myPirates -= eConfig[i] + 1;
-                    Logger.Write(string.Format("added a {0} group to the configuration", eConfig[i]+1), true);
+                    //Logger.Write(string.Format("added a {0} group to the configuration", eConfig[i]+1), true);
                 }
                 
             }
@@ -351,7 +351,7 @@ namespace Britbot
             {
                 ret.Add(1);
                 myPirates--;
-                Logger.Write(string.Format("added a {0} group to the configuration", 1), true);
+                //Logger.Write(string.Format("added a {0} group to the configuration", 1), true);
             }
 
             while (ret.Count > Bot.Game.Islands().Count)
@@ -439,7 +439,7 @@ namespace Britbot
             for (int i = 0; i < scoreArr.Length; i++)
             {
                 if (Groups[i].Equals(scoreArr[i].Target))
-                    score *= 1.2;
+                    score += 20;
             }
             return score;
         }

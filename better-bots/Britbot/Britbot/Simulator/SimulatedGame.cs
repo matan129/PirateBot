@@ -47,15 +47,15 @@ namespace Britbot.Simulator
         public int CurrentTurn { get; set; }
 
 
-        public int MyIslandCount;
-        public int EnemyIslandCount;
-        public int MyDeadPirates;
-        public int EnemyDeadPirates;
+        public double MyIslandCount;
+        public double EnemyIslandCount;
+        public double MyDeadPirates;
+        public double EnemyDeadPirates;
 
-        public int OriginalMyIslandCount;
-        public int OriginalEnemyIslandCount;
-        public int OriginalMyDeadPirates;
-        public int OriginalEnemyDeadPirates;
+        public double OriginalMyIslandCount;
+        public double OriginalEnemyIslandCount;
+        public double OriginalMyDeadPirates;
+        public double OriginalEnemyDeadPirates;
 
         /// <summary>
         /// a queue representing the constant events
@@ -162,6 +162,16 @@ namespace Britbot.Simulator
                     //add the event
                     this.ConstantEvents.Add(newEvent);
                 }
+
+                //check if there are ships on the islands
+                foreach(Group g in Commander.Groups)
+                {
+                    if(g.MinimalETATo(sIsland.Loc) <= 1)
+                    {
+                        this.Islands[sIsland.Id].CapturingGroup = this.MyGroups[g.Id];
+                        break;
+                    }
+                }
             }
 
         }
@@ -244,6 +254,8 @@ namespace Britbot.Simulator
 
                 nextTurn = this.CommingEvents.First.Turn;
 
+                
+
                 //update score
                 this.Score += (nextTurn - this.CurrentTurn) * PPT;
 
@@ -280,6 +292,8 @@ namespace Britbot.Simulator
 
             return friendlyPPT - enemyPPT;
         }
+
+
 
     }
 }

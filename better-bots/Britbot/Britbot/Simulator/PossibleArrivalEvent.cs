@@ -1,4 +1,5 @@
-﻿namespace Britbot.Simulator
+﻿using Pirates;
+namespace Britbot.Simulator
 {
     /// <summary>
     ///     This represents an arrivale depending on something
@@ -71,7 +72,20 @@
 
 
                 //then set a capture and decapture event
-                sg.AddEvent(new DeCaptureEvent(captureTurn, this.Island, this.ArrivingGroup));
+                //check if we need to set events
+                //if only capture is needed
+                if(this.Island.Owner == this.ArrivingGroup.Owner)
+                {
+                    //nothing to be done
+                }
+                else if(this.Island.Owner == Consts.NO_OWNER)
+                {
+                    sg.AddEvent(new CaptureEvent(sg.CurrentTurn + Bot.Game.Islands()[0].CaptureTurns, this.Island, this.ArrivingGroup));
+                }
+                else
+                {
+                    sg.AddEvent(new DeCaptureEvent(sg.CurrentTurn + Bot.Game.Islands()[0].CaptureTurns, this.Island, this.ArrivingGroup));
+                }                
             }
 
             return false;

@@ -16,12 +16,12 @@ namespace Britbot
         public const double VectorTolerance = 0.001;
         internal const int OutOfDateNumber = 10;
         public const double EnemyBaseFactor = 1;
-        public const double FriendlyBaseFactor = 2;
+        public const double FriendlyBaseFactor = 5;
 
         /// <summary>
         ///     Max safe iterator iterations per turn
         /// </summary>
-        public static int MaxIterator = 3000;
+        public static int MaxIterator = 100;
 
         /// <summary>
         ///     Max distace two groups can be from eachother and still be joind
@@ -89,7 +89,7 @@ namespace Britbot
         /// </summary>
         public static double GroupIntersectionDistance
         {
-            get { return 0.25 * Bot.Game.GetAttackRadius(); }
+            get { return Bot.Game.GetAttackRadius(); }
         }
 
         #endregion

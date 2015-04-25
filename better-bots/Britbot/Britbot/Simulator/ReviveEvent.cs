@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Pirates;
 namespace Britbot.Simulator
 {
     class ReviveEvent : SimulatedEvent
@@ -22,6 +22,10 @@ namespace Britbot.Simulator
         public override bool Activate(SimulatedGame sg)
         {
             this.GroupToRevive.IsAlive = true;
+            if (this.GroupToRevive.Owner == Consts.ME)
+                sg.MyDeadPirates -= this.GroupToRevive.FirePower;
+            else
+                sg.EnemyDeadPirates -= this.GroupToRevive.FirePower;
 
             return false;
         }

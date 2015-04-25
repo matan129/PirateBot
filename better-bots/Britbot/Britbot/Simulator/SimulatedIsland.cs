@@ -89,7 +89,7 @@ namespace Britbot.Simulator
             //check if conqueror is the owner
             if (this.Owner == capturer)
             {
-                totalCaptureTime = 0;
+                return 0;
             } //if the isalnd is nutral
             else if (this.Owner == Consts.NO_OWNER)
             {
