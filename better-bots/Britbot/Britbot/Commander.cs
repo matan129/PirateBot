@@ -28,7 +28,7 @@ namespace Britbot
         /// <summary>
         ///     List of groups of our pirates
         /// </summary>
-        public static List<Group> Groups { get; set; }
+        public static List<Group> Groups { get; private set; }
 
         #endregion
 

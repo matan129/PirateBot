@@ -195,12 +195,12 @@ namespace Britbot
                 Enemy.Debug();
         }
 
-        public static void Debug()
+        private static void Debug()
         {
-            Logger.Write("------------ENEMY GROUPS-----------------",true);
+            Logger.Write("------------ENEMY GROUPS-----------------");
             foreach (EnemyGroup eg in Enemy.Groups)
             {
-                Logger.Write(eg.ToString(),true);
+                Logger.Write(eg.ToString());
             }
         }
     }
