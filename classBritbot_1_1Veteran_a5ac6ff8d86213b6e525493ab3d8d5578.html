@@ -84,17 +84,14 @@
 
 <p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00112">112</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            Bot.Game.Debug(<span class="stringliteral">&quot;OK0&quot;</span>);
-
             Group g = null;
 
-            <span class="keywordflow">if</span>(Bot.Game.GetMyCloaked() != null)
             <span class="comment">//the group that contains the cloaked pirate if one exists</span>
+            <span class="keywordflow">if</span>(Bot.Game.GetMyCloaked() != null)
+                <span class="comment">//sorry for this horrible lambda, stuff went quite complex and I didn&#39;t have the wll to restore the original function</span>
                 g = Commander.Groups.First(commGroup =&gt; commGroup.Pirates.ToList()
                     .ConvertAll(p =&gt; Bot.Game.GetMyPirate(p))
                     .Any(pirate =&gt; Bot.Game.GetMyCloaked().Id == pirate.Id));
-
-            Bot.Game.Debug(<span class="stringliteral">&quot;OK1&quot;</span>);
 
             <span class="comment">// if a pirate is cloaked and close enough to its target, reveal it</span>
             <span class="keywordflow">if</span> ((g != null) &amp;&amp; (g.DistanceFromTarget &lt;= Magic.CloakRange))
@@ -102,15 +99,11 @@
                 <span class="keywordflow">return</span> <span class="keyword">new</span> KeyValuePair&lt;Pirate, Direction&gt;(Bot.Game.GetMyCloaked(), Direction.REVEAL);
             }
             
-            Bot.Game.Debug(<span class="stringliteral">&quot;OK2&quot;</span>);
-
             <span class="comment">// if no pirate is cloaked and you can cloak one</span>
             <span class="keywordflow">if</span> (Bot.Game.CanCloak())
             {
                 <span class="comment">//All the 1 pirate groups that can be cloaked</span>
                 IEnumerable&lt;Group&gt; ones = Commander.Groups.Where(p =&gt; p.Pirates.Count == 1);
-
-                Bot.Game.Debug(<span class="stringliteral">&quot;OK3&quot;</span>);
 
                 <span class="comment">//if there are any 1 pirate groups</span>
                 <span class="keywordflow">if</span> (ones.Count() != 0)
@@ -140,7 +133,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 16:38:25 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 17:05:07 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
