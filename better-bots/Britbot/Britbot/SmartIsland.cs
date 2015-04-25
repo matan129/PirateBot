@@ -130,8 +130,7 @@ namespace Britbot
             }
 
             //calculates the minimum distance between a group and said island
-            int distance = Bot.Game.Distance(this.Loc, origin.FindCenter(true));
-
+            int distance = Navigator.CalculateDistance(origin.FindCenter(true), this.Loc);
             //Amount of turns it takes to capture an island
             int captureTime = this.RealTimeTillCapture(Consts.ME);
 

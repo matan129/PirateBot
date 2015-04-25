@@ -146,6 +146,7 @@ namespace Britbot
         /// <returns></returns>
         public Direction GetDirection(Group group)
         {
+            int dis;
             //calculates the direction based on the geographical data from the game
             //first check if stationary
             if (Math.Abs(this.GetHeading().Norm()) < Magic.VectorTolerance)
