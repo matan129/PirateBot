@@ -82,7 +82,7 @@
 <a name="l00035"></a>00035 
 <a name="l00039"></a><a class="code" href="classBritbot_1_1Magic_aefaf4adfa8a415671963b510c009d443.html#aefaf4adfa8a415671963b510c009d443">00039</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Magic_aefaf4adfa8a415671963b510c009d443.html#aefaf4adfa8a415671963b510c009d443" title="The range a cloaked pirate has to be from a taget to be revealed.">CloakRange</a> = 1;
 <a name="l00040"></a>00040 
-<a name="l00044"></a><a class="code" href="classBritbot_1_1Magic_a79c7374851f8ff177270732035801d0d.html#a79c7374851f8ff177270732035801d0d">00044</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Magic_a79c7374851f8ff177270732035801d0d.html#a79c7374851f8ff177270732035801d0d" title="Max groups to allow in the config.">MaxGroups</a> = 4;
+<a name="l00044"></a><a class="code" href="classBritbot_1_1Magic_a79c7374851f8ff177270732035801d0d.html#a79c7374851f8ff177270732035801d0d">00044</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Magic_a79c7374851f8ff177270732035801d0d.html#a79c7374851f8ff177270732035801d0d" title="Max groups to allow in the config.">MaxGroups</a> = 400;
 <a name="l00045"></a>00045 
 <a name="l00046"></a><a class="code" href="classBritbot_1_1Magic_a8f6fa1bf9ec30022b4bb25f9500fc2cf.html#a8f6fa1bf9ec30022b4bb25f9500fc2cf">00046</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a8f6fa1bf9ec30022b4bb25f9500fc2cf.html#a8f6fa1bf9ec30022b4bb25f9500fc2cf">ScoreConssitencyFactor</a> = 1.0;
 <a name="l00047"></a>00047 
@@ -92,7 +92,7 @@
 <a name="l00051"></a>00051 <span class="preprocessor"></span>
 <a name="l00055"></a>00055         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a983e6d3ed7e14565aead00b04a4c1a96.html#a983e6d3ed7e14565aead00b04a4c1a96" title="The radious of the area around enemy ships which we avoid.">DangerZone</a>
 <a name="l00056"></a><a class="code" href="classBritbot_1_1Magic_a983e6d3ed7e14565aead00b04a4c1a96.html#a983e6d3ed7e14565aead00b04a4c1a96">00056</a>         {
-<a name="l00057"></a>00057             <span class="keyword">get</span> { <span class="keywordflow">return</span> 6 * <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius(); }
+<a name="l00057"></a>00057             <span class="keyword">get</span> { <span class="keywordflow">return</span> 9 * <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetAttackRadius(); }
 <a name="l00058"></a>00058         }
 <a name="l00059"></a>00059 
 <a name="l00064"></a>00064         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a806fc0eea2ce4c0772d3595ae8765b3e.html#a806fc0eea2ce4c0772d3595ae8765b3e" title="The radious of the maximum difference from enemy ships trajectory to an island so we will consider it...">EnemyPredictionSensitivity</a>
@@ -122,7 +122,7 @@
 <a name="l00101"></a>00101 
 <a name="l00102"></a>00102         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Magic_a03213287a50688f6890861aa33672b1f.html#a03213287a50688f6890861aa33672b1f">MaxEnemyPredictionDistnace</a>
 <a name="l00103"></a><a class="code" href="classBritbot_1_1Magic_a03213287a50688f6890861aa33672b1f.html#a03213287a50688f6890861aa33672b1f">00103</a>         {
-<a name="l00104"></a>00104             <span class="keyword">get</span> { <span class="keywordflow">return</span> ((<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetCols() + <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetRows()) / 2 ) * 0.5;}
+<a name="l00104"></a>00104             <span class="keyword">get</span> { <span class="keywordflow">return</span> ((<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetCols() + <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetRows()) / 2 );}
 <a name="l00105"></a>00105         }
 <a name="l00106"></a>00106 
 <a name="l00107"></a>00107 <span class="preprocessor">        #endregion</span>
@@ -132,7 +132,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 19:04:35 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 19:43:42 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
