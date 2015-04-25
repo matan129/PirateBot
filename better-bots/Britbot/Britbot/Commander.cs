@@ -165,9 +165,9 @@ namespace Britbot
                 Logger.StopTime("CalculateAndAssignTargets");
 
                 //fix configuration
-                Logger.BeginTime("ReConfigure");
+               /* Logger.BeginTime("ReConfigure");
                 Veteran.ReConfigure();
-                Logger.StopTime("ReConfigure");
+                Logger.StopTime("ReConfigure");*/
 
                 /*Logger.BeginTime("FixGroupArrangement");
                 Commander.FixGroupArrangement();
@@ -417,11 +417,11 @@ namespace Britbot
             }
 
             return sg.SimulateGame();
+            return 0;
         }
 
         private static void SetEventList(SimulatedGame sg)
         {
-            List<SimulatedEvent> eventList = new List<SimulatedEvent>();
             //going over all the islands
             foreach(SmartIsland sIsland in SmartIsland.IslandList)
             {
@@ -431,13 +431,13 @@ namespace Britbot
                     //if it is likely that he will come to the island
                     if(enemy.Value)
                     {
-                        eventList.Add(new GroupArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
+                        sg.AddEvent(new GroupArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
                                       sg.Islands[sIsland.Id],
                                       sg.EnemyGroups[enemy.Key.Id]));
                     }
                     else
                     {
-                        eventList.Add(new PossibleArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
+                        sg.AddEvent(new PossibleArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
                                       sg.Islands[sIsland.Id],
                                       sg.EnemyGroups[enemy.Key.Id]));
                     }
