@@ -33,6 +33,11 @@ namespace Britbot
         /// </summary>
         public static int simulationLength = 80;
 
+        /// <summary>
+        ///     The range a cloaked pirate has to be from a taget to be revealed
+        /// </summary>
+        public static int CloakRange = 4;
+
         #endregion
 
         #region Fields & Properies

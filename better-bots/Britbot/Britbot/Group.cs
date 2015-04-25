@@ -64,6 +64,19 @@ namespace Britbot
         /// </summary>
         public Dictionary<int, Location> FormOrders { get; private set; }
 
+        
+
+        /// <summary>
+        ///     The Distance Of a pirate in this group From it's target
+        /// </summary>
+        public int DistanceFromTarget
+        {
+            get
+            {
+                return Bot.Game.Distance(Bot.Game.AllMyPirates()[this.Pirates[0]].Loc, this.Target.GetLocation());
+            }
+        }
+
         #endregion
 
         #region Constructors & Initializers
