@@ -73,6 +73,7 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f">Groups</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb">Play</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a6f6d8ab39bcd4acb9873900c4de58ab2.html#a6f6d8ab39bcd4acb9873900c4de58ab2">StartCalcPriorities</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a3c6a69690a66217e73bf0ad07b98fac2.html#a3c6a69690a66217e73bf0ad07b98fac2">UseBasicGlobalizing</a></td></tr>
         </table>
       </div>
    </td>
@@ -120,76 +121,87 @@
 
 <p>Definition at line <a class="el" href="Commander_8cs_source.html#l00373">373</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            <span class="comment">/*double score = 0;</span>
-<span class="comment">            double timeAvg = 0;</span>
-<span class="comment">            double enemyShips = 0;</span>
-<span class="comment">            double ownedIslands = 0;</span>
-<span class="comment">            double maxIslandOwnership = 0;</span>
-<span class="comment">            double totalProjectedPoints = 0;</span>
-<span class="comment"></span>
-<span class="comment">            foreach (Score s in scoreArr)</span>
-<span class="comment">            {</span>
-<span class="comment">                //Throwing an exception if cancellation was requested.</span>
-<span class="comment">                cancellationToken.ThrowIfCancellationRequested();</span>
-<span class="comment"></span>
-<span class="comment">                //Calculates the Island that will be held onto the longest</span>
-<span class="comment">                if (maxIslandOwnership &lt; s.MinTurnsToEnemyCapture)</span>
-<span class="comment">                    maxIslandOwnership = s.MinTurnsToEnemyCapture;</span>
-<span class="comment"></span>
-<span class="comment">                ownedIslands += s.Value; //Number of owned islands in this option</span>
-<span class="comment">                enemyShips += s.EnemyShips; //enemy ships destroyed in this option</span>
-<span class="comment">                timeAvg += s.Eta;</span>
-<span class="comment">            }</span>
-<span class="comment"></span>
-<span class="comment">            //check if there are two of the same target</span>
-<span class="comment">            for (int i = 0; i &lt; scoreArr.Length - 1; i++)</span>
-<span class="comment">            {</span>
-<span class="comment">                for (int j = i + 1; j &lt; scoreArr.Length; j++)</span>
-<span class="comment">                {</span>
-<span class="comment">                    if (scoreArr[i].Target.Equals(scoreArr[j].Target))</span>
-<span class="comment">                        score -= 1000;</span>
-<span class="comment">                }</span>
-<span class="comment">            }</span>
-<span class="comment">            //TODO: This is EXTEMELY inefficient, we dont need to go over each turn, we only need to go over turns in which things change, Ron talk to me sometime (Matan K)</span>
-<span class="comment">            //TODO: add points also for killing pirates</span>
-<span class="comment">            //TODO: Recalculate IslandOwnership when an enemy pirate dies (This will help better implement the killing of enemy pirates in the score)</span>
-<span class="comment">            for (int i = 0; i &lt; maxIslandOwnership; i++)</span>
-<span class="comment">            {</span>
-<span class="comment">                //calculate how many points we have in the i&#39;th turn</span>
-<span class="comment">                double totalAditionalIslandPoints = 0;</span>
-<span class="comment">                foreach (Score s in scoreArr)</span>
-<span class="comment">                {</span>
-<span class="comment">                    //check if this target gives us points this turn</span>
-<span class="comment">                    if ((s.Eta &lt;= i) &amp;&amp; (s.MinTurnsToEnemyCapture &gt; i))</span>
-<span class="comment">                        totalAditionalIslandPoints += s.Value;</span>
-<span class="comment">                }</span>
-<span class="comment">                totalProjectedPoints += ScoreHelper.ComputePPT(totalAditionalIslandPoints);</span>
-<span class="comment">            }</span>
-<span class="comment"></span>
-<span class="comment">            //TODO: give more points if we take an island from the enemy</span>
-<span class="comment"></span>
-<span class="comment">            return score + totalProjectedPoints;*/</span>
-
-            <span class="comment">//reset simulation</span>
-            sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a62686418b03c7dd30f65919ca5f5f183.html#a62686418b03c7dd30f65919ca5f5f183" title="This resets the simulation to begining, it should be used for every assignment.">ResetSimulation</a>();
-
-
-            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
+            <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.UseBasicGlobalizing())
             {
-                <span class="keywordflow">if</span> (scoreArr[i].Type == <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.Island)
-                    sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1GroupArrivalEvent.html" title="this event is called when a group (surely) arrives to an island">GroupArrivalEvent</a>((<span class="keywordtype">int</span>)scoreArr[i].Eta, sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d7fea4cdd27f968ed951a56b013cf45.html#a1d7fea4cdd27f968ed951a56b013cf45" title="List of the islands in the game.">Islands</a>[((SmartIsland)(scoreArr[i].Target)).Id], sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2" title="List of all friendly groups.">MyGroups</a>[<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Id]));
-                <span class="keywordflow">if</span> (scoreArr[i].Type == <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.EnemyGroup)
-                    sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent.html" title="this represents a battle between two ships">BattleEvent</a>((<span class="keywordtype">int</span>)scoreArr[i].Eta, sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a5a9e889b75aa612e63359ffe8350bd85.html#a5a9e889b75aa612e63359ffe8350bd85" title="List of all enemy groups.">EnemyGroups</a>[((EnemyGroup)(scoreArr[i].Target)).Id], sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2" title="List of all friendly groups.">MyGroups</a>[<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Id]));
+                <span class="keywordtype">double</span> score = 0;
+                <span class="keywordtype">double</span> timeAvg = 0;
+                <span class="keywordtype">double</span> enemyShips = 0;
+                <span class="keywordtype">double</span> ownedIslands = 0;
+                <span class="keywordtype">double</span> maxIslandOwnership = 0;
+                <span class="keywordtype">double</span> totalProjectedPoints = 0;
+
+                <span class="keywordflow">foreach</span> (Score s <span class="keywordflow">in</span> scoreArr)
+                {
+                    <span class="comment">//Throwing an exception if cancellation was requested.</span>
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    <span class="comment">//Calculates the Island that will be held onto the longest</span>
+                    <span class="keywordflow">if</span> (maxIslandOwnership &lt; s.MinTurnsToEnemyCapture)
+                        maxIslandOwnership = s.MinTurnsToEnemyCapture;
+
+                    ownedIslands += s.Value; <span class="comment">//Number of owned islands in this option</span>
+                    enemyShips += s.EnemyShips; <span class="comment">//enemy ships destroyed in this option</span>
+                    timeAvg += s.Eta;
+                }
+
+                <span class="comment">//check if there are two of the same target</span>
+                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length - 1; i++)
+                {
+                    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = i + 1; j &lt; scoreArr.Length; j++)
+                    {
+                        <span class="keywordflow">if</span> (scoreArr[i].Target.Equals(scoreArr[j].Target))
+                            score -= 1000;
+                    }
+                }
+                <span class="comment">//TODO: This is EXTEMELY inefficient, we dont need to go over each turn, we only need to go over turns in which things change, Ron talk to me sometime (Matan K)</span>
+                <span class="comment">//TODO: add points also for killing pirates</span>
+                <span class="comment">//TODO: Recalculate IslandOwnership when an enemy pirate dies (This will help better implement the killing of enemy pirates in the score)</span>
+                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; maxIslandOwnership; i++)
+                {
+                    <span class="comment">//calculate how many points we have in the i&#39;th turn</span>
+                    <span class="keywordtype">double</span> totalAditionalIslandPoints = 0;
+                    <span class="keywordflow">foreach</span> (Score s <span class="keywordflow">in</span> scoreArr)
+                    {
+                        <span class="comment">//check if this target gives us points this turn</span>
+                        <span class="keywordflow">if</span> ((s.Eta &lt;= i) &amp;&amp; (s.MinTurnsToEnemyCapture &gt; i))
+                            totalAditionalIslandPoints += s.Value;
+                    }
+                    totalProjectedPoints += ScoreHelper.ComputePPT(totalAditionalIslandPoints);
+                }
+
+                <span class="comment">//TODO: give more points if we take an island from the enemy</span>
+
+                <span class="keywordflow">return</span> score + totalProjectedPoints;
             }
-
-            <span class="keywordtype">double</span> score = sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a47fed85074ba33bdab8ee52db477f721.html#a47fed85074ba33bdab8ee52db477f721" title="Simulates the game and calculates the score.">SimulateGame</a>();
-
-            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
+            <span class="keywordflow">else</span>
             {
-                <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Equals(scoreArr[i].Target))
-                    score += 20;
+                <span class="comment">//reset simulation</span>
+                sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a62686418b03c7dd30f65919ca5f5f183.html#a62686418b03c7dd30f65919ca5f5f183" title="This resets the simulation to begining, it should be used for every assignment.">ResetSimulation</a>();
+
+
+                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
+                {
+                    <span class="keywordflow">if</span> (scoreArr[i].Type == <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.Island)
+                        sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1GroupArrivalEvent.html" title="this event is called when a group (surely) arrives to an island">GroupArrivalEvent</a>((<span class="keywordtype">int</span>) scoreArr[i].Eta,
+                            sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d7fea4cdd27f968ed951a56b013cf45.html#a1d7fea4cdd27f968ed951a56b013cf45" title="List of the islands in the game.">Islands</a>[((SmartIsland) (scoreArr[i].Target)).Id], sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2" title="List of all friendly groups.">MyGroups</a>[<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Id]));
+                    <span class="keywordflow">if</span> (scoreArr[i].Type == <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.EnemyGroup)
+                        sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent.html" title="this represents a battle between two ships">BattleEvent</a>((<span class="keywordtype">int</span>) scoreArr[i].Eta,
+                            sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a5a9e889b75aa612e63359ffe8350bd85.html#a5a9e889b75aa612e63359ffe8350bd85" title="List of all enemy groups.">EnemyGroups</a>[((EnemyGroup) (scoreArr[i].Target)).Id], sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2" title="List of all friendly groups.">MyGroups</a>[<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Id]));
+                }
+
+                <span class="keywordtype">double</span> score = sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a47fed85074ba33bdab8ee52db477f721.html#a47fed85074ba33bdab8ee52db477f721" title="Simulates the game and calculates the score.">SimulateGame</a>();
+
+                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
+                {
+                    ITarget it = <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups[i].Target;
+                    <span class="keywordflow">if</span> (it != null &amp;&amp; it.Equals(scoreArr[i].Target))
+                    {
+                        <span class="keywordtype">int</span> bonus = (int) Math.Abs(score * Magic.ScoreConssitencyFactor);
+                        score += bonus;
+                    }
+                }
+                <span class="keywordflow">return</span> score;
             }
-            <span class="keywordflow">return</span> score;
         }
 </pre></div>
 </div>
@@ -201,7 +213,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 18:20:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 19:04:35 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

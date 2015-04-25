@@ -133,7 +133,8 @@
             this.<a class="code" href="classBritbot_1_1SmartIsland_ac764226e433780dfcc60ebdb86542c66.html#ac764226e433780dfcc60ebdb86542c66" title="list of all the enemies and their distances from the island">approachingEnemies</a>.Clear();
             <span class="keywordflow">foreach</span> (EnemyGroup eGroup <span class="keywordflow">in</span> Enemy.Groups)
             {
-                this.<a class="code" href="classBritbot_1_1SmartIsland_ac764226e433780dfcc60ebdb86542c66.html#ac764226e433780dfcc60ebdb86542c66" title="list of all the enemies and their distances from the island">approachingEnemies</a>.Add(<span class="keyword">new</span> KeyValuePair&lt;EnemyGroup, bool&gt;(eGroup, eGroup.IsApproachingIsland(<span class="keyword">this</span>)));
+                <span class="keywordflow">if</span>(eGroup.MinimalETATo(<span class="keyword">this</span>.Loc) &lt; Magic.MaxEnemyPredictionDistnace)
+                    this.<a class="code" href="classBritbot_1_1SmartIsland_ac764226e433780dfcc60ebdb86542c66.html#ac764226e433780dfcc60ebdb86542c66" title="list of all the enemies and their distances from the island">approachingEnemies</a>.Add(<span class="keyword">new</span> KeyValuePair&lt;EnemyGroup, bool&gt;(eGroup, eGroup.IsApproachingIsland(<span class="keyword">this</span>)));
             }
             <span class="comment">//sort the list by distance</span>
             this.<a class="code" href="classBritbot_1_1SmartIsland_ac764226e433780dfcc60ebdb86542c66.html#ac764226e433780dfcc60ebdb86542c66" title="list of all the enemies and their distances from the island">approachingEnemies</a>.Sort(
@@ -149,7 +150,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 18:20:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 19:04:36 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

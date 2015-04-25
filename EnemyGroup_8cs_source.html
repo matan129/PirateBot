@@ -161,43 +161,43 @@
 <a name="l00138"></a>00138 
 <a name="l00147"></a><a class="code" href="classBritbot_1_1EnemyGroup_aadac9cf9173ccb7afe8daa76b33fa2ff.html#aadac9cf9173ccb7afe8daa76b33fa2ff">00147</a>         <span class="keyword">public</span> Direction <a class="code" href="classBritbot_1_1EnemyGroup_aadac9cf9173ccb7afe8daa76b33fa2ff.html#aadac9cf9173ccb7afe8daa76b33fa2ff" title="This implements the GetDirection of the ITarget interface it returns the best direction to keep the g...">GetDirection</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> group)
 <a name="l00148"></a>00148         {
-<a name="l00149"></a>00149             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;GDNTR EG&quot;</span>);
-<a name="l00150"></a>00150             <span class="comment">//calculates the direction based on the geographical data from the game</span>
-<a name="l00151"></a>00151             <span class="comment">//first check if stationary</span>
-<a name="l00152"></a>00152             <span class="keywordflow">if</span> (Math.Abs(<span class="keyword">this</span>.GetHeading().Norm()) &lt; <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a48a8eff48a145c0a256cd115c0d3f917.html#a48a8eff48a145c0a256cd115c0d3f917">VectorTolerance</a>)
-<a name="l00153"></a>00153                 <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a083b8fb69f34e015a5b84633004387bf.html#a083b8fb69f34e015a5b84633004387bf" title="Given your location, you current direction and the target&#39;s location, this method calculates the best...">CalculateDirectionToStationeryTarget</a>(group.<a class="code" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39" title="Find the center of the group.">FindCenter</a>(<span class="keyword">true</span>), group.<a class="code" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01" title="Direction of the group to make navigation more precise.">Heading</a>,
-<a name="l00154"></a>00154                     this.<a class="code" href="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22" title="Returns the average location for this group.">GetLocation</a>());
-<a name="l00155"></a>00155             
-<a name="l00156"></a>00156             <span class="comment">//otherwise</span>
-<a name="l00157"></a>00157             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a72887659ebbb372cc2938750ca60fb53.html#a72887659ebbb372cc2938750ca60fb53" title="This function calculates the directions to a moving target it does so by solving the intersection poi...">CalculateDirectionToMovingTarget</a>(group.<a class="code" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39" title="Find the center of the group.">FindCenter</a>(<span class="keyword">true</span>), group.<a class="code" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01" title="Direction of the group to make navigation more precise.">Heading</a>, <a class="code" href="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22" title="Returns the average location for this group.">GetLocation</a>(),
-<a name="l00158"></a>00158                 this.<a class="code" href="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78" title="This function calculates this enemy group direction based on its last directions simply adds them up...">GetHeading</a>());
-<a name="l00159"></a>00159         }
-<a name="l00160"></a>00160 
-<a name="l00161"></a><a class="code" href="classBritbot_1_1EnemyGroup_a0b437df8f979eb6a5c1dbc4065853b05.html#a0b437df8f979eb6a5c1dbc4065853b05">00161</a>         <span class="keyword">public</span> <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a> <a class="code" href="classBritbot_1_1EnemyGroup_a0b437df8f979eb6a5c1dbc4065853b05.html#a0b437df8f979eb6a5c1dbc4065853b05" title="Get the type of the target.">GetTargetType</a>()
-<a name="l00162"></a>00162         {
-<a name="l00163"></a>00163             <span class="keywordflow">return</span> <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.EnemyGroup;
-<a name="l00164"></a>00164         }
-<a name="l00165"></a>00165 
-<a name="l00166"></a><a class="code" href="classBritbot_1_1EnemyGroup_acb803d30366e523570fafc139913f6cc.html#acb803d30366e523570fafc139913f6cc">00166</a>         <span class="keyword">public</span> <span class="keywordtype">string</span> <a class="code" href="classBritbot_1_1EnemyGroup_acb803d30366e523570fafc139913f6cc.html#acb803d30366e523570fafc139913f6cc" title="Gets a string description for this Target for log purposes.">GetDescription</a>()
-<a name="l00167"></a>00167         {
-<a name="l00168"></a>00168             <span class="keywordtype">string</span> s = <span class="stringliteral">&quot;Enemy Group, Pirates: &quot;</span>;
-<a name="l00169"></a>00169             <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pirate <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1EnemyGroup_ad01e24db17287f94d4c680d1fd1e70e7.html#ad01e24db17287f94d4c680d1fd1e70e7" title="List of pirate indexes in this group.">EnemyPirates</a>)
-<a name="l00170"></a>00170                 s += <span class="stringliteral">&quot; &quot;</span> + pirate;
-<a name="l00171"></a>00171 
-<a name="l00172"></a>00172             <span class="keywordflow">return</span> s;
-<a name="l00173"></a>00173         }
-<a name="l00174"></a>00174 
-<a name="l00180"></a><a class="code" href="classBritbot_1_1EnemyGroup_ab80fb709b81af9cf030746074389a5e8.html#ab80fb709b81af9cf030746074389a5e8">00180</a>         <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1EnemyGroup_ab80fb709b81af9cf030746074389a5e8.html#ab80fb709b81af9cf030746074389a5e8" title="Tests if two enemy groups are the same.">Equals</a>(<a class="code" href="interfaceBritbot_1_1ITarget.html" title="Represent a target we can, well, target.">ITarget</a> operandB)
-<a name="l00181"></a>00181         {
-<a name="l00182"></a>00182             <a class="code" href="classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group.">EnemyGroup</a> enemyGroup = operandB as <a class="code" href="classBritbot_1_1EnemyGroup_ac5131f2c9499df1404018ddef4699c1d.html#ac5131f2c9499df1404018ddef4699c1d" title="Creates a new instance of the EnemyGroup class.">EnemyGroup</a>;
-<a name="l00183"></a>00183             <span class="keywordflow">if</span> (enemyGroup != null)
-<a name="l00184"></a>00184             {
-<a name="l00185"></a>00185                 EnemyGroup b = enemyGroup;
-<a name="l00186"></a>00186                 <span class="keywordflow">return</span> <span class="keywordtype">object</span>.<a class="code" href="classBritbot_1_1EnemyGroup_ab80fb709b81af9cf030746074389a5e8.html#ab80fb709b81af9cf030746074389a5e8" title="Tests if two enemy groups are the same.">Equals</a>(<span class="keyword">this</span>, b);
-<a name="l00187"></a>00187             }
-<a name="l00188"></a>00188 
-<a name="l00189"></a>00189             <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00190"></a>00190         }
+<a name="l00149"></a>00149             <span class="comment">//calculates the direction based on the geographical data from the game</span>
+<a name="l00150"></a>00150             <span class="comment">//first check if stationary</span>
+<a name="l00151"></a>00151             <span class="keywordflow">if</span> (Math.Abs(<span class="keyword">this</span>.GetHeading().Norm()) &lt; <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a48a8eff48a145c0a256cd115c0d3f917.html#a48a8eff48a145c0a256cd115c0d3f917">VectorTolerance</a>)
+<a name="l00152"></a>00152                 <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a083b8fb69f34e015a5b84633004387bf.html#a083b8fb69f34e015a5b84633004387bf" title="Given your location, you current direction and the target&#39;s location, this method calculates the best...">CalculateDirectionToStationeryTarget</a>(group.<a class="code" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39" title="Find the center of the group.">FindCenter</a>(<span class="keyword">true</span>), group.<a class="code" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01" title="Direction of the group to make navigation more precise.">Heading</a>,
+<a name="l00153"></a>00153                     this.<a class="code" href="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22" title="Returns the average location for this group.">GetLocation</a>());
+<a name="l00154"></a>00154             
+<a name="l00155"></a>00155             <span class="comment">//otherwise</span>
+<a name="l00156"></a>00156             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a72887659ebbb372cc2938750ca60fb53.html#a72887659ebbb372cc2938750ca60fb53" title="This function calculates the directions to a moving target it does so by solving the intersection poi...">CalculateDirectionToMovingTarget</a>(group.<a class="code" href="classBritbot_1_1Group_af6100b51d701e1d45dce2827770aae39.html#af6100b51d701e1d45dce2827770aae39" title="Find the center of the group.">FindCenter</a>(<span class="keyword">true</span>), group.<a class="code" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01" title="Direction of the group to make navigation more precise.">Heading</a>, <a class="code" href="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22" title="Returns the average location for this group.">GetLocation</a>(),
+<a name="l00157"></a>00157                 this.<a class="code" href="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78" title="This function calculates this enemy group direction based on its last directions simply adds them up...">GetHeading</a>());
+<a name="l00158"></a>00158         }
+<a name="l00159"></a>00159 
+<a name="l00160"></a><a class="code" href="classBritbot_1_1EnemyGroup_a0b437df8f979eb6a5c1dbc4065853b05.html#a0b437df8f979eb6a5c1dbc4065853b05">00160</a>         <span class="keyword">public</span> <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a> <a class="code" href="classBritbot_1_1EnemyGroup_a0b437df8f979eb6a5c1dbc4065853b05.html#a0b437df8f979eb6a5c1dbc4065853b05" title="Get the type of the target.">GetTargetType</a>()
+<a name="l00161"></a>00161         {
+<a name="l00162"></a>00162             <span class="keywordflow">return</span> <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.EnemyGroup;
+<a name="l00163"></a>00163         }
+<a name="l00164"></a>00164 
+<a name="l00165"></a><a class="code" href="classBritbot_1_1EnemyGroup_acb803d30366e523570fafc139913f6cc.html#acb803d30366e523570fafc139913f6cc">00165</a>         <span class="keyword">public</span> <span class="keywordtype">string</span> <a class="code" href="classBritbot_1_1EnemyGroup_acb803d30366e523570fafc139913f6cc.html#acb803d30366e523570fafc139913f6cc" title="Gets a string description for this Target for log purposes.">GetDescription</a>()
+<a name="l00166"></a>00166         {
+<a name="l00167"></a>00167             <span class="keywordtype">string</span> s = <span class="stringliteral">&quot;Enemy Group, Pirates: &quot;</span>;
+<a name="l00168"></a>00168             <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pirate <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1EnemyGroup_ad01e24db17287f94d4c680d1fd1e70e7.html#ad01e24db17287f94d4c680d1fd1e70e7" title="List of pirate indexes in this group.">EnemyPirates</a>)
+<a name="l00169"></a>00169                 s += <span class="stringliteral">&quot; &quot;</span> + pirate;
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171             <span class="keywordflow">return</span> s;
+<a name="l00172"></a>00172         }
+<a name="l00173"></a>00173 
+<a name="l00179"></a><a class="code" href="classBritbot_1_1EnemyGroup_ab80fb709b81af9cf030746074389a5e8.html#ab80fb709b81af9cf030746074389a5e8">00179</a>         <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1EnemyGroup_ab80fb709b81af9cf030746074389a5e8.html#ab80fb709b81af9cf030746074389a5e8" title="Tests if two enemy groups are the same.">Equals</a>(<a class="code" href="interfaceBritbot_1_1ITarget.html" title="Represent a target we can, well, target.">ITarget</a> operandB)
+<a name="l00180"></a>00180         {
+<a name="l00181"></a>00181             <a class="code" href="classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group.">EnemyGroup</a> enemyGroup = operandB as <a class="code" href="classBritbot_1_1EnemyGroup_ac5131f2c9499df1404018ddef4699c1d.html#ac5131f2c9499df1404018ddef4699c1d" title="Creates a new instance of the EnemyGroup class.">EnemyGroup</a>;
+<a name="l00182"></a>00182             <span class="keywordflow">if</span> (enemyGroup != null)
+<a name="l00183"></a>00183             {
+<a name="l00184"></a>00184                 EnemyGroup b = enemyGroup;
+<a name="l00185"></a>00185                 <span class="keywordflow">return</span> this.<a class="code" href="classBritbot_1_1EnemyGroup_a87509a1b9d61c776d2e1b923795f2a42.html#a87509a1b9d61c776d2e1b923795f2a42" title="unique-ish id for the enemy group">Id</a> == b.<a class="code" href="classBritbot_1_1EnemyGroup_a87509a1b9d61c776d2e1b923795f2a42.html#a87509a1b9d61c776d2e1b923795f2a42" title="unique-ish id for the enemy group">Id</a>;
+<a name="l00186"></a>00186             }
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00189"></a>00189         }
+<a name="l00190"></a>00190 
 <a name="l00191"></a>00191 
 <a name="l00195"></a><a class="code" href="classBritbot_1_1EnemyGroup_a8a75dd81383af6976a9c57ef9212fa5e.html#a8a75dd81383af6976a9c57ef9212fa5e">00195</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1EnemyGroup_a8a75dd81383af6976a9c57ef9212fa5e.html#a8a75dd81383af6976a9c57ef9212fa5e" title="updates the last turn of assignment">TargetAssignmentEvent</a>()
 <a name="l00196"></a>00196         {
@@ -605,7 +605,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 18:20:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 19:04:35 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
