@@ -101,7 +101,7 @@
             <span class="keywordtype">int</span>[] eConfig = Enemy.Groups.ConvertAll(group =&gt; group.EnemyPirates.Count).ToArray();
 
             <span class="comment">//sort the enemy configuration by size</span>
-            Array.Sort(eConfig, (a, b) =&gt; a.CompareTo(b));
+            Array.Sort(eConfig, (a, b) =&gt; b.CompareTo(a));
 
             <span class="comment">//prepare return value</span>
             List&lt;int&gt; ret = <span class="keyword">new</span> List&lt;int&gt;();
@@ -109,19 +109,25 @@
             <span class="comment">//count of all of our pirates</span>
             <span class="keywordtype">int</span> myPirates = Bot.Game.AllMyPirates().Count;
 
+            Logger.Write(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;Ultimateconfig says we have {0} pirates&quot;</span>, myPirates), <span class="keyword">true</span>);
+
 
             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; eConfig.Length &amp;&amp; myPirates &gt; 0; i++)
             {
-                <span class="keywordflow">if</span> (eConfig[i] + 1 &gt; myPirates)
-                    <span class="keywordflow">break</span>;
-                ret.Add(eConfig[i] + 1);
-                myPirates -= eConfig[i] + 1;
+                <span class="keywordflow">if</span> ((eConfig[i] + 1) &lt; myPirates)
+                {
+                    ret.Add(eConfig[i] + 1);
+                    myPirates -= eConfig[i] + 1;
+                    Logger.Write(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;added a {0} group to the configuration&quot;</span>, eConfig[i]+1), <span class="keyword">true</span>);
+                }
+                
             }
 
             <span class="keywordflow">while</span> (myPirates &gt; 0)
             {
                 ret.Add(1);
                 myPirates--;
+                Logger.Write(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;added a {0} group to the configuration&quot;</span>, 1), <span class="keyword">true</span>);
             }
 
             <span class="keywordflow">while</span> (ret.Count &gt; Bot.Game.Islands().Count)
@@ -142,7 +148,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 08:57:30 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2015 09:10:11 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
