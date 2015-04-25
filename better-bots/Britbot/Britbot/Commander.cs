@@ -258,6 +258,8 @@ namespace Britbot
             //Score array for calculations in each iteration
             Score[] scoreArr = new Score[dimensions.Length];
 
+            Bot.Game.Debug("AA");
+
             //iterating over all possible target assignments
             do
             {
@@ -279,6 +281,8 @@ namespace Britbot
                 }
             } while (iterator.NextIteration());
 
+            Bot.Game.Debug("BB");
+            
             //read the "winning" assignment
             scoreArr = Commander.GetSpecificAssignmentScores(possibleAssignments, maxAssignment);
 
@@ -453,18 +457,22 @@ namespace Britbot
         private static Dictionary<Pirate, Direction> GetAllMoves(CancellationToken cancellationToken)
         {
             Commander.Groups.RemoveAll(g => g.Pirates.Count == 0);
-
+            
             // Update all groups
             Commander.Groups.ForEach(g => g.Update());
 
             //A list with all the moves from all groups
-            List<KeyValuePair<Pirate, Direction>> allMoves =
+            List<KeyValuePair<Pirate, Direction>> allMoves  =
                 new List<KeyValuePair<Pirate, Direction>>(Bot.Game.AllMyPirates().Count);
 
             //Get the moves from each group we have
             foreach (Group group in Commander.Groups)
             {
-                allMoves.AddRange(group.GetGroupMoves(cancellationToken));
+                List<KeyValuePair<Pirate, Direction>> v = group.GetGroupMoves(cancellationToken).ToList();
+
+                Bot.Game.Debug("Group with " + string.Join(",",group.Pirates)+ " moving " + string.Join(",",v.ConvertAll(a => a.Key.Id)));
+
+                allMoves.AddRange(v);
             }
 
             //Convert the moves list to dictionary

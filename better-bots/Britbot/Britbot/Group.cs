@@ -217,7 +217,6 @@ namespace Britbot
             Navigator.UpdateMap(this);
             Logger.StopTime("UpdateMap");
 
-            Logger.Write("******PIRATES: " + string.Join(", ", this.Pirates), true);
             //Check if the group is formed into structure. If not, get the moves to get into the structure
             if (!this.IsFormed())
             {
@@ -485,7 +484,7 @@ namespace Britbot
         {
             //reset the forming attempts counter
             this._formTurnsAttempt = 0;
-            
+
             //find the average location of the group (not the center pirate!)
             Location center = this.FindCenter(false);
 
@@ -884,25 +883,29 @@ namespace Britbot
             //add pirates of the biggroup
             pirateList.AddRange(bigGroup.Pirates);
             pirateList.AddRange(smallGroup.Pirates);
-            Logger.Write("-------------------------------------Switch",true);
-            Logger.Write("Biggroup: " + string.Join(", ", bigGroup.Pirates), true);
-            Logger.Write("smallgroup: " + string.Join(", ", smallGroup.Pirates), true);
-            Logger.Write("pirate list: " + string.Join(", ", pirateList), true);
-            Logger.Write("heading: " + bigGroup.Heading, true);
+            Logger.Write("-------------------------------------Switch");
+            Logger.Write("Biggroup: " + string.Join(", ", bigGroup.Pirates));
+            Logger.Write("smallgroup: " + string.Join(", ", smallGroup.Pirates));
+            Logger.Write("pirate list: " + string.Join(", ", pirateList));
+            Logger.Write("heading: " + bigGroup.Heading);
 
 
             //sort array by allignment with the vector specified
             pirateList.Sort((p1, p2) => -1 * Navigator.ComparePirateByDirection(p1, p2, bigGroup.Heading));
 
-            Logger.Write("pirate list: " + string.Join(", ", pirateList), true);
+            Logger.Write("pirate list: " + string.Join(", ", pirateList));
 
             //replace pirates
-            bigGroup.Pirates = new ObservableCollection<int>(pirateList.Take(bigGroup.Pirates.Count));
+            bigGroup._hasChanged = true;
+            bigGroup.Pirates = new ObservableCollection<int>(pirateList.GetRange(0, bigGroup.Pirates.Count));
+
             pirateList.RemoveRange(0, bigGroup.Pirates.Count);
+
+            smallGroup._hasChanged = true;
             smallGroup.Pirates = new ObservableCollection<int>(pirateList);
 
-            Logger.Write("Biggroup: " + string.Join(", ", bigGroup.Pirates), true);
-            Logger.Write("smallgroup: " + string.Join(", ", smallGroup.Pirates), true);
+            Logger.Write("Biggroup: " + string.Join(", ", bigGroup.Pirates));
+            Logger.Write("smallgroup: " + string.Join(", ", smallGroup.Pirates));
         }
 
         /// <summary>
