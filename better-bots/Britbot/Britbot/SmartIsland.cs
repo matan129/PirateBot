@@ -142,7 +142,7 @@ namespace Britbot
             //check if the island isn't already ours, if so disqualify it and return null
             if (this.Owner != Consts.ME)
                 return new Score(this, TargetType.Island, this.Value, this.NearbyEnemyCount(CaptureZone),
-                    distance + captureTime, this.TurnsToEnemyCapture(origin));
+                    distance + captureTime, this.TurnsToEnemyCapture(origin), this.islandDensity());
             return null;
         }
 
@@ -280,6 +280,17 @@ namespace Britbot
             }
 
             return minDistance + this.CaptureTurns;
+        }
+        //TODO: Calculates the largest distance between islands and the shortest and creates a precentage 
+        // Another way: Calculate the distance to the nearest next island, the shorter the better
+        public int islandDensity()
+        {
+            int distFromAllIslands=0 ;
+            foreach (SmartIsland Islands in IslandList)
+            {
+                distFromAllIslands += Bot.Game.Distance(Islands.Loc, this.Loc);                          
+            }
+            return distFromAllIslands;
         }
 
         /// <summary>
