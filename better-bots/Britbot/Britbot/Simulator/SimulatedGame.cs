@@ -81,7 +81,7 @@ namespace Britbot.Simulator
             this.EnemyGroups = new Dictionary<int, SimulatedGroup>();
 
             //add the ending Event
-            this.CommingEvents.Enqueue(new SimulationEndEvent(Magic.SimulationLength), Magic.SimulationLength);
+            this.ConstantEvents.Add(new SimulationEndEvent(Magic.SimulationLength));
 
             this.OriginalEnemyDeadPirates = 0;
             this.OriginalMyDeadPirates = 0;
@@ -151,6 +151,8 @@ namespace Britbot.Simulator
                         newEvent = new GroupArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
                                       this.Islands[sIsland.Id],
                                       this.EnemyGroups[enemy.Key.Id]);
+
+                        
                     }
                     else
                     {

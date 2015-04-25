@@ -148,11 +148,13 @@ namespace Britbot
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
             {
-                Logger.BeginTime("Update");
-                //update the enemy info
-                Enemy.Update(cancellationToken);
-                Logger.StopTime("Update");
-
+                if (Bot.Game.GetTurn() % 10 == 0)
+                {
+                    Logger.BeginTime("Update");
+                    //update the enemy info
+                    Enemy.Update(cancellationToken);
+                    Logger.StopTime("Update");
+                }
 
                 Logger.BeginTime("UpdateAll");
                 //update smartIslands
@@ -164,10 +166,13 @@ namespace Britbot
                 Commander.CalculateAndAssignTargets(cancellationToken);
                 Logger.StopTime("CalculateAndAssignTargets");
 
-                //fix configuration
-                Logger.BeginTime("ReConfigure");
-                Veteran.ReConfigure();
-                Logger.StopTime("ReConfigure");
+                if (Bot.Game.GetTurn() % 30 < 15)
+                {
+                    //fix configuration
+                    Logger.BeginTime("ReConfigure");
+                    Veteran.ReConfigure();
+                    Logger.StopTime("ReConfigure");
+                }
 
                 Logger.BeginTime("FixGroupArrangement");
                 Commander.FixGroupArrangement();
@@ -332,17 +337,13 @@ namespace Britbot
 
             //count of all of our pirates
             int myPirates = Bot.Game.AllMyPirates().Count;
-
-            //Logger.Write(string.Format("Ultimateconfig says we have {0} pirates", myPirates), true);
-
-
+            
             for (int i = 0; i < eConfig.Length && myPirates > 0; i++)
             {
                 if ((eConfig[i] + 1) < myPirates)
                 {
                     ret.Add(eConfig[i] + 1);
                     myPirates -= eConfig[i] + 1;
-                    //Logger.Write(string.Format("added a {0} group to the configuration", eConfig[i]+1), true);
                 }
                 
             }
@@ -351,7 +352,6 @@ namespace Britbot
             {
                 ret.Add(1);
                 myPirates--;
-                //Logger.Write(string.Format("added a {0} group to the configuration", 1), true);
             }
 
             while (ret.Count > Bot.Game.Islands().Count || ret.Count > Magic.MaxGroups)
@@ -457,9 +457,8 @@ namespace Britbot
 
         private static bool UseBasicGlobalizing()
         {
-            return true;
+            return false;
         }
-
 
         /// <summary>
         ///     Gets all th moves for each pirate in each group

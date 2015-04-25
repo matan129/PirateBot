@@ -41,7 +41,7 @@ namespace Britbot
         /// <summary>
         ///     Max groups to allow in the config
         /// </summary>
-        public static int MaxGroups = 4;
+        public static int MaxGroups = 400;
 
         public static double ScoreConssitencyFactor = 1.0;
 
@@ -54,7 +54,7 @@ namespace Britbot
         /// </summary>
         public static double DangerZone
         {
-            get { return 6 * Bot.Game.GetAttackRadius(); }
+            get { return 9 * Bot.Game.GetAttackRadius(); }
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Britbot
 
         public static double MaxEnemyPredictionDistnace
         {
-            get { return ((Bot.Game.GetCols() + Bot.Game.GetRows()) / 2 ) * 0.5;}
+            get { return ((Bot.Game.GetCols() + Bot.Game.GetRows()) / 2 );}
         }
 
         #endregion
