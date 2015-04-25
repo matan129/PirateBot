@@ -1,4 +1,5 @@
-﻿namespace Britbot.Simulator
+﻿using Pirates;
+namespace Britbot.Simulator
 {
     /// <summary>
     ///     this Event is called when an island is being captured
@@ -52,7 +53,15 @@
                 return false;
 
             //if everything checks out update island
-            this.Island.Owner = this.Capturer.Owner;
+            if (this.Island.Owner != this.Capturer.Owner)
+            {
+                if (this.Capturer.Owner == Consts.ME)
+                    sg.MyIslandCount += this.Island.Value;
+                if (this.Capturer.Owner == Consts.ENEMY)
+                    sg.EnemyIslandCount += this.Island.Value;
+
+                this.Island.Owner = this.Capturer.Owner;
+            }
 
             return false;
         }
