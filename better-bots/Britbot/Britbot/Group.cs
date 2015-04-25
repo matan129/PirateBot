@@ -858,7 +858,7 @@ namespace Britbot
         {
             foreach (int pirate in g.Pirates)
             {
-                this.Pirates.Add(pirate);
+                this.AddPirate(pirate);
             }
 
             if(remove)
