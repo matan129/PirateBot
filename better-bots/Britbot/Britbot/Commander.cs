@@ -445,7 +445,7 @@ namespace Britbot
             Commander.Groups.RemoveAll(g => g.Pirates.Count == 0);
 
             // Update all groups
-            Parallel.ForEach(Commander.Groups, g => g.Update());
+            Commander.Groups.ForEach(g => g.Update());
 
             //A list with all the moves from all groups
             List<KeyValuePair<Pirate, Direction>> allMoves =

@@ -853,14 +853,15 @@ namespace Britbot
         ///     Joins a group to this group
         /// </summary>
         /// <param name="g">a group to be joind to this one</param>
-        public void Join(Group g)
+        public void Join(Group g, bool remove = true)
         {
             foreach (int pirate in g.Pirates)
             {
                 this.Pirates.Add(pirate);
             }
 
-            Commander.Groups.RemoveAll(group => group.Id == g.Id);
+            if(remove)
+                Commander.Groups.RemoveAll(group => group.Id == g.Id);
         }
 
         /// <summary>

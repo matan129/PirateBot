@@ -188,8 +188,8 @@ namespace Britbot
             Enemy.Groups = Enemy.Groups.Intersect(updated).ToList();
             Enemy.Groups = Enemy.Groups.Union(updated).ToList();
 
-            //update heading in parallel
-            Parallel.ForEach(Enemy.Groups, eGroup => eGroup.Update());
+            //update heading in all groups
+            Enemy.Groups.ForEach(eGroup => eGroup.Update());
 
             Enemy.Debug();
         }
