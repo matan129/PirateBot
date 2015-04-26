@@ -113,7 +113,7 @@
             <span class="comment">//note that because this method is on a separate thread we need this try-catch although we have on our bot</span>
             <span class="keywordflow">try</span>
             {
-                <span class="keywordflow">if</span> (Bot.Game.GetTurn() % 10 == 0)
+                <span class="comment">//if (Bot.Game.GetTurn() % 7 == 3)</span>
                 {
                     Logger.BeginTime(<span class="stringliteral">&quot;Update&quot;</span>);
                     <span class="comment">//update the enemy info</span>
@@ -126,12 +126,15 @@
                 SmartIsland.UpdateAll();
                 Logger.StopTime(<span class="stringliteral">&quot;UpdateAll&quot;</span>);
 
-                Logger.BeginTime(<span class="stringliteral">&quot;CalculateAndAssignTargets&quot;</span>);
-                <span class="comment">//calculate targets</span>
-                <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.CalculateAndAssignTargets(cancellationToken);
-                Logger.StopTime(<span class="stringliteral">&quot;CalculateAndAssignTargets&quot;</span>);
+                <span class="comment">//if (Bot.Game.GetTurn() % 5 == 1)</span>
+                {
+                    Logger.BeginTime(<span class="stringliteral">&quot;CalculateAndAssignTargets&quot;</span>);
+                    <span class="comment">//calculate targets</span>
+                    <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.CalculateAndAssignTargets(cancellationToken);
+                    Logger.StopTime(<span class="stringliteral">&quot;CalculateAndAssignTargets&quot;</span>);
+                }
 
-                <span class="keywordflow">if</span> (Bot.Game.GetTurn() % 30 &lt; 15)
+                <span class="keywordflow">if</span> (Bot.Game.GetTurn() % 10 &gt;5)
                 {
                     <span class="comment">//fix configuration</span>
                     Logger.BeginTime(<span class="stringliteral">&quot;ReConfigure&quot;</span>);
@@ -211,7 +214,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 22:06:04 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 10:24:05 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

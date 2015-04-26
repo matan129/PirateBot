@@ -119,29 +119,21 @@
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd></dd></dl>
 
-<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00373">373</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
+<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00376">376</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.UseBasicGlobalizing())
             {
                 <span class="keywordtype">double</span> score = 0;
-                <span class="keywordtype">double</span> timeAvg = 0;
-                <span class="keywordtype">double</span> enemyShips = 0;
-                <span class="keywordtype">double</span> ownedIslands = 0;
                 <span class="keywordtype">double</span> maxIslandOwnership = 0;
                 <span class="keywordtype">double</span> totalProjectedPoints = 0;
 
-                <span class="keywordflow">foreach</span> (Score s <span class="keywordflow">in</span> scoreArr)
+                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
                 {
-                    <span class="comment">//Throwing an exception if cancellation was requested.</span>
-                    cancellationToken.ThrowIfCancellationRequested();
+                    <span class="keywordflow">if</span> (scoreArr[i].Target == <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups[i].Target)
+                        score += Magic.DecisivenessBonus;
 
-                    <span class="comment">//Calculates the Island that will be held onto the longest</span>
-                    <span class="keywordflow">if</span> (maxIslandOwnership &lt; s.MinTurnsToEnemyCapture)
-                        maxIslandOwnership = s.MinTurnsToEnemyCapture;
-
-                    ownedIslands += s.Value; <span class="comment">//Number of owned islands in this option</span>
-                    enemyShips += s.EnemyShips; <span class="comment">//enemy ships destroyed in this option</span>
-                    timeAvg += s.Eta;
+                    <span class="keywordflow">if</span> (maxIslandOwnership &lt; scoreArr[i].MinTurnsToEnemyCapture)
+                        maxIslandOwnership = scoreArr[i].MinTurnsToEnemyCapture;
                 }
 
                 <span class="comment">//check if there are two of the same target</span>
@@ -153,6 +145,7 @@
                             score -= 1000;
                     }
                 }
+
                 <span class="comment">//TODO: This is EXTEMELY inefficient, we dont need to go over each turn, we only need to go over turns in which things change, Ron talk to me sometime (Matan K)</span>
                 <span class="comment">//TODO: add points also for killing pirates</span>
                 <span class="comment">//TODO: Recalculate IslandOwnership when an enemy pirate dies (This will help better implement the killing of enemy pirates in the score)</span>
@@ -213,7 +206,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 22:06:04 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 10:24:05 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

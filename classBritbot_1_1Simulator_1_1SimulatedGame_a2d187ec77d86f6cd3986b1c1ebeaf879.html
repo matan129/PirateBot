@@ -179,18 +179,22 @@
                         newEvent = <span class="keyword">new</span> GroupArrivalEvent((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.Loc),
                                       this.Islands[sIsland.Id],
                                       this.EnemyGroups[enemy.Key.Id]);
+                        this.ConstantEvents.Add(newEvent);
 
                         
                     }
-                    <span class="keywordflow">else</span>
+                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.Loc) &lt; 50)
                     {
+                        
                         newEvent = <span class="keyword">new</span> PossibleArrivalEvent((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.Loc),
                                       this.Islands[sIsland.Id],
                                       this.EnemyGroups[enemy.Key.Id]);
+                        this.ConstantEvents.Add(newEvent);
                     }
 
+
                     <span class="comment">//add the event</span>
-                    this.ConstantEvents.Add(newEvent);
+                    
                 }
 
                 <span class="comment">//check if there are ships on the islands</span>
@@ -215,7 +219,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 22:06:05 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 10:24:06 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
