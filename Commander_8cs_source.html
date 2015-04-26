@@ -216,7 +216,7 @@
 <a name="l00169"></a>00169                     <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5">StopTime</a>(<span class="stringliteral">&quot;CalculateAndAssignTargets&quot;</span>);
 <a name="l00170"></a>00170                 }
 <a name="l00171"></a>00171 
-<a name="l00172"></a>00172                 <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetTurn() % 5 &gt;2)
+<a name="l00172"></a>00172                 <span class="comment">//if (Bot.Game.GetTurn() % 5 &gt;2)</span>
 <a name="l00173"></a>00173                 {
 <a name="l00174"></a>00174                     <span class="comment">//fix configuration</span>
 <a name="l00175"></a>00175                     <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a94593529e316f18fde5ca9ebc28f2ae1.html#a94593529e316f18fde5ca9ebc28f2ae1">BeginTime</a>(<span class="stringliteral">&quot;ReConfigure&quot;</span>);
@@ -406,167 +406,170 @@
 <a name="l00383"></a>00383                 {
 <a name="l00384"></a>00384                     score += Math.Pow(2,s.<a class="code" href="classBritbot_1_1Score_af3cb5adb5b3218a6cff5776d4d951826.html#af3cb5adb5b3218a6cff5776d4d951826" title="value of the island if island">Value</a>)*50;
 <a name="l00385"></a>00385                     score -= s.<a class="code" href="classBritbot_1_1Score_a266a31ced25763b7cb9420637de732f9.html#a266a31ced25763b7cb9420637de732f9" title="Time until completion.">Eta</a>;
-<a name="l00386"></a>00386                 }
-<a name="l00387"></a>00387 
-<a name="l00388"></a>00388                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length - 1; i++)
-<a name="l00389"></a>00389                 {
-<a name="l00390"></a>00390                     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = i + 1; j &lt; scoreArr.Length; j++)
-<a name="l00391"></a>00391                     {
-<a name="l00392"></a>00392                         <span class="keywordflow">if</span> (scoreArr[i].Target.Equals(scoreArr[j].Target))
-<a name="l00393"></a>00393                             score -= 5000;
-<a name="l00394"></a>00394                     }
-<a name="l00395"></a>00395                 }
-<a name="l00396"></a>00396 
-<a name="l00397"></a>00397                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
-<a name="l00398"></a>00398                 {
-<a name="l00399"></a>00399                     <span class="keywordflow">if</span> (scoreArr[i].Target == <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Target)
-<a name="l00400"></a>00400                         score += <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a747daaa0109af6f002826145f1e1029c.html#a747daaa0109af6f002826145f1e1029c">DecisivenessBonus</a>;
-<a name="l00401"></a>00401                 }
-<a name="l00402"></a>00402 
-<a name="l00403"></a>00403 
-<a name="l00404"></a>00404                 <span class="keywordflow">return</span> score;
-<a name="l00405"></a>00405             }
-<a name="l00406"></a>00406             <span class="keywordflow">else</span>
-<a name="l00407"></a>00407             {
-<a name="l00408"></a>00408                 <span class="keywordtype">int</span> totalDensityBonus = 0;
-<a name="l00409"></a>00409                 <span class="comment">//reset simulation</span>
-<a name="l00410"></a>00410                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a62686418b03c7dd30f65919ca5f5f183.html#a62686418b03c7dd30f65919ca5f5f183" title="This resets the simulation to begining, it should be used for every assignment.">ResetSimulation</a>();
-<a name="l00411"></a>00411 
-<a name="l00412"></a>00412 
-<a name="l00413"></a>00413                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
-<a name="l00414"></a>00414                 {
-<a name="l00415"></a>00415                     <span class="keywordflow">if</span> (scoreArr[i].Type == <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.Island)
-<a name="l00416"></a>00416                         sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1GroupArrivalEvent.html" title="this event is called when a group (surely) arrives to an island">GroupArrivalEvent</a>((<span class="keywordtype">int</span>) scoreArr[i].Eta,
-<a name="l00417"></a>00417                             sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d7fea4cdd27f968ed951a56b013cf45.html#a1d7fea4cdd27f968ed951a56b013cf45" title="List of the islands in the game.">Islands</a>[((<a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>) (scoreArr[i].<a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283" title="The target being scored.">Target</a>)).Id], sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2" title="List of all friendly groups.">MyGroups</a>[<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Id]));
-<a name="l00418"></a>00418                     <span class="keywordflow">if</span> (scoreArr[i].Type == <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.EnemyGroup)
-<a name="l00419"></a>00419                         sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent.html" title="this represents a battle between two ships">BattleEvent</a>((<span class="keywordtype">int</span>) scoreArr[i].Eta,
-<a name="l00420"></a>00420                             sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a5a9e889b75aa612e63359ffe8350bd85.html#a5a9e889b75aa612e63359ffe8350bd85" title="List of all enemy groups.">EnemyGroups</a>[((<a class="code" href="classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group.">EnemyGroup</a>) (scoreArr[i].<a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283" title="The target being scored.">Target</a>)).Id], sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2" title="List of all friendly groups.">MyGroups</a>[<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Id]));
-<a name="l00421"></a>00421                 }
-<a name="l00422"></a>00422 
-<a name="l00423"></a>00423                 <span class="keywordtype">double</span> score = sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a47fed85074ba33bdab8ee52db477f721.html#a47fed85074ba33bdab8ee52db477f721" title="Simulates the game and calculates the score.">SimulateGame</a>();
-<a name="l00424"></a>00424 
-<a name="l00425"></a>00425                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
-<a name="l00426"></a>00426                 {
-<a name="l00427"></a>00427                     <a class="code" href="interfaceBritbot_1_1ITarget.html" title="Represent a target we can, well, target.">ITarget</a> it = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Target;
-<a name="l00428"></a>00428                     <span class="keywordflow">if</span> (it != null &amp;&amp; it.<a class="code" href="interfaceBritbot_1_1ITarget_a2932f02d4815b5477a3af1cd127685a6.html#a2932f02d4815b5477a3af1cd127685a6" title="Tests if two targets are the same.">Equals</a>(scoreArr[i].<a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283" title="The target being scored.">Target</a>))
-<a name="l00429"></a>00429                     {
-<a name="l00430"></a>00430                         <span class="keywordtype">int</span> bonus = (int) Math.Abs(score * <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a8f6fa1bf9ec30022b4bb25f9500fc2cf.html#a8f6fa1bf9ec30022b4bb25f9500fc2cf">ScoreConssitencyFactor</a>);
-<a name="l00431"></a>00431                         score += bonus;
-<a name="l00432"></a>00432 
-<a name="l00433"></a>00433                         totalDensityBonus += scoreArr[i].<a class="code" href="classBritbot_1_1Score_a2c142b265fdc9a4974f23da9c5531ab7.html#a2c142b265fdc9a4974f23da9c5531ab7" title="The density of nearby islands (calculated by summing the distance between a target and all the nearby...">Density</a>;
-<a name="l00434"></a>00434                     }
-<a name="l00435"></a>00435                 }
-<a name="l00436"></a>00436 
-<a name="l00437"></a>00437                 <span class="keywordflow">return</span> score + totalDensityBonus * <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a968f0f2add57079a4a53dd732c07f45b.html#a968f0f2add57079a4a53dd732c07f45b">DensityBonusCoefficient</a>;
-<a name="l00438"></a>00438             }
+<a name="l00386"></a>00386                     
+<a name="l00387"></a>00387                 }
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length - 1; i++)
+<a name="l00390"></a>00390                 {
+<a name="l00391"></a>00391                     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = i + 1; j &lt; scoreArr.Length; j++)
+<a name="l00392"></a>00392                     {
+<a name="l00393"></a>00393                         <span class="keywordflow">if</span> (scoreArr[i].Target.Equals(scoreArr[j].Target))
+<a name="l00394"></a>00394                             score -= 5000;
+<a name="l00395"></a>00395                     }
+<a name="l00396"></a>00396                 }
+<a name="l00397"></a>00397 
+<a name="l00398"></a>00398                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
+<a name="l00399"></a>00399                 {
+<a name="l00400"></a>00400                     <span class="keywordflow">if</span> (scoreArr[i].Target == <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Target)
+<a name="l00401"></a>00401                         score += <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a747daaa0109af6f002826145f1e1029c.html#a747daaa0109af6f002826145f1e1029c">DecisivenessBonus</a>;
+<a name="l00402"></a>00402                     <span class="keywordflow">if</span> (scoreArr[i].EnemyShips &gt;= <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Pirates.Count)
+<a name="l00403"></a>00403                         score -= 5000;
+<a name="l00404"></a>00404                 }
+<a name="l00405"></a>00405 
+<a name="l00406"></a>00406 
+<a name="l00407"></a>00407                 <span class="keywordflow">return</span> score;
+<a name="l00408"></a>00408             }
+<a name="l00409"></a>00409             <span class="keywordflow">else</span>
+<a name="l00410"></a>00410             {
+<a name="l00411"></a>00411                 <span class="keywordtype">int</span> totalDensityBonus = 0;
+<a name="l00412"></a>00412                 <span class="comment">//reset simulation</span>
+<a name="l00413"></a>00413                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a62686418b03c7dd30f65919ca5f5f183.html#a62686418b03c7dd30f65919ca5f5f183" title="This resets the simulation to begining, it should be used for every assignment.">ResetSimulation</a>();
+<a name="l00414"></a>00414 
+<a name="l00415"></a>00415 
+<a name="l00416"></a>00416                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
+<a name="l00417"></a>00417                 {
+<a name="l00418"></a>00418                     <span class="keywordflow">if</span> (scoreArr[i].Type == <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.Island)
+<a name="l00419"></a>00419                         sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1GroupArrivalEvent.html" title="this event is called when a group (surely) arrives to an island">GroupArrivalEvent</a>((<span class="keywordtype">int</span>) scoreArr[i].Eta,
+<a name="l00420"></a>00420                             sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a1d7fea4cdd27f968ed951a56b013cf45.html#a1d7fea4cdd27f968ed951a56b013cf45" title="List of the islands in the game.">Islands</a>[((<a class="code" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>) (scoreArr[i].<a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283" title="The target being scored.">Target</a>)).Id], sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2" title="List of all friendly groups.">MyGroups</a>[<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Id]));
+<a name="l00421"></a>00421                     <span class="keywordflow">if</span> (scoreArr[i].Type == <a class="code" href="namespaceBritbot_a5c073d0d7649ba173018146fd058263b.html#a5c073d0d7649ba173018146fd058263b" title="An enum represent the type of the target of a group.">TargetType</a>.EnemyGroup)
+<a name="l00422"></a>00422                         sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a698824b3c697e96cfdf02845572a68e2.html#a698824b3c697e96cfdf02845572a68e2" title="This enqueues a new event to the pending events.">AddEvent</a>(<span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1BattleEvent.html" title="this represents a battle between two ships">BattleEvent</a>((<span class="keywordtype">int</span>) scoreArr[i].Eta,
+<a name="l00423"></a>00423                             sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a5a9e889b75aa612e63359ffe8350bd85.html#a5a9e889b75aa612e63359ffe8350bd85" title="List of all enemy groups.">EnemyGroups</a>[((<a class="code" href="classBritbot_1_1EnemyGroup.html" title="A class which represents an enemy group.">EnemyGroup</a>) (scoreArr[i].<a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283" title="The target being scored.">Target</a>)).Id], sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2" title="List of all friendly groups.">MyGroups</a>[<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Id]));
+<a name="l00424"></a>00424                 }
+<a name="l00425"></a>00425 
+<a name="l00426"></a>00426                 <span class="keywordtype">double</span> score = sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a47fed85074ba33bdab8ee52db477f721.html#a47fed85074ba33bdab8ee52db477f721" title="Simulates the game and calculates the score.">SimulateGame</a>();
+<a name="l00427"></a>00427 
+<a name="l00428"></a>00428                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
+<a name="l00429"></a>00429                 {
+<a name="l00430"></a>00430                     <a class="code" href="interfaceBritbot_1_1ITarget.html" title="Represent a target we can, well, target.">ITarget</a> it = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Target;
+<a name="l00431"></a>00431                     <span class="keywordflow">if</span> (it != null &amp;&amp; it.<a class="code" href="interfaceBritbot_1_1ITarget_a2932f02d4815b5477a3af1cd127685a6.html#a2932f02d4815b5477a3af1cd127685a6" title="Tests if two targets are the same.">Equals</a>(scoreArr[i].<a class="code" href="classBritbot_1_1Score_a130442b4c16d9b608bdeafe227dc9283.html#a130442b4c16d9b608bdeafe227dc9283" title="The target being scored.">Target</a>))
+<a name="l00432"></a>00432                     {
+<a name="l00433"></a>00433                         <span class="keywordtype">int</span> bonus = (int) Math.Abs(score * <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a8f6fa1bf9ec30022b4bb25f9500fc2cf.html#a8f6fa1bf9ec30022b4bb25f9500fc2cf">ScoreConssitencyFactor</a>);
+<a name="l00434"></a>00434                         score += bonus;
+<a name="l00435"></a>00435 
+<a name="l00436"></a>00436                         totalDensityBonus += scoreArr[i].<a class="code" href="classBritbot_1_1Score_a2c142b265fdc9a4974f23da9c5531ab7.html#a2c142b265fdc9a4974f23da9c5531ab7" title="The density of nearby islands (calculated by summing the distance between a target and all the nearby...">Density</a>;
+<a name="l00437"></a>00437                     }
+<a name="l00438"></a>00438                 }
 <a name="l00439"></a>00439 
-<a name="l00440"></a>00440         }
-<a name="l00441"></a>00441 
-<a name="l00447"></a><a class="code" href="classBritbot_1_1Commander_a280cca0850a1a5074e7110b129acaaa9.html#a280cca0850a1a5074e7110b129acaaa9">00447</a>         <span class="keyword">private</span> <span class="keyword">static</span> Dictionary&lt;Pirate, Direction&gt; <a class="code" href="classBritbot_1_1Commander_a280cca0850a1a5074e7110b129acaaa9.html#a280cca0850a1a5074e7110b129acaaa9" title="Gets all th moves for each pirate in each group.">GetAllMoves</a>(CancellationToken cancellationToken)
-<a name="l00448"></a>00448         {
-<a name="l00449"></a>00449             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.RemoveAll(g =&gt; g.Pirates.Count == 0);
-<a name="l00450"></a>00450             
-<a name="l00451"></a>00451             <span class="comment">// Update all groups</span>
-<a name="l00452"></a>00452             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.ForEach(g =&gt; g.Update());
-<a name="l00453"></a>00453 
-<a name="l00454"></a>00454             <span class="comment">//A list with all the moves from all groups</span>
-<a name="l00455"></a>00455             List&lt;KeyValuePair&lt;Pirate, Direction&gt;&gt; allMoves  =
-<a name="l00456"></a>00456                 <span class="keyword">new</span> List&lt;KeyValuePair&lt;Pirate, Direction&gt;&gt;(<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.AllMyPirates().Count);
-<a name="l00457"></a>00457 
-<a name="l00458"></a>00458             <span class="comment">//Get the moves from each group we have</span>
-<a name="l00459"></a>00459             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> group <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>)
-<a name="l00460"></a>00460             {
-<a name="l00461"></a>00461                 List&lt;KeyValuePair&lt;Pirate, Direction&gt;&gt; v = group.<a class="code" href="classBritbot_1_1Group_a4d298dadd6b1aaf74cefe6b0771781c8.html#a4d298dadd6b1aaf74cefe6b0771781c8" title="Decides where to move each pirate in the group.">GetGroupMoves</a>(cancellationToken).ToList();
-<a name="l00462"></a>00462                 allMoves.AddRange(v);
-<a name="l00463"></a>00463             }
-<a name="l00464"></a>00464 
-<a name="l00465"></a>00465             <span class="comment">//Convert the moves list to dictionary</span>
-<a name="l00466"></a>00466             <span class="keywordflow">return</span> allMoves.ToDictionary(pair =&gt; pair.Key, pair =&gt; pair.Value);
-<a name="l00467"></a>00467         }
-<a name="l00468"></a>00468 
-<a name="l00478"></a><a class="code" href="classBritbot_1_1Commander_ac18431ef513376615a60f49373e67730.html#ac18431ef513376615a60f49373e67730">00478</a>         <span class="keyword">private</span> <span class="keyword">static</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[][] <a class="code" href="classBritbot_1_1Commander_ac18431ef513376615a60f49373e67730.html#ac18431ef513376615a60f49373e67730" title="This function goes over all the groups, reads their priorities and arranges them in a 2-dimensional a...">GetPossibleTargetMatrix</a>()
-<a name="l00479"></a>00479         {
-<a name="l00480"></a>00480             <span class="comment">//allocate array of array: array for each group&#39;s possible targets</span>
-<a name="l00481"></a>00481             <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[][] possibleTargets = <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Count][];
-<a name="l00482"></a>00482 
-<a name="l00483"></a>00483             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Count; i++)
-<a name="l00484"></a>00484             {
-<a name="l00485"></a>00485                 <span class="comment">//convert the priority list to an array (to enable quick access)</span>
-<a name="l00486"></a>00486                 possibleTargets[i] = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Priorities.ToArray();
-<a name="l00487"></a>00487             }
-<a name="l00488"></a>00488 
-<a name="l00489"></a>00489             <span class="comment">//return the matrix</span>
-<a name="l00490"></a>00490             <span class="keywordflow">return</span> possibleTargets;
-<a name="l00491"></a>00491         }
-<a name="l00492"></a>00492 
-<a name="l00500"></a><a class="code" href="classBritbot_1_1Commander_aa82c5ed3aa93bdb7292a4210949be873.html#aa82c5ed3aa93bdb7292a4210949be873">00500</a>         <span class="keyword">private</span> <span class="keyword">static</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[] <a class="code" href="classBritbot_1_1Commander_aa82c5ed3aa93bdb7292a4210949be873.html#aa82c5ed3aa93bdb7292a4210949be873" title="Given all the possible assignments, and a specific assignment (given by array of indexes) returns the...">GetSpecificAssignmentScores</a>(<a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[][] possibleAssignments, <span class="keywordtype">int</span>[] assignment)
-<a name="l00501"></a>00501         {
-<a name="l00502"></a>00502             <span class="comment">//declare the array to later be returned</span>
-<a name="l00503"></a>00503             <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[] scoreArr = <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[possibleAssignments.Length];
-<a name="l00504"></a>00504 
-<a name="l00505"></a>00505             <span class="comment">//fill the array with the appropriate values</span>
-<a name="l00506"></a>00506             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
-<a name="l00507"></a>00507             {
-<a name="l00508"></a>00508                 <span class="comment">//fill the i&#39;th place of the score array with the target of the i&#39;th group in the assignment index</span>
-<a name="l00509"></a>00509                 scoreArr[i] = possibleAssignments[i][assignment[i]];
-<a name="l00510"></a>00510             }
-<a name="l00511"></a>00511 
-<a name="l00512"></a>00512             <span class="comment">//return the result</span>
-<a name="l00513"></a>00513             <span class="keywordflow">return</span> scoreArr;
-<a name="l00514"></a>00514         }
-<a name="l00515"></a>00515 
-<a name="l00521"></a><a class="code" href="classBritbot_1_1Commander_a2e4d046e04c0a6456c7abee64de8f096.html#a2e4d046e04c0a6456c7abee64de8f096">00521</a>         <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">int</span>[] <a class="code" href="classBritbot_1_1Commander_a2e4d046e04c0a6456c7abee64de8f096.html#a2e4d046e04c0a6456c7abee64de8f096" title="Get the dimension vector which later will be used to create the iteration over all possible Group-Tar...">GetTargetsDimensions</a>()
-<a name="l00522"></a>00522         {
-<a name="l00523"></a>00523             <span class="comment">//allocate a new array for the dimensions of each group&#39;s target</span>
-<a name="l00524"></a>00524             <span class="keywordtype">int</span>[] dimensions = <span class="keyword">new</span> <span class="keywordtype">int</span>[<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Count];
-<a name="l00525"></a>00525 
-<a name="l00526"></a>00526             <span class="comment">//go over all the groups and read number of priorities to dimension</span>
-<a name="l00527"></a>00527             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Count; i++)
-<a name="l00528"></a>00528                 dimensions[i] = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Priorities.Count;
-<a name="l00529"></a>00529 
-<a name="l00530"></a>00530             <span class="keywordflow">return</span> dimensions;
-<a name="l00531"></a>00531         }
+<a name="l00440"></a>00440                 <span class="keywordflow">return</span> score + totalDensityBonus * <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a968f0f2add57079a4a53dd732c07f45b.html#a968f0f2add57079a4a53dd732c07f45b">DensityBonusCoefficient</a>;
+<a name="l00441"></a>00441             }
+<a name="l00442"></a>00442 
+<a name="l00443"></a>00443         }
+<a name="l00444"></a>00444 
+<a name="l00450"></a><a class="code" href="classBritbot_1_1Commander_a280cca0850a1a5074e7110b129acaaa9.html#a280cca0850a1a5074e7110b129acaaa9">00450</a>         <span class="keyword">private</span> <span class="keyword">static</span> Dictionary&lt;Pirate, Direction&gt; <a class="code" href="classBritbot_1_1Commander_a280cca0850a1a5074e7110b129acaaa9.html#a280cca0850a1a5074e7110b129acaaa9" title="Gets all th moves for each pirate in each group.">GetAllMoves</a>(CancellationToken cancellationToken)
+<a name="l00451"></a>00451         {
+<a name="l00452"></a>00452             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.RemoveAll(g =&gt; g.Pirates.Count == 0);
+<a name="l00453"></a>00453             
+<a name="l00454"></a>00454             <span class="comment">// Update all groups</span>
+<a name="l00455"></a>00455             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.ForEach(g =&gt; g.Update());
+<a name="l00456"></a>00456 
+<a name="l00457"></a>00457             <span class="comment">//A list with all the moves from all groups</span>
+<a name="l00458"></a>00458             List&lt;KeyValuePair&lt;Pirate, Direction&gt;&gt; allMoves  =
+<a name="l00459"></a>00459                 <span class="keyword">new</span> List&lt;KeyValuePair&lt;Pirate, Direction&gt;&gt;(<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.AllMyPirates().Count);
+<a name="l00460"></a>00460 
+<a name="l00461"></a>00461             <span class="comment">//Get the moves from each group we have</span>
+<a name="l00462"></a>00462             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> group <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>)
+<a name="l00463"></a>00463             {
+<a name="l00464"></a>00464                 List&lt;KeyValuePair&lt;Pirate, Direction&gt;&gt; v = group.<a class="code" href="classBritbot_1_1Group_a4d298dadd6b1aaf74cefe6b0771781c8.html#a4d298dadd6b1aaf74cefe6b0771781c8" title="Decides where to move each pirate in the group.">GetGroupMoves</a>(cancellationToken).ToList();
+<a name="l00465"></a>00465                 allMoves.AddRange(v);
+<a name="l00466"></a>00466             }
+<a name="l00467"></a>00467 
+<a name="l00468"></a>00468             <span class="comment">//Convert the moves list to dictionary</span>
+<a name="l00469"></a>00469             <span class="keywordflow">return</span> allMoves.ToDictionary(pair =&gt; pair.Key, pair =&gt; pair.Value);
+<a name="l00470"></a>00470         }
+<a name="l00471"></a>00471 
+<a name="l00481"></a><a class="code" href="classBritbot_1_1Commander_ac18431ef513376615a60f49373e67730.html#ac18431ef513376615a60f49373e67730">00481</a>         <span class="keyword">private</span> <span class="keyword">static</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[][] <a class="code" href="classBritbot_1_1Commander_ac18431ef513376615a60f49373e67730.html#ac18431ef513376615a60f49373e67730" title="This function goes over all the groups, reads their priorities and arranges them in a 2-dimensional a...">GetPossibleTargetMatrix</a>()
+<a name="l00482"></a>00482         {
+<a name="l00483"></a>00483             <span class="comment">//allocate array of array: array for each group&#39;s possible targets</span>
+<a name="l00484"></a>00484             <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[][] possibleTargets = <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Count][];
+<a name="l00485"></a>00485 
+<a name="l00486"></a>00486             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Count; i++)
+<a name="l00487"></a>00487             {
+<a name="l00488"></a>00488                 <span class="comment">//convert the priority list to an array (to enable quick access)</span>
+<a name="l00489"></a>00489                 possibleTargets[i] = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Priorities.ToArray();
+<a name="l00490"></a>00490             }
+<a name="l00491"></a>00491 
+<a name="l00492"></a>00492             <span class="comment">//return the matrix</span>
+<a name="l00493"></a>00493             <span class="keywordflow">return</span> possibleTargets;
+<a name="l00494"></a>00494         }
+<a name="l00495"></a>00495 
+<a name="l00503"></a><a class="code" href="classBritbot_1_1Commander_aa82c5ed3aa93bdb7292a4210949be873.html#aa82c5ed3aa93bdb7292a4210949be873">00503</a>         <span class="keyword">private</span> <span class="keyword">static</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[] <a class="code" href="classBritbot_1_1Commander_aa82c5ed3aa93bdb7292a4210949be873.html#aa82c5ed3aa93bdb7292a4210949be873" title="Given all the possible assignments, and a specific assignment (given by array of indexes) returns the...">GetSpecificAssignmentScores</a>(<a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[][] possibleAssignments, <span class="keywordtype">int</span>[] assignment)
+<a name="l00504"></a>00504         {
+<a name="l00505"></a>00505             <span class="comment">//declare the array to later be returned</span>
+<a name="l00506"></a>00506             <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[] scoreArr = <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>[possibleAssignments.Length];
+<a name="l00507"></a>00507 
+<a name="l00508"></a>00508             <span class="comment">//fill the array with the appropriate values</span>
+<a name="l00509"></a>00509             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
+<a name="l00510"></a>00510             {
+<a name="l00511"></a>00511                 <span class="comment">//fill the i&#39;th place of the score array with the target of the i&#39;th group in the assignment index</span>
+<a name="l00512"></a>00512                 scoreArr[i] = possibleAssignments[i][assignment[i]];
+<a name="l00513"></a>00513             }
+<a name="l00514"></a>00514 
+<a name="l00515"></a>00515             <span class="comment">//return the result</span>
+<a name="l00516"></a>00516             <span class="keywordflow">return</span> scoreArr;
+<a name="l00517"></a>00517         }
+<a name="l00518"></a>00518 
+<a name="l00524"></a><a class="code" href="classBritbot_1_1Commander_a2e4d046e04c0a6456c7abee64de8f096.html#a2e4d046e04c0a6456c7abee64de8f096">00524</a>         <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">int</span>[] <a class="code" href="classBritbot_1_1Commander_a2e4d046e04c0a6456c7abee64de8f096.html#a2e4d046e04c0a6456c7abee64de8f096" title="Get the dimension vector which later will be used to create the iteration over all possible Group-Tar...">GetTargetsDimensions</a>()
+<a name="l00525"></a>00525         {
+<a name="l00526"></a>00526             <span class="comment">//allocate a new array for the dimensions of each group&#39;s target</span>
+<a name="l00527"></a>00527             <span class="keywordtype">int</span>[] dimensions = <span class="keyword">new</span> <span class="keywordtype">int</span>[<a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Count];
+<a name="l00528"></a>00528 
+<a name="l00529"></a>00529             <span class="comment">//go over all the groups and read number of priorities to dimension</span>
+<a name="l00530"></a>00530             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Count; i++)
+<a name="l00531"></a>00531                 dimensions[i] = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>[i].Priorities.Count;
 <a name="l00532"></a>00532 
-<a name="l00537"></a><a class="code" href="classBritbot_1_1Commander_a6f6d8ab39bcd4acb9873900c4de58ab2.html#a6f6d8ab39bcd4acb9873900c4de58ab2">00537</a>         <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Commander_a6f6d8ab39bcd4acb9873900c4de58ab2.html#a6f6d8ab39bcd4acb9873900c4de58ab2" title="this method forces all groups to calculate their priorities">StartCalcPriorities</a>(CancellationToken cancellationToken)
-<a name="l00538"></a>00538         {
-<a name="l00539"></a>00539             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.ForEach(g =&gt; g.CalcPriorities(cancellationToken));
-<a name="l00540"></a>00540             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;Priorities Calculated&quot;</span>, <span class="keyword">true</span>);
-<a name="l00541"></a>00541         }
-<a name="l00542"></a>00542 
-<a name="l00546"></a><a class="code" href="classBritbot_1_1Commander_a6436c4c8d4ea221c724075a670aaba3f.html#a6436c4c8d4ea221c724075a670aaba3f">00546</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Commander_a6436c4c8d4ea221c724075a670aaba3f.html#a6436c4c8d4ea221c724075a670aaba3f" title="Moves priates between group if needed (physically)">FixGroupArrangement</a>()
-<a name="l00547"></a>00547         {
-<a name="l00548"></a>00548             <span class="comment">//going over all pair of groups</span>
-<a name="l00549"></a>00549             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g1 <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>)
-<a name="l00550"></a>00550             {
-<a name="l00551"></a>00551                 <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g2 <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>)
-<a name="l00552"></a>00552                 {
-<a name="l00553"></a>00553                     <span class="comment">//check if it is the same</span>
-<a name="l00554"></a>00554                     <span class="keywordflow">if</span> (g1.Equals(g2))
-<a name="l00555"></a>00555                         <span class="keywordflow">continue</span>;
-<a name="l00556"></a>00556 
-<a name="l00557"></a>00557                     <span class="comment">//check if they are messed out</span>
-<a name="l00558"></a>00558                     <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a>.<a class="code" href="classBritbot_1_1Group_a5eae35655e31aece296f13d6c509ce9c.html#a5eae35655e31aece296f13d6c509ce9c" title="checks if two groups are messed around in one another TODO: make this smarter">CheckIfGroupsIntersects</a>(g1, g2))
-<a name="l00559"></a>00559                     {
-<a name="l00560"></a>00560                         <span class="comment">//find larger group</span>
-<a name="l00561"></a>00561                         <span class="keywordflow">if</span> (g1.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Count &gt; g2.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Count)
-<a name="l00562"></a>00562                         {
-<a name="l00563"></a>00563                             <a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a>.<a class="code" href="classBritbot_1_1Group_a672acc1e7cc049b71f44af1a21b370d3.html#a672acc1e7cc049b71f44af1a21b370d3" title="Given two groups it will rearange the pirates in them so that the big group will have the pirates who...">Switch</a>(g1, g2);
-<a name="l00564"></a>00564                         }
-<a name="l00565"></a>00565                         <span class="keywordflow">else</span>
-<a name="l00566"></a>00566                         {
-<a name="l00567"></a>00567                             <a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a>.<a class="code" href="classBritbot_1_1Group_a672acc1e7cc049b71f44af1a21b370d3.html#a672acc1e7cc049b71f44af1a21b370d3" title="Given two groups it will rearange the pirates in them so that the big group will have the pirates who...">Switch</a>(g2, g1);
-<a name="l00568"></a>00568                         }
-<a name="l00569"></a>00569                     }
-<a name="l00570"></a>00570                 }
-<a name="l00571"></a>00571             }
-<a name="l00572"></a>00572         }
-<a name="l00573"></a>00573     }
-<a name="l00574"></a>00574 }
+<a name="l00533"></a>00533             <span class="keywordflow">return</span> dimensions;
+<a name="l00534"></a>00534         }
+<a name="l00535"></a>00535 
+<a name="l00540"></a><a class="code" href="classBritbot_1_1Commander_a6f6d8ab39bcd4acb9873900c4de58ab2.html#a6f6d8ab39bcd4acb9873900c4de58ab2">00540</a>         <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Commander_a6f6d8ab39bcd4acb9873900c4de58ab2.html#a6f6d8ab39bcd4acb9873900c4de58ab2" title="this method forces all groups to calculate their priorities">StartCalcPriorities</a>(CancellationToken cancellationToken)
+<a name="l00541"></a>00541         {
+<a name="l00542"></a>00542             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.ForEach(g =&gt; g.CalcPriorities(cancellationToken));
+<a name="l00543"></a>00543             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;Priorities Calculated&quot;</span>, <span class="keyword">true</span>);
+<a name="l00544"></a>00544         }
+<a name="l00545"></a>00545 
+<a name="l00549"></a><a class="code" href="classBritbot_1_1Commander_a6436c4c8d4ea221c724075a670aaba3f.html#a6436c4c8d4ea221c724075a670aaba3f">00549</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Commander_a6436c4c8d4ea221c724075a670aaba3f.html#a6436c4c8d4ea221c724075a670aaba3f" title="Moves priates between group if needed (physically)">FixGroupArrangement</a>()
+<a name="l00550"></a>00550         {
+<a name="l00551"></a>00551             <span class="comment">//going over all pair of groups</span>
+<a name="l00552"></a>00552             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g1 <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>)
+<a name="l00553"></a>00553             {
+<a name="l00554"></a>00554                 <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> g2 <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>)
+<a name="l00555"></a>00555                 {
+<a name="l00556"></a>00556                     <span class="comment">//check if it is the same</span>
+<a name="l00557"></a>00557                     <span class="keywordflow">if</span> (g1.Equals(g2))
+<a name="l00558"></a>00558                         <span class="keywordflow">continue</span>;
+<a name="l00559"></a>00559 
+<a name="l00560"></a>00560                     <span class="comment">//check if they are messed out</span>
+<a name="l00561"></a>00561                     <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a>.<a class="code" href="classBritbot_1_1Group_a5eae35655e31aece296f13d6c509ce9c.html#a5eae35655e31aece296f13d6c509ce9c" title="checks if two groups are messed around in one another TODO: make this smarter">CheckIfGroupsIntersects</a>(g1, g2))
+<a name="l00562"></a>00562                     {
+<a name="l00563"></a>00563                         <span class="comment">//find larger group</span>
+<a name="l00564"></a>00564                         <span class="keywordflow">if</span> (g1.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Count &gt; g2.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.Count)
+<a name="l00565"></a>00565                         {
+<a name="l00566"></a>00566                             <a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a>.<a class="code" href="classBritbot_1_1Group_a672acc1e7cc049b71f44af1a21b370d3.html#a672acc1e7cc049b71f44af1a21b370d3" title="Given two groups it will rearange the pirates in them so that the big group will have the pirates who...">Switch</a>(g1, g2);
+<a name="l00567"></a>00567                         }
+<a name="l00568"></a>00568                         <span class="keywordflow">else</span>
+<a name="l00569"></a>00569                         {
+<a name="l00570"></a>00570                             <a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a>.<a class="code" href="classBritbot_1_1Group_a672acc1e7cc049b71f44af1a21b370d3.html#a672acc1e7cc049b71f44af1a21b370d3" title="Given two groups it will rearange the pirates in them so that the big group will have the pirates who...">Switch</a>(g2, g1);
+<a name="l00571"></a>00571                         }
+<a name="l00572"></a>00572                     }
+<a name="l00573"></a>00573                 }
+<a name="l00574"></a>00574             }
+<a name="l00575"></a>00575         }
+<a name="l00576"></a>00576     }
+<a name="l00577"></a>00577 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 20:29:11 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 20:32:48 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
