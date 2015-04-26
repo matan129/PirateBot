@@ -169,7 +169,7 @@ namespace Britbot
                     Logger.StopTime("CalculateAndAssignTargets");
                 }
 
-                if (Bot.Game.GetTurn() % 5 >2)
+                //if (Bot.Game.GetTurn() % 5 >2)
                 {
                     //fix configuration
                     Logger.BeginTime("ReConfigure");
@@ -383,6 +383,7 @@ namespace Britbot
                 {
                     score += Math.Pow(2,s.Value)*50;
                     score -= s.Eta;
+                    
                 }
 
                 for (int i = 0; i < scoreArr.Length - 1; i++)
@@ -398,6 +399,8 @@ namespace Britbot
                 {
                     if (scoreArr[i].Target == Commander.Groups[i].Target)
                         score += Magic.DecisivenessBonus;
+                    if (scoreArr[i].EnemyShips >= Commander.Groups[i].Pirates.Count)
+                        score -= 5000;
                 }
 
 

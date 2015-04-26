@@ -10,23 +10,27 @@ using Pirates;
 
 namespace Britbot
 {
+    
+    
     /// <summary>
     ///     An experienced ally to the commander who does bugger all
     /// </summary>
     internal static class Veteran
     {
+        public static List<int> UltimateConfig;
         /// <summary>
         ///     Splits and joins the current groups to match the ultimate configuration
         /// </summary>
         public static void ReConfigure()
         {
-            List<int> ultimatConfig = Commander.GetUltimateGameConfig();
+            if ((Bot.Game.GetTurn() % 10) == 1)
+                Veteran.UltimateConfig = Commander.GetUltimateGameConfig();
          
             Logger.Write("Ultimate Config:", true);
-            Logger.Write(string.Join(",", ultimatConfig), true);
+            Logger.Write(string.Join(",", Veteran.UltimateConfig), true);
 
-            Veteran.GroupSplitting(ultimatConfig);
-            Veteran.GroupJoining(ultimatConfig);
+            Veteran.GroupSplitting(Veteran.UltimateConfig);
+            Veteran.GroupJoining(Veteran.UltimateConfig);
             Logger.Write("New config Config:", true);
             Logger.Write(string.Join(",", Commander.Groups.ConvertAll(group => group.Pirates.Count).ToArray()), true);
         }
