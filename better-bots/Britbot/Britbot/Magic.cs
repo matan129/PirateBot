@@ -16,7 +16,6 @@ namespace Britbot
         public const double VectorTolerance = 0.001;
         internal const int OutOfDateNumber = 10;
         public const double EnemyBaseFactor = 0;
-
         public const double FriendlyBaseFactor = 0;
         public const double DensityBonusCoefficient = 0.0;
         public const bool UseBasicGlobalizing = true;
