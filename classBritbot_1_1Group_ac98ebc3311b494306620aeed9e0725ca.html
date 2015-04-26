@@ -185,7 +185,7 @@
             <span class="comment">//if the group passed the previous test, return true (meaning that the group is formed)</span>
             <span class="keywordflow">if</span> (!confirmUnstructured)
             {
-                Logger.Write(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;Group {0} is formed&quot;</span>, this.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>), <span class="keyword">true</span>);
+                Logger.Write(<span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;Group {0} is formed&quot;</span>, this.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>));
                 Logger.StopTime(<span class="stringliteral">&quot;IsFormed at group &quot;</span> + this.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>);
                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
             }
@@ -205,7 +205,7 @@
             }
             <span class="keywordflow">catch</span> <span class="comment">//if there&#39;s an exception (such as InvalidLocationException) return false</span>
             {
-                Logger.Write(String.Format(<span class="stringliteral">&quot;Group {0} is not formed yet&quot;</span>, <span class="keyword">this</span>.Id), <span class="keyword">true</span>);
+                Logger.Write(String.Format(<span class="stringliteral">&quot;Group {0} is not formed yet&quot;</span>, <span class="keyword">this</span>.Id));
                 Logger.StopTime(<span class="stringliteral">&quot;IsFormed at group &quot;</span> + this.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>);
                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
             }
@@ -214,7 +214,7 @@
             <span class="keywordflow">if</span> (structureFull == null)
             {
                 <span class="comment">//...return false</span>
-                Logger.Write(String.Format(<span class="stringliteral">&quot;Group {0} is not formed yet&quot;</span>, <span class="keyword">this</span>.Id), <span class="keyword">true</span>);
+                Logger.Write(String.Format(<span class="stringliteral">&quot;Group {0} is not formed yet&quot;</span>, <span class="keyword">this</span>.Id));
                 Logger.StopTime(<span class="stringliteral">&quot;IsFormed at group &quot;</span> + this.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>);
                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
             }
@@ -253,14 +253,14 @@
             <span class="comment">//like if we have 4 pirates we need the 2nd ring (index 1) but but there will be on free spot)</span>
             <span class="keywordflow">if</span> (emptyCells == structureFull.Length - <span class="keyword">this</span>.Pirates.Count)
             {
-                Logger.Write(String.Format(<span class="stringliteral">&quot;Group {0} is formed&quot;</span>, <span class="keyword">this</span>.Id), <span class="keyword">true</span>);
+                Logger.Write(String.Format(<span class="stringliteral">&quot;Group {0} is formed&quot;</span>, <span class="keyword">this</span>.Id));
                 Logger.StopTime(<span class="stringliteral">&quot;IsFormed at group &quot;</span> + this.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>);
                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
             }
 
             ReturnFalse:
             <span class="comment">//if we are still not formed, return the right answer</span>
-            Logger.Write(String.Format(<span class="stringliteral">&quot;Group {0} is not formed yet&quot;</span>, <span class="keyword">this</span>.Id), <span class="keyword">true</span>);
+            Logger.Write(String.Format(<span class="stringliteral">&quot;Group {0} is not formed yet&quot;</span>, <span class="keyword">this</span>.Id));
 
             Logger.StopTime(<span class="stringliteral">&quot;IsFormed at group &quot;</span> + this.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a>);
             <span class="keywordflow">return</span> <span class="keyword">false</span>;
@@ -275,7 +275,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 20:01:30 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 20:11:59 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
