@@ -91,7 +91,6 @@
     <Compile Include="Simulator\SimulatedGame.cs" />
     <Compile Include="Simulator\SimulatedIsland.cs" />
     <Compile Include="Simulator\SimulationEndEvent.cs" />
-    <Compile Include="Simulator\Simulator.cs" />
     <Compile Include="SmartIsland.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Veteran.cs" />
