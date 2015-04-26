@@ -803,7 +803,6 @@ namespace Britbot
             List<ITarget> priorityList = new List<ITarget>();
             List<Score> scores = new List<Score>();
 
-            Navigator.UpdateMap(this);
             //Add all targets to the list
 
             //check if we need to chaise ships, if so add them to calculation
