@@ -375,12 +375,14 @@ namespace Britbot
         /// <returns></returns>
         private static double GlobalizeScore(SimulatedGame sg, Score[] scoreArr, CancellationToken cancellationToken)
         {
+            double totalDensityBonus = 0;
+
             if (Commander.UseBasicGlobalizing())
             {
                 double score = 0;
                 double maxIslandOwnership = 0;
                 double totalProjectedPoints = 0;
-
+                
                 for (int i = 0; i < scoreArr.Length; i++)
                 {
                     if (scoreArr[i].Target == Commander.Groups[i].Target)
@@ -412,13 +414,15 @@ namespace Britbot
                         //check if this target gives us points this turn
                         if ((s.Eta <= i) && (s.MinTurnsToEnemyCapture > i))
                             totalAditionalIslandPoints += s.Value;
+
+                        totalDensityBonus += s.Density;
                     }
                     totalProjectedPoints += ScoreHelper.ComputePPT(totalAditionalIslandPoints);
                 }
 
                 //TODO: give more points if we take an island from the enemy
 
-                return score + totalProjectedPoints;
+                return score + totalProjectedPoints + totalDensityBonus*Magic.densityBonusCoefficient;
             }
             else
             {
@@ -445,9 +449,11 @@ namespace Britbot
                     {
                         int bonus = (int) Math.Abs(score * Magic.ScoreConssitencyFactor);
                         score += bonus;
+
+                        totalDensityBonus += scoreArr[i].Density;
                     }
                 }
-                return score;
+                return score + totalDensityBonus * Magic.densityBonusCoefficient;
             }
         }
 

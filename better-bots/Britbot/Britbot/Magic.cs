@@ -17,6 +17,7 @@ namespace Britbot
         internal const int OutOfDateNumber = 10;
         public const double EnemyBaseFactor = 0;
         public const double FriendlyBaseFactor = 5;
+        public const double densityBonusCoefficient = 0.3;
 
         /// <summary>
         ///     Max safe iterator iterations per turn
