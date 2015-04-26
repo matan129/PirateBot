@@ -381,7 +381,8 @@ namespace Britbot
                 double score = 0;
                 foreach (Score s in scoreArr)
                 {
-                    score += s.Value;
+                    score += Math.Pow(2,s.Value)*50;
+                    score -= s.Eta;
                 }
 
                 for (int i = 0; i < scoreArr.Length - 1; i++)
