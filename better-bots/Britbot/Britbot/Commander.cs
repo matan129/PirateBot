@@ -169,7 +169,7 @@ namespace Britbot
                     Logger.StopTime("CalculateAndAssignTargets");
                 }
 
-                if (Bot.Game.GetTurn() % 10 >5)
+                if (Bot.Game.GetTurn() % 5 >2)
                 {
                     //fix configuration
                     Logger.BeginTime("ReConfigure");
@@ -375,9 +375,33 @@ namespace Britbot
         /// <returns></returns>
         private static double GlobalizeScore(SimulatedGame sg, Score[] scoreArr, CancellationToken cancellationToken)
         {
-            double totalDensityBonus = 0;
+            //double totalDensityBonus = 0;
 
-            if (Commander.UseBasicGlobalizing())
+            double score = 0;
+            foreach (Score s in scoreArr)
+            {
+                score += s.Value;
+            }
+
+            for (int i = 0; i < scoreArr.Length - 1; i++)
+            {
+                for (int j = i + 1; j < scoreArr.Length; j++)
+                {
+                    if (scoreArr[i].Target.Equals(scoreArr[j].Target))
+                        score -= 5000;
+                }
+            }
+
+            for (int i = 0; i < scoreArr.Length; i++)
+            {
+                if (scoreArr[i].Target == Commander.Groups[i].Target)
+                    score += Magic.DecisivenessBonus;
+            }
+
+            
+            return score;
+
+            /*if (Commander.UseBasicGlobalizing())
             {
                 double score = 0;
                 double maxIslandOwnership = 0;
@@ -454,7 +478,7 @@ namespace Britbot
                     }
                 }
                 return score + totalDensityBonus * Magic.densityBonusCoefficient;
-            }
+            }*/
         }
 
         private static bool UseBasicGlobalizing()

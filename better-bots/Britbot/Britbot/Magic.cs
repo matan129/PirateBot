@@ -17,7 +17,7 @@ namespace Britbot
         internal const int OutOfDateNumber = 10;
         public const double EnemyBaseFactor = 0;
         public const double FriendlyBaseFactor = 5;
-        public const double densityBonusCoefficient = 0.3;
+        public const double densityBonusCoefficient = 0;
 
         /// <summary>
         ///     Max safe iterator iterations per turn
@@ -46,7 +46,7 @@ namespace Britbot
 
         public static double ScoreConssitencyFactor = 0.0;
 
-        public static int DecisivenessBonus = 1000;
+        public static int DecisivenessBonus = 10000;
         public static int LowerIteratorBound = 1000;
 
         #endregion
