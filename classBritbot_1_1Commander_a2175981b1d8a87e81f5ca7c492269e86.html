@@ -121,12 +121,14 @@
 
 <p>Definition at line <a class="el" href="Commander_8cs_source.html#l00376">376</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
+            <span class="keywordtype">double</span> totalDensityBonus = 0;
+
             <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.UseBasicGlobalizing())
             {
                 <span class="keywordtype">double</span> score = 0;
                 <span class="keywordtype">double</span> maxIslandOwnership = 0;
                 <span class="keywordtype">double</span> totalProjectedPoints = 0;
-
+                
                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; scoreArr.Length; i++)
                 {
                     <span class="keywordflow">if</span> (scoreArr[i].Target == <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups[i].Target)
@@ -158,13 +160,15 @@
                         <span class="comment">//check if this target gives us points this turn</span>
                         <span class="keywordflow">if</span> ((s.Eta &lt;= i) &amp;&amp; (s.MinTurnsToEnemyCapture &gt; i))
                             totalAditionalIslandPoints += s.Value;
+
+                        totalDensityBonus += s.Density;
                     }
                     totalProjectedPoints += ScoreHelper.ComputePPT(totalAditionalIslandPoints);
                 }
 
                 <span class="comment">//TODO: give more points if we take an island from the enemy</span>
 
-                <span class="keywordflow">return</span> score + totalProjectedPoints;
+                <span class="keywordflow">return</span> score + totalProjectedPoints + totalDensityBonus*Magic.densityBonusCoefficient;
             }
             <span class="keywordflow">else</span>
             {
@@ -191,9 +195,11 @@
                     {
                         <span class="keywordtype">int</span> bonus = (int) Math.Abs(score * Magic.ScoreConssitencyFactor);
                         score += bonus;
+
+                        totalDensityBonus += scoreArr[i].Density;
                     }
                 }
-                <span class="keywordflow">return</span> score;
+                <span class="keywordflow">return</span> score + totalDensityBonus * Magic.densityBonusCoefficient;
             }
         }
 </pre></div>
@@ -206,7 +212,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 17:42:08 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 19:14:42 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
