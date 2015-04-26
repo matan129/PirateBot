@@ -276,49 +276,48 @@
 <a name="l00259"></a>00259                 PPT = this.CalculatePpt();
 <a name="l00260"></a>00260 
 <a name="l00261"></a>00261                 nextTurn = this.CommingEvents.First.Turn;
-<a name="l00262"></a>00262                 
-<a name="l00263"></a>00263 
-<a name="l00264"></a>00264                 <span class="comment">//update score</span>
-<a name="l00265"></a>00265                 this.<a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a> += (nextTurn - this.CurrentTurn) * PPT;
-<a name="l00266"></a>00266 
-<a name="l00267"></a>00267                 <span class="comment">//update iteration      </span>
-<a name="l00268"></a>00268                 this.CurrentTurn = nextTurn;
-<a name="l00269"></a>00269 
-<a name="l00270"></a>00270                 <span class="comment">//activate the comming event, if it is the end then break</span>
-<a name="l00271"></a>00271                 <span class="keywordflow">if</span> (this.CommingEvents.Dequeue().Activate(<span class="keyword">this</span>))
-<a name="l00272"></a>00272                     <span class="keywordflow">break</span>;
-<a name="l00273"></a>00273             }
-<a name="l00274"></a>00274             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;COUNT: &quot;</span> + count);
-<a name="l00275"></a>00275             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>;
-<a name="l00276"></a>00276         }
-<a name="l00277"></a>00277 
-<a name="l00283"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a2607ce65a832ab3206da777ef2580566.html#a2607ce65a832ab3206da777ef2580566">00283</a>         <span class="keyword">public</span> <span class="keywordtype">double</span> CalculatePpt()
-<a name="l00284"></a>00284         {
-<a name="l00285"></a>00285             <span class="comment">//helper variables</span>
-<a name="l00286"></a>00286             <span class="keywordtype">double</span> friendlyPPT, enemyPPT;
-<a name="l00287"></a>00287 
-<a name="l00288"></a>00288             <span class="comment">//calc score</span>
-<a name="l00289"></a>00289             friendlyPPT = Math.Floor(Math.Pow(2, MyIslandCount - 1));
-<a name="l00290"></a>00290             enemyPPT = Math.Floor(Math.Pow(2, EnemyIslandCount - 1));
-<a name="l00291"></a>00291 
-<a name="l00292"></a>00292             <span class="comment">//account for dead ships</span>
-<a name="l00293"></a>00293             friendlyPPT -= Math.Pow(<a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a8fd356c0da193228af657e7e7e63db3f.html#a8fd356c0da193228af657e7e7e63db3f">FriendlyBaseFactor</a>, <span class="keyword">this</span>.MyDeadPirates);
-<a name="l00294"></a>00294 
-<a name="l00295"></a>00295             <span class="comment">//account for dead enemy ships</span>
-<a name="l00296"></a>00296             enemyPPT -= Math.Pow(<a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_ae6608dc931cdb04ba28ba714f2a7a9a9.html#ae6608dc931cdb04ba28ba714f2a7a9a9">EnemyBaseFactor</a>, <span class="keyword">this</span>.EnemyDeadPirates);
-<a name="l00297"></a>00297 
-<a name="l00298"></a>00298             <span class="keywordflow">return</span> friendlyPPT - enemyPPT;
-<a name="l00299"></a>00299         }
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263                 <span class="comment">//update score</span>
+<a name="l00264"></a>00264                 this.<a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a> += (nextTurn - this.CurrentTurn) * PPT;
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266                 <span class="comment">//update iteration      </span>
+<a name="l00267"></a>00267                 this.CurrentTurn = nextTurn;
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269                 <span class="comment">//activate the comming event, if it is the end then break</span>
+<a name="l00270"></a>00270                 <span class="keywordflow">if</span> (this.CommingEvents.Dequeue().Activate(<span class="keyword">this</span>))
+<a name="l00271"></a>00271                     <span class="keywordflow">break</span>;
+<a name="l00272"></a>00272             }
+<a name="l00273"></a>00273             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;COUNT: &quot;</span> + count);
+<a name="l00274"></a>00274             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Score.html" title="A class represent information about a target&#39;s score in relation to a specific group.">Score</a>;
+<a name="l00275"></a>00275         }
+<a name="l00276"></a>00276 
+<a name="l00282"></a><a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a2607ce65a832ab3206da777ef2580566.html#a2607ce65a832ab3206da777ef2580566">00282</a>         <span class="keyword">public</span> <span class="keywordtype">double</span> CalculatePpt()
+<a name="l00283"></a>00283         {
+<a name="l00284"></a>00284             <span class="comment">//helper variables</span>
+<a name="l00285"></a>00285             <span class="keywordtype">double</span> friendlyPPT, enemyPPT;
+<a name="l00286"></a>00286 
+<a name="l00287"></a>00287             <span class="comment">//calc score</span>
+<a name="l00288"></a>00288             friendlyPPT = Math.Floor(Math.Pow(2, MyIslandCount - 1));
+<a name="l00289"></a>00289             enemyPPT = Math.Floor(Math.Pow(2, EnemyIslandCount - 1));
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291             <span class="comment">//account for dead ships</span>
+<a name="l00292"></a>00292             friendlyPPT -= Math.Pow(<a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a8fd356c0da193228af657e7e7e63db3f.html#a8fd356c0da193228af657e7e7e63db3f">FriendlyBaseFactor</a>, <span class="keyword">this</span>.MyDeadPirates);
+<a name="l00293"></a>00293 
+<a name="l00294"></a>00294             <span class="comment">//account for dead enemy ships</span>
+<a name="l00295"></a>00295             enemyPPT -= Math.Pow(<a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_ae6608dc931cdb04ba28ba714f2a7a9a9.html#ae6608dc931cdb04ba28ba714f2a7a9a9">EnemyBaseFactor</a>, <span class="keyword">this</span>.EnemyDeadPirates);
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297             <span class="keywordflow">return</span> friendlyPPT - enemyPPT;
+<a name="l00298"></a>00298         }
+<a name="l00299"></a>00299 
 <a name="l00300"></a>00300 
 <a name="l00301"></a>00301 
-<a name="l00302"></a>00302 
-<a name="l00303"></a>00303     }
-<a name="l00304"></a>00304 }
+<a name="l00302"></a>00302     }
+<a name="l00303"></a>00303 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 10:24:05 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 14:55:40 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

@@ -116,7 +116,7 @@ template&lt;T &gt; </div>
 <p>Definition at line <a class="el" href="HeapPriorityQueue_8cs_source.html#l00205">205</a> of file <a class="el" href="HeapPriorityQueue_8cs_source.html">HeapPriorityQueue.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="keywordflow">return</span> (higher.Priority &lt; lower.Priority ||
-                    (higher.Priority == lower.Priority &amp;&amp; higher.InsertionIndex &lt; lower.InsertionIndex));
+                    (Math.Abs(higher.Priority - lower.Priority) &lt; 0.01 &amp;&amp; higher.InsertionIndex &lt; lower.InsertionIndex));
         }
 </pre></div>
 </div>
@@ -128,7 +128,7 @@ template&lt;T &gt; </div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 10:24:06 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 14:55:41 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

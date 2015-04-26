@@ -59,7 +59,6 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SimulatedGroup"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SimulatedIsland"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland.html"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SimulationEndEvent"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulationEndEvent.html"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="Simulator"><param name="Local" value="classBritbot_1_1Simulator_1_1Simulator.html"><param name="ImageNumber" value="11"></OBJECT>
       </UL>
     </UL>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="Namespace Members"><param name="Local" value="namespacemembers.html"><param name="ImageNumber" value="11"></OBJECT>
@@ -380,6 +379,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="DecisivenessBonus"><param name="Local" value="classBritbot_1_1Magic_a747daaa0109af6f002826145f1e1029c.html#a747daaa0109af6f002826145f1e1029c"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="EnemyBaseFactor"><param name="Local" value="classBritbot_1_1Magic_ae6608dc931cdb04ba28ba714f2a7a9a9.html#ae6608dc931cdb04ba28ba714f2a7a9a9"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="FriendlyBaseFactor"><param name="Local" value="classBritbot_1_1Magic_a8fd356c0da193228af657e7e7e63db3f.html#a8fd356c0da193228af657e7e7e63db3f"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="LowerIteratorBound"><param name="Local" value="classBritbot_1_1Magic_a1ba41f02907cdef595ce99a7b8374846.html#a1ba41f02907cdef595ce99a7b8374846"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="MaxDistance"><param name="Local" value="classBritbot_1_1Magic_a44ecb595cf7d07166a6fbfbf55fc7589.html#a44ecb595cf7d07166a6fbfbf55fc7589"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="MaxGroups"><param name="Local" value="classBritbot_1_1Magic_a79c7374851f8ff177270732035801d0d.html#a79c7374851f8ff177270732035801d0d"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="MaxIterator"><param name="Local" value="classBritbot_1_1Magic_a8a828e2b0fcdde4027556d64aab911c2.html#a8a828e2b0fcdde4027556d64aab911c2"><param name="ImageNumber" value="11"></OBJECT>
@@ -527,6 +527,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="FirePower"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a6dc776966862a94c9e49ccdcf1c2358b.html#a6dc776966862a94c9e49ccdcf1c2358b"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="Id"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a37cb9c2ab7a6967fbe654dd4934a8cb3.html#a37cb9c2ab7a6967fbe654dd4934a8cb3"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="IsAlive"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a53540e7ae95cae812758e0d9143dba8c.html#a53540e7ae95cae812758e0d9143dba8c"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="IsBusy"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a66176fc27dcc3d7a44d2592fd7a3cae7.html#a66176fc27dcc3d7a44d2592fd7a3cae7"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="IsCapturing"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a18484c7039e9b49680d532f266b80c85.html#a18484c7039e9b49680d532f266b80c85"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="OriginalIsAlive"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_a58609de56aafb1f9e7f3057effdbb2b5.html#a58609de56aafb1f9e7f3057effdbb2b5"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="OriginalIsCapturing"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup_ac99bdb7744a3b61a7b2db9c13ae6c112.html#ac99bdb7744a3b61a7b2db9c13ae6c112"><param name="ImageNumber" value="11"></OBJECT>
@@ -555,7 +556,6 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SimulationEndEvent"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulationEndEvent_a722f5a5015593e2a0212f7d8e96ffb46.html#a722f5a5015593e2a0212f7d8e96ffb46"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="Activate"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulationEndEvent_a258b8e4c639afa972b8b6ab443ecb4b0.html#a258b8e4c639afa972b8b6ab443ecb4b0"><param name="ImageNumber" value="11"></OBJECT>
       </UL>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.Simulator"><param name="Local" value="classBritbot_1_1Simulator_1_1Simulator.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.SmartIsland"><param name="Local" value="classBritbot_1_1SmartIsland.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="SmartIsland"><param name="Local" value="classBritbot_1_1SmartIsland_a00c8386e86dfec96731502bc727e9e57.html#a00c8386e86dfec96731502bc727e9e57"><param name="ImageNumber" value="11"></OBJECT>
@@ -658,7 +658,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.SimulatedGame"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGame.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.SimulatedGroup"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedGroup.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.SimulatedIsland"><param name="Local" value="classBritbot_1_1Simulator_1_1SimulatedIsland.html"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Simulator.Simulator"><param name="Local" value="classBritbot_1_1Simulator_1_1Simulator.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.Veteran"><param name="Local" value="classBritbot_1_1Veteran.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Britbot.ZoneConfigs"><param name="Local" value="classBritbot_1_1ZoneConfigs.html"><param name="ImageNumber" value="11"></OBJECT>
     </UL>
@@ -779,7 +778,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Simulator/SimulatedGroup.cs"><param name="Local" value="SimulatedGroup_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Simulator/SimulatedIsland.cs"><param name="Local" value="SimulatedIsland_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="Simulator/SimulationEndEvent.cs"><param name="Local" value="SimulationEndEvent_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Name" value="Simulator/Simulator.cs"><param name="Local" value="Simulator_8cs.html"><param name="ImageNumber" value="11"></OBJECT>
     </UL>
   <LI><OBJECT type="text/sitemap"><param name="Name" value="File Members"><param name="Local" value="globals.html"><param name="ImageNumber" value="11"></OBJECT>
     <UL>

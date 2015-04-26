@@ -101,7 +101,7 @@
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00257">257</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
+<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00261">261</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//force groups to calculate priorities</span>
             <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.StartCalcPriorities(cancellationToken);
@@ -124,8 +124,6 @@
 
             <span class="comment">//create new simulated game</span>
             <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a> sg = <span class="keyword">new</span> <a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame.html" title="This class represents a possibility of a game based on an assignment.">SimulatedGame</a>();
-            
-            Bot.Game.Debug(<span class="stringliteral">&quot;AA&quot;</span>);
 
             <span class="comment">//iterating over all possible target assignments</span>
             <span class="keywordflow">do</span>
@@ -147,8 +145,6 @@
                     Array.Copy(iterator.Values, maxAssignment, iterator.Values.Length);
                 }
             } <span class="keywordflow">while</span> (iterator.NextIteration());
-
-            Bot.Game.Debug(<span class="stringliteral">&quot;BB&quot;</span>);
             
             <span class="comment">//read the &quot;winning&quot; assignment</span>
             scoreArr = <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.GetSpecificAssignmentScores(possibleAssignments, maxAssignment);
@@ -170,7 +166,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 10:24:05 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 14:55:41 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

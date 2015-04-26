@@ -182,6 +182,10 @@
             <span class="keywordflow">catch</span> (OperationCanceledException) <span class="comment">//catch task cancellation</span>
             {
                 Logger.Write(<span class="stringliteral">&quot;****** COMMANDER EXITING DUE TO TASK CANCELLATION ******&quot;</span>, <span class="keyword">true</span>);
+
+                <span class="comment">//LOWER THE ITERATION NUMBER!!</span>
+                Magic.MaxIterator -= 250;
+
                 onTime = <span class="keyword">false</span>;
                 Logger.Profile();
                 <span class="keywordflow">return</span> <span class="keyword">new</span> Dictionary&lt;Pirate, Direction&gt;();
@@ -214,7 +218,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 10:24:05 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 14:55:41 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

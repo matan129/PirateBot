@@ -138,7 +138,7 @@
 <a name="l00125"></a>00125             <span class="comment">//check if there are more enemies than we can kill</span>
 <a name="l00126"></a>00126             <span class="keywordflow">if</span> (this.<a class="code" href="classBritbot_1_1SmartIsland_a5c72e36e0b8cc2a23a24fec4110e1790.html#a5c72e36e0b8cc2a23a24fec4110e1790" title="This function sais if it is ok for a given group to try and capture this isalnd considers all the oth...">IsDangerousForGroup</a>(origin))
 <a name="l00127"></a>00127             {
-<a name="l00128"></a>00128                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;Danger--- Group &quot;</span> + origin.<a class="code" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd" title="The Group ID number useful for debugging.">Id</a> + <span class="stringliteral">&quot; island: &quot;</span> + <span class="keyword">this</span>.Id);
+<a name="l00128"></a>00128                 <span class="comment">//Bot.Game.Debug(&quot;Danger--- Group &quot; + origin.Id + &quot; island: &quot; + this.Id);</span>
 <a name="l00129"></a>00129                 <span class="keywordflow">return</span> null;
 <a name="l00130"></a>00130             }
 <a name="l00131"></a>00131 
@@ -341,7 +341,7 @@
 <a name="l00366"></a>00366 
 <a name="l00367"></a><a class="code" href="classBritbot_1_1SmartIsland_a471c2f95840c9027da2597bd1a4d5226.html#a471c2f95840c9027da2597bd1a4d5226">00367</a>         <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1SmartIsland_a471c2f95840c9027da2597bd1a4d5226.html#a471c2f95840c9027da2597bd1a4d5226">Debug</a>()
 <a name="l00368"></a>00368         {
-<a name="l00369"></a>00369             <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Debug(<span class="stringliteral">&quot;Island &quot;</span> + this.<a class="code" href="classBritbot_1_1SmartIsland_a6e387d87c9cb5a13b6090d15c5618ab8.html#a6e387d87c9cb5a13b6090d15c5618ab8" title="The unique ID of the island.">Id</a> + <span class="stringliteral">&quot; enemies: &quot;</span> + <span class="keywordtype">string</span>.Join(<span class="stringliteral">&quot;, &quot;</span>, this.<a class="code" href="classBritbot_1_1SmartIsland_ac764226e433780dfcc60ebdb86542c66.html#ac764226e433780dfcc60ebdb86542c66" title="list of all the enemies and their distances from the island">approachingEnemies</a>));
+<a name="l00369"></a>00369             <span class="comment">//Bot.Game.Debug(&quot;Island &quot; + this.Id + &quot; enemies: &quot; + string.Join(&quot;, &quot;, this.approachingEnemies));</span>
 <a name="l00370"></a>00370         }
 <a name="l00371"></a>00371 
 <a name="l00372"></a><a class="code" href="classBritbot_1_1SmartIsland_a98b5d146c4e1ad509e3f936704fc1790.html#a98b5d146c4e1ad509e3f936704fc1790">00372</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1SmartIsland_a98b5d146c4e1ad509e3f936704fc1790.html#a98b5d146c4e1ad509e3f936704fc1790">DebugAll</a>()
@@ -465,7 +465,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 10:24:05 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 14:55:40 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

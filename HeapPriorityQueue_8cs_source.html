@@ -226,11 +226,11 @@
 <a name="l00197"></a>00197 
 <a name="l00202"></a>00202 <span class="preprocessor">#if NET_VERSION_4_5</span>
 <a name="l00203"></a>00203 <span class="preprocessor"></span>        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-<a name="l00204"></a>00204 <span class="preprocessor">        #endif</span>
+<a name="l00204"></a>00204 <span class="preprocessor">#endif</span>
 <a name="l00205"></a><a class="code" href="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_a120b1a2bef5809f96782ec0a5f778eb3.html#a120b1a2bef5809f96782ec0a5f778eb3">00205</a> <span class="preprocessor"></span>        <span class="keyword">private</span> <span class="keywordtype">bool</span> HasHigherPriority(T higher, T lower)
 <a name="l00206"></a>00206         {
 <a name="l00207"></a>00207             <span class="keywordflow">return</span> (higher.Priority &lt; lower.Priority ||
-<a name="l00208"></a>00208                     (higher.Priority == lower.Priority &amp;&amp; higher.InsertionIndex &lt; lower.InsertionIndex));
+<a name="l00208"></a>00208                     (Math.Abs(higher.Priority - lower.Priority) &lt; 0.01 &amp;&amp; higher.InsertionIndex &lt; lower.InsertionIndex));
 <a name="l00209"></a>00209         }
 <a name="l00210"></a>00210 
 <a name="l00215"></a><a class="code" href="classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g_a2559b10ee4cb859a1037042dea183bd3.html#a2559b10ee4cb859a1037042dea183bd3">00215</a>         <span class="keyword">public</span> T Dequeue()
@@ -341,7 +341,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 10:24:05 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 14:55:40 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
