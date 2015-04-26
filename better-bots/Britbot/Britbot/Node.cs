@@ -65,6 +65,8 @@ namespace Britbot
             /// </summary>
             public Location Loc;
 
+            public int Distance;
+
             /// <summary>
             ///     the weight of the cell, should be higher near enemies and un-passable places
             /// </summary>
@@ -219,6 +221,8 @@ namespace Britbot
                     for (int x = 0; x < Bot.Game.GetCols(); x++)
                     {
                         Node.Map[y, x].H = Node.HuristicFunction(Node.Map[y, x].Loc, target);
+
+                        
 
                         //set the calculated G parameter to -1
                         Node.Map[y, x].G = -1;
