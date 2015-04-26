@@ -87,7 +87,7 @@
 <p>Definition at line <a class="el" href="Veteran_8cs_source.html#l00062">62</a> of file <a class="el" href="Veteran_8cs_source.html">Veteran.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             Group tempGroup = null;
-            <span class="keywordtype">int</span> minDistance = Magic.MaxDistance + 1; <span class="comment">//maximun joining distance</span>
+            <span class="keywordtype">int</span> minDistance = Magic.MaxJoinDistance + 1; <span class="comment">//maximun joining distance</span>
 
             <span class="comment">//sort configs by size</span>
             Commander.Groups.Sort((a, b) =&gt; a.Pirates.Count.CompareTo(b.Pirates.Count));
@@ -114,7 +114,7 @@
                         }
                     }
                     <span class="comment">//join the groups if they are close enough</span>
-                    <span class="keywordflow">if</span> (minDistance &lt;= Magic.MaxDistance)
+                    <span class="keywordflow">if</span> (minDistance &lt;= Magic.MaxJoinDistance)
                     {
                         <span class="keywordflow">if</span> (tempGroup != null)
                         {
@@ -144,7 +144,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 22:10:45 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 23:28:35 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

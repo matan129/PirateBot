@@ -58,6 +58,7 @@
    <td valign="top">
       <div class="navtab">
         <table>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a9498c0e3108259903c248a99f4f2c79e.html#a9498c0e3108259903c248a99f4f2c79e">_deadPirates</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_aa0737b75f52f2c9de0d60cb52434fae8.html#aa0737b75f52f2c9de0d60cb52434fae8">_turnTimer</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a8de7386f2dd47bd9f413e9d5bd98b48d.html#a8de7386f2dd47bd9f413e9d5bd98b48d">CalcMaxPrioritiesNum</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a5006819e24e84561e03de887c1b07d8d.html#a5006819e24e84561e03de887c1b07d8d">CalculateAndAssignTargets</a></td></tr>
@@ -71,6 +72,7 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_aaafbe6948d6be8c73febb9df67fe095d.html#aaafbe6948d6be8c73febb9df67fe095d">GetUltimateGameConfig</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a2175981b1d8a87e81f5ca7c492269e86.html#a2175981b1d8a87e81f5ca7c492269e86">GlobalizeScore</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f">Groups</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a9b683506ded99be3476e27d44edfe6e9.html#a9b683506ded99be3476e27d44edfe6e9">MergeSimilar</a></td></tr>
           <tr><td class="navtab"><a class="qindexHL" href="classBritbot_1_1Commander_af9e049e81005e699f08447e54fff41eb.html#af9e049e81005e699f08447e54fff41eb">Play</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Commander_a6f6d8ab39bcd4acb9873900c4de58ab2.html#a6f6d8ab39bcd4acb9873900c4de58ab2">StartCalcPriorities</a></td></tr>
         </table>
@@ -104,7 +106,7 @@
 
 <p>Do something! </p>
 
-<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00143">143</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
+<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00147">147</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">// Restart the timer</span>
             <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>._turnTimer.Restart();
@@ -112,6 +114,14 @@
             <span class="comment">//note that because this method is on a separate thread we need this try-catch although we have on our bot</span>
             <span class="keywordflow">try</span>
             {
+                List&lt;int&gt; alive = Bot.Game.AllMyPirates().Where(p =&gt; !p.IsLost).ToList().ConvertAll(p =&gt; p.Id);
+                List&lt;int&gt; revived = alive.Intersect(<a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>._deadPirates).ToList();
+
+                <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pid <span class="keywordflow">in</span> revived)
+                {
+                    <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.Add(<span class="keyword">new</span> Group(<span class="keyword">new</span>[] { pid }));
+                }
+                
                 <span class="comment">//if (Bot.Game.GetTurn() % 7 == 3)</span>
                 {
                     Logger.BeginTime(<span class="stringliteral">&quot;Update&quot;</span>);
@@ -125,7 +135,7 @@
                 SmartIsland.UpdateAll();
                 Logger.StopTime(<span class="stringliteral">&quot;UpdateAll&quot;</span>);
 
-                <span class="comment">//if (Bot.Game.GetTurn() % 5 == 1)</span>
+                <span class="keywordflow">if</span> (Bot.Game.GetTurn() % 5 == 1)
                 {
                     Logger.BeginTime(<span class="stringliteral">&quot;CalculateAndAssignTargets&quot;</span>);
                     <span class="comment">//calculate targets</span>
@@ -133,7 +143,7 @@
                     Logger.StopTime(<span class="stringliteral">&quot;CalculateAndAssignTargets&quot;</span>);
                 }
 
-                <span class="comment">//if (Bot.Game.GetTurn() % 5 &gt;2)</span>
+               <span class="comment">// if (Bot.Game.GetTurn() % 5 &gt;2)</span>
                 {
                     <span class="comment">//fix configuration</span>
                     Logger.BeginTime(<span class="stringliteral">&quot;ReConfigure&quot;</span>);
@@ -142,7 +152,7 @@
                 }
 
                 Logger.BeginTime(<span class="stringliteral">&quot;FixGroupArrangement&quot;</span>);
-                <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.FixGroupArrangement();
+                <span class="comment">//Commander.FixGroupArrangement();</span>
                 Logger.StopTime(<span class="stringliteral">&quot;FixGroupArrangement&quot;</span>);
 
                 Logger.BeginTime(<span class="stringliteral">&quot;GetAllMoves&quot;</span>);
@@ -163,6 +173,20 @@
                 Logger.Write(
                     <span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;Commander done doing calculations and drinking coffee after {0}ms&quot;</span>,
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>._turnTimer.ElapsedMilliseconds), <span class="keyword">true</span>);
+
+                <span class="keywordflow">foreach</span> (Group g <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>)
+                {
+                    Bot.Game.Debug(<span class="stringliteral">&quot;Group &quot;</span> + g + <span class="stringliteral">&quot;assigend to &quot;</span> + g.Target);
+                }
+
+                <span class="comment">//remove dead groups</span>
+                <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.RemoveAll(g =&gt; g.Pirates.Count == 0);
+
+                <span class="comment">//update DEAD</span>
+                <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>._deadPirates = Bot.Game.AllMyPirates().Where(p =&gt; p.IsLost).ToList().ConvertAll(p =&gt; p.Id);
+
+                <span class="comment">//if (Bot.Game.GetTurn() &gt; 1)</span>
+                    <span class="comment">//Commander.MergeSimilar();</span>
 
                 <span class="comment">//we are on time!</span>
                 onTime = <span class="keyword">true</span>;
@@ -217,7 +241,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 22:10:44 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 23:28:35 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

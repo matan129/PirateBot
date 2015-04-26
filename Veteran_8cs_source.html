@@ -109,7 +109,7 @@
 <a name="l00062"></a><a class="code" href="classBritbot_1_1Veteran_a0e392b393700a1d3cacfde246e3022cb.html#a0e392b393700a1d3cacfde246e3022cb">00062</a>         <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Veteran_a0e392b393700a1d3cacfde246e3022cb.html#a0e392b393700a1d3cacfde246e3022cb" title="A method that reffers to the ULTIMATE CONFIGURATION and joins the group as needed.">GroupJoining</a>(List&lt;int&gt; ultimateConfig)
 <a name="l00063"></a>00063         {
 <a name="l00064"></a>00064             <a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> tempGroup = null;
-<a name="l00065"></a>00065             <span class="keywordtype">int</span> minDistance = <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a44ecb595cf7d07166a6fbfbf55fc7589.html#a44ecb595cf7d07166a6fbfbf55fc7589" title="Max distace two groups can be from eachother and still be joind.">MaxDistance</a> + 1; <span class="comment">//maximun joining distance</span>
+<a name="l00065"></a>00065             <span class="keywordtype">int</span> minDistance = <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a6b9747e4c1fd2a47175723bdec7f5110.html#a6b9747e4c1fd2a47175723bdec7f5110" title="Max distace two groups can be from eachother and still be joind.">MaxJoinDistance</a> + 1; <span class="comment">//maximun joining distance</span>
 <a name="l00066"></a>00066 
 <a name="l00067"></a>00067             <span class="comment">//sort configs by size</span>
 <a name="l00068"></a>00068             <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>.Sort((a, b) =&gt; a.Pirates.Count.CompareTo(b.Pirates.Count));
@@ -136,7 +136,7 @@
 <a name="l00089"></a>00089                         }
 <a name="l00090"></a>00090                     }
 <a name="l00091"></a>00091                     <span class="comment">//join the groups if they are close enough</span>
-<a name="l00092"></a>00092                     <span class="keywordflow">if</span> (minDistance &lt;= <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a44ecb595cf7d07166a6fbfbf55fc7589.html#a44ecb595cf7d07166a6fbfbf55fc7589" title="Max distace two groups can be from eachother and still be joind.">MaxDistance</a>)
+<a name="l00092"></a>00092                     <span class="keywordflow">if</span> (minDistance &lt;= <a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a6b9747e4c1fd2a47175723bdec7f5110.html#a6b9747e4c1fd2a47175723bdec7f5110" title="Max distace two groups can be from eachother and still be joind.">MaxJoinDistance</a>)
 <a name="l00093"></a>00093                     {
 <a name="l00094"></a>00094                         <span class="keywordflow">if</span> (tempGroup != null)
 <a name="l00095"></a>00095                         {
@@ -204,7 +204,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 22:10:44 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 23:28:34 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

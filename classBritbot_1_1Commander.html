@@ -101,6 +101,8 @@ Static Private Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This static constructor will run once and initialize the commander.  <a href="#a1e785a0c42f391601b819f05e3bf5251"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Commander_a2175981b1d8a87e81f5ca7c492269e86.html#a2175981b1d8a87e81f5ca7c492269e86">GlobalizeScore</a> (<a class="el" href="classBritbot_1_1Simulator_1_1SimulatedGame.html">SimulatedGame</a> sg, <a class="el" href="classBritbot_1_1Score.html">Score</a>[] scoreArr, CancellationToken cancellationToken)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This function should convert an array of local scores into a numeric score based on global criteria.  <a href="#a2175981b1d8a87e81f5ca7c492269e86"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Commander_a9b683506ded99be3476e27d44edfe6e9.html#a9b683506ded99be3476e27d44edfe6e9">MergeSimilar</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Merges similar groups.  <a href="#a9b683506ded99be3476e27d44edfe6e9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static Dictionary&lt; Pirate, <br class="typebreak"/>
 Direction &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Commander_a280cca0850a1a5074e7110b129acaaa9.html#a280cca0850a1a5074e7110b129acaaa9">GetAllMoves</a> (CancellationToken cancellationToken)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets all th moves for each pirate in each group.  <a href="#a280cca0850a1a5074e7110b129acaaa9"></a><br/></td></tr>
@@ -115,11 +117,12 @@ Direction &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 <tr><td colspan="2"><h2><a name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static Stopwatch&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Commander_aa0737b75f52f2c9de0d60cb52434fae8.html#aa0737b75f52f2c9de0d60cb52434fae8">_turnTimer</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static List&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Commander_a9498c0e3108259903c248a99f4f2c79e.html#a9498c0e3108259903c248a99f4f2c79e">_deadPirates</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Just stuff that makes the hard decisions. </p>
 
-<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00018">18</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
+<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00019">19</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="Commander_8cs_source.html">Commander.cs</a></li>
 </ul>
@@ -127,7 +130,7 @@ Static Private Attributes</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 22:10:44 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 23:28:34 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
