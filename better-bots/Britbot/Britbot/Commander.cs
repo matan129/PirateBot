@@ -190,7 +190,7 @@ namespace Britbot
                 }
 
                 Logger.BeginTime("FixGroupArrangement");
-                Commander.FixGroupArrangement();
+                //Commander.FixGroupArrangement();
                 Logger.StopTime("FixGroupArrangement");
 
                 Logger.BeginTime("GetAllMoves");
@@ -224,7 +224,7 @@ namespace Britbot
                 Commander._deadPirates = Bot.Game.AllMyPirates().Where(p => p.IsLost).ToList().ConvertAll(p => p.Id);
 
                 //if (Bot.Game.GetTurn() > 1)
-                    Commander.MergeSimilar();
+                    //Commander.MergeSimilar();
 
                 //we are on time!
                 onTime = true;
@@ -401,7 +401,7 @@ namespace Britbot
         /// <returns></returns>
         private static double GlobalizeScore(SimulatedGame sg, Score[] scoreArr, CancellationToken cancellationToken)
         {
-            //double totalDensityBonus = 0;
+            double totalDensityBonus = 0;
             if (Magic.UseBasicGlobalizing)
             {
                 double score = 0;
@@ -410,6 +410,7 @@ namespace Britbot
                 foreach (Score s in scoreArr)
                 {
                     score -= s.Eta;
+                    score += totalDensityBonus * Magic.DensityBonusCoefficient;
                 }
 
                 for (int i = 0; i < scoreArr.Length - 1; i++)
@@ -424,7 +425,10 @@ namespace Britbot
                 for (int i = 0; i < scoreArr.Length; i++)
                 {
                     if (scoreArr[i].Target == Commander.Groups[i].Target)
-                        score += Magic.DecisivenessBonus;
+                    {
+                        int bonus = (int) Math.Abs(score * Magic.DecisivenessBonus);
+                        score += bonus;
+                    }
                     if (scoreArr[i].EnemyShips >= Commander.Groups[i].Pirates.Count)
                         score -= 5000;
                 }
@@ -434,7 +438,6 @@ namespace Britbot
             }
             else
             {
-                //int totalDensityBonus = 0;
                 //reset simulation
                 sg.ResetSimulation();
 

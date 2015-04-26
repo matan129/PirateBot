@@ -94,8 +94,7 @@ namespace Britbot
         {
             //---------------#Magic_Numbers--------------------
             //first check if groups direction is stable, otherwise disqualify
-            double stabilityCoeff = 0.75;
-            if (this.GetHeadingSabilityCoeff() < stabilityCoeff)
+            if (this.GetHeadingSabilityCoeff() < Magic.stabilityCoeff)
                 return null;
 
             //check if the enemy group isn't in spawn
@@ -112,7 +111,7 @@ namespace Britbot
             //lower score is worse. Mind the minus sign!
             double distance = Navigator.CalcDistFromLine(origin.GetLocation(), this.GetLocation(), this.GetHeading());
 
-            //consider attack radious
+            //consider attack radius
             distance -= Math.Sqrt(Bot.Game.GetAttackRadius());
             distance = Math.Max(distance, 0);
 
@@ -204,11 +203,8 @@ namespace Britbot
         public void TargetDessignmentEvent()
         {
             //this defines what is the minimum turn number till it is legit to change target (on average)
-            //---------------#Magic_Numbers--------------------
-            const int minimumTillItIsOkToDropTarget = 5;
-
-            //check if time from the last assignment raises suspition of inteligence in the enemy
-            if (Bot.Game.GetTurn() - this._lastAssignmentTurn < minimumTillItIsOkToDropTarget)
+             //check if time from the last assignment raises suspition of inteligence in the enemy
+            if (Bot.Game.GetTurn() - this._lastAssignmentTurn < Magic.minimumTillItIsOkToDropTarget)
             {
                 Enemy.EnemyIntelligenceSuspicionCounter++;
             }
@@ -466,13 +462,10 @@ namespace Britbot
                 (a, b) =>
                     Bot.Game.Distance(b.Loc, this.GetLocation()).CompareTo(Bot.Game.Distance(a.Loc, this.GetLocation())));
 
-            //Should be tested because magic numbers aren't a good habit
-            const int toleranceMargin = 2;
-
             foreach (SmartIsland isle in sortedByDistance)
             {
                 //check if distance is smaller then tolerance margin
-                if (Navigator.CalcDistFromLine(isle.GetLocation(), GetLocation(), this.GetHeading()) < toleranceMargin)
+                if (Navigator.CalcDistFromLine(isle.GetLocation(), GetLocation(), this.GetHeading()) < Magic.toleranceMargin)
                     return isle;
             }
 

@@ -23,7 +23,7 @@ namespace Britbot
         /// </summary>
         public static void ReConfigure()
         {
-            if ((Bot.Game.GetTurn() % 10) == 1)
+            if ((Magic.DoConfiguration))
                 Veteran.UltimateConfig = Commander.GetUltimateGameConfig();
          
             Logger.Write("Ultimate Config:", true);

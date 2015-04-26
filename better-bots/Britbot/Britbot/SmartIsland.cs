@@ -343,6 +343,12 @@ namespace Britbot
             return Magic.MaxCalculableDistance;
         }
 
+        public override string ToString()
+        {
+            return this.Debug();
+        }
+
+
         /*public int GetEnemyNum()
         {
             int max = 0;
@@ -365,9 +371,9 @@ namespace Britbot
             SmartIsland.DebugAll();
         }
 
-        public void Debug()
+        public string Debug()
         {
-            //Bot.Game.Debug("Island " + this.Id + " enemies: " + string.Join(", ", this.approachingEnemies));
+             return "Island " + this.Id + " enemies: " + string.Join(", ", this.approachingEnemies) + this.Loc;
         }
 
         public static void DebugAll()
