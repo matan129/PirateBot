@@ -217,6 +217,10 @@ namespace Britbot
             catch (OperationCanceledException) //catch task cancellation
             {
                 Logger.Write("****** COMMANDER EXITING DUE TO TASK CANCELLATION ******", true);
+
+                //LOWER THE ITERATION NUMBER!!
+                Magic.MaxIterator -= 250;
+
                 onTime = false;
                 Logger.Profile();
                 return new Dictionary<Pirate, Direction>();
@@ -277,8 +281,6 @@ namespace Britbot
 
             //create new simulated game
             SimulatedGame sg = new SimulatedGame();
-            
-            Bot.Game.Debug("AA");
 
             //iterating over all possible target assignments
             do
@@ -300,8 +302,6 @@ namespace Britbot
                     Array.Copy(iterator.Values, maxAssignment, iterator.Values.Length);
                 }
             } while (iterator.NextIteration());
-
-            Bot.Game.Debug("BB");
             
             //read the "winning" assignment
             scoreArr = Commander.GetSpecificAssignmentScores(possibleAssignments, maxAssignment);
@@ -476,9 +476,6 @@ namespace Britbot
             foreach (Group group in Commander.Groups)
             {
                 List<KeyValuePair<Pirate, Direction>> v = group.GetGroupMoves(cancellationToken).ToList();
-
-                Bot.Game.Debug("Group with " + string.Join(",",group.Pirates)+ " moving " + string.Join(",",v.ConvertAll(a => a.Key.Id)));
-
                 allMoves.AddRange(v);
             }
 

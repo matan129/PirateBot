@@ -259,7 +259,6 @@ namespace Britbot.Simulator
                 PPT = this.CalculatePpt();
 
                 nextTurn = this.CommingEvents.First.Turn;
-                
 
                 //update score
                 this.Score += (nextTurn - this.CurrentTurn) * PPT;

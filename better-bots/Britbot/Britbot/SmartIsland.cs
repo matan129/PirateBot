@@ -125,7 +125,7 @@ namespace Britbot
             //check if there are more enemies than we can kill
             if (this.IsDangerousForGroup(origin))
             {
-                Bot.Game.Debug("Danger--- Group " + origin.Id + " island: " + this.Id);
+                //Bot.Game.Debug("Danger--- Group " + origin.Id + " island: " + this.Id);
                 return null;
             }
 
@@ -366,7 +366,7 @@ namespace Britbot
 
         public void Debug()
         {
-            Bot.Game.Debug("Island " + this.Id + " enemies: " + string.Join(", ", this.approachingEnemies));
+            //Bot.Game.Debug("Island " + this.Id + " enemies: " + string.Join(", ", this.approachingEnemies));
         }
 
         public static void DebugAll()

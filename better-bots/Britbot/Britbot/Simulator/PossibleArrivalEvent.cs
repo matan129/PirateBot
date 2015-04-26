@@ -42,6 +42,11 @@ namespace Britbot.Simulator
         /// <param name="sg"></param>
         public override bool Activate(SimulatedGame sg)
         {
+            if (this.ArrivingGroup.IsBusy)
+                return false;
+
+            this.ArrivingGroup.IsBusy = true;
+
             //check if the arriving group is alive
             if (this.ArrivingGroup.IsAlive)
             {

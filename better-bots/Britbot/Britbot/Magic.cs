@@ -21,7 +21,7 @@ namespace Britbot
         /// <summary>
         ///     Max safe iterator iterations per turn
         /// </summary>
-        public static int MaxIterator = 2000;
+        public static int MaxIterator = 1500;
 
         /// <summary>
         ///     Max distace two groups can be from eachother and still be joind
@@ -41,11 +41,12 @@ namespace Britbot
         /// <summary>
         ///     Max groups to allow in the config
         /// </summary>
-        public static int MaxGroups = 400;
+        public static int MaxGroups = 5;
 
         public static double ScoreConssitencyFactor = 0.0;
 
         public static int DecisivenessBonus = 1000;
+        public static int LowerIteratorBound = 1000;
 
         #endregion
 
@@ -65,7 +66,7 @@ namespace Britbot
         /// </summary>
         public static double EnemyPredictionSensitivity
         {
-            get { return 1.5 * Math.Sqrt(Bot.Game.GetAttackRadius()); }
+            get { return 2.5 * Math.Sqrt(Bot.Game.GetAttackRadius()); }
         }
 
         /// <summary>

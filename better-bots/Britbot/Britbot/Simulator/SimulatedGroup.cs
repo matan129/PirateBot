@@ -84,6 +84,7 @@ namespace Britbot.Simulator
 
         #endregion
 
+        public bool IsBusy = false;
         
         public int ActualFirePower()
         {

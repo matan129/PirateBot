@@ -201,11 +201,11 @@ namespace Britbot.PriorityQueue
         /// </summary>
 #if NET_VERSION_4_5
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        #endif
+#endif
         private bool HasHigherPriority(T higher, T lower)
         {
             return (higher.Priority < lower.Priority ||
-                    (higher.Priority == lower.Priority && higher.InsertionIndex < lower.InsertionIndex));
+                    (Math.Abs(higher.Priority - lower.Priority) < 0.01 && higher.InsertionIndex < lower.InsertionIndex));
         }
 
         /// <summary>
