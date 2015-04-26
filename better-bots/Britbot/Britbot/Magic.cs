@@ -45,6 +45,8 @@ namespace Britbot
 
         public static double ScoreConssitencyFactor = 0.0;
 
+        public static int DecisivenessBonus = 1000;
+
         #endregion
 
         #region Fields & Properies

@@ -148,7 +148,7 @@ namespace Britbot
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
             {
-                if (Bot.Game.GetTurn() % 10 == 0)
+                //if (Bot.Game.GetTurn() % 7 == 3)
                 {
                     Logger.BeginTime("Update");
                     //update the enemy info
@@ -161,12 +161,15 @@ namespace Britbot
                 SmartIsland.UpdateAll();
                 Logger.StopTime("UpdateAll");
 
-                Logger.BeginTime("CalculateAndAssignTargets");
-                //calculate targets
-                Commander.CalculateAndAssignTargets(cancellationToken);
-                Logger.StopTime("CalculateAndAssignTargets");
+                //if (Bot.Game.GetTurn() % 5 == 1)
+                {
+                    Logger.BeginTime("CalculateAndAssignTargets");
+                    //calculate targets
+                    Commander.CalculateAndAssignTargets(cancellationToken);
+                    Logger.StopTime("CalculateAndAssignTargets");
+                }
 
-                if (Bot.Game.GetTurn() % 30 < 15)
+                if (Bot.Game.GetTurn() % 10 >5)
                 {
                     //fix configuration
                     Logger.BeginTime("ReConfigure");
@@ -375,24 +378,16 @@ namespace Britbot
             if (Commander.UseBasicGlobalizing())
             {
                 double score = 0;
-                double timeAvg = 0;
-                double enemyShips = 0;
-                double ownedIslands = 0;
                 double maxIslandOwnership = 0;
                 double totalProjectedPoints = 0;
 
-                foreach (Score s in scoreArr)
+                for (int i = 0; i < scoreArr.Length; i++)
                 {
-                    //Throwing an exception if cancellation was requested.
-                    cancellationToken.ThrowIfCancellationRequested();
+                    if (scoreArr[i].Target == Commander.Groups[i].Target)
+                        score += Magic.DecisivenessBonus;
 
-                    //Calculates the Island that will be held onto the longest
-                    if (maxIslandOwnership < s.MinTurnsToEnemyCapture)
-                        maxIslandOwnership = s.MinTurnsToEnemyCapture;
-
-                    ownedIslands += s.Value; //Number of owned islands in this option
-                    enemyShips += s.EnemyShips; //enemy ships destroyed in this option
-                    timeAvg += s.Eta;
+                    if (maxIslandOwnership < scoreArr[i].MinTurnsToEnemyCapture)
+                        maxIslandOwnership = scoreArr[i].MinTurnsToEnemyCapture;
                 }
 
                 //check if there are two of the same target
@@ -404,6 +399,7 @@ namespace Britbot
                             score -= 1000;
                     }
                 }
+
                 //TODO: This is EXTEMELY inefficient, we dont need to go over each turn, we only need to go over turns in which things change, Ron talk to me sometime (Matan K)
                 //TODO: add points also for killing pirates
                 //TODO: Recalculate IslandOwnership when an enemy pirate dies (This will help better implement the killing of enemy pirates in the score)

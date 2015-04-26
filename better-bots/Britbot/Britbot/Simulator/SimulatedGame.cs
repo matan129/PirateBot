@@ -151,18 +151,22 @@ namespace Britbot.Simulator
                         newEvent = new GroupArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
                                       this.Islands[sIsland.Id],
                                       this.EnemyGroups[enemy.Key.Id]);
+                        this.ConstantEvents.Add(newEvent);
 
                         
                     }
-                    else
+                    else if ((int)enemy.Key.MinimalETATo(sIsland.Loc) < 50)
                     {
+                        
                         newEvent = new PossibleArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
                                       this.Islands[sIsland.Id],
                                       this.EnemyGroups[enemy.Key.Id]);
+                        this.ConstantEvents.Add(newEvent);
                     }
 
+
                     //add the event
-                    this.ConstantEvents.Add(newEvent);
+                    
                 }
 
                 //check if there are ships on the islands

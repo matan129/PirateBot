@@ -295,7 +295,7 @@ namespace Britbot
         {
             Logger.BeginTime("GetStructureMoves");
             //check if we are not stuck try to get into formation for too long
-            if (this._formTurnsAttempt > this.Pirates.Count * 2)
+            if (this._formTurnsAttempt > this.Pirates.Count * 1)
                 //if we are stuck, request new instructions. This will reset the _formTurnsAttempt counter
                 this.GenerateFormationInstructions();
 
