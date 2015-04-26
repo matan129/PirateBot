@@ -426,7 +426,7 @@ namespace Britbot
             //if the group passed the previous test, return true (meaning that the group is formed)
             if (!confirmUnstructured)
             {
-                Logger.Write(string.Format("Group {0} is formed", this.Id), true);
+                Logger.Write(string.Format("Group {0} is formed", this.Id));
                 Logger.StopTime("IsFormed at group " + this.Id);
                 return true;
             }
@@ -446,7 +446,7 @@ namespace Britbot
             }
             catch //if there's an exception (such as InvalidLocationException) return false
             {
-                Logger.Write(String.Format("Group {0} is not formed yet", this.Id), true);
+                Logger.Write(String.Format("Group {0} is not formed yet", this.Id));
                 Logger.StopTime("IsFormed at group " + this.Id);
                 return false;
             }
@@ -455,7 +455,7 @@ namespace Britbot
             if (structureFull == null)
             {
                 //...return false
-                Logger.Write(String.Format("Group {0} is not formed yet", this.Id), true);
+                Logger.Write(String.Format("Group {0} is not formed yet", this.Id));
                 Logger.StopTime("IsFormed at group " + this.Id);
                 return false;
             }
@@ -494,14 +494,14 @@ namespace Britbot
             //like if we have 4 pirates we need the 2nd ring (index 1) but but there will be on free spot)
             if (emptyCells == structureFull.Length - this.Pirates.Count)
             {
-                Logger.Write(String.Format("Group {0} is formed", this.Id), true);
+                Logger.Write(String.Format("Group {0} is formed", this.Id));
                 Logger.StopTime("IsFormed at group " + this.Id);
                 return true;
             }
 
             ReturnFalse:
             //if we are still not formed, return the right answer
-            Logger.Write(String.Format("Group {0} is not formed yet", this.Id), true);
+            Logger.Write(String.Format("Group {0} is not formed yet", this.Id));
 
             Logger.StopTime("IsFormed at group " + this.Id);
             return false;

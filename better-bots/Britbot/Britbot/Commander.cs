@@ -377,7 +377,7 @@ namespace Britbot
         {
             double totalDensityBonus = 0;
 
-            if (Commander.UseBasicGlobalizing())
+            if (Magic.UBG)
             {
                 double score = 0;
                 double maxIslandOwnership = 0;
@@ -455,11 +455,6 @@ namespace Britbot
                 }
                 return score + totalDensityBonus * Magic.DensityBonusCoefficient;
             }
-        }
-
-        private static bool UseBasicGlobalizing()
-        {
-            return false;
         }
 
         /// <summary>

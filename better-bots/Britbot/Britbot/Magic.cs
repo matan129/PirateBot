@@ -18,6 +18,8 @@ namespace Britbot
         public const double EnemyBaseFactor = 0;
         public const double FriendlyBaseFactor = 0;
         public const double DensityBonusCoefficient = 0.0;
+        public const bool UBG = true;
+
 
         /// <summary>
         ///     Max safe iterator iterations per turn
@@ -27,12 +29,12 @@ namespace Britbot
         /// <summary>
         ///     Max distace two groups can be from eachother and still be joind
         /// </summary>
-        public static int MaxDistance = 60;
+        public static int MaxDistance = 100;
 
         /// <summary>
         ///     Length of global score's simulation
         /// </summary>
-        public static readonly int SimulationLength = 80;
+        public static readonly int SimulationLength = 90;
 
         /// <summary>
         ///     The range a cloaked pirate has to be from a taget to be revealed
@@ -42,7 +44,7 @@ namespace Britbot
         /// <summary>
         ///     Max groups to allow in the config
         /// </summary>
-        public static int MaxGroups = 5;
+        public static int MaxGroups = 8;
 
         public static double ScoreConssitencyFactor = 0.0;
 
