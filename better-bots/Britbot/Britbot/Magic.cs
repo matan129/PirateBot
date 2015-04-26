@@ -12,13 +12,27 @@ namespace Britbot
     internal static class Magic
     {
         #region Static Fields & Consts
-
+        //We should really write what each of these are. I have consentrated them all here but I dont have a clue what each of them do.
         public const double VectorTolerance = 0.001;
         internal const int OutOfDateNumber = 10;
         public const double EnemyBaseFactor = 0;
         public const double FriendlyBaseFactor = 0;
-        public const double DensityBonusCoefficient = 0.0;
+        /// <summary>
+        /// The coefficient used when adding an island density bonus to the score (makes islands closer in proximity to others better)
+        /// </summary>
+        public const double DensityBonusCoefficient = 0.2;
+        /// <summary>
+        /// Whether or not we use the newer and better globalize score or the simple one
+        /// </summary>
         public const bool UseBasicGlobalizing = true;
+        public const double stabilityCoeff = 0.75;
+        public const double minimumTillItIsOkToDropTarget = 5;
+        public const int toleranceMargin = 2;
+
+        /// <summary>
+        /// The maximum percent of casualties in a group before it is declared as no formed
+        /// </summary>
+        public const int casualtiesThresholdPercent = 20;
 
         /// <summary>
         ///     Max safe iterator iterations per turn
@@ -53,9 +67,26 @@ namespace Britbot
         #endregion
 
         #region Fields & Properies
-
         /// <summary>
-        ///     The radious of the area around enemy ships which we avoid
+        /// Calculates once in how many turns configuration can be recalculated
+        /// </summary>
+        public static bool DoConfiguration
+        {
+            get
+            {
+            return Bot.Game.GetTurn() % 10 == 1;
+            }
+        }
+        public static int tryAlternate
+        {
+            get
+            {
+                return Bot.Game.GetTurn() % 2;
+            }
+        }
+       
+        /// <summary>
+        ///     The radius of the area around enemy ships which we avoid
         /// </summary>
         public static double DangerZone
         {

@@ -321,7 +321,6 @@ namespace Britbot
                     //All the possible direction from the pirate to its position the the structure
                     List<Direction> possibleDirections = Bot.Game.GetDirections(pete, formOrder.Value);
 
-                    int tryAlternate = Bot.Game.GetTurn() % 2;
                     List<Direction> filteredDirections = new List<Direction>(possibleDirections.Count);
 
                     //iterate over the possible directions
@@ -344,8 +343,8 @@ namespace Britbot
                         yield return new KeyValuePair<Pirate, Direction>(pete, Direction.NOTHING);
                     else if (Bot.Game.Distance(pete.Loc, formOrder.Value) <= 15)
                         yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections.First());
-                    else if (filteredDirections.Count >= tryAlternate + 1)
-                        yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections[tryAlternate]);
+                    else if (filteredDirections.Count >= Magic.tryAlternate + 1)
+                        yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections[Magic.tryAlternate]);
                     else
                         yield return new KeyValuePair<Pirate, Direction>(pete, filteredDirections.First());
                 }
@@ -368,12 +367,12 @@ namespace Britbot
         ///     Checks if the group is formed
         /// </summary>
         /// <returns></returns>
-        private bool IsFormed(bool checkCasualties = true, int casualtiesThresholdPercent = 20)
+        private bool IsFormed(bool checkCasualties = true)
         {
             Logger.BeginTime("IsFormed at group " + this.Id);
 
             if (checkCasualties)
-                if (this.CasualtiesPercent() > casualtiesThresholdPercent) //if there are many casualties
+                if (this.CasualtiesPercent() > Magic.casualtiesThresholdPercent) //if there are many casualties
                 {
                     Logger.StopTime("IsFormed at group " + this.Id);
                     return false;
@@ -988,7 +987,7 @@ namespace Britbot
         /// <returns></returns>
         public int MinDistance(Group b)
         {
-            int minD = 9999999;
+            int minD = Bot.Game.GetRows() + Bot.Game.GetCols();
 
             foreach (int pA in this.Pirates)
             {

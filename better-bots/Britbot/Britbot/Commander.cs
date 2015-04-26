@@ -375,7 +375,7 @@ namespace Britbot
         /// <returns></returns>
         private static double GlobalizeScore(SimulatedGame sg, Score[] scoreArr, CancellationToken cancellationToken)
         {
-            //double totalDensityBonus = 0;
+            double totalDensityBonus = 0;
             if (Magic.UseBasicGlobalizing)
             {
                 double score = 0;
@@ -383,6 +383,7 @@ namespace Britbot
                 {
                     score += Math.Pow(2,s.Value)*50;
                     score -= s.Eta;
+                    score += totalDensityBonus * Magic.DensityBonusCoefficient;
                     
                 }
 
@@ -408,7 +409,7 @@ namespace Britbot
             }
             else
             {
-                int totalDensityBonus = 0;
+               
                 //reset simulation
                 sg.ResetSimulation();
 
