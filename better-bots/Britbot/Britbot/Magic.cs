@@ -24,9 +24,9 @@ namespace Britbot
         /// 
         /// </summary>
         internal const int OutOfDateNumber = 10;
-        public const double EnemyBaseFactor = 0;
 
-        public const double FriendlyBaseFactor = 0;
+        public const double EnemyBaseFactor = 1.1;
+        public const double FriendlyBaseFactor = 1.45;
         /// <summary>
         /// The coefficient used when adding an island density bonus to the score (makes islands closer in proximity to others better)
         /// </summary>
@@ -72,12 +72,12 @@ namespace Britbot
         /// <summary>
         ///     
         /// </summary>
-        public static double ScoreConssitencyFactor = 0.0;
+        public static double ScoreConssitencyFactor = 0.5;
 
         /// <summary>
         ///     
         /// </summary>
-        public static double DecisivenessBonus = 0.499999999999;
+        public static double DecisivenessBonus = 0.0;
 
         #endregion
 
