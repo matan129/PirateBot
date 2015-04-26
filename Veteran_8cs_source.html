@@ -76,7 +76,7 @@
 <a name="l00020"></a><a class="code" href="classBritbot_1_1Veteran_affe89e3801e887489a505433cf221a3b.html#affe89e3801e887489a505433cf221a3b">00020</a>         <span class="keyword">public</span> <span class="keyword">static</span> List&lt;int&gt; <a class="code" href="classBritbot_1_1Veteran_affe89e3801e887489a505433cf221a3b.html#affe89e3801e887489a505433cf221a3b">UltimateConfig</a>;
 <a name="l00024"></a><a class="code" href="classBritbot_1_1Veteran_a9ca19c3ee52fede95ab88c1a4e665b1e.html#a9ca19c3ee52fede95ab88c1a4e665b1e">00024</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Veteran_a9ca19c3ee52fede95ab88c1a4e665b1e.html#a9ca19c3ee52fede95ab88c1a4e665b1e" title="Splits and joins the current groups to match the ultimate configuration.">ReConfigure</a>()
 <a name="l00025"></a>00025         {
-<a name="l00026"></a>00026             <span class="keywordflow">if</span> ((<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetTurn() % 10) == 1)
+<a name="l00026"></a>00026             <span class="keywordflow">if</span> ((<a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_afca8529f930d6284ab70d4623db3ccd1.html#afca8529f930d6284ab70d4623db3ccd1" title="Calculates once in how many turns configuration can be recalculated.">DoConfiguration</a>))
 <a name="l00027"></a>00027                 <a class="code" href="classBritbot_1_1Veteran.html" title="An experienced ally to the commander who does bugger all.">Veteran</a>.<a class="code" href="classBritbot_1_1Veteran_affe89e3801e887489a505433cf221a3b.html#affe89e3801e887489a505433cf221a3b">UltimateConfig</a> = <a class="code" href="classBritbot_1_1Commander.html" title="Just stuff that makes the hard decisions.">Commander</a>.<a class="code" href="classBritbot_1_1Commander_aaafbe6948d6be8c73febb9df67fe095d.html#aaafbe6948d6be8c73febb9df67fe095d" title="Returns a list of integers that describes the current wanted configuration.">GetUltimateGameConfig</a>();
 <a name="l00028"></a>00028          
 <a name="l00029"></a>00029             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;Ultimate Config:&quot;</span>, <span class="keyword">true</span>);
@@ -204,7 +204,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 20:32:48 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 22:10:44 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

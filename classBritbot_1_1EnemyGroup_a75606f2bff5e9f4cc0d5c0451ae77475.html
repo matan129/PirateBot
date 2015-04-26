@@ -114,7 +114,7 @@
 <p>Tries to determine the island target of this group from its <a class="el" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a> if its probably the target or null if no island found</dd></dl>
 
-<p>Definition at line <a class="el" href="EnemyGroup_8cs_source.html#l00461">461</a> of file <a class="el" href="EnemyGroup_8cs_source.html">EnemyGroup.cs</a>.</p>
+<p>Definition at line <a class="el" href="EnemyGroup_8cs_source.html#l00457">457</a> of file <a class="el" href="EnemyGroup_8cs_source.html">EnemyGroup.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//Sort the islands by distance from this enemy group</span>
             List&lt;SmartIsland&gt; sortedByDistance = SmartIsland.IslandList;
@@ -122,13 +122,10 @@
                 (a, b) =&gt;
                     Bot.Game.Distance(b.Loc, <span class="keyword">this</span>.GetLocation()).CompareTo(Bot.Game.Distance(a.Loc, <span class="keyword">this</span>.GetLocation())));
 
-            <span class="comment">//Should be tested because magic numbers aren&#39;t a good habit</span>
-            <span class="keyword">const</span> <span class="keywordtype">int</span> toleranceMargin = 2;
-
             <span class="keywordflow">foreach</span> (SmartIsland isle <span class="keywordflow">in</span> sortedByDistance)
             {
                 <span class="comment">//check if distance is smaller then tolerance margin</span>
-                <span class="keywordflow">if</span> (Navigator.CalcDistFromLine(isle.GetLocation(), <a class="code" href="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22" title="Returns the average location for this group.">GetLocation</a>(), this.<a class="code" href="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78" title="This function calculates this enemy group direction based on its last directions simply adds them up...">GetHeading</a>()) &lt; toleranceMargin)
+                <span class="keywordflow">if</span> (Navigator.CalcDistFromLine(isle.GetLocation(), <a class="code" href="classBritbot_1_1EnemyGroup_a5baf37bbae853881af852dc4b6698b22.html#a5baf37bbae853881af852dc4b6698b22" title="Returns the average location for this group.">GetLocation</a>(), this.<a class="code" href="classBritbot_1_1EnemyGroup_a043a46710f747032dc19b3913e864c78.html#a043a46710f747032dc19b3913e864c78" title="This function calculates this enemy group direction based on its last directions simply adds them up...">GetHeading</a>()) &lt; Magic.toleranceMargin)
                     <span class="keywordflow">return</span> isle;
             }
 
@@ -144,7 +141,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 20:32:48 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 22:10:44 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

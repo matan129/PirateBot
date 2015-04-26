@@ -115,14 +115,11 @@
 
 <p>Implements <a class="el" href="interfaceBritbot_1_1ITarget_a9174feafa3c06c87cc4f15962bf2b020.html#a9174feafa3c06c87cc4f15962bf2b020">Britbot.ITarget</a>.</p>
 
-<p>Definition at line <a class="el" href="EnemyGroup_8cs_source.html#l00204">204</a> of file <a class="el" href="EnemyGroup_8cs_source.html">EnemyGroup.cs</a>.</p>
+<p>Definition at line <a class="el" href="EnemyGroup_8cs_source.html#l00203">203</a> of file <a class="el" href="EnemyGroup_8cs_source.html">EnemyGroup.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//this defines what is the minimum turn number till it is legit to change target (on average)</span>
-            <span class="comment">//---------------#Magic_Numbers--------------------</span>
-            <span class="keyword">const</span> <span class="keywordtype">int</span> minimumTillItIsOkToDropTarget = 5;
-
-            <span class="comment">//check if time from the last assignment raises suspition of inteligence in the enemy</span>
-            <span class="keywordflow">if</span> (Bot.Game.GetTurn() - this.<a class="code" href="classBritbot_1_1EnemyGroup_a4b0cdbc6cd1acd7cb4168c6369a971d7.html#a4b0cdbc6cd1acd7cb4168c6369a971d7" title="The last turn in which this target was assigned.">_lastAssignmentTurn</a> &lt; minimumTillItIsOkToDropTarget)
+             <span class="comment">//check if time from the last assignment raises suspition of inteligence in the enemy</span>
+            <span class="keywordflow">if</span> (Bot.Game.GetTurn() - this.<a class="code" href="classBritbot_1_1EnemyGroup_a4b0cdbc6cd1acd7cb4168c6369a971d7.html#a4b0cdbc6cd1acd7cb4168c6369a971d7" title="The last turn in which this target was assigned.">_lastAssignmentTurn</a> &lt; Magic.minimumTillItIsOkToDropTarget)
             {
                 Enemy.EnemyIntelligenceSuspicionCounter++;
             }
@@ -137,7 +134,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 20:32:48 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 22:10:44 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

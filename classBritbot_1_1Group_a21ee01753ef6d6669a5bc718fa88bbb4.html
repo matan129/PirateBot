@@ -82,7 +82,7 @@
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ade796fcbad52b797db2b3bb8cf36f8dd.html#ade796fcbad52b797db2b3bb8cf36f8dd">GroupCounter</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ac74f086371dd35beabf0dfba05520f01.html#ac74f086371dd35beabf0dfba05520f01">Heading</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a6a1b7e34ae7f4225284791ea0b914abd.html#a6a1b7e34ae7f4225284791ea0b914abd">Id</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ac98ebc3311b494306620aeed9e0725ca.html#ac98ebc3311b494306620aeed9e0725ca">IsFormed</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a7601d220b3a080758364926e7af2f849.html#a7601d220b3a080758364926e7af2f849">IsFormed</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a432444ef2d298f314390e5791a9934d7.html#a432444ef2d298f314390e5791a9934d7">Join</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a252b8f1d11f52800fad4ff2f95cb43fd.html#a252b8f1d11f52800fad4ff2f95cb43fd">LiveCount</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ae89cf02aa138a3b3c1168f6c7f68a998.html#ae89cf02aa138a3b3c1168f6c7f68a998">MinDistance</a></td></tr>
@@ -153,7 +153,6 @@
                     <span class="comment">//All the possible direction from the pirate to its position the the structure</span>
                     List&lt;Direction&gt; possibleDirections = Bot.Game.GetDirections(pete, formOrder.Value);
 
-                    <span class="keywordtype">int</span> tryAlternate = Bot.Game.GetTurn() % 2;
                     List&lt;Direction&gt; filteredDirections = <span class="keyword">new</span> List&lt;Direction&gt;(possibleDirections.Count);
 
                     <span class="comment">//iterate over the possible directions</span>
@@ -176,8 +175,8 @@
                         yield <span class="keywordflow">return</span> <span class="keyword">new</span> KeyValuePair&lt;Pirate, Direction&gt;(pete, Direction.NOTHING);
                     <span class="keywordflow">else</span> <span class="keywordflow">if</span> (Bot.Game.Distance(pete.Loc, formOrder.Value) &lt;= 15)
                         yield <span class="keywordflow">return</span> <span class="keyword">new</span> KeyValuePair&lt;Pirate, Direction&gt;(pete, filteredDirections.First());
-                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (filteredDirections.Count &gt;= tryAlternate + 1)
-                        yield <span class="keywordflow">return</span> <span class="keyword">new</span> KeyValuePair&lt;Pirate, Direction&gt;(pete, filteredDirections[tryAlternate]);
+                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (filteredDirections.Count &gt;= Magic.tryAlternate + 1)
+                        yield <span class="keywordflow">return</span> <span class="keyword">new</span> KeyValuePair&lt;Pirate, Direction&gt;(pete, filteredDirections[Magic.tryAlternate]);
                     <span class="keywordflow">else</span>
                         yield <span class="keywordflow">return</span> <span class="keyword">new</span> KeyValuePair&lt;Pirate, Direction&gt;(pete, filteredDirections.First());
                 }
@@ -194,7 +193,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 20:32:48 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 22:10:44 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

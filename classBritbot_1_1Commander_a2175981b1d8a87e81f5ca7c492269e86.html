@@ -120,7 +120,7 @@
 
 <p>Definition at line <a class="el" href="Commander_8cs_source.html#l00376">376</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
-            <span class="comment">//double totalDensityBonus = 0;</span>
+            <span class="keywordtype">double</span> totalDensityBonus = 0;
             <span class="keywordflow">if</span> (Magic.UseBasicGlobalizing)
             {
                 <span class="keywordtype">double</span> score = 0;
@@ -128,6 +128,7 @@
                 {
                     score += Math.Pow(2,s.Value)*50;
                     score -= s.Eta;
+                    score += totalDensityBonus * Magic.DensityBonusCoefficient;
                     
                 }
 
@@ -153,7 +154,7 @@
             }
             <span class="keywordflow">else</span>
             {
-                <span class="keywordtype">int</span> totalDensityBonus = 0;
+               
                 <span class="comment">//reset simulation</span>
                 sg.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a62686418b03c7dd30f65919ca5f5f183.html#a62686418b03c7dd30f65919ca5f5f183" title="This resets the simulation to begining, it should be used for every assignment.">ResetSimulation</a>();
 
@@ -196,7 +197,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 20:32:48 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 22:10:44 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
