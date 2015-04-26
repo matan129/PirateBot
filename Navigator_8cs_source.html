@@ -119,241 +119,319 @@
 <a name="l00072"></a>00072             <span class="keywordflow">else</span>
 <a name="l00073"></a>00073             <span class="comment">//otherwise use the A* thing</span>
 <a name="l00074"></a>00074 
-<a name="l00075"></a>00075                 d = <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a66540ba6db5fdb35f2592a245e2d8434.html#a66540ba6db5fdb35f2592a245e2d8434" title="Calculates first direction in path according to the A* algorithem explanation + the pseudo code used ...">CalculatePath</a>(myLoc, target);
-<a name="l00076"></a>00076             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5">StopTime</a>(<span class="stringliteral">&quot;CalculateDirectionToStationeryTarget&quot;</span>);
-<a name="l00077"></a>00077             <span class="keywordflow">return</span> d;
-<a name="l00078"></a>00078         }
-<a name="l00079"></a>00079 
-<a name="l00091"></a><a class="code" href="classBritbot_1_1Navigator_a72887659ebbb372cc2938750ca60fb53.html#a72887659ebbb372cc2938750ca60fb53">00091</a>         <span class="keyword">public</span> <span class="keyword">static</span> Direction <a class="code" href="classBritbot_1_1Navigator_a72887659ebbb372cc2938750ca60fb53.html#a72887659ebbb372cc2938750ca60fb53" title="This function calculates the directions to a moving target it does so by solving the intersection poi...">CalculateDirectionToMovingTarget</a>(Location myLoc, <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> myHeading,
-<a name="l00092"></a>00092             Location target, <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> targetHeading)
-<a name="l00093"></a>00093         {
-<a name="l00094"></a>00094             <span class="comment">//defining parameters for calculation (see image 1 under calculations)</span>
-<a name="l00095"></a>00095             <span class="keywordtype">double</span> a = targetHeading.<a class="code" href="classBritbot_1_1HeadingVector_ac430069042241046a59459c3f2c7442a.html#ac430069042241046a59459c3f2c7442a" title="returns the sum of X and Y meaning the duration of time of the calculation. this can be used as a cre...">Norm1</a>();
-<a name="l00096"></a>00096             <span class="keywordtype">double</span> b = target.Col - myLoc.Col;
-<a name="l00097"></a>00097             <span class="keywordtype">double</span> c = targetHeading.<a class="code" href="classBritbot_1_1HeadingVector_add4538f2b5a6d65e893dfb010ca3500f.html#add4538f2b5a6d65e893dfb010ca3500f" title="Positive X value means left and vice-versa.">X</a>;
-<a name="l00098"></a>00098             <span class="keywordtype">double</span> d = target.Row - myLoc.Row;
-<a name="l00099"></a>00099             <span class="keywordtype">double</span> e = targetHeading.<a class="code" href="classBritbot_1_1HeadingVector_abfc4aba249d23331ab25f043067ecc36.html#abfc4aba249d23331ab25f043067ecc36" title="Positive Y value means down and vice-versa.">Y</a>;
-<a name="l00100"></a>00100 
-<a name="l00101"></a>00101             <span class="comment">//calculating r, hopefully</span>
-<a name="l00102"></a>00102             <span class="keywordtype">double</span> r = <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a578c25eb10826baec8f9cee6031750af.html#a578c25eb10826baec8f9cee6031750af" title="This function should solve equation (*) in calculation sheet 2 I am not sure if this works...">SolveStupidEquation</a>(a, b, c, d, e);
-<a name="l00103"></a>00103 
-<a name="l00104"></a>00104             <span class="comment">//finally, calculating the intersection point</span>
-<a name="l00105"></a>00105             Location intersection = <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>.<a class="code" href="classBritbot_1_1HeadingVector_af861a548acd4510654479191b0dd7c4e.html#af861a548acd4510654479191b0dd7c4e" title="given your location and your heading this function calculates your new position after going with the ...">AddvanceByVector</a>(target, r * targetHeading);
-<a name="l00106"></a>00106 
-<a name="l00107"></a>00107             <span class="comment">//returning path to intersection</span>
-<a name="l00108"></a>00108             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a083b8fb69f34e015a5b84633004387bf.html#a083b8fb69f34e015a5b84633004387bf" title="Given your location, you current direction and the target&#39;s location, this method calculates the best...">CalculateDirectionToStationeryTarget</a>(myLoc, myHeading, intersection);
-<a name="l00109"></a>00109         }
-<a name="l00110"></a>00110 
-<a name="l00122"></a><a class="code" href="classBritbot_1_1Navigator_a578c25eb10826baec8f9cee6031750af.html#a578c25eb10826baec8f9cee6031750af">00122</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Navigator_a578c25eb10826baec8f9cee6031750af.html#a578c25eb10826baec8f9cee6031750af" title="This function should solve equation (*) in calculation sheet 2 I am not sure if this works...">SolveStupidEquation</a>(<span class="keywordtype">double</span> a, <span class="keywordtype">double</span> b, <span class="keywordtype">double</span> c, <span class="keywordtype">double</span> d, <span class="keywordtype">double</span> e)
-<a name="l00123"></a>00123         {
-<a name="l00124"></a>00124             <span class="comment">//TODO fix this</span>
-<a name="l00125"></a>00125             <span class="keywordtype">int</span>[] signs = {-1, 1};
-<a name="l00126"></a>00126             <span class="comment">//there are 4 options, going over them 2 by 2</span>
-<a name="l00127"></a>00127             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= 1; i++) <span class="comment">//i is the sign of c in r</span>
-<a name="l00128"></a>00128             {
-<a name="l00129"></a>00129                 <span class="keywordtype">int</span> cSign = signs[i];
-<a name="l00130"></a>00130                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt;= 1; j++) <span class="comment">//j is the sign of e in r</span>
-<a name="l00131"></a>00131                 {
-<a name="l00132"></a>00132                     <span class="keywordtype">int</span> eSign = signs[j];
-<a name="l00133"></a>00133                     <span class="keywordtype">double</span> r = -(cSign * b + eSign * d) / (a + cSign * c + eSign * e);
-<a name="l00134"></a>00134 
-<a name="l00135"></a>00135                     <span class="comment">//check if r isn&#39;t positive, if so we can skip it</span>
-<a name="l00136"></a>00136                     <span class="keywordflow">if</span> (r &lt;= 0)
-<a name="l00137"></a>00137                         <span class="keywordflow">continue</span>;
-<a name="l00138"></a>00138 
-<a name="l00139"></a>00139                     <span class="comment">//else check the critirions</span>
-<a name="l00140"></a>00140                     <span class="keywordflow">if</span> ((cSign * c * r &lt;= -cSign * b) &amp;&amp; (eSign * e * r &lt;= -eSign * d))
-<a name="l00141"></a>00141                     {
-<a name="l00142"></a>00142                         <span class="comment">//it is (probably?) the correct r</span>
-<a name="l00143"></a>00143                         <span class="keywordflow">return</span> r;
-<a name="l00144"></a>00144                     }
-<a name="l00145"></a>00145                 }
-<a name="l00146"></a>00146             }
-<a name="l00147"></a>00147 
-<a name="l00148"></a>00148             <span class="comment">//if we are here then i am wrong :)</span>
-<a name="l00149"></a>00149             <span class="keywordflow">throw</span> <span class="keyword">new</span> Exception(<span class="stringliteral">&quot;Matan K is an idiot&quot;</span>);
-<a name="l00150"></a>00150         }
-<a name="l00151"></a>00151 
-<a name="l00160"></a><a class="code" href="classBritbot_1_1Navigator_ae56686e406381b6c86d2bc982176758b.html#ae56686e406381b6c86d2bc982176758b">00160</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Navigator_ae56686e406381b6c86d2bc982176758b.html#ae56686e406381b6c86d2bc982176758b" title="calculates distance (in turns) from ship&#39;s trajectory to a given island location (point) uses the cal...">CalcDistFromLine</a>(Location point, Location linePoint, <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> dir)
-<a name="l00161"></a>00161         {
-<a name="l00162"></a>00162             <span class="comment">//first check if no direction</span>
-<a name="l00163"></a>00163             <span class="keywordflow">if</span> (dir.<a class="code" href="classBritbot_1_1HeadingVector_a566caa70189508f1df84bcf414446891.html#a566caa70189508f1df84bcf414446891" title="Returns the square of the vector&#39;s length might be used to normalize vectors for some computation...">NormSquared</a>() == 0)
-<a name="l00164"></a>00164                 <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Distance(point, linePoint);
-<a name="l00165"></a>00165 
-<a name="l00166"></a>00166             <span class="comment">//TODO fix this - Matan Kom</span>
-<a name="l00167"></a>00167             <span class="comment">//Find the difference vector between the point and the line point</span>
-<a name="l00168"></a>00168             <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> dif = <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>.<a class="code" href="classBritbot_1_1HeadingVector_ad3b0af7cfb8aea81f5c3d4673d3376c3.html#ad3b0af7cfb8aea81f5c3d4673d3376c3" title="Calculates the direction vector between two points.">CalcDifference</a>(point, linePoint);
-<a name="l00169"></a>00169             <span class="comment">//find the minimum t parameter</span>
-<a name="l00170"></a>00170             <span class="keywordtype">double</span> tMin = (-1 / dir.<a class="code" href="classBritbot_1_1HeadingVector_a566caa70189508f1df84bcf414446891.html#a566caa70189508f1df84bcf414446891" title="Returns the square of the vector&#39;s length might be used to normalize vectors for some computation...">NormSquared</a>()) * dir * dif;
-<a name="l00171"></a>00171 
-<a name="l00172"></a>00172             <span class="comment">//calculating actual distance (see calculation)</span>
-<a name="l00173"></a>00173             <span class="keywordflow">return</span> (dif + tMin * dir).<a class="code" href="classBritbot_1_1HeadingVector_ab9a1032df60de54330a4bac6ab1d4ed9.html#ab9a1032df60de54330a4bac6ab1d4ed9" title="returns the length of the vector (as a double) might be used to normalize vectors for some computatio...">Norm</a>();
-<a name="l00174"></a>00174             ;
-<a name="l00175"></a>00175         }
-<a name="l00176"></a>00176 
-<a name="l00184"></a><a class="code" href="classBritbot_1_1Navigator_a706f52323f1c94fd88e5bbaaaea0969a.html#a706f52323f1c94fd88e5bbaaaea0969a">00184</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Navigator_a706f52323f1c94fd88e5bbaaaea0969a.html#a706f52323f1c94fd88e5bbaaaea0969a" title="Given two pirates (id) it tells you who is &quot;more&quot; in a specific direction than the other...">ComparePirateByDirection</a>(<span class="keywordtype">int</span> p1, <span class="keywordtype">int</span> p2, <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> hv)
-<a name="l00185"></a>00185         {
-<a name="l00186"></a>00186             <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> originDif = <span class="keyword">new</span> <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>(<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(p1).Loc.Col,
-<a name="l00187"></a>00187                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(p1).Loc.Row);
-<a name="l00188"></a>00188             <span class="keywordtype">int</span> coef;
-<a name="l00189"></a>00189 
-<a name="l00190"></a>00190             <span class="keywordflow">if</span> (originDif * hv &gt; 0)
-<a name="l00191"></a>00191                 coef = 1;
-<a name="l00192"></a>00192             <span class="keywordflow">else</span>
-<a name="l00193"></a>00193                 coef = -1;
-<a name="l00194"></a>00194             <span class="comment">//calculate both pirates position on the line created by hv</span>
-<a name="l00195"></a>00195             <span class="keywordtype">double</span> p1Dist = <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_ae56686e406381b6c86d2bc982176758b.html#ae56686e406381b6c86d2bc982176758b" title="calculates distance (in turns) from ship&#39;s trajectory to a given island location (point) uses the cal...">CalcDistFromLine</a>(<span class="keyword">new</span> Location(0, 0), (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(p1)).Loc,
-<a name="l00196"></a>00196                 hv.<a class="code" href="classBritbot_1_1HeadingVector_a95945a35fa2dd64c2166df71a651df75.html#a95945a35fa2dd64c2166df71a651df75" title="Calculates a new vector perpendicular to the given one it simply rotates 90 degrees anti clockwise...">Orthogonal</a>());
-<a name="l00197"></a>00197             <span class="keywordtype">double</span> p2Dist = <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_ae56686e406381b6c86d2bc982176758b.html#ae56686e406381b6c86d2bc982176758b" title="calculates distance (in turns) from ship&#39;s trajectory to a given island location (point) uses the cal...">CalcDistFromLine</a>(<span class="keyword">new</span> Location(0, 0), (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(p2)).Loc,
-<a name="l00198"></a>00198                 hv.<a class="code" href="classBritbot_1_1HeadingVector_a95945a35fa2dd64c2166df71a651df75.html#a95945a35fa2dd64c2166df71a651df75" title="Calculates a new vector perpendicular to the given one it simply rotates 90 degrees anti clockwise...">Orthogonal</a>());
-<a name="l00199"></a>00199 
-<a name="l00200"></a>00200             <span class="keywordflow">return</span> coef * p1Dist.CompareTo(p2Dist);
-<a name="l00201"></a>00201         }
-<a name="l00202"></a>00202 
-<a name="l00210"></a><a class="code" href="classBritbot_1_1Navigator_a19f324336d9260724c4a88f2ab6b1c58.html#a19f324336d9260724c4a88f2ab6b1c58">00210</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1Navigator_a19f324336d9260724c4a88f2ab6b1c58.html#a19f324336d9260724c4a88f2ab6b1c58" title="This method calculates if you would be able to reach an enemy group or it would run away...">IsReachable</a>(Location group, Location target, <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> targetHeading)
-<a name="l00211"></a>00211         {
-<a name="l00212"></a>00212             <span class="comment">//if the target is stationary then return true</span>
-<a name="l00213"></a>00213             <span class="keywordflow">if</span> (targetHeading.<a class="code" href="classBritbot_1_1HeadingVector_ab9a1032df60de54330a4bac6ab1d4ed9.html#ab9a1032df60de54330a4bac6ab1d4ed9" title="returns the length of the vector (as a double) might be used to normalize vectors for some computatio...">Norm</a>() == 0)
-<a name="l00214"></a>00214                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00215"></a>00215             <span class="comment">//first check if it is running away (its direction is about the same as the difference between you</span>
-<a name="l00216"></a>00216             <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>.<a class="code" href="classBritbot_1_1HeadingVector_ad3b0af7cfb8aea81f5c3d4673d3376c3.html#ad3b0af7cfb8aea81f5c3d4673d3376c3" title="Calculates the direction vector between two points.">CalcDifference</a>(group, target) * targetHeading &gt; 0)
-<a name="l00217"></a>00217                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00218"></a>00218 
+<a name="l00075"></a>00075             d = <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a66540ba6db5fdb35f2592a245e2d8434.html#a66540ba6db5fdb35f2592a245e2d8434" title="Calculates first direction in path according to the A* algorithem explanation + the pseudo code used ...">CalculatePath</a>(myLoc, target);
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5">StopTime</a>(<span class="stringliteral">&quot;CalculateDirectionToStationeryTarget&quot;</span>);
+<a name="l00078"></a>00078             <span class="keywordflow">return</span> d;
+<a name="l00079"></a>00079         }
+<a name="l00080"></a>00080 
+<a name="l00092"></a><a class="code" href="classBritbot_1_1Navigator_a72887659ebbb372cc2938750ca60fb53.html#a72887659ebbb372cc2938750ca60fb53">00092</a>         <span class="keyword">public</span> <span class="keyword">static</span> Direction <a class="code" href="classBritbot_1_1Navigator_a72887659ebbb372cc2938750ca60fb53.html#a72887659ebbb372cc2938750ca60fb53" title="This function calculates the directions to a moving target it does so by solving the intersection poi...">CalculateDirectionToMovingTarget</a>(Location myLoc, <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> myHeading,
+<a name="l00093"></a>00093             Location target, <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> targetHeading)
+<a name="l00094"></a>00094         {
+<a name="l00095"></a>00095             <span class="comment">//defining parameters for calculation (see image 1 under calculations)</span>
+<a name="l00096"></a>00096             <span class="keywordtype">double</span> a = targetHeading.<a class="code" href="classBritbot_1_1HeadingVector_ac430069042241046a59459c3f2c7442a.html#ac430069042241046a59459c3f2c7442a" title="returns the sum of X and Y meaning the duration of time of the calculation. this can be used as a cre...">Norm1</a>();
+<a name="l00097"></a>00097             <span class="keywordtype">double</span> b = target.Col - myLoc.Col;
+<a name="l00098"></a>00098             <span class="keywordtype">double</span> c = targetHeading.<a class="code" href="classBritbot_1_1HeadingVector_add4538f2b5a6d65e893dfb010ca3500f.html#add4538f2b5a6d65e893dfb010ca3500f" title="Positive X value means left and vice-versa.">X</a>;
+<a name="l00099"></a>00099             <span class="keywordtype">double</span> d = target.Row - myLoc.Row;
+<a name="l00100"></a>00100             <span class="keywordtype">double</span> e = targetHeading.<a class="code" href="classBritbot_1_1HeadingVector_abfc4aba249d23331ab25f043067ecc36.html#abfc4aba249d23331ab25f043067ecc36" title="Positive Y value means down and vice-versa.">Y</a>;
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102             <span class="comment">//calculating r, hopefully</span>
+<a name="l00103"></a>00103             <span class="keywordtype">double</span> r = <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a578c25eb10826baec8f9cee6031750af.html#a578c25eb10826baec8f9cee6031750af" title="This function should solve equation (*) in calculation sheet 2 I am not sure if this works...">SolveStupidEquation</a>(a, b, c, d, e);
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105             <span class="comment">//finally, calculating the intersection point</span>
+<a name="l00106"></a>00106             Location intersection = <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>.<a class="code" href="classBritbot_1_1HeadingVector_af861a548acd4510654479191b0dd7c4e.html#af861a548acd4510654479191b0dd7c4e" title="given your location and your heading this function calculates your new position after going with the ...">AddvanceByVector</a>(target, r * targetHeading);
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108             <span class="comment">//returning path to intersection</span>
+<a name="l00109"></a>00109             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a083b8fb69f34e015a5b84633004387bf.html#a083b8fb69f34e015a5b84633004387bf" title="Given your location, you current direction and the target&#39;s location, this method calculates the best...">CalculateDirectionToStationeryTarget</a>(myLoc, myHeading, intersection);
+<a name="l00110"></a>00110         }
+<a name="l00111"></a>00111 
+<a name="l00123"></a><a class="code" href="classBritbot_1_1Navigator_a578c25eb10826baec8f9cee6031750af.html#a578c25eb10826baec8f9cee6031750af">00123</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Navigator_a578c25eb10826baec8f9cee6031750af.html#a578c25eb10826baec8f9cee6031750af" title="This function should solve equation (*) in calculation sheet 2 I am not sure if this works...">SolveStupidEquation</a>(<span class="keywordtype">double</span> a, <span class="keywordtype">double</span> b, <span class="keywordtype">double</span> c, <span class="keywordtype">double</span> d, <span class="keywordtype">double</span> e)
+<a name="l00124"></a>00124         {
+<a name="l00125"></a>00125             <span class="comment">//TODO fix this</span>
+<a name="l00126"></a>00126             <span class="keywordtype">int</span>[] signs = {-1, 1};
+<a name="l00127"></a>00127             <span class="comment">//there are 4 options, going over them 2 by 2</span>
+<a name="l00128"></a>00128             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= 1; i++) <span class="comment">//i is the sign of c in r</span>
+<a name="l00129"></a>00129             {
+<a name="l00130"></a>00130                 <span class="keywordtype">int</span> cSign = signs[i];
+<a name="l00131"></a>00131                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt;= 1; j++) <span class="comment">//j is the sign of e in r</span>
+<a name="l00132"></a>00132                 {
+<a name="l00133"></a>00133                     <span class="keywordtype">int</span> eSign = signs[j];
+<a name="l00134"></a>00134                     <span class="keywordtype">double</span> r = -(cSign * b + eSign * d) / (a + cSign * c + eSign * e);
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136                     <span class="comment">//check if r isn&#39;t positive, if so we can skip it</span>
+<a name="l00137"></a>00137                     <span class="keywordflow">if</span> (r &lt;= 0)
+<a name="l00138"></a>00138                         <span class="keywordflow">continue</span>;
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140                     <span class="comment">//else check the critirions</span>
+<a name="l00141"></a>00141                     <span class="keywordflow">if</span> ((cSign * c * r &lt;= -cSign * b) &amp;&amp; (eSign * e * r &lt;= -eSign * d))
+<a name="l00142"></a>00142                     {
+<a name="l00143"></a>00143                         <span class="comment">//it is (probably?) the correct r</span>
+<a name="l00144"></a>00144                         <span class="keywordflow">return</span> r;
+<a name="l00145"></a>00145                     }
+<a name="l00146"></a>00146                 }
+<a name="l00147"></a>00147             }
+<a name="l00148"></a>00148 
+<a name="l00149"></a>00149             <span class="comment">//if we are here then i am wrong :)</span>
+<a name="l00150"></a>00150             <span class="keywordflow">throw</span> <span class="keyword">new</span> Exception(<span class="stringliteral">&quot;Matan K is an idiot&quot;</span>);
+<a name="l00151"></a>00151         }
+<a name="l00152"></a>00152 
+<a name="l00161"></a><a class="code" href="classBritbot_1_1Navigator_ae56686e406381b6c86d2bc982176758b.html#ae56686e406381b6c86d2bc982176758b">00161</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code" href="classBritbot_1_1Navigator_ae56686e406381b6c86d2bc982176758b.html#ae56686e406381b6c86d2bc982176758b" title="calculates distance (in turns) from ship&#39;s trajectory to a given island location (point) uses the cal...">CalcDistFromLine</a>(Location point, Location linePoint, <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> dir)
+<a name="l00162"></a>00162         {
+<a name="l00163"></a>00163             <span class="comment">//first check if no direction</span>
+<a name="l00164"></a>00164             <span class="keywordflow">if</span> (dir.<a class="code" href="classBritbot_1_1HeadingVector_a566caa70189508f1df84bcf414446891.html#a566caa70189508f1df84bcf414446891" title="Returns the square of the vector&#39;s length might be used to normalize vectors for some computation...">NormSquared</a>() == 0)
+<a name="l00165"></a>00165                 <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Distance(point, linePoint);
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167             <span class="comment">//TODO fix this - Matan Kom</span>
+<a name="l00168"></a>00168             <span class="comment">//Find the difference vector between the point and the line point</span>
+<a name="l00169"></a>00169             <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> dif = <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>.<a class="code" href="classBritbot_1_1HeadingVector_ad3b0af7cfb8aea81f5c3d4673d3376c3.html#ad3b0af7cfb8aea81f5c3d4673d3376c3" title="Calculates the direction vector between two points.">CalcDifference</a>(point, linePoint);
+<a name="l00170"></a>00170             <span class="comment">//find the minimum t parameter</span>
+<a name="l00171"></a>00171             <span class="keywordtype">double</span> tMin = (-1 / dir.<a class="code" href="classBritbot_1_1HeadingVector_a566caa70189508f1df84bcf414446891.html#a566caa70189508f1df84bcf414446891" title="Returns the square of the vector&#39;s length might be used to normalize vectors for some computation...">NormSquared</a>()) * dir * dif;
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173             <span class="comment">//calculating actual distance (see calculation)</span>
+<a name="l00174"></a>00174             <span class="keywordflow">return</span> (dif + tMin * dir).<a class="code" href="classBritbot_1_1HeadingVector_ab9a1032df60de54330a4bac6ab1d4ed9.html#ab9a1032df60de54330a4bac6ab1d4ed9" title="returns the length of the vector (as a double) might be used to normalize vectors for some computatio...">Norm</a>();
+<a name="l00175"></a>00175             ;
+<a name="l00176"></a>00176         }
+<a name="l00177"></a>00177 
+<a name="l00185"></a><a class="code" href="classBritbot_1_1Navigator_a706f52323f1c94fd88e5bbaaaea0969a.html#a706f52323f1c94fd88e5bbaaaea0969a">00185</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Navigator_a706f52323f1c94fd88e5bbaaaea0969a.html#a706f52323f1c94fd88e5bbaaaea0969a" title="Given two pirates (id) it tells you who is &quot;more&quot; in a specific direction than the other...">ComparePirateByDirection</a>(<span class="keywordtype">int</span> p1, <span class="keywordtype">int</span> p2, <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> hv)
+<a name="l00186"></a>00186         {
+<a name="l00187"></a>00187             <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> originDif = <span class="keyword">new</span> <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>(<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(p1).Loc.Col,
+<a name="l00188"></a>00188                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(p1).Loc.Row);
+<a name="l00189"></a>00189             <span class="keywordtype">int</span> coef;
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191             <span class="keywordflow">if</span> (originDif * hv &gt; 0)
+<a name="l00192"></a>00192                 coef = 1;
+<a name="l00193"></a>00193             <span class="keywordflow">else</span>
+<a name="l00194"></a>00194                 coef = -1;
+<a name="l00195"></a>00195             <span class="comment">//calculate both pirates position on the line created by hv</span>
+<a name="l00196"></a>00196             <span class="keywordtype">double</span> p1Dist = <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_ae56686e406381b6c86d2bc982176758b.html#ae56686e406381b6c86d2bc982176758b" title="calculates distance (in turns) from ship&#39;s trajectory to a given island location (point) uses the cal...">CalcDistFromLine</a>(<span class="keyword">new</span> Location(0, 0), (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(p1)).Loc,
+<a name="l00197"></a>00197                 hv.<a class="code" href="classBritbot_1_1HeadingVector_a95945a35fa2dd64c2166df71a651df75.html#a95945a35fa2dd64c2166df71a651df75" title="Calculates a new vector perpendicular to the given one it simply rotates 90 degrees anti clockwise...">Orthogonal</a>());
+<a name="l00198"></a>00198             <span class="keywordtype">double</span> p2Dist = <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_ae56686e406381b6c86d2bc982176758b.html#ae56686e406381b6c86d2bc982176758b" title="calculates distance (in turns) from ship&#39;s trajectory to a given island location (point) uses the cal...">CalcDistFromLine</a>(<span class="keyword">new</span> Location(0, 0), (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(p2)).Loc,
+<a name="l00199"></a>00199                 hv.<a class="code" href="classBritbot_1_1HeadingVector_a95945a35fa2dd64c2166df71a651df75.html#a95945a35fa2dd64c2166df71a651df75" title="Calculates a new vector perpendicular to the given one it simply rotates 90 degrees anti clockwise...">Orthogonal</a>());
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201             <span class="keywordflow">return</span> coef * p1Dist.CompareTo(p2Dist);
+<a name="l00202"></a>00202         }
+<a name="l00203"></a>00203 
+<a name="l00211"></a><a class="code" href="classBritbot_1_1Navigator_a19f324336d9260724c4a88f2ab6b1c58.html#a19f324336d9260724c4a88f2ab6b1c58">00211</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1Navigator_a19f324336d9260724c4a88f2ab6b1c58.html#a19f324336d9260724c4a88f2ab6b1c58" title="This method calculates if you would be able to reach an enemy group or it would run away...">IsReachable</a>(Location group, Location target, <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> targetHeading)
+<a name="l00212"></a>00212         {
+<a name="l00213"></a>00213             <span class="comment">//if the target is stationary then return true</span>
+<a name="l00214"></a>00214             <span class="keywordflow">if</span> (targetHeading.<a class="code" href="classBritbot_1_1HeadingVector_ab9a1032df60de54330a4bac6ab1d4ed9.html#ab9a1032df60de54330a4bac6ab1d4ed9" title="returns the length of the vector (as a double) might be used to normalize vectors for some computatio...">Norm</a>() == 0)
+<a name="l00215"></a>00215                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00216"></a>00216             <span class="comment">//first check if it is running away (its direction is about the same as the difference between you</span>
+<a name="l00217"></a>00217             <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>.<a class="code" href="classBritbot_1_1HeadingVector_ad3b0af7cfb8aea81f5c3d4673d3376c3.html#ad3b0af7cfb8aea81f5c3d4673d3376c3" title="Calculates the direction vector between two points.">CalcDifference</a>(group, target) * targetHeading &gt; 0)
+<a name="l00218"></a>00218                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
 <a name="l00219"></a>00219 
-<a name="l00220"></a>00220             <span class="comment">//----------------------calculation of naive maximum intersection----------------------</span>
-<a name="l00221"></a>00221             <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> diffVector = <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>.<a class="code" href="classBritbot_1_1HeadingVector_ad3b0af7cfb8aea81f5c3d4673d3376c3.html#ad3b0af7cfb8aea81f5c3d4673d3376c3" title="Calculates the direction vector between two points.">CalcDifference</a>(target, group);
-<a name="l00222"></a>00222 
-<a name="l00223"></a>00223             <span class="keywordtype">double</span> cosAlpha = diffVector.<a class="code" href="classBritbot_1_1HeadingVector_a9a783cd39ea13c65a26df7cfbb947da2.html#a9a783cd39ea13c65a26df7cfbb947da2" title="returns a new normalized vector">Normalize</a>() * targetHeading.<a class="code" href="classBritbot_1_1HeadingVector_a9a783cd39ea13c65a26df7cfbb947da2.html#a9a783cd39ea13c65a26df7cfbb947da2" title="returns a new normalized vector">Normalize</a>();
-<a name="l00224"></a>00224             <span class="keywordtype">double</span> sacleCoeff = diffVector.<a class="code" href="classBritbot_1_1HeadingVector_ab9a1032df60de54330a4bac6ab1d4ed9.html#ab9a1032df60de54330a4bac6ab1d4ed9" title="returns the length of the vector (as a double) might be used to normalize vectors for some computatio...">Norm</a>() * cosAlpha;
-<a name="l00225"></a>00225 
-<a name="l00226"></a>00226             Location maxIntersection = <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>.<a class="code" href="classBritbot_1_1HeadingVector_af861a548acd4510654479191b0dd7c4e.html#af861a548acd4510654479191b0dd7c4e" title="given your location and your heading this function calculates your new position after going with the ...">AddvanceByVector</a>(target, sacleCoeff * targetHeading.<a class="code" href="classBritbot_1_1HeadingVector_a9a783cd39ea13c65a26df7cfbb947da2.html#a9a783cd39ea13c65a26df7cfbb947da2" title="returns a new normalized vector">Normalize</a>());
-<a name="l00227"></a>00227             <span class="comment">//----------------------------------------------------------------------------------------</span>
-<a name="l00228"></a>00228 
-<a name="l00229"></a>00229             <span class="comment">//to account for numeric mistakes we take antitolerance coefficient</span>
-<a name="l00230"></a>00230             <span class="keyword">const</span> <span class="keywordtype">int</span> antiToleranceCoeff = 2;
-<a name="l00231"></a>00231 
-<a name="l00232"></a>00232             <span class="comment">//compare distances</span>
-<a name="l00233"></a>00233             <span class="comment">//check who is closer</span>
-<a name="l00234"></a>00234             <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Distance(group, maxIntersection) &lt;
-<a name="l00235"></a>00235                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Distance(target, maxIntersection) - antiToleranceCoeff)
-<a name="l00236"></a>00236                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00237"></a>00237 
-<a name="l00238"></a>00238             <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00239"></a>00239         }
-<a name="l00240"></a>00240 
-<a name="l00249"></a><a class="code" href="classBritbot_1_1Navigator_a66540ba6db5fdb35f2592a245e2d8434.html#a66540ba6db5fdb35f2592a245e2d8434">00249</a>         <span class="keyword">public</span> <span class="keyword">static</span> Direction <a class="code" href="classBritbot_1_1Navigator_a66540ba6db5fdb35f2592a245e2d8434.html#a66540ba6db5fdb35f2592a245e2d8434" title="Calculates first direction in path according to the A* algorithem explanation + the pseudo code used ...">CalculatePath</a>(Location start, Location target)
-<a name="l00250"></a>00250         {
-<a name="l00251"></a>00251             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a94593529e316f18fde5ca9ebc28f2ae1.html#a94593529e316f18fde5ca9ebc28f2ae1">BeginTime</a>(<span class="stringliteral">&quot;CalculatePath&quot;</span>);
-<a name="l00252"></a>00252             <span class="comment">//first set up the for a new target calculation</span>
-<a name="l00253"></a>00253             <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a2ce38f6f4726794bd65e03144dda567a.html#a2ce38f6f4726794bd65e03144dda567a" title="This function should be called PER TARGET in the Navigator.CalculatePath method it updates the heuris...">SetUpCalculation</a>(target);
-<a name="l00254"></a>00254             <span class="comment">//Priority queue of the currently checked nodes. Thank You BlueRaja</span>
-<a name="l00255"></a>00255             HeapPriorityQueue&lt;Node&gt; openset = <span class="keyword">new</span> HeapPriorityQueue&lt;Node&gt;(<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetCols() * <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetRows());
-<a name="l00256"></a>00256 
-<a name="l00257"></a>00257             <span class="comment">//set the beginning</span>
-<a name="l00258"></a>00258             <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> beginning = <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a3f7b39db3d28c28429cb68639599a773.html#a3f7b39db3d28c28429cb68639599a773" title="Returns the Node in the map corresponding to the locations specified.">GetLocationNodeFromMap</a>(start);
-<a name="l00259"></a>00259             openset.Enqueue(beginning, beginning.F());
-<a name="l00260"></a>00260 
-<a name="l00261"></a>00261             <span class="comment">//begin the iteration</span>
-<a name="l00262"></a>00262             <span class="keywordflow">while</span> (openset.Count &gt; 0)
-<a name="l00263"></a>00263             {
-<a name="l00264"></a>00264                 <span class="comment">//get the current Node from the top of the openset priority queue</span>
-<a name="l00265"></a>00265                 <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> currentNode = openset.Dequeue();
-<a name="l00266"></a>00266 
-<a name="l00267"></a>00267                 <span class="comment">//check if it is out target, if so we are done</span>
-<a name="l00268"></a>00268                 <span class="keywordflow">if</span> (currentNode.<a class="code" href="classBritbot_1_1Navigator_1_1Node_aa2b86c3db35f398b37cf0fac5e17335e.html#aa2b86c3db35f398b37cf0fac5e17335e" title="The X coordinate of the Node.">Loc</a>.Equals(target))
-<a name="l00269"></a>00269                     <span class="keywordflow">break</span>;
-<a name="l00270"></a>00270 
-<a name="l00271"></a>00271                 <span class="comment">//set current node status</span>
-<a name="l00272"></a>00272                 currentNode.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a39f7612cac07f1f44a61eb94a2ceaee0.html#a39f7612cac07f1f44a61eb94a2ceaee0" title="true if G value has been calculated">IsEvaluated</a> = <span class="keyword">true</span>;
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221             <span class="comment">//----------------------calculation of naive maximum intersection----------------------</span>
+<a name="l00222"></a>00222             <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a> diffVector = <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>.<a class="code" href="classBritbot_1_1HeadingVector_ad3b0af7cfb8aea81f5c3d4673d3376c3.html#ad3b0af7cfb8aea81f5c3d4673d3376c3" title="Calculates the direction vector between two points.">CalcDifference</a>(target, group);
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224             <span class="keywordtype">double</span> cosAlpha = diffVector.<a class="code" href="classBritbot_1_1HeadingVector_a9a783cd39ea13c65a26df7cfbb947da2.html#a9a783cd39ea13c65a26df7cfbb947da2" title="returns a new normalized vector">Normalize</a>() * targetHeading.<a class="code" href="classBritbot_1_1HeadingVector_a9a783cd39ea13c65a26df7cfbb947da2.html#a9a783cd39ea13c65a26df7cfbb947da2" title="returns a new normalized vector">Normalize</a>();
+<a name="l00225"></a>00225             <span class="keywordtype">double</span> sacleCoeff = diffVector.<a class="code" href="classBritbot_1_1HeadingVector_ab9a1032df60de54330a4bac6ab1d4ed9.html#ab9a1032df60de54330a4bac6ab1d4ed9" title="returns the length of the vector (as a double) might be used to normalize vectors for some computatio...">Norm</a>() * cosAlpha;
+<a name="l00226"></a>00226 
+<a name="l00227"></a>00227             Location maxIntersection = <a class="code" href="classBritbot_1_1HeadingVector.html" title="This class accumulates direction over large number of turns we assume (0,0) is the left top corner of...">HeadingVector</a>.<a class="code" href="classBritbot_1_1HeadingVector_af861a548acd4510654479191b0dd7c4e.html#af861a548acd4510654479191b0dd7c4e" title="given your location and your heading this function calculates your new position after going with the ...">AddvanceByVector</a>(target, sacleCoeff * targetHeading.<a class="code" href="classBritbot_1_1HeadingVector_a9a783cd39ea13c65a26df7cfbb947da2.html#a9a783cd39ea13c65a26df7cfbb947da2" title="returns a new normalized vector">Normalize</a>());
+<a name="l00228"></a>00228             <span class="comment">//----------------------------------------------------------------------------------------</span>
+<a name="l00229"></a>00229 
+<a name="l00230"></a>00230             <span class="comment">//to account for numeric mistakes we take antitolerance coefficient</span>
+<a name="l00231"></a>00231             <span class="keyword">const</span> <span class="keywordtype">int</span> antiToleranceCoeff = 2;
+<a name="l00232"></a>00232 
+<a name="l00233"></a>00233             <span class="comment">//compare distances</span>
+<a name="l00234"></a>00234             <span class="comment">//check who is closer</span>
+<a name="l00235"></a>00235             <span class="keywordflow">if</span> (<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Distance(group, maxIntersection) &lt;
+<a name="l00236"></a>00236                 <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.Distance(target, maxIntersection) - antiToleranceCoeff)
+<a name="l00237"></a>00237                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00240"></a>00240         }
+<a name="l00241"></a>00241 
+<a name="l00250"></a><a class="code" href="classBritbot_1_1Navigator_a66540ba6db5fdb35f2592a245e2d8434.html#a66540ba6db5fdb35f2592a245e2d8434">00250</a>         <span class="keyword">public</span> <span class="keyword">static</span> Direction <a class="code" href="classBritbot_1_1Navigator_a66540ba6db5fdb35f2592a245e2d8434.html#a66540ba6db5fdb35f2592a245e2d8434" title="Calculates first direction in path according to the A* algorithem explanation + the pseudo code used ...">CalculatePath</a>(Location start, Location target)
+<a name="l00251"></a>00251         {
+<a name="l00252"></a>00252             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a94593529e316f18fde5ca9ebc28f2ae1.html#a94593529e316f18fde5ca9ebc28f2ae1">BeginTime</a>(<span class="stringliteral">&quot;CalculatePath&quot;</span>);
+<a name="l00253"></a>00253             <span class="comment">//first set up the for a new target calculation</span>
+<a name="l00254"></a>00254             <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a2ce38f6f4726794bd65e03144dda567a.html#a2ce38f6f4726794bd65e03144dda567a" title="This function should be called PER TARGET in the Navigator.CalculatePath method it updates the heuris...">SetUpCalculation</a>(target);
+<a name="l00255"></a>00255             <span class="comment">//Priority queue of the currently checked nodes. Thank You BlueRaja</span>
+<a name="l00256"></a>00256             HeapPriorityQueue&lt;Node&gt; openset = <span class="keyword">new</span> HeapPriorityQueue&lt;Node&gt;(<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetCols() * <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetRows());
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258             <span class="comment">//set the beginning</span>
+<a name="l00259"></a>00259             <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> beginning = <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a3f7b39db3d28c28429cb68639599a773.html#a3f7b39db3d28c28429cb68639599a773" title="Returns the Node in the map corresponding to the locations specified.">GetLocationNodeFromMap</a>(start);
+<a name="l00260"></a>00260             openset.Enqueue(beginning, beginning.F());
+<a name="l00261"></a>00261 
+<a name="l00262"></a>00262             beginning.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a151bd9552f8e70463c4e4c251f3c0e6e.html#a151bd9552f8e70463c4e4c251f3c0e6e">Distance</a> = 0;
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264             <span class="comment">//begin the iteration</span>
+<a name="l00265"></a>00265             <span class="keywordflow">while</span> (openset.Count &gt; 0)
+<a name="l00266"></a>00266             {
+<a name="l00267"></a>00267                 <span class="comment">//get the current Node from the top of the openset priority queue</span>
+<a name="l00268"></a>00268                 <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> currentNode = openset.Dequeue();
+<a name="l00269"></a>00269 
+<a name="l00270"></a>00270                 <span class="comment">//check if it is out target, if so we are done</span>
+<a name="l00271"></a>00271                 <span class="keywordflow">if</span> (currentNode.<a class="code" href="classBritbot_1_1Navigator_1_1Node_aa2b86c3db35f398b37cf0fac5e17335e.html#aa2b86c3db35f398b37cf0fac5e17335e" title="The X coordinate of the Node.">Loc</a>.Equals(target))
+<a name="l00272"></a>00272                     <span class="keywordflow">break</span>;
 <a name="l00273"></a>00273 
-<a name="l00274"></a>00274                 <span class="comment">//going over the Neighbors of the current cell</span>
-<a name="l00275"></a>00275                 <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> neighbor <span class="keywordflow">in</span> currentNode.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a430b9741bb43e72fd6e0afcfad8a6fe1.html#a430b9741bb43e72fd6e0afcfad8a6fe1" title="returns the neighbors of the Node, meaning the adjacent location wich are not impassible">GetNeighbors</a>())
-<a name="l00276"></a>00276                 {
-<a name="l00277"></a>00277                     <span class="comment">//if we already calculated this neighbor, skip to the next</span>
-<a name="l00278"></a>00278                     <span class="keywordflow">if</span> (neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a39f7612cac07f1f44a61eb94a2ceaee0.html#a39f7612cac07f1f44a61eb94a2ceaee0" title="true if G value has been calculated">IsEvaluated</a>)
-<a name="l00279"></a>00279                         <span class="keywordflow">continue</span>;
-<a name="l00280"></a>00280 
-<a name="l00281"></a>00281                     <span class="comment">//calculate the new G score from this rout</span>
-<a name="l00282"></a>00282                     <span class="keywordtype">double</span> tentativeG = currentNode.G + neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a7f8a316ec76290c5e838255d57da9254.html#a7f8a316ec76290c5e838255d57da9254" title="the weight of the cell, should be higher near enemies and un-passable places">Weight</a>;
-<a name="l00283"></a>00283                     <span class="comment">// double tentativeG = currentNode.G + 1;</span>
-<a name="l00284"></a>00284 
-<a name="l00285"></a>00285                     <span class="comment">//if the neighbor isn&#39;t in the open set</span>
-<a name="l00286"></a>00286                     <span class="comment">//or we just found a better score for him (tentativeG &lt; G)</span>
-<a name="l00287"></a>00287                     <span class="comment">//or if G value is default -1</span>
-<a name="l00288"></a>00288                     <span class="comment">//then add him to openset</span>
-<a name="l00289"></a>00289                     <span class="keywordflow">if</span> ((!openset.Contains(neighbor)) || (neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_ac9c4f2b09a3123ede2c9132427764800.html#ac9c4f2b09a3123ede2c9132427764800" title="the calculated G function score of the algorithm for this specific node it will be updated during the...">G</a> == -1) || (tentativeG &lt; neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_ac9c4f2b09a3123ede2c9132427764800.html#ac9c4f2b09a3123ede2c9132427764800" title="the calculated G function score of the algorithm for this specific node it will be updated during the...">G</a>))
-<a name="l00290"></a>00290                     {
-<a name="l00291"></a>00291                         <span class="comment">//update G score</span>
-<a name="l00292"></a>00292                         neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_ac9c4f2b09a3123ede2c9132427764800.html#ac9c4f2b09a3123ede2c9132427764800" title="the calculated G function score of the algorithm for this specific node it will be updated during the...">G</a> = tentativeG;
-<a name="l00293"></a>00293 
-<a name="l00295"></a>00295                         <span class="keywordflow">if</span> (!openset.Contains(neighbor))
-<a name="l00296"></a>00296                         {
-<a name="l00297"></a>00297                             openset.Enqueue(neighbor, neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a67a3768d7cd360df39c00c079f4b5b99.html#a67a3768d7cd360df39c00c079f4b5b99" title="calculates the F function (what we are minimizing)">F</a>());
-<a name="l00298"></a>00298                         }
-<a name="l00299"></a>00299                         <span class="keywordflow">else</span> <span class="comment">//update</span>
-<a name="l00300"></a>00300                         {
-<a name="l00301"></a>00301                             openset.UpdatePriority(neighbor, neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a67a3768d7cd360df39c00c079f4b5b99.html#a67a3768d7cd360df39c00c079f4b5b99" title="calculates the F function (what we are minimizing)">F</a>());
-<a name="l00302"></a>00302                         }
-<a name="l00303"></a>00303                     }
-<a name="l00304"></a>00304                 }
-<a name="l00305"></a>00305                 <span class="comment">//update current node</span>
-<a name="l00306"></a>00306                 currentNode.IsEvaluated = <span class="keyword">true</span>;
-<a name="l00307"></a>00307             }
-<a name="l00308"></a>00308             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5">StopTime</a>(<span class="stringliteral">&quot;CalculatePath&quot;</span>);
-<a name="l00309"></a>00309 
-<a name="l00310"></a>00310 <span class="preprocessor">#if MAP_DEBUG</span>
-<a name="l00311"></a>00311 <span class="preprocessor"></span>            <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a555141c69db40690c6f62864e30c5c92.html#a555141c69db40690c6f62864e30c5c92">DebugPasses</a>();
-<a name="l00312"></a>00312 <span class="preprocessor">#endif</span>
-<a name="l00313"></a>00313 <span class="preprocessor"></span>            <span class="comment">//now we have made the necessary calculations, just get the desired direction</span>
-<a name="l00314"></a>00314             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a35d8e97792a6353116cff6102bb1e831.html#a35d8e97792a6353116cff6102bb1e831" title="after the A* algorithm has finished, is simply finds the best neighbor of the beginning node and retu...">FindBestDirectionOutOfMap</a>(beginning);
-<a name="l00315"></a>00315         }
-<a name="l00316"></a>00316 
-<a name="l00323"></a><a class="code" href="classBritbot_1_1Navigator_a35d8e97792a6353116cff6102bb1e831.html#a35d8e97792a6353116cff6102bb1e831">00323</a>         <span class="keyword">private</span> <span class="keyword">static</span> Direction <a class="code" href="classBritbot_1_1Navigator_a35d8e97792a6353116cff6102bb1e831.html#a35d8e97792a6353116cff6102bb1e831" title="after the A* algorithm has finished, is simply finds the best neighbor of the beginning node and retu...">FindBestDirectionOutOfMap</a>(<a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> beginning)
+<a name="l00274"></a>00274                 <span class="comment">//set current node status</span>
+<a name="l00275"></a>00275                 currentNode.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a39f7612cac07f1f44a61eb94a2ceaee0.html#a39f7612cac07f1f44a61eb94a2ceaee0" title="true if G value has been calculated">IsEvaluated</a> = <span class="keyword">true</span>;
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277                 <span class="comment">//going over the Neighbors of the current cell</span>
+<a name="l00278"></a>00278                 <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> neighbor <span class="keywordflow">in</span> currentNode.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a430b9741bb43e72fd6e0afcfad8a6fe1.html#a430b9741bb43e72fd6e0afcfad8a6fe1" title="returns the neighbors of the Node, meaning the adjacent location wich are not impassible">GetNeighbors</a>())
+<a name="l00279"></a>00279                 {
+<a name="l00280"></a>00280                     <span class="comment">//if we already calculated this neighbor, skip to the next</span>
+<a name="l00281"></a>00281                     <span class="keywordflow">if</span> (neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a39f7612cac07f1f44a61eb94a2ceaee0.html#a39f7612cac07f1f44a61eb94a2ceaee0" title="true if G value has been calculated">IsEvaluated</a>)
+<a name="l00282"></a>00282                         <span class="keywordflow">continue</span>;
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284                     <span class="comment">//calculate the new G score from this rout</span>
+<a name="l00285"></a>00285                     <span class="keywordtype">double</span> tentativeG = currentNode.G + neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a7f8a316ec76290c5e838255d57da9254.html#a7f8a316ec76290c5e838255d57da9254" title="the weight of the cell, should be higher near enemies and un-passable places">Weight</a>;
+<a name="l00286"></a>00286                     <span class="comment">// double tentativeG = currentNode.G + 1;</span>
+<a name="l00287"></a>00287 
+<a name="l00288"></a>00288                     <span class="comment">//if the neighbor isn&#39;t in the open set</span>
+<a name="l00289"></a>00289                     <span class="comment">//or we just found a better score for him (tentativeG &lt; G)</span>
+<a name="l00290"></a>00290                     <span class="comment">//or if G value is default -1</span>
+<a name="l00291"></a>00291                     <span class="comment">//then add him to openset</span>
+<a name="l00292"></a>00292                     <span class="keywordflow">if</span> ((!openset.Contains(neighbor)) || (neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_ac9c4f2b09a3123ede2c9132427764800.html#ac9c4f2b09a3123ede2c9132427764800" title="the calculated G function score of the algorithm for this specific node it will be updated during the...">G</a> == -1) || (tentativeG &lt; neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_ac9c4f2b09a3123ede2c9132427764800.html#ac9c4f2b09a3123ede2c9132427764800" title="the calculated G function score of the algorithm for this specific node it will be updated during the...">G</a>))
+<a name="l00293"></a>00293                     {
+<a name="l00294"></a>00294                         <span class="comment">//update G score</span>
+<a name="l00295"></a>00295                         neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_ac9c4f2b09a3123ede2c9132427764800.html#ac9c4f2b09a3123ede2c9132427764800" title="the calculated G function score of the algorithm for this specific node it will be updated during the...">G</a> = tentativeG;
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297                         neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a151bd9552f8e70463c4e4c251f3c0e6e.html#a151bd9552f8e70463c4e4c251f3c0e6e">Distance</a> = currentNode.Distance + 1;
+<a name="l00298"></a>00298 
+<a name="l00300"></a>00300                         <span class="keywordflow">if</span> (!openset.Contains(neighbor))
+<a name="l00301"></a>00301                         {
+<a name="l00302"></a>00302                             openset.Enqueue(neighbor, neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a67a3768d7cd360df39c00c079f4b5b99.html#a67a3768d7cd360df39c00c079f4b5b99" title="calculates the F function (what we are minimizing)">F</a>());
+<a name="l00303"></a>00303                         }
+<a name="l00304"></a>00304                         <span class="keywordflow">else</span> <span class="comment">//update</span>
+<a name="l00305"></a>00305                         {
+<a name="l00306"></a>00306                             openset.UpdatePriority(neighbor, neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a67a3768d7cd360df39c00c079f4b5b99.html#a67a3768d7cd360df39c00c079f4b5b99" title="calculates the F function (what we are minimizing)">F</a>());
+<a name="l00307"></a>00307                         }
+<a name="l00308"></a>00308                     }
+<a name="l00309"></a>00309                 }
+<a name="l00310"></a>00310                 <span class="comment">//update current node</span>
+<a name="l00311"></a>00311                 currentNode.IsEvaluated = <span class="keyword">true</span>;
+<a name="l00312"></a>00312             }
+<a name="l00313"></a>00313             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5">StopTime</a>(<span class="stringliteral">&quot;CalculatePath&quot;</span>);
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315 <span class="preprocessor">#if MAP_DEBUG</span>
+<a name="l00316"></a>00316 <span class="preprocessor"></span>            <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a555141c69db40690c6f62864e30c5c92.html#a555141c69db40690c6f62864e30c5c92">DebugPasses</a>();
+<a name="l00317"></a>00317 <span class="preprocessor">#endif</span>
+<a name="l00318"></a>00318 <span class="preprocessor"></span>            <span class="comment">//now we have made the necessary calculations, just get the desired direction</span>
+<a name="l00319"></a>00319             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Navigator.html" title="this class will deal with geographical calculations and direction calculation">Navigator</a>.<a class="code" href="classBritbot_1_1Navigator_a35d8e97792a6353116cff6102bb1e831.html#a35d8e97792a6353116cff6102bb1e831" title="after the A* algorithm has finished, is simply finds the best neighbor of the beginning node and retu...">FindBestDirectionOutOfMap</a>(beginning);
+<a name="l00320"></a>00320         }
+<a name="l00321"></a>00321 
+<a name="l00322"></a>00322        
+<a name="l00323"></a><a class="code" href="classBritbot_1_1Navigator_af1dcc6bb64d7bbd5c517a41d790c4479.html#af1dcc6bb64d7bbd5c517a41d790c4479">00323</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classBritbot_1_1Navigator_af1dcc6bb64d7bbd5c517a41d790c4479.html#af1dcc6bb64d7bbd5c517a41d790c4479">CalculateDistance</a>(Location start, Location target)
 <a name="l00324"></a>00324         {
-<a name="l00325"></a>00325             <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> bestNextNode = null;
-<a name="l00326"></a>00326 
-<a name="l00327"></a>00327             <span class="comment">//go over the neighbors of the begining</span>
-<a name="l00328"></a>00328             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> neighbor <span class="keywordflow">in</span> beginning.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a430b9741bb43e72fd6e0afcfad8a6fe1.html#a430b9741bb43e72fd6e0afcfad8a6fe1" title="returns the neighbors of the Node, meaning the adjacent location wich are not impassible">GetNeighbors</a>())
-<a name="l00329"></a>00329             {
-<a name="l00330"></a>00330                 <span class="comment">//if bestNode is null update and skip to next iteration</span>
-<a name="l00331"></a>00331                 <span class="keywordflow">if</span> (bestNextNode == null)
-<a name="l00332"></a>00332                 {
-<a name="l00333"></a>00333                     bestNextNode = neighbor;
-<a name="l00334"></a>00334                     <span class="keywordflow">continue</span>;
-<a name="l00335"></a>00335                 }
-<a name="l00336"></a>00336                 <span class="comment">//if this neighbors score is better then update</span>
-<a name="l00337"></a>00337                 <span class="keywordflow">if</span> (neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a67a3768d7cd360df39c00c079f4b5b99.html#a67a3768d7cd360df39c00c079f4b5b99" title="calculates the F function (what we are minimizing)">F</a>() &lt; bestNextNode.F())
-<a name="l00338"></a>00338                 {
-<a name="l00339"></a>00339                     bestNextNode = neighbor;
-<a name="l00340"></a>00340                 }
-<a name="l00341"></a>00341             }
-<a name="l00342"></a>00342             <span class="comment">//check if best node is null, if so then i am an idiot and YOU NEED TO INFORM ME OF THAT IMMIDIATELY</span>
-<a name="l00343"></a>00343             <span class="keywordflow">if</span> (bestNextNode == null)
-<a name="l00344"></a>00344             {
-<a name="l00345"></a>00345                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;--------------------------------------------------------------------------&quot;</span>);
-<a name="l00346"></a>00346                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;--------------------------------------------------------------------------&quot;</span>);
-<a name="l00347"></a>00347                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;--------------------------------------------------------------------------&quot;</span>);
-<a name="l00348"></a>00348                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;            Matan K is stupid as shit, please go and tell him that&quot;</span>);
-<a name="l00349"></a>00349                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;--------------------------------------------------------------------------&quot;</span>);
-<a name="l00350"></a>00350                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;--------------------------------------------------------------------------&quot;</span>);
-<a name="l00351"></a>00351                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;--------------------------------------------------------------------------&quot;</span>);
-<a name="l00352"></a>00352                 <span class="keywordflow">return</span> Direction.NOTHING;
-<a name="l00353"></a>00353                 <span class="comment">//throw new Exception(&quot;Matan K is stupid as shit, please go and tell him that&quot;);</span>
-<a name="l00354"></a>00354             }
-<a name="l00355"></a>00355             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetDirections(beginning.Loc, bestNextNode.Loc)[0];
-<a name="l00356"></a>00356         }
-<a name="l00357"></a>00357 
-<a name="l00363"></a><a class="code" href="classBritbot_1_1Navigator_ae1fd7deabedfc6361fe076c1b391167c.html#ae1fd7deabedfc6361fe076c1b391167c">00363</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Navigator_ae1fd7deabedfc6361fe076c1b391167c.html#ae1fd7deabedfc6361fe076c1b391167c" title="function to update map for specific group simply calls the Node.updateMap function">UpdateMap</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> group)
-<a name="l00364"></a>00364         {
-<a name="l00365"></a>00365             <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a88102761980a92a23a3933a128acf2fd.html#a88102761980a92a23a3933a128acf2fd" title="This function should be called ONCE PER GROUP in the CalculatePriorities function it updates the map ...">UpdateMap</a>(group);
-<a name="l00366"></a>00366         }
-<a name="l00367"></a>00367     }
-<a name="l00368"></a>00368 }
+<a name="l00325"></a>00325             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a94593529e316f18fde5ca9ebc28f2ae1.html#a94593529e316f18fde5ca9ebc28f2ae1">BeginTime</a>(<span class="stringliteral">&quot;CalculatePath&quot;</span>);
+<a name="l00326"></a>00326             <span class="comment">//first set up the for a new target calculation</span>
+<a name="l00327"></a>00327             <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a2ce38f6f4726794bd65e03144dda567a.html#a2ce38f6f4726794bd65e03144dda567a" title="This function should be called PER TARGET in the Navigator.CalculatePath method it updates the heuris...">SetUpCalculation</a>(target);
+<a name="l00328"></a>00328             <span class="comment">//Priority queue of the currently checked nodes. Thank You BlueRaja</span>
+<a name="l00329"></a>00329             HeapPriorityQueue&lt;Node&gt; openset = <span class="keyword">new</span> HeapPriorityQueue&lt;Node&gt;(<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetCols() * <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetRows());
+<a name="l00330"></a>00330 
+<a name="l00331"></a>00331             <span class="comment">//set the beginning</span>
+<a name="l00332"></a>00332             <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> beginning = <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a3f7b39db3d28c28429cb68639599a773.html#a3f7b39db3d28c28429cb68639599a773" title="Returns the Node in the map corresponding to the locations specified.">GetLocationNodeFromMap</a>(start);
+<a name="l00333"></a>00333             openset.Enqueue(beginning, beginning.F());
+<a name="l00334"></a>00334 
+<a name="l00335"></a>00335             beginning.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a151bd9552f8e70463c4e4c251f3c0e6e.html#a151bd9552f8e70463c4e4c251f3c0e6e">Distance</a> = 0;
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337             <span class="comment">//begin the iteration</span>
+<a name="l00338"></a>00338             <span class="keywordflow">while</span> (openset.Count &gt; 0)
+<a name="l00339"></a>00339             {
+<a name="l00340"></a>00340                 <span class="comment">//get the current Node from the top of the openset priority queue</span>
+<a name="l00341"></a>00341                 <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> currentNode = openset.Dequeue();
+<a name="l00342"></a>00342 
+<a name="l00343"></a>00343                 <span class="comment">//check if it is out target, if so we are done</span>
+<a name="l00344"></a>00344                 <span class="keywordflow">if</span> (currentNode.<a class="code" href="classBritbot_1_1Navigator_1_1Node_aa2b86c3db35f398b37cf0fac5e17335e.html#aa2b86c3db35f398b37cf0fac5e17335e" title="The X coordinate of the Node.">Loc</a>.Equals(target))
+<a name="l00345"></a>00345                     <span class="keywordflow">break</span>;
+<a name="l00346"></a>00346 
+<a name="l00347"></a>00347                 <span class="comment">//set current node status</span>
+<a name="l00348"></a>00348                 currentNode.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a39f7612cac07f1f44a61eb94a2ceaee0.html#a39f7612cac07f1f44a61eb94a2ceaee0" title="true if G value has been calculated">IsEvaluated</a> = <span class="keyword">true</span>;
+<a name="l00349"></a>00349 
+<a name="l00350"></a>00350                 <span class="comment">//going over the Neighbors of the current cell</span>
+<a name="l00351"></a>00351                 <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> neighbor <span class="keywordflow">in</span> currentNode.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a430b9741bb43e72fd6e0afcfad8a6fe1.html#a430b9741bb43e72fd6e0afcfad8a6fe1" title="returns the neighbors of the Node, meaning the adjacent location wich are not impassible">GetNeighbors</a>())
+<a name="l00352"></a>00352                 {
+<a name="l00353"></a>00353                     <span class="comment">//if we already calculated this neighbor, skip to the next</span>
+<a name="l00354"></a>00354                     <span class="keywordflow">if</span> (neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a39f7612cac07f1f44a61eb94a2ceaee0.html#a39f7612cac07f1f44a61eb94a2ceaee0" title="true if G value has been calculated">IsEvaluated</a>)
+<a name="l00355"></a>00355                         <span class="keywordflow">continue</span>;
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357                     <span class="comment">//calculate the new G score from this rout</span>
+<a name="l00358"></a>00358                     <span class="keywordtype">double</span> tentativeG = currentNode.G + neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a7f8a316ec76290c5e838255d57da9254.html#a7f8a316ec76290c5e838255d57da9254" title="the weight of the cell, should be higher near enemies and un-passable places">Weight</a>;
+<a name="l00359"></a>00359                     <span class="comment">// double tentativeG = currentNode.G + 1;</span>
+<a name="l00360"></a>00360 
+<a name="l00361"></a>00361                     <span class="comment">//if the neighbor isn&#39;t in the open set</span>
+<a name="l00362"></a>00362                     <span class="comment">//or we just found a better score for him (tentativeG &lt; G)</span>
+<a name="l00363"></a>00363                     <span class="comment">//or if G value is default -1</span>
+<a name="l00364"></a>00364                     <span class="comment">//then add him to openset</span>
+<a name="l00365"></a>00365                     <span class="keywordflow">if</span> ((!openset.Contains(neighbor)) || (neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_ac9c4f2b09a3123ede2c9132427764800.html#ac9c4f2b09a3123ede2c9132427764800" title="the calculated G function score of the algorithm for this specific node it will be updated during the...">G</a> == -1) || (tentativeG &lt; neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_ac9c4f2b09a3123ede2c9132427764800.html#ac9c4f2b09a3123ede2c9132427764800" title="the calculated G function score of the algorithm for this specific node it will be updated during the...">G</a>))
+<a name="l00366"></a>00366                     {
+<a name="l00367"></a>00367                         <span class="comment">//update G score</span>
+<a name="l00368"></a>00368                         neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_ac9c4f2b09a3123ede2c9132427764800.html#ac9c4f2b09a3123ede2c9132427764800" title="the calculated G function score of the algorithm for this specific node it will be updated during the...">G</a> = tentativeG;
+<a name="l00369"></a>00369 
+<a name="l00370"></a>00370                         neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a151bd9552f8e70463c4e4c251f3c0e6e.html#a151bd9552f8e70463c4e4c251f3c0e6e">Distance</a> = currentNode.Distance + 1;
+<a name="l00371"></a>00371 
+<a name="l00373"></a>00373                         <span class="keywordflow">if</span> (!openset.Contains(neighbor))
+<a name="l00374"></a>00374                         {
+<a name="l00375"></a>00375                             openset.Enqueue(neighbor, neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a67a3768d7cd360df39c00c079f4b5b99.html#a67a3768d7cd360df39c00c079f4b5b99" title="calculates the F function (what we are minimizing)">F</a>());
+<a name="l00376"></a>00376                         }
+<a name="l00377"></a>00377                         <span class="keywordflow">else</span> <span class="comment">//update</span>
+<a name="l00378"></a>00378                         {
+<a name="l00379"></a>00379                             openset.UpdatePriority(neighbor, neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a67a3768d7cd360df39c00c079f4b5b99.html#a67a3768d7cd360df39c00c079f4b5b99" title="calculates the F function (what we are minimizing)">F</a>());
+<a name="l00380"></a>00380                         }
+<a name="l00381"></a>00381                     }
+<a name="l00382"></a>00382                 }
+<a name="l00383"></a>00383                 <span class="comment">//update current node</span>
+<a name="l00384"></a>00384                 currentNode.IsEvaluated = <span class="keyword">true</span>;
+<a name="l00385"></a>00385             }
+<a name="l00386"></a>00386             <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a358926ec0ee62eae7d3a80e0219658f5.html#a358926ec0ee62eae7d3a80e0219658f5">StopTime</a>(<span class="stringliteral">&quot;CalculatePath&quot;</span>);
+<a name="l00387"></a>00387 
+<a name="l00388"></a>00388 <span class="preprocessor">#if MAP_DEBUG</span>
+<a name="l00389"></a>00389 <span class="preprocessor"></span>            <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a555141c69db40690c6f62864e30c5c92.html#a555141c69db40690c6f62864e30c5c92">DebugPasses</a>();
+<a name="l00390"></a>00390 <span class="preprocessor">#endif</span>
+<a name="l00391"></a>00391 <span class="preprocessor"></span>            <span class="comment">//now we have made the necessary calculations, just get the desired direction</span>
+<a name="l00392"></a>00392             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a3f7b39db3d28c28429cb68639599a773.html#a3f7b39db3d28c28429cb68639599a773" title="Returns the Node in the map corresponding to the locations specified.">GetLocationNodeFromMap</a>(target).<a class="code" href="classBritbot_1_1Navigator_1_1Node_a151bd9552f8e70463c4e4c251f3c0e6e.html#a151bd9552f8e70463c4e4c251f3c0e6e">Distance</a>;
+<a name="l00393"></a>00393         }
+<a name="l00394"></a>00394         
+<a name="l00395"></a>00395         
+<a name="l00402"></a><a class="code" href="classBritbot_1_1Navigator_a35d8e97792a6353116cff6102bb1e831.html#a35d8e97792a6353116cff6102bb1e831">00402</a>         <span class="keyword">private</span> <span class="keyword">static</span> Direction <a class="code" href="classBritbot_1_1Navigator_a35d8e97792a6353116cff6102bb1e831.html#a35d8e97792a6353116cff6102bb1e831" title="after the A* algorithm has finished, is simply finds the best neighbor of the beginning node and retu...">FindBestDirectionOutOfMap</a>(<a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> beginning)
+<a name="l00403"></a>00403         {
+<a name="l00404"></a>00404             <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> bestNextNode = null;
+<a name="l00405"></a>00405 
+<a name="l00406"></a>00406             <span class="comment">//go over the neighbors of the begining</span>
+<a name="l00407"></a>00407             <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a> neighbor <span class="keywordflow">in</span> beginning.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a430b9741bb43e72fd6e0afcfad8a6fe1.html#a430b9741bb43e72fd6e0afcfad8a6fe1" title="returns the neighbors of the Node, meaning the adjacent location wich are not impassible">GetNeighbors</a>())
+<a name="l00408"></a>00408             {
+<a name="l00409"></a>00409                 <span class="comment">//if bestNode is null update and skip to next iteration</span>
+<a name="l00410"></a>00410                 <span class="keywordflow">if</span> (bestNextNode == null)
+<a name="l00411"></a>00411                 {
+<a name="l00412"></a>00412                     bestNextNode = neighbor;
+<a name="l00413"></a>00413                     <span class="keywordflow">continue</span>;
+<a name="l00414"></a>00414                 }
+<a name="l00415"></a>00415                 <span class="comment">//if this neighbors score is better then update</span>
+<a name="l00416"></a>00416                 <span class="keywordflow">if</span> (neighbor.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a67a3768d7cd360df39c00c079f4b5b99.html#a67a3768d7cd360df39c00c079f4b5b99" title="calculates the F function (what we are minimizing)">F</a>() &lt; bestNextNode.F())
+<a name="l00417"></a>00417                 {
+<a name="l00418"></a>00418                     bestNextNode = neighbor;
+<a name="l00419"></a>00419                 }
+<a name="l00420"></a>00420             }
+<a name="l00421"></a>00421             <span class="comment">//check if best node is null, if so then i am an idiot and YOU NEED TO INFORM ME OF THAT IMMIDIATELY</span>
+<a name="l00422"></a>00422             <span class="keywordflow">if</span> (bestNextNode == null)
+<a name="l00423"></a>00423             {
+<a name="l00424"></a>00424                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;--------------------------------------------------------------------------&quot;</span>);
+<a name="l00425"></a>00425                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;--------------------------------------------------------------------------&quot;</span>);
+<a name="l00426"></a>00426                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;--------------------------------------------------------------------------&quot;</span>);
+<a name="l00427"></a>00427                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;            Matan K is stupid as shit, please go and tell him that&quot;</span>);
+<a name="l00428"></a>00428                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;--------------------------------------------------------------------------&quot;</span>);
+<a name="l00429"></a>00429                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;--------------------------------------------------------------------------&quot;</span>);
+<a name="l00430"></a>00430                 <a class="code" href="classBritbot_1_1Logger.html">Logger</a>.<a class="code" href="classBritbot_1_1Logger_a525b179b7543ba6ca0d272e7a758a6e0.html#a525b179b7543ba6ca0d272e7a758a6e0">Write</a>(<span class="stringliteral">&quot;--------------------------------------------------------------------------&quot;</span>);
+<a name="l00431"></a>00431                 <span class="keywordflow">return</span> Direction.NOTHING;
+<a name="l00432"></a>00432                 <span class="comment">//throw new Exception(&quot;Matan K is stupid as shit, please go and tell him that&quot;);</span>
+<a name="l00433"></a>00433             }
+<a name="l00434"></a>00434             <span class="keywordflow">return</span> <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetDirections(beginning.Loc, bestNextNode.Loc)[0];
+<a name="l00435"></a>00435         }
+<a name="l00436"></a>00436 
+<a name="l00442"></a><a class="code" href="classBritbot_1_1Navigator_ae1fd7deabedfc6361fe076c1b391167c.html#ae1fd7deabedfc6361fe076c1b391167c">00442</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classBritbot_1_1Navigator_ae1fd7deabedfc6361fe076c1b391167c.html#ae1fd7deabedfc6361fe076c1b391167c" title="function to update map for specific group simply calls the Node.updateMap function">UpdateMap</a>(<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> group)
+<a name="l00443"></a>00443         {
+<a name="l00444"></a>00444             <a class="code" href="classBritbot_1_1Navigator_1_1Node.html" title="private class representing each cell of the map">Node</a>.<a class="code" href="classBritbot_1_1Navigator_1_1Node_a88102761980a92a23a3933a128acf2fd.html#a88102761980a92a23a3933a128acf2fd" title="This function should be called ONCE PER GROUP in the CalculatePriorities function it updates the map ...">UpdateMap</a>(group);
+<a name="l00445"></a>00445         }
+<a name="l00446"></a>00446     }
+<a name="l00447"></a>00447 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 16:38:03 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 17:42:08 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
