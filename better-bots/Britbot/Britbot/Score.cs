@@ -23,7 +23,16 @@ namespace Britbot
         /// </summary>
         public double Eta;
 
+        /// <summary>
+        /// Minimum number of turns we will own an Island
+        /// </summary>
         public int MinTurnsToEnemyCapture;
+
+        /// <summary>
+        /// The density of nearby islands
+        /// (calculated by summing the distance between a target and all the nearby islands)
+        /// </summary>
+        public int Density;
 
         /// <summary>
         ///     The target being scored
@@ -53,7 +62,7 @@ namespace Britbot
         /// <param name="EnemyShips">amount of enemy ships nearby</param>
         /// <param name="eta">Estimated time to arrive at target</param>
         public Score(ITarget target, TargetType type, double value, double EnemyShips, double eta,
-            int MinTurnsToEnemyCapture)
+            int MinTurnsToEnemyCapture, int Density)
         {
             this.Target = target;
             this.Type = type;
@@ -61,6 +70,7 @@ namespace Britbot
             this.Eta = eta;
             this.EnemyShips = EnemyShips;
             this.MinTurnsToEnemyCapture = MinTurnsToEnemyCapture;
+            this.Density = Density;
         }
 
         #endregion

@@ -121,7 +121,7 @@ namespace Britbot
             if (origin.FightCount() > this.GetMaxFightPower())
             {
                 return new Score(this, TargetType.EnemyGroup, 0, this.EnemyPirates.Count, distance,
-                    Bot.Game.GetSpawnTurns());
+                    Bot.Game.GetSpawnTurns(), 0);
             }
 
             return null;
