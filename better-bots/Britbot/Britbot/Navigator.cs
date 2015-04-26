@@ -72,8 +72,7 @@ namespace Britbot
             else
             //otherwise use the A* thing
 
-            d = Navigator.CalculatePath(myLoc, target);
-
+                d = Navigator.CalculatePath(myLoc, target);
             Logger.StopTime("CalculateDirectionToStationeryTarget");
             return d;
         }
@@ -259,8 +258,6 @@ namespace Britbot
             Node beginning = Node.GetLocationNodeFromMap(start);
             openset.Enqueue(beginning, beginning.F());
 
-            beginning.Distance = 0;
-
             //begin the iteration
             while (openset.Count > 0)
             {
@@ -293,8 +290,6 @@ namespace Britbot
                     {
                         //update G score
                         neighbor.G = tentativeG;
-
-                        neighbor.Distance = currentNode.Distance + 1;
 
                         ////if the neighbor isn't in the open set, add him
                         if (!openset.Contains(neighbor))
@@ -319,80 +314,6 @@ namespace Britbot
             return Navigator.FindBestDirectionOutOfMap(beginning);
         }
 
-       
-        public static int CalculateDistance(Location start, Location target)
-        {
-            Logger.BeginTime("CalculatePath");
-            //first set up the for a new target calculation
-            Node.SetUpCalculation(target);
-            //Priority queue of the currently checked nodes. Thank You BlueRaja
-            HeapPriorityQueue<Node> openset = new HeapPriorityQueue<Node>(Bot.Game.GetCols() * Bot.Game.GetRows());
-
-            //set the beginning
-            Node beginning = Node.GetLocationNodeFromMap(start);
-            openset.Enqueue(beginning, beginning.F());
-
-            beginning.Distance = 0;
-
-            //begin the iteration
-            while (openset.Count > 0)
-            {
-                //get the current Node from the top of the openset priority queue
-                Node currentNode = openset.Dequeue();
-
-                //check if it is out target, if so we are done
-                if (currentNode.Loc.Equals(target))
-                    break;
-
-                //set current node status
-                currentNode.IsEvaluated = true;
-
-                //going over the Neighbors of the current cell
-                foreach (Node neighbor in currentNode.GetNeighbors())
-                {
-                    //if we already calculated this neighbor, skip to the next
-                    if (neighbor.IsEvaluated)
-                        continue;
-
-                    //calculate the new G score from this rout
-                    double tentativeG = currentNode.G + neighbor.Weight;
-                    // double tentativeG = currentNode.G + 1;
-
-                    //if the neighbor isn't in the open set
-                    //or we just found a better score for him (tentativeG < G)
-                    //or if G value is default -1
-                    //then add him to openset
-                    if ((!openset.Contains(neighbor)) || (neighbor.G == -1) || (tentativeG < neighbor.G))
-                    {
-                        //update G score
-                        neighbor.G = tentativeG;
-
-                        neighbor.Distance = currentNode.Distance + 1;
-
-                        ////if the neighbor isn't in the open set, add him
-                        if (!openset.Contains(neighbor))
-                        {
-                            openset.Enqueue(neighbor, neighbor.F());
-                        }
-                        else //update
-                        {
-                            openset.UpdatePriority(neighbor, neighbor.F());
-                        }
-                    }
-                }
-                //update current node
-                currentNode.IsEvaluated = true;
-            }
-            Logger.StopTime("CalculatePath");
-
-#if MAP_DEBUG
-            Node.DebugPasses();
-#endif
-            //now we have made the necessary calculations, just get the desired direction
-            return Node.GetLocationNodeFromMap(target).Distance;
-        }
-        
-        
         /// <summary>
         ///     after the A* algorithm has finished, is simply finds the best neighbor of the
         ///     beginning node and returns the direction to it
