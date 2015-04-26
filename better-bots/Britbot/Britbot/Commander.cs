@@ -169,7 +169,7 @@ namespace Britbot
                     Logger.StopTime("CalculateAndAssignTargets");
                 }
 
-                if (Bot.Game.GetTurn() % 10 >5)
+                if (Bot.Game.GetTurn() % 5 >2)
                 {
                     //fix configuration
                     Logger.BeginTime("ReConfigure");
@@ -375,57 +375,36 @@ namespace Britbot
         /// <returns></returns>
         private static double GlobalizeScore(SimulatedGame sg, Score[] scoreArr, CancellationToken cancellationToken)
         {
-            double totalDensityBonus = 0;
-
-            if (Magic.UBG)
+            //double totalDensityBonus = 0;
+            if (Magic.UseBasicGlobalizing)
             {
                 double score = 0;
-                double maxIslandOwnership = 0;
-                double totalProjectedPoints = 0;
-                
-                for (int i = 0; i < scoreArr.Length; i++)
+                foreach (Score s in scoreArr)
                 {
-                    if (scoreArr[i].Target == Commander.Groups[i].Target)
-                        score += Magic.DecisivenessBonus;
-
-                    if (maxIslandOwnership < scoreArr[i].MinTurnsToEnemyCapture)
-                        maxIslandOwnership = scoreArr[i].MinTurnsToEnemyCapture;
+                    score += s.Value;
                 }
 
-                //check if there are two of the same target
                 for (int i = 0; i < scoreArr.Length - 1; i++)
                 {
                     for (int j = i + 1; j < scoreArr.Length; j++)
                     {
                         if (scoreArr[i].Target.Equals(scoreArr[j].Target))
-                            score -= 1000;
+                            score -= 5000;
                     }
                 }
 
-                //TODO: This is EXTEMELY inefficient, we dont need to go over each turn, we only need to go over turns in which things change, Ron talk to me sometime (Matan K)
-                //TODO: add points also for killing pirates
-                //TODO: Recalculate IslandOwnership when an enemy pirate dies (This will help better implement the killing of enemy pirates in the score)
-                for (int i = 0; i < maxIslandOwnership; i++)
+                for (int i = 0; i < scoreArr.Length; i++)
                 {
-                    //calculate how many points we have in the i'th turn
-                    double totalAditionalIslandPoints = 0;
-                    foreach (Score s in scoreArr)
-                    {
-                        //check if this target gives us points this turn
-                        if ((s.Eta <= i) && (s.MinTurnsToEnemyCapture > i))
-                            totalAditionalIslandPoints += s.Value;
-
-                        totalDensityBonus += s.Density;
-                    }
-                    totalProjectedPoints += ScoreHelper.ComputePPT(totalAditionalIslandPoints);
+                    if (scoreArr[i].Target == Commander.Groups[i].Target)
+                        score += Magic.DecisivenessBonus;
                 }
 
-                //TODO: give more points if we take an island from the enemy
 
-                return score + totalProjectedPoints + totalDensityBonus * Magic.DensityBonusCoefficient;
+                return score;
             }
             else
             {
+                int totalDensityBonus = 0;
                 //reset simulation
                 sg.ResetSimulation();
 
@@ -453,8 +432,10 @@ namespace Britbot
                         totalDensityBonus += scoreArr[i].Density;
                     }
                 }
+
                 return score + totalDensityBonus * Magic.DensityBonusCoefficient;
             }
+
         }
 
         /// <summary>
