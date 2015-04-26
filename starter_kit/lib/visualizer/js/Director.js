@@ -119,6 +119,55 @@ Director.prototype.slowmoTo = function(time) {
 	}
 };
 
+Director.prototype.playWithSpeed = function() {
+	if (!this.vis.state.config['slowDown']) {
+		return;
+	}
+	if (!this.criticalTurns) {
+		this.criticalTurns = {};
+		var deathTurns = {};
+		for (var turn = 0; turn < this.duration; turn++) {
+			var pirates = this.vis.state.replay.getTurn(turn);
+			pirates.forEach(function(pirate) {
+				if (pirate.death) {
+					deathTurns[turn] = deathTurns[turn] || 0;
+					deathTurns[turn] += 1;
+				}
+			});
+		}
+		var keys = Object.keys(deathTurns);
+		keys = keys.map(function(k) {return parseInt(k);});
+		keys.sort(function(a, b) {return a - b});
+		// We'll want to create a timeline of turns when to slow down and when to speed back up
+
+		var self = this;
+		var ranges = keys.map(function(turn) {
+			return [Math.max(turn - 4, 0), Math.min(turn + 1, self.duration), deathTurns[turn]];
+		});
+
+
+		for (var i = 0; i < ranges.length; i++) {
+			var slowTurn = ranges[i][0];
+			var speedTurn = ranges[i][1];
+			var deaths = ranges[i][2];
+			while((i + 1) < ranges.length && ranges[i + 1][0] <= speedTurn) {
+				i += 1;
+				speedTurn = ranges[i][1];
+				deaths += ranges[i][2];
+			}
+			this.criticalTurns[slowTurn] = 'S';
+			this.criticalTurns[speedTurn] = 'F';
+		}
+	}
+	var thisTurn = this.time | 0;
+	var changeSpeed = this.criticalTurns[thisTurn];
+	if (changeSpeed === 'F') {
+		this.speed = this.defaultSpeed;
+	} else if (changeSpeed === 'S') {
+		this.speed = 1.5;
+	}
+};
+
 /**
  * Performs one playback step. Basically it calls {@link Visualizer#draw}, and will schedule the
  * next call to itself if the playback hasn't met an end condition (like the target time for a
@@ -235,6 +284,7 @@ Director.prototype.loop = function(delay) {
 		this.vis.state.fade = undefined;
 	}
 	this.vis.state.time = Math.clamp(this.time, 0, this.duration);
+	this.playWithSpeed();
 	this.vis.draw();
 	if (goOn) {
 

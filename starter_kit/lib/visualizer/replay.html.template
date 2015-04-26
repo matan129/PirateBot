@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../visualizer/css/visualizer.css"/>
     <script>
         window.local_run = true;
-        window.pirates_data_dir = '## PIRATES DATA DIR##/';
+        window.pirates_data_dir = '## PIRATES DATA DIR ##/';
         window.replayData = '## REPLAY PLACEHOLDER ##';
     </script>
     <script src="## BASE JS PATH ##/Util.js"></script>

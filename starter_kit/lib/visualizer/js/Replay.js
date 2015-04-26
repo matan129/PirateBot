@@ -35,6 +35,42 @@ Direction.S = new Direction(0, +1);
  * Offset for pirates moving west.
  */
 Direction.W = new Direction(-1, 0);
+/**
+ * Offset for pirates cloaking
+ */
+Direction.C = new Direction(0, 0);
+/**
+ * Offset for pirates cloaking
+ */
+Direction.D = new Direction(0, 0);
+
+
+Direction.fromChar = function(char) {
+    switch (char) {
+    case 'n':
+    case 'N':
+        return Direction.N;
+    case 'e':
+    case 'E':
+        return Direction.E;
+    case 's':
+    case 'S':
+        return Direction.S;
+    case 'w':
+    case 'W':
+        return Direction.W;
+    case 'c':
+    case 'C':
+        return Direction.C;
+    case 'd':
+    case 'D':
+        return Direction.D;
+    case '-':
+        return null;
+    default:
+        throw new Error('Invalid character in orders line: ' + char);
+    }
+}
 
 /**
  * @class Parsing functions and validators for various data types in streaming replays and maps.
@@ -75,29 +111,7 @@ DataType = {
 		p[1] = p[1].split('');
 		p[0] = new Array(p[1].length);
 		for ( var turn = 0; turn < p[1].length; turn++) {
-			switch (p[1][turn]) {
-			case 'n':
-			case 'N':
-				p[0][turn] = Direction.N;
-				break;
-			case 'e':
-			case 'E':
-				p[0][turn] = Direction.E;
-				break;
-			case 's':
-			case 'S':
-				p[0][turn] = Direction.S;
-				break;
-			case 'w':
-			case 'W':
-				p[0][turn] = Direction.W;
-				break;
-			case '-':
-				p[0][turn] = null;
-				break;
-			default:
-				throw new Error('Invalid character in orders line: ' + p[1][turn]);
-			}
+            p[0][turn] = Direction.fromChar(p[1][turn])
 		}
 		return [ p[0], p[2] ];
 	},
@@ -294,13 +308,14 @@ function Replay(replay, debug, highlightUser) {
 			}
 			stack.pop();
 			stack.pop();
+            
             // islands
             if (this.revision >= 3) {
                 keyIsArr(replay, 'forts', 0, undefined);
                 stack.push('forts');
 				var forts = replay['forts'];
                 for (n = 0; n < forts.length; n++) {
-					keyIsArr(forts, n, 3, 4);
+					keyIsArr(forts, n, 3, 7);
 				}
                 stack.pop();
 
@@ -341,9 +356,9 @@ function Replay(replay, debug, highlightUser) {
 			keyIsArr(replay, 'ants', 0, undefined);
 			stack.push('ants');
 			var pirates = replay['ants'];
-			regex = /[^nsew-]/;
+			regex = /[^nsewcd-]/;
 			for (n = 0; n < pirates.length; n++) {
-				keyIsArr(pirates, n, 4, 7);
+				keyIsArr(pirates, n, 4, 8);
 				stack.push(n);
 				var obj = pirates[n];
 				// row must be within map height
@@ -386,36 +401,23 @@ function Replay(replay, debug, highlightUser) {
 			}
 			stack.pop();
             
-			// food
-			if (this.revision >= 3) {
-				keyIsArr(replay, 'food', 0, undefined);
-				stack.push('food');
-				var food = replay['food'];
-				for (n = 0; n < food.length; n++) {
-					keyIsArr(food, n, 3, 5);
-					stack.push(n);
-					var obj = food[n];
-					// row must be within map height
-					keyRange(obj, 0, 0, map['rows'] - 1);
-					// col must be within map width
-					keyRange(obj, 1, 0, map['cols'] - 1);
-					// start must be >= 0
-					keyRange(obj, 2, 0, undefined);
-					if (obj.length > 3) {
-						// end turn must be > start turn
-						keyRange(obj, 3, obj[2] + 1, undefined);
-						if (obj.length > 4) {
-							// eating player index must match player count
-							keyRange(obj, 4, 0, this.players - 1);
-						}
-						setReplayDuration(obj[3] - 1, false);
-					} else {
-						setReplayDuration(obj[2] - 1, false);
-					}
-					stack.pop();
-				}
-				stack.pop();
-			}
+            // zones
+            if (replay.hasOwnProperty('zones')) {
+                keyIsArr(replay, 'zones', 0, undefined);
+                stack.push('zones');
+                var zones = replay['zones'];
+                for (n = 0; n < zones.length; n++) {
+                    keyIsArr(zones, n, 0, undefined);
+                }
+                stack.pop();
+            } else {
+                replay['zones'] = [];
+            }
+            
+            // rejected
+            if (!replay.hasOwnProperty('rejected')) {
+                replay['rejected'] = [];
+            } 
 
 			// scores
 			keyIsArr(replay, 'scores', this.players, this.players);
@@ -747,10 +749,11 @@ Replay.prototype.getTurn = function(n) {
 		food = this.meta['replaydata']['food'];
 		for (i = 0; i < pirates.length; i++) {
 			pirate = pirates[i];
+			// TODO the last argument is the ID
 			if (pirate[2] === n + 1 || n === 0 && pirate[2] === 0) {
 				// spawn this pirate
 				if (this.revision >= 3) {
-					aniAnt = this.spawnAnt(i, pirate[0], pirate[1], pirate[2], pirate[4]);
+					aniAnt = this.spawnPirate(i, pirate[0], pirate[1], pirate[2], pirate[4], pirate[5], pirate[7]);
 				} else {
 					aniAnt = this.spawnFood(i, pirate[0], pirate[1], pirate[2], pirate[5]);
 				}
@@ -777,28 +780,17 @@ Replay.prototype.getTurn = function(n) {
 					aniAnt.frameAt(n)['owner'] = pirate[5];
 				}
 				// move
-				var dir = undefined;
-				switch (moves.charAt(n - activation)) {
-				case 'n':
-				case 'N':
-					dir = Direction.N;
-					break;
-				case 'e':
-				case 'E':
-					dir = Direction.E;
-					break;
-				case 's':
-				case 'S':
-					dir = Direction.S;
-					break;
-				case 'w':
-				case 'W':
-					dir = Direction.W;
-				}
+				var dir = Direction.fromChar(moves.charAt(n - activation));
 				if (dir) {
 					lastFrame = aniAnt.keyFrames[aniAnt.keyFrames.length - 1];
-					aniAnt.fade('x', lastFrame['x'] + dir.x, n, n + 0.5);
-					aniAnt.fade('y', lastFrame['y'] + dir.y, n, n + 0.5);
+                    // for the orientation choose the last character if it is not 0,0 or else just use the last frame
+                    lastFrame['orientation'] = (dir['x'] != 0 || dir['y'] != 0) ? moves.charAt(n - activation) : lastFrame['orientation'];
+					aniAnt.fade('x', lastFrame['x'] + dir.x, n, n + 1);
+					aniAnt.fade('y', lastFrame['y'] + dir.y, n, n + 1);
+                    if (dir == Direction.C || dir == Direction.D) {
+                        // this creates the effect of always switching between 0 to 1 and back
+                        aniAnt.fade('cloaked', lastFrame['cloaked'] == 1 ? 0.4 : 1, n, n + 1);
+                    }
 				}
 			}
 			if (this.revision >= 3) {
@@ -897,8 +889,8 @@ Replay.prototype.spawnFood = function(id, row, col, spawn, owner) {
  *        owner the owning player index
  * @returns {Pirate} The new animation ant object.
  */
-Replay.prototype.spawnAnt = function(id, row, col, spawn, owner) {
-	var aniAnt = this.aniAnts[id] = new Pirate(id, spawn - 0.25);
+Replay.prototype.spawnPirate = function(id, row, col, spawn, owner, moves, gameId) {
+	var aniAnt = this.aniAnts[id] = new Pirate(id, gameId, spawn - 0.25);
 	var color = this.meta['playercolors'][owner];
 	var f = aniAnt.frameAt(spawn - 0.25);
 	aniAnt.owner = owner;
@@ -917,7 +909,15 @@ Replay.prototype.spawnAnt = function(id, row, col, spawn, owner) {
 		f['size'] = 0.7;
 		f = aniAnt.frameAt(spawn + 0.5);
 	}
+	var orientation = 'w'; // TODO: change this to random choose if we don't know
+	if (moves.length > 0 ) {
+			if ((moves[0] !== '-') && (moves[0] !== 'd') && (moves[0] !== 'c')) {
+				orientation = moves[0];
+			}
+	}
+	f['orientation'] = orientation;
 	f['size'] = 1;
+	f['pirateGameId'] = gameId;
 	return aniAnt;
 };
 

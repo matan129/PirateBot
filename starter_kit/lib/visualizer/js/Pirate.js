@@ -19,8 +19,9 @@
  *        time Sets the time in which the object appears in turn units.
  * @constructor
  */
-function Pirate(id, time) {
+function Pirate(id, gameId, time) {
 	this.id = id;
+	this.gameId = gameId;
 	this.death = undefined;
 	this.keyFrames = [ new KeyFrame() ];
 	this.keyFrames[0].time = time;
@@ -162,6 +163,8 @@ function KeyFrame() {
 	this['b'] = 0;
 	this['size'] = 0.0;
 	this['owner'] = undefined;
+    this['cloaked'] = 1;
+    this['orientation'] = null;
 }
 
 /**
@@ -186,7 +189,10 @@ KeyFrame.prototype.interpolate = function(a, b, time) {
 	this['g'] = (usea * a['g'] + useb * b['g']) | 0;
 	this['b'] = (usea * a['b'] + useb * b['b']) | 0;
 	this['size'] = usea * a['size'] + useb * b['size'];
+	this['cloaked'] = a['cloaked'] * usea + b['cloaked'] * useb;
 	this['owner'] = a['owner'];
+	this['orientation'] =  a['orientation'];
+	this['pirateGameId'] = a['pirateGameId'];
 	return this;
 };
 
@@ -206,6 +212,9 @@ KeyFrame.prototype.assign = function(other) {
 	this['b'] = other['b'];
 	this['size'] = other['size'];
 	this['owner'] = other['owner'];
+	this['cloaked'] = other['cloaked'];
+	this['orientation'] =  other['orientation'];
+	this['pirateGameId'] = other['pirateGameId'];
 	return this;
 };
 

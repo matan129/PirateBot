@@ -39,6 +39,10 @@ Config.prototype['speedSlowest'] = 2;
 Config.prototype['speedFastest'] = 8;
 Config.prototype['speedFactor'] = 0;
 Config.prototype['cpu'] = 0.5;
+Config.prototype['showRange'] = false;
+Config.prototype['slowDown'] = false;
+Config.prototype['showGrid'] = false;
+Config.prototype['showZones'] = false;
 
 /**
  * Loads all keys from a generic object into the configuration.

@@ -6,7 +6,10 @@ import os
 import time
 from optparse import OptionParser, OptionGroup
 import random
+import shutil
+import zipfile
 import cProfile
+import tempfile
 import visualizer.visualize_locally
 import json
 try:
@@ -93,6 +96,25 @@ class Tee(object):
         for file in self.files:
             file.close()
             
+class ZipEncapsulator(object):
+    '''  List of temporary folders used to be deleted '''
+    def __init__(self):
+        self.tempdirs = []
+    def unzip(self, zipfilename):
+        # here we assume that the 
+        self.tempdirs.append(tempfile.mkdtemp(dir=os.path.dirname(zipfilename)))
+        with zipfile.ZipFile(zipfilename, 'r') as zippy:
+            zippy.extractall(self.tempdirs[-1])
+            try:
+                new_target = self.tempdirs[-1]
+            except:
+                print('Empty zipfile found!')
+                traceback.print_exc()
+                return -1
+        return new_target
+    def close(self):
+        [shutil.rmtree(td) for td in self.tempdirs]
+            
 def main(argv):
     usage ="Usage: %prog [options] map bot1 bot2\n\nYou must specify a map file."
     parser = OptionParser(usage=usage)
@@ -100,6 +122,7 @@ def main(argv):
     # map to be played
     # number of players is determined by the map file
     parser.add_option("-m", "--map_file", dest="map",
+                      default=None,
                       help="Name of the map file")
 
     # maximum number of turns that the game will be played
@@ -112,7 +135,7 @@ def main(argv):
                       help="Run bots in serial, instead of parallel.")
 
     parser.add_option("--turntime", dest="turntime",
-                      default=1000, type="int",
+                      default=100, type="int",
                       help="Amount of time to give each bot, in milliseconds")
     parser.add_option("--loadtime", dest="loadtime",
                       default=5000, type="int",
@@ -161,11 +184,17 @@ def main(argv):
                           default=1000, type="int",
                           help="Points to reach to end game")
     game_group.add_option("--spawnturns", dest="spawnturns",
-                          default=40, type="int",
+                          default=60, type="int",
                           help="Turns for unit to respawn")
     game_group.add_option("--captureturns", dest="captureturns",
                           default=20, type="int",
                           help="Number of turns to change ownership of island")
+    game_group.add_option("--ghostcooldown", dest="ghostcooldown",
+                          default=50, type="int",
+                          help="Number of turns to change ownership of island")
+    game_group.add_option("--fogofwar", dest="fogofwar", 
+    					  default=False, action="store_true",
+    					  help="Activate option of fog of war and radius vision for ships")
     game_group.add_option("--linear_points", dest="linear_points",
                           default=None, type="int",
                           help="If points are linear - how much each island worth")
@@ -192,6 +221,15 @@ def main(argv):
                          help="game id to start at when numbering log files")
     log_group.add_option("-l", "--log_dir", dest="log_dir", default=None,
                          help="Directory to dump replay files to.")
+    log_group.add_option("--debug_in_replay", dest="debug_in_replay", 
+                         action='store_true',default=False,
+                         help="Specify if should insert debug/warning/error prints in replay file")
+    game_group.add_option("--debug_max_count", dest="debug_max_count",
+                          default=10000, type="int",
+                          help="Maximum number of debug message to be stored in replay data")
+    game_group.add_option("--debug_max_length", dest="debug_max_length",
+                          default=200000, type="int",
+                          help="Maximum total length of debug message to be stored in replay data")
     log_group.add_option('-R', '--log_replay', dest='log_replay',
                          action='store_true', default=False),
     log_group.add_option('-S', '--log_stream', dest='log_stream',
@@ -258,11 +296,14 @@ def main(argv):
         return -1
 
 def run_rounds(opts,args):
-    def get_bot_paths(cmd):
+    def get_bot_paths(cmd, zip_encapsulator):
         ''' Receives a single file string from the command line and 
             Returns a 3 list of <working_dir> <full_file_path> <file_name>
         '''
         filepath = os.path.realpath(cmd)
+        if filepath.endswith('.zip'):
+            # if we get zip file - override original filepath for abstraction
+            filepath = zip_encapsulator.unzip(filepath)
         working_dir = os.path.dirname(filepath)
         bot_name = os.path.basename(cmd).split('.')[0]
         return working_dir, filepath, bot_name
@@ -306,6 +347,8 @@ def run_rounds(opts,args):
         "maxpoints" : opts.maxpoints,
         "spawnturns" : opts.spawnturns,
         "captureturns" : opts.captureturns,
+        "ghostcooldown" : opts.ghostcooldown,
+        "fogofwar" : opts.fogofwar,
         "linear_points" : opts.linear_points,
         "exp_points" : opts.exp_points }
         
@@ -318,6 +361,9 @@ def run_rounds(opts,args):
         "turntime": opts.turntime,
         "map_file": opts.map,
         "turns": opts.turns,
+        "debug_in_replay": opts.debug_in_replay,
+        "debug_max_length": opts.debug_max_length,
+        "debug_max_count": opts.debug_max_count,
         "log_replay": opts.log_replay,
         "log_stream": opts.log_stream,
         "log_input": opts.log_input,
@@ -336,8 +382,9 @@ def run_rounds(opts,args):
         if opts.engine_seed:
             game_options['engine_seed'] = opts.engine_seed + round
         game = Pirates(game_options)
+        zip_encapsulator = ZipEncapsulator()
         # initialize bots
-        bots = [get_bot_paths(arg) for arg in args]
+        bots = [get_bot_paths(arg, zip_encapsulator) for arg in args]
         bot_count = len(bots)
         # insure correct number of bots, or fill in remaining positions
         if game.num_players != len(bots):
@@ -423,6 +470,9 @@ def run_rounds(opts,args):
             engine_options['replay_log'] = intcpt_replay_io
 
         result = run_game(game, bots, engine_options)
+        
+        # destroy temporary directories
+        zip_encapsulator.close()
         
         # add player names, write to proper io, reset back to normal
         if opts.log_replay:

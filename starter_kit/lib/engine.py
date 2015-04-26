@@ -7,7 +7,11 @@ import base64
 import random
 import sys
 import json
+import subprocess
+from os import walk
+from os.path import splitext, join
 import io
+
 if sys.version_info >= (3,):
     def unicode(s):
         return s
@@ -56,12 +60,16 @@ class HeadTail(object):
             sep = unicode('')
         return self.capture_head + sep + self.capture_tail
 
+
 def run_game(game, botcmds, options):
     # file descriptors for replay and streaming formats
     replay_log = options.get('replay_log', None)
     stream_log = options.get('stream_log', None)
     verbose_log = options.get('verbose_log', None)
     debug_log = options.get('debug_log', None)
+    debug_in_replay = options.get('debug_in_replay', None)
+    debug_max_length = options.get('debug_max_length', None)
+    debug_max_count = options.get('debug_max_count', None)
     # file descriptors for bots, should be list matching # of bots
     input_logs = options.get('input_logs', [None]*len(botcmds))
     output_logs = options.get('output_logs', [None]*len(botcmds))
@@ -84,6 +92,34 @@ def run_game(game, botcmds, options):
     bots = []
     bot_status = []
     bot_turns = []
+    debug_msgs = [[] for _ in range(len(botcmds))]
+    debug_msgs_length = [0 for _ in range(len(botcmds))]
+    debug_msgs_count = [0 for _ in range(len(botcmds))]
+    debug_msgs_exceeded = [False for _ in range(len(botcmds))]
+
+    #helper function to add messages for replay data
+    def add_debug_messages(bot_index, turn, level, messages):
+        if (not debug_in_replay) or len(messages) == 0:
+            return
+
+        # In order to calculate this only if we not already exceeded
+        if not debug_msgs_exceeded[bot_index]:
+            messages_size = sum(map(lambda m: len(m), messages))
+            debug_msgs_length[bot_index] += messages_size
+            debug_msgs_count[bot_index] += len(messages)
+
+            if (debug_msgs_count[bot_index] > debug_max_count) or (
+                debug_msgs_length[bot_index] > debug_max_length):
+                # update the calculated exceeded
+                debug_msgs_exceeded[bot_index] = True
+
+        if (debug_msgs_exceeded[bot_index]):
+            debug_msgs[bot_index].append([turn, 2, ["Exceeded debug messages limit."]])
+            if error_logs and error_logs[bot_index]:
+                error_logs[bot_index].write("Exceeded debug messages limit.\n")
+        else:
+            debug_msgs[bot_index].append([turn, level, messages])
+
     if capture_errors:
         error_logs = [HeadTail(log, capture_errors_max) for log in error_logs]
     try:
@@ -93,10 +129,13 @@ def run_game(game, botcmds, options):
             bot_cwd, bot_path, bot_name = bot
             # generate the appropriate command from file extension
             bot_cmd = generate_cmd(bot_path)
+
             # generate the sandbox from the bot working directory
-            sandbox = get_sandbox(bot_cwd,
-                    secure=options.get('secure_jail', None))
-            sandbox.start(bot_cmd)
+            sandbox = get_sandbox(bot_cwd, protected_files=[bot_path], secure=options.get('secure_jail', None))
+
+            if bot_cmd:
+                sandbox.start(bot_cmd)
+
             bots.append(sandbox)
             bot_status.append('alive')
             bot_turns.append(0)
@@ -108,7 +147,11 @@ def run_game(game, botcmds, options):
                 if verbose_log:
                     verbose_log.write('bot %s did not start\n' % bot_name)
                 game.kill_player(b)
-            sandbox.pause()
+                sandbox.pause()
+
+            if not bot_cmd:
+                # couldnt generate bot command - couldnt recognize the language of the code
+                add_debug_messages(b, 0, 2, ["Couldnt recognize code language. Are you sure code files are correct?"])
 
         if stream_log:
             # stream the start info - including non-player info
@@ -149,6 +192,8 @@ def run_game(game, botcmds, options):
             # get moves from each player
             if turn == 0:
                 time_limit = loadtime
+            elif turn == 1:
+            	time_limit = max([turntime * 10, 1.500])
             else:
                 time_limit = turntime
 
@@ -182,16 +227,18 @@ def run_game(game, botcmds, options):
                         if not move.startswith('m'):
                             # break since messages come only before orders
                             break
-                        messages.append("Debug>> " + base64.b64decode(move.split(' ')[1]))
+                        messages.append(base64.b64decode(move.split(' ')[1]))
                     if messages:
                         debug_log.write('turn %4d bot %s Debug prints:\n' % (turn, bot_name))
-                        debug_log.write('\n'.join(messages)+'\n')
+                        debug_log.write('Debug>> ' + '\nDebug>> '.join(messages)+'\n')
+                        add_debug_messages(b, turn, 0, messages)
                 
             # handle any logs that get_moves produced
             for b, errors in enumerate(error_lines):
                 if errors:
                     if error_logs and error_logs[b]:
                         error_logs[b].write(unicode('\n').join(errors)+unicode('\n'))
+                    add_debug_messages(b, turn, 2, [unicode('\n').join(errors)+unicode('\n')])
                         
             # set status for timeouts and crashes
             for b, status in enumerate(statuses):
@@ -220,6 +267,8 @@ def run_game(game, botcmds, options):
                         if output_logs and output_logs[b]:
                             output_logs[b].write('\n'.join(ignored)+'\n')
                             output_logs[b].flush()
+                        add_debug_messages(b, turn, 1, ignored)
+                            
                     if invalid:
                         if strict:
                             game.kill_player(b)
@@ -232,6 +281,7 @@ def run_game(game, botcmds, options):
                         if output_logs and output_logs[b]:
                             output_logs[b].write('\n'.join(invalid)+'\n')
                             output_logs[b].flush()
+                        add_debug_messages(b, turn, 1, invalid)
 
             if turn > 0:
                 game.finish_turn()
@@ -364,6 +414,7 @@ def run_game(game, botcmds, options):
             'replayformat': 'json',
             'replaydata': game.get_replay(),
             'game_length': turn,
+            'debug_messages': debug_msgs,
         }
         if capture_errors:
             game_result['errors'] = [head.headtail() for head in error_logs]
@@ -391,7 +442,7 @@ def get_moves(game, bots, bot_nums, time_limit, turn):
     #   or when time is up
     while (sum(bot_finished) < len(bot_finished) and
             time.time() - start_time < time_limit):
-        time.sleep(0.01)
+        time.sleep(0.003)
         for b, bot in enumerate(bots):
             if bot_finished[b]:
                 continue # already got bot moves
@@ -477,6 +528,8 @@ def get_moves(game, bots, bot_nums, time_limit, turn):
     return bot_moves, error_lines, statuses
     
 def get_java_path():
+    if (os.name != "nt"):
+        return 'java'
     # TODO: search path as well!
     # TODO: actually run os.system('java -version') to see version
     javas = []
@@ -494,37 +547,97 @@ def get_java_path():
 
 def get_dot_net_version():
     pass
-    
-def validate_bot_file(bot_path):
-    ''' here we make sure no unicode/hebrew characters in code '''
-    if not all(ord(c) < 128 for c in open(bot_path).read()[4:]):
-        raise Exception("Bad characters in bot %s!\nDid you write in Hebrew? Please remove these characters" % os.path.basename(bot_path))
-    
+
+def select_files(root, files, suffix):
+    """
+    simple logic here to filter out interesting files
+    """
+
+    selected_files = []
+
+    for file in files:
+        #do concatenation here to get full path
+        full_path = join(root, file)
+        ext = splitext(file)[1]
+
+        if ext == suffix:
+            selected_files.append(full_path)
+
+    return selected_files
+
+def build_recursive_dir_tree(path, suffix):
+    """
+    path    -    where to begin folder scan
+    """
+    selected_files = []
+
+    for root, dirs, files in walk(path):
+        selected_files += select_files(root, files, suffix)
+
+    return selected_files
+
+
+def recognize_language(bot_path):
+    '''Decide between java, python or csh'''
+
+    '''First do single file case'''
+    if not os.path.isdir(bot_path):
+        if bot_path.endswith('.py') or bot_path.endswith('.pyc'):
+            return 'python'
+        elif bot_path.endswith('.cs'):
+            return 'csh'
+        elif bot_path.endswith('.java'):
+            return 'java'
+        else:
+            return
+
+    ''' Now handle directory case '''
+    java_files = build_recursive_dir_tree(bot_path, '.java')
+    csh_files = build_recursive_dir_tree(bot_path, '.cs')
+    python_files = build_recursive_dir_tree(bot_path, '.py')
+
+    max_files = max(len(java_files), len(csh_files), len(python_files))
+
+    if max_files == 0:
+        return
+
+    if len(java_files) == max_files:
+        return 'java'
+    elif len(csh_files) == max_files:
+        return 'csh'
+    elif len(python_files) == max_files:
+        return 'python'
+
+    return
+
 def generate_cmd(bot_path):
     ''' Generates the command to run and returns other information from the filename given '''
+    csh_runner_path = os.path.join(os.path.dirname(__file__), "cshRunner.exe")
+    java_runner_path = os.path.join(os.path.dirname(__file__), "javaRunner.jar")
+    python_runner_path = os.path.join(os.path.dirname( __file__), "pythonRunner.py")        
+    
     command = ''
-    if bot_path.endswith('.py') or bot_path.endswith('.pyc'):
-        # format python ...\pirates.py <user_module>
-        pirates_py_path = os.path.join(os.path.dirname( __file__), "pythonRunner.py")
-        command = 'python "%s" "%s"' % (pirates_py_path, bot_path)
-    elif bot_path.endswith('.java'):
-        java_runner_compiler = os.path.join(os.path.dirname(__file__), "javaRunner.jar")
-        if (os.name == "nt"):
-            java_path = get_java_path()
-            command = '"%s" -jar "%s" "%s"' % (java_path,java_runner_compiler, bot_path)
-        else:
-            command = 'java -jar "%s" "%s"' % (java_runner_compiler, bot_path)
-    elif bot_path.endswith('.cs'):
+    
+    lang = recognize_language(bot_path)
+
+        
+    if lang == 'python':
+        command = 'python "%s" "%s"' % (python_runner_path, bot_path)
+        
+    elif lang == 'csh':
         # Run with Mono if Unix. But in the future just receive source code (.cs) and compile on the fly
-        csh_runner_compiler = os.path.join(os.path.dirname(__file__), "cshRunner.exe")
         if (os.name == "nt"):
-            command = '"%s" "%s"' % (csh_runner_compiler, bot_path)
+            command = '"%s" "%s"' % (csh_runner_path, bot_path)
         else:
-            command = 'mono --debug %s %s' % (csh_runner_compiler, bot_path)
+            command = 'mono --debug %s %s' % (csh_runner_path, bot_path)
+    elif lang == 'java':
+        command = '"%s" -jar "%s" "%s"' % (get_java_path(), java_runner_path, bot_path)
     else:
-        sys.stdout.write('Unknown file format! %s\nPlease give file that ends with .cs , .java or .py' % (bot_path))
-        sys.exit(-1)
-    if not bot_path.endswith('.pyc'):
-        # pyc files have byte codes in them!
-        validate_bot_file(bot_path)
+        if os.path.isdir(bot_path):
+            sys.stdout.write('Couldnt find code in folder! %s\n' % (bot_path))
+        else:
+            sys.stdout.write('Unknown file format! %s\nPlease give file that ends with .cs , .java or .py\n' % (bot_path))
+        #sys.exit(-1)
+        
+    #print(command)
     return command

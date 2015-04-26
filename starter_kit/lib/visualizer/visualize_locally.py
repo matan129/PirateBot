@@ -40,20 +40,25 @@ def generate(data, generated_path):
     path_re = re.compile(r"## PATH PLACEHOLDER ##")
     game_template_re = re.compile(r"## GAME TEMPLATE ##")
     base_js_path_re = re.compile(r"## BASE JS PATH ##")
-    pirates_data_dir_re = re.compile(r"## PIRATES DATA DIR##")
-    
+    pirates_data_dir_re = re.compile(r"## PIRATES DATA DIR ##")
     try:
         json.loads(data)
-        data = quote_re.sub(r"\\\\'", data)
-        data = newline_re.sub("", data)
+        # replace ", \n, and other characters that destroy the html
+        data = quote_re.sub(r"\\'", data)
+        data = newline_re.sub(" ", data)
+        data = data.replace('\\n','\\\\n')
+        data = data.replace('\\"','\\\\"')
+        data = data.replace('\\t','\\\\t')
     except ValueError:
         data = data.replace('\n', '\\\\n')
 
     content = path_re.sub(mod_path, content)
-    content = insert_re.sub(data, content)
+    #content = insert_re.sub(data, content)
+    content = content.replace('## REPLAY PLACEHOLDER ##',data)
     content = game_template_re.sub(game_template, content)
     content = base_js_path_re.sub(base_js_path, content)
     content = pirates_data_dir_re.sub(pirates_data_dir, content)
+    
        
     output = open(generated_path, 'w')
     output.write(content)

@@ -9,21 +9,7 @@ namespace MyBot
     {
         public void DoTurn(IPirateGame game)
         {
-
-            if (game.NotMyIslands().Count() == 0)
-            {
-                return;
-            }
-
-            Island island = game.NotMyIslands().First();
-
-            //game.Debug("going to island " + island.Id.ToString());
-
-            foreach (Pirate pirate in game.MyPirates())
-            {
-                Direction dir = game.GetDirections(pirate, island).First();
-                game.SetSail(pirate, dir);
-            }
+            // Fill your code here
         }
 
     }

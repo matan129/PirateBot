@@ -30,6 +30,9 @@ function CanvasElementPiratesMap(state, map, fog) {
 }
 CanvasElementPiratesMap.extend(CanvasElement);
 
+// set this to determine the offset of the directional-ship images
+var orientation={'e':0, 'n':1, 'w':2, 's':3};
+
 /**
  * Causes a comparison of the relevant values that make up the visible content of this canvas
  * between the visualizer and cached values. If the cached values are out of date the canvas is
@@ -174,124 +177,62 @@ CanvasElementPiratesMap.prototype.collectPiratesAroundCursor = function() {
 	return true;
 };
 
-/**
- * Draws pirates onto the map image. This includes overlay letters / ids, attack lines, effect circles
- * and finally the fog of war.
- */
-CanvasElementPiratesMap.prototype.draw = function() {
-	var halfScale, drawList, n, kf, w, dx, dy, d, fontSize, label, caption, order;
-	var target, rows, cols, x1, y1, x2, y2, rowPixels, colPixels, ar, sr, r, island, islands, i;
-    var attack_history, entry, prev_owner, px1, py1;
-	var hash = undefined;
-    // i added this whole line
-    var owners, cur_turn, j, status, turn, owner;
+CanvasElementPiratesMap.prototype.drawLighthouses = function() {
+	var lighthouses = this.state.replay.meta['replaydata']['lighthouses'];
+	if (lighthouses) {
+		for (var i = 0; i < lighthouses.length; i++) {
+			var lighthouse = lighthouses[i];
+			var x1 = (lighthouse[1] - 0.75 ) * this.scale;
+			var y1 = (lighthouse[0] - 1.5) * this.scale;
+			var w = 2.5 * this.scale;
 
-	// draw map
-	this.ctx.drawImage(this.map.canvas, 0, 0);
-	//this.ctx.drawImage(this.map.board, 0, 0);
 
-    // islands
-    halfScale = 0.5 * this.scale;
-	islands = this.state.replay.meta['replaydata']['forts'];
-    for (i = 0; i < islands.length; i++) {
-        island = islands[i];
-        x1 = (island[1] - 2.5) * this.scale;
-		y1 = (island[0] - 4) * this.scale;
-		x2 = (island[1] + 0.5) * this.scale;
-		y2 = (island[0] + 0.5) * this.scale;
-        w = 5 * this.scale;
-        
-        // find the current owner. iterate through states until you get to a future state, then just take the previous most one.
-        owners = island[2];
-        owner = owners[0][1];
-        j = 1;
-        for (j = 1; j < owners.length; j++) {
-            status = owners[j];
-            if (this.turn >= status[0]) {
-                owner = status[1];
-            } else {
-                break;
-            }
-        }
-        
-        // Generate a progress-bar over island being captured
-        // this.ctx.globalAlpha is always 1. use it to fade in. 
-        // this if causes code to be skipped in games that dont have this data structure
-        this.ctx.lineWidth = 0.5 * this.scale;
-        neutral_color_index = this.state.options.playercolors.length - 1;
-        if (island.length > 3) {
-            attack_history = island[3];
-            entry = null;
-            for (j = 0; j < attack_history.length; j++) {
-                entry = attack_history[j];
-                if ((this.turn >= entry[1]) && (this.turn < entry[1]+entry[2] - 1)) {
-                    // Background always NEUTRAL
-                    this.ctx.strokeStyle = this.state.options.playercolors[neutral_color_index];
-                    this.ctx.beginPath();
-                    this.ctx.arc(x1 + w/2 + 0.2 * this.scale, y1 + w, w/3, Math.PI, 2 * Math.PI, true);
-                    this.ctx.stroke();
-                    
-                    // if to determine whether we go clockwise or anti-clockwise
-                    this.ctx.beginPath();
-                    var angle = (entry[1] - this.time - 1) / 20 * Math.PI;
-                    if (owner == null) {
-                        this.ctx.strokeStyle = this.state.options.playercolors[entry[0]];
-                        this.ctx.arc(x1 + w/2 + 0.2 * this.scale, y1 + w, w/3, Math.PI, angle + Math.PI, true);
-                    } else {
-                        this.ctx.strokeStyle = this.state.options.playercolors[owner];
-                        this.ctx.arc(x1 + w/2 + 0.2 * this.scale, y1 + w, w/3, 2 * Math.PI - angle, Math.PI, false);
-                    }
-                    this.ctx.stroke();
-                    
-                    // we found the correct entry for this.time - leave the loop
-                    break;
-                }
-            }
-        }
-       
-
-        this.ctx.strokeStyle = this.state.options.playercolors[owner];
-		this.ctx.fillStyle = this.state.options.playercolors[owner];
-
-        this.ctx.globalAlpha = 1;
-
-        // if the owner is NEUTRAL draw an empty island
-		if (owner == null) {
-			this.ctx.drawImage(this.islandImage, 0, 0, 256, 256, x1, y1, w, w);
-		} else {
-			// TODO: use owner to determine index of sprite
-			this.ctx.drawImage(this.ownedIslandSprites[this.turn % 3], owner * 256, 0, 256, 256, x1, y1, w, w);
-
-			// TODO: pirate should be in front of ships
-			this.ctx.drawImage(this.ownedIslandPirateSprite, owner * 256, 0, 256, 256, x1, y1, w, w);
+			this.ctx.drawImage(this.map.lighthouse, x1, y1, w, w);
 		}
-    }
+	}
+};
 
-	// draw pirates sorted by color
-	for (hash in this.drawStates) {
+CanvasElementPiratesMap.prototype.drawInScale = function(image, sX, sY, sWidth, sHeight, x, y, width, height, scaleSize) {
+	var halfScale = 0.5 * this.scale;
+	width = width * scaleSize;
+	height = height * scaleSize;
+	x = x + halfScale - (width / 2);
+	y = y + halfScale - (height / 2);
+	this.ctx.drawImage(image, sX, sY, sWidth, sHeight, x, y, width, height);
+};
+
+CanvasElementPiratesMap.prototype.drawPirates = function() {
+	var attackRadius = this.state.replay.meta['replaydata']['attackradius2'];
+	attackRadius = this.scale * Math.sqrt(attackRadius);
+	for (var hash in this.drawStates) {
 		this.ctx.fillStyle = hash;
-		drawList = this.drawStates[hash];
+		var drawList = this.drawStates[hash];
+        drawList.sort(function(a, b) {return a.mapY < b.mapY});
 		for (n = drawList.length - 1; n >= 0; n--) {
-			kf = drawList[n];
+			var kf = drawList[n];
 			if (kf['owner'] !== undefined) {
+				this.ctx.globalAlpha = kf['cloaked'];
 				this.drawWrapped(kf.mapX, kf.mapY, this.scale, this.scale, this.w, this.h,
-						function(x, y, width) {
+					function (x, y, width) {
+						this.drawInScale(
+							this.map.shipSprite,
+							kf['owner'] * 200, orientation[kf['orientation']] * 200, 200, 200,
+							x, y, width, width, 2);
+					}, [kf.mapX, kf.mapY, this.scale * kf['size']]);
 
-							var drawWidth = width * 1.5;
-							var drawWidthDouble = drawWidth * 2;
-
-							this.ctx.drawImage(
-								this.map.shipSprite,
-								kf['owner'] * 128, 0, 128, 128,
-								x - drawWidth, y - drawWidth, drawWidthDouble, drawWidthDouble);
-
-						}, [ kf.mapX + halfScale, kf.mapY + halfScale, halfScale * kf['size'] ]);
+				if (this.state.config['showRange'] && kf['cloaked'] === 1) {
+					this.ctx.globalAlpha = 0.1;
+					this.ctx.beginPath();
+					this.ctx.strokeStyle = this.state.options.playercolors[kf['owner']];
+					this.ctx.arc(kf.mapX + this.scale / 2, kf.mapY + this.scale / 2, attackRadius, 0, 2 * Math.PI, false);
+					this.ctx.fill()
+				}
 			} else {
-				w = this.scale;
-				dx = kf.mapX;
-				dy = kf.mapY;
+				var w = this.scale;
+				var dx = kf.mapX;
+				var dy = kf.mapY;
 				if (kf['size'] !== 1) {
-					d = 0.5 * (1.0 - kf['size']) * this.scale;
+					var d = 0.5 * (1.0 - kf['size']) * this.scale;
 					dx += d;
 					dy += d;
 					w *= kf['size'];
@@ -300,71 +241,100 @@ CanvasElementPiratesMap.prototype.draw = function() {
 			}
 		}
 	}
+	this.ctx.globalAlpha = 1;
+};
 
-	// draw battle indicators
-	rows = this.state.replay.rows;
-	rowPixels = rows * this.scale;
-	cols = this.state.replay.cols;
-	colPixels = cols * this.scale;
+CanvasElementPiratesMap.prototype.drawBlockedMoves = function() {
+	var rejected = this.state.replay.meta['replaydata']['rejected'];
+	for (var i = 0; i < rejected.length; i++) {
+		var rej = rejected[i];
+		if (rej[0] > this.turn + 1) {
+			// no need to check this anymore - only relevant in future
+			break;
+		}
+		if ((rej[0] > this.time) && (rej[0] < (this.time + 1))) {
+			var centerx = (rej[2] + 0.5) * this.scale;
+			var centery = (rej[1] + 0.5) * this.scale;
+			var dir = undefined;
+			var interpol = 1 - rej[0] + this.time;
+			dir = Direction.fromChar(rej[3]);
+			this.ctx.lineWidth = 4;
+			this.ctx.strokeStyle = "#FF0000";
+			this.ctx.beginPath();
+			// make this line a little bigger
+			this.ctx.arc(centerx, centery, this.scale * 0.5,
+				dir.angle - Math.PI / 2 + Math.PI / 4,
+				dir.angle - Math.PI / 2 - Math.PI / 4, true);
+			this.ctx.stroke();
+		}
+	}
+};
+
+CanvasElementPiratesMap.prototype.drawBattleIndicators = function() {
+	var halfScale = 0.5 * this.scale;
+	var rows = this.state.replay.rows;
+	var rowPixels = rows * this.scale;
+	var cols = this.state.replay.cols;
+	var colPixels = cols * this.scale;
 	this.ctx.lineWidth = Math.pow(this.scale, 0.3);
-	for (hash in this.drawStates) {
-		drawList = this.drawStates[hash];
+	for (var hash in this.drawStates) {
+		var drawList = this.drawStates[hash];
 		this.ctx.strokeStyle = hash;
 		this.ctx.beginPath();
-		for (n = drawList.length - 1; n >= 0; n--) {
-			kf = drawList[n];
+		for (var n = drawList.length - 1; n >= 0; n--) {
+			var kf = drawList[n];
 			if (this.pairing[kf.pirateId] !== undefined) {
 				for (d = this.pairing[kf.pirateId].targets.length - 1; d >= 0; d--) {
-					target = this.pairing[kf.pirateId].targets[d];
-					x1 = kf.mapX + halfScale;
-					y1 = kf.mapY + halfScale;
-					dx = Math.wrapAround(target.mapX - kf.mapX, colPixels);
+					var target = this.pairing[kf.pirateId].targets[d];
+					var x1 = kf.mapX + halfScale;
+					var y1 = kf.mapY + halfScale;
+					var dx = Math.wrapAround(target.mapX - kf.mapX, colPixels);
 					if (2 * dx > colPixels) dx -= colPixels;
-					x2 = x1 + 0.5 * dx;
-					dy = Math.wrapAround(target.mapY - kf.mapY, rowPixels);
+					var x2 = x1 + 0.5 * dx;
+					var dy = Math.wrapAround(target.mapY - kf.mapY, rowPixels);
 					if (2 * dy > rowPixels) dy -= rowPixels;
-					y2 = y1 + 0.5 * dy;
+					var y2 = y1 + 0.5 * dy;
 					this.drawWrapped(Math.min(x1, x2) - 1, Math.min(y1, y2) - 1,
-							Math.abs(x2 - x1) + 2, Math.abs(y2 - y1) + 2, colPixels, rowPixels,
-							function(fx1, fy1, fx2, fy2) {
-								this.ctx.moveTo(fx1, fy1);
-								this.ctx.lineTo(fx2, fy2);
-							}, [ x1, y1, x2, y2 ]);
+						Math.abs(x2 - x1) + 2, Math.abs(y2 - y1) + 2, colPixels, rowPixels,
+						function (fx1, fy1, fx2, fy2) {
+							this.ctx.moveTo(fx1, fy1);
+							this.ctx.lineTo(fx2, fy2);
+						}, [x1, y1, x2, y2]);
 				}
 			}
 		}
 		this.ctx.stroke();
 	}
+};
 
-	// draw attack and spawn radiuses
+CanvasElementPiratesMap.prototype.drawAttackRadiuses = function() {
+	var halfScale = 0.5 * this.scale;
 	if (this.mouseOverVis) {
-		ar = this.state.replay.meta['replaydata']['attackradius2'];
+		var ar = this.state.replay.meta['replaydata']['attackradius2'];
 		ar = this.scale * Math.sqrt(ar);
-		sr = this.state.replay.meta['replaydata']['spawnradius2'];
-		sr = this.scale * Math.sqrt(sr);
-		for (n = this.circledPirates.length - 1; n >= 0; --n) {
-			kf = this.circledPirates[n];
-			hash = '#';
+		for (var n = this.circledPirates.length - 1; n >= 0; --n) {
+			var kf = this.circledPirates[n];
+			var hash = '#';
 			hash += INT_TO_HEX[kf['r']];
 			hash += INT_TO_HEX[kf['g']];
 			hash += INT_TO_HEX[kf['b']];
 			this.ctx.strokeStyle = hash;
 			this.ctx.beginPath();
-			dx = kf.mapX + halfScale;
-			dy = kf.mapY + halfScale;
-			r = (kf['owner'] === undefined) ? sr : ar;
-			x1 = dx - r;
-			y1 = dy - r;
-			this.ctx.moveTo(dx + r, dy);
-			this.ctx.arc(dx, dy, r, 0, 2 * Math.PI, false);
+			var dx = kf.mapX + halfScale;
+			var dy = kf.mapY + halfScale;
+			var x1 = dx - ar;
+			var y1 = dy - ar;
+			this.ctx.moveTo(dx + ar, dy);
+			this.ctx.arc(dx, dy, ar, 0, 2 * Math.PI, false);
 			this.ctx.stroke();
 		}
 	}
+};
 
-	// draw A, B, C, D ... on pirates or alternatively the global kf id
-	label = this.state.config['label'];
+CanvasElementPiratesMap.prototype.drawLabels = function() {
+	var label = this.state.config['label'];
 	if (label) {
-		fontSize = Math.ceil(Math.max(this.scale, 10) / label);
+		var fontSize = Math.ceil(Math.max(this.scale, 10) / label);
 		this.ctx.save();
 		this.ctx.translate(halfScale, halfScale);
 		this.ctx.textBaseline = 'middle';
@@ -373,17 +343,17 @@ CanvasElementPiratesMap.prototype.draw = function() {
 		this.ctx.fillStyle = '#000';
 		this.ctx.strokeStyle = '#fff';
 		this.ctx.lineWidth = 0.2 * fontSize;
-		order = new Array(this.state.order.length);
+		var order = new Array(this.state.order.length);
 		for (n = 0; n < order.length; n++) {
 			order[this.state.order[n]] = n;
 		}
-		for (hash in this.drawStates) {
-			drawList = this.drawStates[hash];
-			for (n = drawList.length - 1; n >= 0; n--) {
-				kf = drawList[n];
+		for (var hash in this.drawStates) {
+			var drawList = this.drawStates[hash];
+			for (var n = drawList.length - 1; n >= 0; n--) {
+				var kf = drawList[n];
 				if (label === 1) {
 					if (kf['owner'] === undefined) continue;
-					caption = String.fromCharCode(0x3b1 + order[kf['owner']]);
+					var caption = String.fromCharCode(0x3b1 + order[kf['owner']]);
 				} else {
 					caption = kf.pirateId;
 				}
@@ -405,15 +375,127 @@ CanvasElementPiratesMap.prototype.draw = function() {
 		}
 		this.ctx.restore();
 	}
+};
 
-	// fog
+CanvasElementPiratesMap.prototype.drawFog = function() {
+	var rows = this.state.replay.rows;
+	var rowPixels = rows * this.scale;
+	var cols = this.state.replay.cols;
+	var colPixels = cols * this.scale;
 	if (this.state.fogPlayer !== undefined) {
-		dx = (this.fog.w < colPixels) ? ((colPixels - this.fog.w + 1) >> 1) - this.fog.shiftX : 0;
-		dy = (this.fog.h < rowPixels) ? ((rowPixels - this.fog.h + 1) >> 1) - this.fog.shiftY : 0;
-		this.drawWrapped(dx, dy, this.fog.w, this.fog.h, this.w, this.h, function(ctx, img, x, y) {
+		var dx = (this.fog.w < colPixels) ? ((colPixels - this.fog.w + 1) >> 1) - this.fog.shiftX : 0;
+		var dy = (this.fog.h < rowPixels) ? ((rowPixels - this.fog.h + 1) >> 1) - this.fog.shiftY : 0;
+		this.drawWrapped(dx, dy, this.fog.w, this.fog.h, this.w, this.h, function (ctx, img, x, y) {
 			ctx.drawImage(img, x, y);
-		}, [ this.ctx, this.fog.canvas, dx, dy ]);
+		}, [this.ctx, this.fog.canvas, dx, dy]);
 	}
+};
+
+CanvasElementPiratesMap.prototype.drawCapturingBar = function(island, x, y, w, owner) {
+	// Generate a progress-bar over island being captured
+	// this.ctx.globalAlpha is always 1. use it to fade in.
+	// this if causes code to be skipped in games that dont have this data structure
+	this.ctx.lineWidth = 0.5 * this.scale;
+	var neutral_color_index = this.state.options.playercolors.length - 1;
+	var self = this;
+
+	function drawArc(angle, clockwise) {
+		if (clockwise) {
+			self.ctx.arc(x + self.scale, y + self.scale*1.5, w / 2.3, Math.PI, angle + Math.PI, clockwise);
+		} else {
+			self.ctx.arc(x + self.scale, y + self.scale*1.5, w / 2.3, 2 * Math.PI - angle, Math.PI, clockwise);
+		}
+	}
+
+	if (island.length > 3) {
+		var attack_history = island[3];
+        var capture_turns = island[4];
+        if (capture_turns == undefined) {
+            capture_turns = this.state.replay.meta['replaydata']['captureturns'];
+        }
+		var entry = null;
+		for (var j = 0; j < attack_history.length; j++) {
+			entry = attack_history[j];
+			if ((this.turn >= entry[1]) && (this.turn < entry[1] + entry[2] - 1)) {
+				// Background always NEUTRAL
+				this.ctx.strokeStyle = this.state.options.playercolors[neutral_color_index];
+				this.ctx.beginPath();
+				drawArc(Math.PI, true);
+				this.ctx.stroke();
+
+				// if to determine whether we go clockwise or anti-clockwise
+				this.ctx.beginPath();
+				var angle = (entry[1] - this.time - 1) / capture_turns * Math.PI;
+				if (owner == null) {
+					this.ctx.strokeStyle = this.state.options.playercolors[entry[0]];
+					drawArc(angle, true);
+				} else {
+					this.ctx.strokeStyle = this.state.options.playercolors[owner];
+					drawArc(angle, false);
+				}
+				this.ctx.stroke();
+
+				// we found the correct entry for this.time - leave the loop
+				break;
+			}
+		}
+	}
+};
+
+CanvasElementPiratesMap.prototype.drawIslands = function() {
+	var islands = this.state.replay.meta['replaydata']['forts'];
+	for (var i = 0; i < islands.length; i++) {
+		var island = islands[i];
+		var x = (island[1] - 0.5) * this.scale;
+		var y = (island[0] - 0.5) * this.scale;
+		// or 0 just in case field doesnt exist
+		var island_value_offset = (island[5] - 1) * 200 || 0;
+		var w = this.scale;
+		var size = 5;
+
+		// find the current owner. iterate through states until you get to a future state, then just take the previous most one.
+		var owners = island[2];
+		var owner = owners[0][1];
+		for (var j = 1; j < owners.length; j++) {
+			var status = owners[j];
+			if (this.turn >= status[0]) {
+				owner = status[1];
+			} else {
+				break;
+			}
+		}
+
+		this.drawCapturingBar(island, x, y, w * size, owner);
+
+		this.ctx.strokeStyle = this.state.options.playercolors[owner];
+		this.ctx.fillStyle = this.state.options.playercolors[owner];
+
+		this.ctx.globalAlpha = 1;
+		// if the owner is NEUTRAL draw an empty island
+		if (owner == null) {
+			this.drawInScale(this.islandImage, 0, island_value_offset, 200, 200, x, y, w, w, size);
+		} else {
+			this.drawInScale(this.ownedIslandSeaSprite, owner * 200, 0, 200, 200, x, y, w, w, size);
+			this.drawInScale(this.ownedIslandSprites[this.turn % 3], owner * 200, island_value_offset, 200, 200, x, y, w, w, size);
+		}
+	}
+};
+
+/**
+ * Draws pirates onto the map image. This includes overlay letters / ids, attack lines, effect circles
+ * and finally the fog of war.
+ */
+CanvasElementPiratesMap.prototype.draw = function () {
+	this.ctx.drawImage(this.map.canvas, 0, 0);
+
+	this.drawIslands();
+	this.drawLighthouses();
+	this.drawPirates();
+	this.drawBlockedMoves();
+	this.drawBattleIndicators();
+	this.drawAttackRadiuses();
+	this.drawLabels();
+	this.drawFog();
 };
 
 /**
@@ -423,8 +505,8 @@ CanvasElementPiratesMap.prototype.draw = function() {
  *        @islandImage a colorized island graphic.
  *        @ownedIslandSprites an array of player-colored island sprites
  */
-CanvasElementPiratesMap.prototype.setIslandImage = function(islandImage, ownedIslandSprites, ownedIslandPirateSprite) {
+CanvasElementPiratesMap.prototype.setIslandImage = function(islandImage, ownedIslandSprites, ownedIslandSeaSprite) {
 	this.islandImage = islandImage;
 	this.ownedIslandSprites = ownedIslandSprites;
-	this.ownedIslandPirateSprite = ownedIslandPirateSprite;
+	this.ownedIslandSeaSprite = ownedIslandSeaSprite;
 };

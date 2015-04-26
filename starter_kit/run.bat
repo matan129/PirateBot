@@ -23,9 +23,12 @@ if not exist %1 goto notexist1
 if not exist %2 goto notexist2
 set bot1=%~1
 set bot2=%~2
+rem remove trailing backslash
+IF %bot1:~-1%==\ SET bot1=%bot1:~0,-1%
+IF %bot2:~-1%==\ SET bot2=%bot2:~0,-1%
 
 
-%pyexe% "%~dp0lib\playgame.py" --loadtime 10000 -e -E -d --engine_seed 42 --player_seed 42 --log_dir "%~dp0lib\game_logs" --map_file "%map%" "%bot1%" "%bot2%"
+%pyexe% "%~dp0lib\playgame.py" --loadtime 10000 -e -E -d --debug_in_replay --engine_seed 42 --player_seed 42 --log_dir "%~dp0lib\game_logs" --map_file "%map%" "%bot1%" "%bot2%"
 goto:EOF
 
 :usage

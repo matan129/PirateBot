@@ -46,9 +46,9 @@ CanvasElementShiftedMap.prototype.draw = function() {
 	var mx = ((this.w - this.piratesMap.w) >> 1);
 	var my = this.padding;
 
-    // Draw background
-    this.ctx.fillStyle = '#FFFBE9';
-    this.ctx.fillRect(0, 0, this.w, this.h);
+	// Draw background
+	this.ctx.fillStyle = '#FFFBE9';
+	this.ctx.fillRect(0, 0, this.w, this.h);
 
     // map backdrop
 	dx = mx + this.shiftX;
@@ -57,7 +57,7 @@ CanvasElementShiftedMap.prototype.draw = function() {
 	var bw = this.piratesMap.canvas.width + (2 * this.padding);
 	var bh = this.piratesMap.canvas.height + (2 * this.padding);
 	this.ctx.drawImage(this.piratesMap.map.board, dx - this.padding, dy - this.padding, bw, bh);
-    this.ctx.drawImage(this.piratesMap.canvas, dx, dy);
+	this.ctx.drawImage(this.piratesMap.canvas, dx, dy);
 
 	if (this.fade) {
 		this.ctx.fillStyle = this.fade;

@@ -94,7 +94,7 @@ Visualizer = function(container, options, w, h, configOverrides) {
 		/** @private */
 		this.state.options = options;
 		if (!this.state.options.playercolors) {
-			this.state.options.playercolors = ['#E96E31', '#318DE9', '#030303'];
+			this.state.options.playercolors = ['#2E3192', '#E96E31', '#030303'];
 		}
 		// read URL parameters and store them in the parameters object
 		parameters = window.location.href;
@@ -151,18 +151,20 @@ Visualizer = function(container, options, w, h, configOverrides) {
 		this.imgMgr.put('board', 'board.png');
 		this.imgMgr.put('island_waterline', 'island_waterline.png');
 		this.imgMgr.put('neutral_island', 'neutral_island.png');
+		this.imgMgr.put('lighthouse', 'lighthouse.png');
 		this.imgMgr.put('sea_line', 'sea_line.png');
 		this.imgMgr.put('ship', 'ship.png');
+		this.imgMgr.put('zone', 'zone.png');
 		this.imgMgr.put('ship_water', 'ship_water.png');
-		this.imgMgr.put('island_1', 'island_1.png');
-		this.imgMgr.put('island_2', 'island_2.png');
-		this.imgMgr.put('island_3', 'island_3.png');
-		this.imgMgr.put('pirate_1', 'pirate_1.png');
+		this.imgMgr.put('island_1', 'island_flag_1.png');
+		this.imgMgr.put('island_2', 'island_flag_2.png');
+		this.imgMgr.put('island_3', 'island_flag_3.png');
+		this.imgMgr.put('island_sea', 'island_sea.png');
 		this.imgMgr.put('ship_sprite', 'ship_sprite.png');
 		this.imgMgr.put('island_1_sprite', 'island_1_sprite.png');
 		this.imgMgr.put('island_2_sprite', 'island_2_sprite.png');
 		this.imgMgr.put('island_3_sprite', 'island_3_sprite.png');
-		this.imgMgr.put('pirate_1_sprite', 'pirate_1_sprite.png');
+		this.imgMgr.put('island_sea_sprite', 'island_sea_sprite.png');
 
 		/** @private */
 		this.director = new Director(this);
@@ -367,6 +369,11 @@ Visualizer.prototype.loadParseReplay = function() {
 		if (user === '') user = undefined;
 		if (vis.replayStr) {
 			vis.state.replay = new Replay(vis.replayStr, debug, user);
+			vis.state.replay.meta.playercolors = [];
+			for (var i = 0; i < vis.state.options.playercolors.length; i++) {
+				var color = vis.state.options.playercolors[i];
+				vis.state.replay.meta.playercolors.push(hexToRgb(color));
+			}
 			vis.replayStr = undefined;
 		} else if (vis.loading !== LoadingState.CLEANUP) {
 			throw new Error('Replay is undefined.');
@@ -438,26 +445,28 @@ Visualizer.prototype.tryStart = function() {
 			this.imgMgr.patterns['island_1'] = this.imgMgr.images['island_1_sprite'];
 			this.imgMgr.patterns['island_2'] = this.imgMgr.images['island_2_sprite'];
 			this.imgMgr.patterns['island_3'] = this.imgMgr.images['island_3_sprite'];
-			this.imgMgr.patterns['pirate_1'] = this.imgMgr.images['pirate_1_sprite'];
+			this.imgMgr.patterns['island_sea'] = this.imgMgr.images['island_sea_sprite'];
 		} else {
 			// when running under protocol http:// there's no security issue
 			this.imgMgr.colorize('ship', colors);
 			this.imgMgr.colorize('island_1', colors);
 			this.imgMgr.colorize('island_2', colors);
 			this.imgMgr.colorize('island_3', colors);
-			this.imgMgr.colorize('pirate_1', colors);
+			this.imgMgr.colorize('island_sea', colors);
 		}
 		this.map.water = this.imgMgr.images['water'];
+		this.map.zone = this.imgMgr.images['zone'];
 		this.map.board = this.imgMgr.images['board'];
 		this.map.island_waterline = this.imgMgr.images['island_waterline'];
 		this.map.sea_line = this.imgMgr.images['sea_line'];
 		this.map.shipSprite = this.imgMgr.patterns['ship'];
+		this.map.lighthouse = this.imgMgr.images['lighthouse'];
 		this.map.ship_water = this.imgMgr.images['ship_water'];
 
         this.piratesMap.setIslandImage(
 			this.imgMgr.images['neutral_island'],
 			[this.imgMgr.patterns['island_1'], this.imgMgr.patterns['island_2'], this.imgMgr.patterns['island_3']],
-			this.imgMgr.patterns['pirate_1']
+			this.imgMgr.patterns['island_sea']
 		);
 		// add GUI
 		if (this.state.options['decorated']) {
@@ -751,11 +760,15 @@ Visualizer.prototype.resize = function(forced) {
 			ctx.fillStyle = '#fff';
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 		}
+		if (forced) {
+			// because of the zones we want to draw the map again if resize is forced
+			this.map.invalid = true;
+		}
 
 		// 3. visualizer placement
-        this.shiftedMap.x = 0;
-        this.shiftedMap.y = 0;
-        this.shiftedMap.setSize(newSize.w, newSize.h);
+		this.shiftedMap.x = 0;
+		this.shiftedMap.y = 0;
+		this.shiftedMap.setSize(newSize.w, newSize.h);
 
 		this.setZoom(this.state.config['zoom']);
 
@@ -831,6 +844,28 @@ Visualizer.prototype.draw = function() {
     }
 };
 
+Visualizer.prototype.calculateHint = function() {
+	var row = this.state.mouseRow;
+	var col = this.state.mouseCol;
+	var hint = 'row ' + row + ' | col ' + col;
+	var vis = this;
+	this.state.replay.meta.replaydata.forts.forEach(function(island, index) {
+		if (island[0] === row && island[1] === col) {
+			hint += ' | island ' + index;
+		}
+	});
+	this.state.replay.aniAnts.forEach(function(pirate) {
+		var x = Math.round(pirate.keyFrameCache.x);
+		var y = Math.round(pirate.keyFrameCache.y);
+
+		var turn = vis.director.time | 0;
+		if (y === row && x === col && (pirate.death || vis.director.duration) > turn) {
+			hint += ' | pirate ' + pirate.keyFrameCache.pirateGameId;
+		}
+	});
+	this.hint = hint;
+};
+
 /**
  * Internal wrapper around mouse move events.
  * 
@@ -855,20 +890,20 @@ Visualizer.prototype.mouseMoved = function(mx, my) {
 			* this.state.replay.rows) / this.state.scale) | 0;
 	this.hint = '';
 	if (this.state.options['interactive']) {
-        var realLocX = mx - this.map.x - this.state.shiftX;
-        var realLocY = my - this.map.y - this.state.shiftY;
-        this.state.mouseOverVis =
-            realLocX >= 0 &&
-            realLocX < (this.state.scale * this.state.replay.cols) &&
-            realLocY >= 0 &&
-            realLocY < (this.state.scale * this.state.replay.rows);
+		var realLocX = mx - this.map.x - this.state.shiftX;
+		var realLocY = my - this.map.y - this.state.shiftY;
+		this.state.mouseOverVis =
+				realLocX >= 0 &&
+				realLocX < (this.state.scale * this.state.replay.cols) &&
+				realLocY >= 0 &&
+				realLocY < (this.state.scale * this.state.replay.rows);
 
-        if (this.state.mouseOverVis) {
-			this.hint = 'row ' + this.state.mouseRow + ' | col ' + this.state.mouseCol;
+		if (this.state.mouseOverVis) {
+			this.calculateHint();
 		}
 		if (this.mouseDown) {
-            this.state.shiftX += deltaX;
-            this.state.shiftY += deltaY;
+			this.state.shiftX += deltaX;
+			this.state.shiftY += deltaY;
 			this.director.draw();
 		}
 	}
@@ -958,10 +993,12 @@ Visualizer.prototype.keyPressed = function(key) {
 		case Key.PLUS:
 		case Key.PLUS_OPERA:
 		case Key.PLUS_JAVA:
+		case Key.UP:
 			this.modifySpeed(+1);
 			break;
 		case Key.MINUS:
 		case Key.MINUS_JAVA:
+		case Key.DOWN:
 			this.modifySpeed(-1);
 			break;
 		default:
@@ -1108,14 +1145,14 @@ function createSprites() {
 		image.title = imageName;
 		a.appendChild(image);
 		a.href = image.src;
-		a.download = imageName + ".png";
+		a.download = imageName + "_sprite.png";
 		a.style.display = 'block';
 		document.body.appendChild(a);
 	}
 
 	document.body.innerHTML = "";
 
-	var images = ['island_1', 'island_2', 'island_3', 'pirate_1', 'ship'];
+	var images = ['island_1', 'island_2', 'island_3', 'island_sea', 'ship'];
 	for (var i = 0; i < images.length; i++) {
 		drawImage(images[i]);
 	}

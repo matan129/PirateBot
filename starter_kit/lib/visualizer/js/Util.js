@@ -205,6 +205,8 @@ var Quirks = {
 var Key = {
 	LEFT : 37,
 	RIGHT : 39,
+	UP: 38,
+	DOWN: 40,
 	SPACE : 32,
 	PGUP : 33,
 	PGDOWN : 34,
@@ -487,6 +489,15 @@ function hsl_to_rgb (C) {
  */
 function rgb_to_hex (C) {
     return '#' + INT_TO_HEX[C[0]] + INT_TO_HEX[C[1]] + INT_TO_HEX[C[2]];
+}
+
+function hexToRgb(hex) {
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	return result ? [
+		parseInt(result[1], 16),
+		parseInt(result[2], 16),
+		parseInt(result[3], 16)
+	] : null;
 }
 
 function colorize(img, colors) {

@@ -23,11 +23,12 @@ FOOD = -3
 WATER = -4
 UNSEEN = -5
 ISLAND = -6
+LIGHTHOUSE=-7
 
 PLAYER_PIRATE = 'abcdefghij'
 ISLAND_PIRATE = 'ABCDEFGHIJ'
 PLAYER_ISLAND = '0123456789'
-MAP_OBJECT = '$?%*.!'
+MAP_OBJECT = 'L$?%*.!'
 MAP_RENDER = PLAYER_PIRATE + ISLAND_PIRATE + PLAYER_ISLAND + MAP_OBJECT
 
 HILL_POINTS = 2
@@ -38,7 +39,9 @@ NEUTRAL_ATTACKER = None
 AIM = {'n': (-1, 0),
        'e': (0, 1),
        's': (1, 0),
-       'w': (0, -1)}
+       'w': (0, -1),
+       'c': (0, 0),
+       'd': (0, 0)}
 
 # precalculated sqrt
 SQRT = [int(sqrt(r)) for r in range(101)]
@@ -58,6 +61,7 @@ class Pirates(Game):
         self.loadtime = int(options['loadtime'])
         self.turntime = int(options['turntime'])
         self.viewradius = int(options["viewradius2"])
+        self.fogofwar = options.get('fogofwar')
         self.attackradius = int(options["attackradius2"])
         self.engine_seed = options.get('engine_seed', randint(-maxint-1, maxint))
         seed(self.engine_seed)
@@ -72,17 +76,17 @@ class Pirates(Game):
             'support': self.do_attack_support,
             'damage':  self.do_attack_damage
         }.get(options.get('attack'))
-        
-        self.maxpoints = options.get("maxpoints")
-        self.spawnturns = options.get("spawnturns")
-        self.captureturns = options.get("captureturns")
+
+        self.maxpoints = int(options.get("maxpoints"))
+        self.spawnturns = int(options.get("spawnturns"))
+        self.ghostcooldownturns = int(options.get("ghostcooldown"))
         self.linear_points = options.get("linear_points")
         self.exp_points = options.get("exp_points")
         self.scenario = options.get('scenario', False)
-        
+
         self.turn = 0
         self.num_players = map_data['num_players']
-                        
+
         self.current_pirates = {} # pirates that are currently alive
         self.dead_pirates = []    # pirates that are currently dead
         self.all_pirates = []     # all pirates that have been created
@@ -92,13 +96,15 @@ class Pirates(Game):
         self.pending_food = defaultdict(int)
 
         self.hills = {}        # all hills
-        self.hive_food = [0]*self.num_players # food waiting to spawn for player
         self.hive_history = [[0] for _ in range(self.num_players)]
 
         self.islands = []
         self.zones = dict([(player, []) for player in range(self.num_players)])
+        self.lighthouses = set(map_data['lighthouses'])
         self.enemy_zones = dict([(player, []) for player in range(self.num_players)])
-        
+        self.ghost_cooldowns = [0] * self.num_players
+        self.ghost_ships = [None] * self.num_players
+
         # used to cutoff games early
         self.cutoff = None
         self.cutoff_bot = LAND # Can be pirate owner, FOOD or LAND
@@ -121,14 +127,14 @@ class Pirates(Game):
         # initialize water
         for row, col in map_data['water']:
             self.map[row][col] = WATER
-            
+
         # cache used by neighbourhood_offsets() to determine nearby squares
         self.offsets_cache = {}
 
         # the map file is followed exactly
-        for id, (loc, owner, attack_duration) in enumerate(map_data['islands']):
+        for id, (loc, owner, attack_duration, value, capture_turns) in enumerate(map_data['islands']):
             # TODO: correct the attacker param instead of num
-            self.add_island(id, loc, owner, None, attack_duration)
+            self.add_island(id, loc, value, capture_turns, owner, None, attack_duration)
 
         # initialize pirates
         for player, player_pirates in map_data['pirates'].items():
@@ -136,16 +142,24 @@ class Pirates(Game):
                 self.add_initial_pirate(pirate_loc, player, id)
 
         # initialize zones and create enemy_zone lists
+        self.zones[0] = []
+        self.zones[1] = []
         for player, zone_data in enumerate(map_data['zones']):
-            self.zones[player] = self.get_zone_locations(zone_data[0], zone_data[1:])
+            if zone_data[0].isdigit():
+                player = int(zone_data[0])
+                zone_data = zone_data[1:]
+            self.zones[player] += self.get_zone_locations(zone_data[0], zone_data[1:])
         #self.print_zone()
-        
+
+        # this is for the visualizer to display moves which didnt work for various reasons
+        self.rejected_moves = []
+
         for player in range(len(self.zones)):
             # select all zones appart from current player
             enemy_zones = [z for p,z in self.zones.items() if p != player]
             # flatten list
-            self.enemy_zones[player] = [loc for zone in enemy_zones for loc in zone] 
-                
+            self.enemy_zones[player] = [loc for zone in enemy_zones for loc in zone]
+
         # initialize scores
         self.score = [0]*self.num_players
         self.score_history = [[s] for s in self.score]
@@ -158,18 +172,18 @@ class Pirates(Game):
         self.switch = [[None]*self.num_players + list(range(-5,0)) for i in range(self.num_players)]
         for i in range(self.num_players):
             self.switch[i][i] = 0
-            
+
         # used to track water and land already reveal to player
         self.revealed = [[[False for col in range(self.width)]
                           for row in range(self.height)]
                          for _ in range(self.num_players)]
-                         
+
         # used to track what a player can see
         self.init_vision()
 
         # the engine may kill players before the game starts and this is needed to prevent errors
         self.orders = [[] for i in range(self.num_players)]
-        
+
 
     def distance(self, a_loc, b_loc):
         """ Returns distance between x and y squared """
@@ -190,6 +204,7 @@ class Pirates(Game):
         food = []
         pirates = defaultdict(list)
         islands = []
+        lighthouses = []
         row = 0
         score = None
         num_players = None
@@ -216,7 +231,11 @@ class Pirates(Game):
             elif key == 'score':
                 score = list(map(int, value.split()))
             elif key == 'island':
-                island_data.append(value.split())
+                island_params = value.split()
+                if len(island_params) < 4:
+                    # TODO - switch this 20 with capture turns
+                    island_params += [1, 20]
+                island_data.append(island_params)
             elif key == 'zone':
                 zone_data.append(value.split())
             elif key == 'm':
@@ -235,26 +254,29 @@ class Pirates(Game):
                     if c in pirate_list:
                         pirates[pirate_list.index(c)].append((row,col))
                     elif c == MAP_OBJECT[ISLAND]:
-                        owner, turns_captured = island_data.pop(0)
+                        # TODO: refactor here since it appears again right after
+                        owner, turns_captured, value, capture_turns = island_data.pop(0)
                         if owner == MAP_OBJECT[ISLAND]:
                             owner = None
                         else:
                             owner = pirate_list.index(owner)
                         turns_captured = int(turns_captured)
-                        islands.append([(row, col), owner, turns_captured])
+                        islands.append([(row, col), owner, turns_captured, int(value), int(capture_turns)])
                     elif c in island_pirate:
                         pirates[island_pirate.index(c)].append((row,col))
-                        owner, turns_captured = island_data.pop(0)
+                        owner, turns_captured, value, capture_turns = island_data.pop(0)
                         if owner == MAP_OBJECT[ISLAND]:
                             owner = None
                         else:
                             owner = pirate_list.index(owner)
                         turns_captured = int(turns_captured)
-                        islands.append([(row, col), owner, turns_captured])
+                        islands.append([(row, col), owner, turns_captured, int(value), int(capture_turns)])
                     elif c == MAP_OBJECT[FOOD]:
                         food.append((row,col))
                     elif c == MAP_OBJECT[WATER]:
                         water.append((row,col))
+                    elif c == MAP_OBJECT[LIGHTHOUSE]:
+                        lighthouses.append((row, col))
                     elif c != MAP_OBJECT[LAND]:
                         raise Exception("map",
                                         "Invalid character in map: %s" % c)
@@ -276,6 +298,7 @@ class Pirates(Game):
             'size':         (height, width),
             'num_players':  num_players,
             'islands':      islands,
+            'lighthouses':  lighthouses,
             'pirates':      pirates,
             'water':        water,
             'zones':        zone_data,
@@ -395,7 +418,7 @@ class Pirates(Game):
                         revealed[row][col] = True
                         if value == WATER or (row, col) in self.enemy_zones[player]:
                             water.append((row,col))
-                            
+
             # update the water which was revealed this turn
             self.revealed_water.append(water)
 
@@ -447,11 +470,15 @@ class Pirates(Game):
             ilk, id, row, col, owner = update[0:5]
 
             # only include updates to squares which are (visible) or (where a player ant just died) or (a fort)
-            if v[row][col] or ((ilk == 'd') and update[4] == player) or (ilk == 'f'):
+            # if fog of war flag not set then we always display visible results
+            if not self.fogofwar or v[row][col] or ((ilk == 'd') and update[4] == player) or (ilk == 'f'):
                 visible_updates.append(update)
 
                 # switch player perspective of player numbers
                 if ilk in ['a', 'd', 'f']:
+                    # if pirate is enemie's and cloaked - we need to send a wrong locatoin
+                    if ilk is 'a' and not owner == player and update[7] == int(True):
+                        update[2] = update[3] = -1
                     # if fort owner is None - leave it at that
                     if ilk is 'f':
                         # forts have the 'attacker' which should also be switched
@@ -462,6 +489,9 @@ class Pirates(Game):
                             continue
                     update[4] = self.switch[player][owner]
 
+        visible_updates.append(['g','s'] + self.order_for_player(player, self.score))
+        visible_updates.append(['g','c'] + self.order_for_player(player, self.ghost_cooldowns))
+        visible_updates.append(['g','p'] + self.order_for_player(player, self.get_last_turn_points()))
         visible_updates.append([]) # newline
         return '\n'.join(' '.join(map(str,s)) for s in visible_updates)
 
@@ -476,16 +506,17 @@ class Pirates(Game):
 
         # all islands on map
         changes.extend(sorted(
-            ['f', island.id, island.loc[0], island.loc[1], island.get_owner(),   island.attacker, island.attack_duration]
+            ['f', island.id, island.loc[0], island.loc[1], island.get_owner(),   island.attacker, island.attack_duration, \
+            island.capture_turns, island.value]
             for island in self.islands
         ))
 
         # current pirates
         changes.extend(sorted(
-            ['a', pirate.id, pirate.loc[0], pirate.loc[1], pirate.owner,         pirate.initial_loc[0], pirate.initial_loc[1]]
+            ['a', pirate.id, pirate.loc[0], pirate.loc[1], pirate.owner,         pirate.initial_loc[0], pirate.initial_loc[1], int(pirate.is_cloaked)]
             for pirate in self.current_pirates.values()
         ))
-        
+
         # dead pirates
         changes.extend(sorted(
             ['d', pirate.id, pirate.loc[0], pirate.loc[1], pirate.owner,         pirate.initial_loc[0], pirate.initial_loc[1], self.turns_till_revive(pirate)]
@@ -522,7 +553,7 @@ class Pirates(Game):
 
     def get_map_output(self, player=None, replay=False):
         """ Render the map from the perspective of the given player.
-    
+
             If player is None, then no squares are hidden and player ids
               are not reordered.
             TODO: get this function working
@@ -580,7 +611,7 @@ class Pirates(Game):
             # validate data format
             if data[0] == 'm':
                 # was a debug message - printed in engine
-                continue                            
+                continue
             if data[0] != 'o':
                 invalid.append((line, 'unknown action'))
                 continue
@@ -618,6 +649,7 @@ class Pirates(Game):
         valid = []
         valid_orders = []
         seen_locations = set()
+
         for line, (loc, direction) in zip(lines, orders):
             # validate orders
             if loc in seen_locations:
@@ -633,15 +665,32 @@ class Pirates(Game):
             if loc[0] < 0 or loc[1] < 0:
                 invalid.append((line,'out of bounds'))
                 continue
+            if direction == 'c' and self.ghost_ships[player] is not None:
+                ignored.append((line,'you already have a ghost ship - cannot ghost another one'))
+                continue
+            if direction == 'c' and self.ghost_cooldowns[player] > 0:
+                ignored.append((line,'pirate cannot become ghost ship - wait for cooldown to reach 0'))
+                continue
+            if direction == 'd' and self.ghost_ships[player] is None:
+                ignored.append((line,'no ghost ship - cannot reveal pirate'))
+                continue
+            if direction == 'd' and self.ghost_ships[player].loc != loc:
+                ignored.append((line,'this pirate is not ghost ship - cannot reveal it'))
+                continue
+            if direction == 'c' and direction in [dir for _,dir in valid_orders]:
+                ignored.append((line,'cannot cloak - only one ship may be ghost ship at a time'))
+                continue
             dest = self.destination(loc, AIM[direction])
             if self.map[dest[0]][dest[1]] in (FOOD, WATER):
                 ignored.append((line,'move blocked'))
                 continue
             if self.distance(loc,dest) > 1 and not self.cyclic:
                 ignored.append((line,'move blocked - cant move out of map'))
+                self.rejected_moves.append([self.turn, loc[0], loc[1], direction])
                 continue
             if dest in self.enemy_zones[player]:
                 ignored.append((line,'move blocked - entering enemy zone'))
+                self.rejected_moves.append([self.turn, loc[0], loc[1], direction])
                 continue
 
             # this order is valid!
@@ -675,6 +724,14 @@ class Pirates(Game):
         # move all the pirates
         next_loc = defaultdict(list)
         for pirate, direction in move_direction.items():
+            # handle cloaked pirates
+            if direction == 'c':
+                pirate.is_cloaked = True
+                self.ghost_ships[pirate.owner] = pirate
+                self.ghost_cooldowns[pirate.owner] = self.ghostcooldownturns
+            elif direction == 'd':
+                pirate.is_cloaked = False
+                self.ghost_ships[pirate.owner] = None
             pirate.loc = self.destination(pirate.loc, AIM.get(direction, (0,0)))
             pirate.orders.append(direction)
             next_loc[pirate.loc].append(pirate)
@@ -694,6 +751,12 @@ class Pirates(Game):
         for pirate in self.current_pirates.values():
             row, col = pirate.loc
             self.map[row][col] = pirate.owner
+
+    def do_cloaks(self):
+        ''' Lower cooldowns for all teams that don't have a ghost ship '''
+        for player, ship in enumerate(self.ghost_ships):
+            if ship is None and self.ghost_cooldowns[player] > 0:
+                self.ghost_cooldowns[player] -= 1
 
     def do_spawn(self):
         # handles the reviving of dead pirates
@@ -716,15 +779,21 @@ class Pirates(Game):
             self.all_pirates.append(new_pirate)
             self.current_pirates[loc] = new_pirate
 
+    def get_last_turn_points(self):
+        """ Get points achieved on last turns """
+        if len(self.score_history[0]) < 2:
+            return self.score
+        return [self.score_history[player][-1] - self.score_history[player][-2] for player in range(self.num_players)]
+
     def killed_pirates(self):
         """ Return pirates that were killed this turn """
         return [dead for dead in self.dead_pirates if dead.die_turn == self.turn]
-    
+
     def turns_till_revive(self, pirate):
         return self.spawnturns - (self.turn - pirate.die_turn)
 
-    def add_island(self, id, loc, owner = None, attacker = None, occupied_for = 0):
-        island = Island(id, loc, owner, attacker, occupied_for)
+    def add_island(self, id, loc, value, capture_turns, owner = None, attacker = None, occupied_for = 0):
+        island = Island(id, loc, value, capture_turns, owner, attacker, occupied_for)
         self.islands.append(island)
         return island
 
@@ -748,7 +817,7 @@ class Pirates(Game):
         self.all_pirates.append(pirate)
         self.current_pirates[loc] = pirate
         return pirate
-    
+
     def kill_pirate(self, pirate, ignore_error=False):
         """ Kill the pirate at the given location
 
@@ -760,6 +829,10 @@ class Pirates(Game):
             self.map[loc[0]][loc[1]] = LAND
             self.dead_pirates.append(pirate)
             pirate.die_turn = self.turn
+            # auto de-cloaking and remove from ghost_ship list
+            pirate.is_cloaked = False
+            if self.ghost_ships[pirate.owner] == pirate:
+                self.ghost_ships[pirate.owner] = None
             return self.current_pirates.pop(loc)
         except KeyError:
             if not ignore_error:
@@ -768,9 +841,7 @@ class Pirates(Game):
 
     def player_pirates(self, player):
         """ Return the current and dead pirates belonging to the given player """
-        current = [pirate for pirate in self.current_pirates.values() if player == pirate.owner]
-        dead = [pirate for pirate in self.dead_pirates if player == pirate.owner]
-        return current + dead
+        return [pirate for pirate in self.current_pirates.values() + self.dead_pirates if player == pirate.owner]
 
     def do_attack_damage(self):
         """ Kill pirates which take more than 1 damage in a turn
@@ -814,16 +885,34 @@ class Pirates(Game):
         """
         # map pirates (to be killed) to the enemies that kill it
         pirates_to_kill = {}
-        for pirate in self.current_pirates.values():
+        lighthouse_pirates_to_kill = set()
+
+        island_locations = map(lambda i: i.loc, self.islands)
+        for pirate in self.get_physical_pirates():
             enemies = []
             friends = []
+            if pirate.loc in self.lighthouses:
+                # using different mechanism for lighthouses
+                nearby_enemy_pirates = filter(lambda p: p.owner != pirate.owner and not p.is_cloaked,
+                    self.nearby_pirates(pirate.loc, self.attackradius))
+                if len(nearby_enemy_pirates) > 1:
+                    lighthouse_pirates_to_kill.add(pirate)
+                else:
+                    for enemy_pirate in nearby_enemy_pirates:
+                        lighthouse_pirates_to_kill.add(enemy_pirate)
+                continue
+
             # sort nearby pirates into friend and enemy lists
             # TODO: this line was bugged. neatby_pirates got pirate.owner as third param and didnt work. why???
             for nearby_pirate in self.nearby_pirates(pirate.loc, self.attackradius):
-                if nearby_pirate.owner == pirate.owner:
-                    friends.append(nearby_pirate)
-                else:
-                    enemies.append(nearby_pirate)
+                # ignore pirates that are cloaked or on lighthouse
+                if nearby_pirate.is_cloaked or nearby_pirate.loc in self.lighthouses:
+                    continue
+                if nearby_pirate.loc not in island_locations:
+                    if nearby_pirate.owner == pirate.owner:
+                        friends.append(nearby_pirate)
+                    else:
+                        enemies.append(nearby_pirate)
             # add the support an pirate has
             pirate.supporters.append(len(friends))
             # add pirate to kill list if it doesn't have enough support
@@ -831,7 +920,8 @@ class Pirates(Game):
                 pirates_to_kill[pirate] = enemies
 
         # actually do the killing and score distribution
-        for pirate, enemies in pirates_to_kill.items():
+        all_pirates_to_kill = lighthouse_pirates_to_kill.union(pirates_to_kill.keys())
+        for pirate in all_pirates_to_kill:
             self.kill_pirate(pirate)
 
     def do_attack_focus(self):
@@ -909,14 +999,15 @@ class Pirates(Game):
 
             Increments the captured_for counter per island if it is still being attacked by the same team as last turn
             Otherwise we reset the counter
-            If the capture duration is higher than self.captureturns then we switch owner and reset counter
+            If the capture duration is higher than captureturns then we switch owner and reset counter
             Consider refactoring a bit since there are many options here
         """
         # Iterate over islands and check attack status
+        physical_pirate_locations = map(lambda pirate: pirate.loc, self.get_physical_pirates())
         for island in self.islands:
             # check if an pirate is on the island (this logic may change or have options in the future)
             # if island occupied by pirate
-            if island.loc in self.current_pirates.keys():
+            if island.loc in physical_pirate_locations:
                 attacker = self.current_pirates[island.loc].owner
                 # prevent attacking self
                 if not attacker == island.get_owner():
@@ -930,7 +1021,7 @@ class Pirates(Game):
                         island.attacker = attacker
                         island.attack_history.append([attacker, self.turn, 1])
                     # check if capture should happen
-                    if island.attack_duration == self.captureturns:
+                    if island.attack_duration == island.capture_turns:
                         # if island belongs to no-one - it becomes the attackers
                         if (island.get_owner() == NEUTRAL_ATTACKER):
                             island.swap_owner(self.turn, attacker)
@@ -943,6 +1034,9 @@ class Pirates(Game):
             else:
                 island.attack_duration = 0
                 island.attacker = NEUTRAL_ATTACKER
+
+    def get_physical_pirates(self):
+        return filter(lambda pirate: not pirate.is_cloaked, self.current_pirates.values())
 
     def destination(self, loc, d):
         """ Returns the location produced by offsetting loc by d """
@@ -1021,13 +1115,13 @@ class Pirates(Game):
 
     def get_winner(self):
         """ Returns the winner of the game
-        
+
             The winner is defined as the player with the most points.
             In case other bots crash the remaining bot will win automatically.
             If remaining bots crash on same turn - there will be no winner.
         """
         return self.winning_bot
-        
+
     def kill_player(self, player):
         """ Used by engine to signal that a player is out of the game """
         self.killed[player] = True
@@ -1041,7 +1135,7 @@ class Pirates(Game):
         if self.cutoff is None:
             self.cutoff = 'turn limit reached'
             self.calc_significpirate_turns()
-                
+
     def start_turn(self):
         """ Called by engine at the start of the turn """
         self.turn += 1
@@ -1053,25 +1147,26 @@ class Pirates(Game):
     def finish_turn(self):
         """ Called by engine at the end of the turn """
         self.do_orders()
+        self.do_cloaks()
         self.do_attack()
         self.do_islands()
         self.do_spawn()
 
         # log the island control and calculate the score for history
         for player in range(self.num_players):
-            player_islands = len([island for island in self.islands if island.get_owner() == player])
+            player_islands = sum([island.value for island in self.islands if island.get_owner() == player])
             island_points = 0
             if player_islands > 0:
                 if self.linear_points:
                     island_points = player_islands * self.linear_points
                 else:
                     island_points = self.exp_points**(player_islands - 1)
-            # update the score_history = save as previous + island_points
+            # update the score_history = same as previous + island_points
             self.score_history[player].append(self.score_history[player][-1] + island_points)
             # update the current score
             self.score[player] = self.score_history[player][-1]
 
-        # now that all the pirates have moved we can update the vision
+        # now that all the pirates have moved (or sunk) we can update the vision
         self.update_vision()
         self.update_revealed()
 
@@ -1115,9 +1210,13 @@ class Pirates(Game):
         result.append(['player_seed', self.player_seed])
         # send whether map is cyclic or not
         result.append(['cyclic', int(self.cyclic)])
+        result.append(['ghost_cooldown', self.ghostcooldownturns])
         result.append(['numplayers', self.num_players])
         result.append(['spawnturns', self.spawnturns])
-        result.append(['captureturns', self.captureturns])
+        result.append(['maxpoints', self.maxpoints])
+        for lighthouse in self.lighthouses:
+            result.append(['lighthouse', lighthouse[0], lighthouse[1]])
+
         # information hidden from players
         if player is None:
             for line in self.get_map_output():
@@ -1189,49 +1288,11 @@ class Pirates(Game):
         for island in self.islands:
             if island.get_owner() is not None:
                 island_count[island.get_owner()] += 1
-                
+
         stats = {}
         stats['pirates'] = pirate_count
         stats['islands'] = island_count
         stats['score'] = self.score
-        return stats
-        
-        # in old version it was:
-        pirate_count = [0 for _ in range(self.num_players+1)]
-        for pirate in self.current_pirates.values():
-            pirate_count[pirate.owner] += 1
-        stats = {}
-        stats['pirate_count'] = pirate_count
-        stats['winning'] = self.winning_bot
-        stats['w_turn'] = self.winning_turn
-        stats['ranking_bots'] = self.ranking_bots
-        stats['r_turn'] = self.ranking_turn
-        stats['score'] = self.score
-        stats['s_alive'] = [1 if self.is_alive(player) else 0 for player in range(self.num_players)]
-        stats['s_hills'] = [1 if player in self.remaining_hills() else 0 for player in range(self.num_players)]
-        stats['climb?'] = []
-        for player in range(self.num_players):
-            if self.is_alive(player) and player in self.remaining_hills():
-                found = 0
-                max_score = sum([HILL_POINTS for hill in self.hills.values()
-                                 if hill.killed_by is None
-                                 and hill.owner != player]) + self.score[player]
-                for opponent in range(self.num_players):
-                    if player != opponent:
-                        min_score = sum([RAZE_POINTS for hill in self.hills.values()
-                                         if hill.killed_by is None
-                                         and hill.owner == opponent]) + self.score[opponent]
-#                        stats['min_score_%s' % player][opponent] = min_score
-                        if ((self.score[player] < self.score[opponent]
-                                and max_score >= min_score)
-                                or (self.score[player] == self.score[opponent]
-                                and max_score > min_score)):
-                            found = 1
-                            #return False
-                            break
-                stats['climb?'].append(found)
-            else:
-                stats['climb?'].append(0)
         return stats
 
     def get_replay(self):
@@ -1251,8 +1312,10 @@ class Pirates(Game):
         replay['turns'] = self.max_turns
         replay['viewradius2'] = self.viewradius
         replay['attackradius2'] = self.attackradius
+        replay['maxpoints'] = self.maxpoints
         replay['engine_seed'] = self.engine_seed
         replay['player_seed'] = self.player_seed
+        replay['lighthouses'] = list(self.lighthouses)
 
         # map
         replay['map'] = {}
@@ -1262,7 +1325,7 @@ class Pirates(Game):
 
         # food - deprecated
         replay['food'] = []
-        
+
         # pirates
         replay['ants'] = []
         for pirate in self.all_pirates:
@@ -1274,6 +1337,7 @@ class Pirates(Game):
             pirate_data.append(pirate.owner)
             pirate_data.append(''.join(pirate.orders))
             pirate_data.append(pirate.supporters)
+            pirate_data.append(pirate.id)
 
             replay['ants'].append(pirate_data)
 
@@ -1283,10 +1347,11 @@ class Pirates(Game):
             turns_and_owners = []
             for turn, owner in island.owners:
                 turns_and_owners.append([turn, owner if owner is not None else NEUTRAL_ATTACKER])
-            island_data = [island.loc[0],island.loc[1],turns_and_owners,island.attack_history]
+            island_data = [island.loc[0],island.loc[1],turns_and_owners,island.attack_history,island.capture_turns,island.value]
             replay['forts'].append(island_data)
-        replay['captureturns'] = self.captureturns
-            
+        replay['zones'] = self.zones.values()
+        replay['rejected'] = self.rejected_moves
+
         # scores
         replay['scores'] = self.score_history
         replay['bonus'] = [0]*self.num_players
@@ -1296,14 +1361,28 @@ class Pirates(Game):
         replay['cutoff'] = self.cutoff
         return replay
 
+
+    def calc_game_excitement(self):
+        ''' This function is called at the end of a game to calculate a numerical value
+            describing how exciting a games was
+        '''
+        final_scores = self.score.values()
+        # sort least to most
+        final_scores.sort()
+        least_diff = 0
+        if max(final_scores) > 100:
+            # get the difference between two leading scores
+            least_diff = abs(final_scores[-1] - final_scores[-2])
+
+
     def get_game_statistics(self):
         ''' This will return interesting statistics and info about the game '''
         return
-        
+
     def get_map_format(self):
         ''' Returns the map-file equivalent in order to allow pausing of games and continuing from same point '''
-        
-        
+        return
+
     def print_zone(self):
         for i,row in enumerate(self.map):
             row = ''
@@ -1324,9 +1403,11 @@ class Pirates(Game):
 class Island:
     # Island class
     # Owners is a list of tuples denoting (first_turn_of_ownership, owner)
-    def __init__(self, id, loc, owner=None, attacker=None, attack_duration=0):
+    def __init__(self, id, loc, value, capture_turns, owner=None, attacker=None, attack_duration=0):
         self.id = id
         self.loc = loc
+        self.value = value
+        self.capture_turns = capture_turns
         self.owners = []
         self.owners.append((0, owner))
         self.attacker = attacker
@@ -1354,6 +1435,7 @@ class Pirate:
         self.initial_loc = loc
         self.spawn_turn = spawn_turn
         self.die_turn = None
+        self.is_cloaked = False
         self.orders = []
         # this is for support mode and logs how much support an pirate had per turn
         self.supporters = []
