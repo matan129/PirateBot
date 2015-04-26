@@ -120,6 +120,7 @@
             <span class="comment">//reset my groups</span>
             <span class="keywordflow">foreach</span>(KeyValuePair&lt;int,SimulatedGroup&gt; sGroup <span class="keywordflow">in</span> this.<a class="code" href="classBritbot_1_1Simulator_1_1SimulatedGame_a81b1a0167bfc65f7b63ce9d498b891a2.html#a81b1a0167bfc65f7b63ce9d498b891a2" title="List of all friendly groups.">MyGroups</a>)
             {
+                sGroup.Value.IsBusy = <span class="keyword">false</span>;
                 sGroup.Value.IsAlive = sGroup.Value.OriginalIsAlive;
                 sGroup.Value.IsCapturing = sGroup.Value.OriginalIsCapturing;
                 sGroup.Value.ReviveTurn = sGroup.Value.OriginalReviveTurn;
@@ -150,7 +151,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 20:17:23 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 26 2015 20:29:12 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
