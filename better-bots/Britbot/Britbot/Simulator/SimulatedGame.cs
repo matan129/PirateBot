@@ -206,6 +206,7 @@ namespace Britbot.Simulator
             //reset my groups
             foreach(KeyValuePair<int,SimulatedGroup> sGroup in this.MyGroups)
             {
+                sGroup.Value.IsBusy = false;
                 sGroup.Value.IsAlive = sGroup.Value.OriginalIsAlive;
                 sGroup.Value.IsCapturing = sGroup.Value.OriginalIsCapturing;
                 sGroup.Value.ReviveTurn = sGroup.Value.OriginalReviveTurn;
@@ -296,8 +297,5 @@ namespace Britbot.Simulator
 
             return friendlyPPT - enemyPPT;
         }
-
-
-
     }
 }
