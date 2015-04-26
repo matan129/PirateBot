@@ -709,6 +709,8 @@ namespace Britbot
         /// </summary>
         public void Update()
         {
+            this.Pirates.RemoveAll(p => Bot.Game.GetMyPirate(p).IsLost);
+
             if (this._hasChanged /*|| this.Pirates.Any(p => Bot.Game.GetMyPirate(p).IsLost)*/)
             {
                 //this.Pirates.RemoveAll(p => Bot.Game.GetMyPirate(p).IsLost);
@@ -888,6 +890,11 @@ namespace Britbot
         /// <param name="remove"></param>
         public void Join(Group g, bool remove = true)
         {
+            //this._hasChanged = true;
+            
+            //if(!remove)
+                //g._hasChanged = true;
+
             foreach (int pirate in g.Pirates)
             {
                 this.AddPirate(pirate);

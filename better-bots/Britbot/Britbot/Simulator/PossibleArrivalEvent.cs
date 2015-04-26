@@ -47,51 +47,49 @@ namespace Britbot.Simulator
 
             this.ArrivingGroup.IsBusy = true;
 
-            //check if the arriving group is alive
-            if (this.ArrivingGroup.IsAlive)
+            if (this.ArrivingGroup == null)
+                return false;
+
+            if (!this.ArrivingGroup.IsAlive)
+                return false;
+
+            if (this.Island.CapturingGroup != null)
             {
-                //check if the arriving group really should have arrived
-
-                //it would come only if there are enemy forces in the island and they are fewer then them
-                //also if they already are on the island they wont come                
-                if ((this.Island.CapturingGroup == null) ||
-                    (this.Island.CapturingGroup.Owner == this.ArrivingGroup.Owner) ||
-                    (this.Island.CapturingGroup.ActualFirePower() >= this.ArrivingGroup.FirePower))
-                    
-                {
+                if (this.Island.CapturingGroup.Owner == this.ArrivingGroup.Owner)
                     return false;
-                }
 
-
-                //the arriving group has enought force to take over the island and it might do it
-                //first, kill locals
-                this.Island.KillLocals(sg);
-
-                //then take over
-                this.Island.CapturingGroup = this.ArrivingGroup;
-
-                int captureTurn = sg.CurrentTurn + this.Island.TurnsTillDecapture(this.ArrivingGroup.Owner);
-
-                //update capturing status
-                this.ArrivingGroup.IsCapturing = true;
-
-
-                //then set a capture and decapture event
-                //check if we need to set events
-                //if only capture is needed
-                if(this.Island.Owner == this.ArrivingGroup.Owner)
+                //opponenets
+                if (this.Island.CapturingGroup.IsAlive)
                 {
-                    //nothing to be done
+                    if (this.Island.CapturingGroup.ActualFirePower() > this.ArrivingGroup.FirePower)
+                    {
+                        this.ArrivingGroup.Kill(sg);
+                        return false;
+                    }
+                    else if (this.Island.CapturingGroup.ActualFirePower() == this.ArrivingGroup.FirePower)
+                    {
+                        this.ArrivingGroup.Kill(sg);
+                        this.Island.CapturingGroup.Kill(sg);
+                        return false;
+                    }
+                    else
+                    {
+                        this.Island.CapturingGroup.Kill(sg);
+                        this.Island.TurnsBeingCaptured = 0;
+                    }
                 }
-                else if(this.Island.Owner == Consts.NO_OWNER)
-                {
-                    sg.AddEvent(new CaptureEvent(sg.CurrentTurn + Bot.Game.Islands()[0].CaptureTurns, this.Island, this.ArrivingGroup));
-                }
-                else
-                {
-                    sg.AddEvent(new DeCaptureEvent(sg.CurrentTurn + Bot.Game.Islands()[0].CaptureTurns, this.Island, this.ArrivingGroup));
-                }                
             }
+
+            this.Island.CapturingGroup = this.ArrivingGroup;
+
+            if (this.Island.Owner == this.ArrivingGroup.Owner)
+                return false;
+            else if (this.Island.Owner == Consts.NO_OWNER)
+                sg.AddEvent(new CaptureEvent(sg.CurrentTurn + 20 - this.Island.TurnsBeingCaptured, this.Island,
+                    this.ArrivingGroup));
+            else
+                sg.AddEvent(new DeCaptureEvent(sg.CurrentTurn + 20 - this.Island.TurnsBeingCaptured, this.Island,
+                    this.ArrivingGroup));
 
             return false;
         }

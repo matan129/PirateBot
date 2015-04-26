@@ -62,7 +62,7 @@ namespace Britbot
         private static void GroupJoining(List<int> ultimateConfig)
         {
             Group tempGroup = null;
-            int minDistance = Magic.MaxDistance + 1; //maximun joining distance
+            int minDistance = Magic.MaxJoinDistance + 1; //maximun joining distance
 
             //sort configs by size
             Commander.Groups.Sort((a, b) => a.Pirates.Count.CompareTo(b.Pirates.Count));
@@ -89,7 +89,7 @@ namespace Britbot
                         }
                     }
                     //join the groups if they are close enough
-                    if (minDistance <= Magic.MaxDistance)
+                    if (minDistance <= Magic.MaxJoinDistance)
                     {
                         if (tempGroup != null)
                         {

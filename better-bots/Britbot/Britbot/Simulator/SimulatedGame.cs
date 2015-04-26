@@ -152,10 +152,8 @@ namespace Britbot.Simulator
                                       this.Islands[sIsland.Id],
                                       this.EnemyGroups[enemy.Key.Id]);
                         this.ConstantEvents.Add(newEvent);
-
-                        
                     }
-                    else if ((int)enemy.Key.MinimalETATo(sIsland.Loc) < 50)
+                    else if ((int)enemy.Key.MinimalETATo(sIsland.Loc) < 30)
                     {
                         
                         newEvent = new PossibleArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
@@ -215,6 +213,7 @@ namespace Britbot.Simulator
             //reset enemy groups
             foreach (KeyValuePair<int, SimulatedGroup> sGroup in this.EnemyGroups)
             {
+                sGroup.Value.IsBusy = false;
                 sGroup.Value.IsAlive = sGroup.Value.OriginalIsAlive;
                 sGroup.Value.IsCapturing = sGroup.Value.OriginalIsCapturing;
                 sGroup.Value.ReviveTurn = sGroup.Value.OriginalReviveTurn;
@@ -271,6 +270,11 @@ namespace Britbot.Simulator
                 if (this.CommingEvents.Dequeue().Activate(this))
                     break;
             }
+
+            //Logger.Write(this.MyIslandCount.ToString(),true);
+            //Logger.Write(this.EnemyIslandCount.ToString(),true);
+
+
             Logger.Write("COUNT: " + count);
             return Score;
         }

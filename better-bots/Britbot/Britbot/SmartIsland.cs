@@ -320,7 +320,7 @@ namespace Britbot
             this.approachingEnemies.Clear();
             foreach (EnemyGroup eGroup in Enemy.Groups)
             {
-                if(eGroup.MinimalETATo(this.Loc) < Magic.MaxEnemyPredictionDistnace)
+            //    if(eGroup.MinimalETATo(this.Loc) < Magic.MaxEnemyPredictionDistnace)
                     this.approachingEnemies.Add(new KeyValuePair<EnemyGroup, bool>(eGroup, eGroup.IsApproachingIsland(this)));
             }
             //sort the list by distance

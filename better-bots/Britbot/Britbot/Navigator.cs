@@ -146,7 +146,8 @@ namespace Britbot
             }
 
             //if we are here then i am wrong :)
-            throw new Exception("Matan K is an idiot");
+            Logger.Write("MATAN K IS AN IDIOT");
+            return 1;
         }
 
         /// <summary>

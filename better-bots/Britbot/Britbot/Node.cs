@@ -35,11 +35,6 @@ namespace Britbot
             /// </summary>
             public static Node[,] Map = new Node[Bot.Game.GetRows(), Bot.Game.GetCols()];
 
-            /// <summary>
-            ///     This determines if we are using the Euclidian huristic or the Manhaten one
-            /// </summary>
-            public static bool EuclidianHuristic = true;
-
             #endregion
 
             #region Fields & Properies
@@ -239,7 +234,7 @@ namespace Britbot
             public static double HuristicFunction(Location loc1, Location loc2)
             {
                 //if we chose euclidian huristic
-                if (Node.EuclidianHuristic)
+                if (Magic.EuclidianHuristic)
                     return Bot.Game.EuclidianDistanceSquared(loc1, loc2);
                 // Manhatten huristic
                 return Bot.Game.Distance(loc1, loc2);

@@ -13,12 +13,19 @@ namespace Britbot
     {
         #region Static Fields & Consts
 
+        /// <summary>
+        ///     Float comparison stuff
+        /// </summary>
         public const double VectorTolerance = 0.001;
+
+        /// <summary>
+        /// 
+        /// </summary>
         internal const int OutOfDateNumber = 10;
         public const double EnemyBaseFactor = 0;
-        public const double FriendlyBaseFactor = 0;
+        public const double FriendlyBaseFactor = 2.5;
         public const double DensityBonusCoefficient = 0.0;
-        public const bool UseBasicGlobalizing = true;
+        public const bool UseBasicGlobalizing = false;
 
         /// <summary>
         ///     Max safe iterator iterations per turn
@@ -28,12 +35,12 @@ namespace Britbot
         /// <summary>
         ///     Max distace two groups can be from eachother and still be joind
         /// </summary>
-        public static int MaxDistance = 100;
+        public static int MaxJoinDistance = 30;
 
         /// <summary>
         ///     Length of global score's simulation
         /// </summary>
-        public static readonly int SimulationLength = 90;
+        public static readonly int SimulationLength = 80;
 
         /// <summary>
         ///     The range a cloaked pirate has to be from a taget to be revealed
@@ -43,12 +50,17 @@ namespace Britbot
         /// <summary>
         ///     Max groups to allow in the config
         /// </summary>
-        public static int MaxGroups = 8;
+        public static int MaxGroups = Int32.MaxValue;
 
+        /// <summary>
+        ///     
+        /// </summary>
         public static double ScoreConssitencyFactor = 0.0;
 
-        public static int DecisivenessBonus = 10000;
-        public static int LowerIteratorBound = 1000;
+        /// <summary>
+        ///     
+        /// </summary>
+        public static int DecisivenessBonus = 0;
 
         #endregion
 
@@ -110,5 +122,11 @@ namespace Britbot
         }
 
         #endregion
+
+        /// <summary>
+        ///     This determines if we are using the Euclidian huristic or the Manhaten one
+        /// </summary>
+        public static bool EuclidianHuristic = false;
+        
     }
 }

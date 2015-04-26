@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Pirates;
@@ -41,6 +42,7 @@ namespace Britbot
         {
             Commander.Groups = new List<Group>();
             Commander._turnTimer = new Stopwatch();
+            Commander._deadPirates = new List<int>();
 
             #region Terrible Switch-Case
 
@@ -137,6 +139,8 @@ namespace Britbot
 
         #endregion
 
+        private static List<int> _deadPirates;
+
         /// <summary>
         ///     Do something!
         /// </summary>
@@ -148,6 +152,14 @@ namespace Britbot
             //note that because this method is on a separate thread we need this try-catch although we have on our bot
             try
             {
+                List<int> alive = Bot.Game.AllMyPirates().Where(p => !p.IsLost).ToList().ConvertAll(p => p.Id);
+                List<int> revived = alive.Intersect(Commander._deadPirates).ToList();
+
+                foreach (int pid in revived)
+                {
+                    Commander.Groups.Add(new Group(new[] { pid }));
+                }
+                
                 //if (Bot.Game.GetTurn() % 7 == 3)
                 {
                     Logger.BeginTime("Update");
@@ -161,7 +173,7 @@ namespace Britbot
                 SmartIsland.UpdateAll();
                 Logger.StopTime("UpdateAll");
 
-                //if (Bot.Game.GetTurn() % 5 == 1)
+                if (Bot.Game.GetTurn() % 5 == 1)
                 {
                     Logger.BeginTime("CalculateAndAssignTargets");
                     //calculate targets
@@ -169,7 +181,7 @@ namespace Britbot
                     Logger.StopTime("CalculateAndAssignTargets");
                 }
 
-                //if (Bot.Game.GetTurn() % 5 >2)
+               // if (Bot.Game.GetTurn() % 5 >2)
                 {
                     //fix configuration
                     Logger.BeginTime("ReConfigure");
@@ -199,6 +211,20 @@ namespace Britbot
                 Logger.Write(
                     string.Format("Commander done doing calculations and drinking coffee after {0}ms",
                         Commander._turnTimer.ElapsedMilliseconds), true);
+
+                foreach (Group g in Groups)
+                {
+                    Bot.Game.Debug("Group " + g + "assigend to " + g.Target);
+                }
+
+                //remove dead groups
+                Commander.Groups.RemoveAll(g => g.Pirates.Count == 0);
+
+                //update DEAD
+                Commander._deadPirates = Bot.Game.AllMyPirates().Where(p => p.IsLost).ToList().ConvertAll(p => p.Id);
+
+                //if (Bot.Game.GetTurn() > 1)
+                    Commander.MergeSimilar();
 
                 //we are on time!
                 onTime = true;
@@ -379,11 +405,11 @@ namespace Britbot
             if (Magic.UseBasicGlobalizing)
             {
                 double score = 0;
+                score += Math.Pow(2, scoreArr.Sum(a => a.Value)) * 20;
+
                 foreach (Score s in scoreArr)
                 {
-                    score += Math.Pow(2,s.Value)*50;
                     score -= s.Eta;
-                    
                 }
 
                 for (int i = 0; i < scoreArr.Length - 1; i++)
@@ -408,10 +434,9 @@ namespace Britbot
             }
             else
             {
-                int totalDensityBonus = 0;
+                //int totalDensityBonus = 0;
                 //reset simulation
                 sg.ResetSimulation();
-
 
                 for (int i = 0; i < scoreArr.Length; i++)
                 {
@@ -433,13 +458,61 @@ namespace Britbot
                         int bonus = (int) Math.Abs(score * Magic.ScoreConssitencyFactor);
                         score += bonus;
 
-                        totalDensityBonus += scoreArr[i].Density;
+                //        totalDensityBonus += scoreArr[i].Density;
                     }
                 }
 
-                return score + totalDensityBonus * Magic.DensityBonusCoefficient;
+                return score /*+ totalDensityBonus * Magic.DensityBonusCoefficient*/;
             }
 
+        }
+
+        /// <summary>
+        ///     Merges similar groups
+        /// </summary>
+        private static void MergeSimilar()
+        {
+            List<List<Group>> updatedGroups = new List<List<Group>>();
+
+            //iterate over all the alive pirate of the enemy
+            foreach (Group group in Commander.Groups)
+            {
+                //create a new group and add the current pirate to it
+                List<Group> toMerge = new List<Group> {group};
+
+                //check if there are any older group already containing the current pirate
+                List<List<Group>> sameTarget =
+                    updatedGroups.Where(
+                        gList =>
+                            gList.Any(g => g.Target.Equals(group.Target) && g.MinDistance(group) < Magic.MaxJoinDistance))
+                        .ToList();
+
+                if (sameTarget.Count > 0)
+                {
+                    //if there are, remove these groups
+                    updatedGroups.RemoveAll(
+                    gList =>
+                        gList.Any(g => g.Target.Equals(group.Target) && g.MinDistance(group) < Magic.MaxJoinDistance));
+                
+
+                    //Add the pirates from the groups we removed to the current new group
+                    foreach (List<Group> gList in sameTarget)
+                    {
+                        toMerge.AddRange(gList);
+                    }
+                }
+
+                //add the new group to the list of groups
+                updatedGroups.Add(toMerge);
+            }
+
+            foreach (List<Group> mergeList in updatedGroups)
+            {
+                for (int i = 1; i < mergeList.Count; i++)
+                {
+                    mergeList[0].Join(mergeList[i]);
+                }
+            }
         }
 
         /// <summary>

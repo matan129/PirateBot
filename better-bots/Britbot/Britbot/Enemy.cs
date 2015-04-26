@@ -123,8 +123,8 @@ namespace Britbot
             const int NumberOfTimesTillWeLearn = 5;
 
             //TODO re enable this
-            return true;
-            //return Enemy.EnemyIntelligenceSuspicionCounter <= NumberOfTimesTillWeLearn;
+            //return true;
+            return Enemy.EnemyIntelligenceSuspicionCounter <= NumberOfTimesTillWeLearn;
         }
 
         /// <summary>
