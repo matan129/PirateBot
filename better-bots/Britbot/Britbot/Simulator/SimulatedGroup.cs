@@ -107,7 +107,7 @@ namespace Britbot.Simulator
             else
                 sg.EnemyDeadPirates += (int) this.FirePower;
 
-            sg.AddEvent(new ReviveEvent(sg.CurrentTurn + Bot.Game.GetSpawnTurns(), this));
+            sg.AddEvent(new ReviveEvent(this.ReviveTurn, this));
         }
 
         /// <summary>

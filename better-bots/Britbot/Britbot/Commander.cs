@@ -422,7 +422,7 @@ namespace Britbot
 
                 //TODO: give more points if we take an island from the enemy
 
-                return score + totalProjectedPoints + totalDensityBonus*Magic.densityBonusCoefficient;
+                return score + totalProjectedPoints + totalDensityBonus * Magic.DensityBonusCoefficient;
             }
             else
             {
@@ -453,7 +453,7 @@ namespace Britbot
                         totalDensityBonus += scoreArr[i].Density;
                     }
                 }
-                return score + totalDensityBonus * Magic.densityBonusCoefficient;
+                return score + totalDensityBonus * Magic.DensityBonusCoefficient;
             }
         }
 

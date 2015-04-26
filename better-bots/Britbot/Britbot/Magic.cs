@@ -16,18 +16,18 @@ namespace Britbot
         public const double VectorTolerance = 0.001;
         internal const int OutOfDateNumber = 10;
         public const double EnemyBaseFactor = 0;
-        public const double FriendlyBaseFactor = 5;
-        public const double densityBonusCoefficient = 0.3;
+        public const double FriendlyBaseFactor = 0;
+        public const double DensityBonusCoefficient = 0.0;
 
         /// <summary>
         ///     Max safe iterator iterations per turn
         /// </summary>
-        public static int MaxIterator = 1500;
+        public static int MaxIterator = 2000;
 
         /// <summary>
         ///     Max distace two groups can be from eachother and still be joind
         /// </summary>
-        public static int MaxDistance = 30;
+        public static int MaxDistance = 60;
 
         /// <summary>
         ///     Length of global score's simulation
