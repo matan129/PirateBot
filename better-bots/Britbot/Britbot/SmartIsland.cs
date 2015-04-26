@@ -390,7 +390,7 @@ namespace Britbot
         /// <param name="g">the group for which we test danger</param>
         /// <returns>true if it is dangerous, false otherwise</returns>
         public bool IsDangerousForGroup(Group g)
-        {/*
+        {
             //Bot.Game.Debug("IsDangerousForGroup island: " + Id + " group " + g.Id);
             //calculate distance in turns till we reach the island
             int eta = Bot.Game.Distance(this.Loc, g.FindCenter(true));
@@ -401,8 +401,12 @@ namespace Britbot
 
             //go over all the enemy groups approaching and their distances
             //TODO: maybe consider the actual firepower of the enemy
-            foreach (EnemyGroup eGroup in this.approachingEnemies)
+            foreach (KeyValuePair<EnemyGroup,bool> eGroupPair in this.approachingEnemies)
             {
+                if (!eGroupPair.Value)
+                    continue;
+
+                EnemyGroup eGroup = eGroupPair.Key;
                 //calculate this enemy groups time of arival
                 double EnemyETA = eGroup.MinimalETATo(this.Loc);
 
@@ -440,7 +444,7 @@ namespace Britbot
                         }
                     }
                 }
-            }*/
+            }
 
             //if we are here then everything is ok
             return false;
