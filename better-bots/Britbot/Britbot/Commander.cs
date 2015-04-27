@@ -211,12 +211,12 @@ namespace Britbot
                 Logger.Write(
                     string.Format("Commander done doing calculations and drinking coffee after {0}ms",
                         Commander._turnTimer.ElapsedMilliseconds), true);
-
+                /*
                 foreach (Group g in Groups)
                 {
                     Bot.Game.Debug("Group " + g + "assigend to " + g.Target);
                 }
-
+                */
                 //remove dead groups
                 Commander.Groups.RemoveAll(g => g.Pirates.Count == 0);
 
@@ -224,7 +224,10 @@ namespace Britbot
                 Commander._deadPirates = Bot.Game.AllMyPirates().Where(p => p.IsLost).ToList().ConvertAll(p => p.Id);
 
                 //if (Bot.Game.GetTurn() > 1)
-                    //Commander.MergeSimilar();
+                Logger.BeginTime("MergeSimilar");
+                Commander.MergeSimilar();
+                Logger.StopTime("MergeSimilar");
+                    
 
                 //we are on time!
                 onTime = true;
@@ -511,9 +514,11 @@ namespace Britbot
 
             foreach (List<Group> mergeList in updatedGroups)
             {
-                for (int i = 1; i < mergeList.Count; i++)
+                Group temp = new Group();
+
+                foreach (Group t in mergeList)
                 {
-                    mergeList[0].Join(mergeList[i]);
+                    temp.Join(t,false);
                 }
             }
         }

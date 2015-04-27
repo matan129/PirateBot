@@ -116,7 +116,7 @@ namespace Britbot
         /// </summary>
         public static double EnemyPredictionSensitivity
         {
-            get { return 2.5 * Math.Sqrt(Bot.Game.GetAttackRadius()); }
+            get { return 2 * Math.Sqrt(Bot.Game.GetAttackRadius()); }
         }
 
         /// <summary>
