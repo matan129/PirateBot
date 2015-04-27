@@ -399,7 +399,7 @@
 <a name="l00369"></a>00369             
 <a name="l00370"></a>00370             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; eConfig.Length &amp;&amp; myPirates &gt; 0; i++)
 <a name="l00371"></a>00371             {
-<a name="l00372"></a>00372                 <span class="keywordflow">if</span> ((eConfig[i] + 1) &lt; myPirates)
+<a name="l00372"></a>00372                 <span class="keywordflow">if</span> (((eConfig[i] + 1) &lt; myPirates)&amp;&amp;((eConfig[i] +1)&lt;<a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_a7fe54089de7bca915b116f42d766b9cc.html#a7fe54089de7bca915b116f42d766b9cc">MaxGroupSize</a>))
 <a name="l00373"></a>00373                 {
 <a name="l00374"></a>00374                     ret.Add(eConfig[i] + 1);
 <a name="l00375"></a>00375                     myPirates -= eConfig[i] + 1;
@@ -642,7 +642,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 27 2015 07:01:33 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 27 2015 07:06:59 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

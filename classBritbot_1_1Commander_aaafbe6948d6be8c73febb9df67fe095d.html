@@ -112,7 +112,7 @@
             
             <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; eConfig.Length &amp;&amp; myPirates &gt; 0; i++)
             {
-                <span class="keywordflow">if</span> ((eConfig[i] + 1) &lt; myPirates)
+                <span class="keywordflow">if</span> (((eConfig[i] + 1) &lt; myPirates)&amp;&amp;((eConfig[i] +1)&lt;Magic.MaxGroupSize))
                 {
                     ret.Add(eConfig[i] + 1);
                     myPirates -= eConfig[i] + 1;
@@ -144,7 +144,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 27 2015 07:01:33 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 27 2015 07:07:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
