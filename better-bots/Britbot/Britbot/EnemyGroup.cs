@@ -16,7 +16,9 @@ namespace Britbot
     {
         #region Static Fields & Consts
 
-        //numbers of turns for wich we save data
+        /// <summary>
+        ///     The current id avaliable (every group has its unique one)
+        /// </summary>
         private static int _idCount;
 
         #endregion
@@ -24,7 +26,7 @@ namespace Britbot
         #region Fields & Properies
 
         /// <summary>
-        ///     unique-ish id for the enemy group
+        ///     unique ID for the enemy group
         /// </summary>
         public readonly int Id;
 
@@ -34,7 +36,7 @@ namespace Britbot
         private int _lastAssignmentTurn;
 
         /// <summary>
-        ///     A queue of the last outOfDateNumber directions of this enemy group
+        ///     A queue of the last directions of this enemy group
         /// </summary>
         private Queue<Direction> _lastDirections;
 
@@ -44,7 +46,7 @@ namespace Britbot
         private Queue<int> _lastMaxFightPower;
 
         /// <summary>
-        ///     What is this?
+        ///     The previous location of this group
         /// </summary>
         public Location PrevLoc { get; set; }
 
@@ -69,18 +71,6 @@ namespace Britbot
             this._lastMaxFightPower = new Queue<int>();
         }
 
-        /// <summary>
-        ///     Creates a new instance of the EnemyGroup class
-        /// </summary>
-        public EnemyGroup(Location prevLoc, List<int> enemyPirates)
-        {
-            this.Id = EnemyGroup._idCount++;
-            PrevLoc = prevLoc;
-            EnemyPirates = enemyPirates;
-            this._lastDirections = new Queue<Direction>();
-            this._lastMaxFightPower = new Queue<int>();
-        }
-
         #endregion
 
         #region Interface Implementations
@@ -92,13 +82,11 @@ namespace Britbot
         /// <returns>The score for this group</returns>
         public Score GetScore(Group origin)
         {
-            //---------------#Magic_Numbers--------------------
             //first check if groups direction is stable, otherwise disqualify
-            if (this.GetHeadingSabilityCoeff() < Magic.stabilityCoeff)
+            if (this.GetHeadingSabilityCoeff() < Magic.HeadingStabilityCoeff)
                 return null;
 
-            //check if the enemy group isn't in spawn
-            //TODO: maybe we can be smarter here
+            //check if the enemy group isn't in spawn - else disqualify
             if (!Bot.Game.IsPassable(this.GetLocation()))
                 return null;
 
@@ -106,23 +94,19 @@ namespace Britbot
             if (!Navigator.IsReachable(origin.GetLocation(), GetLocation(), this.GetHeading()))
                 return null;
 
-
-            //Reduce the score in proportion to distance
-            //lower score is worse. Mind the minus sign!
+            //Reduce the score in proportion to distance. Lower score is worse. Mind the minus sign!
             double distance = Navigator.CalcDistFromLine(origin.GetLocation(), this.GetLocation(), this.GetHeading());
 
             //consider attack radius
             distance -= Math.Sqrt(Bot.Game.GetAttackRadius());
             distance = Math.Max(distance, 0);
 
-
-            //if the group is strong enough to take the enemy group add its score
+            //if the origin group is strong enough to take the enemy group add its score
             if (origin.FightCount() > this.GetMaxFightPower())
-            {
                 return new Score(this, TargetType.EnemyGroup, 0, this.EnemyPirates.Count, distance,
                     Bot.Game.GetSpawnTurns(), 0);
-            }
 
+            //if this enemygroup will defeat the origin group, disqualify
             return null;
         }
 
@@ -132,103 +116,7 @@ namespace Britbot
         /// <returns>Returns the average location for this group or the pirate closest to the average</returns>
         public Location GetLocation()
         {
-            return GetLocation(false);
-        }
-
-        /// <summary>
-        ///     This implements the GetDirection of the ITarget interface
-        ///     it returns the best direction to keep the given group (which asked for directions)
-        ///     in a path perpendicular to the direction of the enemy ship thus ensuring
-        ///     that it will reach it as soon as possible
-        /// </summary>
-        /// <param name="group"></param>
-        /// <returns></returns>
-        public Direction GetDirection(Group group)
-        {
-            //calculates the direction based on the geographical data from the game
-            //first check if stationary
-            if (Math.Abs(this.GetHeading().Norm()) < Magic.VectorTolerance)
-                return Navigator.CalculateDirectionToStationeryTarget(group.FindCenter(true), group.Heading,
-                    this.GetLocation());
-            
-            //otherwise
-            return Navigator.CalculateDirectionToMovingTarget(group.FindCenter(true), group.Heading, GetLocation(),
-                this.GetHeading());
-        }
-
-        public TargetType GetTargetType()
-        {
-            return TargetType.EnemyGroup;
-        }
-
-        public string GetDescription()
-        {
-            string s = "Enemy Group, Pirates: ";
-            foreach (int pirate in EnemyPirates)
-                s += " " + pirate;
-
-            return s;
-        }
-
-        /// <summary>
-        ///     Tests if two enemy groups are the same
-        /// </summary>
-        /// <param name="operandB">the target to test with</param>
-        /// <returns>True if identical or false otherwise</returns>
-        public bool Equals(ITarget operandB)
-        {
-            EnemyGroup enemyGroup = operandB as EnemyGroup;
-            if (enemyGroup != null)
-            {
-                EnemyGroup b = enemyGroup;
-                return this.Id == b.Id;
-            }
-
-            return false;
-        }
-
-
-        /// <summary>
-        ///     updates the last turn of assignment
-        /// </summary>
-        public void TargetAssignmentEvent()
-        {
-            this._lastAssignmentTurn = Bot.Game.GetTurn();
-        }
-
-        /// <summary>
-        ///     checks if last assignment wasn't to close
-        ///     if so it adds to the enemy suspition metter
-        /// </summary>
-        public void TargetDessignmentEvent()
-        {
-            //this defines what is the minimum turn number till it is legit to change target (on average)
-             //check if time from the last assignment raises suspition of inteligence in the enemy
-            if (Bot.Game.GetTurn() - this._lastAssignmentTurn < Magic.minimumTillItIsOkToDropTarget)
-            {
-                Enemy.EnemyIntelligenceSuspicionCounter++;
-            }
-        }
-
-        #endregion
-
-        /// <summary>
-        ///     Gets a unique-ish hash code for the object
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hashCode = this.Id;
-                hashCode = (hashCode * 397) ^ this._lastAssignmentTurn;
-                hashCode = (hashCode * 397) ^ (this._lastDirections != null ? this._lastDirections.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^
-                           (this._lastMaxFightPower != null ? this._lastMaxFightPower.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (this.PrevLoc != null ? this.PrevLoc.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (this.EnemyPirates != null ? this.EnemyPirates.GetHashCode() : 0);
-                return hashCode;
-            }
+            return this.GetLocation(false);
         }
 
         /// <summary>
@@ -240,7 +128,7 @@ namespace Britbot
         ///     location
         /// </param>
         /// <returns>Returns the average location for this group or the pirate closest to the average</returns>
-        public Location GetLocation(bool forcePirate)
+        private Location GetLocation(bool forcePirate)
         {
             //Get a list of all location of the enemy pirates in this group
             List<Location> locs = new List<Location>();
@@ -290,6 +178,109 @@ namespace Britbot
                     averageLocation = pete.Loc;
             }
             return averageLocation;
+        }
+
+        /// <summary>
+        ///     This implements the GetDirection of the ITarget interface
+        ///     it returns the best direction to keep the given group (which asked for directions)
+        ///     in a path perpendicular to the direction of the enemy ship thus ensuring
+        ///     that it will reach it as soon as possible
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public Direction GetDirection(Group group)
+        {
+            //calculates the direction based on the geographical data from the game
+            //first check if stationary
+            if (Math.Abs(this.GetHeading().Norm()) < Magic.VectorTolerance)
+                return Navigator.CalculateDirectionToStationeryTarget(group.FindCenter(true), group.Heading,
+                    this.GetLocation());
+            
+            //otherwise
+            return Navigator.CalculateDirectionToMovingTarget(group.FindCenter(true), group.Heading, GetLocation(),
+                this.GetHeading());
+        }
+
+        /// <summary>
+        ///     Gets the type of this target (EnemyGroup)
+        /// </summary>
+        /// <returns></returns>
+        public TargetType GetTargetType()
+        {
+            return TargetType.EnemyGroup;
+        }
+
+        /// <summary>
+        ///     Get description for this target
+        /// </summary>
+        /// <returns></returns>
+        public string GetDescription()
+        {
+            string s = "Enemy Group, Pirates: ";
+            foreach (int pirate in EnemyPirates)
+                s += " " + pirate;
+
+            return s;
+        }
+
+        /// <summary>
+        ///     Tests if two enemy groups are the same
+        /// </summary>
+        /// <param name="operandB">the target to test with</param>
+        /// <returns>True if identical or false otherwise</returns>
+        public bool Equals(ITarget operandB)
+        {
+            EnemyGroup enemyGroup = operandB as EnemyGroup;
+            if (enemyGroup != null)
+            {
+                EnemyGroup b = enemyGroup;
+                return this.Id == b.Id;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///     updates the last turn of assignment
+        /// </summary>
+        public void TargetAssignmentEvent()
+        {
+            this._lastAssignmentTurn = Bot.Game.GetTurn();
+        }
+
+        /// <summary>
+        ///     checks if last assignment wasn't too close
+        ///     if so it adds to the enemy suspition matter
+        /// </summary>
+        public void TargetDeAssignmentEvent()
+        {
+            //this defines what is the minimum turn number till it is legit to change target (on average)
+             //check if time from the last assignment raises suspition of inteligence in the enemy
+            if (Bot.Game.GetTurn() - this._lastAssignmentTurn < Magic.minimumTillItIsOkToDropTarget)
+            {
+                Enemy.EnemyIntelligenceSuspicionCounter++;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        ///     Gets a unique-ish hash code for the object
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = this.Id;
+                hashCode = (hashCode * 397) ^ this._lastAssignmentTurn;
+                hashCode = (hashCode * 397) ^ (this._lastDirections != null ? this._lastDirections.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^
+                           (this._lastMaxFightPower != null ? this._lastMaxFightPower.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (this.PrevLoc != null ? this.PrevLoc.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (this.EnemyPirates != null ? this.EnemyPirates.GetHashCode() : 0);
+                return hashCode;
+            }
         }
         
         /// <summary>
@@ -537,7 +528,7 @@ namespace Britbot
             this._lastDirections.Enqueue(newDirection);
 
             //check if we need to throw irrelevant stuff out
-            if (this._lastDirections.Count > Magic.OutOfDateNumber)
+            if (this._lastDirections.Count > Magic.EnemyLocationQueueSize)
             {
                 this._lastDirections.Dequeue();
             }
@@ -546,7 +537,7 @@ namespace Britbot
             this._lastMaxFightPower.Enqueue(this.MaxFightCount());
 
             //check if we need to throw irrelevant stuff out
-            if (this._lastMaxFightPower.Count > Magic.OutOfDateNumber)
+            if (this._lastMaxFightPower.Count > Magic.EnemyLocationQueueSize)
             {
                 this._lastMaxFightPower.Dequeue();
             }

@@ -61,6 +61,6 @@ namespace Britbot
         /// <summary>
         ///     cana"l
         /// </summary>
-        void TargetDessignmentEvent();
+        void TargetDeAssignmentEvent();
     }
 }

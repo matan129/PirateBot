@@ -16,12 +16,12 @@ namespace Britbot
         /// <summary>
         ///     Amount of enemy ships nearBy
         /// </summary>
-        public double EnemyShips;
+        public readonly double EnemyShips;
 
         /// <summary>
         ///     Time until completion
         /// </summary>
-        public double Eta;
+        public readonly double Eta;
 
         /// <summary>
         /// Minimum number of turns we will own an Island

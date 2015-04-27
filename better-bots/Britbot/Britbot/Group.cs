@@ -152,6 +152,9 @@ namespace Britbot
         /// <param name="target">the new target</param>
         public void SetTarget(ITarget target)
         {
+            //log it
+            Logger.Write(string.Format("Group {0} assinged to {1}", this, target.GetDescription()), true);
+
             //if it isn't the same target as before update and reset heading
             if (this.Target == null)
             {
@@ -160,10 +163,10 @@ namespace Britbot
                 //tell the target it got assigned
                 this.Target.TargetAssignmentEvent();
             }
-            else if (!object.Equals(this.Target, target))
+            else if (this.Target.Equals(target))
             {
                 //tell the previous target it was dessigned
-                this.Target.TargetDessignmentEvent();
+                this.Target.TargetDeAssignmentEvent();
 
                 //update
                 this.Target = target;
@@ -888,18 +891,11 @@ namespace Britbot
         ///     Joins a group to this group
         /// </summary>
         /// <param name="g">a group to be joind to this one</param>
-        /// <param name="remove"></param>
+        /// <param name="remove">if to remove the joined group from the commander list</param>
         public void Join(Group g, bool remove = true)
         {
-            //this._hasChanged = true;
-            
-            //if(!remove)
-                //g._hasChanged = true;
-
             foreach (int pirate in g.Pirates.Where(p => !this.Pirates.Contains(p)))
-            {
                 this.AddPirate(pirate, remove);
-            }
 
             if(remove)
                 Commander.Groups.RemoveAll(group => group.Id == g.Id);

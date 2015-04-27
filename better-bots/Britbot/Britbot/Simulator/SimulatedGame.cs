@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Britbot.PriorityQueue;
 using Pirates;
 using System;
+using System.Threading;
+
 #endregion
 
 namespace Britbot.Simulator
@@ -153,7 +155,7 @@ namespace Britbot.Simulator
                                       this.EnemyGroups[enemy.Key.Id]);
                         this.ConstantEvents.Add(newEvent);
                     }
-                    else if ((int)enemy.Key.MinimalETATo(sIsland.Loc) < 0 || Magic.IsScared )
+                    else if ((int)enemy.Key.MinimalETATo(sIsland.Loc) < 0 || Commander.IsDefensive() )
                     {
                         newEvent = new PossibleArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
                                       this.Islands[sIsland.Id],
@@ -241,8 +243,9 @@ namespace Britbot.Simulator
         /// <summary>
         /// Simulates the game and calculates the score
         /// </summary>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public double SimulateGame()
+        public double RunSimulation(CancellationToken cancellationToken)
         {
             int nextTurn = 0;
 

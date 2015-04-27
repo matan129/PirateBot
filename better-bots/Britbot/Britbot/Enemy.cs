@@ -2,10 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Pirates;
 
 #endregion
@@ -13,7 +11,7 @@ using Pirates;
 namespace Britbot
 {
     /// <summary>
-    ///     This class represent the enemy bot in the game
+    ///     This class represents the enemy bot in the game
     /// </summary>
     public static class Enemy
     {
@@ -53,11 +51,11 @@ namespace Britbot
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <exception cref="OperationCanceledException">The token has had cancellation requested.</exception>
-        public static List<EnemyGroup> AnalyzeEnemyGroups(CancellationToken cancellationToken)
+        private static List<EnemyGroup> AnalyzeEnemyGroups(CancellationToken cancellationToken)
         {
             EnemyGroup[] analysis = Enemy.AnalyzeFull(cancellationToken).ToArray();
 
-            if (Enemy.Groups.Count == 0)
+            if (Groups.Count == 0)
                 return analysis.ToList();
 
             List<EnemyGroup> veteranGroups = new List<EnemyGroup>(analysis.Length);
@@ -74,13 +72,12 @@ namespace Britbot
                     //Throwing an exception if cancellation was requested.
                     cancellationToken.ThrowIfCancellationRequested();
 
-
                     /*
                      * check if the groups are the same.
-                     * Note that Equals() does a deep comparison 
+                     * Note that Equals() does a contextual comparison and not reference comparison
                      * (I overrided it to check if the pirates in each enemy group are the same)                    
                      */
-                    if (Equals(veteran, enemyGroup))
+                    if (veteran.Equals(enemyGroup))
                     {
                         /* 
                          * note that we are adding the group already in the old Groups list
@@ -93,21 +90,10 @@ namespace Britbot
                 }
             }
 
-            string newGroupsInfo = "";
+            //add the groups to the veteran list..
+            veteranGroups.AddRange(analysis.Where((t, i) => !removeAtAnalysis[i]));
 
-            for (int i = 0; i < analysis.Length; i++)
-            {
-                //Throwing an exception if cancellation was requested.
-                cancellationToken.ThrowIfCancellationRequested();
-
-                if (!removeAtAnalysis[i])
-                {
-                    veteranGroups.Add(analysis[i]);
-                    newGroupsInfo += analysis[i] + ",";
-                }
-            }
-
-
+            //..and return
             return veteranGroups;
         }
 
@@ -177,26 +163,18 @@ namespace Britbot
         /// <param name="cancellationToken"></param>
         public static void Update(CancellationToken cancellationToken)
         {
-                //update the enemy data
-                List<EnemyGroup> updated = Enemy.AnalyzeEnemyGroups(cancellationToken);
+            //write out the enemy suspiction counter
+            Logger.Write("Enemy Suspiction: " + Enemy.EnemyIntelligenceSuspicionCounter);
 
-                //update the enemyGroups by logical stuff
-                Enemy.Groups = Enemy.Groups.Intersect(updated).ToList();
-                Enemy.Groups = Enemy.Groups.Union(updated).ToList();
+            //update the enemy data
+            List<EnemyGroup> updated = Enemy.AnalyzeEnemyGroups(cancellationToken);
 
-                //update heading in all groups
-                Enemy.Groups.ForEach(eGroup => eGroup.Update());
+            //update the enemyGroups by logical stuff
+            Enemy.Groups = Enemy.Groups.Intersect(updated).ToList();
+            Enemy.Groups = Enemy.Groups.Union(updated).ToList();
 
-                Enemy.Debug();
-        }
-
-        private static void Debug()
-        {
-            Logger.Write("------------ENEMY GROUPS-----------------");
-            foreach (EnemyGroup eg in Enemy.Groups)
-            {
-                Logger.Write(eg.ToString());
-            }
+            //update heading in all groups
+            Enemy.Groups.ForEach(eGroup => eGroup.Update());
         }
     }
 }

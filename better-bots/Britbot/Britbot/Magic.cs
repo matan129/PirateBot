@@ -14,35 +14,42 @@ namespace Britbot
         #region Static Fields & Consts
 
         /// <summary>
-        ///     Float comparison stuff
+        ///     Float comparision tolerance
         /// </summary>
         public const double VectorTolerance = 0.001;
 
-        public const int NumberOfTimesTillWeLearn = 2;
+        /// <summary>
+        ///     Upper bound to the max attempts to catch enemy ships
+        /// </summary>
+        public const int NumberOfTimesTillWeLearn = 5;
 
         /// <summary>
-        /// 
+        ///     Max directions to keep at each EnemyGroup
         /// </summary>
-        internal const int OutOfDateNumber = 4;
+        internal const int EnemyLocationQueueSize = 4;
 
+        
         public const int MaxGroupSize = 4;
-
         public const double EnemyBaseFactor = 1.1;
         public const double FriendlyBaseFactor = 3.45;
+
         /// <summary>
-        /// The coefficient used when adding an island density bonus to the score (makes islands closer in proximity to others better)
+        ///     The coefficient used when adding an island density bonus to the score (makes islands closer in proximity to others
+        ///     better)
         /// </summary>
         public const double DensityBonusCoefficient = 0.2;
+
         /// <summary>
-        /// Whether or not we use the newer and better globalize score or the simple one
+        ///     Whether or not we use the newer and better globalize score or the simple one
         /// </summary>
         public const bool UseBasicGlobalizing = false;
-        public const double stabilityCoeff = 0.75;
+
+        public const double HeadingStabilityCoeff = 0.75;
         public const double minimumTillItIsOkToDropTarget = 5;
         public const int toleranceMargin = 2;
 
         /// <summary>
-        /// The maximum percent of casualties in a group before it is declared as no formed
+        ///     The maximum percent of casualties in a group before it is declared as no formed
         /// </summary>
         public const int casualtiesThresholdPercent = 20;
 
@@ -69,10 +76,22 @@ namespace Britbot
         /// <summary>
         ///     Max groups to allow in the config
         /// </summary>
-        public static int MaxGroups = Int32.MaxValue;
+        public static int MaxGroups = int.MaxValue;
 
         /// <summary>
-        ///     
+        /// </summary>
+        public static double DecisivenessBonus = 0.0;
+
+        /// <summary>
+        ///     This determines if we are using the Euclidian huristic or the Manhaten one
+        /// </summary>
+        public static bool EuclidianHuristic = false;
+
+        #endregion
+
+        #region Fields & Properies
+
+        /// <summary>
         /// </summary>
         public static double ScoreConssitencyFactor
         {
@@ -82,39 +101,23 @@ namespace Britbot
                 {
                     return 0.5;
                 }
-                else
-                {
-                    return 0.7;
-                }
+                return 0.7;
             }
         }
 
         /// <summary>
-        ///     
-        /// </summary>
-        public static double DecisivenessBonus = 0.0;
-
-        #endregion
-
-        #region Fields & Properies
-        /// <summary>
-        /// Calculates once in how many turns configuration can be recalculated
+        ///     Calculates once in how many turns configuration can be recalculated
         /// </summary>
         public static bool DoConfiguration
         {
-            get
-            {
-            return Bot.Game.GetTurn() % 10 == 1;
-            }
+            get { return Bot.Game.GetTurn() % 10 == 1; }
         }
+
         public static int tryAlternate
         {
-            get
-            {
-                return Bot.Game.GetTurn() % 2;
-            }
+            get { return Bot.Game.GetTurn() % 2; }
         }
-       
+
         /// <summary>
         ///     The radius of the area around enemy ships which we avoid
         /// </summary>
@@ -167,21 +170,10 @@ namespace Britbot
 
         public static double MaxEnemyPredictionDistnace
         {
-            get { return ((Bot.Game.GetCols() + Bot.Game.GetRows()) / 2 );}
+            get { return ((Bot.Game.GetCols() + Bot.Game.GetRows()) / 2); }
         }
 
         #endregion
-
-        /// <summary>
-        ///     This determines if we are using the Euclidian huristic or the Manhaten one
-        /// </summary>
-        public static bool EuclidianHuristic = false;
-
-
-        public static bool IsScared
-        {
-            get { return Commander.UpdateMood(); }
-        }
 
         /// <summary>
         ///     Dumps all the magic numbers to the game log

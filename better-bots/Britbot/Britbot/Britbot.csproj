@@ -93,6 +93,7 @@
     <Compile Include="SmartIsland.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="ConfigHelper.cs" />
+    <Compile Include="SpecialOps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

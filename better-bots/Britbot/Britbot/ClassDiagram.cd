@@ -1,85 +1,78 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="Britbot.Bot">
+  <Class Name="Britbot.Bot" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAgAAEAAAAAAAAIAAAAAAABgAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAgAAEAAAAgAAAIAAAAAAABgAAAAAAAAAAQAAAAA=</HashCode>
       <FileName>Bot.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Britbot.Group" BaseTypeListCollapsed="true">
-    <Position X="0.5" Y="3.25" Width="1.75" />
+  <Class Name="Britbot.Group" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACgAACQAISEICEEAQBACQAAAAAAAAAABAAZCIAgAY=</HashCode>
+      <HashCode>AAQigAECRAICEIiEAAQDBCQAAIAAAAAQEBAAZCIAgAY=</HashCode>
       <FileName>Group.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Britbot.SmartIsland">
-    <Position X="2.5" Y="2.75" Width="2" />
+  <Class Name="Britbot.SmartIsland" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAACGABAIAEAAoACAAAAAAQgAgIAAAAAigAAAAiA=</HashCode>
+      <HashCode>AAQCQAGGABAIgMAEoACALgABAQgAgIAAAAIigBACAiA=</HashCode>
       <FileName>SmartIsland.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Britbot.EnemyGroup">
-    <Position X="4.75" Y="0.5" Width="3" />
+  <Class Name="Britbot.EnemyGroup" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQCAAACAAAIAAgEoAAACAQAAAAAgACYAECAgmAAAAA=</HashCode>
+      <HashCode>AAQiQAACAAAoIAAEoEAAAAABQAAAgKCAEEKAgkACAAQ=</HashCode>
       <FileName>EnemyGroup.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Britbot.HeadingVector">
-    <Position X="9.75" Y="0.5" Width="1.5" />
+  <Class Name="Britbot.HeadingVector" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAIE8CGAQAAAAQAAAAAAAAABEQAAYiA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAIE8CGAQAAAAQAAAIAAAAABEQAAYiA=</HashCode>
       <FileName>HeadingVector.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Britbot.Commander">
-    <Position X="8" Y="4.25" Width="1.5" />
+  <Class Name="Britbot.Commander" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAAIEAQAAAAACACICCAAAAAQAIAAAAAoEAAAAAAAAA=</HashCode>
+      <HashCode>ABAAIEAQAAABIAAAACQAAAACQAEAAAAAoEACAAAAAAA=</HashCode>
       <FileName>Commander.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Britbot.Enemy">
-    <Position X="8" Y="2" Width="1.5" />
+  <Class Name="Britbot.Enemy" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEQAAEAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEQAAEAAAAAAAIAgAAAAAgAAAAAAAAAAAAIAAAAAAAA=</HashCode>
       <FileName>Enemy.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Britbot.Extensions">
-    <Position X="11.5" Y="3.75" Width="1.5" />
+  <Class Name="Britbot.Extensions" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CEIABABBIAAAAAAAAAACAAAAAAIAAABAAiAEAAAQAAA=</HashCode>
+      <HashCode>AAAABABAIAAAAAAAAAACAAAAQAIAAABAIgAAAAAUAAA=</HashCode>
       <FileName>Extentions.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Britbot.Score">
-    <Position X="11.5" Y="0.5" Width="1.5" />
+  <Class Name="Britbot.Score" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQECAAAACAAAAAACAAAAQAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQECAAAACABAAAACAAAAQAgAAABAAA=</HashCode>
       <FileName>Score.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Interface Name="Britbot.ITarget">
-    <Position X="2.5" Y="0.5" Width="2" />
+  <Interface Name="Britbot.ITarget" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAACAAAIAAAAoAAAAAAAAAAAgAAAAAAAgAAAAAA=</HashCode>
+      <HashCode>AAAAAAACAAAIAAAAoAAAAAABAAAAgAAAAAAAgAACAAA=</HashCode>
       <FileName>ITarget.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Enum Name="Britbot.GroupRole">
-    <Position X="8" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>gAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
-      <FileName>GroupRole.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Font Name="Tahoma" Size="9" />
 </ClassDiagram>

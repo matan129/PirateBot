@@ -84,7 +84,7 @@ namespace Britbot
         /// <summary>
         ///     cana"l
         /// </summary>
-        public void TargetDessignmentEvent()
+        public void TargetDeAssignmentEvent()
         {
         }
 

@@ -66,17 +66,14 @@ namespace Britbot.Simulator
                         this.ArrivingGroup.Kill(sg);
                         return false;
                     }
-                    else if (this.Island.CapturingGroup.ActualFirePower() == this.ArrivingGroup.FirePower)
+                    if (this.Island.CapturingGroup.ActualFirePower() == this.ArrivingGroup.FirePower)
                     {
                         this.ArrivingGroup.Kill(sg);
                         this.Island.CapturingGroup.Kill(sg);
                         return false;
                     }
-                    else
-                    {
-                        this.Island.CapturingGroup.Kill(sg);
-                        this.Island.TurnsBeingCaptured = 0;
-                    }
+                    this.Island.CapturingGroup.Kill(sg);
+                    this.Island.TurnsBeingCaptured = 0;
                 }
             }
 
@@ -84,10 +81,12 @@ namespace Britbot.Simulator
 
             if (this.Island.Owner == this.ArrivingGroup.Owner)
                 return false;
-            else if (this.Island.Owner == Consts.NO_OWNER)
-                sg.AddEvent(new CaptureEvent(sg.CurrentTurn + 20- this.Island.TurnsBeingCaptured, this.Island, this.ArrivingGroup));
+            if (this.Island.Owner == Consts.NO_OWNER)
+                sg.AddEvent(new CaptureEvent(sg.CurrentTurn + 20 - this.Island.TurnsBeingCaptured, this.Island,
+                    this.ArrivingGroup));
             else
-                sg.AddEvent(new DeCaptureEvent(sg.CurrentTurn + 20 - this.Island.TurnsBeingCaptured, this.Island, this.ArrivingGroup));
+                sg.AddEvent(new DeCaptureEvent(sg.CurrentTurn + 20 - this.Island.TurnsBeingCaptured, this.Island,
+                    this.ArrivingGroup));
 
             return false;
         }
