@@ -461,7 +461,16 @@ namespace Britbot
                     ITarget it = Commander.Groups[i].Target;
                     if (it != null && it.Equals(scoreArr[i].Target))
                     {
-                        int bonus = (int) Math.Abs(score * Magic.ScoreConssitencyFactor);
+                        int bonus= (int)Math.Abs(score * Magic.ScoreConssitencyFactor);
+                        if (scoreArr[i].Type == TargetType.Island)
+                        {
+                            SmartIsland isle = (SmartIsland)scoreArr[i].Target;
+                            if (isle.Owner == Consts.ME)
+                            {
+                                bonus = 0;
+                            }
+                             
+                        }
                         score += bonus;
 
                 //        totalDensityBonus += scoreArr[i].Density;

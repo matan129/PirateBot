@@ -37,6 +37,8 @@ namespace Britbot
         /// Whether or not we use the newer and better globalize score or the simple one
         /// </summary>
         public const bool UseBasicGlobalizing = false;
+
+        //something for the vectors not for the score
         public const double stabilityCoeff = 0.75;
         public const double minimumTillItIsOkToDropTarget = 5;
         public const int toleranceMargin = 2;
@@ -74,7 +76,7 @@ namespace Britbot
         /// <summary>
         ///     
         /// </summary>
-        public static double ScoreConssitencyFactor = 0.5;
+        public static double ScoreConssitencyFactor = 1.5;
 
         /// <summary>
         ///     
