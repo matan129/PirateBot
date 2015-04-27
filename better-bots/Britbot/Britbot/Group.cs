@@ -98,7 +98,7 @@ namespace Britbot
         /// <summary>
         ///     Just a ctor to do to common stuff (called from the other ctors above by "this()" statement)
         /// </summary>
-        private Group()
+        public Group()
         {
             this.Pirates = new ObservableCollection<int>();
 
@@ -132,6 +132,7 @@ namespace Britbot
         }
 
         #endregion
+
 
         /// <summary>
         ///     You know what this does, don't you?
@@ -848,14 +849,15 @@ namespace Britbot
         ///     Adds a pirate to this group, removing it from any other group it was in.
         /// </summary>
         /// <param name="index">The pirate's index</param>
-        public void AddPirate(int index)
+        public void AddPirate(int index, bool remove = true)
         {
             //make sure that the pirate is not controlled by other groups by removing it from them
-            foreach (Group g in Commander.Groups)
-            {
-                //NOTE! that is correct - it does not remove *at* the index but find the right one
-                g.Pirates.Remove(index);
-            }
+            if(remove)
+                foreach (Group g in Commander.Groups)
+                {
+                    //NOTE! that is correct - it does not remove *at* the index but find the right one
+                    g.Pirates.Remove(index);
+                }
 
             //add the pirate to this group index
             this.Pirates.Add(index);
@@ -894,9 +896,9 @@ namespace Britbot
             //if(!remove)
                 //g._hasChanged = true;
 
-            foreach (int pirate in g.Pirates)
+            foreach (int pirate in g.Pirates.Where(p => !this.Pirates.Contains(p)))
             {
-                this.AddPirate(pirate);
+                this.AddPirate(pirate, remove);
             }
 
             if(remove)
