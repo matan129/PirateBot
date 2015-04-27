@@ -68,7 +68,8 @@
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
-<a href="#pri-static-methods">Static Private Member Functions</a>  </div>
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">Britbot.SmartIsland Class Reference</div>  </div>
 </div><!--header-->
@@ -149,6 +150,8 @@ Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">List&lt; KeyValuePair&lt; <a class="el" href="classBritbot_1_1EnemyGroup.html">EnemyGroup</a>, <br class="typebreak"/>
 bool &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_ac764226e433780dfcc60ebdb86542c66.html#ac764226e433780dfcc60ebdb86542c66">approachingEnemies</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">list of all the enemies and their distances from the island  <a href="#ac764226e433780dfcc60ebdb86542c66"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_a2d95c3f5c977a7d2a1974d88c904fe03.html#a2d95c3f5c977a7d2a1974d88c904fe03">turnsTillColldown</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_aef81eafcab5e9a8a9a63beee7f0f472d.html#aef81eafcab5e9a8a9a63beee7f0f472d">coolDownCount</a></td></tr>
 <tr><td colspan="2"><h2><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_a96515907e1c39bd1ce01bea2bdaaf537.html#a96515907e1c39bd1ce01bea2bdaaf537">Equals</a> (<a class="el" href="classBritbot_1_1SmartIsland.html">SmartIsland</a> other)</td></tr>
@@ -177,6 +180,10 @@ Private Member Functions</h2></td></tr>
 Static Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_a00c8386e86dfec96731502bc727e9e57.html#a00c8386e86dfec96731502bc727e9e57">SmartIsland</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A static constructor which initializes the static island list on the first reference to a <a class="el" href="classBritbot_1_1SmartIsland.html" title="A Class that encapsulates the default Island type and adds important methods to it.">SmartIsland</a>.  <a href="#a00c8386e86dfec96731502bc727e9e57"></a><br/></td></tr>
+<tr><td colspan="2"><h2><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1SmartIsland_a2339c45d7980e6a0ae622f89227472ee.html#a2339c45d7980e6a0ae622f89227472ee">_lastAssignmentTurn</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The last turn in which this target was assigned.  <a href="#a2339c45d7980e6a0ae622f89227472ee"></a><br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>A Class that encapsulates the default Island type and adds important methods to it. </p>
@@ -189,7 +196,7 @@ Static Private Member Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 26 2015 23:50:58 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 27 2015 06:53:41 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
