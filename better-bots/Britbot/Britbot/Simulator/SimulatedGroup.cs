@@ -88,7 +88,7 @@ namespace Britbot.Simulator
         
         public int ActualFirePower()
         {
-            if (this.IsCapturing)
+            if (this.IsCapturing || this.Owner == Consts.ENEMY)
                 return (int) this.FirePower - 1;
             return (int) this.FirePower;
         }

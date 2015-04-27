@@ -23,12 +23,12 @@ namespace Britbot
         /// <summary>
         /// 
         /// </summary>
-        internal const int OutOfDateNumber = 10;
+        internal const int OutOfDateNumber = 4;
 
         public const int MaxGroupSize = 4;
 
         public const double EnemyBaseFactor = 1.1;
-        public const double FriendlyBaseFactor = 1.45;
+        public const double FriendlyBaseFactor = 3.45;
         /// <summary>
         /// The coefficient used when adding an island density bonus to the score (makes islands closer in proximity to others better)
         /// </summary>
@@ -36,7 +36,7 @@ namespace Britbot
         /// <summary>
         /// Whether or not we use the newer and better globalize score or the simple one
         /// </summary>
-        public const bool UseBasicGlobalizing = true;
+        public const bool UseBasicGlobalizing = false;
         public const double stabilityCoeff = 0.75;
         public const double minimumTillItIsOkToDropTarget = 5;
         public const int toleranceMargin = 2;
