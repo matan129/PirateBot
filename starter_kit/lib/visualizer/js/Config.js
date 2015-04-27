@@ -41,6 +41,7 @@ Config.prototype['speedFactor'] = 0;
 Config.prototype['cpu'] = 0.5;
 Config.prototype['showRange'] = false;
 Config.prototype['slowDown'] = false;
+Config.prototype['slowDownMinDeaths'] = 10;
 Config.prototype['showGrid'] = false;
 Config.prototype['showZones'] = false;
 

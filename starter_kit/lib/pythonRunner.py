@@ -29,7 +29,8 @@ AIM = {'n': (-1, 0),
        'w': (0, -1),
        '-': (0, 0),
        'c': (0, 0),
-       'd': (0, 0)}
+       'd': (0, 0),
+       'u': (0, 0)}
 
 def sort_by_id(list_to_sort):
     return sorted(list_to_sort, key=lambda x: x.id)
@@ -52,6 +53,10 @@ class Pirates():
         self.ghost_cooldown = 0
         self.max_turns = 0
         self.max_points = 0
+        self.kraken_turns_per_move = 0
+        self.kraken_awake_turns = 0
+        self.kraken_sleep_turns = 0
+        self.kraken_vanished_turns = 0
         self.turn = 0
         self.cyclic = True
         self._orders = {}
@@ -60,6 +65,9 @@ class Pirates():
         self._scores = []
         self._last_turn_points = []
         self._cloaks_cooldown = []
+        self._kraken = None
+        self._bot_names = []
+        self._recover_errors = True
         self.ME = ME
         # this is only true for 1 vs 1
         self.ENEMY = 1
@@ -102,11 +110,23 @@ class Pirates():
                     self.max_points = int(tokens[1])
                 elif key == 'start_turn':
                     self.turn = int(tokens[1])
+                elif key == 'kraken_awake_turns':
+                    self.kraken_awake_turns = int(tokens[1])
+                elif key == 'kraken_sleep_turns':
+                    self.kraken_sleep_turns = int(tokens[1])
+                elif key == 'kraken_vanished_turns':
+                    self.kraken_vanished_turns = int(tokens[1])
+                elif key == 'kraken_turns_per_move':
+                    self.kraken_turns_per_move = int(tokens[1])
                 elif key == 'numplayers':
                     self.num_players = int(tokens[1])
                     self._cloaks_cooldown = [0] * self.num_players
                     self._scores = [0] * self.num_players
                     self._last_turn_points = [0] * self.num_players
+                elif key == 'bot_names':
+                    self._bot_names = tokens[2:]
+                elif key == 'recover_errors':
+                    self._recover_errors = tokens[1] == "1"
         self.map = [[WATER for col in range(self.cols)]
                     for row in range(self.rows)]
 
@@ -142,6 +162,12 @@ class Pirates():
                         self._cloaks_cooldown = [int(c) for c in tokens[2:]]
                     elif tokens[1] == 'p':
                         self._last_turn_points = [int(p) for p in tokens[2:]]
+                elif tokens[0] == 'k':
+                    k_loc = (int(tokens[1]), int(tokens[2]))
+                    state = int(tokens[3])
+                    turns_left_in_state = int(tokens[4])
+                    turns_until_next_move = int(tokens[5])
+                    self._kraken = Kraken(k_loc, state, turns_left_in_state, turns_until_next_move)
                 else:
                     if len(tokens) >= 4:
                         # format for island is:
@@ -267,8 +293,45 @@ class Pirates():
         loc = self.get_location(obj)
         return self._loc2pirate.get(loc, None)
 
+    ''' Kraken API '''
+    def get_kraken(self):
+        return self._kraken
+
+    def get_kraken_turns_per_move(self):
+        return self.kraken_turns_per_move
+
+    def get_kraken_sleep_turns(self):
+        return self.kraken_sleep_turns
+
+    def get_kraken_vanished_turns(self):
+        return self.kraken_vanished_turns
+
+    def get_kraken_awake_turns(self):
+        return self.kraken_awake_turns
+
+    def safe_from_kraken(self, loc_or_obj):
+        location = self.get_location(loc_or_obj)
+        kraken = self.get_kraken()
+
+        # False if not kraken, or it is not awake
+        if not kraken or kraken.state != "awake":
+            return True
+
+        #True if in the kraken's current range
+        if self.in_range(kraken, location):
+            return False
+
+        if kraken.can_move:
+            #Check if the kraken is in range of the location if it will move in that directionb
+            for direction in self.get_directions(kraken, location):
+                destination_loc = self.destination(kraken, direction)
+                if self.in_range(location, destination_loc):
+                    return False
+
+        return True
+
     ''' Action API '''
-  
+
     def cloak(self, pirate):
         row, col = self.get_location(pirate)
         self._orders[(row, col)] = 'c'
@@ -276,6 +339,11 @@ class Pirates():
     def reveal(self, pirate):
         row, col = self.get_location(pirate)
         self._orders[(row, col)] = 'd'
+
+    def unleash_the_kraken(self, pirate, destination):
+        destination_loc = self.get_location(destination)
+        pirate_loc = self.get_location(pirate)
+        self._orders[pirate_loc] = ('u', destination_loc[0], destination_loc[1])
 
     def set_sail(self, pirate, direction):
         if direction == '-':
@@ -416,6 +484,9 @@ class Pirates():
     def time_remaining(self):
         return ((self.turn == 1) * 9 + 1) * self.turntime - int(1000 * (time.time() - self.turn_start_time))
 
+    def get_opponent_name(self):
+        return self._bot_names[-1]
+
     ''' Cloak API '''
 
     def get_my_cloaked(self):
@@ -513,7 +584,9 @@ class Pirates():
         for loc in sorted_pirates:
             dest = loc
             if loc in self._orders:
-                dest = self.destination(loc, self._orders[loc])
+                order = self._orders[loc]
+                direction = order if isinstance(order, str) else order[0]
+                dest = self.destination(loc, direction)
             new_locations[dest] = new_locations.get(dest, list())
             new_locations[dest].append(loc)
 
@@ -521,7 +594,6 @@ class Pirates():
         for dest, loc_list in new_locations.items():
             if len(loc_list) > 1:
                 collisions.append([dest, loc_list])
-
         return collisions
 
     def cancel_collisions(self):
@@ -540,9 +612,15 @@ class Pirates():
 
     def __finish_turn(self):
         # write the orders to the game
-        for loc, direction in self._orders.items():
+        for loc, order in self._orders.items():
             row, col = loc
-            sys.stdout.write('o %s %s %s\n' % (row, col, direction))
+            if isinstance(order, str):
+                sys.stdout.write('o %s %s %s\n' % (row, col, order))
+            else:
+                #tuple
+                direction = order[0]
+                arguments = ' '.join(map(str, order[1:]))
+                sys.stdout.write('o %s %s %s %s\n' % (row, col, direction, arguments))
         self._orders = {}
         # finish the turn by writing the go line
         sys.stdout.write('go\n')
@@ -573,7 +651,14 @@ class Pirates():
                 elif current_line.lower() == 'go':
                     pirates.__update(map_data)
                     # call the do_turn method of the class passed in
-                    bot.do_turn(pirates)
+                    if pirates._recover_errors:
+                        try:
+                            bot.do_turn(pirates)
+                        except:
+                            error_msg = "Exception occured during do_turn: \n" + traceback.format_exc()
+                            pirates.debug(error_msg)
+                    else:
+                        bot.do_turn(pirates)
                     pirates.__finish_turn()
                     map_data = ''
                 else:
@@ -627,6 +712,27 @@ class Island():
         return "<Island ID:%d Owner:%s Loc:(%d, %d)>" % (self.id, self.owner, self.location[0], self.location[1])
     def __hash__(self):
         return self.id
+
+
+KRAKEN_STATES = {
+    1: "asleep",
+    2: "awake",
+    3: "vanished"
+}
+
+class Kraken():
+    def __init__(self, location, state, turns_left_in_state, turns_until_next_move):
+        self.location = location
+        self.stateId = state
+        self.state = KRAKEN_STATES[state]
+        self.is_asleep = state == 1
+        self.turns_left_in_state = turns_left_in_state
+        self.turns_until_next_move = turns_until_next_move
+        self.can_move = self.turns_until_next_move == 0 and self.state == "awake"
+
+    def __repr__(self):
+        return "<Kraken:%s Loc:(%d, %d) next state: %d, next move: %d>" % (self.state, self.location[0], self.location[1],
+            self.turns_left_in_state, self.turns_until_next_move)
 
 class BotController:
     ''' Wrapper class for bot. May accept either a file or a directory and will add correct folder to path '''

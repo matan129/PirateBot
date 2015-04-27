@@ -4,11 +4,15 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Pirates Game</title>
     <link rel="stylesheet" href="../visualizer/css/visualizer.css"/>
+    <script type="json" id="replayData">
+        ## REPLAY PLACEHOLDER ##
+    </script>
     <script>
         window.local_run = true;
         window.pirates_data_dir = '## PIRATES DATA DIR ##/';
-        window.replayData = '## REPLAY PLACEHOLDER ##';
+        window.replayData = document.getElementById('replayData').innerHTML;
     </script>
+
     <script src="## BASE JS PATH ##/Util.js"></script>
     <script src="## BASE JS PATH ##/Pirate.js"></script>
     <script src="## BASE JS PATH ##/Application.js"></script>

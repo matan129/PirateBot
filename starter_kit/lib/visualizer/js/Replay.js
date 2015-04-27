@@ -43,7 +43,10 @@ Direction.C = new Direction(0, 0);
  * Offset for pirates cloaking
  */
 Direction.D = new Direction(0, 0);
-
+/**
+ * Offset for pirates Hypnotizing
+ */
+Direction.U = new Direction(0, 0);
 
 Direction.fromChar = function(char) {
     switch (char) {
@@ -65,6 +68,9 @@ Direction.fromChar = function(char) {
     case 'd':
     case 'D':
         return Direction.D;
+    case 'u':
+    case 'U':
+        return Direction.U;
     case '-':
         return null;
     default:
@@ -356,9 +362,9 @@ function Replay(replay, debug, highlightUser) {
 			keyIsArr(replay, 'ants', 0, undefined);
 			stack.push('ants');
 			var pirates = replay['ants'];
-			regex = /[^nsewcd-]/;
+			regex = /[^nsewcdu-]/;
 			for (n = 0; n < pirates.length; n++) {
-				keyIsArr(pirates, n, 4, 8);
+				keyIsArr(pirates, n, 4, 10);
 				stack.push(n);
 				var obj = pirates[n];
 				// row must be within map height
@@ -746,14 +752,13 @@ Replay.prototype.getTurn = function(n) {
 		turn = this.turns[n] = [];
 		// generate pirates & keyframes
 		pirates = this.meta['replaydata']['ants'];
-		food = this.meta['replaydata']['food'];
 		for (i = 0; i < pirates.length; i++) {
 			pirate = pirates[i];
 			// TODO the last argument is the ID
 			if (pirate[2] === n + 1 || n === 0 && pirate[2] === 0) {
 				// spawn this pirate
 				if (this.revision >= 3) {
-					aniAnt = this.spawnPirate(i, pirate[0], pirate[1], pirate[2], pirate[4], pirate[5], pirate[7]);
+					aniAnt = this.spawnPirate(i, pirate[0], pirate[1], pirate[2], pirate[4], pirate[5], pirate[7], pirate[8]);
 				} else {
 					aniAnt = this.spawnFood(i, pirate[0], pirate[1], pirate[2], pirate[5]);
 				}
@@ -805,31 +810,6 @@ Replay.prototype.getTurn = function(n) {
 			if (n < dead) {
 				// assign ant to display list
 				turn.push(aniAnt);
-			}
-		}
-		if (this.revision >= 3) {
-			for (i = 0; i < food.length; i++) {
-				pirate = food[i];
-				idx = i + pirates.length;
-				if (pirate[2] === n + 1 || n === 0 && pirate[2] === 0) {
-					// spawn this food
-					aniAnt = this.spawnFood(idx, pirate[0], pirate[1], pirate[2], undefined);
-				} else if (this.aniAnts[idx]) {
-					// load existing state
-					aniAnt = this.aniAnts[idx];
-				} else {
-					// continue with next ant
-					continue;
-				}
-				dead = pirate[3];
-				if (dead === n + 1) {
-					// end of life
-					this.killAnt(aniAnt, dead);
-				}
-				if (dead === undefined || n < dead) {
-					// assign ant to display list
-					turn.push(aniAnt);
-				}
 			}
 		}
 	}
@@ -889,8 +869,8 @@ Replay.prototype.spawnFood = function(id, row, col, spawn, owner) {
  *        owner the owning player index
  * @returns {Pirate} The new animation ant object.
  */
-Replay.prototype.spawnPirate = function(id, row, col, spawn, owner, moves, gameId) {
-	var aniAnt = this.aniAnts[id] = new Pirate(id, gameId, spawn - 0.25);
+Replay.prototype.spawnPirate = function(id, row, col, spawn, owner, moves, gameId, reasonOfDeath) {
+	var aniAnt = this.aniAnts[id] = new Pirate(id, gameId, spawn - 0.25, reasonOfDeath);
 	var color = this.meta['playercolors'][owner];
 	var f = aniAnt.frameAt(spawn - 0.25);
 	aniAnt.owner = owner;
@@ -918,6 +898,7 @@ Replay.prototype.spawnPirate = function(id, row, col, spawn, owner, moves, gameI
 	f['orientation'] = orientation;
 	f['size'] = 1;
 	f['pirateGameId'] = gameId;
+	f['reasonOfDeath'] = reasonOfDeath;
 	return aniAnt;
 };
 
@@ -976,8 +957,14 @@ Replay.prototype.killAnt = function(aniAnt, death) {
 	aniAnt.fade('r', 0.0, death - 0.40, death);
 	aniAnt.fade('g', 0.0, death - 0.40, death);
 	aniAnt.fade('b', 0.0, death - 0.40, death);
-	aniAnt.fade('size', 0.7, death - 0.80, death - 0.60);
-	aniAnt.fade('size', 0.0, death - 0.40, death);
+	if (aniAnt.reasonOfDeath == '' || aniAnt.reasonOfDeath === undefined) {
+		aniAnt.fade('size', 0.7, death - 0.80, death - 0.60);
+		aniAnt.fade('size', 0.0, death - 0.40, death);
+	} else if (aniAnt.reasonOfDeath == 'k') {
+		// the size for kraken killed pirates isnt really used. interpolated by size instead. the change in size is used to find the death turn
+		aniAnt.fade('size', 0.95, death - 1.00, death - 0.50);
+		aniAnt.fade('size', 0.0, death - 0.50, death);
+	}
 	aniAnt.death = death;
 };
 

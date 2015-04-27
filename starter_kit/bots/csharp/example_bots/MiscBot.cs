@@ -45,6 +45,9 @@ namespace misc_example
             // This is the number of turns it will take lost ships to return to the game
             game.Debug("Lost ships return in {0} turns", game.GetSpawnTurns());
 
+            // This is the oppnent name
+            game.Debug("Opponent name: {0}", game.GetOpponentName());
+
         }
     }
 }

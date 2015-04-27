@@ -11,10 +11,8 @@ import operator
 import itertools
 from game import Game
 from copy import deepcopy
-try:
-    from sys import maxint
-except ImportError:
-    from sys import maxsize as maxint
+
+MAX_RAND = 2147483647
 
 PIRATES = 0
 DEAD = -1
@@ -23,17 +21,22 @@ FOOD = -3
 WATER = -4
 UNSEEN = -5
 ISLAND = -6
-LIGHTHOUSE=-7
+LIGHTHOUSE= -7
+KRAKEN= -8
 
 PLAYER_PIRATE = 'abcdefghij'
 ISLAND_PIRATE = 'ABCDEFGHIJ'
 PLAYER_ISLAND = '0123456789'
-MAP_OBJECT = 'L$?%*.!'
+MAP_OBJECT = 'KL$?%*.!'
 MAP_RENDER = PLAYER_PIRATE + ISLAND_PIRATE + PLAYER_ISLAND + MAP_OBJECT
 
 HILL_POINTS = 2
 RAZE_POINTS = -1
 NEUTRAL_ATTACKER = None
+
+KRAKEN_SLEEP_STATE = 1
+KRAKEN_AWAKE_STATE = 2
+KRAKEN_VANISHED_STATE = 3
 
 # possible directions an pirate can move
 AIM = {'n': (-1, 0),
@@ -41,7 +44,8 @@ AIM = {'n': (-1, 0),
        's': (1, 0),
        'w': (0, -1),
        'c': (0, 0),
-       'd': (0, 0)}
+       'd': (0, 0),
+       'u': (0, 0)}
 
 # precalculated sqrt
 SQRT = [int(sqrt(r)) for r in range(101)]
@@ -56,16 +60,18 @@ class Pirates(Game):
             # only get valid keys - keys that already exist
             if key in options:
                 options[key] = val
-
+        self.bot_names = options['bot_names']
         self.max_turns = int(options['turns'])
         self.loadtime = int(options['loadtime'])
         self.turntime = int(options['turntime'])
+        self.recover_errors = int(options['recover_errors'])
         self.viewradius = int(options["viewradius2"])
         self.fogofwar = options.get('fogofwar')
         self.attackradius = int(options["attackradius2"])
-        self.engine_seed = options.get('engine_seed', randint(-maxint-1, maxint))
+        self.krakenattackradius = self.attackradius
+        self.engine_seed = options.get('engine_seed', randint(-MAX_RAND-1, MAX_RAND))
         seed(self.engine_seed)
-        self.player_seed = options.get('player_seed', randint(-maxint-1, maxint))
+        self.player_seed = options.get('player_seed', randint(-MAX_RAND-1, MAX_RAND))
         self.cyclic = options.get('cyclic', False)
         self.cutoff_percent = options.get('cutoff_percent', 0.85)
         self.cutoff_turn = options.get('cutoff_turn', 150)
@@ -101,6 +107,16 @@ class Pirates(Game):
         self.islands = []
         self.zones = dict([(player, []) for player in range(self.num_players)])
         self.lighthouses = set(map_data['lighthouses'])
+        self.kraken = None
+        self.kraken_settings = None
+        if (map_data['kraken']):
+            self.kraken_settings = map_data['kraken']
+            self.kraken = Kraken(self.kraken_settings['loc'],
+                self.kraken_settings['turns_per_move'],
+                self.kraken_settings['sleep_turns'],
+                self.kraken_settings['awake_turns'],
+                self.kraken_settings['vanished_turns'])
+        self.kraken_locs = []
         self.enemy_zones = dict([(player, []) for player in range(self.num_players)])
         self.ghost_cooldowns = [0] * self.num_players
         self.ghost_ships = [None] * self.num_players
@@ -149,6 +165,9 @@ class Pirates(Game):
                 player = int(zone_data[0])
                 zone_data = zone_data[1:]
             self.zones[player] += self.get_zone_locations(zone_data[0], zone_data[1:])
+        # keep data structure of all zone locations for use in kraken
+        from operator import add
+        self.all_zone_locations = reduce(add, self.zones.itervalues())
         #self.print_zone()
 
         # this is for the visualizer to display moves which didnt work for various reasons
@@ -205,6 +224,7 @@ class Pirates(Game):
         pirates = defaultdict(list)
         islands = []
         lighthouses = []
+        kraken = None
         row = 0
         score = None
         num_players = None
@@ -238,6 +258,14 @@ class Pirates(Game):
                 island_data.append(island_params)
             elif key == 'zone':
                 zone_data.append(value.split())
+            elif key == 'kraken':
+                values = value.split()
+                kraken = {
+                    "turns_per_move": int(values[0]),
+                    "sleep_turns": int(values[1]),
+                    "awake_turns": int(values[2]),
+                    "vanished_turns": int(values[3]),
+                }
             elif key == 'm':
                 if pirate_list is None:
                     if num_players is None:
@@ -277,6 +305,13 @@ class Pirates(Game):
                         water.append((row,col))
                     elif c == MAP_OBJECT[LIGHTHOUSE]:
                         lighthouses.append((row, col))
+                    elif c == MAP_OBJECT[KRAKEN]:
+                        if kraken == None:
+                            raise Exception("map", "No kraken line defined")
+                        if kraken.has_key('loc'):
+                            raise Exception("Only one kraken allowed on map.")
+
+                        kraken['loc'] = (row, col)
                     elif c != MAP_OBJECT[LAND]:
                         raise Exception("map",
                                         "Invalid character in map: %s" % c)
@@ -302,7 +337,8 @@ class Pirates(Game):
             'pirates':      pirates,
             'water':        water,
             'zones':        zone_data,
-            'params':       params
+            'params':       params,
+            'kraken':       kraken
         }
 
     def neighbourhood_offsets(self, max_dist):
@@ -488,6 +524,10 @@ class Pirates(Game):
                         if owner is None:
                             continue
                     update[4] = self.switch[player][owner]
+        if self.kraken:
+            kraken_loc = self.kraken.loc if self.kraken.state != KRAKEN_VANISHED_STATE else (-1, -1)
+            visible_updates.append(['k', kraken_loc[0], kraken_loc[1],
+                self.kraken.state, self.kraken.turns_left_in_state, self.kraken.turns_until_next_move])
 
         visible_updates.append(['g','s'] + self.order_for_player(player, self.score))
         visible_updates.append(['g','c'] + self.order_for_player(player, self.ghost_cooldowns))
@@ -615,12 +655,12 @@ class Pirates(Game):
             if data[0] != 'o':
                 invalid.append((line, 'unknown action'))
                 continue
-            if len(data) != 4:
+            if len(data) != 4 and (data[3] != 'u' and len(data) != 6):
                 invalid.append((line, 'incorrectly formatted order'))
                 continue
 
-            row, col, direction = data[1:]
-            loc = None
+            row, col, direction = data[1:4]
+            args = data[4:]
 
             # validate the data types
             try:
@@ -633,7 +673,7 @@ class Pirates(Game):
                 continue
 
             # this order can be parsed
-            orders.append((loc, direction))
+            orders.append((loc, direction, args))
             valid.append(line)
 
         return orders, valid, ignored, invalid
@@ -650,7 +690,7 @@ class Pirates(Game):
         valid_orders = []
         seen_locations = set()
 
-        for line, (loc, direction) in zip(lines, orders):
+        for line, (loc, direction, order_args) in zip(lines, orders):
             # validate orders
             if loc in seen_locations:
                 invalid.append((line,'duplicate order'))
@@ -677,9 +717,22 @@ class Pirates(Game):
             if direction == 'd' and self.ghost_ships[player].loc != loc:
                 ignored.append((line,'this pirate is not ghost ship - cannot reveal it'))
                 continue
-            if direction == 'c' and direction in [dir for _,dir in valid_orders]:
+            if direction == 'c' and direction in [dir for _,dir, _ in valid_orders]:
                 ignored.append((line,'cannot cloak - only one ship may be ghost ship at a time'))
                 continue
+            if direction == 'u' and not self.kraken:
+                ignored.append((line,'no kraken on the map'))
+                continue
+            if direction == 'u' and self.ghost_ships[player] and self.ghost_ships[player].loc == loc:
+                ignored.append((line,'cannot unleash kraken with ghost ship - reveal yourself first'))
+                continue
+            if direction == 'u' and loc != self.kraken.loc:
+                ignored.append((line,'cannot unleash kraken - pirate is not on kraken location'))
+                continue
+            if direction == 'u' and self.kraken.state != KRAKEN_SLEEP_STATE:
+                ignored.append((line,'cannot unleash kraken - kraken is not asleep'))
+                continue
+
             dest = self.destination(loc, AIM[direction])
             if self.map[dest[0]][dest[1]] in (FOOD, WATER):
                 ignored.append((line,'move blocked'))
@@ -692,9 +745,23 @@ class Pirates(Game):
                 ignored.append((line,'move blocked - entering enemy zone'))
                 self.rejected_moves.append([self.turn, loc[0], loc[1], direction])
                 continue
+            if direction == 'u':
+                try:
+                    args_dest = (int(order_args[0]), int(order_args[1]))
+                except ValueError:
+                    invalid.append((line,'arguments for unleash command must be integers'))
+                    continue
+                if not (0 <= dest[0] < self.height) or not (0 <= dest[1] < self.width):
+                    invalid.append((line,'move blocked - cant move kraken out of map'))
+                    self.rejected_moves.append([self.turn, loc[0], loc[1], direction])
+                    continue
+                if args_dest in self.all_zone_locations:
+                    ignored.append((line,'move blocked - cant send kraken into zone area'))
+                    self.rejected_moves.append([self.turn, loc[0], loc[1], direction])
+                    continue
 
             # this order is valid!
-            valid_orders.append((loc, direction))
+            valid_orders.append((loc, direction, order_args))
             valid.append(line)
             seen_locations.add(loc)
 
@@ -715,15 +782,15 @@ class Pirates(Game):
         #  (holding any pirates that don't have orders)
         move_direction = {}
         for orders in self.orders:
-            for loc, direction in orders:
-                move_direction[self.current_pirates[loc]] = direction
+            for loc, direction, args in orders:
+                move_direction[self.current_pirates[loc]] = (direction, args)
         for pirate in self.current_pirates.values():
             if pirate not in move_direction:
-                move_direction[pirate] = '-'
+                move_direction[pirate] = ('-', [])
 
         # move all the pirates
         next_loc = defaultdict(list)
-        for pirate, direction in move_direction.items():
+        for pirate, (direction, order_args) in move_direction.items():
             # handle cloaked pirates
             if direction == 'c':
                 pirate.is_cloaked = True
@@ -732,6 +799,9 @@ class Pirates(Game):
             elif direction == 'd':
                 pirate.is_cloaked = False
                 self.ghost_ships[pirate.owner] = None
+            elif direction == 'u':
+                destination = (int(order_args[0]), int(order_args[1]))
+                self.kraken.unleash(destination)
             pirate.loc = self.destination(pirate.loc, AIM.get(direction, (0,0)))
             pirate.orders.append(direction)
             next_loc[pirate.loc].append(pirate)
@@ -994,6 +1064,50 @@ class Pirates(Game):
                     for pirate in pirate_group:
                         self.kill_pirate(pirate)
 
+    def do_kraken(self):
+
+        if not self.kraken:
+            return
+
+        kraken = self.kraken
+        island_locations = map(lambda i: i.loc, self.islands)
+        viewable_pirates = filter(lambda p: not p.is_cloaked and p.loc not in island_locations and p.loc not in self.all_zone_locations,
+            self.current_pirates.values())
+
+        kraken.update_viewable(viewable_pirates)
+
+        if kraken.state == KRAKEN_AWAKE_STATE:
+
+            # get stale pirates and filter out those on islands, zones or ghost
+            stale_pirates = kraken.get_stale_pirates(viewable_pirates)
+
+            if (len(stale_pirates) > 0):
+                closest = min(stale_pirates, key = lambda p: self.distance(p.loc, kraken.loc))
+                kraken.move(closest.loc, self.all_zone_locations)
+
+        # Do attack if kraken is awake, or if kraken is vanished an will re-surface next turn
+        if kraken.state == KRAKEN_AWAKE_STATE or (
+            kraken.state == KRAKEN_VANISHED_STATE and kraken.turns_left_in_state == 1):
+            # find pirates to kill by the kraken
+            pirates_to_kill = filter(lambda p: not p.is_cloaked,
+                self.nearby_pirates(kraken.loc, self.krakenattackradius))
+            # add a pirate which is on the kraken
+            if self.current_pirates.has_key(kraken.loc):
+                pirate_on_kraken = self.current_pirates[kraken.loc]
+                if not pirate_on_kraken.is_cloaked:
+                    pirates_to_kill.append(pirate_on_kraken)
+
+            for pirate in pirates_to_kill:
+                # kill the pirates
+                pirate.reason_of_death = 'k'
+                self.kill_pirate(pirate)
+
+
+        kraken.update()
+
+        self.kraken_locs.append([kraken.loc[0], kraken.loc[1], kraken.state])
+
+
     def do_islands(self):
         """ Calculates island logic
 
@@ -1149,6 +1263,7 @@ class Pirates(Game):
         self.do_orders()
         self.do_cloaks()
         self.do_attack()
+        self.do_kraken()
         self.do_islands()
         self.do_spawn()
 
@@ -1202,6 +1317,7 @@ class Pirates(Game):
         result.append(['turn', 0])
         result.append(['loadtime', self.loadtime])
         result.append(['turntime', self.turntime])
+        result.append(['recover_errors', self.recover_errors])
         result.append(['rows', self.height])
         result.append(['cols', self.width])
         result.append(['max_turns', self.max_turns])
@@ -1211,6 +1327,12 @@ class Pirates(Game):
         # send whether map is cyclic or not
         result.append(['cyclic', int(self.cyclic)])
         result.append(['ghost_cooldown', self.ghostcooldownturns])
+        if (self.kraken_settings):
+            result.append(['kraken_awake_turns', self.kraken_settings['awake_turns']])
+            result.append(['kraken_sleep_turns', self.kraken_settings['sleep_turns']])
+            result.append(['kraken_vanished_turns', self.kraken_settings['vanished_turns']])
+            result.append(['kraken_turns_per_move', self.kraken_settings['turns_per_move']])
+
         result.append(['numplayers', self.num_players])
         result.append(['spawnturns', self.spawnturns])
         result.append(['maxpoints', self.maxpoints])
@@ -1221,6 +1343,11 @@ class Pirates(Game):
         if player is None:
             for line in self.get_map_output():
                 result.append(['m',line])
+        else:
+            bot_names = self.order_for_player(player, self.bot_names)
+            result.append(['bot_names', len(bot_names)] + bot_names)
+
+            
         result.append([]) # newline
         return '\n'.join(' '.join(map(str,s)) for s in result)
 
@@ -1316,6 +1443,7 @@ class Pirates(Game):
         replay['engine_seed'] = self.engine_seed
         replay['player_seed'] = self.player_seed
         replay['lighthouses'] = list(self.lighthouses)
+        replay['kraken'] = self.kraken_locs
 
         # map
         replay['map'] = {}
@@ -1338,6 +1466,7 @@ class Pirates(Game):
             pirate_data.append(''.join(pirate.orders))
             pirate_data.append(pirate.supporters)
             pirate_data.append(pirate.id)
+            pirate_data.append(pirate.reason_of_death)
 
             replay['ants'].append(pirate_data)
 
@@ -1439,7 +1568,108 @@ class Pirate:
         self.orders = []
         # this is for support mode and logs how much support an pirate had per turn
         self.supporters = []
+        self.reason_of_death = ''
 
     def __str__(self):
         return '(%s, %s, %s, %s, %s, %s)' % (self.initial_loc, self.owner, self.id, self.spawn_turn, self.die_turn, ''.join(self.orders))
+
+
+class Kraken:
+    '''
+        loc: starting location
+        turns_per_move: move once every N turns_per_move
+        stale_turns: how many turns to count for staleness
+        stale_locations = maximum number of different locations to count as a stale
+
+    '''
+    def __init__(self, loc, turns_per_move, sleep_turns, awake_turns, vanished_turns, stale_turns = 10, stale_locations = 3):
+        self.states = {
+            KRAKEN_SLEEP_STATE: {'turns': sleep_turns, 'next': KRAKEN_AWAKE_STATE},
+            KRAKEN_AWAKE_STATE: {'turns': awake_turns, 'next': KRAKEN_SLEEP_STATE},
+            KRAKEN_VANISHED_STATE: {'turns': vanished_turns, 'next': KRAKEN_AWAKE_STATE},
+        }
+
+        self.change_to = None
+        self.loc = loc
+        self.pirate_to_last_locations = {}
+        self.turns_per_move =  turns_per_move
+        self.stale_turns = stale_turns
+        self.stale_locations = stale_locations
+        self.turns_until_next_move = 0
+        self._change_state(KRAKEN_AWAKE_STATE)
+
+    def _update_state(self):
+        if self.change_to:
+            self._change_state(self.change_to)
+            self.change_to = None
+        elif self.turns_left_in_state == 1:
+            self._change_state(self.states[self.state]['next'])
+        else:
+            self.turns_left_in_state -= 1
+
+    def _change_state(self, state):
+        self.state = state
+        self.turns_left_in_state = self.states[state]['turns']
+
+
+    def update_viewable(self, current_pirates):
+        for pirate in current_pirates:
+            last_locs = self.pirate_to_last_locations.get(pirate, [])
+            last_locs.append(pirate.loc)
+
+            # limit the last seen locations to stale_turns
+            if len(last_locs) > self.stale_turns:
+                del last_locs[0]
+
+            self.pirate_to_last_locations[pirate] = last_locs
+
+    def get_stale_pirates(self, current_pirates):
+        stale_pirates = []
+        for pirate in current_pirates:
+            locs = self.pirate_to_last_locations.get(pirate, [])
+            # checking if we have enough turns to observe + only two locations in the observed locs
+            if len(locs) > self.stale_locations and len(set(locs+[pirate.loc])) <= self.stale_locations :
+                stale_pirates.append(pirate)
+
+        return stale_pirates
+
+    def update(self):
+        self._update_state()
+        self.turns_until_next_move = (self.turns_until_next_move - 1) % self.turns_per_move
+
+    def move(self, towards_loc, zone_locations):
+        if self.turns_until_next_move > 0:
+            return
+
+        k_row, k_col = self.loc
+        d_row = k_row - towards_loc[0]
+        d_col = k_col - towards_loc[1]
+
+        possible_moves = []
+
+        if d_row != 0:
+            loc = (k_row + (1 if d_row < 0 else -1), k_col)
+            if loc not in zone_locations:
+                possible_moves.append(loc)
+        if d_col != 0:
+            loc = (k_row, k_col + (1 if d_col < 0 else -1))
+            if loc not in zone_locations:
+                possible_moves.append(loc)
+
+        if len(possible_moves) > 0:
+            if abs(d_row) > abs(d_col):
+                # greater diff in rows, pick the first option
+                self.loc = possible_moves[0]
+            else:
+                # greater diff in cols, pick the last option
+                self.loc = possible_moves[-1]
+
+    def unleash(self, destination):
+        self.loc = destination
+        self.change_to = KRAKEN_VANISHED_STATE
+
+
+
+
+
 

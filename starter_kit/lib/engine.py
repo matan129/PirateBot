@@ -81,6 +81,7 @@ def run_game(game, botcmds, options):
     turns = int(options['turns'])
     loadtime = float(options['loadtime']) / 1000
     turntime = float(options['turntime']) / 1000
+    extratime = float(options['extratime']) / 1000
     strict = options.get('strict', False)
     end_wait = options.get('end_wait', 0.0)
 
@@ -92,6 +93,8 @@ def run_game(game, botcmds, options):
     bots = []
     bot_status = []
     bot_turns = []
+    bot_extra_times = [extratime for _ in range(len(botcmds))]
+
     debug_msgs = [[] for _ in range(len(botcmds))]
     debug_msgs_length = [0 for _ in range(len(botcmds))]
     debug_msgs_count = [0 for _ in range(len(botcmds))]
@@ -113,7 +116,7 @@ def run_game(game, botcmds, options):
                 # update the calculated exceeded
                 debug_msgs_exceeded[bot_index] = True
 
-        if (debug_msgs_exceeded[bot_index]):
+        if debug_msgs_exceeded[bot_index] and level != 2:
             debug_msgs[bot_index].append([turn, 2, ["Exceeded debug messages limit."]])
             if error_logs and error_logs[bot_index]:
                 error_logs[bot_index].write("Exceeded debug messages limit.\n")
@@ -189,6 +192,8 @@ def run_game(game, botcmds, options):
                     stream_log.flush()
                 game.start_turn()
 
+            is_serial = options.get('serial', False)
+
             # get moves from each player
             if turn == 0:
                 time_limit = loadtime
@@ -197,8 +202,8 @@ def run_game(game, botcmds, options):
             else:
                 time_limit = turntime
 
-            if options.get('serial', False):
-                simul_num = int(options['serial']) # int(True) is 1
+            if is_serial:
+                simul_num = 1
             else:
                 simul_num = len(bots)
 
@@ -210,9 +215,19 @@ def run_game(game, botcmds, options):
             #random.shuffle(bot_list)
             for group_num in range(0, len(bot_list), simul_num):
                 pnums, pbots = zip(*bot_list[group_num:group_num + simul_num])
+                if is_serial:
+                    turn_time_limit = time_limit + bot_extra_times[pnums[0]]
+                else:
+                    turn_time_limit = time_limit
+
                 # get the moves from each bot
-                moves, errors, status = get_moves(game, pbots, pnums,
-                        time_limit, turn)
+                moves, errors, status, moves_time = get_moves(game, pbots, pnums,
+                        turn_time_limit, turn)
+
+                # if running in serial, deduct the exceeded time from the bot time quota
+                if is_serial and moves_time > time_limit:
+                    bot_extra_times[pnums[0]] -= moves_time - time_limit
+
                 for p, b in enumerate(pnums):
                     bot_moves[b] = moves[p]
                     error_lines[b] = errors[p]
@@ -475,6 +490,9 @@ def get_moves(game, bots, bot_nums, time_limit, turn):
                 if line is None:
                     break
                 error_lines[b].append(line)
+
+    moves_time = time.time() - start_time
+
     # pause all bots again
     for bot in bots:
         if bot.is_alive:
@@ -525,7 +543,7 @@ def get_moves(game, bots, bot_nums, time_limit, turn):
             bots[b].kill()
             
 
-    return bot_moves, error_lines, statuses
+    return bot_moves, error_lines, statuses, moves_time
     
 def get_java_path():
     if (os.name != "nt"):

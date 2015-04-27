@@ -19,13 +19,14 @@
  *        time Sets the time in which the object appears in turn units.
  * @constructor
  */
-function Pirate(id, gameId, time) {
+function Pirate(id, gameId, time, reasonOfDeath) {
 	this.id = id;
 	this.gameId = gameId;
 	this.death = undefined;
 	this.keyFrames = [ new KeyFrame() ];
 	this.keyFrames[0].time = time;
 	this.owner = undefined;
+	this.reasonOfDeath = reasonOfDeath;
 	/** @private */
 	this.keyFrameCache = new KeyFrameEx(id, this.keyFrames[0]);
 	/** @private */
@@ -165,6 +166,7 @@ function KeyFrame() {
 	this['owner'] = undefined;
     this['cloaked'] = 1;
     this['orientation'] = null;
+    this['reasonOfDeath'] = '';
 }
 
 /**
@@ -193,6 +195,7 @@ KeyFrame.prototype.interpolate = function(a, b, time) {
 	this['owner'] = a['owner'];
 	this['orientation'] =  a['orientation'];
 	this['pirateGameId'] = a['pirateGameId'];
+	this['reasonOfDeath'] = a['reasonOfDeath'];
 	return this;
 };
 
@@ -215,6 +218,7 @@ KeyFrame.prototype.assign = function(other) {
 	this['cloaked'] = other['cloaked'];
 	this['orientation'] =  other['orientation'];
 	this['pirateGameId'] = other['pirateGameId'];
+	this['reasonOfDeath'] = other['reasonOfDeath'];
 	return this;
 };
 

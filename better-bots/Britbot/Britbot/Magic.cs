@@ -18,7 +18,7 @@ namespace Britbot
         /// </summary>
         public const double VectorTolerance = 0.001;
 
-        public const int NumberOfTimesTillWeLearn = 5;
+        public const int NumberOfTimesTillWeLearn = 2;
 
         /// <summary>
         /// 
@@ -36,9 +36,7 @@ namespace Britbot
         /// <summary>
         /// Whether or not we use the newer and better globalize score or the simple one
         /// </summary>
-        public const bool UseBasicGlobalizing = false;
-
-        //something for the vectors not for the score
+        public const bool UseBasicGlobalizing = true;
         public const double stabilityCoeff = 0.75;
         public const double minimumTillItIsOkToDropTarget = 5;
         public const int toleranceMargin = 2;
@@ -51,7 +49,7 @@ namespace Britbot
         /// <summary>
         ///     Max safe iterator iterations per turn
         /// </summary>
-        public static int MaxIterator = 2000;
+        public static int MaxIterator = 2500;
 
         /// <summary>
         ///     Max distace two groups can be from eachother and still be joind
@@ -76,7 +74,20 @@ namespace Britbot
         /// <summary>
         ///     
         /// </summary>
-        public static double ScoreConssitencyFactor = 1.5;
+        public static double ScoreConssitencyFactor
+        {
+            get
+            {
+                if (Bot.Game.GetTurn() < 600)
+                {
+                    return 0.5;
+                }
+                else
+                {
+                    return 0.7;
+                }
+            }
+        }
 
         /// <summary>
         ///     
@@ -165,6 +176,11 @@ namespace Britbot
         ///     This determines if we are using the Euclidian huristic or the Manhaten one
         /// </summary>
         public static bool EuclidianHuristic = false;
-        
+
+
+        public static bool IsScared
+        {
+            get { return Commander.UpdateMood(); }
+        }
     }
 }
