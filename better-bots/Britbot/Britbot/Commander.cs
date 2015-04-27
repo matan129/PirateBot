@@ -1,18 +1,18 @@
-﻿#region #Usings
+﻿#region Usings
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading;
-using System.Threading.Tasks;
 using Pirates;
 using Britbot.Simulator;
+
 #endregion
 
 namespace Britbot
 {
+ 
     /// <summary>
     ///     Just stuff that makes the hard decisions
     /// </summary>
@@ -40,9 +40,9 @@ namespace Britbot
         /// </summary>
         static Commander()
         {
-            Commander.Groups = new List<Group>();
-            Commander._turnTimer = new Stopwatch();
-            Commander._deadPirates = new List<int>();
+            Groups = new List<Group>();
+            _turnTimer = new Stopwatch();
+            _deadPirates = new List<int>();
 
             #region Terrible Switch-Case
 
@@ -51,7 +51,7 @@ namespace Britbot
 
             if (Bot.Game.Islands().Count == 1)
             {
-                Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
+                Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
                 return;
             }
 
@@ -59,78 +59,71 @@ namespace Britbot
             switch (Bot.Game.AllMyPirates().Count)
             {
                 case 3:
-                    Commander.Groups.Add(new Group(0, 2));
-                    Commander.Groups.Add(new Group(2, 1));
+                    Groups.Add(new Group(0, 2));
+                    Groups.Add(new Group(2, 1));
                     break;
                 case 4:
                     if (Bot.Game.AllEnemyPirates().Count > 4)
                     {
-                        Commander.Groups.Add(new Group(0, 1));
-                        Commander.Groups.Add(new Group(1, 1));
-                        Commander.Groups.Add(new Group(2, 2));
+                        Groups.Add(new Group(0, 1));
+                        Groups.Add(new Group(1, 1));
+                        Groups.Add(new Group(2, 2));
                     }
                     else
                     {
-                        Commander.Groups.Add(new Group(0, 3));
-                        Commander.Groups.Add(new Group(3, 1));
+                        Groups.Add(new Group(0, 3));
+                        Groups.Add(new Group(3, 1));
                         ;
                     }
                     break;
                 case 5:
-                    Commander.Groups.Add(new Group(0, 2));
-                    Commander.Groups.Add(new Group(2, 2));
-                    Commander.Groups.Add(new Group(4, 1));
+                    Groups.Add(new Group(0, 2));
+                    Groups.Add(new Group(2, 2));
+                    Groups.Add(new Group(4, 1));
                     break;
                 case 6:
                     if (Bot.Game.EnemyIslands().Count > 0)
                     {
-                        Commander.Groups.Add(new Group(0, 5));
-                        Commander.Groups.Add(new Group(5, 1));
+                        Groups.Add(new Group(0, 5));
+                        Groups.Add(new Group(5, 1));
                     }
                     else
                     {
-                        Commander.Groups.Add(new Group(2, 4));
-                        Commander.Groups.Add(new Group(0, 1));
-                        Commander.Groups.Add(new Group(1, 1));
+                        Groups.Add(new Group(2, 4));
+                        Groups.Add(new Group(0, 1));
+                        Groups.Add(new Group(1, 1));
                     }
                     break;
                 case 7:
-                    Commander.Groups.Add(new Group(0, 2));
-                    Commander.Groups.Add(new Group(2, 3));
-                    Commander.Groups.Add(new Group(5, 2));
+                    Groups.Add(new Group(0, 2));
+                    Groups.Add(new Group(2, 3));
+                    Groups.Add(new Group(5, 2));
 
                     break;
                 case 8:
                     if (Bot.Game.GetMyPirate(7).Loc.Row == 39)
                     {
-                        Commander.Groups.Add(new Group(0, 4));
-                        Commander.Groups.Add(new Group(4, 3));
-                        Commander.Groups.Add(new Group(7, 1));
+                        Groups.Add(new Group(0, 4));
+                        Groups.Add(new Group(4, 3));
+                        Groups.Add(new Group(7, 1));
                     }
                     else
                     {
-                        Commander.Groups.Add(new Group(0, 3));
-                        Commander.Groups.Add(new Group(3, 2));
-                        Commander.Groups.Add(new Group(5, 2));
-                        Commander.Groups.Add(new Group(7, 1));
+                        Groups.Add(new Group(0, 3));
+                        Groups.Add(new Group(3, 2));
+                        Groups.Add(new Group(5, 2));
+                        Groups.Add(new Group(7, 1));
                     }
                     break;
                 case 9:
-                    Commander.Groups.Add(new Group(0, 3));
-                    Commander.Groups.Add(new Group(3, 3));
-                    Commander.Groups.Add(new Group(6, 2));
-                    Commander.Groups.Add(new Group(8, 1));
+                    Groups.Add(new Group(0, 3));
+                    Groups.Add(new Group(3, 3));
+                    Groups.Add(new Group(6, 2));
+                    Groups.Add(new Group(8, 1));
                     break;
                 default:
-                    /*for (int i = 0; i < Bot.Game.AllMyPirates().Count - Bot.Game.AllMyPirates().Count%2; i += 2)
-                {
-                    Commander.Groups.Add(new Group(i, 2));
-                }
-                if (Bot.Game.AllMyPirates().Count%2 == 1)
-                    Commander.Groups.Add(new Group(Bot.Game.AllMyPirates().Count, 1));*/
-                    //Commander.Groups.Add(new Group(0, Bot.Game.AllMyPirates().Count));
                     for (int i = 0; i < Bot.Game.AllMyPirates().Count; i++)
-                        Commander.Groups.Add(new Group(i, 1));
+                        Groups.Add(new Group(i, 1));
                     break;
             }
 
@@ -142,96 +135,66 @@ namespace Britbot
         private static List<int> _deadPirates;
 
         /// <summary>
-        ///     Do something!
+        ///     Makes a game move
         /// </summary>
         public static Dictionary<Pirate, Direction> Play(CancellationToken cancellationToken, out bool onTime)
         {
             // Restart the timer
-            Commander._turnTimer.Restart();
+            _turnTimer.Restart();
 
-            //note that because this method is on a separate thread we need this try-catch although we have on our bot
+            // note that because this method is on a separate thread we need this try-catch 
+            // although we have one on our bot
             try
             {
-                List<int> alive = Bot.Game.AllMyPirates().Where(p => !p.IsLost).ToList().ConvertAll(p => p.Id);
-                List<int> revived = alive.Intersect(Commander._deadPirates).ToList();
-
-                foreach (int pid in revived)
-                {
-                    Commander.Groups.Add(new Group(new[] { pid }));
-                }
-                
-                //if (Bot.Game.GetTurn() % 7 == 3)
-                {
-                    Logger.BeginTime("Update");
-                    //update the enemy info
-                    Enemy.Update(cancellationToken);
-                    Logger.StopTime("Update");
-                }
-
-                Logger.BeginTime("UpdateAll");
-                //update smartIslands
-                SmartIsland.UpdateAll();
-                Logger.StopTime("UpdateAll");
-
-                if (Bot.Game.GetTurn() % 5 == 1)
-                {
-                    Logger.BeginTime("CalculateAndAssignTargets");
-                    //calculate targets
-                    Commander.CalculateAndAssignTargets(cancellationToken);
-                    Logger.StopTime("CalculateAndAssignTargets");
-                }
-
-               // if (Bot.Game.GetTurn() % 5 >2)
-                {
-                    //fix configuration
-                    Logger.BeginTime("ReConfigure");
-                    Veteran.ReConfigure();
-                    Logger.StopTime("ReConfigure");
-                }
-
-                Logger.BeginTime("FixGroupArrangement");
-                //Commander.FixGroupArrangement();
-                Logger.StopTime("FixGroupArrangement");
-
-                Logger.BeginTime("GetAllMoves");
-                //Get the moves for all the pirates and return them
-                Dictionary<Pirate, Direction> moves = Commander.GetAllMoves(cancellationToken);
-                Logger.StopTime("GetAllMoves");
-
-                Logger.BeginTime("DoCloak");
-                //juggling with nullable types here. KeyValuePair cannot be null by itself
-                KeyValuePair<Pirate, Direction>? kvp = Veteran.DoCloak();
-                if (kvp != null)
-                {
-                    KeyValuePair<Pirate, Direction> cloacking = (KeyValuePair<Pirate, Direction>) kvp;
-                    moves[cloacking.Key] = cloacking.Value;
-                }
-                Logger.StopTime("DoCloak");
-
-                Logger.Write(
-                    string.Format("Commander done doing calculations and drinking coffee after {0}ms",
-                        Commander._turnTimer.ElapsedMilliseconds), true);
                 /*
-                foreach (Group g in Groups)
-                {
-                    Bot.Game.Debug("Group " + g + "assigend to " + g.Target);
-                }
-                */
+                 * "Initiating Commander Sequence..."
+                 */
+
+                //dump Magic configuration and current stats
+                Magic.DumpLog();
+
                 //remove dead groups
                 Commander.Groups.RemoveAll(g => g.Pirates.Count == 0);
+                
+                //re allocates the new revived pirates
+                Commander.AllocateRevived();
 
-                //update DEAD
+                //update the enemy analysis and info
+                Enemy.Update(cancellationToken);
+                
+                //update smartIslands
+                SmartIsland.UpdateAll();
+
+                //merge similar groups for extra power
+                Commander.MergeSimilar();
+
+                //calculate targets
+                Commander.CalculateAndAssignTargets(cancellationToken);
+                
+                //fix configuration
+                ConfigHelper.ReConfigure();
+                
+                //swap pirates on groups the collide
+                Commander.FixGroupArrangement();
+                
+                //Get the moves for all the pirates and return them
+                Dictionary<Pirate, Direction> moves = GetAllMoves(cancellationToken);
+                
+                //override, for cloak stuff
+                ConfigHelper.DoCloak(moves);
+
+                //update dead pirates list
                 Commander._deadPirates = Bot.Game.AllMyPirates().Where(p => p.IsLost).ToList().ConvertAll(p => p.Id);
 
-                //if (Bot.Game.GetTurn() > 1)
-                Logger.BeginTime("MergeSimilar");
-                Commander.MergeSimilar();
-                Logger.StopTime("MergeSimilar");
-                    
+                //we are done for this turn
+                Logger.Write(
+                    string.Format("Commander done doing calculations and drinking coffee after {0}ms",
+                        _turnTimer.ElapsedMilliseconds), true);
 
                 //we are on time!
                 onTime = true;
 
+                //return the carefully crafted moves
                 return moves;
             }
             catch (AggregateException ex)
@@ -273,13 +236,22 @@ namespace Britbot
             }
         }
 
+        private static void AllocateRevived()
+        {
+            List<int> alive = Bot.Game.AllMyPirates().Where(p => !p.IsLost).ToList().ConvertAll(p => p.Id);
+            List<int> revived = alive.Intersect(Commander._deadPirates).ToList();
+
+            foreach (int pid in revived)
+                Commander.Groups.Add(new Group(new[] {pid}));
+        }
+
         /// <summary>
         ///     Max proirities we can affort to compute and iterate over
         /// </summary>
         /// <returns></returns>
         public static int CalcMaxPrioritiesNum()
         {
-            return (int) (Math.Pow(Magic.MaxIterator, 1.0 / Commander.Groups.Count));
+            return (int) (Math.Pow(Magic.MaxIterator, 1.0 / Groups.Count));
         }
 
         /// <summary>
@@ -290,13 +262,13 @@ namespace Britbot
         public static void CalculateAndAssignTargets(CancellationToken cancellationToken)
         {
             //force groups to calculate priorities
-            Commander.StartCalcPriorities(cancellationToken);
+            StartCalcPriorities(cancellationToken);
 
             //read dimensions of iteration
-            int[] dimensions = Commander.GetTargetsDimensions();
+            int[] dimensions = GetTargetsDimensions();
 
             //read all possible target-group assignment
-            Score[][] possibleAssignments = Commander.GetPossibleTargetMatrix();
+            Score[][] possibleAssignments = GetPossibleTargetMatrix();
 
             //indexes of the best assignment yet
             int[] maxAssignment = new int[dimensions.Length];
@@ -318,10 +290,10 @@ namespace Britbot
                 cancellationToken.ThrowIfCancellationRequested();
 
                 //set score array for current iteration
-                scoreArr = Commander.GetSpecificAssignmentScores(possibleAssignments, iterator.Values);
+                scoreArr = GetSpecificAssignmentScores(possibleAssignments, iterator.Values);
 
                 //calculate new score
-                double newScore = Commander.GlobalizeScore(sg, scoreArr, cancellationToken);
+                double newScore = GlobalizeScore(sg, scoreArr, cancellationToken);
 
                 //check if the score is better
                 if (newScore > maxScore)
@@ -333,13 +305,13 @@ namespace Britbot
             } while (iterator.NextIteration());
             
             //read the "winning" assignment
-            scoreArr = Commander.GetSpecificAssignmentScores(possibleAssignments, maxAssignment);
+            scoreArr = GetSpecificAssignmentScores(possibleAssignments, maxAssignment);
 
             //no we got the perfect assignment, just set it up
             for (int i = 0; i < dimensions.Length; i++)
             {
                 //Logger.Write(string.Format("Group {0} assinged to {1}", i, scoreArr[i].Target.GetDescription()), true);
-                Commander.Groups[i].SetTarget(scoreArr[i].Target);
+                Groups[i].SetTarget(scoreArr[i].Target);
             }
         }
 
@@ -427,12 +399,12 @@ namespace Britbot
 
                 for (int i = 0; i < scoreArr.Length; i++)
                 {
-                    if (scoreArr[i].Target == Commander.Groups[i].Target)
+                    if (scoreArr[i].Target == Groups[i].Target)
                     {
                         int bonus = (int) Math.Abs(score * Magic.DecisivenessBonus);
                         score += bonus;
                     }
-                    if (scoreArr[i].EnemyShips >= Commander.Groups[i].Pirates.Count)
+                    if (scoreArr[i].EnemyShips >= Groups[i].Pirates.Count)
                         score -= 5000;
                 }
 
@@ -458,7 +430,7 @@ namespace Britbot
 
                 for (int i = 0; i < scoreArr.Length; i++)
                 {
-                    ITarget it = Commander.Groups[i].Target;
+                    ITarget it = Groups[i].Target;
                     if (it != null && it.Equals(scoreArr[i].Target))
                     {
                         int bonus= (int)Math.Abs(score * Magic.ScoreConssitencyFactor);
@@ -490,7 +462,7 @@ namespace Britbot
             List<List<Group>> updatedGroups = new List<List<Group>>();
 
             //iterate over all the alive pirate of the enemy
-            foreach (Group group in Commander.Groups)
+            foreach (Group group in Groups)
             {
                 //create a new group and add the current pirate to it
                 List<Group> toMerge = new List<Group> {group};
@@ -539,17 +511,17 @@ namespace Britbot
         /// <returns>A dictionary that gives each pirate a direction to move to in this turn</returns>
         private static Dictionary<Pirate, Direction> GetAllMoves(CancellationToken cancellationToken)
         {
-            Commander.Groups.RemoveAll(g => g.Pirates.Count == 0);
+            Groups.RemoveAll(g => g.Pirates.Count == 0);
             
             // Update all groups
-            Commander.Groups.ForEach(g => g.Update());
+            Groups.ForEach(g => g.Update());
 
             //A list with all the moves from all groups
             List<KeyValuePair<Pirate, Direction>> allMoves  =
                 new List<KeyValuePair<Pirate, Direction>>(Bot.Game.AllMyPirates().Count);
 
             //Get the moves from each group we have
-            foreach (Group group in Commander.Groups)
+            foreach (Group group in Groups)
             {
                 List<KeyValuePair<Pirate, Direction>> v = group.GetGroupMoves(cancellationToken).ToList();
                 allMoves.AddRange(v);
@@ -571,12 +543,12 @@ namespace Britbot
         private static Score[][] GetPossibleTargetMatrix()
         {
             //allocate array of array: array for each group's possible targets
-            Score[][] possibleTargets = new Score[Commander.Groups.Count][];
+            Score[][] possibleTargets = new Score[Groups.Count][];
 
-            for (int i = 0; i < Commander.Groups.Count; i++)
+            for (int i = 0; i < Groups.Count; i++)
             {
                 //convert the priority list to an array (to enable quick access)
-                possibleTargets[i] = Commander.Groups[i].Priorities.ToArray();
+                possibleTargets[i] = Groups[i].Priorities.ToArray();
             }
 
             //return the matrix
@@ -614,11 +586,11 @@ namespace Britbot
         private static int[] GetTargetsDimensions()
         {
             //allocate a new array for the dimensions of each group's target
-            int[] dimensions = new int[Commander.Groups.Count];
+            int[] dimensions = new int[Groups.Count];
 
             //go over all the groups and read number of priorities to dimension
-            for (int i = 0; i < Commander.Groups.Count; i++)
-                dimensions[i] = Commander.Groups[i].Priorities.Count;
+            for (int i = 0; i < Groups.Count; i++)
+                dimensions[i] = Groups[i].Priorities.Count;
 
             return dimensions;
         }
@@ -629,19 +601,19 @@ namespace Britbot
         /// <param name="cancellationToken"></param>
         private static void StartCalcPriorities(CancellationToken cancellationToken)
         {
-            Commander.Groups.ForEach(g => g.CalcPriorities(cancellationToken));
+            Groups.ForEach(g => g.CalcPriorities(cancellationToken));
             Logger.Write("Priorities Calculated", true);
         }
 
         /// <summary>
-        ///     Moves priates between group if needed (physically)
+        ///     Moves pirates between group if needed (physically)
         /// </summary>
-        public static void FixGroupArrangement()
+        private static void FixGroupArrangement()
         {
             //going over all pair of groups
-            foreach (Group g1 in Commander.Groups)
+            foreach (Group g1 in Groups)
             {
-                foreach (Group g2 in Commander.Groups)
+                foreach (Group g2 in Groups)
                 {
                     //check if it is the same
                     if (g1.Equals(g2))

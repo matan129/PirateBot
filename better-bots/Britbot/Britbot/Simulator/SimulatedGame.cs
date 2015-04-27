@@ -181,12 +181,12 @@ namespace Britbot.Simulator
         }
 
         /// <summary>
-        /// This resets the simulation to begining, it should be used for every assignment
+        /// This resets the simulation to the current game status, it should be used for every assignment
         /// </summary>
         public void ResetSimulation()
         {
             //reset general stuff
-            this.CurrentTurn = 0;
+            this.CurrentTurn = Bot.Game.GetTurn();
             this.Score = 0;
             this.EnemyDeadPirates = this.OriginalEnemyDeadPirates;
             this.MyDeadPirates = this.OriginalMyDeadPirates;

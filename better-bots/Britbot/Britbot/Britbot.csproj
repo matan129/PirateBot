@@ -92,7 +92,7 @@
     <Compile Include="Simulator\SimulationEndEvent.cs" />
     <Compile Include="SmartIsland.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Veteran.cs" />
+    <Compile Include="ConfigHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

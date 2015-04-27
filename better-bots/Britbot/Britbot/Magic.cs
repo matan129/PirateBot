@@ -182,5 +182,13 @@ namespace Britbot
         {
             get { return Commander.UpdateMood(); }
         }
+
+        /// <summary>
+        ///     Dumps all the magic numbers to the game log
+        /// </summary>
+        public static void DumpLog()
+        {
+            //TODO this
+        }
     }
 }

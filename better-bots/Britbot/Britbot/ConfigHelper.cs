@@ -15,7 +15,7 @@ namespace Britbot
     /// <summary>
     ///     An experienced ally to the commander who does bugger all
     /// </summary>
-    internal static class Veteran
+    internal static class ConfigHelper
     {
         public static List<int> UltimateConfig;
         /// <summary>
@@ -24,14 +24,15 @@ namespace Britbot
         public static void ReConfigure()
         {
             if ((Magic.DoConfiguration))
-                Veteran.UltimateConfig = Commander.GetUltimateGameConfig();
+                ConfigHelper.UltimateConfig = Commander.GetUltimateGameConfig();
          
-            Logger.Write("Ultimate Config:", true);
-            Logger.Write(string.Join(",", Veteran.UltimateConfig), true);
+            Logger.Write("Ultimate Config:");
+            Logger.Write(string.Join(",", ConfigHelper.UltimateConfig), true);
 
-            Veteran.GroupSplitting(Veteran.UltimateConfig);
-            Veteran.GroupJoining(Veteran.UltimateConfig);
-            Logger.Write("New config Config:", true);
+            ConfigHelper.GroupSplitting(ConfigHelper.UltimateConfig);
+            ConfigHelper.GroupJoining(ConfigHelper.UltimateConfig);
+            
+            Logger.Write("New config Config:");
             Logger.Write(string.Join(",", Commander.Groups.ConvertAll(group => group.Pirates.Count).ToArray()), true);
         }
         
@@ -113,27 +114,26 @@ namespace Britbot
         /// <summary>
         ///     Reveals cloaked pirates when needed and cloaks uncloaked ones when needed
         /// </summary>
-        public static KeyValuePair<Pirate, Direction>? DoCloak()
+        public static void DoCloak(Dictionary<Pirate,Direction> moves)
         {
             Group g = null;
 
             //the group that contains the cloaked pirate if one exists
             if(Bot.Game.GetMyCloaked() != null)
-                //sorry for this horrible lambda, stuff went quite complex and I didn't have the wll to restore the original function
+                //sorry for this horrible lambda, stuff went quite complex and I didn't have the time 
+                // to restore the original function. This lambda finds the group with the cloaked pirate
                 g = Commander.Groups.First(commGroup => commGroup.Pirates.ToList()
                     .ConvertAll(p => Bot.Game.GetMyPirate(p))
                     .Any(pirate => Bot.Game.GetMyCloaked().Id == pirate.Id));
 
             // if a pirate is cloaked and close enough to its target, reveal it
             if ((g != null) && (g.DistanceFromTarget <= Magic.CloakRange))
-            {
-                return new KeyValuePair<Pirate, Direction>(Bot.Game.GetMyCloaked(), Direction.REVEAL);
-            }
-            
-            // if no pirate is cloaked and you can cloak one
+                moves[Bot.Game.GetMyCloaked()] = Direction.REVEAL;
+
+            // if no pirate is cloaked and we can cloak one
             if (Bot.Game.CanCloak())
             {
-                //All the 1 pirate groups that can be cloaked
+                //All the single pirate groups that can be cloaked
                 IEnumerable<Group> ones = Commander.Groups.Where(p => p.Pirates.Count == 1);
 
                 //if there are any 1 pirate groups
@@ -146,13 +146,10 @@ namespace Britbot
                     foreach (Group tc in ones)
                     {
                         if ((tc.DistanceFromTarget == minDistance)&&(minDistance>Magic.CloakRange))
-                            return new KeyValuePair<Pirate, Direction>(Bot.Game.GetMyPirate(tc.Pirates.First()),
-                                Direction.CLOAK);
+                            moves[Bot.Game.GetMyPirate(tc.Pirates.First()] = Direction.CLOAK;
                     }
                 }
             }
-
-            return null;
         }
     }
 }
