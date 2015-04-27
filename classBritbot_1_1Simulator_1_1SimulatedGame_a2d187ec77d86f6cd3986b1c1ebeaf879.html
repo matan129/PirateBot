@@ -181,9 +181,8 @@
                                       this.EnemyGroups[enemy.Key.Id]);
                         this.ConstantEvents.Add(newEvent);
                     }
-                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.Loc) &lt; 0)
+                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.Loc) &lt; 0 || Magic.IsScared )
                     {
-                        
                         newEvent = <span class="keyword">new</span> PossibleArrivalEvent((<span class="keywordtype">int</span>)enemy.Key.MinimalETATo(sIsland.Loc),
                                       this.Islands[sIsland.Id],
                                       this.EnemyGroups[enemy.Key.Id]);
@@ -218,7 +217,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 27 2015 07:56:25 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 27 2015 08:26:37 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

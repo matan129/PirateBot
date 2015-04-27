@@ -641,13 +641,31 @@
 <a name="l00654"></a>00654                 }
 <a name="l00655"></a>00655             }
 <a name="l00656"></a>00656         }
-<a name="l00657"></a>00657     }
-<a name="l00658"></a>00658 }
+<a name="l00657"></a>00657 
+<a name="l00658"></a><a class="code" href="classBritbot_1_1Commander_aab6322adc4884ca9faa8e14ba7690ba2.html#aab6322adc4884ca9faa8e14ba7690ba2">00658</a>         <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classBritbot_1_1Commander_aab6322adc4884ca9faa8e14ba7690ba2.html#aab6322adc4884ca9faa8e14ba7690ba2">UpdateMood</a>()
+<a name="l00659"></a>00659         {
+<a name="l00660"></a>00660             <span class="keywordtype">double</span> ePPT = Math.Floor(Math.Pow(2, <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.EnemyIslands().Count - 1));
+<a name="l00661"></a>00661             <span class="keywordtype">double</span> myPPT = Math.Floor(Math.Pow(2, <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.MyIslands().Count - 1));
+<a name="l00662"></a>00662 
+<a name="l00663"></a>00663             <span class="keywordtype">double</span> eN = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetEnemyScore();
+<a name="l00664"></a>00664             <span class="keywordtype">double</span> myN = <a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyScore();
+<a name="l00665"></a>00665 
+<a name="l00666"></a>00666             <span class="keywordtype">double</span> max = 1000;
+<a name="l00667"></a>00667 
+<a name="l00668"></a>00668             <span class="keywordtype">double</span> turnUntilEnemy = (max - eN ) /ePPT;
+<a name="l00669"></a>00669             <span class="keywordtype">double</span> turnUntilMe = (max - myN) / myPPT;
+<a name="l00670"></a>00670 
+<a name="l00671"></a>00671             <span class="keywordflow">if</span> (turnUntilMe &lt; turnUntilEnemy - 50)
+<a name="l00672"></a>00672                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00673"></a>00673             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00674"></a>00674         }
+<a name="l00675"></a>00675     }
+<a name="l00676"></a>00676 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 27 2015 07:56:24 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 27 2015 08:26:36 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
