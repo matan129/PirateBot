@@ -74,7 +74,20 @@ namespace Britbot
         /// <summary>
         ///     
         /// </summary>
-        public static double ScoreConssitencyFactor = 0.5;
+        public static double ScoreConssitencyFactor
+        {
+            get
+            {
+                if (Bot.Game.GetTurn() < 600)
+                {
+                    return 0.5;
+                }
+                else
+                {
+                    return 0.7;
+                }
+            }
+        }
 
         /// <summary>
         ///     
