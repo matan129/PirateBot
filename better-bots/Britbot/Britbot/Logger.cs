@@ -12,7 +12,7 @@
 #undef DUMPFILE
 #undef WRITE
 #undef FORCE_BEGIN_STOP
-//#undef NOSHTUP
+#undef NOSHTUP
 
 #region #Usings
 

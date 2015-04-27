@@ -151,7 +151,7 @@ namespace Britbot
                 captureTime *= 2;*/
 
             //check if the island isn't already ours, if so disqualify it and return null
-            if (this.Owner != Consts.ME)
+            //if (this.Owner != Consts.ME)
                 return new Score(this, TargetType.Island, this.Value, this.NearbyEnemyCount(CaptureZone),
                     distance + captureTime, this.TurnsToEnemyCapture(origin), this.islandDensity());
             return null;

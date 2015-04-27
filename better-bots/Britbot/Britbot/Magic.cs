@@ -18,7 +18,7 @@ namespace Britbot
         /// </summary>
         public const double VectorTolerance = 0.001;
 
-        public const int NumberOfTimesTillWeLearn = 5;
+        public const int NumberOfTimesTillWeLearn = 2;
 
         /// <summary>
         /// 
@@ -49,7 +49,7 @@ namespace Britbot
         /// <summary>
         ///     Max safe iterator iterations per turn
         /// </summary>
-        public static int MaxIterator = 2000;
+        public static int MaxIterator = 2500;
 
         /// <summary>
         ///     Max distace two groups can be from eachother and still be joind
@@ -163,6 +163,11 @@ namespace Britbot
         ///     This determines if we are using the Euclidian huristic or the Manhaten one
         /// </summary>
         public static bool EuclidianHuristic = false;
-        
+
+
+        public static bool IsScared
+        {
+            get { return Commander.UpdateMood(); }
+        }
     }
 }
