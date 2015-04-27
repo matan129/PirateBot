@@ -1,4 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1" href="$interfaceBritbot_1_1PriorityQueue_1_1IPriorityQueue-g.html" title="The IPriorityQueue interface. This is mainly here for purists, and in case I decide to add more imple..." alt="" coords="7,5,268,35"/>
-<area shape="rect" id="node3" href="$classBritbot_1_1PriorityQueue_1_1HeapPriorityQueue-g.html" title="An implementation of a min&#45;Priority Queue using a heap. Has O(1) .Contains()! See https://bitbucket..." alt="" coords="319,5,607,35"/>
-</map>
