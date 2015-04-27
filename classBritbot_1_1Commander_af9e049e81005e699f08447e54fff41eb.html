@@ -173,12 +173,12 @@
                 Logger.Write(
                     <span class="keywordtype">string</span>.Format(<span class="stringliteral">&quot;Commander done doing calculations and drinking coffee after {0}ms&quot;</span>,
                         <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>._turnTimer.ElapsedMilliseconds), <span class="keyword">true</span>);
-
-                <span class="keywordflow">foreach</span> (Group g <span class="keywordflow">in</span> <a class="code" href="classBritbot_1_1Commander_a48768959a661f36b6f4c15aea913817f.html#a48768959a661f36b6f4c15aea913817f" title="List of groups of our pirates.">Groups</a>)
-                {
-                    Bot.Game.Debug(<span class="stringliteral">&quot;Group &quot;</span> + g + <span class="stringliteral">&quot;assigend to &quot;</span> + g.Target);
-                }
-
+                <span class="comment">/*</span>
+<span class="comment">                foreach (Group g in Groups)</span>
+<span class="comment">                {</span>
+<span class="comment">                    Bot.Game.Debug(&quot;Group &quot; + g + &quot;assigend to &quot; + g.Target);</span>
+<span class="comment">                }</span>
+<span class="comment">                */</span>
                 <span class="comment">//remove dead groups</span>
                 <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.Groups.RemoveAll(g =&gt; g.Pirates.Count == 0);
 
@@ -186,7 +186,10 @@
                 <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>._deadPirates = Bot.Game.AllMyPirates().Where(p =&gt; p.IsLost).ToList().ConvertAll(p =&gt; p.Id);
 
                 <span class="comment">//if (Bot.Game.GetTurn() &gt; 1)</span>
-                    <span class="comment">//Commander.MergeSimilar();</span>
+                Logger.BeginTime(<span class="stringliteral">&quot;MergeSimilar&quot;</span>);
+                <a class="code" href="classBritbot_1_1Commander_a1e785a0c42f391601b819f05e3bf5251.html#a1e785a0c42f391601b819f05e3bf5251" title="This static constructor will run once and initialize the commander.">Commander</a>.MergeSimilar();
+                Logger.StopTime(<span class="stringliteral">&quot;MergeSimilar&quot;</span>);
+                    
 
                 <span class="comment">//we are on time!</span>
                 onTime = <span class="keyword">true</span>;
@@ -241,7 +244,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 27 2015 07:26:21 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 27 2015 07:50:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

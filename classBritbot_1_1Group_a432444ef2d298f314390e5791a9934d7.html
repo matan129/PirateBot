@@ -60,7 +60,7 @@
         <table>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a75da03ffed9b2e359cdda9f9bdb62ec5.html#a75da03ffed9b2e359cdda9f9bdb62ec5">_formTurnsAttempt</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_ad59de9260c957c95bb1654c20d237ac6.html#ad59de9260c957c95bb1654c20d237ac6">_hasChanged</a></td></tr>
-          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a69923812f5df8ebcb82bd98368c04bc0.html#a69923812f5df8ebcb82bd98368c04bc0">AddPirate</a></td></tr>
+          <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a87d266eed2847ae71b11a0ab8bfce575.html#a87d266eed2847ae71b11a0ab8bfce575">AddPirate</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a19caac2b7322b09be35be51d089bb045.html#a19caac2b7322b09be35be51d089bb045">CalcPriorities</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_af4be9720339a3b868a42f120b0b97afd.html#af4be9720339a3b868a42f120b0b97afd">CasualtiesPercent</a></td></tr>
           <tr><td class="navtab"><a class="qindex" href="classBritbot_1_1Group_a5eae35655e31aece296f13d6c509ce9c.html#a5eae35655e31aece296f13d6c509ce9c">CheckIfGroupsIntersects</a></td></tr>
@@ -133,16 +133,16 @@
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="Group_8cs_source.html#l00890">890</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
+<p>Definition at line <a class="el" href="Group_8cs_source.html#l00892">892</a> of file <a class="el" href="Group_8cs_source.html">Group.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             <span class="comment">//this._hasChanged = true;</span>
             
             <span class="comment">//if(!remove)</span>
                 <span class="comment">//g._hasChanged = true;</span>
 
-            <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pirate <span class="keywordflow">in</span> g.Pirates)
+            <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> pirate <span class="keywordflow">in</span> g.Pirates.Where(p =&gt; !<span class="keyword">this</span>.Pirates.Contains(p)))
             {
-                this.<a class="code" href="classBritbot_1_1Group_a69923812f5df8ebcb82bd98368c04bc0.html#a69923812f5df8ebcb82bd98368c04bc0" title="Adds a pirate to this group, removing it from any other group it was in.">AddPirate</a>(pirate);
+                this.<a class="code" href="classBritbot_1_1Group_a87d266eed2847ae71b11a0ab8bfce575.html#a87d266eed2847ae71b11a0ab8bfce575" title="Adds a pirate to this group, removing it from any other group it was in.">AddPirate</a>(pirate, <span class="keyword">remove</span>);
             }
 
             <span class="keywordflow">if</span>(<span class="keyword">remove</span>)
@@ -158,7 +158,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 27 2015 07:26:22 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 27 2015 07:50:47 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

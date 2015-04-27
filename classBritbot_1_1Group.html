@@ -83,6 +83,8 @@
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_ad9d28317eced3d3208b2630d6e4c734d.html#ad9d28317eced3d3208b2630d6e4c734d">Group</a> (int[] piratesId)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new group with the given pirates.  <a href="#ad9d28317eced3d3208b2630d6e4c734d"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a7ecd71353172abbc1011fcf8b26b0b2b.html#a7ecd71353172abbc1011fcf8b26b0b2b">Group</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Just a ctor to do to common stuff (called from the other ctors above by "this()" statement)  <a href="#a7ecd71353172abbc1011fcf8b26b0b2b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_adf5774587a8c6809dd6c3286963412ed.html#adf5774587a8c6809dd6c3286963412ed">Group</a> (int index, int amount)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_af947a3402a9ec6d9f3d13dde5a50bc5f.html#af947a3402a9ec6d9f3d13dde5a50bc5f">ToString</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">You know what this does, don't you?  <a href="#af947a3402a9ec6d9f3d13dde5a50bc5f"></a><br/></td></tr>
@@ -105,8 +107,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">counts how many living pirates are in the group  <a href="#a252b8f1d11f52800fad4ff2f95cb43fd"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a19caac2b7322b09be35be51d089bb045.html#a19caac2b7322b09be35be51d089bb045">CalcPriorities</a> (CancellationToken cancellationToken)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate target priorities for this group.  <a href="#a19caac2b7322b09be35be51d089bb045"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a69923812f5df8ebcb82bd98368c04bc0.html#a69923812f5df8ebcb82bd98368c04bc0">AddPirate</a> (int index)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a pirate to this group, removing it from any other group it was in.  <a href="#a69923812f5df8ebcb82bd98368c04bc0"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a87d266eed2847ae71b11a0ab8bfce575.html#a87d266eed2847ae71b11a0ab8bfce575">AddPirate</a> (int index, bool remove=true)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a pirate to this group, removing it from any other group it was in.  <a href="#a87d266eed2847ae71b11a0ab8bfce575"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; <a class="el" href="classBritbot_1_1Group.html">Group</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a3858fd079afc0ca90c1a28529407b8a8.html#a3858fd079afc0ca90c1a28529407b8a8">Split</a> (int num)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits 'num' pirates from the group.  <a href="#a3858fd079afc0ca90c1a28529407b8a8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a432444ef2d298f314390e5791a9934d7.html#a432444ef2d298f314390e5791a9934d7">Join</a> (<a class="el" href="classBritbot_1_1Group.html">Group</a> g, bool remove=true)</td></tr>
@@ -144,8 +146,6 @@ Properties</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The Distance Of a pirate in this group From it's target.  <a href="#a7ad8d1afbcad0a288efe1f3050a360c6"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a7ecd71353172abbc1011fcf8b26b0b2b.html#a7ecd71353172abbc1011fcf8b26b0b2b">Group</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Just a ctor to do to common stuff (called from the other ctors above by "this()" statement)  <a href="#a7ecd71353172abbc1011fcf8b26b0b2b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; KeyValuePair<br class="typebreak"/>
 &lt; Pirate, Direction &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBritbot_1_1Group_a21ee01753ef6d6669a5bc718fa88bbb4.html#a21ee01753ef6d6669a5bc718fa88bbb4">GetStructureMoves</a> (CancellationToken cancellationToken)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the correct moves to get into structure.  <a href="#a21ee01753ef6d6669a5bc718fa88bbb4"></a><br/></td></tr>
@@ -179,7 +179,7 @@ Private Attributes</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 27 2015 07:26:22 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 27 2015 07:50:47 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

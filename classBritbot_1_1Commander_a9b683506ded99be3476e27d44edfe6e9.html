@@ -95,7 +95,7 @@
 
 <p>Merges similar groups. </p>
 
-<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00476">476</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
+<p>Definition at line <a class="el" href="Commander_8cs_source.html#l00479">479</a> of file <a class="el" href="Commander_8cs_source.html">Commander.cs</a>.</p>
 <div class="fragment"><pre class="fragment">        {
             List&lt;List&lt;Group&gt;&gt; updatedGroups = <span class="keyword">new</span> List&lt;List&lt;Group&gt;&gt;();
 
@@ -133,9 +133,11 @@
 
             <span class="keywordflow">foreach</span> (List&lt;Group&gt; mergeList <span class="keywordflow">in</span> updatedGroups)
             {
-                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt; mergeList.Count; i++)
+                Group temp = <span class="keyword">new</span> Group();
+
+                <span class="keywordflow">foreach</span> (Group t <span class="keywordflow">in</span> mergeList)
                 {
-                    mergeList[0].Join(mergeList[i]);
+                    temp.Join(t,<span class="keyword">false</span>);
                 }
             }
         }
@@ -149,7 +151,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 27 2015 07:26:21 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 27 2015 07:50:46 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
