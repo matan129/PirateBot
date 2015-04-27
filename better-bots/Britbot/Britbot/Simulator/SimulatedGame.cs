@@ -153,9 +153,8 @@ namespace Britbot.Simulator
                                       this.EnemyGroups[enemy.Key.Id]);
                         this.ConstantEvents.Add(newEvent);
                     }
-                    else if ((int)enemy.Key.MinimalETATo(sIsland.Loc) < 0)
+                    else if ((int)enemy.Key.MinimalETATo(sIsland.Loc) < 0 || Magic.IsScared )
                     {
-                        
                         newEvent = new PossibleArrivalEvent((int)enemy.Key.MinimalETATo(sIsland.Loc),
                                       this.Islands[sIsland.Id],
                                       this.EnemyGroups[enemy.Key.Id]);

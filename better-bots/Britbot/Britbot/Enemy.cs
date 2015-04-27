@@ -116,7 +116,7 @@ namespace Britbot
         /// </summary>
         /// <returns></returns>
         public static bool ShouldWeTryToCatchEnemyShips()
-        {   
+        {
             return Enemy.EnemyIntelligenceSuspicionCounter <= Magic.NumberOfTimesTillWeLearn;
         }
 

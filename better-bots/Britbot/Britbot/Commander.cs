@@ -663,5 +663,23 @@ namespace Britbot
                 }
             }
         }
+
+        public static bool UpdateMood()
+        {
+            double ePPT = Math.Floor(Math.Pow(2, Bot.Game.EnemyIslands().Count - 1));
+            double myPPT = Math.Floor(Math.Pow(2, Bot.Game.MyIslands().Count - 1));
+
+            double eN = Bot.Game.GetEnemyScore();
+            double myN = Bot.Game.GetMyScore();
+
+            double max = 1000;
+
+            double turnUntilEnemy = (max - eN ) /ePPT;
+            double turnUntilMe = (max - myN) / myPPT;
+
+            if (turnUntilMe < turnUntilEnemy - 50)
+                return true;
+            return false;
+        }
     }
 }
