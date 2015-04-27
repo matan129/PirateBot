@@ -25,6 +25,8 @@ namespace Britbot
         /// </summary>
         internal const int OutOfDateNumber = 10;
 
+        public const int MaxGroupSize = 4;
+
         public const double EnemyBaseFactor = 1.1;
         public const double FriendlyBaseFactor = 1.45;
         /// <summary>

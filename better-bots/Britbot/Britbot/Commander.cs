@@ -369,7 +369,7 @@ namespace Britbot
             
             for (int i = 0; i < eConfig.Length && myPirates > 0; i++)
             {
-                if ((eConfig[i] + 1) < myPirates)
+                if (((eConfig[i] + 1) < myPirates)&&((eConfig[i] +1)<Magic.MaxGroupSize))
                 {
                     ret.Add(eConfig[i] + 1);
                     myPirates -= eConfig[i] + 1;
