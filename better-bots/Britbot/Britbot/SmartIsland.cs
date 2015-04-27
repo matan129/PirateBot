@@ -80,6 +80,14 @@ namespace Britbot
             get { return Bot.Game.GetIsland(this.Id).Owner; }
         }
 
+        /// <summary>
+        ///     The last turn in which this target was assigned
+        /// </summary>
+        private int _lastAssignmentTurn;
+
+        public int turnsTillColldown;
+
+        public int coolDownCount;
         #endregion
 
         #region Constructors & Initializers
@@ -104,7 +112,9 @@ namespace Britbot
         {
             this.Id = encapsulate;
             this.approachingEnemies = new List<KeyValuePair<EnemyGroup, bool>>();
-            //this.SurroundingForces = new Queue<int>();
+            //this.SurroundingForces = new Queue<int>()
+            this.coolDownCount = 0;
+            this._lastAssignmentTurn = 0;
         }
 
         #endregion
@@ -123,11 +133,11 @@ namespace Britbot
             int CaptureZone = Bot.Game.GetAttackRadius();
 
             //check if there are more enemies than we can kill
-            if (this.IsDangerousForGroup(origin))
+            /*if (this.IsDangerousForGroup(origin) && Magic.UseBasicGlobalizing)
             {
                 //Bot.Game.Debug("Danger--- Group " + origin.Id + " island: " + this.Id);
                 return null;
-            }
+            }*/
 
             //calculates the minimum distance between a group and said island
             int distance = Bot.Game.Distance(this.Loc, origin.FindCenter(true));
@@ -200,6 +210,7 @@ namespace Britbot
         /// </summary>
         public void TargetAssignmentEvent()
         {
+            
         }
 
         /// <summary>
