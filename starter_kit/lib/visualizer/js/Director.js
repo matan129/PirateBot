@@ -120,40 +120,67 @@ Director.prototype.slowmoTo = function(time) {
 };
 
 Director.prototype.playWithSpeed = function() {
+
 	if (!this.vis.state.config['slowDown']) {
 		return;
 	}
+	var MIN_NUMBER_OF_DEATHS_FOR_SLOWMO = this.vis.state.config['slowDownMinDeaths'];
 	if (!this.criticalTurns) {
 		this.criticalTurns = {};
-		var deathTurns = {};
+
+		// deathTurnsMap holds a map between a turn and how many pirates died that turn
+		var deathTurnsMap = {};
 		for (var turn = 0; turn < this.duration; turn++) {
 			var pirates = this.vis.state.replay.getTurn(turn);
 			pirates.forEach(function(pirate) {
 				if (pirate.death) {
-					deathTurns[turn] = deathTurns[turn] || 0;
-					deathTurns[turn] += 1;
+					deathTurnsMap[turn] = deathTurnsMap[turn] || 0;
+					deathTurnsMap[turn] += 1;
 				}
 			});
 		}
-		var keys = Object.keys(deathTurns);
-		keys = keys.map(function(k) {return parseInt(k);});
-		keys.sort(function(a, b) {return a - b});
-		// We'll want to create a timeline of turns when to slow down and when to speed back up
 
-		var self = this;
-		var ranges = keys.map(function(turn) {
-			return [Math.max(turn - 4, 0), Math.min(turn + 1, self.duration), deathTurns[turn]];
+		// deathTurns is a list with all turns that pirates died in. We use this list to create a timeline of turns
+		// to slow down and speed up
+		var deathTurns = Object.keys(deathTurnsMap);
+		deathTurns = deathTurns.map(function(k) {return parseInt(k);});
+
+		// Now we create the ranges of times to slow down and speed up. For example, if we want to slow down around
+		// a turn with a death, we slow down 4 turns before and speed up one turn after
+		var ranges = deathTurns.filter(function(turn) {
+			return deathTurnsMap[turn] >= MIN_NUMBER_OF_DEATHS_FOR_SLOWMO;
+		}).map(function(turn) {
+			return [turn - 4, turn + 1];
 		});
 
+		// Calculate the kraken dive turns
+		var krakenTurns = this.vis.state.replay.meta.replaydata.kraken || [];
+		krakenTurns.map(function(krakenData, turn) {
+			if (krakenData[2] === 3) {
+				return turn;
+			}
+			return -1;
+		}).filter(function(turn) {
+			return turn >= 0;
+		}).forEach(function(turn) {
+			ranges.push([turn - 3, turn + 2]);
+		});
 
+		// We sort the ranges, make sure they are not out of the game duration boundaries
+		var self = this;
+		ranges = ranges.map(function(range) {
+			return [Math.max(range[0], 0), Math.min(range[1], self.duration)];
+		});
+		ranges.sort(function(range1, range2) { return range1[0] - range2[0]});
+
+		// To calculate the critical turns, sort of merge the ranges, so if they collide, we'll have one long range
+		// instead of something weird
 		for (var i = 0; i < ranges.length; i++) {
 			var slowTurn = ranges[i][0];
 			var speedTurn = ranges[i][1];
-			var deaths = ranges[i][2];
 			while((i + 1) < ranges.length && ranges[i + 1][0] <= speedTurn) {
 				i += 1;
 				speedTurn = ranges[i][1];
-				deaths += ranges[i][2];
 			}
 			this.criticalTurns[slowTurn] = 'S';
 			this.criticalTurns[speedTurn] = 'F';

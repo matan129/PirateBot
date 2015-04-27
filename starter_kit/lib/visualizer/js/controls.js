@@ -38,6 +38,7 @@ angular.module('visualizerApp').controller('VisualizerCtrl', ['$scope', function
         options.data_dir = window.pirates_data_dir || '../visualizer/data/';
         options.embedded = true;
         options.local_run = window.local_run;
+        options.bigscreen = window.bigscreen;
         options.playercolors = window.playercolors;
         if (options.local_run) {
             $scope.displayLog = false;
@@ -54,14 +55,7 @@ angular.module('visualizerApp').controller('VisualizerCtrl', ['$scope', function
                     $scope.playing = $scope.visualizer.director.playing();
                     $scope.cutoff = $scope.visualizer.state.replay.meta.replaydata.cutoff;
                     $scope.maxpoints = $scope.visualizer.state.replay.meta.replaydata.maxpoints || 1000;
-                    $scope.isLastTurn =
-                        $scope.turn >= $scope.visualizer.state.replay.duration;
-
-                    //TODO: hacky, move to directive
-                    var debugTurnEl = document.getElementsByClassName('debug-turn' + ($scope.turn + 1));
-                    if (debugTurnEl.length > 0) {
-                        //debugTurnEl[0].scrollIntoView(true);
-                    }
+                    $scope.isLastTurn = $scope.turn >= $scope.visualizer.state.replay.duration;
                 });
             }, 0);
         };

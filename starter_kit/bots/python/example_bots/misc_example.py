@@ -32,4 +32,6 @@ def do_turn(game):
     # This is the number of turns it will take lost ships to return to the game
     game.debug("Lost ships return in %s turns", game.get_spawn_turns())
 
+    # This is the name of the opponenet bot
+    game.debug("Opponent name: %s", game.get_opponent_name())
 

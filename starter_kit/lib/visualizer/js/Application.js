@@ -96,6 +96,10 @@ Visualizer = function(container, options, w, h, configOverrides) {
 		if (!this.state.options.playercolors) {
 			this.state.options.playercolors = ['#2E3192', '#E96E31', '#030303'];
 		}
+		if (this.state.options.bigscreen) {
+			console.log('LOLOLOLOLO');
+			this.state.config.slowDown = true;
+		}
 		// read URL parameters and store them in the parameters object
 		parameters = window.location.href;
 		if ((i = parameters.indexOf('?')) !== -1) {
@@ -165,6 +169,16 @@ Visualizer = function(container, options, w, h, configOverrides) {
 		this.imgMgr.put('island_2_sprite', 'island_2_sprite.png');
 		this.imgMgr.put('island_3_sprite', 'island_3_sprite.png');
 		this.imgMgr.put('island_sea_sprite', 'island_sea_sprite.png');
+		this.imgMgr.put('kraken_move1', 'kraken_move1.png');
+		this.imgMgr.put('kraken_move2', 'kraken_move2.png');
+		this.imgMgr.put('kraken_move3', 'kraken_move3.png');
+		this.imgMgr.put('kraken_blink', 'kraken_blink.png');
+		this.imgMgr.put('kraken_arms', 'kraken_arms.png');
+		this.imgMgr.put('kraken_sleep1', 'kraken_sleep1.png');
+		this.imgMgr.put('kraken_sleep2', 'kraken_sleep2.png');
+		this.imgMgr.put('kraken_sleep3', 'kraken_sleep3.png');
+		this.imgMgr.put('kraken_sleep4', 'kraken_sleep4.png');
+		this.imgMgr.put('kraken_vanished1', 'kraken_vanished1.png');
 
 		/** @private */
 		this.director = new Director(this);
@@ -461,6 +475,30 @@ Visualizer.prototype.tryStart = function() {
 		this.map.sea_line = this.imgMgr.images['sea_line'];
 		this.map.shipSprite = this.imgMgr.patterns['ship'];
 		this.map.lighthouse = this.imgMgr.images['lighthouse'];
+		this.map.krakenarms = this.imgMgr.images['kraken_arms'];
+
+		this.map.kraken_move_sprites = [
+			this.imgMgr.images['kraken_move1'],
+			this.imgMgr.images['kraken_move2'],
+			this.imgMgr.images['kraken_move3'],
+		];
+
+		this.map.kraken_sleep_sprites = [
+			this.imgMgr.images['kraken_sleep1'],
+			this.imgMgr.images['kraken_sleep2'],
+			this.imgMgr.images['kraken_sleep3'],
+			this.imgMgr.images['kraken_sleep4'],
+		];
+
+		this.map.kraken_stand_sprites = [
+			this.imgMgr.images['kraken_move1'],
+			this.imgMgr.images['kraken_blink'],
+		];
+
+		this.map.kraken_vanished_sprites = [
+			this.imgMgr.images['kraken_vanished1']
+		];
+
 		this.map.ship_water = this.imgMgr.images['ship_water'];
 
         this.piratesMap.setIslandImage(
@@ -854,15 +892,30 @@ Visualizer.prototype.calculateHint = function() {
 			hint += ' | island ' + index;
 		}
 	});
+	var turn = vis.director.time | 0;
+
 	this.state.replay.aniAnts.forEach(function(pirate) {
 		var x = Math.round(pirate.keyFrameCache.x);
 		var y = Math.round(pirate.keyFrameCache.y);
 
-		var turn = vis.director.time | 0;
 		if (y === row && x === col && (pirate.death || vis.director.duration) > turn) {
 			hint += ' | pirate ' + pirate.keyFrameCache.pirateGameId;
 		}
 	});
+
+	if (this.state.replay.meta.replaydata.kraken && this.state.replay.meta.replaydata.kraken.length > 0) {
+		var kraken_locs = this.state.replay.meta.replaydata.kraken;
+		if (turn >= kraken_locs.length) {
+			turn = kraken_locs.length - 1;
+		} else if (turn > 0) {
+			turn = turn - 1;
+		}
+		var k_row = kraken_locs[turn][0];
+		var k_col = kraken_locs[turn][1];
+		if (k_row === row && k_col === col) {
+			hint += ' | Kraken ';
+		}
+	}
 	this.hint = hint;
 };
 

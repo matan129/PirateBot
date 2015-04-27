@@ -134,12 +134,25 @@ def main(argv):
                       action="store_true",
                       help="Run bots in serial, instead of parallel.")
 
+    parser.add_option("--recover-errors", dest="recover_errors",
+                      default=False, action="store_true",
+                      help="Instruct runners to recover errors in do_turn")
+
+    parser.add_option("--abort-errors", dest="recover_errors",
+                      action="store_false",
+                      help="Instruct runners to not recover errors in do_turn")
+
     parser.add_option("--turntime", dest="turntime",
                       default=100, type="int",
                       help="Amount of time to give each bot, in milliseconds")
     parser.add_option("--loadtime", dest="loadtime",
                       default=5000, type="int",
                       help="Amount of time to give for load, in milliseconds")
+
+    parser.add_option("--extratime", dest="extratime",
+                      default=1000, type="int",
+                      help="Amount of extra total time to give each bot (in serial mode), in milliseconds")
+
     parser.add_option("-r", "--rounds", dest="rounds",
                       default=1, type="int",
                       help="Number of rounds to play")
@@ -340,6 +353,7 @@ def run_rounds(opts,args):
         "attackradius2": opts.attackradius2,
         "loadtime": opts.loadtime,
         "turntime": opts.turntime,
+        "recover_errors": opts.recover_errors,
         "turns": opts.turns,
         "cutoff_turn": opts.cutoff_turn,
         "cutoff_percent": opts.cutoff_percent,
@@ -359,6 +373,7 @@ def run_rounds(opts,args):
     engine_options = {
         "loadtime": opts.loadtime,
         "turntime": opts.turntime,
+        "extratime": opts.extratime,
         "map_file": opts.map,
         "turns": opts.turns,
         "debug_in_replay": opts.debug_in_replay,
@@ -375,17 +390,19 @@ def run_rounds(opts,args):
         "secure_jail": opts.secure_jail,
         "end_wait": opts.end_wait }
     for round in range(opts.rounds):
+        # initialize bots
+        zip_encapsulator = ZipEncapsulator()
+        bots = [get_bot_paths(arg, zip_encapsulator) for arg in args]
+        bot_count = len(bots)
+
         # initialize game
         game_id = "{0}.{1}".format(opts.game_id, round) if opts.rounds > 1 else opts.game_id
         with open(opts.map, 'r') as map_file:
             game_options['map'] = map_file.read()
         if opts.engine_seed:
             game_options['engine_seed'] = opts.engine_seed + round
+        game_options['bot_names'] = map(lambda b: b[2], bots)
         game = Pirates(game_options)
-        zip_encapsulator = ZipEncapsulator()
-        # initialize bots
-        bots = [get_bot_paths(arg, zip_encapsulator) for arg in args]
-        bot_count = len(bots)
         # insure correct number of bots, or fill in remaining positions
         if game.num_players != len(bots):
             print("Incorrect number of bots for map.  Need {0}, got {1}"

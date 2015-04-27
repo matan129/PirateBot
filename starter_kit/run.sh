@@ -10,4 +10,4 @@ if [ $# -lt 2 ]; then
     exit 1
 fi
 
-python "./lib/playgame.py" -e -E -d --debug_in_replay --loadtime 10000 --engine_seed 42 --player_seed 42 --log_dir lib/game_logs --map_file $MAP $1  $2
+python "./lib/playgame.py" --turns 1000 -e -E -d --debug_in_replay --loadtime 10000 --log_dir lib/game_logs --map_file $MAP $1  $2

@@ -46,6 +46,8 @@ public class MyBot implements PirateBot{
         
         game.debug("Max cloak cooldown in turns: %s", game.getMaxCloakCooldown());
 
+        game.debug("Opponent name: %s", game.getOpponentName());
+
 
 		
 	}

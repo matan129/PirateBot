@@ -170,6 +170,26 @@ CanvasElementPiratesMap.prototype.collectPiratesAroundCursor = function() {
 				}
 			}
 		}
+		// Hack to add the kraken to the circled pirates. Just adding it duck-typed as a pirate...
+		// Always setting "same" as false if the kraken is in the mouseover radius
+		
+		var krakenTurns = this.state.replay.meta['replaydata']['kraken'];
+		if (krakenTurns && krakenTurns[this.turn]) {
+			var kraken = krakenTurns[this.turn];
+			var krakenPirate = {
+				r: 20,
+				g: 255,
+				b: 20, 
+				mapX: kraken[1] * this.scale,
+				mapY: kraken[0] * this.scale,
+			};
+
+			d = Math.dist_2(col, row, krakenPirate.mapX, krakenPirate.mapY, colPixels, rowPixels);
+			if (d <= ar) {
+				circledPirates.push(krakenPirate);
+				same = false;
+			}
+		}
 	}
 	same &= circledPirates.length === this.circledPirates.length;
 	if (same) return false;
@@ -212,13 +232,45 @@ CanvasElementPiratesMap.prototype.drawPirates = function() {
 			var kf = drawList[n];
 			if (kf['owner'] !== undefined) {
 				this.ctx.globalAlpha = kf['cloaked'];
-				this.drawWrapped(kf.mapX, kf.mapY, this.scale, this.scale, this.w, this.h,
+				// while the size == 1 the pirate is alive and well. on it's death turn the size is faded gradually to 0. we use this to know when the pirate is dying
+				if (kf['size'] == 1 || kf.reasonOfDeath === undefined || kf.reasonOfDeath == '') {
+					// the regular drawing of a pirate
+					this.drawWrapped(kf.mapX, kf.mapY, this.scale, this.scale, this.w, this.h,
 					function (x, y, width) {
 						this.drawInScale(
 							this.map.shipSprite,
 							kf['owner'] * 200, orientation[kf['orientation']] * 200, 200, 200,
 							x, y, width, width, 2);
 					}, [kf.mapX, kf.mapY, this.scale * kf['size']]);
+				} else {
+					// if we reached here it means that the pirate is in the dying turn - do death animation
+					if (kf.reasonOfDeath == 'k') {
+						// killed by kraken - we need to sync the images of the drowning ship to the arms grabbing it
+						// use heaviside functions to distinct when fracTime > or < to 0.5; functions are build appropriately and are simple
+						var fracTime = this.time % 1;
+						var shipSize = (fracTime <= 0.5) * 1 + (fracTime > 0.5) * (-2 * fracTime + 2);
+
+						var my_sy = (fracTime <= 0.5) * (-2 * fracTime + 1) + (fracTime > 0.5) * 0;
+						var my_sheight = (fracTime <= 0.5) * 2 * fracTime + (fracTime > 0.5) * (-2 * fracTime + 2);
+						var my_y = 1 - my_sheight;
+						var my_height = my_sheight;
+
+						// death by kraken! (removed the drawWrapped - we no longer wrap map)
+						this.drawInScale(this.map.shipSprite, 
+										kf['owner'] * 200,	orientation[kf['orientation']] * 200,  200, 		200 * shipSize,
+										kf.mapX, 		   	kf.mapY + this.scale * (1 - shipSize), this.scale, 	this.scale * shipSize, 	
+										2);
+
+						this.drawInScale(this.map.krakenarms, 
+										0 ,	 		orientation[kf['orientation']] * 200 + my_sy * 200, 200, 		my_sheight * 200,
+										kf.mapX, 	kf.mapY + this.scale * my_y, 						this.scale, this.scale - this.scale * (1 - my_height),
+										2);
+
+					} else {
+						console.log('unknown reason of death!');
+					}
+
+				}
 
 				if (this.state.config['showRange'] && kf['cloaked'] === 1) {
 					this.ctx.globalAlpha = 0.1;
@@ -481,6 +533,113 @@ CanvasElementPiratesMap.prototype.drawIslands = function() {
 	}
 };
 
+CanvasElementPiratesMap.prototype.drawKraken = function() {
+	var VANISHED = 3;
+
+	var turn = this.turn - 1;
+	if (turn < 0) {
+		turn = 0;
+	}
+
+
+	var krakenTurns = this.state.replay.meta['replaydata']['kraken'];
+	if (krakenTurns && krakenTurns.length > 0) {
+		var kraken = krakenTurns[turn];
+		var vanished = false;
+
+		// Get the previous non-vanished state
+		for (var i = turn; i >= 0; i--) {
+			kraken = krakenTurns[i];
+			if (kraken[2] != VANISHED) {
+				turn = i;
+				break;
+			}
+		}
+
+		var nextTurn = turn+1, nextKraken = kraken;
+		for (i = turn + 1; i < krakenTurns.length; i++) {
+			nextKraken = krakenTurns[i];
+			if (nextKraken[2] != VANISHED) {
+				nextTurn = i;
+				break;
+			} else {
+				// In case vanished on the next turn, state is already vanished
+				vanished = true;
+			}
+		}
+
+		var state = kraken[2];
+		// Fixing state since we skipped vanished krakens to calculate position properly
+		if (vanished) state = 3;
+		var image = null;
+		var imageIndex = 0;
+		var angle = 0;
+		var images = null;
+
+		var fade = this.fade;
+
+		switch (state) {
+			case 1: //ASLEEP
+				images = this.map.kraken_sleep_sprites;
+				imageIndex = parseInt(this.time * 0.5, 10) % images.length;
+				image = images[imageIndex];
+				break;
+			case 2: //AWAKE
+				if (kraken[0] != nextKraken[0] || kraken[1] != nextKraken[1]) {
+					//moving
+					images = this.map.kraken_move_sprites;
+					imageIndex = parseInt(this.time * 10, 10) % images.length;
+				} else {
+					images = this.map.kraken_stand_sprites;
+					imageIndex = (this.time % 5 < 1) ? 1 : 0;
+				}
+				image = images[imageIndex];
+				break;
+			case 3: //VANISHED
+				// calculate the angle
+
+				var p2 = {y: nextKraken[1] * this.scale, x: this.h - nextKraken[0] * this.scale};
+				var p1 = {y: kraken[1] * this.scale, x: this.h - kraken[0] * this.scale};
+				angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+				image = this.map.kraken_vanished_sprites[0];
+	}
+
+		var x = fade(this.time-1, kraken[1], nextKraken[1], turn, nextTurn);
+		var x1 = (x - 2.5 ) * this.scale;
+		var y = fade(this.time-1, kraken[0], nextKraken[0], turn, nextTurn);
+		var y1 = (y - 2.5) * this.scale;
+		var w = 6 * this.scale;
+
+		if (angle !== 0)
+			this.drawImageRotated(image, x1, y1, w, w, angle);
+		else {
+			this.ctx.drawImage(image, x1, y1, w, w);
+		}
+
+	}
+};
+
+CanvasElementPiratesMap.prototype.fade = function fade(currentTime, valuea, valueb, timea, timeb) {
+			mix = (currentTime - timea) / (timeb - timea);
+			var value = (1 - mix) * valuea + mix * valueb;
+			return value;
+};
+
+CanvasElementPiratesMap.prototype.drawImageRotated = function(image, x, y, h, w, angle) {
+	var ctx = this.ctx;
+	var tx = x + w / 2;
+	var ty = y + h / 2;
+	// I read here "http://stackoverflow.com/questions/3793397/html5-canvas-drawimage-with-at-an-angle" that code is more efficient without save/restore
+	//ctx.save();
+	ctx.translate(tx, ty);
+	ctx.rotate(angle);
+	ctx.drawImage(image, - w / 2, - h / 2, w, w);
+	ctx.rotate(-angle);
+	ctx.translate(-tx, -ty);
+	//ctx.restore();
+};
+
+
 /**
  * Draws pirates onto the map image. This includes overlay letters / ids, attack lines, effect circles
  * and finally the fog of war.
@@ -490,6 +649,7 @@ CanvasElementPiratesMap.prototype.draw = function () {
 
 	this.drawIslands();
 	this.drawLighthouses();
+	this.drawKraken();
 	this.drawPirates();
 	this.drawBlockedMoves();
 	this.drawBattleIndicators();

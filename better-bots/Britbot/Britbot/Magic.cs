@@ -36,7 +36,7 @@ namespace Britbot
         /// <summary>
         /// Whether or not we use the newer and better globalize score or the simple one
         /// </summary>
-        public const bool UseBasicGlobalizing = false;
+        public const bool UseBasicGlobalizing = true;
         public const double stabilityCoeff = 0.75;
         public const double minimumTillItIsOkToDropTarget = 5;
         public const int toleranceMargin = 2;
