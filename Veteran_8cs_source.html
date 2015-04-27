@@ -189,7 +189,7 @@
 <a name="l00145"></a>00145                     <span class="comment">//finds the group that the minimal distance belongs to and cloaks it</span>
 <a name="l00146"></a>00146                     <span class="keywordflow">foreach</span> (<a class="code" href="classBritbot_1_1Group.html" title="Represents a structure of few of our pirates that have a common goal.">Group</a> tc <span class="keywordflow">in</span> ones)
 <a name="l00147"></a>00147                     {
-<a name="l00148"></a>00148                         <span class="keywordflow">if</span> (tc.<a class="code" href="classBritbot_1_1Group_a7ad8d1afbcad0a288efe1f3050a360c6.html#a7ad8d1afbcad0a288efe1f3050a360c6" title="The Distance Of a pirate in this group From it&#39;s target.">DistanceFromTarget</a> == minDistance)
+<a name="l00148"></a>00148                         <span class="keywordflow">if</span> ((tc.<a class="code" href="classBritbot_1_1Group_a7ad8d1afbcad0a288efe1f3050a360c6.html#a7ad8d1afbcad0a288efe1f3050a360c6" title="The Distance Of a pirate in this group From it&#39;s target.">DistanceFromTarget</a> == minDistance)&amp;&amp;(minDistance&gt;<a class="code" href="classBritbot_1_1Magic.html" title="This class holds the magic numbers we have and may be used for smart in game updates.">Magic</a>.<a class="code" href="classBritbot_1_1Magic_aefaf4adfa8a415671963b510c009d443.html#aefaf4adfa8a415671963b510c009d443" title="The range a cloaked pirate has to be from a taget to be revealed.">CloakRange</a>))
 <a name="l00149"></a>00149                             <span class="keywordflow">return</span> <span class="keyword">new</span> KeyValuePair&lt;Pirate, Direction&gt;(<a class="code" href="classBritbot_1_1Bot.html" title="This class is a bot.">Bot</a>.<a class="code" href="classBritbot_1_1Bot_aa5728f86854838d3c5a84687de147d7c.html#aa5728f86854838d3c5a84687de147d7c" title="The current game, which is accessible to all the types in the assembly.">Game</a>.GetMyPirate(tc.<a class="code" href="classBritbot_1_1Group_a664758cdcc27b87c04eaf9538faa2a48.html#a664758cdcc27b87c04eaf9538faa2a48" title="List of the indexes of the pirates in this group.">Pirates</a>.First()),
 <a name="l00150"></a>00150                                 Direction.CLOAK);
 <a name="l00151"></a>00151                     }
@@ -204,7 +204,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 27 2015 07:07:00 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 27 2015 07:26:21 for Britbot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
