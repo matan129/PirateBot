@@ -482,7 +482,7 @@ namespace Britbot
         public bool IsApproachingIsland(SmartIsland sIsland)
         {
             //if the group is stationary just check if it is close
-            if (this.GetHeading().NormSquared() == 0)
+            if (this.GetHeading().NormSquared() <= 2)
             {
                 return Bot.Game.EuclidianDistanceSquared(this.GetLocation(), sIsland.Loc) <=
                        Magic.ApproachDistanceSquaredOfStationaryTarget;

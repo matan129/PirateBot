@@ -141,7 +141,7 @@ namespace Britbot
         /// </summary>
         public static double ApproachDistanceSquaredOfStationaryTarget
         {
-            get { return Bot.Game.GetAttackRadius(); }
+            get { return 4 * Bot.Game.GetAttackRadius(); }
         }
 
         /// <summary>
