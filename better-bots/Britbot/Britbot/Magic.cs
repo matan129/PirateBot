@@ -64,7 +64,7 @@ namespace Britbot
         /// <summary>
         ///     The range a cloaked pirate has to be from a taget to be revealed
         /// </summary>
-        public static int CloakRange = 1;
+        public static int CloakRange = 3;
 
         /// <summary>
         ///     Max groups to allow in the config

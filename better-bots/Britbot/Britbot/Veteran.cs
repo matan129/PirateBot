@@ -145,7 +145,7 @@ namespace Britbot
                     //finds the group that the minimal distance belongs to and cloaks it
                     foreach (Group tc in ones)
                     {
-                        if (tc.DistanceFromTarget == minDistance)
+                        if ((tc.DistanceFromTarget == minDistance)&&(minDistance>Magic.CloakRange))
                             return new KeyValuePair<Pirate, Direction>(Bot.Game.GetMyPirate(tc.Pirates.First()),
                                 Direction.CLOAK);
                     }
