@@ -1,5 +1,5 @@
 # PirateBot 
 
-[![Build Status](https://magnum.travis-ci.com/matan129/PirateBot.svg?token=pq1dUYzDZynKsPSrejkd&branch=skillz-dev)](https://magnum.travis-ci.com/matan129/PirateBot)
+![Fun Logo](https://raw.github.com/matan129/PirateBot/skillz-dev/logo.jpg)
 
 ### This is our bot. It should calculate some things and then win.

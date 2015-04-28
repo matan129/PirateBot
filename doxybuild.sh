@@ -1,16 +1,14 @@
 #!/bin/bash
 
 REPO_PATH=git@github.com:matan129/PirateBot.git
-GH_REF=github.com/matan129/PirateBot.git
 CONFIG_PATH=better-bots/Britbot/Britbot
 HTML_PATH=better-bots/Britbot/Britbot/html
-COMMIT_USER="Doxygen builder at TravisCi"
+COMMIT_USER="Doxygen builder at Travis CI"
 COMMIT_EMAIL="doxy@gen.com"
 CHANGESET=$(git rev-parse --verify HEAD)
 
 rm -rf ${HTML_PATH}
 mkdir -p ${HTML_PATH}
-
 
 git clone -b gh-pages "${REPO_PATH}" --single-branch ${HTML_PATH}
 cd ${HTML_PATH}
