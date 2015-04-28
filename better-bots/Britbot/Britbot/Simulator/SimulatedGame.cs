@@ -289,12 +289,9 @@ namespace Britbot.Simulator
         /// <param name="enemyPPT"></param>
         public double CalculatePpt()
         {
-            //helper variables
-            double friendlyPPT, enemyPPT;
-
             //calc score
-            friendlyPPT = Math.Floor(Math.Pow(2, MyIslandCount - 1));
-            enemyPPT = Math.Floor(Math.Pow(2, EnemyIslandCount - 1));
+            double friendlyPPT = Math.Floor(Math.Pow(2, this.MyIslandCount - 1));
+            double enemyPPT = Math.Floor(Math.Pow(2, this.EnemyIslandCount - 1));
 
             //account for dead ships
             friendlyPPT -= Math.Pow(Magic.FriendlyBaseFactor, this.MyDeadPirates);

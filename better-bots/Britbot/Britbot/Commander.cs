@@ -375,7 +375,7 @@ namespace Britbot
                 return score;
                 #endregion
             }
-            else //actually simulated the game and determine the score by it
+            else //actually simulate the game and determine the score by it
             {
                 //reset simulation
                 sg.ResetSimulation();
